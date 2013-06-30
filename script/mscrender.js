@@ -43,6 +43,9 @@ function _renderParseTree (pParseTree) {
                 pParseTree.options.hscale * DEFAULT_INTER_ENTITY_SPACING;
             ENTITY_WIDTH =
                 pParseTree.options.hscale * DEFAULT_ENTITY_WIDTH;
+        } else {
+            INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
+            ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
         }
         if (pParseTree.options.arcgradient) {
             ARCROW_HEIGHT =
@@ -289,7 +292,7 @@ function createSelfRefArc(pClass, pFrom, pYTo) {
 function createArc (pId, pArc, pFrom, pTo) {
     var lGroup = utl.createGroup(pId);
     var lClass = "";
-    var lLabel = pArc.label ? pArc.label : "";
+    var lLabel = pArc.label ? pArc.label : undefined;
     var lArcGradient = ARC_GRADIENT;
 
     switch(pArc.kind) {
@@ -368,12 +371,13 @@ function createArc (pId, pArc, pFrom, pTo) {
             break;
         }
     }
+
     if (pFrom === pTo) {
         var lYTo = 0;
         if (pArc.arcskip) {
             lYTo = pArc.arcskip*ARCROW_HEIGHT;
         }
-        lGroup.appendChild(createSelfRefArc(lClass, pFrom, lYTo));
+        lLine = createSelfRefArc(lClass, pFrom, lYTo);
         if (lLabel) {
             lGroup.appendChild(
                 utl.createText(lLabel,
@@ -385,16 +389,31 @@ function createArc (pId, pArc, pFrom, pTo) {
         if (pArc.arcskip) {
             lArcGradient = pArc.arcskip*ARCROW_HEIGHT; //TODO: derive from hashmap
         } 
-        lGroup.appendChild(utl.createLine(pFrom, 0, pTo, lArcGradient, lClass));
+        lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass);
         if (lLabel) {
-            lGroup.appendChild(
-                utl.createText(lLabel,
+             var lText = utl.createText(lLabel,
                            pFrom + ((pTo - pFrom)/2),
-                           0-(TEXT_HEIGHT/2)));
+                           0-(TEXT_HEIGHT/2));
+            if (pArc.textcolor) {
+                lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+            }
+            lGroup.appendChild(lText);
         }
 
     }
+    if (pArc.linecolor) {
+        lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+    }
 
+    lGroup.appendChild(lLine);
+    /*
+    if (lText) {
+        lGroup.appendChild(lText);
+        if (pArc.textcolor) {
+            lText.setAttribute("style", "color: " + pArc.textcolor + ";");
+        }
+    }
+    */
     return lGroup;
 }
 
