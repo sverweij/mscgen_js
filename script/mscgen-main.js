@@ -1,0 +1,2 @@
+require(["mscgenui"], function(mscgenui) {
+});

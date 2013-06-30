@@ -1,0 +1,32 @@
+body {
+    background-color : #ffe;
+    color            : black;
+    font-family      : sans-serif;
+    font-size        : 12pt;
+}
+td {
+    vertical-align   : top;
+}
+
+.code {
+    font-family      : Consolas, 'Andale Mono', Monaco, monospace;
+    font-size        : 0.8em;
+    color            : black;
+}
+#msc_input {
+    width            : 40em;
+    height           : 30em;
+    background-color : rgb(245,245,245);
+    border           : solid 1px rgb(204,204,204);
+}
+#error_output {
+    font-family      : monospace;
+    color            : orange;
+    padding          : 1em;
+    border           : solid 1px orange; 
+    width            : 38em;
+    display          : none;
+}
+#svg_output {
+    vertical-align   : top;
+}
