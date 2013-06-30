@@ -21,15 +21,16 @@
     <table>
         <tr>
             <td>
+                <div>Enter your msc program here:</div>
     <textarea id="msc_input" class="code mscgen">
 msc {
   # options
-  hscale = "1.1" #  makes svg width = hscale * default
+  hscale = "1.0" #  makes svg width = hscale * default
   #, width  = 600 # would squeeze svg into width pixels wide 
   ;
 
   # entities
-  a [label="entity a"], b, "entity c", d, "*";
+  a [label="entity a"], b, "entity c", d;
 
   # arcs
   a =>> b [label="do magic"];
@@ -60,6 +61,7 @@ msc {
   <div id="error_output" class="code"></div>
           </td>
           <td>
+              <div>Resulting diagram:</div>
 <svg version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink" 
