@@ -9,4 +9,4 @@ type.
 [demo][2]
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
-[2]: http://home.kpn.nl/sander.verweij/mscgen_js/index.html
+[2]: http://home.kpn.nl/chromx/mscgen_js/index.html
