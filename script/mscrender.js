@@ -37,15 +37,17 @@ function _clean () {
 
 function _renderParseTree (pParseTree) {
 
+    INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
+    ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
+    ARCROW_HEIGHT        = DEFAULT_ARCROW_HEIGHT;
+    ARC_GRADIENT         = DEFAULT_ARC_GRADIENT;
+
     if (pParseTree.options) {
         if (pParseTree.options.hscale) {
             INTER_ENTITY_SPACING =
                 pParseTree.options.hscale * DEFAULT_INTER_ENTITY_SPACING;
             ENTITY_WIDTH =
                 pParseTree.options.hscale * DEFAULT_ENTITY_WIDTH;
-        } else {
-            INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
-            ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
         }
         if (pParseTree.options.arcgradient) {
             ARCROW_HEIGHT =
@@ -379,11 +381,14 @@ function createArc (pId, pArc, pFrom, pTo) {
         }
         lLine = createSelfRefArc(lClass, pFrom, lYTo);
         if (lLabel) {
-            lGroup.appendChild(
-                utl.createText(lLabel,
+            var lText = utl.createText(lLabel,
                            pFrom + 2, -5-(TEXT_HEIGHT/2),
                            "anchor-start"
-                           ));
+                           );
+            if (pArc.textcolor) {
+                lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+            }
+            lGroup.appendChild(lText);
         }
     } else {
         if (pArc.arcskip) {

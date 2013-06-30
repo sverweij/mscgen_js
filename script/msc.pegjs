@@ -57,6 +57,7 @@ option          = _ n:optionname _ "=" _
                      / b:boolean {return b.toString()}) _ 
 {
    var o = new Object();
+   n = n.toLowerCase();
    o[n]=v;
    return o;
 }
@@ -128,6 +129,8 @@ attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
 attribute       = _ n:attributename _ "=" _ v:string _
 {
   var o = new Object();
+  n = n.toLowerCase();
+  n = n.replace("colour", "color");
   o[n] = v;
   return o 
 }
@@ -166,3 +169,4 @@ real "real"
 
 boolean "boolean"
   = "true"i / "false"i
+
