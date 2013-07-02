@@ -46,7 +46,7 @@ $(document).ready(function(){
                     close_lightboxOnClick();
                 }
     });
-    $("#render").bind({
+    $("#btn_render").bind({
         click : function(e) {
                     renderOnClick();
                 }
@@ -104,10 +104,10 @@ function close_lightboxOnClick(){
 function showAutorenderState () {
     if (gAutoRender) {
         $("#autorender").attr("checked", "autorenderOn");
-        $("#render").hide();
+        $("#btn_render").hide();
     } else {
         $("#autorender").removeAttr ("checked", "autorenderOn");
-        $("#render").show();
+        $("#btn_render").show();
     }
 }
 

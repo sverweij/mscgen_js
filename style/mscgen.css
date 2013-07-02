@@ -22,7 +22,7 @@ p {
     float:left;
     width : 30em;
 }
-#msc_input {
+#input_and_controls > #msc_input {
     background-color : #555;
     color            : #fff;
     border           : solid 0px;
@@ -31,10 +31,10 @@ p {
     height           : 30em;
     width            : 100%;
 }
-#render {
+#input_and_controls > #btn_render {
     display : none;
 }
-#error_output {
+#input_and_controls > #error_output {
     font-family      : monospace;
     color            : orange;
     padding          : 1em 0em 1em 0em;
