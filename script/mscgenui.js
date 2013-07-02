@@ -35,6 +35,11 @@ $(document).ready(function(){
                     autorenderOnClick();
                 }
     });
+    $("#show_svg").bind({
+        click : function(e) {
+                    show_svgOnClick();
+                }
+    });
     $("#render").bind({
         click : function(e) {
                     renderOnClick();
@@ -63,6 +68,10 @@ function autorenderOnClick () {
         render ();
     }
     showAutorenderState ();
+}
+
+function show_svgOnClick () {
+    $("#textcopybox").text($("#svg").html());
 }
 
 function showAutorenderState () {
