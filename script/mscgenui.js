@@ -26,6 +26,7 @@ define(["log", "msc", "mscrender", "jquery"],
         function(log, msc_parse, msc_render, $) {
 
 var gAutoRender = true;
+var ESC_KEY   = 27; 
 
 $(document).ready(function(){
     showAutorenderState ();
@@ -40,6 +41,11 @@ $(document).ready(function(){
                     show_svgOnClick();
                 }
     });
+    $("#close_lightbox").bind({
+        click : function(e) {
+                    close_lightboxOnClick();
+                }
+    });
     $("#render").bind({
         click : function(e) {
                     renderOnClick();
@@ -49,6 +55,22 @@ $(document).ready(function(){
         keyup : function(e) {
                     msc_inputKeyup();
                 }
+    });
+
+    $("body").bind({
+        keydown : function (e) {
+           var lKey = e.keyCode;               
+           var lTarget = $(e.currentTarget);   
+                                               
+           switch(lKey) {                      
+               case (ESC_KEY) : {
+                   closeLightbox();
+                   break;
+               } default: {
+                   break;
+               }
+           }
+        }
     });
 }); // document ready
 
@@ -72,13 +94,20 @@ function autorenderOnClick () {
 
 function show_svgOnClick () {
     $("#textcopybox").text($("#svg").html());
+    $("#textcopylightbox").show();
+    $("#textcopybox").select();
+}
+function close_lightboxOnClick(){
+    closeLightbox();
 }
 
 function showAutorenderState () {
     if (gAutoRender) {
         $("#autorender").attr("checked", "autorenderOn");
+        $("#render").hide();
     } else {
         $("#autorender").removeAttr ("checked", "autorenderOn");
+        $("#render").show();
     }
 }
 
@@ -107,6 +136,11 @@ function clean() {
     lBody.replaceChild(lNewSequence, lOldSequence);
     lDefTag.replaceChild(lNewDefs, lOldDefs);
 
+}
+
+function closeLightbox () {
+    $("#textcopylightbox").hide();
+    $("textcopybox").text("");
 }
 
 function hideError () {
