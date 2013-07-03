@@ -93,10 +93,11 @@ function autorenderOnClick () {
 }
 
 function show_svgOnClick () {
-    $("#textcopybox").text($("#svg").html());
     $("#textcopylightbox").show();
+    $("#textcopybox").text($("#svg").html());
     $("#textcopybox").select();
 }
+
 function close_lightboxOnClick(){
     closeLightbox();
 }
@@ -139,8 +140,8 @@ function clean() {
 }
 
 function closeLightbox () {
-    $("#textcopylightbox").hide();
     $("textcopybox").text("");
+    $("#textcopylightbox").hide();
 }
 
 function hideError () {
