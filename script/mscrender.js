@@ -167,8 +167,8 @@ function renderArcs (pArcs, pEntities) {
                         defs.appendChild(
                             createBox(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
-                                        gEntity2X[pArcs[i][j].to], lLabel,
-                                        pArcs[i][j].kind));
+                                        gEntity2X[pArcs[i][j].to],
+                                        pArcs[i][j]));
                         notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
@@ -454,7 +454,7 @@ function createComment (pId, pArc) {
     return lGroup;
 }
 
-function createBox (pId, pFrom, pTo, pLabel, pKind) {
+function createBox (pId, pFrom, pTo, pArc) {
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
     var lHeight = ARCROW_HEIGHT - 2 -2;
 
@@ -462,7 +462,7 @@ function createBox (pId, pFrom, pTo, pLabel, pKind) {
     var lGroup = utl.createGroup(pId);
     var lBox;
 
-    switch (pKind) {
+    switch (pArc.kind) {
           case ("rbox") : {
           lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
           break;
@@ -472,9 +472,16 @@ function createBox (pId, pFrom, pTo, pLabel, pKind) {
         }
     }
     lGroup.appendChild(lBox);
-    if (pLabel) {
-        var lText = utl.createText(pLabel, lStart + (lWidth/2), TEXT_HEIGHT/2);
+    if (pArc.label) {
+        var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
         lGroup.appendChild(lText);
+        if (pArc.textcolor) {
+            lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+        }
+    }
+    // linecolor
+    if (pArc.textbgcolor) {
+        lBox.setAttribute("style", "fill: " + pArc.textbgcolor + ";");
     }
 
     return lGroup;
