@@ -117,7 +117,7 @@ function render() {
         hideError();
         var lParseTree = mscparser.parse($("#msc_input").val());
         msc_render.clean();
-        msc_render.renderParseTree(lParseTree);
+        msc_render.renderParseTree(lParseTree, $("#msc_input").val());
 
     } catch (e) {
         displayError(
@@ -127,17 +127,6 @@ function render() {
     }
 }
 
-function clean() {
-    var lDefTag = document.getElementsByTagNameNS(SVGNS, "defs")[0];
-    var lBody = document.getElementById("body");
-    var lOldDefs = document.getElementById("defs");
-    var lOldSequence = document.getElementById("sequence");
-    var lNewDefs = createGroup("defs");
-    var lNewSequence = createGroup("sequence");
-    lBody.replaceChild(lNewSequence, lOldSequence);
-    lDefTag.replaceChild(lNewDefs, lOldDefs);
-
-}
 
 function closeLightbox () {
     $("textcopybox").text("");

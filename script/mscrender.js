@@ -19,23 +19,27 @@ var gArcRowYHWM = 0;
 var gEntity2X = new Object();
 var gArcRow2Y = new Object();
 
-var TEXT_HEIGHT = 8; /* TODO: should really be derived */
+var TEXT_HEIGHT = 10; /* TODO: should really be derived */
 
 function _clean () {
+    var lSvgElement = document.getElementById("svg_output");
     var lDefTag = document.getElementsByTagNameNS(SVGNS, "defs")[0];
     var lBody = document.getElementById("body");
     var lOldDefs = document.getElementById("defs");
     var lOldSequence = document.getElementById("sequence");
     var lOldNotelayer = document.getElementById("notelayer");
+    var lOldDesc = document.getElementById("msc_source");
     var lNewDefs = utl.createGroup("defs");
     var lNewSequence = utl.createGroup("sequence");
     var lNewNotelayer = utl.createGroup("notelayer");
+    var lNewDesc = utl.createGroup("msc_source");
     lBody.replaceChild(lNewSequence, lOldSequence);
     lBody.replaceChild(lNewNotelayer, lOldNotelayer);
     lDefTag.replaceChild(lNewDefs, lOldDefs);
+    lSvgElement.replaceChild(lNewDesc, lOldDesc);
 }
 
-function _renderParseTree (pParseTree) {
+function _renderParseTree (pParseTree, pSource) {
 
     INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
     ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
@@ -64,6 +68,14 @@ function _renderParseTree (pParseTree) {
     var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
     var lCanvasHeight = gArcRowYHWM - (ARCROW_HEIGHT/2) + 2*PAD_VERTICAL;
     var lSvgElement = document.getElementById("svg_output");
+
+    if (pSource) {
+        var lDescription = document.getElementById("msc_source");
+        var lContent = document.createTextNode(pSource);
+        lDescription.appendChild(lContent);
+        console.log(lDescription.children);
+    }
+
     body.setAttribute("transform",
             "translate("+ (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4)) + ","+ PAD_VERTICAL +")");
     lSvgElement.setAttribute("width", lCanvasWidth.toString());
@@ -75,10 +87,6 @@ function _renderParseTree (pParseTree) {
         body.setAttribute ("transform", lTransform);
     }
 
-}
-
-
-function renderOptions (pOptions) {
 }
 
 function renderEntities (pEntities) {
@@ -522,8 +530,8 @@ return {
     clean : function () {
                 _clean();
             },
-    renderParseTree : function (pParseTree) {
-                          _renderParseTree(pParseTree);
+    renderParseTree : function (pParseTree, pSource) {
+                          _renderParseTree(pParseTree, pSource);
                       }
 };
 }); // define
