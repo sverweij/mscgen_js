@@ -21,22 +21,22 @@ var gArcRow2Y = new Object();
 
 var TEXT_HEIGHT = 10; /* TODO: should really be derived */
 
+function cleanElement (pParentId, pChildId) {
+    var lParentElement = document.getElementById(pParentId);
+    var lOldChild = document.getElementById(pChildId);
+    var lNewChild = utl.createGroup(pChildId);
+    lParentElement.replaceChild(lNewChild, lOldChild);
+}
+
 function _clean () {
-    var lSvgElement = document.getElementById("svg_output");
     var lDefTag = document.getElementsByTagNameNS(SVGNS, "defs")[0];
-    var lBody = document.getElementById("body");
     var lOldDefs = document.getElementById("defs");
-    var lOldSequence = document.getElementById("sequence");
-    var lOldNotelayer = document.getElementById("notelayer");
-    var lOldDesc = document.getElementById("msc_source");
     var lNewDefs = utl.createGroup("defs");
-    var lNewSequence = utl.createGroup("sequence");
-    var lNewNotelayer = utl.createGroup("notelayer");
-    var lNewDesc = utl.createGroup("msc_source");
-    lBody.replaceChild(lNewSequence, lOldSequence);
-    lBody.replaceChild(lNewNotelayer, lOldNotelayer);
     lDefTag.replaceChild(lNewDefs, lOldDefs);
-    lSvgElement.replaceChild(lNewDesc, lOldDesc);
+
+    cleanElement("svg_output", "msc_source");
+    cleanElement("body", "sequence");
+    cleanElement("body", "notelayer");
 }
 
 function _renderParseTree (pParseTree, pSource) {
@@ -73,7 +73,6 @@ function _renderParseTree (pParseTree, pSource) {
         var lDescription = document.getElementById("msc_source");
         var lContent = document.createTextNode(pSource);
         lDescription.appendChild(lContent);
-        console.log(lDescription.children);
     }
 
     body.setAttribute("transform",
