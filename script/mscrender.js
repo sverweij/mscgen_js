@@ -390,7 +390,8 @@ function createArc (pId, pArc, pFrom, pTo) {
                            "anchor-start"
                            );
             if (pArc.textcolor) {
-                lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+                lText.setAttribute("stroke", pArc.textcolor);
+                lText.setAttribute("fill", pArc.textcolor);
             }
             lGroup.appendChild(lText);
         }
@@ -404,7 +405,8 @@ function createArc (pId, pArc, pFrom, pTo) {
                            pFrom + ((pTo - pFrom)/2),
                            0-(TEXT_HEIGHT/2));
             if (pArc.textcolor) {
-                lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+                lText.setAttribute("stroke", pArc.textcolor);
+                lText.setAttribute("fill", pArc.textcolor);
             }
             lGroup.appendChild(lText);
         }
@@ -415,14 +417,6 @@ function createArc (pId, pArc, pFrom, pTo) {
     }
 
     lGroup.appendChild(lLine);
-    /*
-    if (lText) {
-        lGroup.appendChild(lText);
-        if (pArc.textcolor) {
-            lText.setAttribute("style", "color: " + pArc.textcolor + ";");
-        }
-    }
-    */
     return lGroup;
 }
 
@@ -441,7 +435,8 @@ function createComment (pId, pArc) {
         var lRect = utl.createRect(utl.getTextWidth(pArc.label),TEXT_HEIGHT, "textbg", lArcMiddle - (utl.getTextWidth(pArc.label)/2),  0 - (TEXT_HEIGHT/2));
         var lText = utl.createText(pArc.label,lArcMiddle, 0 + (TEXT_HEIGHT/2));
         if (pArc.textcolor) {
-            lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+            lText.setAttribute("stroke", pArc.textcolor);
+            lText.setAttribute("fill", pArc.textcolor);
         }
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + ";");
@@ -476,7 +471,8 @@ function createBox (pId, pFrom, pTo, pArc) {
         var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
         lGroup.appendChild(lText);
         if (pArc.textcolor) {
-            lText.setAttribute("style", "stroke: " + pArc.textcolor + ";");
+            lText.setAttribute("stroke", pArc.textcolor);
+            lText.setAttribute("fill", pArc.textcolor);
         }
     }
     // linecolor
