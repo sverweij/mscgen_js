@@ -200,8 +200,10 @@ function renderArcs (pArcs, pEntities) {
                                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
                                     }
                                 }
-                                sequence.appendChild(
-                                        utl.createText(lLabel,lArcMiddle, lArcRowYPos - (TEXT_HEIGHT/2)));
+                                var lText = 
+                                        utl.createText(lLabel,lArcMiddle, lArcRowYPos - (TEXT_HEIGHT/2));
+                                colorText(lText,pArcs[i][j]);
+                                sequence.appendChild(lText);
                             } else if (lFrom === "*"){
                                 var xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
@@ -215,8 +217,10 @@ function renderArcs (pArcs, pEntities) {
                                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
                                     }
                                 }
-                                sequence.appendChild(
-                                        utl.createText(lLabel,lArcMiddle, lArcRowYPos - (TEXT_HEIGHT/2)));
+                                var lText = 
+                                        utl.createText(lLabel,lArcMiddle, lArcRowYPos - (TEXT_HEIGHT/2));
+                                colorText(lText,pArcs[i][j]);
+                                sequence.appendChild(lText);
                             } else {
                                 var xFrom = gEntity2X[lFrom];
                                 var xTo = gEntity2X[lTo];
