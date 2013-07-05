@@ -177,8 +177,7 @@ function renderArcs (pArcs, pEntities) {
                         defs.appendChild(
                             createABox(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
-                                        gEntity2X[pArcs[i][j].to], lLabel,
-                                        pArcs[i][j].kind));
+                                        gEntity2X[pArcs[i][j].to], pArcs[i][j]));
                         notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
@@ -187,7 +186,7 @@ function renderArcs (pArcs, pEntities) {
                         defs.appendChild(
                             createNote(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
-                                        gEntity2X[pArcs[i][j].to], lLabel));
+                                        gEntity2X[pArcs[i][j].to], pArcs[i][j]));
                         notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
@@ -466,6 +465,14 @@ function createBox (pId, pFrom, pTo, pArc) {
           break;
         }
     }
+    var lStyleString = new String();
+    if (pArc.textbgcolor) {
+        lStyleString += "fill:" + pArc.textbgcolor + ";"
+    }
+    if (pArc.linecolor) {
+        lStyleString += "stroke:" + pArc.linecolor + ";"
+    }
+    lBox.setAttribute("style", lStyleString);
     lGroup.appendChild(lBox);
     if (pArc.label) {
         var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
@@ -483,7 +490,7 @@ function createBox (pId, pFrom, pTo, pArc) {
     return lGroup;
 }
 
-function createABox (pId, pFrom, pTo, pLabel) {
+function createABox (pId, pFrom, pTo, pArc) {
     
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
     var lHeight = ARCROW_HEIGHT - 2 -2;
@@ -500,13 +507,28 @@ function createABox (pId, pFrom, pTo, pLabel) {
 
     var lGroup = utl.createGroup(pId);
     var lPath = utl.createPath(lPathString, "box");
-    var lText = utl.createText(pLabel, lStart + (lWidth/2), TEXT_HEIGHT/2);
+    var lStyleString = new String();
+    if (pArc.textbgcolor) {
+        lStyleString += "fill:" + pArc.textbgcolor + ";"
+    }
+    if (pArc.linecolor) {
+        lStyleString += "stroke:" + pArc.linecolor + ";"
+    }
+    lPath.setAttribute("style", lStyleString);
     lGroup.appendChild(lPath);
-    lGroup.appendChild(lText);
+    if (pArc.label) {
+        var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
+        if (pArc.textcolor) {
+            lText.setAttribute("stroke", pArc.textcolor);
+            lText.setAttribute("fill", pArc.textcolor);
+        }
+        lGroup.appendChild(lText);
+    }
+
     return lGroup;
 }
 
-function createNote (pId, pFrom, pTo, pLabel) {
+function createNote (pId, pFrom, pTo, pArc) {
     
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
     var lHeight = ARCROW_HEIGHT - 2 -2;
@@ -522,9 +544,24 @@ function createNote (pId, pFrom, pTo, pLabel) {
 
     var lGroup = utl.createGroup(pId);
     var lPath = utl.createPath(lPathString, "box");
-    var lText = utl.createText(pLabel, lStart + (lWidth/2), TEXT_HEIGHT/2);
+    var lStyleString = new String();
+    if (pArc.textbgcolor) {
+        lStyleString += "fill:" + pArc.textbgcolor + ";"
+    }
+    if (pArc.linecolor) {
+        lStyleString += "stroke:" + pArc.linecolor + ";"
+    }
+    lPath.setAttribute("style", lStyleString);
     lGroup.appendChild(lPath);
-    lGroup.appendChild(lText);
+    
+    if (pArc.label) {
+        var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
+        if (pArc.textcolor) {
+            lText.setAttribute("stroke", pArc.textcolor);
+            lText.setAttribute("fill", pArc.textcolor);
+        }
+        lGroup.appendChild(lText);
+    }
     return lGroup;
 }
 
