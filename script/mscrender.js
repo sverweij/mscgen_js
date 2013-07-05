@@ -21,22 +21,18 @@ var gArcRow2Y = new Object();
 
 var TEXT_HEIGHT = 10; /* TODO: should really be derived */
 
-function cleanElement (pParentId, pChildId) {
-    var lParentElement = document.getElementById(pParentId);
+function cleanElement (pChildId) {
     var lOldChild = document.getElementById(pChildId);
+    var lParentElement = lOldChild.parentNode;
     var lNewChild = utl.createGroup(pChildId);
     lParentElement.replaceChild(lNewChild, lOldChild);
 }
 
 function _clean () {
-    var lDefTag = document.getElementsByTagNameNS(SVGNS, "defs")[0];
-    var lOldDefs = document.getElementById("defs");
-    var lNewDefs = utl.createGroup("defs");
-    lDefTag.replaceChild(lNewDefs, lOldDefs);
-
-    cleanElement("svg_output", "msc_source");
-    cleanElement("body", "sequence");
-    cleanElement("body", "notelayer");
+    cleanElement("msc_source");
+    cleanElement("sequence");
+    cleanElement("notelayer");
+    cleanElement("defs");
 }
 
 function _renderParseTree (pParseTree, pSource) {
@@ -389,8 +385,7 @@ function createArc (pId, pArc, pFrom, pTo) {
                            "anchor-start"
                            );
             if (pArc.textcolor) {
-                lText.setAttribute("stroke", pArc.textcolor);
-                lText.setAttribute("fill", pArc.textcolor);
+                colorText(lText, pArc);
             }
             lGroup.appendChild(lText);
         }
@@ -404,8 +399,7 @@ function createArc (pId, pArc, pFrom, pTo) {
                            pFrom + ((pTo - pFrom)/2),
                            0-(TEXT_HEIGHT/2));
             if (pArc.textcolor) {
-                lText.setAttribute("stroke", pArc.textcolor);
-                lText.setAttribute("fill", pArc.textcolor);
+                colorText(lText, pArc);
             }
             lGroup.appendChild(lText);
         }
@@ -433,10 +427,7 @@ function createComment (pId, pArc) {
     if (pArc.label) {
         var lRect = utl.createRect(utl.getTextWidth(pArc.label),TEXT_HEIGHT, "textbg", lArcMiddle - (utl.getTextWidth(pArc.label)/2),  0 - (TEXT_HEIGHT/2));
         var lText = utl.createText(pArc.label,lArcMiddle, 0 + (TEXT_HEIGHT/2));
-        if (pArc.textcolor) {
-            lText.setAttribute("stroke", pArc.textcolor);
-            lText.setAttribute("fill", pArc.textcolor);
-        }
+        colorText(lText, pArc);
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + ";");
         }
@@ -446,6 +437,25 @@ function createComment (pId, pArc) {
     }
 
     return lGroup;
+}
+function colorText (pElement, pArc){
+    if (pArc.textcolor) {
+        var lStyleString = new String();
+        lStyleString += "fill:" + pArc.textcolor + ";"
+        lStyleString += "stroke:" + pArc.textcolor + ";"
+        pElement.setAttribute("style", lStyleString);
+    }
+}
+
+function colorBox (pElement, pArc) {
+    var lStyleString = new String();
+    if (pArc.textbgcolor) {
+        lStyleString += "fill:" + pArc.textbgcolor + ";"
+    }
+    if (pArc.linecolor) {
+        lStyleString += "stroke:" + pArc.linecolor + ";"
+    }
+    pElement.setAttribute("style", lStyleString);
 }
 
 function createBox (pId, pFrom, pTo, pArc) {
@@ -465,26 +475,12 @@ function createBox (pId, pFrom, pTo, pArc) {
           break;
         }
     }
-    var lStyleString = new String();
-    if (pArc.textbgcolor) {
-        lStyleString += "fill:" + pArc.textbgcolor + ";"
-    }
-    if (pArc.linecolor) {
-        lStyleString += "stroke:" + pArc.linecolor + ";"
-    }
-    lBox.setAttribute("style", lStyleString);
+    colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
     if (pArc.label) {
         var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
+        colorText(lText, pArc);
         lGroup.appendChild(lText);
-        if (pArc.textcolor) {
-            lText.setAttribute("stroke", pArc.textcolor);
-            lText.setAttribute("fill", pArc.textcolor);
-        }
-    }
-    // linecolor
-    if (pArc.textbgcolor) {
-        lBox.setAttribute("style", "fill: " + pArc.textbgcolor + ";");
     }
 
     return lGroup;
@@ -507,20 +503,12 @@ function createABox (pId, pFrom, pTo, pArc) {
 
     var lGroup = utl.createGroup(pId);
     var lPath = utl.createPath(lPathString, "box");
-    var lStyleString = new String();
-    if (pArc.textbgcolor) {
-        lStyleString += "fill:" + pArc.textbgcolor + ";"
-    }
-    if (pArc.linecolor) {
-        lStyleString += "stroke:" + pArc.linecolor + ";"
-    }
-    lPath.setAttribute("style", lStyleString);
+    colorBox(lPath, pArc);
     lGroup.appendChild(lPath);
     if (pArc.label) {
         var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
         if (pArc.textcolor) {
-            lText.setAttribute("stroke", pArc.textcolor);
-            lText.setAttribute("fill", pArc.textcolor);
+            colorText(lText, pArc);
         }
         lGroup.appendChild(lText);
     }
@@ -544,21 +532,13 @@ function createNote (pId, pFrom, pTo, pArc) {
 
     var lGroup = utl.createGroup(pId);
     var lPath = utl.createPath(lPathString, "box");
-    var lStyleString = new String();
-    if (pArc.textbgcolor) {
-        lStyleString += "fill:" + pArc.textbgcolor + ";"
-    }
-    if (pArc.linecolor) {
-        lStyleString += "stroke:" + pArc.linecolor + ";"
-    }
-    lPath.setAttribute("style", lStyleString);
+    colorBox(lPath, pArc);
     lGroup.appendChild(lPath);
     
     if (pArc.label) {
         var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
         if (pArc.textcolor) {
-            lText.setAttribute("stroke", pArc.textcolor);
-            lText.setAttribute("fill", pArc.textcolor);
+            colorText(lText, pArc);
         }
         lGroup.appendChild(lText);
     }
