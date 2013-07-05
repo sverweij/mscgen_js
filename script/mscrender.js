@@ -434,25 +434,13 @@ function createEmptyArc (pId, pArc) {
 }
 function createComment (pId, pArc) {
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
-    var lArcMiddle = lArcEnd / 2;
     var lGroup = utl.createGroup(pId);
     var lLine = utl.createLine(0, 0, lArcEnd, 0, "dotted");
     lGroup.appendChild(lLine);
+    lGroup.appendChild(createEmptyArc(pId + "_txt", pArc));
 
     if (pArc.linecolor) {
         lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
-    }
-
-    if (pArc.label) {
-        var lRect = utl.createRect(utl.getTextWidth(pArc.label),TEXT_HEIGHT, "textbg", lArcMiddle - (utl.getTextWidth(pArc.label)/2),  0 - (TEXT_HEIGHT/2));
-        var lText = utl.createText(pArc.label,lArcMiddle, 0 + (TEXT_HEIGHT/2));
-        colorText(lText, pArc);
-        if (pArc.textbgcolor) {
-            lRect.setAttribute("style", "fill: " + pArc.textbgcolor + ";");
-        }
-
-        lGroup.appendChild(lRect);
-        lGroup.appendChild(lText);
     }
 
     return lGroup;
