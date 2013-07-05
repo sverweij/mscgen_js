@@ -28,38 +28,38 @@
         <button id="show_svg">show svg</button>
         <button id="btn_render">render &gt;</button>
     </div>
-    <textarea id="msc_input" class="code mscgen" spellcheck="false">
-msc {
+    <textarea id="msc_input" class="code mscgen" spellcheck="false">msc {
   # options
-  hscale="1.0" /*, width=600,arcgradient="8"*/;
+  hscale="1.0" /*, width=600 */,arcgradient="7";
 
   # entities
   a [label="entity a"], b, "entity c", d;
 
   # arcs
-  a =>> b [label="do magic"];
+  a =>> b [label="do magic", textcolor="cyan"];
   b -> "entity c" [label="doMagic()"];  
 
   "entity c" >> b,
-  b >> a [label="response", linecolor="green"],
+  b >> a [label="response", linecolor="green", textcolor="green"],
   d note d [label="note"];
   ... [label="More magic stuff happens here"];
 
-  --- [label="When a signal appears to be lost, a calls d"];
-  a-xb [label="lost:-/"];
+  --- [label="When a signal appears to be lost, a calls d", textcolor="red", linecolor="red"];
+  a-xb [label="lost:-/", linecolor="red", textcolor="blue"];
   a=>d[label="log this"];
   d =>> d;
+  ---[linecolor="red"];
   "entity c" note "entity c" [label="conference!"],
   "entity c" <<=>> d,
   "entity c" <-> b;
-  a box a  [label="This is a 'box' example"],
-  b rbox b [label="This is an 'rbox' example"],
-  "entity c" abox "entity c" [label="This is an 'abox'"],
-  d note d [label="This is an example of a note"];
+  a box a  [label="This is a black 'box' example", textcolor="red", textbgcolor="black", linecolor="yellow"],
+  b rbox b [label="This is an 'rbox' example", textbgcolor="cyan"],
+  "entity c" abox "entity c" [label="This is an 'abox'", textcolor="white", textbgcolor="brown", linecolor="orange"],
+  d note d [label="This is an example of a note", linecolor="green", textcolor="green", textbgcolor="#0F0"];
   |||;
-  b =>> "*" [label="This is a broadcast message"];
+  b =>> "*" [label="This is a broadcast message", linecolor="fuchsia"];
   "entity c" -x * [label="Broadcast, but lost to everyone :-("];
-} </textarea>
+}</textarea>
 <div id="error_output" class="code"></div>
 </div>
 <span id="svg"><svg version="1.1"
@@ -235,7 +235,7 @@ msc {
 </svg></span>
 <div id="textcopylightbox">
     <div id="textcopyform">
-        <span id="close_lightbox" class="button">close</span>
+        <button id="close_lightbox">close</button>
         <textarea readonly="true" id="textcopybox" class="code svg" spellcheck="false"></textarea>
     </div>
 </div>
