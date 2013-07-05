@@ -88,17 +88,13 @@ function renderEntities (pEntities) {
     var defs = document.getElementById("defs");
     var sequence = document.getElementById("sequence");
     var lEntityXPos = 0;
-    var lLabel = "";
     var i;
 
     gEntity2X = new Object();
 
     if (pEntities) {
         for (i=0;i<pEntities.length;i++){
-            lLabel = pEntities[i].name;
-
-            if (pEntities[i].label) { lLabel = pEntities[i].label; }
-            defs.appendChild(createEntity(pEntities[i].name,lLabel));
+            defs.appendChild(createEntity(pEntities[i].name, pEntities[i]));
             sequence.appendChild(
                 utl.createUse(lEntityXPos,0,pEntities[i].name));
             gEntity2X[pEntities[i].name] = lEntityXPos + (ENTITY_WIDTH/2);
@@ -241,10 +237,14 @@ function renderArcs (pArcs, pEntities) {
 
 }
 
-function createEntity (pId, pLabel) {
+function createEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
-    var lText = utl.createText(pLabel, ENTITY_WIDTH/2, (ENTITY_HEIGHT + TEXT_HEIGHT)/2, "entity");
+    var lLabel = pEntity.name;
+    if (pEntity.label) { lLabel = pEntity.label; }
+    var lText = utl.createText(lLabel, ENTITY_WIDTH/2, (ENTITY_HEIGHT + TEXT_HEIGHT)/2, "entity");
+    colorBox(lRect, pEntity);
+    colorText(lText, pEntity);
 
     // lText.setAttribute("id", pId + "t");
     // var bbox = lText.getBBox();
