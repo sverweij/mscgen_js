@@ -12,9 +12,10 @@ You can find a [demo here][2].
 
 Sample output
 -------------
+mscgen_js renders a scalable vector graphics (svg) image in page. [This][4] msc 
+source would rending something like this:
 ![a sample sequence chart](/samples/readme.png) 
 
-([msc source][4])
 
 License
 -------
