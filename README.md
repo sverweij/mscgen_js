@@ -6,10 +6,17 @@ text-based [mscgen][1] mini language using only a modern browser.
 It accepts all valid mscgen programs and renders them while you
 type.
 
-[demo][2]
+Demo
+----
+You can find a [demo here][2].
 
+Sample output
+-------------
+![a sample sequence chart](/samples/readme.svg)
 
-This software is [licensed under GPL3][3]
+License
+-------
+This software is free software [licensed under GPL3][3]. This means (a.o.) you _cannot_ use it as part of a commercial package.
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
 [2]: http://home.kpn.nl/chromx/mscgen_js/index.html
