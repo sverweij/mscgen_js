@@ -419,9 +419,21 @@ function createTextLabel (pId, pArc, lStartX, lStartY, lWidth) {
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
         }
+        if (pArc.url) {
+            var lA = document.createElementNS(SVGNS, "a");
+            lA.setAttributeNS(XLINKNS, "xlink:href", pArc.url);
+            lA.appendChild(lRect);
+            lA.appendChild(lText);
+            if (!pArc.textcolor) {
+                pArc.textcolor = "blue";
+                colorText(lText, pArc);
+            }
+            lGroup.appendChild(lA);
+        } else {
+            lGroup.appendChild(lRect);
+            lGroup.appendChild(lText);
+        }
 
-        lGroup.appendChild(lRect);
-        lGroup.appendChild(lText);
     }
     return lGroup;
 }
