@@ -242,14 +242,16 @@ function renderArcs (pArcs, pEntities) {
 function createEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
-    var lLabel = pEntity.name;
+    
     if (!(pEntity.label)) {
         pEntity.label = pEntity.name;
     }
-    var lText = utl.createText(lLabel, ENTITY_WIDTH/2, (ENTITY_HEIGHT + TEXT_HEIGHT)/2, "entity");
     colorBox(lRect, pEntity);
     lGroup.appendChild(lRect);
-    lGroup.appendChild(createTextLabel(pId + "_txt", pEntity, 0, (ENTITY_HEIGHT + TEXT_HEIGHT -8 )/2, ENTITY_WIDTH, "entity")); // TODO: -8 ...
+    lGroup.appendChild(
+            createTextLabel(pId + "_txt", pEntity,
+                0, (ENTITY_HEIGHT + TEXT_HEIGHT -8 )/2,
+                ENTITY_WIDTH, "entity")); /* TODO: -8 should really be derived */
 
     // lText.setAttribute("id", pId + "t");
     // var bbox = lText.getBBox();
@@ -376,30 +378,17 @@ function createArc (pId, pArc, pFrom, pTo) {
         }
     }
 
+    var lYTo = 0;
+    if (pArc.arcskip) {
+        lYTo = pArc.arcskip*ARCROW_HEIGHT; /* TODO: derive from hashmap */
+    }
     if (pFrom === pTo) {
-        var lYTo = 0;
-        if (pArc.arcskip) {
-            lYTo = pArc.arcskip*ARCROW_HEIGHT;
-        }
         lLine = createSelfRefArc(lClass, pFrom, lYTo);
-        if (lLabel) {
-            /*
-            var lText = utl.createText(lLabel,
-                           pFrom + 2, -5-(TEXT_HEIGHT/2),
-                           "anchor-start"
-                           );
-            colorText(lText, pArc);
-            lGroup.appendChild(lText);
-            */
-            lGroup.appendChild(
-                    createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start", false)
-            );
-        }
+        lGroup.appendChild(
+            createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start", false)
+        );
     } else {
-        if (pArc.arcskip) {
-            lArcGradient = pArc.arcskip*ARCROW_HEIGHT; //TODO: derive from hashmap
-        } 
-        lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass);
+        lLine = utl.createLine(pFrom, 0, pTo, lYTo, lClass);
         lGroup.appendChild(
                 createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom)
         );
@@ -438,6 +427,8 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         if (pArc.url) {
             var lA = document.createElementNS(SVGNS, "a");
             lA.setAttributeNS(XLINKNS, "xlink:href", pArc.url);
+            lA.setAttributeNS(XLINKNS, "xlink:title", pArc.url);
+            lA.setAttributeNS(XLINKNS, "xlink:show", "new");
             lA.appendChild(lRect);
             lA.appendChild(lText);
             if (!pArc.textcolor) {
