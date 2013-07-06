@@ -382,19 +382,26 @@ function createArc (pId, pArc, pFrom, pTo) {
         }
         lLine = createSelfRefArc(lClass, pFrom, lYTo);
         if (lLabel) {
+            /*
             var lText = utl.createText(lLabel,
                            pFrom + 2, -5-(TEXT_HEIGHT/2),
                            "anchor-start"
                            );
             colorText(lText, pArc);
             lGroup.appendChild(lText);
+            */
+            lGroup.appendChild(
+                    createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start")
+            );
         }
     } else {
         if (pArc.arcskip) {
             lArcGradient = pArc.arcskip*ARCROW_HEIGHT; //TODO: derive from hashmap
         } 
         lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass);
-        lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom));
+        lGroup.appendChild(
+                createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom)
+        );
 
     }
     if (pArc.linecolor) {
@@ -405,16 +412,24 @@ function createArc (pId, pArc, pFrom, pTo) {
     return lGroup;
 }
 
-function createTextLabel (pId, pArc, lStartX, lStartY, lWidth) {
+function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
     var lGroup = utl.createGroup(pId);
 
     if (pArc.label) {
-        var lMiddle = lStartX + (lWidth/2);
+        var lMiddle = pStartX + (pWidth/2);
         var lTextWidth = utl.getTextWidth(pArc.label);
         var lHeight = ARCROW_HEIGHT - 2 -2;
 
-        var lText = utl.createText(pArc.label, lMiddle, lStartY + TEXT_HEIGHT/4);
-        var lRect = utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg", lMiddle - (lTextWidth/2),  lStartY - (TEXT_HEIGHT/2));
+        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass);
+        if ( (pArc.from && pArc.to) && (pArc.from == pArc.to) ) {
+            var lRect =
+                utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
+                        pStartX,  pStartY - (TEXT_HEIGHT/2));
+        } else {
+            var lRect =
+                utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
+                        lMiddle - (lTextWidth/2),  pStartY - (TEXT_HEIGHT/2));
+        }
         colorText(lText, pArc);
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
