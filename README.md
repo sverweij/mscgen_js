@@ -2,9 +2,11 @@ mscgen_js
 =========
 
 With mscgen_js you can create sequence diagrams using the
-text-based [mscgen][1] mini language using only a modern browser.
+text-based [mscgen][1] mini language within a browser. 
 It accepts all valid mscgen programs and renders them while you
 type.
+
+No server side software needed.
 
 Demo
 ----
