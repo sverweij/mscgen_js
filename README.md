@@ -16,7 +16,8 @@ Sample output
 
 License
 -------
-This software is free software [licensed under GPL3][3]. This means (a.o.) you _cannot_ use it as part of a commercial package.
+This software is free software [licensed under GPL3][3]. This means (a.o.) you _can_ use
+it as part of other free software, but _not_ as part of commercial software.
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
 [2]: http://home.kpn.nl/chromx/mscgen_js/index.html
