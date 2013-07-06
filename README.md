@@ -14,7 +14,7 @@ Sample output
 -------------
 ![a sample sequence chart](/samples/readme.png) 
 
-([source][4])
+([msc source][4])
 
 License
 -------
