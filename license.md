@@ -1,5 +1,5 @@
-With mscgen_js you can create sequence diagrams using the
-text-based mscgen mini language using only a modern browser.
+mscgen_js - [mscgen][1] sequence diagrams in a browser
+
 Copyright (C) 2013 Sander Verweij
 
 This program is free software: you can redistribute it and/or modify
@@ -13,4 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see [http://www.gnu.org/licenses/][2].
+
+[1]: http://www.mcternan.me.uk/mscgen/index.html
+[2]: http://www.gnu.org/licenses/
