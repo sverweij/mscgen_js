@@ -13,7 +13,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see [http://www.gnu.org/licenses/][2].
+along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
-[2]: http://www.gnu.org/licenses/
