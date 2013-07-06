@@ -243,18 +243,19 @@ function createEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
     var lLabel = pEntity.name;
-    if (pEntity.label) { lLabel = pEntity.label; }
+    if (!(pEntity.label)) {
+        pEntity.label = pEntity.name;
+    }
     var lText = utl.createText(lLabel, ENTITY_WIDTH/2, (ENTITY_HEIGHT + TEXT_HEIGHT)/2, "entity");
     colorBox(lRect, pEntity);
-    colorText(lText, pEntity);
+    lGroup.appendChild(lRect);
+    lGroup.appendChild(createTextLabel(pId + "_txt", pEntity, 0, (ENTITY_HEIGHT + TEXT_HEIGHT -8 )/2, ENTITY_WIDTH, "entity")); // TODO: -8 ...
 
     // lText.setAttribute("id", pId + "t");
     // var bbox = lText.getBBox();
     // var TEXT_HEIGHT = bbox.height;
     // var lTextWidth = bbox.width;
 
-    lGroup.appendChild(lRect);
-    lGroup.appendChild(lText);
     return lGroup;
 }
 
