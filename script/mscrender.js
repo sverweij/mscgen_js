@@ -391,7 +391,7 @@ function createArc (pId, pArc, pFrom, pTo) {
             lGroup.appendChild(lText);
             */
             lGroup.appendChild(
-                    createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start")
+                    createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start", false)
             );
         }
     } else {
@@ -412,7 +412,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     return lGroup;
 }
 
-function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
+function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) {
     var lGroup = utl.createGroup(pId);
 
     if (pArc.label) {
@@ -421,14 +421,14 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         var lHeight = ARCROW_HEIGHT - 2 -2;
 
         var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass);
-        if ( (pArc.from && pArc.to) && (pArc.from == pArc.to) ) {
-            var lRect =
-                utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
-                        pStartX,  pStartY - (TEXT_HEIGHT/2));
-        } else {
+        if ( pCenter == undefined || pCenter === true) {
             var lRect =
                 utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
                         lMiddle - (lTextWidth/2),  pStartY - (TEXT_HEIGHT/2));
+        } else {
+            var lRect =
+                utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
+                        pStartX,  pStartY - (TEXT_HEIGHT/2));
         }
         colorText(lText, pArc);
         if (pArc.textbgcolor) {
