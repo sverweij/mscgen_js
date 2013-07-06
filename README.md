@@ -12,7 +12,7 @@ You can find a [demo here][2].
 
 Sample output
 -------------
-![a sample sequence chart](/samples/readme.svg)
+![a sample sequence chart](/samples/readme.png)
 
 License
 -------
