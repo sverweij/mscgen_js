@@ -8,5 +8,9 @@ type.
 
 [demo][2]
 
+
+This software is [licensed under GPL3][3]
+
 [1]: http://www.mcternan.me.uk/mscgen/index.html
 [2]: http://home.kpn.nl/chromx/mscgen_js/index.html
+[3]: license.md
