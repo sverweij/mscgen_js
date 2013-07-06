@@ -19,7 +19,7 @@ var gArcRowYHWM = 0;
 var gEntity2X = new Object();
 var gArcRow2Y = new Object();
 
-var TEXT_HEIGHT = 10; /* TODO: should really be derived */
+var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
 function cleanElement (pChildId) {
     var lOldChild = document.getElementById(pChildId);
@@ -134,13 +134,13 @@ function renderArcs (pArcs, pEntities) {
                 switch(pArcs[i][j].kind) {
                     case ("..."): {
                         sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrowomit"));
-                        defs.appendChild(createEmptyArc(lCurrentId,pArcs[i][j]));
+                        defs.appendChild(createEmptyArcText(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
                     case ("|||"): {
                         sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
-                        defs.appendChild(createEmptyArc(lCurrentId,pArcs[i][j]));
+                        defs.appendChild(createEmptyArcText(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
@@ -196,10 +196,11 @@ function renderArcs (pArcs, pEntities) {
                                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
                                     }
                                 }
-                                var lText = 
-                                        utl.createText(lLabel,lArcMiddle, lArcRowYPos - (TEXT_HEIGHT/2));
-                                colorText(lText,pArcs[i][j]);
-                                sequence.appendChild(lText);
+                                pArcs[i][j].label=lLabel;
+                                sequence.appendChild(
+                                    createTextLabel(lCurrentId + "_txt", pArcs[i][j],
+                                        0, lArcRowYPos-TEXT_HEIGHT, lArcEnd)
+                                );
                             } else if (lFrom === "*"){
                                 var xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
@@ -213,10 +214,11 @@ function renderArcs (pArcs, pEntities) {
                                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
                                     }
                                 }
-                                var lText = 
-                                        utl.createText(lLabel,lArcMiddle, lArcRowYPos - (TEXT_HEIGHT/2));
-                                colorText(lText,pArcs[i][j]);
-                                sequence.appendChild(lText);
+                                pArcs[i][j].label=lLabel;
+                                sequence.appendChild(
+                                    createTextLabel(lCurrentId + "_txt", pArcs[i][j],
+                                        0, lArcRowYPos-TEXT_HEIGHT, lArcEnd)
+                                );
                             } else {
                                 var xFrom = gEntity2X[lFrom];
                                 var xTo = gEntity2X[lTo];
@@ -384,9 +386,7 @@ function createArc (pId, pArc, pFrom, pTo) {
                            pFrom + 2, -5-(TEXT_HEIGHT/2),
                            "anchor-start"
                            );
-            if (pArc.textcolor) {
-                colorText(lText, pArc);
-            }
+            colorText(lText, pArc);
             lGroup.appendChild(lText);
         }
     } else {
@@ -394,15 +394,7 @@ function createArc (pId, pArc, pFrom, pTo) {
             lArcGradient = pArc.arcskip*ARCROW_HEIGHT; //TODO: derive from hashmap
         } 
         lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass);
-        if (lLabel) {
-             var lText = utl.createText(lLabel,
-                           pFrom + ((pTo - pFrom)/2),
-                           0-(TEXT_HEIGHT/2));
-            if (pArc.textcolor) {
-                colorText(lText, pArc);
-            }
-            lGroup.appendChild(lText);
-        }
+        lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom));
 
     }
     if (pArc.linecolor) {
@@ -413,31 +405,43 @@ function createArc (pId, pArc, pFrom, pTo) {
     return lGroup;
 }
 
-function createEmptyArc (pId, pArc) {
-    var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
-    var lArcMiddle = lArcEnd / 2;
+function createTextLabel (pId, pArc, lStartX, lStartY, lWidth) {
     var lGroup = utl.createGroup(pId);
 
     if (pArc.label) {
-        var lRect = utl.createRect(utl.getTextWidth(pArc.label),TEXT_HEIGHT, "textbg", lArcMiddle - (utl.getTextWidth(pArc.label)/2),  0 - (TEXT_HEIGHT/2));
-        var lText = utl.createText(pArc.label,lArcMiddle, 0 + (TEXT_HEIGHT/2));
+        var lMiddle = lStartX + (lWidth/2);
+        var lTextWidth = utl.getTextWidth(pArc.label);
+        var lHeight = ARCROW_HEIGHT - 2 -2;
+
+        var lText = utl.createText(pArc.label, lMiddle, lStartY + TEXT_HEIGHT/4);
+        var lRect = utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg", lMiddle - (lTextWidth/2),  lStartY - (TEXT_HEIGHT/2));
         colorText(lText, pArc);
         if (pArc.textbgcolor) {
-            lRect.setAttribute("style", "fill: " + pArc.textbgcolor + ";");
+            lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
         }
 
         lGroup.appendChild(lRect);
         lGroup.appendChild(lText);
     }
-
     return lGroup;
 }
+
+function createEmptyArcText (pId, pArc) {
+    var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
+    var lArcMiddle = lArcEnd / 2;
+    var lGroup = utl.createGroup(pId);
+
+    lGroup.appendChild(createTextLabel(pId, pArc, 0, 0, lArcEnd));
+                
+    return lGroup;
+}
+
 function createComment (pId, pArc) {
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
     var lGroup = utl.createGroup(pId);
     var lLine = utl.createLine(0, 0, lArcEnd, 0, "dotted");
     lGroup.appendChild(lLine);
-    lGroup.appendChild(createEmptyArc(pId + "_txt", pArc));
+    lGroup.appendChild(createEmptyArcText(pId + "_txt", pArc));
 
     if (pArc.linecolor) {
         lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
@@ -484,11 +488,7 @@ function createBox (pId, pFrom, pTo, pArc) {
     }
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
-    if (pArc.label) {
-        var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
-        colorText(lText, pArc);
-        lGroup.appendChild(lText);
-    }
+    lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
 
     return lGroup;
 }
@@ -512,13 +512,7 @@ function createABox (pId, pFrom, pTo, pArc) {
     var lPath = utl.createPath(lPathString, "box");
     colorBox(lPath, pArc);
     lGroup.appendChild(lPath);
-    if (pArc.label) {
-        var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
-        if (pArc.textcolor) {
-            colorText(lText, pArc);
-        }
-        lGroup.appendChild(lText);
-    }
+    lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
 
     return lGroup;
 }
@@ -541,14 +535,8 @@ function createNote (pId, pFrom, pTo, pArc) {
     var lPath = utl.createPath(lPathString, "box");
     colorBox(lPath, pArc);
     lGroup.appendChild(lPath);
+    lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
     
-    if (pArc.label) {
-        var lText = utl.createText(pArc.label, lStart + (lWidth/2), TEXT_HEIGHT/2);
-        if (pArc.textcolor) {
-            colorText(lText, pArc);
-        }
-        lGroup.appendChild(lText);
-    }
     return lGroup;
 }
 
