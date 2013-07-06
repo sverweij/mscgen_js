@@ -1,0 +1,21 @@
+# Sample msc for demonstrating mscgen_js
+msc {
+  hscale="1.2";
+
+  a [label="Entity A", textbgcolor="red", textcolor="white"],
+  b [label="Entity B", textbgcolor="yellow"],
+  c [label="Entity C", textbgcolor="blue", textcolor="yellow"];
+
+  a->b [ label = "ab()" ] ;
+  b->c [ label = "bc(TRUE)"];
+  c=>>c [ label = "process(1)" ];
+  b<<=c [ label = "callback()", arcskip="1"];
+  |||;
+  ---  [ label = "If more to run", ID="*" ];
+  a->a [ label = "next()"];
+  a=>c [ label = "ac1()"];
+  b<<c [ label = "cb(true)", textbgcolor="lime"];
+  b->b [ label = "stalled(...)"];
+  a<<b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
+  c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
+}
