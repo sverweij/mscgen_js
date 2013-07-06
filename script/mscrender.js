@@ -291,7 +291,6 @@ function createSelfRefArc(pClass, pFrom, pYTo) {
     }
     lPathString += " l-" + (INTER_ENTITY_SPACING/3).toString() + ",0"; // left
     var lPath = utl.createPath(lPathString, pClass);
-    // var lPath = utl.createPath("M"+ pFrom.toString() + ",-5 l40,0 l0,10 l-40,0", pClass);
     return lPath;
 }
 
@@ -381,14 +380,15 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lYTo = 0;
     if (pArc.arcskip) {
         lYTo = pArc.arcskip*ARCROW_HEIGHT; /* TODO: derive from hashmap */
-    }
+        lArcGradient = lYTo;
+    } 
     if (pFrom === pTo) {
         lLine = createSelfRefArc(lClass, pFrom, lYTo);
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start", false)
         );
     } else {
-        lLine = utl.createLine(pFrom, 0, pTo, lYTo, lClass);
+        lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass);
         lGroup.appendChild(
                 createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom)
         );

@@ -1,23 +1,31 @@
 /*
 msc {
-  html [label="index.html"]
+  hscale="1.2";
+
+  html [label="index.html", textbgcolor="#ddf"]
 , ui [label="mscgenui.js"]
 , msc [label="mscparser.js"]
 , render [label="mscrender.js"]
-, doc [label="window.document"];
+, utls [label="mscrenderutensils.js"]
+, doc [label="window.document", textbgcolor="#ddf"];
 
-  |||;
+
   html => ui [label="render"];
   ui =>> doc [label="get input from textarea"];
   doc >> ui [label="text"];
   ui =>> msc [label="parse(text)"];
-  --- [label="okiedokie"];
+
+  --- [label="[okiedokie]", linecolor="green"];
   ui << msc [label="parseTree"];
   ui => render [label="renderParseTree(parseTree)"];
-  render => doc [label="all kinds of domdocument stuff"];
-  
-  --- [label="parse error"];
+  render => utls [label="low level helpers"];  
+  utls => doc [label="all kinds of domdocument stuff"];
+  render => doc [label="all kinds of domdocument stuff"],
+  render note render [label="move dom manipulation down?"];
+
+  --- [label="[parse error]", linecolor="red"];
   ui << msc [label="exception"];
+  ui =>> ui [label="show error"];
 
 }
 */
