@@ -1,5 +1,5 @@
 <svg height="1284" width="606" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg_output">
-    <g id="msc_source"># test02 - some coloring options
+    <desc id="msc_source"># test02 - some coloring options
 
 msc {
   hscale="0.9", arcgradient="14";
@@ -55,7 +55,7 @@ a=&gt;*[label="blue broadcast from Task A", textcolor="blue", textbgcolor="cyan"
  a abox c [label="Green/ lime abox", textcolor="green", textbgcolor="lime", linecolor="green"];
 ...;
 }
-</g>
+</desc>
     <defs>
     <style type="text/css">
         svg {

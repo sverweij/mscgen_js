@@ -24,7 +24,9 @@ var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 function cleanElement (pChildId) {
     var lOldChild = document.getElementById(pChildId);
     var lParentElement = lOldChild.parentNode;
-    var lNewChild = utl.createGroup(pChildId);
+    var lNewChild =
+        document.createElementNS(SVGNS, lOldChild.tagName);
+    lNewChild.setAttribute("id", pChildId);
     lParentElement.replaceChild(lNewChild, lOldChild);
 }
 

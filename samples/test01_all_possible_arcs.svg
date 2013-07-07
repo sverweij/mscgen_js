@@ -1,5 +1,5 @@
 <svg height="3847" width="810" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg_output">
-    <g id="msc_source"># test01 - all possible arcs
+    <desc id="msc_source"># test01 - all possible arcs
 msc {
   # options
   hscale="1.2" ,arcgradient="12";
@@ -117,7 +117,7 @@ b abox b [label="abox selfie"];
 
 |||;
 }
-</g>
+</desc>
     <defs>
     <style type="text/css">
         svg {
@@ -212,7 +212,6 @@ b abox b [label="abox selfie"];
         }
         .emphasised {
             /* define double line */
-            fill : yellow;
             marker-end : url(#method);
         }
         .emphasised-both {

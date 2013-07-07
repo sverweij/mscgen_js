@@ -16,12 +16,14 @@ msc {
   b >> a [label="response", linecolor="green", textcolor="green"],
   d note d [label="note with a link", url="https://github.com/sverweij/mscgen_js"];
   b :> "entity c" [label="with emphasis"];
+  "entity c" :> "entity c"[label="emph selfie with arcskip", arcskip="2"];
   ... [label="More magic stuff will be happening here", textcolor="red", textbgcolor="gold"];
+  |||;
 
   --- [label="When a signal appears to be lost, a calls d", id="*",textcolor="red", linecolor="red"];
   a-xb [label="lost:-/", linecolor="red", textcolor="blue"];
   a=>d[label="log this"];
-  d =>> d [label="self reference", textbgcolor="red", textcolor="white"];
+  d =>> d [label="self reference", textbgcolor="red", textcolor="white", linecolor="green"];
   d >>a[label="this message skips an arc", arcskip="1"];
   |||;
   ---[label="Note tests", textcolor="green", linecolor="green"];
@@ -38,3 +40,4 @@ msc {
   "entity c" -x * [label="Broadcast, but lost to everyone :-(", textcolor="red", linecolor="red"];
   ...; # it goes on and on and on ...
 }
+
