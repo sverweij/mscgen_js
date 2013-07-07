@@ -4,6 +4,15 @@ var SVGNS = new String ("http://www.w3.org/2000/svg");
 var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 var XHTMLNS = new String ("");
 
+function _cleanElement (pChildId) {
+    var lOldChild = document.getElementById(pChildId);
+    var lParentElement = lOldChild.parentNode;
+    var lNewChild =
+        document.createElementNS(SVGNS, lOldChild.tagName);
+    lNewChild.setAttribute("id", pChildId);
+    lParentElement.replaceChild(lNewChild, lOldChild);
+}
+
 function _getTextWidth (pText, pFont) {
     return pText.length * 5.7;
 }
@@ -29,7 +38,7 @@ function _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
     return lRect;
 }
 
-function _createText(pLabel, pX, pY, pClass) {
+function _createText(pLabel, pX, pY, pClass, pURL) {
     var lText = document.createElementNS(SVGNS, "text");
     var lContent = document.createTextNode(pLabel);
     lText.setAttribute ("x", pX.toString());
@@ -38,6 +47,14 @@ function _createText(pLabel, pX, pY, pClass) {
         lText.setAttribute ("class", pClass);
     }
     lText.appendChild(lContent);
+    if (pURL) {
+        var lA = document.createElementNS(SVGNS, "a");
+        lA.setAttributeNS(XLINKNS, "xlink:href", pURL);
+        lA.setAttributeNS(XLINKNS, "xlink:title", pURL);
+        lA.setAttributeNS(XLINKNS, "xlink:show", "new");
+        lA.appendChild(lText);
+        return lA;
+    }
     return lText;
 }
 
@@ -96,14 +113,17 @@ function _createUse (pX, pY, pLink) {
 }
 
 return {
+    cleanElement: function (pId) {
+                    return _cleanElement(pId);
+                },
     createPath: function (pD, pClass) {
                     return _createPath(pD, pClass);
                 },
     createRect: function createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
                     return _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY);
                 },
-    createText: function (pLabel, pX, pY, pClass) {
-                    return _createText(pLabel, pX, pY, pClass)
+    createText: function (pLabel, pX, pY, pClass, pURL) {
+                    return _createText(pLabel, pX, pY, pClass, pURL)
                 },
     createLine: function (pX1, pY1, pX2, pY2, pClass, pDouble) {
                     return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble)

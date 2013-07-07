@@ -21,20 +21,12 @@ var gArcRow2Y = new Object();
 
 var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
-function cleanElement (pChildId) {
-    var lOldChild = document.getElementById(pChildId);
-    var lParentElement = lOldChild.parentNode;
-    var lNewChild =
-        document.createElementNS(SVGNS, lOldChild.tagName);
-    lNewChild.setAttribute("id", pChildId);
-    lParentElement.replaceChild(lNewChild, lOldChild);
-}
 
 function _clean () {
-    cleanElement("msc_source");
-    cleanElement("sequence");
-    cleanElement("notelayer");
-    cleanElement("defs");
+    utl.cleanElement("msc_source");
+    utl.cleanElement("sequence");
+    utl.cleanElement("notelayer");
+    utl.cleanElement("defs");
 }
 
 function _renderParseTree (pParseTree, pSource) {
@@ -418,7 +410,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         var lTextWidth = utl.getTextWidth(pArc.label);
         var lHeight = ARCROW_HEIGHT - 2 -2;
 
-        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass);
+        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url);
         if ( pCenter == undefined || pCenter === true) {
             var lRect =
                 utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
@@ -432,6 +424,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
         }
+        /*
         if (pArc.url) {
             var lA = document.createElementNS(SVGNS, "a");
             lA.setAttributeNS(XLINKNS, "xlink:href", pArc.url);
@@ -439,15 +432,16 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
             lA.setAttributeNS(XLINKNS, "xlink:show", "new");
             lA.appendChild(lRect);
             lA.appendChild(lText);
+            lGroup.appendChild(lA);
+        */
             if (!pArc.textcolor) {
                 pArc.textcolor = "blue";
                 colorText(lText, pArc);
             }
-            lGroup.appendChild(lA);
-        } else {
+        // } else {
             lGroup.appendChild(lRect);
             lGroup.appendChild(lText);
-        }
+        // }
 
     }
     return lGroup;
