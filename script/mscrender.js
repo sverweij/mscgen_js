@@ -454,6 +454,7 @@ function createComment (pId, pArc) {
 
     return lGroup;
 }
+
 function colorText (pElement, pArc){
     if (pArc.textcolor) {
         var lStyleString = new String();
