@@ -44,6 +44,11 @@ $(document).ready(function(){
                     autorenderOnClick();
                 }
     });
+    $("#show_svg_source").bind({
+        click : function(e) {
+                    show_svg_sourceOnClick();
+                }
+    });
     $("#show_svg").bind({
         click : function(e) {
                     show_svgOnClick();
@@ -100,10 +105,16 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
-function show_svgOnClick () {
+function show_svg_sourceOnClick () {
     $("#textcopylightbox").show();
     $("#textcopybox").text($("#svg").html());
     $("#textcopybox").select();
+}
+
+function show_svgOnClick () {
+    var lb64 = btoa(unescape(encodeURIComponent($("#svg").html())));
+    var lURI = "data:image/svg+xml;base64,"+lb64;
+    var lWindow = window.open(lURI, "_blank");
 }
 
 function close_lightboxOnClick(){
