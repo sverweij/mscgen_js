@@ -201,7 +201,7 @@ function renderArcs (pArcs, pEntities) {
                                 pArcs[i][j].label=lLabel;
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-TEXT_HEIGHT, lArcEnd)
+                                        0, lArcRowYPos-(TEXT_HEIGHT/2), lArcEnd)
                                 );
                             } else if (lFrom === "*"){
                                 var xTo = gEntity2X[lTo];
@@ -219,7 +219,7 @@ function renderArcs (pArcs, pEntities) {
                                 pArcs[i][j].label=lLabel;
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-TEXT_HEIGHT, lArcEnd)
+                                        0, lArcRowYPos-(TEXT_HEIGHT/2), lArcEnd)
                                 );
                             } else {
                                 var xFrom = gEntity2X[lFrom];
@@ -392,12 +392,12 @@ function createArc (pId, pArc, pFrom, pTo) {
     if (pFrom === pTo) {
         lLine = createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine);
         lGroup.appendChild(
-            createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start", false)
+            createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5)-(TEXT_HEIGHT/2), pTo - pFrom , "anchor-start", false)
         );
     } else {
         lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
         lGroup.appendChild(
-            createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom)
+            createTextLabel(pId + "_txt", pArc, pFrom, 0-(TEXT_HEIGHT/2), pTo - pFrom)
         );
 
     }
