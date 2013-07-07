@@ -28,9 +28,10 @@
         <button id="show_svg">show svg</button>
         <button id="btn_render">render &gt;</button>
     </div>
-    <textarea id="msc_input" class="code mscgen" spellcheck="false">msc {
+    <textarea id="msc_input" class="code mscgen" spellcheck="false">
+msc {
   # options
-  hscale="1.0" /*, width=600 */,arcgradient="7";
+  hscale="1.0" /*, width=600 */,arcgradient="8";
 
   # entities
   a [label="entity a", textbgcolor="pink"],
@@ -45,9 +46,10 @@
   "entity c" >> b[label="same line as response, note"],
   b >> a [label="response", linecolor="green", textcolor="green"],
   d note d [label="note with a link", url="https://github.com/sverweij/mscgen_js"];
+  b :> "entity c" [label="with emphasis"];
   ... [label="More magic stuff will be happening here", textcolor="red", textbgcolor="gold"];
 
-  --- [label="When a signal appears to be lost, a calls d", textcolor="red", linecolor="red"];
+  --- [label="When a signal appears to be lost, a calls d", id="*",textcolor="red", linecolor="red"];
   a-xb [label="lost:-/", linecolor="red", textcolor="blue"];
   a=>d[label="log this"];
   d =>> d [label="self reference", textbgcolor="red", textcolor="white"];
@@ -66,7 +68,8 @@
   * <<= b  [label="This is a broadcast message", linecolor="fuchsia"];
   "entity c" -x * [label="Broadcast, but lost to everyone :-(", textcolor="red", linecolor="red"];
   ...; # it goes on and on and on ...
-}</textarea>
+}
+</textarea>
 <div id="error_output" class="code"></div>
 </div>
 <span id="svg"><svg version="1.1"
@@ -168,12 +171,11 @@
         }
         .emphasised {
             /* define double line */
-            stroke: red;
+            fill : yellow;
             marker-end : url(#method);
         }
         .emphasised-both {
             /* define double line */
-            stroke: red;
             marker-end : url(#method);
             marker-start : url(#method-l);
         }

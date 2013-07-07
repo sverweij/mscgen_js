@@ -41,7 +41,7 @@ function _createText(pLabel, pX, pY, pClass) {
     return lText;
 }
 
-function _createLine(pX1, pY1, pX2, pY2, pClass) {
+function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
     var lLine = document.createElementNS(SVGNS, "line");
     lLine.setAttribute("x1", pX1.toString());
     lLine.setAttribute("y1", pY1.toString());
@@ -51,6 +51,33 @@ function _createLine(pX1, pY1, pX2, pY2, pClass) {
         lLine.setAttribute("class", pClass);
     }
     return lLine;
+}
+
+function createDoubleLine(pX1, pY1, pX2, pY2, pClass) {
+    var lSpace = 2;
+    var lPathString = "M" + pX1.toString() + "," + pY1.toString();
+    var lLenX = pX2 - pX1;
+    var lLenY = pY2 - pY1;
+    var ldx = pX2 > pX1 ? ldx = 1 : ldx = -1;
+    var ldy = ldx*(pY2 - pY1)/(pX2 - pX1);
+
+    lPathString += "l" + ldx.toString() + "," + ldy.toString(); // left stubble
+    lPathString += "M" + pX1.toString() + "," + (pY1-lSpace).toString();
+    lPathString += " l" + lLenX.toString() + "," + lLenY.toString(); // upper line
+    lPathString += "M" + pX1.toString() + "," + (pY1+lSpace).toString();
+    lPathString += " l" + lLenX.toString() + "," + lLenY.toString(); // lower line
+    lPathString += "M" + (pX2-ldx).toString() + "," + pY2.toString();
+    lPathString += "l" + ldx.toString() + "," + ldy.toString(); // right stubble
+
+    return _createPath (lPathString, pClass);
+}
+
+function _createLine(pX1, pY1, pX2, pY2, pClass, pDouble) {
+    if (!pDouble) {
+        return createSingleLine(pX1, pY1, pX2, pY2, pClass);
+    } else {
+        return createDoubleLine(pX1, pY1, pX2, pY2, pClass);
+    }
 }
 
 function _createGroup(pId) {
@@ -78,8 +105,8 @@ return {
     createText: function (pLabel, pX, pY, pClass) {
                     return _createText(pLabel, pX, pY, pClass)
                 },
-    createLine: function (pX1, pY1, pX2, pY2, pClass) {
-                    return _createLine(pX1, pY1, pX2, pY2, pClass)
+    createLine: function (pX1, pY1, pX2, pY2, pClass, pDouble) {
+                    return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble)
                 },
     createGroup: function (pId) {
                     return _createGroup(pId);

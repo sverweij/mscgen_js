@@ -1,0 +1,118 @@
+# test01 - all possible arcs
+msc {
+  # options
+  hscale="1.2" ,arcgradient="12";
+a,b,c,d;
+
+
+--- [label="signals", linecolor="blue", textcolor="blue"];
+a->c[label="signal left to right"];
+c->a[label="signal right to left"];
+a<->c[label="signal both ways"];
+c<->a[label="signal sway thob"];
+b->*[label="signal broadcast"];
+*<-b[label="signal tsacdaorb"];
+a--c[label="signal with no arows ltr"];
+c--a[label="signal with no arows rtl"];
+b->b[label="signal ltr selfie"];
+b<-b[label="signal rtl selfie"];
+b<->b[label="signal both way selfie"];
+b--b[label="signal no arrow selfie"];
+
+|||;
+--- [label="method or function calls", linecolor="blue", textcolor="blue"];
+a=>c[label="method left to right"];
+c=>a[label="method right to left"];
+a<=>c[label="method both ways"];
+c<=>a[label="method sway thob"];
+b=>*[label="method broadcast"];
+*<=b[label="method tsacdaorb"];
+a==c[label="method with no arows ltr"];
+c==a[label="method with no arows rtl"];
+b=>b[label="method ltr selfie"];
+b<=b[label="method rtl selfie"];
+b<=>b[label="method both way selfie"];
+b==b[label="method no arrow selfie"];
+
+|||;
+--- [label="return values", linecolor="blue", textcolor="blue"];
+a>>c[label="return left to right"];
+c>>a[label="return right to left"];
+a<<>>c[label="return both ways"];
+c<<>>a[label="return sway thob"];
+b>>*[label="return broadcast"];
+*<<b[label="return tsacdaorb"];
+a..c[label="return with no arows ltr"];
+c..a[label="return with no arows rtl"];
+b>>b[label="return ltr selfie"];
+b<<b[label="return rtl selfie"];
+b<<>>b[label="return both way selfie"];
+b..b[label="return no arrow selfie"];
+
+|||;
+--- [label="callbacks", linecolor="blue", textcolor="blue"];
+a=>>c[label="callback left to right"];
+c=>>a[label="callback right to left"];
+a<<=>>c[label="callback both ways"];
+c<<=>>a[label="callback sway thob"];
+b=>>*[label="callback broadcast"];
+*<<=b[label="callback tsacdaorb"];
+a==c[label="callback with no arows ltr"];
+c==a[label="callback with no arows rtl"];
+b=>>b[label="callback ltr selfie"];
+b<<=b[label="callback rtl selfie"];
+b<<=>>b[label="callback both way selfie"];
+b==b[label="callback no arrow selfie"];
+
+|||;
+--- [label="emphasised", linecolor="blue", textcolor="blue"];
+a:>c[label="emphasised left to right"];
+c:>a[label="emphasised right to left"];
+a<:>c[label="emphasised both ways"];
+c<:>a[label="emphasised sway thob"];
+b:>*[label="emphasised broadcast"];
+*<:b[label="emphasised tsacdaorb"];
+a::c[label="emphasised with no arows ltr"];
+c::a[label="emphasised with no arows rtl"];
+b:>b[label="emphasised ltr selfie"];
+b<:b[label="emphasised rtl selfie"];
+b<:>b[label="emphasised both way selfie"];
+b::b[label="emphasised no arrow selfie"];
+
+|||;
+--- [label="lost", linecolor="blue", textcolor="blue"];
+a-xc[label="lost left to right"];
+c-xa[label="lost right to left"];
+|||[label="lost both ways does not exist"];
+|||[label="lost sway thob does not exist"];
+b-x*[label="lost broadcast"];
+*x-b[label="lost tsacdaorb"];
+|||[label="lost with no arows does not exist"];
+b-xb[label="lost ltr selfie"];
+|||[label="lost rtl selfie (b x- b) does not exist"];
+|||[label="lost both way selfied does not exist"];
+|||[label="lost no arrow selfie does not exist"];
+
+|||;
+--- [label="notes and boxes", linecolor="blue", textcolor="blue"];
+a note c [label="note"];
+c note a [label="eton"];
+b note b [label="note selfie"];
+a box c [label="box"];
+c box a [label="xob"];
+b box b [label="box selfie"];
+a rbox c [label="rbox"];
+c rbox a [label="xobr"];
+b rbox b [label="rbox selfie"];
+a abox c [label="abox"];
+c abox a [label="xoba"];
+b abox b [label="abox selfie"];
+
+|||;
+---[label="others", linecolor="blue", textcolor="blue"];
+|||[label="empty arc"];
+...[label="empty arc - omission indicator"];
+---[label="comment"];
+
+|||;
+}

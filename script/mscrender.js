@@ -299,6 +299,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lClass = "";
     var lLabel = pArc.label ? pArc.label : undefined;
     var lArcGradient = ARC_GRADIENT;
+    var lDoubleLine = false;
 
     switch(pArc.kind) {
         case ("->"): {
@@ -350,16 +351,20 @@ function createArc (pId, pArc, pFrom, pTo) {
             break;
         } case (":>"): {
             lClass = "emphasised";
+            lDoubleLine = true;
             break;
         } case ("<:"): {
             lClass = "emphasised";
+            lDoubleLine = true;
             var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
             break;
         } case ("<:>"): {
+            lDoubleLine = true;
             lClass = "emphasised-both";
             break;
         } case ("::"): {
             lClass = "double";
+            lDoubleLine = true;
             break;
         } case ("-x"): case("-X"): {
             lClass = "lost";
@@ -383,14 +388,14 @@ function createArc (pId, pArc, pFrom, pTo) {
         lArcGradient = lYTo;
     } 
     if (pFrom === pTo) {
-        lLine = createSelfRefArc(lClass, pFrom, lYTo);
+        lLine = createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine);
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom +2 , -5-TEXT_HEIGHT, pTo - pFrom , "anchor-start", false)
         );
     } else {
-        lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass);
+        lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
         lGroup.appendChild(
-                createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom)
+            createTextLabel(pId + "_txt", pArc, pFrom, 0-TEXT_HEIGHT, pTo - pFrom)
         );
 
     }
@@ -401,6 +406,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     lGroup.appendChild(lLine);
     return lGroup;
 }
+
 
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) {
     var lGroup = utl.createGroup(pId);
