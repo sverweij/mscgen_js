@@ -22,7 +22,7 @@ mscgen_js renders a scalable vector graphics (svg) image in page.
 
 License
 -------
-This software is free software [licensed under GPL3][3]. This means (a.o.) you _can_ use
+This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
 it as part of other free software, but _not_ as part of non free (including commercial)
 software.
 
