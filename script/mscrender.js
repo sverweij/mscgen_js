@@ -273,18 +273,15 @@ function createArcRow(pNoEntities, pClass) {
 function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     var lHeight = 2*(ARCROW_HEIGHT/5);
     var lWidth  = INTER_ENTITY_SPACING/3;
+    var lSign = (pYTo < 0) ? -1 : 1;
 
-    var lPathString = "M" + pFrom.toString() + ", -" +(ARCROW_HEIGHT/5).toString();
+    var lPathString = "M" + pFrom.toString() + ", -" + (lHeight/2).toString();
     lPathString += " l" + lWidth.toString() + ",0"; // right
-    if (pYTo < 0 ) {
-        lPathString += " l0,-" + lHeight.toString(); // down
-    } else {
-        lPathString += " l0," + lHeight.toString(); // down
-    }
+    lPathString += " l0," + (lSign * lHeight).toString(); // down
     lPathString += " l0," + pYTo.toString(); // extra down for arcskip
     lPathString += " l-" + lWidth.toString() + ",0"; // left
     
-    return lutl.createPath(lPathString, pClass);
+    return utl.createPath(lPathString, pClass);
 }
 
 function createArc (pId, pArc, pFrom, pTo) {
