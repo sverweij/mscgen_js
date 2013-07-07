@@ -410,7 +410,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         var lTextWidth = utl.getTextWidth(pArc.label);
         var lHeight = ARCROW_HEIGHT - 2 -2;
 
-        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url);
+        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
         if ( pCenter == undefined || pCenter === true) {
             var lRect =
                 utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
@@ -424,24 +424,12 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
         }
-        /*
-        if (pArc.url) {
-            var lA = document.createElementNS(SVGNS, "a");
-            lA.setAttributeNS(XLINKNS, "xlink:href", pArc.url);
-            lA.setAttributeNS(XLINKNS, "xlink:title", pArc.url);
-            lA.setAttributeNS(XLINKNS, "xlink:show", "new");
-            lA.appendChild(lRect);
-            lA.appendChild(lText);
-            lGroup.appendChild(lA);
-        */
-            if (!pArc.textcolor) {
-                pArc.textcolor = "blue";
-                colorText(lText, pArc);
-            }
-        // } else {
-            lGroup.appendChild(lRect);
-            lGroup.appendChild(lText);
-        // }
+        if (pArc.url && !pArc.textcolor) {
+            pArc.textcolor = "blue";
+            colorText(lText, pArc);
+        }
+        lGroup.appendChild(lRect);
+        lGroup.appendChild(lText);
 
     }
     return lGroup;

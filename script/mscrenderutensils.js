@@ -38,22 +38,46 @@ function _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
     return lRect;
 }
 
-function _createText(pLabel, pX, pY, pClass, pURL) {
+function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     var lText = document.createElementNS(SVGNS, "text");
+    var lTSpanLabel = document.createElementNS(SVGNS, "tspan");
+    var lTSpanID = document.createElementNS(SVGNS, "tspan");
+
     var lContent = document.createTextNode(pLabel);
     lText.setAttribute ("x", pX.toString());
     lText.setAttribute ("y", pY.toString());
     if (pClass) {
         lText.setAttribute ("class", pClass);
     }
-    lText.appendChild(lContent);
+    // lText.appendChild(lContent);
+    lTSpanLabel.appendChild(lContent);
     if (pURL) {
         var lA = document.createElementNS(SVGNS, "a");
         lA.setAttributeNS(XLINKNS, "xlink:href", pURL);
         lA.setAttributeNS(XLINKNS, "xlink:title", pURL);
         lA.setAttributeNS(XLINKNS, "xlink:show", "new");
-        lA.appendChild(lText);
-        return lA;
+        lA.appendChild(lTSpanLabel);
+        lText.appendChild(lA);
+        // return lA;
+    } else {
+        lText.appendChild(lTSpanLabel);
+    }
+
+    if (pID) {
+        lTSpanID.appendChild(document.createTextNode(" [" + pID + "]"));
+        lTSpanID.setAttribute("class", "superscript");
+        // TODO: add pID stuff
+        if (pIDURL) {
+            var lA = document.createElementNS(SVGNS, "a");
+            lA.setAttributeNS(XLINKNS, "xlink:href", pIDURL);
+            lA.setAttributeNS(XLINKNS, "xlink:title", pIDURL);
+            lA.setAttributeNS(XLINKNS, "xlink:show", "new");
+            lA.appendChild(lTSpanID);
+            lText.appendChild(lA);
+
+        } else {
+            lText.appendChild(lTSpanID);
+        }
     }
     return lText;
 }
@@ -122,8 +146,8 @@ return {
     createRect: function createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
                     return _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY);
                 },
-    createText: function (pLabel, pX, pY, pClass, pURL) {
-                    return _createText(pLabel, pX, pY, pClass, pURL)
+    createText: function (pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
+                    return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL)
                 },
     createLine: function (pX1, pY1, pX2, pY2, pClass, pDouble) {
                     return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble)
