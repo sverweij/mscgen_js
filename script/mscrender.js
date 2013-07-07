@@ -270,22 +270,21 @@ function createArcRow(pNoEntities, pClass) {
     return lGroup;
 }
 
-function createSelfRefArc(pClass, pFrom, pYTo) {
+function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
+    var lHeight = 2*(ARCROW_HEIGHT/5);
+    var lWidth  = INTER_ENTITY_SPACING/3;
+
     var lPathString = "M" + pFrom.toString() + ", -" +(ARCROW_HEIGHT/5).toString();
-    lPathString += " l" + (INTER_ENTITY_SPACING/3).toString() + ",0"; // right
-    if (pYTo) {
-        if (pYTo < 0 ) {
-            lPathString += " l0,-" + (2*(ARCROW_HEIGHT/5)).toString(); // down
-        } else {
-            lPathString += " l0," + (2*(ARCROW_HEIGHT/5)).toString(); // down
-        }
-        lPathString += " l0," + pYTo.toString(); // extra down for arcskip
+    lPathString += " l" + lWidth.toString() + ",0"; // right
+    if (pYTo < 0 ) {
+        lPathString += " l0,-" + lHeight.toString(); // down
     } else {
-        lPathString += " l0," + (2*(ARCROW_HEIGHT/5)).toString(); // down
+        lPathString += " l0," + lHeight.toString(); // down
     }
-    lPathString += " l-" + (INTER_ENTITY_SPACING/3).toString() + ",0"; // left
-    var lPath = utl.createPath(lPathString, pClass);
-    return lPath;
+    lPathString += " l0," + pYTo.toString(); // extra down for arcskip
+    lPathString += " l-" + lWidth.toString() + ",0"; // left
+    
+    return lutl.createPath(lPathString, pClass);
 }
 
 function createArc (pId, pArc, pFrom, pTo) {
