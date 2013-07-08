@@ -105,14 +105,22 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
+// webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
+// distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
+// namespace prefixes in front of xlink and all hrefs respectively. 
+// this function does a crude global replace to circumvent the
+// resulting problems.
+function webkitNamespaceBugWorkaround(pText){
+    return pText.replace(" xlink", " xmlns:xlink", "g").replace(/ href=/g, " xlink:href=", "g");
+}
 function show_svg_sourceOnClick () {
     $("#textcopylightbox").show();
-    $("#textcopybox").text($("#svg").html());
+    $("#textcopybox").text(webkitNamespaceBugWorkaround($("#svg").html()));
     $("#textcopybox").select();
 }
 
 function show_svgOnClick () {
-    var lb64 = btoa(unescape(encodeURIComponent($("#svg").html())));
+    var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($("#svg").html()))));
     var lURI = "data:image/svg+xml;base64,"+lb64;
     var lWindow = window.open(lURI, "_blank");
 }

@@ -1,0 +1,184 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg_output" width="618" height="336">
+    <desc id="msc_source"># Sample msc for demonstrating mscgen_js
+msc {
+  hscale="1.2";
+
+  a [label="Entity A", textbgcolor="red", textcolor="white"],
+  b [label="Entity B", textbgcolor="yellow"],
+  c [label="Entity C", textbgcolor="blue", textcolor="yellow"];
+
+  a-&gt;b [ label = "ab()" ] ;
+  b-&gt;c [ label = "bc(TRUE)"];
+  c=&gt;&gt;c [ label = "process(1)" ];
+  b&lt;&lt;=c [ label = "callback()", arcskip="1"];
+  |||;
+  ---  [ label = "If more to run", ID="*" ];
+  a-&gt;a [ label = "next()"];
+  a=&gt;c [ label = "ac1()"];
+  b&lt;&lt;c [ label = "cb(true)", textbgcolor="lime"];
+  b-&gt;b [ label = "stalled(...)"];
+  a&lt;&lt;b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
+  c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
+}
+        
+</desc>
+    <defs>
+    <style type="text/css">
+        svg {
+            font-family: Helvetica, sans-serif;
+            font-size: 9pt;
+            background-color: white;
+            stroke : black;
+            color  : black;
+        }
+        rect {
+            fill: none;
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        rect.textbg {
+            fill:white;
+            stroke:white;
+            stroke-width:0;
+        }
+        line {
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .superscript {
+            vertical-align : text-top; /* or super or a number (1em) or a % (100%) */
+            font-size: 0.6em;
+        }
+        text {
+            color: inherit;
+            stroke: inherit;
+            text-anchor: middle;
+            stroke-width:0.1; /* makes font seem more crisp. Overrides color to be black */
+        }
+        text.entity {
+            text-decoration : underline;
+        }
+        text.anchor-start {
+            text-anchor: start;
+        }
+        path {
+            stroke : inherit;
+            stroke-width : 2;
+            fill : none;
+        }
+        .dotted {
+            stroke-dasharray: 5,2;
+        }
+        .arrow-marker {
+            overflow:visible;
+        }
+        .arrow-style {
+            stroke-dasharray : none;
+            stroke-width : 1;
+        }
+        .filled {
+            stroke:inherit;
+            fill:black; /* no-inherit */
+        }
+        .signal {
+            marker-end : url(#signal);
+        }
+        .signal-both {
+            marker-end : url(#signal);
+            marker-start : url(#signal-l);
+        }
+        .method {
+            marker-end : url(#method);
+        }
+        .method-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .returnvalue {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+        }
+        .returnvalue-both {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+            marker-start : url(#returnvalue-l);
+        }
+        .callback {
+            marker-end : url(#callback);
+        }
+        .callback-both {
+            marker-end : url(#callback);
+            marker-start : url(#callback-l);
+        }
+        .emphasised {
+            marker-end : url(#method);
+        }
+        .emphasised-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .lost {
+            marker-end : url(#lost);
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .box {
+            fill: #ffc; /* no-inherit */
+            opacity: 0.9;
+        }
+        .boxtext, .arctext {
+            font-size: 0.8em;
+            text-anchor: middle;
+        }
+        .comment {
+            stroke-dasharray: 5,2;
+        }
+    </style>
+    <!-- arrow heads -->
+    <marker orient="auto" id="signal" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="signal-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="method" class="arrow-marker">
+       <polygon points="-8,2 0,0, -8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="method-l" class="arrow-marker">
+       <polygon points="8,2 0,0, 8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="returnvalue" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="returnvalue-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="lost" class="arrow-marker">
+       <path d="M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5" class="arrow-style"></path>
+    </marker>
+
+    <!-- entity and arc definitions -->
+    <g id="defs"><g id="a"><rect width="120" height="30" style="fill:red;"></rect><g id="a_txt"><rect width="45.6" height="12" x="37.2" y="11" class="textbg" style="fill: red; stroke:red;"></rect><text x="60" y="20" class="entity" style="fill:white;stroke:white;"><tspan>Entity A</tspan></text></g></g><g id="b"><rect width="120" height="30" style="fill:yellow;"></rect><g id="b_txt"><rect width="45.6" height="12" x="37.2" y="11" class="textbg" style="fill: yellow; stroke:yellow;"></rect><text x="60" y="20" class="entity"><tspan>Entity B</tspan></text></g></g><g id="c"><rect width="120" height="30" style="fill:blue;"></rect><g id="c_txt"><rect width="45.6" height="12" x="37.2" y="11" class="textbg" style="fill: blue; stroke:blue;"></rect><text x="60" y="20" class="entity" style="fill:yellow;stroke:yellow;"><tspan>Entity C</tspan></text></g></g><g id="arcrow"><line x1="60" y1="-12.5" x2="60" y2="12.5" class="arcrow"></line><line x1="252" y1="-12.5" x2="252" y2="12.5" class="arcrow"></line><line x1="444" y1="-12.5" x2="444" y2="12.5" class="arcrow"></line></g><g id="arcrowomit"><line x1="60" y1="-12.5" x2="60" y2="12.5" class="arcrowomit"></line><line x1="252" y1="-12.5" x2="252" y2="12.5" class="arcrowomit"></line><line x1="444" y1="-12.5" x2="444" y2="12.5" class="arcrowomit"></line></g><g id="0_0"><g id="0_0_txt"><rect width="22.8" height="12" x="144.6" y="-12" class="textbg"></rect><text x="156" y="-3"><tspan>ab()</tspan></text></g><line x1="60" y1="0" x2="252" y2="0" class="signal"></line></g><g id="1_0"><g id="1_0_txt"><rect width="45.6" height="12" x="325.2" y="-12" class="textbg"></rect><text x="348" y="-3"><tspan>bc(TRUE)</tspan></text></g><line x1="252" y1="0" x2="444" y2="0" class="signal"></line></g><g id="2_0"><g id="2_0_txt"><rect width="57" height="12" x="446" y="-17" class="textbg"></rect><text x="446" y="-8" class="anchor-start"><tspan>process(1)</tspan></text></g><path d="M444, -5 l64,0 l0,10 l0,0 l-64,0" class="callback"></path></g><g id="3_0"><g id="3_0_txt"><rect width="57" height="12" x="319.5" y="-12" class="textbg"></rect><text x="348" y="-3"><tspan>callback()</tspan></text></g><line x1="444" y1="0" x2="252" y2="25" class="callback"></line></g><g id="4_0"><g id="4_0"></g></g><g id="5_0"><line x1="0" y1="0" x2="504" y2="0" class="dotted"></line><g id="5_0_txt"><g id="5_0_txt"><rect width="79.8" height="12" x="212.1" y="-6" class="textbg"></rect><text x="252" y="3"><tspan>If more to run</tspan><tspan class="superscript"> [*]</tspan></text></g></g></g><g id="6_0"><g id="6_0_txt"><rect width="34.2" height="12" x="62" y="-17" class="textbg"></rect><text x="62" y="-8" class="anchor-start"><tspan>next()</tspan></text></g><path d="M60, -5 l64,0 l0,10 l0,0 l-64,0" class="signal"></path></g><g id="7_0"><g id="7_0_txt"><rect width="28.5" height="12" x="237.75" y="-12" class="textbg"></rect><text x="252" y="-3"><tspan>ac1()</tspan></text></g><line x1="60" y1="0" x2="444" y2="0" class="method"></line></g><g id="8_0"><g id="8_0_txt"><rect width="45.6" height="12" x="325.2" y="-12" class="textbg" style="fill: lime; stroke:lime;"></rect><text x="348" y="-3"><tspan>cb(true)</tspan></text></g><line x1="444" y1="0" x2="252" y2="0" class="returnvalue"></line></g><g id="9_0"><g id="9_0_txt"><rect width="68.4" height="12" x="254" y="-17" class="textbg"></rect><text x="254" y="-8" class="anchor-start"><tspan>stalled(...)</tspan></text></g><path d="M252, -5 l64,0 l0,10 l0,0 l-64,0" class="signal"></path></g><g id="10_0"><g id="10_0_txt"><rect width="68.4" height="12" x="121.8" y="-12" class="textbg"></rect><text x="156" y="-3" style="fill:red;stroke:red;"><tspan>ab() = FALSE</tspan></text></g><line x1="252" y1="0" x2="60" y2="0" class="returnvalue" style="stroke: red;"></line></g><g id="10_1"><path d="M350,-10.5l179,0 l0,9 l9,0 m-9,-9 l9,9 l0,12 l-188,0 l0,-21 " class="box" style="fill:lime;stroke:green;"></path><g id="10_1_txt"><rect width="85.5" height="12" x="401.25" y="-6" class="textbg" style="fill: lime; stroke:lime;"></rect><text x="444" y="3" style="fill:green;stroke:green;"><tspan>Just a note ...</tspan></text></g></g></g>
+    </defs>
+    <g id="body" transform="translate(51,3)">
+    <g id="sequence"><use x="0" y="0" xlink:href="#a"></use><use x="192" y="0" href="#b"></use><use x="384" y="0" href="#c"></use><use x="0" y="42.5" href="#arcrow"></use><use x="0" y="67.5" href="#arcrow"></use><use x="0" y="67.5" href="#0_0"></use><use x="0" y="92.5" href="#arcrow"></use><use x="0" y="92.5" href="#1_0"></use><use x="0" y="117.5" href="#arcrow"></use><use x="0" y="117.5" href="#2_0"></use><use x="0" y="142.5" href="#arcrow"></use><use x="0" y="142.5" href="#3_0"></use><use x="0" y="167.5" href="#arcrow"></use><use x="0" y="167.5" href="#4_0"></use><use x="0" y="192.5" href="#arcrow"></use><use x="0" y="192.5" href="#5_0"></use><use x="0" y="217.5" href="#arcrow"></use><use x="0" y="217.5" href="#6_0"></use><use x="0" y="242.5" href="#arcrow"></use><use x="0" y="242.5" href="#7_0"></use><use x="0" y="267.5" href="#arcrow"></use><use x="0" y="267.5" href="#8_0"></use><use x="0" y="292.5" href="#arcrow"></use><use x="0" y="292.5" href="#9_0"></use><use x="0" y="317.5" href="#arcrow"></use><use x="0" y="317.5" href="#10_0"></use><use x="0" y="317.5" href="#arcrow"></use></g>
+    <g id="notelayer"><use x="0" y="317.5" href="#10_1"></use></g>
+    </g>
+</svg>
+
