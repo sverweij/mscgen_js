@@ -111,7 +111,7 @@ function autorenderOnClick () {
 // this function does a crude global replace to circumvent the
 // resulting problems.
 function webkitNamespaceBugWorkaround(pText){
-    return pText.replace(" xlink", " xmlns:xlink", "g").replace(/ href=/g, " xlink:href=", "g");
+    return pText.replace(/\ xlink=/g, " xmlns:xlink=", "g").replace(/\ href=/g, " xlink:href=", "g");
 }
 function show_svg_sourceOnClick () {
     $("#textcopylightbox").show();
