@@ -88,7 +88,7 @@ function renderEntities (pEntities) {
 
     if (pEntities) {
         for (i=0;i<pEntities.length;i++){
-            defs.appendChild(createEntity(pEntities[i].name, pEntities[i]));
+            defs.appendChild(renderEntity(pEntities[i].name, pEntities[i]));
             sequence.appendChild(
                 utl.createUse(lEntityXPos,0,pEntities[i].name));
             gEntity2X[pEntities[i].name] = lEntityXPos + (ENTITY_WIDTH/2);
@@ -113,8 +113,8 @@ function renderArcs (pArcs, pEntities) {
 
     gArcRow2Y = new Object();
 
-    defs.appendChild(createArcRow(lNoEntities, "arcrow"));
-    defs.appendChild(createArcRow(lNoEntities, "arcrowomit"));
+    defs.appendChild(renderArcRow(pEntities, "arcrow"));
+    defs.appendChild(renderArcRow(pEntities, "arcrowomit"));
 
     sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
     lArcRowYPos += ARCROW_HEIGHT;
@@ -233,7 +233,7 @@ function renderArcs (pArcs, pEntities) {
 
 }
 
-function createEntity (pId, pEntity) {
+function renderEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
     
@@ -255,16 +255,20 @@ function createEntity (pId, pEntity) {
     return lGroup;
 }
 
-function createArcRow(pNoEntities, pClass) {
+function renderArcRow(pEntities, pClass) {
     var i = 0;
     var lGroup = utl.createGroup(pClass); // passing pClass as pId here
     var lEntityXPos = 0;
 
-    for (i=0;i<pNoEntities;i++){
-        lGroup.appendChild(utl.createLine (
+    for (i=0;i<pEntities.length;i++){
+        var lLine = utl.createLine (
             lEntityXPos + (ENTITY_WIDTH/2), 0-(ARCROW_HEIGHT/2), 
             lEntityXPos + (ENTITY_WIDTH/2),   (ARCROW_HEIGHT/2),
-            pClass));
+            pClass);
+        if (pEntities[i].linecolor) {
+            lLine.setAttribute("style", "stroke : " + pEntities[i].linecolor + ";");
+        }
+        lGroup.appendChild(lLine);
         lEntityXPos += INTER_ENTITY_SPACING;
     }
     return lGroup;
