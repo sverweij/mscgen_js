@@ -299,12 +299,14 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
 }
 
 function arcColorOverride (pArc) {
-    (!(pArc.linecolor) && gEntity2ArcColor[pArc.from].arclinecolor) ?
-        pArc.linecolor = gEntity2ArcColor[pArc.from].arclinecolor : 0;
-    (!(pArc.textcolor) && gEntity2ArcColor[pArc.from].arctextcolor) ?
-        pArc.textcolor = gEntity2ArcColor[pArc.from].arctextcolor : 0;
-    (!(pArc.textbgcolor) && gEntity2ArcColor[pArc.from].arctextbgcolor) ?
-        pArc.textbgcolor = gEntity2ArcColor[pArc.from].arctextbgcolor : 0;
+    if (gEntity2ArcColor[pArc.from] ) {
+        (!(pArc.linecolor) && gEntity2ArcColor[pArc.from].arclinecolor) ?
+            pArc.linecolor = gEntity2ArcColor[pArc.from].arclinecolor : 0;
+        (!(pArc.textcolor) && gEntity2ArcColor[pArc.from].arctextcolor) ?
+            pArc.textcolor = gEntity2ArcColor[pArc.from].arctextcolor : 0;
+        (!(pArc.textbgcolor) && gEntity2ArcColor[pArc.from].arctextbgcolor) ?
+            pArc.textbgcolor = gEntity2ArcColor[pArc.from].arctextbgcolor : 0;
+    }
     return pArc;
 }
 
