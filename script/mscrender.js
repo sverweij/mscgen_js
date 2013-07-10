@@ -18,7 +18,7 @@ var gEntityXHWM = 0;
 var gArcRowYHWM = 0;
 var gEntity2X = new Object();
 var gArcRow2Y = new Object();
-
+var gEntity2ArcColor = new Object();
 var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
 
@@ -85,14 +85,24 @@ function renderEntities (pEntities) {
     var i;
 
     gEntity2X = new Object();
+    gEntity2ArcColor = new Object();
+    var arcColors = new Object();
 
     if (pEntities) {
         for (i=0;i<pEntities.length;i++){
+            arcColors = {};
             defs.appendChild(renderEntity(pEntities[i].name, pEntities[i]));
             sequence.appendChild(
                 utl.createUse(lEntityXPos,0,pEntities[i].name));
             gEntity2X[pEntities[i].name] = lEntityXPos + (ENTITY_WIDTH/2);
             lEntityXPos += INTER_ENTITY_SPACING;
+            pEntities[i].arclinecolor ? 
+                arcColors.arclinecolor = pEntities[i].arclinecolor : null;
+            pEntities[i].arctextcolor ? 
+                arcColors.arctextcolor = pEntities[i].arctextcolor : null;
+            pEntities[i].arctextbgcolor ? 
+                arcColors.arctextbgcolor = pEntities[i].arctextbgcolor : null;
+            gEntity2ArcColor[pEntities[i].name] = arcColors;
         }
     }
     gEntityXHWM = lEntityXPos;
@@ -288,12 +298,24 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     return utl.createPath(lPathString, pClass);
 }
 
+function arcColorOverride (pArc) {
+    (!(pArc.linecolor) && gEntity2ArcColor[pArc.from].arclinecolor) ?
+        pArc.linecolor = gEntity2ArcColor[pArc.from].arclinecolor : 0;
+    (!(pArc.textcolor) && gEntity2ArcColor[pArc.from].arctextcolor) ?
+        pArc.textcolor = gEntity2ArcColor[pArc.from].arctextcolor : 0;
+    (!(pArc.textbgcolor) && gEntity2ArcColor[pArc.from].arctextbgcolor) ?
+        pArc.textbgcolor = gEntity2ArcColor[pArc.from].arctextbgcolor : 0;
+    return pArc;
+}
+
 function createArc (pId, pArc, pFrom, pTo) {
     var lGroup = utl.createGroup(pId);
     var lClass = "";
     var lLabel = pArc.label ? pArc.label : undefined;
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
+
+    pArc = arcColorOverride (pArc);
 
     switch(pArc.kind) {
         case ("->"): {
