@@ -312,7 +312,7 @@ function arcColorOverride (pArc) {
         // assignment not entirely safe; pArc.from and pArc.to
         // not guaranteed to exist
         var lFrom =
-            (pArc.direction in [DIR_LTR, DIR_BOTH, DIR_NONE]) ?  pArc.from : pArc.to;
+            (pArc.direction == DIR_RTL) ? pArc.to : pArc.from;
 
         if (gEntity2ArcColor[lFrom] ) {
             (!(pArc.linecolor) && gEntity2ArcColor[lFrom].arclinecolor) ?
