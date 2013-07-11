@@ -14,6 +14,11 @@ var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
 var ARC_GRADIENT = DEFAULT_ARC_GRADIENT;
 
+var DIR_LTR  = 2;
+var DIR_RTL  = 3;
+var DIR_BOTH = 5;
+var DIR_NONE = 8;
+
 var gEntityXHWM = 0;
 var gArcRowYHWM = 0;
 var gEntity2X = new Object();
@@ -298,14 +303,25 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     return utl.createPath(lPathString, pClass);
 }
 
+function getArcDirection (pArcKind) {
+
+}
+
 function arcColorOverride (pArc) {
-    if (gEntity2ArcColor[pArc.from] ) {
-        (!(pArc.linecolor) && gEntity2ArcColor[pArc.from].arclinecolor) ?
-            pArc.linecolor = gEntity2ArcColor[pArc.from].arclinecolor : 0;
-        (!(pArc.textcolor) && gEntity2ArcColor[pArc.from].arctextcolor) ?
-            pArc.textcolor = gEntity2ArcColor[pArc.from].arctextcolor : 0;
-        (!(pArc.textbgcolor) && gEntity2ArcColor[pArc.from].arctextbgcolor) ?
-            pArc.textbgcolor = gEntity2ArcColor[pArc.from].arctextbgcolor : 0;
+    if (pArc.direction) {
+        // assignment not entirely safe; pArc.from and pArc.to
+        // not guaranteed to exist
+        var lFrom =
+            (pArc.direction in [DIR_LTR, DIR_BOTH, DIR_NONE]) ?  pArc.from : pArc.to;
+
+        if (gEntity2ArcColor[lFrom] ) {
+            (!(pArc.linecolor) && gEntity2ArcColor[lFrom].arclinecolor) ?
+                pArc.linecolor = gEntity2ArcColor[lFrom].arclinecolor : 0;
+            (!(pArc.textcolor) && gEntity2ArcColor[lFrom].arctextcolor) ?
+                pArc.textcolor = gEntity2ArcColor[lFrom].arctextcolor : 0;
+            (!(pArc.textbgcolor) && gEntity2ArcColor[lFrom].arctextbgcolor) ?
+                pArc.textbgcolor = gEntity2ArcColor[lFrom].arctextbgcolor : 0;
+        }
     }
     return pArc;
 }
@@ -317,88 +333,110 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
 
-    pArc = arcColorOverride (pArc);
 
     switch(pArc.kind) {
         case ("->"): {
             lClass = "signal";
+            pArc.direction = DIR_LTR;
             break;
         } case ("<-"): {
             lClass = "signal";
+            pArc.direction = DIR_RTL;
             var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
             break;
         } case ("<->"): {
             lClass = "signal-both";
+            pArc.direction = DIR_BOTH;
             break;
         } case ("--"): {
+            pArc.direction = DIR_NONE;
             break;
         } case ("=>"): {
             lClass = "method";
+            pArc.direction = DIR_LTR;
             break;
         } case ("<="): {
             lClass = "method";
+            pArc.direction = DIR_RTL;
             var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
             break;
         } case ("<=>"): {
             lClass = "method-both";
+            pArc.direction = DIR_BOTH;
             break;
         } case ("=="): {
+            pArc.direction = DIR_NONE;
             break;
         } case (">>"):{
             lClass = "returnvalue";
+            pArc.direction = DIR_LTR;
             break;
         } case ("<<"): {
             lClass = "returnvalue";
+            pArc.direction = DIR_RTL;
             var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
             break;
         } case ("<<>>"):{
             lClass = "returnvalue-both";
+            pArc.direction = DIR_BOTH;
             break;
         } case (".."): {
             lClass = "dotted";
+            pArc.direction = DIR_NONE;
             break;
         } case ("=>>"): {
             lClass = "callback";
+            pArc.direction = DIR_LTR;
             break;
         } case ("<<="): {
             lClass = "callback";
+            pArc.direction = DIR_RTL;
             var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
             break;
         } case ("<<=>>"): {
             lClass = "callback-both";
+            pArc.direction = DIR_BOTH;
             break;
         } case (":>"): {
             lClass = "emphasised";
+            pArc.direction = DIR_LTR;
             lDoubleLine = true;
             break;
         } case ("<:"): {
             lClass = "emphasised";
+            pArc.direction = DIR_RTL;
             lDoubleLine = true;
             var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
             break;
         } case ("<:>"): {
             lDoubleLine = true;
+            pArc.direction = DIR_BOTH;
             lClass = "emphasised-both";
             break;
         } case ("::"): {
             lClass = "double";
+            pArc.direction = DIR_NONE;
             lDoubleLine = true;
             break;
         } case ("-x"): case("-X"): {
             lClass = "lost";
+            pArc.direction = DIR_LTR;
             pTo =  pFrom + (pTo - pFrom)*(3/4);
             break;
         } case ("x-"): case("X-"): {
             lClass = "lost";
+            pArc.direction = DIR_RTL;
             var pTmp = pTo;
             pTo = pFrom;
             pFrom = pTmp;
             pTo =  pFrom + (pTo - pFrom)*(3/4);
             break;
         } default : {
+            pArc.direction = DIR_NONE;
             break;
         }
     }
+    pArc = arcColorOverride (pArc);
 
     var lYTo = 0;
     if (pArc.arcskip) {
