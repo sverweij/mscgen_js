@@ -42,10 +42,10 @@ textarea {
     width            : 100%;
 }
 #svg_output {
-    z-index : 0;
+    z-index          : 0;
     vertical-align   : top;
-    position: relative;
-    float:left;
+    position         : absolute;
+    float            : left;
 }
 #textcopylightbox {
     z-index : 1;
