@@ -30,8 +30,8 @@ msc {
 }
 */
 
-define(["log", "msc", "mscrender", "jquery"],
-        function(log, msc_parse, msc_render, $) {
+define(["log", "msc", "mscrender", "jquery", "jquery-linedtextarea"],
+        function(log, msc_parse, msc_render, $, jlt) {
 
 var gAutoRender = true;
 var ESC_KEY   = 27; 
@@ -85,6 +85,11 @@ $(document).ready(function(){
            }
         }
     });
+
+    $(".lined").linedtextarea(
+		{selectedLine: -1}
+	);
+    
 }); // document ready
 
 function msc_inputKeyup () {
