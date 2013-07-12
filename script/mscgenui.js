@@ -37,6 +37,9 @@ var gAutoRender = true;
 var ESC_KEY   = 27; 
 
 $(document).ready(function(){
+    $(".lined").linedtextarea(
+		{selectedLine: -1}
+	);
     showAutorenderState ();
     render();
     $("#autorender").bind({
@@ -86,9 +89,6 @@ $(document).ready(function(){
         }
     });
 
-    $(".lined").linedtextarea(
-		{selectedLine: -1}
-	);
     
 }); // document ready
 
