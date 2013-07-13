@@ -64,6 +64,7 @@ function _renderParseTree (pParseTree, pSource) {
     var lCanvasHeight = gArcRowYHWM - (ARCROW_HEIGHT/2) + 2*PAD_VERTICAL;
     var lSvgElement = document.getElementById("svg_output");
 
+    // TODO: factor down
     if (pSource) {
         var lDescription = document.getElementById("msc_source");
         var lContent = document.createTextNode(pSource);
@@ -542,6 +543,10 @@ function colorBox (pElement, pArc) {
 }
 
 function createBox (pId, pFrom, pTo, pArc) {
+    if (pFrom > pTo) {
+        var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
+    }
+
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
     var lHeight = ARCROW_HEIGHT - 2 -2;
 
@@ -566,6 +571,9 @@ function createBox (pId, pFrom, pTo, pArc) {
 }
 
 function createABox (pId, pFrom, pTo, pArc) {
+    if (pFrom > pTo) {
+        var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
+    }
     
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
     var lHeight = ARCROW_HEIGHT - 2 -2;
@@ -590,6 +598,9 @@ function createABox (pId, pFrom, pTo, pArc) {
 }
 
 function createNote (pId, pFrom, pTo, pArc) {
+    if (pFrom > pTo) {
+        var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
+    }
     
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
     var lHeight = ARCROW_HEIGHT - 2 -2;
