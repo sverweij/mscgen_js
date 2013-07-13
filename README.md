@@ -23,7 +23,7 @@ Compatibility with mscgen
 -------------------------
 mscgen_js accepts *all* programs mscgen does ([specification][1]) and 
 renders all of them. If you have a particular mscgen program mscgen_js 
-is not rendering (correctly), feel free to file an [issue][5].
+is not rendering or not rendering correctly, feel free to file an [issue][5].
 
 
 License
