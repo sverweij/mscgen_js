@@ -1,6 +1,7 @@
 /*
  * parser for _simplified_ MSC (messsage sequence chart)
- * TODO: allow unquoted strings for labels?
+ * TODO: allow unquoted strings for labels (_besides_ quoted strings)?
+ * TODO: allow autodeclaration of entities (_besides_ explicitly declared entities)?
  */
 
 {
