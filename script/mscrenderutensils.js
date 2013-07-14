@@ -2,7 +2,7 @@ define(["log"], function(log) {
 
 var SVGNS = new String ("http://www.w3.org/2000/svg");
 var XLINKNS = new String ("http://www.w3.org/1999/xlink");
-var XHTMLNS = new String ("");
+var XHTMLNS = new String ("http://www.w3.org/1999/xhtml");
 
 function _cleanElement (pChildId) {
     var lOldChild = document.getElementById(pChildId);
