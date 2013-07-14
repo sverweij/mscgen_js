@@ -63,9 +63,9 @@ function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     }
 
     if (pID) {
-        lTSpanID.appendChild(document.createTextNode(" " + pID));
+        lTSpanID.appendChild(document.createTextNode(" [" + pID + "]"));
         lTSpanID.setAttribute("class", "superscript");
-        lTSpanID.setAttribute("y", "-1");
+        // lTSpanID.setAttribute("y", "-1");
     
         if (pIDURL) {
             var lA = document.createElementNS(SVGNS, "a");
