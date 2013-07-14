@@ -1,12 +1,20 @@
 var parser = require ("./mscgenparser_node");
 var pt2mscgen = require ("./parsetree2mscgen");
 
-var lParseTree = parser.parse('msc { hscale="0.2", width="100", arcgradient="12"; a[label="A", ID="1"],b,c, "s t Ring"; a=>b; b>>a [label="OK message", linecoloUr="lime"]; ---; a--b, b--c;...;} ');
+var gInput = new String();
 
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
 
+process.stdin.on('data', function(chunk) {
+    gInput += chunk;
+});
 
-console.log (pt2mscgen.render (lParseTree));
-
+process.stdin.on('end', function() {
+    var lParseTree = parser.parse(gInput);
+    process.stdout.write(pt2mscgen.render (lParseTree));
+    process.stdin.pause();
+});
 
 
 /*

@@ -19,7 +19,12 @@ function _renderParseTree(pParseTree){
 
 function renderEntityName(pString){
     function isQuoatable(pString) {
-        return pString.match(/[a-z0-9]+/gi).length != 1;
+        var lMatchResult = pString.match(/[a-z0-9]+/gi);
+        if (lMatchResult) {
+            return lMatchResult.length != 1;
+        } else {
+            return false;
+        }
     }
     return isQuoatable(pString) ?  "\"" + pString + "\"" : pString;
 }
