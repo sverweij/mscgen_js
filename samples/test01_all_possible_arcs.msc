@@ -1,7 +1,6 @@
 # test01 - all possible arcs
 msc {
-  # options
-  hscale="1.2" ,arcgradient="12";
+hscale="1.2", arcgradient="12";
 a,b,c,d;
 
 
