@@ -3,7 +3,7 @@ mscgen_js
 
 With mscgen_js you can create sequence diagrams using the
 text-based [mscgen][1] mini language within a browser. 
-It accepts all valid mscgen programs and renders them while you
+It accepts *all* valid mscgen programs and renders them while you
 type.
 
 No server side software needed.
@@ -19,12 +19,6 @@ mscgen_js renders a scalable vector graphics (svg) image in page.
 
 ![a sample sequence chart](/samples/readme.png) 
 
-Compatibility with mscgen 
--------------------------
-mscgen_js accepts *all* programs mscgen does ([specification][1]) and 
-renders all of them. If you have a particular mscgen program mscgen_js 
-is not rendering or not rendering correctly, feel free to file an [issue][5].
-
 
 License
 -------
@@ -36,4 +30,3 @@ software.
 [2]: http://home.kpn.nl/chromx/mscgen_js/index.html
 [3]: license.md
 [4]: samples/readme.msc
-[5]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
