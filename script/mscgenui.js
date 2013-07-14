@@ -30,16 +30,18 @@ msc {
 }
 */
 
-define(["log", "msc", "mscrender", "jquery", "jquery-linedtextarea"],
-        function(log, msc_parse, msc_render, $, jlt) {
+define(["log", "msc", "mscrender", "jquery"],
+        function(log, msc_parse, msc_render, $) {
 
 var gAutoRender = true;
 var ESC_KEY   = 27; 
 
 $(document).ready(function(){
+    /*
     $(".lined").linedtextarea(
 		{selectedLine: -1}
 	);
+    */
     showAutorenderState ();
     render();
     $("#autorender").bind({
@@ -116,7 +118,11 @@ function autorenderOnClick () {
 // this function does a crude global replace to circumvent the
 // resulting problems.
 function webkitNamespaceBugWorkaround(pText){
-    return pText.replace(/\ xlink=/g, " xmlns:xlink=", "g").replace(/\ href=/g, " xlink:href=", "g");
+    var lText =  pText.replace(/\ xlink=/g, " xmlns:xlink=", "g");
+    lText = lText.replace(/\ href=/g, " xlink:href=", "g");
+    lText =  lText.replace(/\ xhtml=/g, " xmlns:xhtml=", "g");
+    // lText = lText.replace(/\<div/g, "<xhtml:div", "g");
+    return lText;
 }
 function show_svg_sourceOnClick () {
     $("#textcopylightbox").show();
