@@ -1,0 +1,7 @@
+hscale="1.4";
+
+a:"Entity A, labeled",b,c,d, "entity E";
+
+a=>>b: "worth our while?";
+b>>a: "absolutely!";
+a=>c, a=>d, "entity E" note "entity E": "tell the world ..";

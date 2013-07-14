@@ -1,0 +1,18 @@
+msc {
+  # options
+  hscale="1.4";
+
+  # entities
+  a [label="Entity A, labeled"],
+  b,
+  c,
+  d,
+  "entity E";
+
+  # arcs
+  a =>> b [label="worth our while?"];
+  b >> a [label="absolutely!"];
+  a => c,
+  a => d,
+  "entity E" note "entity E" [label="tell the world .."];
+}
