@@ -38,7 +38,7 @@ function _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
     return lRect;
 }
 
-function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
+function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     var lText = document.createElementNS(SVGNS, "text");
     var lTSpanLabel = document.createElementNS(SVGNS, "tspan");
     var lTSpanID = document.createElementNS(SVGNS, "tspan");
@@ -49,7 +49,7 @@ function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     if (pClass) {
         lText.setAttribute ("class", pClass);
     }
-    // lText.appendChild(lContent);
+    
     lTSpanLabel.appendChild(lContent);
     if (pURL) {
         var lA = document.createElementNS(SVGNS, "a");
@@ -58,15 +58,15 @@ function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         lA.setAttributeNS(XLINKNS, "xlink:show", "new");
         lA.appendChild(lTSpanLabel);
         lText.appendChild(lA);
-        // return lA;
     } else {
         lText.appendChild(lTSpanLabel);
     }
 
     if (pID) {
-        lTSpanID.appendChild(document.createTextNode(" [" + pID + "]"));
+        lTSpanID.appendChild(document.createTextNode(" " + pID));
         lTSpanID.setAttribute("class", "superscript");
-        // TODO: add pID stuff
+        lTSpanID.setAttribute("y", "-1");
+    
         if (pIDURL) {
             var lA = document.createElementNS(SVGNS, "a");
             lA.setAttributeNS(XLINKNS, "xlink:href", pIDURL);
@@ -80,6 +80,30 @@ function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         }
     }
     return lText;
+}
+
+function createTextForeign(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
+    var lFO = document.createElementNS(SVGNS, "foreignObject");
+    var lDiv = document.createElementNS(XHTMLNS, "xhtml:div");
+    var lContent = document.createTextNode(pLabel);
+    lFO.setAttribute ("x", pX.toString());
+    lFO.setAttribute ("y", pY.toString());
+    lFO.setAttribute("width","96");
+    lFO.setAttribute("height","40");
+    if (pClass) {
+        lDiv.setAttribute ("class", pClass);
+    }
+    lDiv.appendChild(lContent);
+    lFO.appendChild(lDiv);
+    return lFO;
+}
+
+function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
+    // var lSwitch = document.createElementNS(SVGNS, "switch");
+    // lSwitch.appendChild(createTextForeign(pLabel, pX, pY, pClass, pURL, pIDURL));
+    // lSwitch.appendChild(createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL));
+    // return lSwitch;
+    return createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
 }
 
 function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
