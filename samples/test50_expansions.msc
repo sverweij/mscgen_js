@@ -1,0 +1,51 @@
+# test50 - some expansions
+msc {
+    a,
+    b[label="change store"],
+    c,
+    d[label="necro queue"],
+    e[label="natalis queue"],
+    f;
+
+
+    a=>>b [label="get change list()"];
+
+    alt [label="changes found"] {
+        b>>a [label="list of changes"];
+        a=>>c [label="cull old stuff (list of changes)"];
+
+        loop [label="for each change"] {
+            c=>>b [label="get change()"];
+            b>>c  [label="change"];
+
+            alt [label="change too old"] {
+                c=>>d [label="queue(change)"];
+                --- [label="change newer than latest run"];
+                c=>>e [label="queue(change)"];
+            --- [label="all other cases"];
+                ||| [label="leave well alone"];
+            }
+        } 
+        c>>a[label="done processing"];
+        --- [label="nothing found"];
+        b>>a [label="nothing"];
+        a note a [label="silent exit"];
+
+    }
+
+}
+
+/*
+alt
+opt
+par
+loop
+critical
+neg
+assert
+strict
+seq
+ignore
+consider
+*/
+
