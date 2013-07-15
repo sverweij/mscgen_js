@@ -1,12 +1,11 @@
 /*
  * takes a parsetree for a message sequence chart and renders it
- * as an mscgen program. 
+ * as a simplified mscgen program. 
  */
 module.exports = (function(){
-const INDENT = "  ";
 
 function _renderParseTree(pParseTree){
-    var lRetVal = new String("msc {\n");
+    var lRetVal = new String("");
     if (pParseTree) {
         if(pParseTree.options){
             lRetVal += renderOptions(pParseTree.options) + "\n";
@@ -18,7 +17,7 @@ function _renderParseTree(pParseTree){
             lRetVal += renderArcLines(pParseTree.arcs);
         }
     }
-    return lRetVal += "}"
+    return lRetVal;
 }
 
 function renderEntityName(pString){
@@ -41,7 +40,7 @@ function pushAttribute(pArray, pAttr, pString) {
 
 function renderOptions(pOptions){
     var lOpts = [];
-    var lRetVal = new String(INDENT + "# options\n");
+    var lRetVal = new String("# options\n");
     var i = 0;
 
     pushAttribute(lOpts, pOptions.hscale, "hscale");
@@ -49,54 +48,29 @@ function renderOptions(pOptions){
     pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
 
     for (i=0;i<lOpts.length-1;i++) {
-        lRetVal += INDENT + lOpts[i] + ",\n"
+        lRetVal += lOpts[i] + ",\n"
     }
-    lRetVal += INDENT + lOpts[lOpts.length-1] + ";\n"
+    lRetVal += lOpts[lOpts.length-1] + ";\n"
     return lRetVal;
 
-}
-
-function renderAttributes (pThing) {
-    var lAttrs = [];
-    var lRetVal = new String("");
-    pushAttribute(lAttrs, pThing.label, "label");
-    pushAttribute(lAttrs, pThing.idurl, "idurl");
-    pushAttribute(lAttrs, pThing.id, "id");
-    pushAttribute(lAttrs, pThing.url, "url");
-    pushAttribute(lAttrs, pThing.linecolor, "linecolor");
-    pushAttribute(lAttrs, pThing.textcolor, "textcolor");
-    pushAttribute(lAttrs, pThing.textbgcolor, "textbgcolor");
-    pushAttribute(lAttrs, pThing.arclinecolor, "arclinecolor");
-    pushAttribute(lAttrs, pThing.arctextcolor, "arctextcolor");
-    pushAttribute(lAttrs, pThing.arctextbgcolor, "arctextbgcolor");
-    pushAttribute(lAttrs, pThing.arcskip, "arcskip");
-    
-    if (lAttrs.length > 0 ) {
-        lRetVal = " ["; 
-        for (i=0;i<lAttrs.length-1;i++) {
-            lRetVal += lAttrs[i] + ", "
-        }
-        lRetVal += lAttrs[lAttrs.length-1];
-        lRetVal += "]";
-    }
-
-    return lRetVal;
 }
 
 function renderEntity(pEntity) {
     var lRetVal = new String();
     lRetVal += renderEntityName(pEntity.name);
-    lRetVal += renderAttributes(pEntity);
+    if (pEntity.label){
+        lRetVal += " : \"" + pEntity.label + "\"";
+    }
     return lRetVal;
 }
 
 function renderEntities(pEntities) {
-    var lRetVal = new String(INDENT + "# entities\n");
+    var lRetVal = new String("# entities\n");
     var i = 0;
     for (i=0;i<pEntities.length-1;i++){
-        lRetVal += INDENT + renderEntity(pEntities[i]) + ",\n";
+        lRetVal += renderEntity(pEntities[i]) + ",\n";
     }
-    lRetVal += INDENT + renderEntity(pEntities[pEntities.length-1]) + ";\n";
+    lRetVal += renderEntity(pEntities[pEntities.length-1]) + ";\n";
     return lRetVal;
 }
 
@@ -111,12 +85,14 @@ function renderArc(pArc) {
     if (pArc.to) {
         lRetVal += " " + renderEntityName(pArc.to);
     }
-    lRetVal += renderAttributes(pArc);
+    if (pArc.label) {
+        lRetVal += " : \"" + pArc.label + "\""
+    }
     return lRetVal;
 }
 
 function renderArcLines(pArcs) {
-    var lRetVal = new String(INDENT + "# arcs\n");
+    var lRetVal = new String("# arcs\n");
     var i = 0;
     var j = 0;
 
@@ -124,9 +100,9 @@ function renderArcLines(pArcs) {
         for (i=0;i<pArcs.length;i++){
             if (pArcs[i].length > 0) {
                 for (j=0;j<pArcs[i].length-1;j++){
-                    lRetVal += INDENT + renderArc(pArcs[i][j]) + ",\n";
+                    lRetVal += renderArc(pArcs[i][j]) + ",\n";
                 }
-                lRetVal += INDENT + renderArc(pArcs[i][pArcs[i].length-1]) + ";\n";
+                lRetVal += renderArc(pArcs[i][pArcs[i].length-1]) + ";\n";
             }
         }
     }
