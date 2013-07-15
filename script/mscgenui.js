@@ -30,10 +30,12 @@ msc {
 }
 */
 
-define(["log", "msc", "mscrender", "jquery"],
-        function(log, msc_parse, msc_render, $) {
+define(["log", "mscgenparser", "mscgensmplparser",
+        "mscrender", "jquery"],
+        function(log, msc_parse, smpl_parse, msc_render, $) {
 
 var gAutoRender = true;
+var gSmpl = false;
 var ESC_KEY   = 27; 
 
 $(document).ready(function(){
@@ -43,10 +45,16 @@ $(document).ready(function(){
 	);
     */
     showAutorenderState ();
+    showSmplState ();
     render();
     $("#autorender").bind({
         click : function(e) {
                     autorenderOnClick();
+                }
+    });
+    $("#smpl").bind({
+        click : function(e) {
+                    smplOnClick();
                 }
     });
     $("#show_svg_source").bind({
@@ -112,6 +120,11 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
+function smplOnClick () {
+    gSmpl = !gSmpl;
+    showSmplState ();
+}
+
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
 // namespace prefixes in front of xlink and all hrefs respectively. 
@@ -150,10 +163,24 @@ function showAutorenderState () {
     }
 }
 
+function showSmplState () {
+    if (gSmpl) {
+        $("smpl").attr("checked", "smplOn");
+    } else {
+        $("smpl").removeAttr("checked", "smplOn");
+    }
+}
+
 function render() {
     try {
         hideError();
-        var lParseTree = mscparser.parse($("#msc_input").val());
+        var lParseTree;
+
+        if (gSmpl) {
+            lParseTree = mscsmplparser.parse($("#msc_input").val());
+        } else {
+            lParseTree = mscparser.parse($("#msc_input").val());
+        }
         msc_render.clean();
         msc_render.renderParseTree(lParseTree, $("#msc_input").val());
 
