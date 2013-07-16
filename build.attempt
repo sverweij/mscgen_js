@@ -1,10 +1,10 @@
 # naive first version brute force non-DRY non working build script
 # DO NOT USE - yet
 
-pegjs --export-var var mscparser script/node/mscgenparser.pegjs script/mscgenparser.js
+pegjs --export-var "var mscparser" script/node/mscgenparser.pegjs script/mscgenparser.js
 pegjs script/node/mscgenparser.pegjs script/node/mscgenparser_node.js
 
-pegjs --export-var var mscsmplparser script/node/mscgensmplparser.pegjs script/mscgenparser.js
+pegjs --export-var "var mscsmplparser" script/node/mscgensmplparser.pegjs script/mscgensmplparser.js
 pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser.js
 
 # funkily reuse parstree2mscgen.js node module for web 

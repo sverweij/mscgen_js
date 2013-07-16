@@ -21,6 +21,10 @@ function _renderParseTree(pParseTree){
     return lRetVal += "}"
 }
 
+function renderString(pString) {
+    return pString.replace(/\"/g, "\\\"");
+}
+
 function renderEntityName(pString){
     function isQuoatable(pString) {
         var lMatchResult = pString.match(/[a-z0-9]+/gi);
@@ -35,7 +39,7 @@ function renderEntityName(pString){
 
 function pushAttribute(pArray, pAttr, pString) {
     if (pAttr) {
-        pArray.push(pString + "=\"" + pAttr + "\"");
+        pArray.push(pString + "=\"" + renderString(pAttr) + "\"");
     }
 }
 

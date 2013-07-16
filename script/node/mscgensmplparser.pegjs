@@ -1,6 +1,5 @@
 /*
  * parser for _simplified_ MSC (messsage sequence chart)
- * TODO: allow unquoted strings for labels (_besides_ quoted strings)?
  * TODO: allow autodeclaration of entities (_besides_ explicitly declared entities)?
  */
 
@@ -103,9 +102,11 @@ bckarrowtoken   "right to left arrow"
                 = "<-" / "<<=" / "<=" / "<<" / "<:" / "x-"i 
 
 
-
-string          = '"' s:stringcontent '"' {return s.join("")}
+string          = quotedstring / unquotedstring
+quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*
+unquotedstring  = s:nonsep {return s.join("")}
+nonsep          = (!(',' /';') c:(.) {return c})*
 
 identifier "identifier"
  = (letters:([A-Za-z_0-9])+ {return letters.join("")})
@@ -146,4 +147,5 @@ boolean "boolean"
     You should have received a copy of the GNU General Public License
     along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 
