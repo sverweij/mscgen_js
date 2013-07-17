@@ -15,3 +15,5 @@ pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser_node.js
 
 # r.js on style/mscgen-src.css to make mscgen-main.js
 # for regular builds cp style/mscgen-src.css style/mscgen.css
+
+# Deployment  (ftp, rsync, ...)
