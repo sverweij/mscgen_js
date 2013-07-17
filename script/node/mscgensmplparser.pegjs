@@ -35,7 +35,7 @@ optionlist      = o:((o:option "," {return o})*
 }
 
 option          = _ n:optionname _ "=" _ 
-                  v:(s:string {return s}
+                  v:(s:quotedstring {return s}
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _ 
 {
@@ -86,7 +86,7 @@ dualarc         =
 /(_ "*" _ kind:bckarrowtoken _ to:identifier _
   {return {kind:kind, from: "*", to:to}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*"}})
+  {return {kind:kind, from: from, to: "*"}})
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
 dualarctoken    =   "--"  / "<->"
@@ -110,7 +110,7 @@ nonsep          = (!(',' /';') c:(.) {return c})*
 
 identifier "identifier"
  = (letters:([A-Za-z_0-9])+ {return letters.join("")})
-  / string
+  / quotedstring 
 
 whitespace "whitespace"
                 = [ \t]

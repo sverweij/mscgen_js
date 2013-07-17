@@ -377,7 +377,7 @@ var mscsmplparser = (function(){
                 result4 = parse__();
                 if (result4 !== null) {
                   pos2 = pos;
-                  result5 = parse_string();
+                  result5 = parse_quotedstring();
                   if (result5 !== null) {
                     result5 = (function(offset, s) {return s})(pos2, result5);
                   }
@@ -1235,7 +1235,7 @@ var mscsmplparser = (function(){
               pos = pos1;
             }
             if (result0 !== null) {
-              result0 = (function(offset, from, kind) {return {kind:kind, from: from, to:"*"}})(pos0, result0[1], result0[3]);
+              result0 = (function(offset, from, kind) {return {kind:kind, from: from, to: "*"}})(pos0, result0[1], result0[3]);
             }
             if (result0 === null) {
               pos = pos0;
@@ -1953,7 +1953,7 @@ var mscsmplparser = (function(){
           pos = pos0;
         }
         if (result0 === null) {
-          result0 = parse_string();
+          result0 = parse_quotedstring();
         }
         reportFailures--;
         if (reportFailures === 0 && result0 === null) {
