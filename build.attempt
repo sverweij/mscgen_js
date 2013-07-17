@@ -5,7 +5,7 @@ pegjs --export-var "var mscparser" script/node/mscgenparser.pegjs script/mscgenp
 pegjs script/node/mscgenparser.pegjs script/node/mscgenparser_node.js
 
 pegjs --export-var "var mscsmplparser" script/node/mscgensmplparser.pegjs script/mscgensmplparser.js
-pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser.js
+pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser_node.js
 
 # funkily reuse parstree2mscgen.js node module for web 
 # funkily reuse parstree2smpl.js node module for web 
