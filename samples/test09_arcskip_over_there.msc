@@ -1,8 +1,7 @@
 # test09 - arcskips
 msc {
   a [linecolor="white", label=" "],
-  b [linecolor="white", label=" ",
-  a rclinecolor="grey"],
+  b [linecolor="white", label=" ", arclinecolor="grey"],
   c [linecolor="white", label=" "];
   
   |||;|||;|||;
