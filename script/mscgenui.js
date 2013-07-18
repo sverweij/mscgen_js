@@ -19,8 +19,8 @@ msc {
   ui << msc [label="parseTree"];
   ui => render [label="renderParseTree(parseTree)"];
   render => utls [label="low level helpers"];  
-  utls => doc [label="all kinds of domdocument stuff"];
-  render => doc [label="all kinds of domdocument stuff"],
+  utls => doc [label="all kinds of dom manipulation"];
+  render => doc [label="all kinds of dom manipulation"];
   render note render [label="move dom manipulation down?"];
 
   --- [label="[parse error]", linecolor="red"];
