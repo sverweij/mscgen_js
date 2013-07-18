@@ -8,7 +8,12 @@ pegjs --export-var "var mscsmplparser" script/node/mscgensmplparser.pegjs script
 pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser_node.js
 
 # funkily reuse parstree2mscgen.js node module for web 
-# funkily reuse parstree2smpl.js node module for web 
+# copy script/node/parsetree2mscgen.js script/parsetree2mscgen.js
+# replace "module.exports =" with "var tomscgen"
+
+# funkily reuse parstree2smpl.js node module for web : 
+# copy script/node/parsetree2smpl.js script/parsetree2smpl.js
+# replace "module.exports =" with "var tosmpl"
 
 # r.js on script/mscgen-main-src.js to make mscgen-main.js
 # for regular builds cp script/mscgen-main-src.js script/mscgen-main.js
