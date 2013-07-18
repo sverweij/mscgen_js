@@ -1,4 +1,4 @@
-define(["log"], function(log) {
+define([], function() {
 
 var SVGNS = new String ("http://www.w3.org/2000/svg");
 var XLINKNS = new String ("http://www.w3.org/1999/xlink");
