@@ -62,6 +62,11 @@ $(document).ready(function(){
                     show_svg_sourceOnClick();
                 }
     });
+    $("#svg").bind({
+        dblclick : function(e) {
+                    show_svg_sourceOnClick();
+                }
+    });
     $("#show_svg").bind({
         click : function(e) {
                     show_svgOnClick();
