@@ -30,9 +30,9 @@ msc {
 }
 */
 
-define(["log", "mscgenparser", "mscgensmplparser",
-        "mscrender", "jquery"],
-        function(log, msc_parse, smpl_parse, msc_render, $) {
+define(["mscgenparser", "mscgensmplparser",
+        "mscrender", "parsetree2smpl", "parsetree2mscgen", "jquery"],
+        function(msc_parse, smpl_parse, msc_render, to_smpl, to_mscgen, $) {
 
 var gAutoRender = true;
 var gSmpl = false;
@@ -122,6 +122,11 @@ function autorenderOnClick () {
 
 function smplOnClick () {
     gSmpl = !gSmpl;
+    if (gSmpl === true) {
+        $("#msc_input").val(mscgen2smpl ($("#msc_input").val()));
+    } else {
+        $("#msc_input").val(smpl2mscgen ($("#msc_input").val()));
+    }
     showSmplState ();
 }
 
@@ -173,6 +178,24 @@ function showSmplState () {
     }
     if (gAutoRender) {
         render ();
+    }
+}
+
+function mscgen2smpl (pMscgenText) {
+    try { 
+        var lParseTree = mscparser.parse($("#msc_input").val());
+        return tosmpl.render(lParseTree);
+    } catch (e) {
+        return pMscgenText;
+    }
+}
+
+function smpl2mscgen (pSmplText) {
+    try { 
+        var lParseTree = mscsmplparser.parse($("#msc_input").val());
+        return tomscgen.render(lParseTree);
+    } catch (e) {
+        return pMscgenText;
     }
 }
 
