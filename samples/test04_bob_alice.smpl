@@ -1,24 +1,34 @@
-# typical SMTP conversation example - 
-# source: https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol
-hscale="2.4";
+# entities
+Alice, P1, P2, Bob : haha;
 
-c:Client, s:Server;
-
-s->c : 220 smtp.example.com ESMTP Postfix;
-c->s : HELO relay.example.org;
-s>>c : "250 Hello relay.example.org, I am glad to meet you";
-c->s : MAIL FROM:<bob@example.org>;
-s>>c : 250 Ok;
-c->s : RCPT TO:<alice@example.com>;
-s>>c : 250 Ok;
-c->s : DATA;
-s>>c : 354 End data with <CR><LF>.<CR><LF>;
-c->s : (mail message);
-...: (more message body);|||;
-s>>c : 250 Ok: queued as 12345;
-c->s : QUIT;
-s>>c : 221 Bye;
-s->s : close connection;
+# arcs
+Alice -> P1 : INVITE;
+Alice <- P1 : 100 Trying;
+P1 -> P2 : INVITE;
+P1 <- P2 : 100 Trying;
+P2 -> Bob : INVITE;
+P2 <- Bob : 100 Trying;
+P2 <- Bob : 180 Ringing;
+P1 <- P2 : 180 Ringing;
+Alice <- P1 : 180 Ringing;
+--- : Alice's client plays ringing;
+...;
+--- : Bob answers;
+P2 <- Bob : 200 Ok;
+P1 <- P2 : 200 Ok;
+Alice <- P1 : 200 Ok;
+Alice -> P1 : ACK;
+P1 -> P2 : ACK;
+P2 -> Bob : ACK;
+--- : two way media;
+...;
+--- : Bob hangs up;
+P2 <- Bob : BYE;
+P2 -> Bob : 200 Ok;
+P1 <- P2 : BYE;
+P1 -> P2 : 200 Ok;
+Alice <- P1 : BYE;
+Alice -> P1 : 200 Ok;
 
 /*
     This file is part of mscgen_js.

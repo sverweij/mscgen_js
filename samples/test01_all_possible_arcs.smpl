@@ -3,111 +3,125 @@ hscale="1.2",
 arcgradient="12";
 
 # entities
-a,
-b,
-c,
-d;
+a, b, c, d;
 
 # arcs
---- : "-> signals";
-a -> c : "a->c (signal left to right)";
-a <- c : "a<-c (signal right to left)";
-a <-> c : "a<->c (signal both ways ltr)";
-c <-> a : "c<->a (signal both ways rtl)";
-b -> * : "b->* (signal broadcatst ltr)";
-* <- b : "*<-b (signal broadcast rtl)";
-a -- c : "a--c (signal with no arows ltr)";
-c -- a : "c--a (signal with no arows rtl)";
-b -> b : "b->b (signal ltr selfie)";
-b <- b : "b<-b (signal rtl selfie)";
-b <-> b : "b<->b (signal both way selfie)";
-b -- b : "b--b (signal no arrow selfie)";
+--- : -> signals;
+a -> c : a->c (signal left to right);
+a <- c : a<-c (signal right to left);
+a <-> c : a<->c (signal both ways ltr);
+c <-> a : c<->a (signal both ways rtl);
+b -> * : b->* (signal broadcatst ltr);
+* <- b : *<-b (signal broadcast rtl);
+a -- c : a--c (signal with no arows ltr);
+c -- a : c--a (signal with no arows rtl);
+b -> b : b->b (signal ltr selfie);
+b <- b : b<-b (signal rtl selfie);
+b <-> b : b<->b (signal both way selfie);
+b -- b : b--b (signal no arrow selfie);
 |||;
---- : "=> method or function calls";
-a => c : "a=>c (method left to right)";
-a <= c : "a<=c (method right to left)";
-a <=> c : "a<=>c (method both ways ltr)";
-c <=> a : "c<=>a (method both ways rtl)";
-b => * : "b=>* (method broadcatst ltr)";
-* <= b : "*<=b (method broadcast rtl)";
-a == c : "a==c (method with no arows ltr)";
-c == a : "c==a (method with no arows rtl)";
-b => b : "b=>b (method ltr selfie)";
-b <= b : "b<=b (method rtl selfie)";
-b <=> b : "b<=>b (method both way selfie)";
-b == b : "b==b (method no arrow selfie)";
+--- : => method or function calls;
+a => c : a=>c (method left to right);
+a <= c : a<=c (method right to left);
+a <=> c : a<=>c (method both ways ltr);
+c <=> a : c<=>a (method both ways rtl);
+b => * : b=>* (method broadcatst ltr);
+* <= b : *<=b (method broadcast rtl);
+a == c : a==c (method with no arows ltr);
+c == a : c==a (method with no arows rtl);
+b => b : b=>b (method ltr selfie);
+b <= b : b<=b (method rtl selfie);
+b <=> b : b<=>b (method both way selfie);
+b == b : b==b (method no arrow selfie);
 |||;
---- : ">> return values";
-a >> c : "a>>c (return left to right)";
-a << c : "a<<c (return right to left)";
-a <<>> c : "a<<>>c (return both ways ltr)";
-c <<>> a : "c<<>>a return both ways rtl)";
-b >> * : "b>>* (return broadcatst ltr)";
-* << b : "*<<b (return broadcast rtl)";
-a .. c : "a..c (return with no arows ltr)";
-c .. a : "c..a (return with no arows rtl)";
-b >> b : "b>>b (return ltr selfie)";
-b << b : "b<<b (return rtl selfie)";
-b <<>> b : "b<<>>b (return both way selfie)";
-b .. b : "b..b (return no arrow selfie)";
+--- : >> return values;
+a >> c : a>>c (return left to right);
+a << c : a<<c (return right to left);
+a <<>> c : a<<>>c (return both ways ltr);
+c <<>> a : c<<>>a return both ways rtl);
+b >> * : b>>* (return broadcatst ltr);
+* << b : *<<b (return broadcast rtl);
+a .. c : a..c (return with no arows ltr);
+c .. a : c..a (return with no arows rtl);
+b >> b : b>>b (return ltr selfie);
+b << b : b<<b (return rtl selfie);
+b <<>> b : b<<>>b (return both way selfie);
+b .. b : b..b (return no arrow selfie);
 |||;
---- : "=>> callbacks";
-a =>> c : "a=>>c (callback left to right)";
-a <<= c : "a<<=c (callback right to left)";
-a <<=>> c : "a<<=>>c (callback both ways ltr)";
-c <<=>> a : "c<<=>>a (callback both ways rtl)";
-b =>> * : "b=>>* (callback broadcatst ltr)";
-* <<= b : "*<<=b (callback broadcast rtl)";
-a == c : "a==c (callback with no arows ltr)";
-c == a : "c==a (callback with no arows rtl)";
-b =>> b : "b=>>b (callback ltr selfie)";
-b <<= b : "b<<=b (callback rtl selfie)";
-b <<=>> b : "b<<=>>b (callback both way selfie)";
-b == b : "b==b (callback no arrow selfie)";
+--- : =>> callbacks;
+a =>> c : a=>>c (callback left to right);
+a <<= c : a<<=c (callback right to left);
+a <<=>> c : a<<=>>c (callback both ways ltr);
+c <<=>> a : c<<=>>a (callback both ways rtl);
+b =>> * : b=>>* (callback broadcatst ltr);
+* <<= b : *<<=b (callback broadcast rtl);
+a == c : a==c (callback with no arows ltr);
+c == a : c==a (callback with no arows rtl);
+b =>> b : b=>>b (callback ltr selfie);
+b <<= b : b<<=b (callback rtl selfie);
+b <<=>> b : b<<=>>b (callback both way selfie);
+b == b : b==b (callback no arrow selfie);
 |||;
---- : ":> emphasised";
-a :> c : "a:>c (emphasised left to right)";
-a <: c : "a<:c (emphasised right to left)";
-a <:> c : "a<:>c (emphasised both ways ltr)";
-c <:> a : "c<:>a (emphasised both ways rtl)";
-b :> * : "b:>* (emphasised broadcatst ltr)";
-* <: b : "*<:b (emphasised broadcast rtl)";
-a :: c : "a::c (emphasised with no arows ltr)";
-c :: a : "c::a (emphasised with no arows rtl)";
-b :> b : "b:>b (emphasised ltr selfie)";
-b <: b : "b<:b (emphasised rtl selfie)";
-b <:> b : "b<:>b (emphasised both way selfie)";
-b :: b : "b::b (emphasised no arrow selfie)";
+--- : :> emphasised;
+a :> c : a:>c (emphasised left to right);
+a <: c : a<:c (emphasised right to left);
+a <:> c : a<:>c (emphasised both ways ltr);
+c <:> a : c<:>a (emphasised both ways rtl);
+b :> * : b:>* (emphasised broadcatst ltr);
+* <: b : *<:b (emphasised broadcast rtl);
+a :: c : a::c (emphasised with no arows ltr);
+c :: a : c::a (emphasised with no arows rtl);
+b :> b : b:>b (emphasised ltr selfie);
+b <: b : b<:b (emphasised rtl selfie);
+b <:> b : b<:>b (emphasised both way selfie);
+b :: b : b::b (emphasised no arrow selfie);
 |||;
---- : "-x lost";
-a -x c : "a-xc (lost left to right)";
-c -x a : "c-xa (lost right to left)";
-||| : "lost both ways ltr does not exist)";
-||| : "lost both ways rtl does not exist)";
-b -x * : "b-x* (lost broadcatst ltr)";
-* x- b : "*x-b (lost broadcast rtl)";
-||| : "lost with no arows does not exist)";
-b -x b : "b-xb (lost ltr selfie)";
-||| : "lost rtl selfie (b x- b) does not exist";
-||| : "lost both way selfied does not exist";
-||| : "lost no arrow selfie does not exist";
+--- : -x lost;
+a -x c : a-xc (lost left to right);
+c -x a : c-xa (lost right to left);
+||| : lost both ways ltr does not exist);
+||| : lost both ways rtl does not exist);
+b -x * : b-x* (lost broadcatst ltr);
+* x- b : *x-b (lost broadcast rtl);
+||| : lost with no arows does not exist);
+b -x b : b-xb (lost ltr selfie);
+||| : lost rtl selfie (b x- b) does not exist;
+||| : lost both way selfied does not exist;
+||| : lost no arrow selfie does not exist;
 |||;
---- : "notes and boxes";
-a note c : "a note c";
-c note a : "c note a";
-b note b : "b note b";
-a box c : "a box c";
-c box a : "c box a";
-b box b : "b box b";
-a rbox c : "a rbox c";
-c rbox a : "c rbox a";
-b rbox b : "b rbox b";
-a abox c : "a abox c";
-c abox a : "c abox a";
-b abox b : "b abox b";
+--- : notes and boxes;
+a note c : a note c;
+c note a : c note a;
+b note b : b note b;
+a box c : a box c;
+c box a : c box a;
+b box b : b box b;
+a rbox c : a rbox c;
+c rbox a : c rbox a;
+b rbox b : b rbox b;
+a abox c : a abox c;
+c abox a : c abox a;
+b abox b : b abox b;
 |||;
---- : "others";
-||| : "||| (empty arc)";
-... : "... (empty arc - omission indicator)";
---- : "--- (comment)";
+--- : others;
+||| : ||| (empty arc);
+... : ... (empty arc - omission indicator);
+--- : --- (comment);
 |||;
+
+/*
+    This file is part of mscgen_js.
+
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+*/

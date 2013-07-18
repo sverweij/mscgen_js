@@ -1,0 +1,53 @@
+# options
+hscale="1.0",
+arcgradient="8";
+
+# entities
+a : entity a, b, "entity c", d;
+
+# arcs
+a =>> b : do magic;
+b -> "entity c" : doMagic();
+"entity c" >> b : "same line as response, note",
+b >> a : response,
+d note d : note with a link;
+b :> "entity c" : with emphasis;
+"entity c" :> "entity c" : emph selfie with arcskip;
+... : More magic stuff will be happening here;
+|||;
+--- : "When a signal appears to be lost, a calls d";
+a -x b : lost:-/;
+a => d : log this;
+d =>> d : self reference;
+d >> a : this message skips an arc;
+|||;
+--- : Note tests;
+"entity c" note "entity c" : conference!,
+"entity c" <<=>> d,
+"entity c" <-> b;
+a box a : Black box example,
+b rbox b : This is an 'rbox' example,
+"entity c" abox "entity c" : This is an 'abox',
+d note d : Example of a note;
+|||;
+--- : broadcast tests;
+* <<= b : This is a broadcast message;
+"entity c" -x * : "Broadcast, but lost to everyone :-(";
+"entity c" :> * : emphasised broadcast. No color;
+...;
+/*
+    This file is part of mscgen_js.
+
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+*/
