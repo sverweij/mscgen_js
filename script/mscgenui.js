@@ -171,10 +171,8 @@ function showAutorenderState () {
 function showSmplState () {
     if (gSmpl) {
         $("#smpl").attr("checked", "smplOn");
-        $("#convert").html("2smpl");
     } else {
         $("#smpl").removeAttr("checked", "smplOn");
-        $("#convert").html("2msc");
     }
     if (gAutoRender) {
         render ();

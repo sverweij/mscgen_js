@@ -32,6 +32,18 @@ function renderEntityName(pString){
     return isQuoatable(pString) ?  "\"" + pString + "\"" : pString;
 }
 
+function renderSmplString(pString){
+    function isQuoatable(pString) {
+        var lMatchResult = pString.match(/[;,]/);
+        if (lMatchResult) {
+            return lMatchResult.length === 1;
+        } else {
+            return false;
+        }
+    }
+    return isQuoatable(pString) ?  "\"" + pString + "\"" : pString;
+}
+
 function pushAttribute(pArray, pAttr, pString) {
     if (pAttr) {
         pArray.push(pString + "=\"" + pAttr + "\"");
@@ -59,7 +71,7 @@ function renderEntity(pEntity) {
     var lRetVal = new String();
     lRetVal += renderEntityName(pEntity.name);
     if (pEntity.label){
-        lRetVal += " : \"" + pEntity.label + "\"";
+        lRetVal += " : " + renderSmplString(pEntity.label);
     }
     return lRetVal;
 }
@@ -68,7 +80,7 @@ function renderEntities(pEntities) {
     var lRetVal = new String("# entities\n");
     var i = 0;
     for (i=0;i<pEntities.length-1;i++){
-        lRetVal += renderEntity(pEntities[i]) + ",\n";
+        lRetVal += renderEntity(pEntities[i]) + ", ";
     }
     lRetVal += renderEntity(pEntities[pEntities.length-1]) + ";\n";
     return lRetVal;
@@ -86,7 +98,7 @@ function renderArc(pArc) {
         lRetVal += " " + renderEntityName(pArc.to);
     }
     if (pArc.label) {
-        lRetVal += " : \"" + pArc.label + "\""
+        lRetVal += " : " + renderSmplString(pArc.label);
     }
     return lRetVal;
 }
