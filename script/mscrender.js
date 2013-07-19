@@ -10,6 +10,7 @@ var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
 var ENTITY_HEIGHT = 30;
 var DEFAULT_ARCROW_HEIGHT = 25;
+var LINE_WIDTH = 2;
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
 var ARC_GRADIENT = DEFAULT_ARC_GRADIENT;
@@ -471,10 +472,10 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
     if (pArc.label) {
         var lMiddle = pStartX + (pWidth/2);
         var lTextWidth = utl.getTextWidth(pArc.label);
-        var lHeight = ARCROW_HEIGHT - 2 -2;
+        var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
 
         var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
-        if ( pCenter == undefined || pCenter === true) {
+        if ( pCenter === undefined || pCenter === true) {
             var lRect =
                 utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
                         lMiddle - (lTextWidth/2),  pStartY - (TEXT_HEIGHT/2));
@@ -547,8 +548,8 @@ function createBox (pId, pFrom, pTo, pArc) {
         var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
     }
 
-    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
-    var lHeight = ARCROW_HEIGHT - 2 -2;
+    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
+    var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
 
     var lStart = (pFrom - ((INTER_ENTITY_SPACING - 4)/2));
     var lGroup = utl.createGroup(pId);
@@ -575,10 +576,10 @@ function createABox (pId, pFrom, pTo, pArc) {
         var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
     }
     
-    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
-    var lHeight = ARCROW_HEIGHT - 2 -2;
+    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
+    var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
 
-    var lStart = (pFrom - ((INTER_ENTITY_SPACING - 4)/2));
+    var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
     var lSlopeOffset = 3;
     var lPathString = "M" + lStart + ",0 "; // start
     lPathString += "l" + lSlopeOffset +", -" + lHeight/2;
@@ -602,12 +603,12 @@ function createNote (pId, pFrom, pTo, pArc) {
         var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
     }
     
-    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 4);
-    var lHeight = ARCROW_HEIGHT - 2 -2;
+    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
+    var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
 
-    var lStart = (pFrom - ((INTER_ENTITY_SPACING - 4)/2));
+    var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
     var lFoldSize = "9";
-    var lPathString = "M" + lStart + ",-" + ((ARCROW_HEIGHT -4)/2); // start
+    var lPathString = "M" + lStart + ",-" + ((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
     lPathString += "l" + (lWidth - lFoldSize) + ",0 "; // top line
     lPathString += "l0," + lFoldSize + " l" + lFoldSize +",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," +lFoldSize + " "; // fold
     lPathString += "l0," + (lHeight - lFoldSize) + " ";//down
