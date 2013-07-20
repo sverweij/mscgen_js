@@ -474,8 +474,8 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         var lTextWidth = utl.getTextWidth(pArc.label);
         var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
         var lLabel = pArc.label.replace ("\\\"", '"', "g");
-        lLabel = lLabel.replace(/[\\t]/g, "\t");
-        lLabel = lLabel.replace(/[\\n]/g, " ");
+        lLabel = lLabel.replace(/\\t/g, "\t");
+        lLabel = lLabel.replace(/\\n/g, " ");
 
         var lText = utl.createText(lLabel, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
         if ( pCenter === undefined || pCenter === true) {
