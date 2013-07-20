@@ -473,8 +473,11 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         var lMiddle = pStartX + (pWidth/2);
         var lTextWidth = utl.getTextWidth(pArc.label);
         var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
+        var lLabel = pArc.label.replace ("\\\"", '"', "g");
+        lLabel = lLabel.replace(/[\\t]/g, "\t");
+        lLabel = lLabel.replace(/[\\n]/g, " ");
 
-        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
+        var lText = utl.createText(lLabel, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
         if ( pCenter === undefined || pCenter === true) {
             var lRect =
                 utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
@@ -580,6 +583,8 @@ function createABox (pId, pFrom, pTo, pArc) {
     var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
 
     var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
+    // var lBox   = utl.createABox(lWidth, lHeight, "box", lStart, 0, (0-lHeight/2));
+
     var lSlopeOffset = 3;
     var lPathString = "M" + lStart + ",0 "; // start
     lPathString += "l" + lSlopeOffset +", -" + lHeight/2;
