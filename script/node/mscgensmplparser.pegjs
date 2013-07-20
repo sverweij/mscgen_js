@@ -4,18 +4,16 @@
  */
 
 {
-function merge(obj1,obj2){
-    var obj3 = {};
-    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-    return obj3;
-}
+    function merge(obj1,obj2){
+        var obj3 = {};
+        for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+        for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+        return obj3;
+    }
 }
 
 program         =  _ d:declarationlist _ 
 { return merge (d[0], merge (d[1], d[2])) }
-
-starttoken      = "msc"i
 
 declarationlist = (o:optionlist {return {options:o}})? 
                   (e:entitylist {return {entities:e}})?
@@ -23,15 +21,15 @@ declarationlist = (o:optionlist {return {options:o}})?
 optionlist      = o:((o:option "," {return o})* 
                   (o:option ";" {return o})) 
 {
-  var obj = new Object();
+  var lOptionList = new Object();
   var opt, bla;
   for (opt in o[0]) {
     for (bla in o[0][opt]){
-      obj[bla]=o[0][opt][bla];
+      lOptionList[bla]=o[0][opt][bla];
     }
   }
-  obj = merge(obj, o[1]);
-  return obj;
+  lOptionList = merge(lOptionList, o[1]);
+  return lOptionList;
 }
 
 option          = _ n:optionname _ "=" _ 
@@ -39,10 +37,10 @@ option          = _ n:optionname _ "=" _
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _ 
 {
-   var o = new Object();
+   var lOption = new Object();
    n = n.toLowerCase();
-   o[n]=v;
-   return o;
+   lOption[n]=v;
+   return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
                   /"wordwraparcs"i
@@ -53,12 +51,12 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 }
 entity "entity" =  _ i:identifier _ l:(":" _ l:string _ {return l})?
 {
-  var o = new Object();
-  o["name"] = i;
+  var lEntity = new Object();
+  lEntity["name"] = i;
   if (l) {
-    o["label"] = l;
+    lEntity["label"] = l;
   }
-  return o;
+  return lEntity;
 }
 arclist         = (a:arcline _ ";" {return a})+
 arcline         = al:((a:arc "," {return a})* (a:arc {return [a]}))

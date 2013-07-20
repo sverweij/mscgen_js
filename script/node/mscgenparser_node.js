@@ -387,15 +387,15 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, o) {
-          var obj = new Object();
+          var lOptionList = new Object();
           var opt, bla;
           for (opt in o[0]) {
             for (bla in o[0][opt]){
-              obj[bla]=o[0][opt][bla];
+              lOptionList[bla]=o[0][opt][bla];
             }
           }
-          obj = merge(obj, o[1]);
-          return obj;
+          lOptionList = merge(lOptionList, o[1]);
+          return lOptionList;
         })(pos0, result0);
         }
         if (result0 === null) {
@@ -490,10 +490,10 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, n, v) {
-           var o = new Object();
+           var lOption = new Object();
            n = n.toLowerCase();
-           o[n]=v;
-           return o;
+           lOption[n]=v;
+           return lOption;
         })(pos0, result0[1], result0[5]);
         }
         if (result0 === null) {
@@ -753,10 +753,10 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, i, al) {
-          var o = new Object();
-          o["name"] = i;
-          o = merge (o, al);
-          return o;
+          var lOption = new Object();
+          lOption["name"] = i;
+          lOption = merge (lOption, al);
+          return lOption;
         })(pos0, result0[1], result0[3]);
         }
         if (result0 === null) {
@@ -1812,11 +1812,11 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, n, v) {
-          var o = new Object();
+          var lAttribute = new Object();
           n = n.toLowerCase();
           n = n.replace("colour", "color");
-          o[n] = v;
-          return o 
+          lAttribute[n] = v;
+          return lAttribute 
         })(pos0, result0[1], result0[5]);
         }
         if (result0 === null) {
@@ -2777,12 +2777,12 @@ module.exports = (function(){
       }
       
       
-      function merge(obj1,obj2){
-          var obj3 = {};
-          for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-          for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-          return obj3;
-      }
+          function merge(obj1,obj2){
+              var obj3 = {};
+              for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+              for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+              return obj3;
+          }
       
       
       var result = parseFunctions[startRule]();

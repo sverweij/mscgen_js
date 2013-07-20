@@ -38,7 +38,6 @@ var mscsmplparser = (function(){
     parse: function(input, startRule) {
       var parseFunctions = {
         "program": parse_program,
-        "starttoken": parse_starttoken,
         "declarationlist": parse_declarationlist,
         "optionlist": parse_optionlist,
         "option": parse_option,
@@ -155,21 +154,6 @@ var mscsmplparser = (function(){
         }
         if (result0 === null) {
           pos = pos0;
-        }
-        return result0;
-      }
-      
-      function parse_starttoken() {
-        var result0;
-        
-        if (input.substr(pos, 3).toLowerCase() === "msc") {
-          result0 = input.substr(pos, 3);
-          pos += 3;
-        } else {
-          result0 = null;
-          if (reportFailures === 0) {
-            matchFailed("\"msc\"");
-          }
         }
         return result0;
       }
@@ -335,15 +319,15 @@ var mscsmplparser = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, o) {
-          var obj = new Object();
+          var lOptionList = new Object();
           var opt, bla;
           for (opt in o[0]) {
             for (bla in o[0][opt]){
-              obj[bla]=o[0][opt][bla];
+              lOptionList[bla]=o[0][opt][bla];
             }
           }
-          obj = merge(obj, o[1]);
-          return obj;
+          lOptionList = merge(lOptionList, o[1]);
+          return lOptionList;
         })(pos0, result0);
         }
         if (result0 === null) {
@@ -438,10 +422,10 @@ var mscsmplparser = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, n, v) {
-           var o = new Object();
+           var lOption = new Object();
            n = n.toLowerCase();
-           o[n]=v;
-           return o;
+           lOption[n]=v;
+           return lOption;
         })(pos0, result0[1], result0[5]);
         }
         if (result0 === null) {
@@ -693,12 +677,12 @@ var mscsmplparser = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, i, l) {
-          var o = new Object();
-          o["name"] = i;
+          var lEntity = new Object();
+          lEntity["name"] = i;
           if (l) {
-            o["label"] = l;
+            lEntity["label"] = l;
           }
-          return o;
+          return lEntity;
         })(pos0, result0[1], result0[3]);
         }
         if (result0 === null) {
@@ -2495,12 +2479,12 @@ var mscsmplparser = (function(){
       }
       
       
-      function merge(obj1,obj2){
-          var obj3 = {};
-          for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-          for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-          return obj3;
-      }
+          function merge(obj1,obj2){
+              var obj3 = {};
+              for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+              for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+              return obj3;
+          }
       
       
       var result = parseFunctions[startRule]();
