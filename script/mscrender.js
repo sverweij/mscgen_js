@@ -161,31 +161,13 @@ function renderArcs (pArcs, pEntities) {
                         sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
-                    case("box"): case ("rbox"): {
+                    case("box"): case("rbox"): case("abox") : case("note"): {
                         sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
                         defs.appendChild(
                             createBox(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
                                         gEntity2X[pArcs[i][j].to],
                                         pArcs[i][j]));
-                        notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
-                        break;
-                        }
-                    case("abox"):{
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
-                        defs.appendChild(
-                            createABox(lCurrentId,
-                                        gEntity2X[pArcs[i][j].from],
-                                        gEntity2X[pArcs[i][j].to], pArcs[i][j]));
-                        notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
-                        break;
-                        }
-                    case("note"): {
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
-                        defs.appendChild(
-                            createNote(lCurrentId,
-                                        gEntity2X[pArcs[i][j].from],
-                                        gEntity2X[pArcs[i][j].to], pArcs[i][j]));
                         notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
@@ -562,6 +544,12 @@ function createBox (pId, pFrom, pTo, pArc) {
           case ("rbox") : {
           lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
           break;
+        } case ("abox") : {
+          lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);// (0-lHeight/2));
+          break;
+        } case ("note") : {
+          lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
+          break;
         } default : {
           lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2));
           break;
@@ -574,63 +562,6 @@ function createBox (pId, pFrom, pTo, pArc) {
     return lGroup;
 }
 
-function createABox (pId, pFrom, pTo, pArc) {
-    if (pFrom > pTo) {
-        var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
-    }
-    
-    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
-    var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
-
-    var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
-    var lBox   = utl.createABox(lWidth, lHeight, "box", lStart, 0);// (0-lHeight/2));
-
-    /*
-    var lSlopeOffset = 3;
-    var lPathString = "M" + lStart + ",0 "; // start
-    lPathString += "l" + lSlopeOffset +", -" + lHeight/2;
-    lPathString += "l" + (lWidth - 2*lSlopeOffset) + ",0";
-    lPathString += "l" + lSlopeOffset + "," + lHeight/2;
-    lPathString += "l-" + lSlopeOffset + "," + lHeight/2;
-    lPathString += "l-" + (lWidth - 2*lSlopeOffset) + ",0 "; // bottom line
-    lPathString += "l-" + lSlopeOffset + ",-" + lHeight/2;
-
-    var lPath = utl.createPath(lPathString, "box");
-    colorBox(lPath, pArc);
-    */
-    var lGroup = utl.createGroup(pId);
-    colorBox(lBox, pArc);
-    lGroup.appendChild(lBox);
-    lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
-
-    return lGroup;
-}
-
-function createNote (pId, pFrom, pTo, pArc) {
-    if (pFrom > pTo) {
-        var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
-    }
-    
-    var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
-    var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
-
-    var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
-    var lFoldSize = "9";
-    var lPathString = "M" + lStart + ",-" + ((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
-    lPathString += "l" + (lWidth - lFoldSize) + ",0 "; // top line
-    lPathString += "l0," + lFoldSize + " l" + lFoldSize +",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," +lFoldSize + " "; // fold
-    lPathString += "l0," + (lHeight - lFoldSize) + " ";//down
-    lPathString += "l-" + lWidth + ",0 "; // bottom line
-    lPathString += "l0,-" +lHeight +" ";  // back to home
-
-    var lGroup = utl.createGroup(pId);
-    var lPath = utl.createPath(lPathString, "box");
-    colorBox(lPath, pArc);
-    lGroup.appendChild(lPath);
-    lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
-    
-    return lGroup;
-}
 
 return {
     clean : function () {

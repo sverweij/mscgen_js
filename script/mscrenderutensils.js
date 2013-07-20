@@ -48,9 +48,18 @@ function _createABox(pWidth, pHeight, pClass, pX, pY) {
     lPathString += "l-" + (pWidth - 2*lSlopeOffset) + ",0 "; // bottom line
     lPathString += "l-" + lSlopeOffset + ",-" + pHeight/2;
 
-    return _createPath(lPathString, "box");
+    return _createPath(lPathString, pClass);
 }
 function _createNote(pWidth, pHeight, pClass, pX, pY) {
+    var lFoldSize = "9";
+    var lPathString = "M" + pX + "," + pY;//((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
+    lPathString += "l" + (pWidth - lFoldSize) + ",0 "; // top line
+    lPathString += "l0," + lFoldSize + " l" + lFoldSize +",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," +lFoldSize + " "; // fold
+    lPathString += "l0," + (pHeight - lFoldSize) + " ";//down
+    lPathString += "l-" + pWidth + ",0 "; // bottom line
+    lPathString += "l0,-" +pHeight +" ";  // back to home
+
+    return _createPath(lPathString, pClass);
 }
 
 function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
