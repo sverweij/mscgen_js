@@ -38,6 +38,21 @@ function _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
     return lRect;
 }
 
+function _createABox(pWidth, pHeight, pClass, pX, pY) {
+    var lSlopeOffset = 3;
+    var lPathString = "M" + pX + "," + pY; // start
+    lPathString += "l" + lSlopeOffset +", -" + pHeight/2;
+    lPathString += "l" + (pWidth - 2*lSlopeOffset) + ",0";
+    lPathString += "l" + lSlopeOffset + "," + pHeight/2;
+    lPathString += "l-" + lSlopeOffset + "," + pHeight/2;
+    lPathString += "l-" + (pWidth - 2*lSlopeOffset) + ",0 "; // bottom line
+    lPathString += "l-" + lSlopeOffset + ",-" + pHeight/2;
+
+    return _createPath(lPathString, "box");
+}
+function _createNote(pWidth, pHeight, pClass, pX, pY) {
+}
+
 function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     var lText = document.createElementNS(SVGNS, "text");
     var lTSpanLabel = document.createElementNS(SVGNS, "tspan");
@@ -169,6 +184,12 @@ return {
                 },
     createRect: function createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
                     return _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY);
+                },
+    createABox: function createABox(pWidth, pHeight, pClass, pX, pY) {
+                    return _createABox(pWidth, pHeight, pClass, pX, pY);
+                },
+    createNote: function createNote(pWidth, pHeight, pClass, pX, pY) {
+                    return _createNote(pWidth, pHeight, pClass, pX, pY);
                 },
     createText: function (pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
                     return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL)
