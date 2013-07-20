@@ -17,7 +17,7 @@ Sample output
 mscgen_js renders a scalable vector graphics (svg) image in page. 
 [This msc source][4] would rending something like so:
 
-![a sample sequence chart](/test/readme.png) 
+![a sample sequence chart](test/readme.png) 
 
 
 License
