@@ -1,8 +1,26 @@
+/*
+ * renders individual elements in sequence charts
+ *
+ * knows of:
+ *  document
+ *  linewidth (implicit
+ *
+ * defines:
+ *  defaults for 
+ *      slope offset on aboxes
+ *      fold size on notes
+ *      space to use between double lines
+ */
+
 define([], function() {
 
 var SVGNS = new String ("http://www.w3.org/2000/svg");
 var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 var XHTMLNS = new String ("http://www.w3.org/1999/xhtml");
+
+/* superscript style could also be super or a number (1em) or a % (100%) */
+var lSuperscriptStyle = "vertical-align : text-top;";
+lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;"
 
 function _cleanElement (pChildId) {
     var lOldChild = document.getElementById(pChildId);
@@ -88,7 +106,7 @@ function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
 
     if (pID) {
         lTSpanID.appendChild(document.createTextNode(" [" + pID + "]"));
-        lTSpanID.setAttribute("class", "superscript");
+        lTSpanID.setAttribute("style", lSuperscriptStyle");
         // lTSpanID.setAttribute("y", "-1");
     
         if (pIDURL) {

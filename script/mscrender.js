@@ -1,3 +1,12 @@
+/*
+ * renders an abstract syntax tree of a sequence chart
+ *
+ * knows of:
+ *  - the syntax tree
+ *  - the target canvas
+ *
+ * Defines default sizes and distances for all objects.
+ */
 define(["mscrenderutensils"], function(utl) {
 
 var PAD_VERTICAL = 3;
@@ -8,7 +17,7 @@ var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
 var ENTITY_HEIGHT = 30;
 var DEFAULT_ARCROW_HEIGHT = 25;
-var LINE_WIDTH = 2;
+var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
 var ARC_GRADIENT = DEFAULT_ARC_GRADIENT;
@@ -227,7 +236,6 @@ function renderArcs (pArcs, pEntities) {
         }
     }
     gArcRowYHWM = lArcRowYPos;
-
 }
 
 function renderEntity (pId, pEntity) {
