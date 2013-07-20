@@ -1,6 +1,4 @@
 define(["mscrenderutensils"], function(utl) {
-var SVGNS = new String ("http://www.w3.org/2000/svg");
-var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;
@@ -245,12 +243,6 @@ function renderEntity (pId, pEntity) {
             createTextLabel(pId + "_txt", pEntity,
                 0, (ENTITY_HEIGHT + TEXT_HEIGHT -8 )/2,
                 ENTITY_WIDTH, "entity")); /* TODO: -8 should really be derived */
-
-    // lText.setAttribute("id", pId + "t");
-    // var bbox = lText.getBBox();
-    // var TEXT_HEIGHT = bbox.height;
-    // var lTextWidth = bbox.width;
-
     return lGroup;
 }
 
@@ -287,16 +279,10 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     return utl.createPath(lPathString, pClass);
 }
 
-function getArcDirection (pArcKind) {
-
-}
-
 function arcColorOverride (pArc) {
-    if (pArc.direction) {
-        // assignment not entirely safe; pArc.from and pArc.to
-        // not guaranteed to exist
+    if (pArc.direction && pArc.from && pArc.to) {
         var lFrom =
-            (pArc.direction == DIR_RTL) ? pArc.to : pArc.from;
+            (pArc.direction === DIR_RTL) ? pArc.to : pArc.from;
 
         if (gEntity2ArcColor[lFrom] ) {
             (!(pArc.linecolor) && gEntity2ArcColor[lFrom].arclinecolor) ?
