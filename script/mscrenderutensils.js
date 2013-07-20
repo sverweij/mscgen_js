@@ -10,6 +10,9 @@
  *      slope offset on aboxes
  *      fold size on notes
  *      space to use between double lines
+ *
+ * has as quick hack way to determine the physical
+ * length of a string.
  */
 
 define([], function() {
@@ -106,7 +109,7 @@ function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
 
     if (pID) {
         lTSpanID.appendChild(document.createTextNode(" [" + pID + "]"));
-        lTSpanID.setAttribute("style", lSuperscriptStyle");
+        lTSpanID.setAttribute("style", lSuperscriptStyle);
         // lTSpanID.setAttribute("y", "-1");
     
         if (pIDURL) {

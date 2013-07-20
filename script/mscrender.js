@@ -442,6 +442,11 @@ function createArc (pId, pArc, pFrom, pTo) {
 }
 
 
+function unescapeString(pString) {
+    var lLabel = pString.replace (/\\\"/g, '"');
+    return lLabel.replace(/\\n/g, " ");
+}
+
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) {
     var lGroup = utl.createGroup(pId);
 
@@ -449,11 +454,10 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         var lMiddle = pStartX + (pWidth/2);
         var lTextWidth = utl.getTextWidth(pArc.label);
         var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
-        var lLabel = pArc.label.replace (/\\\"/g, '"');
-        lLabel = lLabel.replace(/\\t/g, "\t");
-        lLabel = lLabel.replace(/\\n/g, " ");
+        pArc.label = unescapeString(pArc.label);
+        pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
-        var lText = utl.createText(lLabel, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
+        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
         if ( pCenter === undefined || pCenter === true) {
             var lRect =
                 utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
