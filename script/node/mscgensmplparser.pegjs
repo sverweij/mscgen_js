@@ -2,7 +2,7 @@
  * parser for _simplified_ MSC (messsage sequence chart)
  * Designed to make creating sequence charts as effortless as possible
  * 
- * mscgen features supported
+ * mscgen features supported:
  * - All arc types
  * - All options
  * 
@@ -57,17 +57,17 @@
             lEntities.entities = [];
         }
 
-
-
-        for (i=0;i<pArcLineList.arcs.length;i++) {
-            for (j=0;j<pArcLineList.arcs[i].length;j++) {
-                if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
-                    lEntities.entities[lEntities.entities.length] =
-                        initEntity(pArcLineList.arcs[i][j].from);
-                }
-                if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
-                    lEntities.entities[lEntities.entities.length] =
-                        initEntity(pArcLineList.arcs[i][j].to);
+        if (pArcLineList && pArcLineList.arcs) {
+            for (i=0;i<pArcLineList.arcs.length;i++) {
+                for (j=0;j<pArcLineList.arcs[i].length;j++) {
+                    if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
+                        lEntities.entities[lEntities.entities.length] =
+                            initEntity(pArcLineList.arcs[i][j].from);
+                    }
+                    if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
+                        lEntities.entities[lEntities.entities.length] =
+                            initEntity(pArcLineList.arcs[i][j].to);
+                    }
                 }
             }
         }
