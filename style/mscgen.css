@@ -8,7 +8,7 @@ p {
     max-width        : 40em;
 }
 .code {
-    font-family      : Monaco, Consolas, 'Andale Mono', Monaco, monospace;
+    font-family      : Monaco, Consolas, 'Andale Mono', monospace;
     font-size        : 0.7em;
     background-color : #555;
     color            : #fff;
