@@ -150,7 +150,11 @@ var mscsmplparser = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, d) { return merge (d[0], merge (d[1], d[2])) })(pos0, result0[1]);
+          result0 = (function(offset, d) {
+            d[1] = extractUndeclaredEntities(d[1], d[2]);
+        
+            return merge (d[0], merge (d[1], d[2]))
+        })(pos0, result0[1]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -2484,6 +2488,54 @@ var mscsmplparser = (function(){
               for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
               for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
               return obj3;
+          }
+      
+          function entityExists (pEntities, lName) {
+              var i = 0;
+              if (lName === undefined || lName === "*") {
+                  return true;
+              }
+              if (pEntities && pEntities.entities && lName) {
+                  for (i=0;i<pEntities.entities.length;i++) {
+                      if (pEntities.entities[i].name === lName) {
+                          return true;
+                      }
+                  }
+              }
+              return false;
+          }
+      
+          function initEntity(lName ) {
+              var lEntity = new Object();
+              lEntity.name = lName;
+              return lEntity;
+          }
+      
+          function extractUndeclaredEntities (pEntities, pArcLineList) {
+              var i = 0;
+              var j = 0;
+              var lEntities = new Object();
+              if (pEntities) {
+                  lEntities = pEntities;
+              } else {
+                  lEntities.entities = [];
+              }
+      
+      
+      
+              for (i=0;i<pArcLineList.arcs.length;i++) {
+                  for (j=0;j<pArcLineList.arcs[i].length;j++) {
+                      if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
+                          lEntities.entities[lEntities.entities.length] =
+                              initEntity(pArcLineList.arcs[i][j].from);
+                      }
+                      if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
+                          lEntities.entities[lEntities.entities.length] =
+                              initEntity(pArcLineList.arcs[i][j].to);
+                      }
+                  }
+              }
+              return lEntities;
           }
       
       

@@ -151,35 +151,47 @@ function renderArcs (pArcs, pEntities) {
                 if (pArcs[i][j].label) { lLabel = pArcs[i][j].label; }
                 switch(pArcs[i][j].kind) {
                     case ("..."): {
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrowomit"));
-                        defs.appendChild(createEmptyArcText(lCurrentId,pArcs[i][j]));
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, "arcrowomit"));
+                        defs.appendChild(
+                                createEmptyArcText(lCurrentId,pArcs[i][j]));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
                     case ("|||"): {
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
-                        defs.appendChild(createEmptyArcText(lCurrentId,pArcs[i][j]));
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, "arcrow"));
+                        defs.appendChild(
+                                createEmptyArcText(lCurrentId,pArcs[i][j]));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
                     case ("---"): {
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
-                        defs.appendChild(createComment(lCurrentId,pArcs[i][j]));
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, "arcrow"));
+                        defs.appendChild(
+                                createComment(lCurrentId,pArcs[i][j]));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
                     case("box"): case("rbox"): case("abox") : case("note"): {
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, "arcrow"));
                         defs.appendChild(
                             createBox(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
                                         gEntity2X[pArcs[i][j].to],
                                         pArcs[i][j]));
-                        notelayer.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
+                        notelayer.appendChild(
+                                utl.createUse(0, lArcRowYPos, lCurrentId));
                         break;
                         }
                     default:{
-                        sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
+                        sequence.appendChild(
+                                utl.createUse(0, lArcRowYPos, "arcrow"));
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
@@ -193,7 +205,8 @@ function renderArcs (pArcs, pEntities) {
                                             createArc(lCurrentId + "bc" + k,
                                                       pArcs[i][j], xFrom, xTo
                                                        ));
-                                        sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
+                                        sequence.appendChild(
+                                                utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
