@@ -10,8 +10,9 @@ Sample
 [This mscgen source][4] would render something like this:
 
 ![a sample sequence chart, rendered as png](test/readme.png)
-In real life it looks better because mscgen_js only outputs sccalable
-vector graphics.
+
+In real life it looks better; mscgen_js renders sccalable
+vector graphics, no rasters.
 
 mscgen_js and the mscgen standard
 ---------------------------------
