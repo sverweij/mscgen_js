@@ -7,7 +7,7 @@ mscgen_js
 
 Sample
 ------
-[This msc source][4] would render something like this:
+[This mscgen source][4] would render something like this:
 
 ![a sample sequence chart, rendered as png](test/readme.png)
 In real life it looks better because mscgen_js only outputs sccalable
