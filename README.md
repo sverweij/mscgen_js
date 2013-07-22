@@ -7,31 +7,33 @@ mscgen_js
 
 Sample
 ------
-[This msc source][4] would rending something like so:
+[This msc source][4] would render something like this:
 
-![a sample sequence chart](test/readme.png) 
-mscgen_js renders a scalable vector graphics (svg) image in page. 
+![a sample sequence chart, rendered as png](test/readme.png)
+In real life it looks better because mscgen_js only outputs sccalable
+vector graphics.
 
 mscgen_js and the mscgen standard
 ---------------------------------
 mscgen_js was made to go both ways:
-- accept all valid [mscgen][1] programs and render them correctly. 
-- all valid mscgen programs accepted by by mscgen_js are accepted and rendered
+- Accept all valid [mscgen][1] programs and render them correctly. 
+- Have all valid mscgen programs accepted by mscgen_js accepted and rendered
   correctly by mscgen.
+
+Moreover [ms genny][5], the simplified subset, translates to mscgen with the 
+flip of a switch.
 
 If you find proof to the contrary [tell us][6].
 
 License
 -------
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
-it as part of other free software, but _not_ as part of non free (including commercial)
-software.
-
+it as part of other free software, but _not_ as part of non free softare.
 
 Thanks
 ------
 - [Mike McTernan][7] For creating the wonderful mscgen standard + c implementation and releasing it to the public domain.
-- [David Majda][8] For cooking & maintaining the fantastic [PEG.js][9] parser generator.
+- [David Majda][8] For cooking & maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
 [2]: http://home.kpn.nl/chromx/mscgen_js/index.html
