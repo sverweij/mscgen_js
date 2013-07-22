@@ -11,8 +11,8 @@ Sample
 
 ![a sample sequence chart, rendered as png](test/readme.png)
 
-In real life it looks better; mscgen_js renders sccalable
-vector graphics, no rasters.
+In real life it looks better; mscgen_js renders scalable
+vector graphics, in stead of raster graphics.
 
 mscgen_js and the mscgen standard
 ---------------------------------
