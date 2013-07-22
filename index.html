@@ -28,25 +28,37 @@
           src="script/require.js"></script>
 </head>
 <body>
-    <h1>mscgen_js</h1>
-
-    <p>
-    Put your <a href="http://www.mcternan.me.uk/mscgen/index.html">
-        mscgen</a> sequence diagram specification to the left.
-    </p>
-    <p>
-    Diagram appears on the right.
-    </p>
+    <h1 class="fadable">mscgen_js<i> - turns text into sequence charts</i></h1>
 
 <div id="input_and_controls">
+    <h3 class="fadable">
+        (1)
+    <a id="langlink" class="fadable" href="http://www.mcternan.me.uk/mscgen/index.html">mscgen</a>
+        text goes here &#x0261f; 
+    </h3>
     <div id="controls">
-        <input type="checkbox" id="autorender"><label for="autorender">Auto render</label></checkbox>
-        <input type="checkbox" id="smpl"><label for="smpl">smpl</label></checkbox>
-        <button id="show_svg_source">svg src</button>
-        <button id="show_svg">svg</button>
-        <button id="btn_render">render &gt;</button>
+        <input type="checkbox" id="autorender">
+        <label for="autorender"
+            title="Automatically renders the chart.
+
+Switch off on slow machines. A render button will appear in stead.">
+            Auto render</label></input>
+        <input type="checkbox" id="smpl">
+            <label for="smpl"
+                title="Switches on lazy bastard mode. Automatically converts between mscgen and ms genny.
+
+Watch out (1): ms genny enables you to work blazingly fast.
+Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">
+                ms genny</label></input>
+        <button id="show_svg_source"
+                title="You can also double click the picture to see the scalable vector graphics as copy-able text.">svg src</button>
+        <button id="show_svg" title="Shows the chart in a separate window.
+
+Note: the url bar will contains the base64 encoded version of the svg">
+            solo</button>
+        <button id="btn_render" title="Click to render. Only shows up when 'autorender' is off">render &gt;</button>
     </div>
-    <!-- <textarea id="msc_input" class="lined code mscgen" spellcheck="false"> -->
+
     <textarea id="msc_input" class="code mscgen" spellcheck="false">
 # Sample msc for demonstrating mscgen_js
 msc {
@@ -73,6 +85,9 @@ msc {
 </textarea>
 <div id="error_output" class="code"></div>
 </div>
+    <h3 class="fadable">
+    (2) chart shows up here &#x0261f; 
+    </h3>
 <span id="svg"><svg version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink" 
