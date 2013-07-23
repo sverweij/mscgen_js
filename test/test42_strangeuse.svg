@@ -1,0 +1,185 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg_output" width="694" height="161">
+    <desc id="msc_source"># inappropriate use - a schedule
+# idea from http://blog.padowi.se/tag/mscgen/
+msc{
+hscale="0.7";
+notes[label=" ", linecolor="white"], 8JUL, 9JUL, 10JUL, 11JUL, 12JUL;
+notes box notes [label="John", textcolor="green", linecolor="white", textbgcolor="white"], 
+notes .. 12JUL[linecolor="silver"],
+8JUL--9JUL [label="John", linecolor="green"],
+10JUL--11JUL [label="John", linecolor="green"];
+
+notes box notes [label="Violet", textcolor="violet", linecolor="white", textbgcolor="white"], 
+notes .. 12JUL[linecolor="silver"],
+9JUL--10JUL [label="Violet", linecolor="violet"],
+11JUL--12JUL [label="Violet", linecolor="violet"];
+
+notes box notes [label="Jane", textcolor="Red", linecolor="white", textbgcolor="white"], 
+notes .. 12JUL[linecolor="silver"],
+8JUL--10JUL [label="Jane", linecolor="red"];
+
+notes box notes [label="Bart", textcolor="blue", linecolor="white", textbgcolor="white"], 
+notes .. 12JUL[linecolor="silver"],
+10JUL--12JUL [label="Bart", linecolor="blue"];
+}
+</desc>
+    <defs>
+    <style type="text/css">
+        svg {
+            font-family: Helvetica, sans-serif;
+            font-size: 9pt;
+            background-color: white;
+            stroke : black;
+            color  : black;
+        }
+        rect {
+            fill: none;
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        rect.textbg {
+            fill:white;
+            stroke:white;
+            stroke-width:0;
+        }
+        line {
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .superscript {
+            vertical-align : text-top; /* or super or a number (1em) or a % (100%) */
+            font-size: 0.6em;
+        }
+        text {
+            color: inherit;
+            stroke: inherit;
+            text-anchor: middle;
+            stroke-width:0.1; /* makes font seem more crisp. Overrides color to be black */
+        }
+        text.entity {
+            text-decoration : underline;
+        }
+        text.anchor-start {
+            text-anchor: start;
+        }
+        path {
+            stroke : inherit;
+            stroke-width : 2;
+            fill : none;
+        }
+        .dotted {
+            stroke-dasharray: 5,2;
+        }
+        .arrow-marker {
+            overflow:visible;
+        }
+        .arrow-style {
+            stroke-dasharray : none;
+            stroke-width : 1;
+        }
+        .filled {
+            stroke:inherit;
+            fill:black; /* no-inherit */
+        }
+        .signal {
+            marker-end : url(#signal);
+        }
+        .signal-both {
+            marker-end : url(#signal);
+            marker-start : url(#signal-l);
+        }
+        .method {
+            marker-end : url(#method);
+        }
+        .method-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .returnvalue {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+        }
+        .returnvalue-both {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+            marker-start : url(#returnvalue-l);
+        }
+        .callback {
+            marker-end : url(#callback);
+        }
+        .callback-both {
+            marker-end : url(#callback);
+            marker-start : url(#callback-l);
+        }
+        .emphasised {
+            marker-end : url(#method);
+        }
+        .emphasised-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .lost {
+            marker-end : url(#lost);
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .box {
+            fill: #ffc; /* no-inherit */
+            opacity: 0.9;
+        }
+        .boxtext, .arctext {
+            font-size: 0.8em;
+            text-anchor: middle;
+        }
+        .comment {
+            stroke-dasharray: 5,2;
+        }
+    </style>
+    <!-- arrow heads -->
+    <marker orient="auto" id="signal" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="signal-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="method" class="arrow-marker">
+       <polygon points="-8,2 0,0, -8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="method-l" class="arrow-marker">
+       <polygon points="8,2 0,0, 8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="returnvalue" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="returnvalue-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="lost" class="arrow-marker">
+       <path d="M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5" class="arrow-style"></path>
+    </marker>
+
+    <!-- entity and arc definitions -->
+    <g id="defs"><g id="notes"><rect width="70" height="30" style="stroke:white;"></rect><g id="notes_txt"><rect width="5.7" height="12" x="32.15" y="11" class="textbg"></rect><text x="35" y="20" class="entity"><tspan> </tspan></text></g></g><g id="8JUL"><rect width="70" height="30" style=""></rect><g id="8JUL_txt"><rect width="22.8" height="12" x="23.6" y="11" class="textbg"></rect><text x="35" y="20" class="entity"><tspan>8JUL</tspan></text></g></g><g id="9JUL"><rect width="70" height="30" style=""></rect><g id="9JUL_txt"><rect width="22.8" height="12" x="23.6" y="11" class="textbg"></rect><text x="35" y="20" class="entity"><tspan>9JUL</tspan></text></g></g><g id="10JUL"><rect width="70" height="30" style=""></rect><g id="10JUL_txt"><rect width="28.5" height="12" x="20.75" y="11" class="textbg"></rect><text x="35" y="20" class="entity"><tspan>10JUL</tspan></text></g></g><g id="11JUL"><rect width="70" height="30" style=""></rect><g id="11JUL_txt"><rect width="28.5" height="12" x="20.75" y="11" class="textbg"></rect><text x="35" y="20" class="entity"><tspan>11JUL</tspan></text></g></g><g id="12JUL"><rect width="70" height="30" style=""></rect><g id="12JUL_txt"><rect width="28.5" height="12" x="20.75" y="11" class="textbg"></rect><text x="35" y="20" class="entity"><tspan>12JUL</tspan></text></g></g><g id="arcrow"><line x1="35" y1="-12.5" x2="35" y2="12.5" class="arcrow"></line><line x1="147" y1="-12.5" x2="147" y2="12.5" class="arcrow"></line><line x1="259" y1="-12.5" x2="259" y2="12.5" class="arcrow"></line><line x1="371" y1="-12.5" x2="371" y2="12.5" class="arcrow"></line><line x1="483" y1="-12.5" x2="483" y2="12.5" class="arcrow"></line><line x1="595" y1="-12.5" x2="595" y2="12.5" class="arcrow"></line></g><g id="arcrowomit"><line x1="35" y1="-12.5" x2="35" y2="12.5" class="arcrowomit"></line><line x1="147" y1="-12.5" x2="147" y2="12.5" class="arcrowomit"></line><line x1="259" y1="-12.5" x2="259" y2="12.5" class="arcrowomit"></line><line x1="371" y1="-12.5" x2="371" y2="12.5" class="arcrowomit"></line><line x1="483" y1="-12.5" x2="483" y2="12.5" class="arcrowomit"></line><line x1="595" y1="-12.5" x2="595" y2="12.5" class="arcrowomit"></line></g><g id="0_0"><rect width="108" height="21" x="-19" y="-10.5" class="box" style="fill:white;stroke:white;"></rect><g id="0_0_txt"><rect width="22.8" height="12" x="23.6" y="-6" class="textbg" style="fill: white; stroke:white;"></rect><text x="35" y="3" style="fill:green;stroke:green;"><tspan>John</tspan></text></g></g><g id="0_1"><g id="0_1_txt"></g><line x1="35" y1="0" x2="595" y2="0" class="dotted" style="stroke: silver;"></line></g><g id="0_2"><g id="0_2_txt"><rect width="22.8" height="12" x="191.6" y="-12" class="textbg"></rect><text x="203" y="-3"><tspan>John</tspan></text></g><line x1="147" y1="0" x2="259" y2="0" style="stroke: green;"></line></g><g id="0_3"><g id="0_3_txt"><rect width="22.8" height="12" x="415.6" y="-12" class="textbg"></rect><text x="427" y="-3"><tspan>John</tspan></text></g><line x1="371" y1="0" x2="483" y2="0" style="stroke: green;"></line></g><g id="1_0"><rect width="108" height="21" x="-19" y="-10.5" class="box" style="fill:white;stroke:white;"></rect><g id="1_0_txt"><rect width="34.2" height="12" x="17.9" y="-6" class="textbg" style="fill: white; stroke:white;"></rect><text x="35" y="3" style="fill:violet;stroke:violet;"><tspan>Violet</tspan></text></g></g><g id="1_1"><g id="1_1_txt"></g><line x1="35" y1="0" x2="595" y2="0" class="dotted" style="stroke: silver;"></line></g><g id="1_2"><g id="1_2_txt"><rect width="34.2" height="12" x="297.9" y="-12" class="textbg"></rect><text x="315" y="-3"><tspan>Violet</tspan></text></g><line x1="259" y1="0" x2="371" y2="0" style="stroke: violet;"></line></g><g id="1_3"><g id="1_3_txt"><rect width="34.2" height="12" x="521.9" y="-12" class="textbg"></rect><text x="539" y="-3"><tspan>Violet</tspan></text></g><line x1="483" y1="0" x2="595" y2="0" style="stroke: violet;"></line></g><g id="2_0"><rect width="108" height="21" x="-19" y="-10.5" class="box" style="fill:white;stroke:white;"></rect><g id="2_0_txt"><rect width="22.8" height="12" x="23.6" y="-6" class="textbg" style="fill: white; stroke:white;"></rect><text x="35" y="3" style="fill:Red;stroke:Red;"><tspan>Jane</tspan></text></g></g><g id="2_1"><g id="2_1_txt"></g><line x1="35" y1="0" x2="595" y2="0" class="dotted" style="stroke: silver;"></line></g><g id="2_2"><g id="2_2_txt"><rect width="22.8" height="12" x="247.6" y="-12" class="textbg"></rect><text x="259" y="-3"><tspan>Jane</tspan></text></g><line x1="147" y1="0" x2="371" y2="0" style="stroke: red;"></line></g><g id="3_0"><rect width="108" height="21" x="-19" y="-10.5" class="box" style="fill:white;stroke:white;"></rect><g id="3_0_txt"><rect width="22.8" height="12" x="23.6" y="-6" class="textbg" style="fill: white; stroke:white;"></rect><text x="35" y="3" style="fill:blue;stroke:blue;"><tspan>Bart</tspan></text></g></g><g id="3_1"><g id="3_1_txt"></g><line x1="35" y1="0" x2="595" y2="0" class="dotted" style="stroke: silver;"></line></g><g id="3_2"><g id="3_2_txt"><rect width="22.8" height="12" x="471.6" y="-12" class="textbg"></rect><text x="483" y="-3"><tspan>Bart</tspan></text></g><line x1="371" y1="0" x2="595" y2="0" style="stroke: blue;"></line></g></g>
+    </defs>
+    <g id="body" transform="translate(31,3)">
+    <g id="sequence"><use x="0" y="0" xlink:href="#notes"></use><use x="112" y="0" xlink:href="#8JUL"></use><use x="224" y="0" xlink:href="#9JUL"></use><use x="336" y="0" xlink:href="#10JUL"></use><use x="448" y="0" xlink:href="#11JUL"></use><use x="560" y="0" xlink:href="#12JUL"></use><use x="0" y="42.5" xlink:href="#arcrow"></use><use x="0" y="67.5" xlink:href="#arcrow"></use><use x="0" y="67.5" xlink:href="#arcrow"></use><use x="0" y="67.5" xlink:href="#0_1"></use><use x="0" y="67.5" xlink:href="#arcrow"></use><use x="0" y="67.5" xlink:href="#0_2"></use><use x="0" y="67.5" xlink:href="#arcrow"></use><use x="0" y="67.5" xlink:href="#0_3"></use><use x="0" y="92.5" xlink:href="#arcrow"></use><use x="0" y="92.5" xlink:href="#arcrow"></use><use x="0" y="92.5" xlink:href="#1_1"></use><use x="0" y="92.5" xlink:href="#arcrow"></use><use x="0" y="92.5" xlink:href="#1_2"></use><use x="0" y="92.5" xlink:href="#arcrow"></use><use x="0" y="92.5" xlink:href="#1_3"></use><use x="0" y="117.5" xlink:href="#arcrow"></use><use x="0" y="117.5" xlink:href="#arcrow"></use><use x="0" y="117.5" xlink:href="#2_1"></use><use x="0" y="117.5" xlink:href="#arcrow"></use><use x="0" y="117.5" xlink:href="#2_2"></use><use x="0" y="142.5" xlink:href="#arcrow"></use><use x="0" y="142.5" xlink:href="#arcrow"></use><use x="0" y="142.5" xlink:href="#3_1"></use><use x="0" y="142.5" xlink:href="#arcrow"></use><use x="0" y="142.5" xlink:href="#3_2"></use></g>
+    <g id="notelayer"><use x="0" y="67.5" xlink:href="#0_0"></use><use x="0" y="92.5" xlink:href="#1_0"></use><use x="0" y="117.5" xlink:href="#2_0"></use><use x="0" y="142.5" xlink:href="#3_0"></use></g>
+    </g>
+</svg>
+

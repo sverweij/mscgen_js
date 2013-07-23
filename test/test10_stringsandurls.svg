@@ -1,0 +1,183 @@
+<svg height="261" width="742" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xhtml="http://www.w3.org/1999/xhtml" id="svg_output">
+    <desc id="msc_source">msc {
+  hscale="1.1";
+
+  # entities
+  a [label="\"Quoted\""],
+  b [label="line\nbreak"],
+  c [label="No quotes"],
+  d [id="\"http://github.com\"", idurl="http://github.com"];
+
+  # arcs
+  a =&gt;&gt; d [label="Just \"quotes\" and\na linebreak, linking to mscgen_js on github",
+           url="http://github.com/sverweij/mscgen_js",
+           id="and an \"ID\" element linking\nsomwhere else",
+           idurl="http://home.kpn.nl/chromx/mscgen_js"];
+  c =&gt;&gt; d [label="no quotes"];
+  d &gt;&gt; a [label=""];
+  b note c [label="A box with a text and a\n linebreak"];
+  |||;
+  a == d [label="quote is in the ID", id="\"quoted, line\nbrokenid\""];
+  a =&gt;&gt; b [label="\nlinebreak at the start"],
+  b =&gt;&gt; c [label="linebreak at the end\n"];
+
+  ||| [label="\"Explanation:\"\nBlah and blah and bladee blah"];
+}
+
+</desc>
+    <defs>
+    <style type="text/css">
+        svg {
+            font-family: Helvetica, sans-serif;
+            font-size: 9pt;
+            background-color: white;
+            stroke : black;
+            color  : black;
+        }
+        rect {
+            fill: none;
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        rect.textbg {
+            fill:white;
+            stroke:white;
+            stroke-width:0;
+        }
+        line {
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        text {
+            color: inherit;
+            stroke: inherit;
+            text-anchor: middle;
+            stroke-width:0.1; /* makes font seem more crisp */
+        }
+        text.entity {
+            text-decoration : underline;
+        }
+        text.anchor-start {
+            text-anchor: start;
+        }
+        path {
+            stroke : inherit;
+            stroke-width : 2;
+            fill : none;
+        }
+        .dotted {
+            stroke-dasharray: 5,2;
+        }
+        .arrow-marker {
+            overflow:visible;
+        }
+        .arrow-style {
+            stroke-dasharray : none;
+            stroke-width : 1;
+        }
+        .filled {
+            stroke:inherit;
+            fill:black; /* no-inherit */
+        }
+        .signal {
+            marker-end : url(#signal);
+        }
+        .signal-both {
+            marker-end : url(#signal);
+            marker-start : url(#signal-l);
+        }
+        .method {
+            marker-end : url(#method);
+        }
+        .method-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .returnvalue {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+        }
+        .returnvalue-both {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+            marker-start : url(#returnvalue-l);
+        }
+        .callback {
+            marker-end : url(#callback);
+        }
+        .callback-both {
+            marker-end : url(#callback);
+            marker-start : url(#callback-l);
+        }
+        .emphasised {
+            marker-end : url(#method);
+        }
+        .emphasised-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .lost {
+            marker-end : url(#lost);
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .box {
+            /* fill: #ffc;  no-inherit */
+            fill : white;
+            opacity: 0.9;
+        }
+        .boxtext, .arctext {
+            font-size: 0.8em;
+            text-anchor: middle;
+        }
+        .comment {
+            stroke-dasharray: 5,2;
+        }
+    </style>
+    <!-- arrow heads -->
+    <marker orient="auto" id="signal" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="signal-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="method" class="arrow-marker">
+       <polygon points="-8,2 0,0, -8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="method-l" class="arrow-marker">
+       <polygon points="8,2 0,0, 8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="returnvalue" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="returnvalue-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="lost" class="arrow-marker">
+       <path d="M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5" class="arrow-style"></path>
+    </marker>
+
+    <!-- entity and arc definitions -->
+    <g id="defs"><g id="a"><rect style="" height="30" width="110.00000000000001"></rect><g id="a_txt"><rect class="textbg" y="11" x="26.500000000000007" height="12" width="57"></rect><text class="entity" y="20" x="55.00000000000001"><tspan>"Quoted"</tspan></text></g></g><g id="b"><rect style="" height="30" width="110.00000000000001"></rect><g id="b_txt"><rect class="textbg" y="11" x="23.650000000000006" height="12" width="62.7"></rect><text class="entity" y="20" x="55.00000000000001"><tspan>line break</tspan></text></g></g><g id="c"><rect style="" height="30" width="110.00000000000001"></rect><g id="c_txt"><rect class="textbg" y="11" x="29.350000000000005" height="12" width="51.300000000000004"></rect><text class="entity" y="20" x="55.00000000000001"><tspan>No quotes</tspan></text></g></g><g id="d"><rect style="" height="30" width="110.00000000000001"></rect><g id="d_txt"><rect class="textbg" y="11" x="52.150000000000006" height="12" width="5.7"></rect><text class="entity" y="20" x="55.00000000000001"><tspan>d</tspan><a xlink:show="new" xlink:title="http://github.com" xlink:href="http://github.com"><tspan style="vertical-align : text-top;font-size: 0.7em; text-anchor: start;"> ["http://github.com"]</tspan></a></text></g></g><g id="arcrow"><line class="arcrow" y2="12.5" x2="55.00000000000001" y1="-12.5" x1="55.00000000000001"></line><line class="arcrow" y2="12.5" x2="231" y1="-12.5" x1="231"></line><line class="arcrow" y2="12.5" x2="407" y1="-12.5" x1="407"></line><line class="arcrow" y2="12.5" x2="583" y1="-12.5" x1="583"></line></g><g id="arcrowomit"><line class="arcrowomit" y2="12.5" x2="55.00000000000001" y1="-12.5" x1="55.00000000000001"></line><line class="arcrowomit" y2="12.5" x2="231" y1="-12.5" x1="231"></line><line class="arcrowomit" y2="12.5" x2="407" y1="-12.5" x1="407"></line><line class="arcrowomit" y2="12.5" x2="583" y1="-12.5" x1="583"></line></g><g id="0_0"><g id="0_0_txt"><rect class="textbg" y="-12" x="136.6" height="12" width="364.8"></rect><text style="fill:blue;stroke:blue;" y="-3" x="319"><a xlink:show="new" xlink:title="http://github.com/sverweij/mscgen_js" xlink:href="http://github.com/sverweij/mscgen_js"><tspan>Just "quotes" and a linebreak, linking to mscgen_js on github</tspan></a><a xlink:show="new" xlink:title="http://home.kpn.nl/chromx/mscgen_js" xlink:href="http://home.kpn.nl/chromx/mscgen_js"><tspan style="vertical-align : text-top;font-size: 0.7em; text-anchor: start;"> [and an "ID" element linking somwhere else]</tspan></a></text></g><line class="callback" y2="0" x2="583" y1="0" x1="55.00000000000001"></line></g><g id="1_0"><g id="1_0_txt"><rect class="textbg" y="-12" x="469.35" height="12" width="51.300000000000004"></rect><text y="-3" x="495"><tspan>no quotes</tspan></text></g><line class="callback" y2="0" x2="583" y1="0" x1="407"></line></g><g id="2_0"><g id="2_0_txt"></g><line class="returnvalue" y2="0" x2="55.00000000000001" y1="0" x1="583"></line></g><g id="3_0"><path style="" class="box" d="M145,-10.5l339,0 l0,9 l9,0 m-9,-9 l9,9 l0,12 l-348,0 l0,-21 "></path><g id="3_0_txt"><rect class="textbg" y="-6" x="219.25" height="12" width="199.5"></rect><text y="3" x="319"><tspan>A box with a text and a  linebreak</tspan></text></g></g><g id="4_0"><g id="4_0"></g></g><g id="5_0"><g id="5_0_txt"><rect class="textbg" y="-12" x="267.7" height="12" width="102.60000000000001"></rect><text y="-3" x="319"><tspan>quote is in the ID</tspan><tspan style="vertical-align : text-top;font-size: 0.7em; text-anchor: start;"> ["quoted, line brokenid"]</tspan></text></g><line y2="0" x2="583" y1="0" x1="55.00000000000001"></line></g><g id="6_0"><g id="6_0_txt"><rect class="textbg" y="-12" x="74.6" height="12" width="136.8"></rect><text y="-3" x="143"><tspan> linebreak at the start</tspan></text></g><line class="callback" y2="0" x2="231" y1="0" x1="55.00000000000001"></line></g><g id="6_1"><g id="6_1_txt"><rect class="textbg" y="-12" x="256.3" height="12" width="125.4"></rect><text y="-3" x="319"><tspan>linebreak at the end </tspan></text></g><line class="callback" y2="0" x2="407" y1="0" x1="231"></line></g><g id="7_0"><g id="7_0"><rect class="textbg" y="-6" x="185.04999999999998" height="12" width="267.90000000000003"></rect><text y="3" x="319"><tspan>"Explanation:" Blah and blah and bladee blah</tspan></text></g></g></g>
+    </defs>
+    <g transform="translate(47,3)" id="body">
+    <g id="sequence"><use xlink:href="#a" y="0" x="0"></use><use xlink:href="#b" y="0" x="176"></use><use xlink:href="#c" y="0" x="352"></use><use xlink:href="#d" y="0" x="528"></use><use xlink:href="#arcrow" y="42.5" x="0"></use><use xlink:href="#arcrow" y="67.5" x="0"></use><use xlink:href="#0_0" y="67.5" x="0"></use><use xlink:href="#arcrow" y="92.5" x="0"></use><use xlink:href="#1_0" y="92.5" x="0"></use><use xlink:href="#arcrow" y="117.5" x="0"></use><use xlink:href="#2_0" y="117.5" x="0"></use><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#arcrow" y="167.5" x="0"></use><use xlink:href="#4_0" y="167.5" x="0"></use><use xlink:href="#arcrow" y="192.5" x="0"></use><use xlink:href="#5_0" y="192.5" x="0"></use><use xlink:href="#arcrow" y="217.5" x="0"></use><use xlink:href="#6_0" y="217.5" x="0"></use><use xlink:href="#arcrow" y="217.5" x="0"></use><use xlink:href="#6_1" y="217.5" x="0"></use><use xlink:href="#arcrow" y="242.5" x="0"></use><use xlink:href="#7_0" y="242.5" x="0"></use></g>
+    <g id="notelayer"><use xlink:href="#3_0" y="142.5" x="0"></use></g>
+    </g>
+</svg>

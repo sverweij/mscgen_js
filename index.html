@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+    This file is part of mscgen_js.
+
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <meta name="description" content="message sequence chart renderer">
+    <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
+   
+    <title>mscgen_js - turns text into sequence charts</title>
+    <link rel="stylesheet" href="style/mscgen.css"
+          type="text/css" media="screen">
+    <script data-main="script/mscgen-main.js"
+          src="script/require.js"></script>
+</head>
+<body>
+    <h1 class="fadable">mscgen_js<i> - turns text into sequence charts</i></h1>
+
+<div id="input_and_controls">
+    <h3 class="fadable">
+        <span class="intronumber">1</span>
+    <a id="langlink" class="fadable" href="http://www.mcternan.me.uk/mscgen/index.html">mscgen</a>
+        text goes here &#x0261f; 
+    </h3>
+
+    <textarea id="msc_input" class="code mscgen" spellcheck="false">
+# Sample msc for demonstrating mscgen_js
+msc {
+  hscale="1.2";
+
+  a [label="Entity A", textbgcolor="red", textcolor="white"],
+  b [label="Entity B", textbgcolor="yellow", linecolor="red"],
+  c [label="Entity C", textbgcolor="blue", textcolor="yellow", linecolor="green"];
+
+  a->b [ label = "ab()" ] ;
+  b->c [ label = "bc(TRUE)"];
+  c=>>c [ label = "process(1)" ];
+  b<<=c [ label = "callback()", arcskip="1"];
+  |||;
+  ---  [ label = "If more to run", ID="*" ];
+  a->a [ label = "next()"];
+  a=>c [ label = "ac1()"];
+  b<<c [ label = "cb(true)", textbgcolor="lime"];
+  b->b [ label = "stalled(...)"];
+  a<<b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
+  c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
+}
+        
+</textarea>
+    <div>
+        <input type="checkbox" id="autorender">
+        <label for="autorender"
+            title="Automatically renders the chart.
+
+Switch off on slow machines. A render button will appear in stead.">
+            Auto render</label></input>
+        <input type="checkbox" id="smpl">
+            <label for="smpl"
+                title="Switches on lazy bastard mode. Automatically converts between mscgen and ms genny.
+
+Watch out (1): ms genny enables you to work blazingly fast.
+Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">
+                ms genny</label></input>
+        <button id="show_svg_source"
+                title="You can also double click the picture to see the scalable vector graphics as copy-able text.">svg src</button>
+        <button id="show_svg" title="Shows the chart in a separate window.
+
+Note: the url bar will contains the base64 encoded version of the svg">
+            solo</button>
+        <button id="btn_render" title="Click to render. Only shows up when 'autorender' is off">render &gt;</button>
+    </div>
+<div id="error_output" class="code"></div>
+</div>
+    <h3 class="fadable">
+        <span class="intronumber">2</span> chart shows up here &#x0261f; 
+    </h3>
+<span id="svg"><svg version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    id="svg_output">
+    <desc id="msc_source"/>
+    <defs>
+    <style type="text/css">
+        svg {
+            font-family: Helvetica, sans-serif;
+            font-size: 9pt;
+            background-color: white;
+            stroke : black;
+            color  : black;
+        }
+        rect {
+            fill: none;
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        rect.textbg {
+            fill:white;
+            stroke:white;
+            stroke-width:0;
+        }
+        line {
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        text {
+            color: inherit;
+            stroke: inherit;
+            text-anchor: middle;
+            stroke-width:0.1; /* makes font seem more crisp */
+        }
+        text.entity {
+            text-decoration : underline;
+        }
+        text.anchor-start {
+            text-anchor: start;
+        }
+        path {
+            stroke : inherit;
+            stroke-width : 2;
+            fill : none;
+        }
+        .dotted {
+            stroke-dasharray: 5,2;
+        }
+        .arrow-marker {
+            overflow:visible;
+        }
+        .arrow-style {
+            stroke-dasharray : none;
+            stroke-width : 1;
+        }
+        .filled {
+            stroke:inherit;
+            fill:black; /* no-inherit */
+        }
+        .signal {
+            marker-end : url(#signal);
+        }
+        .signal-both {
+            marker-end : url(#signal);
+            marker-start : url(#signal-l);
+        }
+        .method {
+            marker-end : url(#method);
+        }
+        .method-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .returnvalue {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+        }
+        .returnvalue-both {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+            marker-start : url(#returnvalue-l);
+        }
+        .callback {
+            marker-end : url(#callback);
+        }
+        .callback-both {
+            marker-end : url(#callback);
+            marker-start : url(#callback-l);
+        }
+        .emphasised {
+            marker-end : url(#method);
+        }
+        .emphasised-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .lost {
+            marker-end : url(#lost);
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .box {
+            /* fill: #ffc;  no-inherit */
+            fill : white;
+            opacity: 0.9;
+        }
+        .boxtext, .arctext {
+            font-size: 0.8em;
+            text-anchor: middle;
+        }
+        .comment {
+            stroke-dasharray: 5,2;
+        }
+    </style>
+    <!-- arrow heads -->
+    <marker orient="auto" id="signal" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="signal-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="method" class="arrow-marker">
+       <polygon points="-8,2 0,0, -8,-2" class="filled arrow-style"/>
+    </marker>
+    <marker orient="auto" id="method-l" class="arrow-marker">
+       <polygon points="8,2 0,0, 8,-2" class="filled arrow-style"/>
+    </marker>
+    <marker orient="auto" id="returnvalue" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="returnvalue-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="callback" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="callback-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="emphasised" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="emphasised-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"/>
+    </marker>
+    <marker orient="auto" id="lost" class="arrow-marker">
+       <path d="M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5" class="arrow-style"/>
+    </marker>
+
+    <!-- entity and arc definitions -->
+    <g id="defs"></g>
+    </defs>
+    <g id="body">
+    <g id="sequence"/>
+    <g id="notelayer"/>
+    </g>
+</svg></span>
+<div id="textcopylightbox">
+    <div id="textcopyform">
+        <button id="close_lightbox">close</button>
+        <textarea readonly="true" id="textcopybox" class="code svg" spellcheck="false"></textarea>
+    </div>
+</div>
+<a href="https://github.com/sverweij/mscgen_js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+</body>
+</html>

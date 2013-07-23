@@ -1,0 +1,180 @@
+<svg height="286" width="514" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xhtml="http://www.w3.org/1999/xhtml" id="svg_output">
+    <desc id="msc_source"># test09 - arcskips
+msc {
+  a [linecolor="white", label=" "],
+  b [linecolor="white", label=" ", arclinecolor="grey"],
+  c [linecolor="white", label=" "];
+  
+  |||;|||;|||;
+  b =&gt;&gt; * [arcskip="4"], b =&gt;&gt; * [arcskip="-4"], 
+  b =&gt;&gt; * [arcskip="3"], b =&gt;&gt; * [arcskip="-3"], 
+  b =&gt;&gt; * [arcskip="2"], b =&gt;&gt; * [arcskip="-2"], 
+  b =&gt;&gt; * [arcskip="1"], b =&gt;&gt; * [arcskip="-1"], 
+  b =&gt;&gt; *;
+  ||| [label="over there", textcolor="#eee"];
+  ||| [label="over there", textcolor="#bbb"];
+  ||| [label="over there", textcolor="#999"];
+  ||| [label="over there", textcolor="#777"];
+  --- [linecolor="#777"];
+}</desc>
+    <defs>
+    <style type="text/css">
+        svg {
+            font-family: Helvetica, sans-serif;
+            font-size: 9pt;
+            background-color: white;
+            stroke : black;
+            color  : black;
+        }
+        rect {
+            fill: none;
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        rect.textbg {
+            fill:white;
+            stroke:white;
+            stroke-width:0;
+        }
+        line {
+            stroke: inherit;
+            stroke-width: 2;
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .superscript {
+            vertical-align : text-top; /* or super or a number (1em) or a % (100%) */
+            font-size: 0.7em;
+            text-anchor: start;
+        }
+        text {
+            color: inherit;
+            stroke: inherit;
+            text-anchor: middle;
+            stroke-width:0.1; /* makes font seem more crisp */
+        }
+        text.entity {
+            text-decoration : underline;
+        }
+        text.anchor-start {
+            text-anchor: start;
+        }
+        path {
+            stroke : inherit;
+            stroke-width : 2;
+            fill : none;
+        }
+        .dotted {
+            stroke-dasharray: 5,2;
+        }
+        .arrow-marker {
+            overflow:visible;
+        }
+        .arrow-style {
+            stroke-dasharray : none;
+            stroke-width : 1;
+        }
+        .filled {
+            stroke:inherit;
+            fill:black; /* no-inherit */
+        }
+        .signal {
+            marker-end : url(#signal);
+        }
+        .signal-both {
+            marker-end : url(#signal);
+            marker-start : url(#signal-l);
+        }
+        .method {
+            marker-end : url(#method);
+        }
+        .method-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .returnvalue {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+        }
+        .returnvalue-both {
+            stroke-dasharray: 5,2;
+            marker-end : url(#returnvalue);
+            marker-start : url(#returnvalue-l);
+        }
+        .callback {
+            marker-end : url(#callback);
+        }
+        .callback-both {
+            marker-end : url(#callback);
+            marker-start : url(#callback-l);
+        }
+        .emphasised {
+            marker-end : url(#method);
+        }
+        .emphasised-both {
+            marker-end : url(#method);
+            marker-start : url(#method-l);
+        }
+        .lost {
+            marker-end : url(#lost);
+        }
+        .arcrowomit {
+            stroke-dasharray: 2,2;
+        }
+        .box {
+            /* fill: #ffc;  no-inherit */
+            fill : white;
+            opacity: 0.9;
+        }
+        .boxtext, .arctext {
+            font-size: 0.8em;
+            text-anchor: middle;
+        }
+        .comment {
+            stroke-dasharray: 5,2;
+        }
+    </style>
+    <!-- arrow heads -->
+    <marker orient="auto" id="signal" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="signal-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="method" class="arrow-marker">
+       <polygon points="-8,2 0,0, -8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="method-l" class="arrow-marker">
+       <polygon points="8,2 0,0, 8,-2" class="filled arrow-style"></polygon>
+    </marker>
+    <marker orient="auto" id="returnvalue" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="returnvalue-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback" class="arrow-marker">
+       <path d="M0,0 l-8,2 M0,0 l-8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="callback-l" class="arrow-marker">
+       <path d="M0,0 l8,2 M0,0 l8,-2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised" class="arrow-marker">
+       <path d="M0,0 l-8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="emphasised-l" class="arrow-marker">
+       <path d="M0,0 l8,2" class="arrow-style"></path>
+    </marker>
+    <marker orient="auto" id="lost" class="arrow-marker">
+       <path d="M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5" class="arrow-style"></path>
+    </marker>
+
+    <!-- entity and arc definitions -->
+    <g id="defs"><g id="a"><rect style="stroke:white;" height="30" width="100"></rect><g id="a_txt"><rect class="textbg" y="11" x="47.15" height="12" width="5.7"></rect><text class="entity" y="20" x="50"><tspan> </tspan></text></g></g><g id="b"><rect style="stroke:white;" height="30" width="100"></rect><g id="b_txt"><rect class="textbg" y="11" x="47.15" height="12" width="5.7"></rect><text class="entity" y="20" x="50"><tspan> </tspan></text></g></g><g id="c"><rect style="stroke:white;" height="30" width="100"></rect><g id="c_txt"><rect class="textbg" y="11" x="47.15" height="12" width="5.7"></rect><text class="entity" y="20" x="50"><tspan> </tspan></text></g></g><g id="arcrow"><line style="stroke : white;" class="arcrow" y2="12.5" x2="50" y1="-12.5" x1="50"></line><line style="stroke : white;" class="arcrow" y2="12.5" x2="210" y1="-12.5" x1="210"></line><line style="stroke : white;" class="arcrow" y2="12.5" x2="370" y1="-12.5" x1="370"></line></g><g id="arcrowomit"><line style="stroke : white;" class="arcrowomit" y2="12.5" x2="50" y1="-12.5" x1="50"></line><line style="stroke : white;" class="arcrowomit" y2="12.5" x2="210" y1="-12.5" x1="210"></line><line style="stroke : white;" class="arcrowomit" y2="12.5" x2="370" y1="-12.5" x1="370"></line></g><g id="0_0"><g id="0_0"></g></g><g id="1_0"><g id="1_0"></g></g><g id="2_0"><g id="2_0"></g></g><g id="3_0bc0"><g id="3_0bc0_txt"></g><line style="stroke: grey;" class="callback" y2="100" x2="50" y1="0" x1="210"></line></g><g id="3_0bc2"><g id="3_0bc2_txt"></g><line style="stroke: grey;" class="callback" y2="100" x2="370" y1="0" x1="210"></line></g><g id="3_1bc0"><g id="3_1bc0_txt"></g><line style="stroke: grey;" class="callback" y2="-100" x2="50" y1="0" x1="210"></line></g><g id="3_1bc2"><g id="3_1bc2_txt"></g><line style="stroke: grey;" class="callback" y2="-100" x2="370" y1="0" x1="210"></line></g><g id="3_2bc0"><g id="3_2bc0_txt"></g><line style="stroke: grey;" class="callback" y2="75" x2="50" y1="0" x1="210"></line></g><g id="3_2bc2"><g id="3_2bc2_txt"></g><line style="stroke: grey;" class="callback" y2="75" x2="370" y1="0" x1="210"></line></g><g id="3_3bc0"><g id="3_3bc0_txt"></g><line style="stroke: grey;" class="callback" y2="-75" x2="50" y1="0" x1="210"></line></g><g id="3_3bc2"><g id="3_3bc2_txt"></g><line style="stroke: grey;" class="callback" y2="-75" x2="370" y1="0" x1="210"></line></g><g id="3_4bc0"><g id="3_4bc0_txt"></g><line style="stroke: grey;" class="callback" y2="50" x2="50" y1="0" x1="210"></line></g><g id="3_4bc2"><g id="3_4bc2_txt"></g><line style="stroke: grey;" class="callback" y2="50" x2="370" y1="0" x1="210"></line></g><g id="3_5bc0"><g id="3_5bc0_txt"></g><line style="stroke: grey;" class="callback" y2="-50" x2="50" y1="0" x1="210"></line></g><g id="3_5bc2"><g id="3_5bc2_txt"></g><line style="stroke: grey;" class="callback" y2="-50" x2="370" y1="0" x1="210"></line></g><g id="3_6bc0"><g id="3_6bc0_txt"></g><line style="stroke: grey;" class="callback" y2="25" x2="50" y1="0" x1="210"></line></g><g id="3_6bc2"><g id="3_6bc2_txt"></g><line style="stroke: grey;" class="callback" y2="25" x2="370" y1="0" x1="210"></line></g><g id="3_7bc0"><g id="3_7bc0_txt"></g><line style="stroke: grey;" class="callback" y2="-25" x2="50" y1="0" x1="210"></line></g><g id="3_7bc2"><g id="3_7bc2_txt"></g><line style="stroke: grey;" class="callback" y2="-25" x2="370" y1="0" x1="210"></line></g><g id="3_8bc0"><g id="3_8bc0_txt"></g><line style="stroke: grey;" class="callback" y2="0" x2="50" y1="0" x1="210"></line></g><g id="3_8bc2"><g id="3_8bc2_txt"></g><line style="stroke: grey;" class="callback" y2="0" x2="370" y1="0" x1="210"></line></g><g id="4_0"><g id="4_0"><rect class="textbg" y="-6" x="181.5" height="12" width="57"></rect><text style="fill:#eee;stroke:#eee;" y="3" x="210"><tspan>over there</tspan></text></g></g><g id="5_0"><g id="5_0"><rect class="textbg" y="-6" x="181.5" height="12" width="57"></rect><text style="fill:#bbb;stroke:#bbb;" y="3" x="210"><tspan>over there</tspan></text></g></g><g id="6_0"><g id="6_0"><rect class="textbg" y="-6" x="181.5" height="12" width="57"></rect><text style="fill:#999;stroke:#999;" y="3" x="210"><tspan>over there</tspan></text></g></g><g id="7_0"><g id="7_0"><rect class="textbg" y="-6" x="181.5" height="12" width="57"></rect><text style="fill:#777;stroke:#777;" y="3" x="210"><tspan>over there</tspan></text></g></g><g id="8_0"><line style="stroke: #777;" class="dotted" y2="0" x2="420" y1="0" x1="0"></line><g id="8_0_txt"><g id="8_0_txt"></g></g></g></g>
+    </defs>
+    <g transform="translate(43,3)" id="body">
+    <g id="sequence"><use xlink:href="#a" y="0" x="0"></use><use xlink:href="#b" y="0" x="160"></use><use xlink:href="#c" y="0" x="320"></use><use xlink:href="#arcrow" y="42.5" x="0"></use><use xlink:href="#arcrow" y="67.5" x="0"></use><use xlink:href="#0_0" y="67.5" x="0"></use><use xlink:href="#arcrow" y="92.5" x="0"></use><use xlink:href="#1_0" y="92.5" x="0"></use><use xlink:href="#arcrow" y="117.5" x="0"></use><use xlink:href="#2_0" y="117.5" x="0"></use><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_0bc0" y="142.5" x="0"></use><use xlink:href="#3_0bc2" y="142.5" x="0"></use><g id="3_0_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_1bc0" y="142.5" x="0"></use><use xlink:href="#3_1bc2" y="142.5" x="0"></use><g id="3_1_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_2bc0" y="142.5" x="0"></use><use xlink:href="#3_2bc2" y="142.5" x="0"></use><g id="3_2_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_3bc0" y="142.5" x="0"></use><use xlink:href="#3_3bc2" y="142.5" x="0"></use><g id="3_3_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_4bc0" y="142.5" x="0"></use><use xlink:href="#3_4bc2" y="142.5" x="0"></use><g id="3_4_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_5bc0" y="142.5" x="0"></use><use xlink:href="#3_5bc2" y="142.5" x="0"></use><g id="3_5_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_6bc0" y="142.5" x="0"></use><use xlink:href="#3_6bc2" y="142.5" x="0"></use><g id="3_6_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_7bc0" y="142.5" x="0"></use><use xlink:href="#3_7bc2" y="142.5" x="0"></use><g id="3_7_txt"></g><use xlink:href="#arcrow" y="142.5" x="0"></use><use xlink:href="#3_8bc0" y="142.5" x="0"></use><use xlink:href="#3_8bc2" y="142.5" x="0"></use><g id="3_8_txt"></g><use xlink:href="#arcrow" y="167.5" x="0"></use><use xlink:href="#4_0" y="167.5" x="0"></use><use xlink:href="#arcrow" y="192.5" x="0"></use><use xlink:href="#5_0" y="192.5" x="0"></use><use xlink:href="#arcrow" y="217.5" x="0"></use><use xlink:href="#6_0" y="217.5" x="0"></use><use xlink:href="#arcrow" y="242.5" x="0"></use><use xlink:href="#7_0" y="242.5" x="0"></use><use xlink:href="#arcrow" y="267.5" x="0"></use><use xlink:href="#8_0" y="267.5" x="0"></use></g>
+    <g id="notelayer"></g>
+    </g>
+</svg>

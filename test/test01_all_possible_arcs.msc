@@ -1,0 +1,133 @@
+# test01 - all possible arcs
+msc {
+hscale="1.2", arcgradient="12";
+a,b,c,d;
+
+
+--- [label="-> signals", linecolor="blue", textcolor="blue"];
+a->c[label="a->c (signal left to right)"];
+a<-c[label="a<-c (signal right to left)"];
+a<->c[label="a<->c (signal both ways ltr)"];
+c<->a[label="c<->a (signal both ways rtl)"];
+b->*[label="b->* (signal broadcatst ltr)"];
+*<-b[label="*<-b (signal broadcast rtl)"];
+a--c[label="a--c (signal with no arows ltr)"];
+c--a[label="c--a (signal with no arows rtl)"];
+b->b[label="b->b (signal ltr selfie)"];
+b<-b[label="b<-b (signal rtl selfie)"];
+b<->b[label="b<->b (signal both way selfie)"];
+b--b[label="b--b (signal no arrow selfie)"];
+
+|||;
+--- [label="=> method or function calls", linecolor="blue", textcolor="blue"];
+a=>c[label="a=>c (method left to right)"];
+a<=c[label="a<=c (method right to left)"];
+a<=>c[label="a<=>c (method both ways ltr)"];
+c<=>a[label="c<=>a (method both ways rtl)"];
+b=>*[label="b=>* (method broadcatst ltr)"];
+*<=b[label="*<=b (method broadcast rtl)"];
+a==c[label="a==c (method with no arows ltr)"];
+c==a[label="c==a (method with no arows rtl)"];
+b=>b[label="b=>b (method ltr selfie)"];
+b<=b[label="b<=b (method rtl selfie)"];
+b<=>b[label="b<=>b (method both way selfie)"];
+b==b[label="b==b (method no arrow selfie)"];
+
+|||;
+--- [label=">> return values", linecolor="blue", textcolor="blue"];
+a>>c[label="a>>c (return left to right)"];
+a<<c[label="a<<c (return right to left)"];
+a<<>>c[label="a<<>>c (return both ways ltr)"];
+c<<>>a[label="c<<>>a return both ways rtl)"];
+b>>*[label="b>>* (return broadcatst ltr)"];
+*<<b[label="*<<b (return broadcast rtl)"];
+a..c[label="a..c (return with no arows ltr)"];
+c..a[label="c..a (return with no arows rtl)"];
+b>>b[label="b>>b (return ltr selfie)"];
+b<<b[label="b<<b (return rtl selfie)"];
+b<<>>b[label="b<<>>b (return both way selfie)"];
+b..b[label="b..b (return no arrow selfie)"];
+
+|||;
+--- [label="=>> callbacks", linecolor="blue", textcolor="blue"];
+a=>>c[label="a=>>c (callback left to right)"];
+a<<=c[label="a<<=c (callback right to left)"];
+a<<=>>c[label="a<<=>>c (callback both ways ltr)"];
+c<<=>>a[label="c<<=>>a (callback both ways rtl)"];
+b=>>*[label="b=>>* (callback broadcatst ltr)"];
+*<<=b[label="*<<=b (callback broadcast rtl)"];
+a==c[label="a==c (callback with no arows ltr)"];
+c==a[label="c==a (callback with no arows rtl)"];
+b=>>b[label="b=>>b (callback ltr selfie)"];
+b<<=b[label="b<<=b (callback rtl selfie)"];
+b<<=>>b[label="b<<=>>b (callback both way selfie)"];
+b==b[label="b==b (callback no arrow selfie)"];
+
+|||;
+--- [label=":> emphasised", linecolor="blue", textcolor="blue"];
+a:>c[label="a:>c (emphasised left to right)"];
+a<:c[label="a<:c (emphasised right to left)"];
+a<:>c[label="a<:>c (emphasised both ways ltr)"];
+c<:>a[label="c<:>a (emphasised both ways rtl)"];
+b:>*[label="b:>* (emphasised broadcatst ltr)"];
+*<:b[label="*<:b (emphasised broadcast rtl)"];
+a::c[label="a::c (emphasised with no arows ltr)"];
+c::a[label="c::a (emphasised with no arows rtl)"];
+b:>b[label="b:>b (emphasised ltr selfie)"];
+b<:b[label="b<:b (emphasised rtl selfie)"];
+b<:>b[label="b<:>b (emphasised both way selfie)"];
+b::b[label="b::b (emphasised no arrow selfie)"];
+
+|||;
+--- [label="-x lost", linecolor="blue", textcolor="blue"];
+a-xc[label="a-xc (lost left to right)"];
+c-xa[label="c-xa (lost right to left)"];
+|||[label="lost both ways ltr does not exist)"];
+|||[label="lost both ways rtl does not exist)"];
+b-x*[label="b-x* (lost broadcatst ltr)"];
+*x-b[label="*x-b (lost broadcast rtl)"];
+|||[label="lost with no arows does not exist)"];
+b-xb[label="b-xb (lost ltr selfie)"];
+|||[label="lost rtl selfie (b x- b) does not exist"];
+|||[label="lost both way selfied does not exist"];
+|||[label="lost no arrow selfie does not exist"];
+
+|||;
+--- [label="notes and boxes", linecolor="blue", textcolor="blue"];
+a note c [label="a note c"];
+c note a [label="c note a"];
+b note b [label="b note b"];
+a box c [label="a box c"];
+c box a [label="c box a"];
+b box b [label="b box b"];
+a rbox c [label="a rbox c"];
+c rbox a [label="c rbox a"];
+b rbox b [label="b rbox b"];
+a abox c [label="a abox c"];
+c abox a [label="c abox a"];
+b abox b [label="b abox b"];
+
+|||;
+---[label="others", linecolor="blue", textcolor="blue"];
+|||[label="||| (empty arc)"];
+...[label="... (empty arc - omission indicator)"];
+---[label="--- (comment)"];
+
+|||;
+}
+/*
+    This file is part of mscgen_js.
+
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+*/

@@ -1,0 +1,9 @@
+# test11: entity automatic declaration
+cust => shop : order(thing);
+shop => "delivery service" : deliver(thing);
+"delivery service" => cust : thing;
+cust >> "delivery service" : OK;
+"delivery service" => shop : delivered!;
+shop => cust : shop;
+cust => bank : "pay(bill, shop)";
+
