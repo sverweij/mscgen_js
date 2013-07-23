@@ -32,15 +32,40 @@ h3 {
     margin-bottom    : 1em;
     font-weight      : 500;
 }
+.intronumber {
+    padding          : 0.2em 0.5em 0.1em 0.5em;
+    color            : white;
+    background-color : lightgrey;
+    border-radius    : 0.2em;
+}
 .fadable {
-    /*
-    color            : lightgrey; 
-    */
+    animation-duration : 60s;
+    animation-name     : fadeout;
+    -webkit-animation-duration : 60s;
+    -webkit-animation-name     : fadeout;
+    color              : lightgrey;
 }
 a.fadable {
     text-decoration   : underline;
     -moz-text-decoration-style : dotted;
+    -webkit-text-decoration-style : dotted;
     text-decoration-style : dotted;
+}
+@keyframes fadeout {
+    from {
+        color       : black;
+    }
+    to {
+        color       : lightgrey;
+    }
+}
+@-webkit-keyframes fadeout {
+    from {
+        color       : black;
+    }
+    to {
+        color       : lightgrey;
+    }
 }
 
 #input_and_controls {
@@ -57,7 +82,7 @@ a.fadable {
     display : none;
 }
 #input_and_controls > #msc_input {
-    width            : 100%;
+    width            : 98%;
     height           : 40em;
 }
 #input_and_controls > #error_output {
