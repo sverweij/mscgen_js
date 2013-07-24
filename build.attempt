@@ -23,3 +23,8 @@ pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser_node.js
 # for regular builds cp style/mscgen-src.css style/mscgen.css
 
 # Deployment  (ftp, rsync, ...)
+git checkout master
+git pull origin master
+git checkout gh-pages
+git merge master
+git push
