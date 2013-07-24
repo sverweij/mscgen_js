@@ -31,11 +31,11 @@ it as part of other free software, but _not_ as part of non free softare.
 
 Thanks
 ------
-- [Mike McTernan][7] For creating the wonderful mscgen standard + c implementation and releasing it to the public domain.
+- [Mike McTernan][7] For creating the wonderful mscgen standard, c implementation and releasing it to the public domain.
 - [David Majda][8] For cooking & maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
-[2]: http://home.kpn.nl/chromx/mscgen_js/index.html
+[2]: http://sverweij.github.io/mscgen_js
 [3]: license.md
 [4]: test/readme.msc
 [5]: spec/will/go/here/TODO
