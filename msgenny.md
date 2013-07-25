@@ -45,3 +45,9 @@ or a , (end arc in case you need) is in them:
     a => b :  hello; b;  # not valid 
     a => b : "hello, b"; # valid
     a => b :  hello, b;  # not valid
+
+formal syntax
+-------------
+[peg][1]
+
+[1]: script/node/mscgensmplparser.pegjs
