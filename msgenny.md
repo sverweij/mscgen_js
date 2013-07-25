@@ -9,7 +9,7 @@ ms genny
 - supports all arcs mscgen does
 - supports all options mscgen does
 - supports labels
-- no support for colors, arcskip
+- no support for colors, arcskip, id, url, idurl
 
 usage
 -----
