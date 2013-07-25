@@ -11,6 +11,12 @@ ms genny
 - supports labels
 - no support for colors, arcskip, id, url, idurl
 
+Why?
+----
+*scratch*
+
+Me lazy.
+
 usage
 -----
 *scratch*
@@ -19,6 +25,7 @@ Write in ms genny, save in mscgen
 
 example
 -------
+*scratch; maybe bit shorter; also insert pictures*
 
     a -> b : ab();
     b -> c : bc(TRUE);
