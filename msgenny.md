@@ -5,6 +5,7 @@ ms genny
 
 - simplified syntax a.c.t. mscgen
 - automatic declaration of entities
+- explicit declaration of entities possible (to make the order explicit)
 - supports all arcs mscgen does
 - supports all options mscgen does
 - supports labels
@@ -32,4 +33,15 @@ example
     a << b : ab() = FALSE,
     c note c : Just a note ...;
 
+things
+------
 
+Labels usually don't need quotes, unless a ; (end arc line declaration)
+or a , (end arc in case you need) is in them:
+
+    a => b : "hello b";  # valid
+    a => b :  hello b;   # valid
+    a => b : "hello; b"; # valid
+    a => b :  hello; b;  # not valid 
+    a => b : "hello, b"; # valid
+    a => b :  hello, b;  # not valid
