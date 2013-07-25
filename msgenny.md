@@ -13,22 +13,23 @@ ms genny
 usage
 -----
 *scratch*
+
 Write in ms genny, save in mscgen
 
 example
 -------
-``` 
-a -> b : ab();
-b -> c : bc(TRUE);
-c =>> c : process(1);
-b <<= c : callback();
-|||;
---- : If more to run;
-a -> a : next();
-a => c : ac1();
-b << c : cb(true);
-b -> b : stalled(...);
-a << b : ab() = FALSE,
-c note c : Just a note ...;
-```
+
+    a -> b : ab();
+    b -> c : bc(TRUE);
+    c =>> c : process(1);
+    b <<= c : callback();
+    |||;
+    --- : If more to run;
+    a -> a : next();
+    a => c : ac1();
+    b << c : cb(true);
+    b -> b : stalled(...);
+    a << b : ab() = FALSE,
+    c note c : Just a note ...;
+
 
