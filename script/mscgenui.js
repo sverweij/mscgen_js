@@ -27,7 +27,8 @@ msc {
   ui << msc [label="exception"];
   ui =>> ui [label="show error"];
 
-}
+  ui =>> ui [label="show error"];
+  }
 */
 
 define(["mscgenparser", "mscgensmplparser",
@@ -39,6 +40,19 @@ var gSmpl = false;
 var ESC_KEY   = 27; 
 
 $(document).ready(function(){
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-42701906-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+
     showAutorenderState ();
     showSmplState ();
     render();
@@ -55,11 +69,13 @@ $(document).ready(function(){
     $("#show_svg_source").bind({
         click : function(e) {
                     show_svg_sourceOnClick();
+                    _gaq.push(['_trackEvent', 'result', 'show_svg_source', 'button']);
                 }
     });
     $("#svg").bind({
         dblclick : function(e) {
                     show_svg_sourceOnClick();
+                    _gaq.push(['_trackEvent', 'result', 'show_svg_source', 'svg_coubleclick']);
                 }
     });
     $("#show_svg").bind({
@@ -109,11 +125,13 @@ function msc_inputKeyup () {
 }
 
 function renderOnClick () {
+    _gaq.push(['_trackEvent', 'parser', 'manualrender']);
     render();
 }
 
 function autorenderOnClick () {
     gAutoRender = !gAutoRender;
+    _gaq.push(['_trackEvent', 'parser', 'autorender', gAutoRender]);
     if (gAutoRender) {
         render ();
     }
@@ -122,6 +140,7 @@ function autorenderOnClick () {
 
 function smplOnClick () {
     gSmpl = !gSmpl;
+    _gaq.push(['_trackEvent', 'parser', 'msgenny', gSmpl]);
     if (gSmpl === true) {
         $("#msc_input").val(mscgen2smpl ($("#msc_input").val()));
     } else {
@@ -143,6 +162,7 @@ function webkitNamespaceBugWorkaround(pText){
     return lText;
 }
 function show_svg_sourceOnClick () {
+    // tracked in caller 
     $("#textcopylightbox").show();
     $("#textcopybox").text(webkitNamespaceBugWorkaround($("#svg").html()));
     $("#textcopybox").select();
@@ -152,9 +172,11 @@ function show_svgOnClick () {
     var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($("#svg").html()))));
     var lURI = "data:image/svg+xml;base64,"+lb64;
     var lWindow = window.open(lURI, "_blank");
+    _gaq.push(['_trackEvent', 'result', 'show_svg_base64']);
 }
 
 function close_lightboxOnClick(){
+    _gaq.push(['_trackEvent', 'svgsource', 'close']);
     closeLightbox();
 }
 
