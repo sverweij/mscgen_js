@@ -103,6 +103,24 @@ $(document).ready(function(){
                     } else {
                         gGaKeyCount++;
                     }
+                },
+        paste : function (e) {
+                    msc_inputPaste();
+                    ga('send', 'event', 'paste', 'textarea');
+                },
+        cut : function (e) {
+                    ga('send', 'event', 'cut', 'textarea');
+                },
+        copy : function (e) {
+                    ga('send', 'event', 'copy', 'textarea');
+                }
+    });
+    $("#textcopybox").bind({
+        cut : function (e) {
+                    ga('send', 'event', 'cut', 'svgsource');
+                },
+        copy : function (e) {
+                    ga('send', 'event', 'copy', 'svgsource');
                 }
     });
 
@@ -127,6 +145,11 @@ $(document).ready(function(){
 }); // document ready
 
 function msc_inputKeyup () {
+    if (gAutoRender) {
+        render();
+    }
+}
+function msc_inputPaste () {
     if (gAutoRender) {
         render();
     }
