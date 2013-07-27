@@ -97,9 +97,9 @@ $(document).ready(function(){
     $("#msc_input").bind({
         keyup : function(e) {
                     msc_inputKeyup();
-                    if (gGaKeyCount%10 === 0) {
+                    if (gGaKeyCount > 17) {
                         gGaKeyCount = 0;
-                        ga('send', 'event', '10 characters typed', 'textarea');
+                        ga('send', 'event', '17 characters typed', 'textarea');
                     } else {
                         gGaKeyCount++;
                     }
