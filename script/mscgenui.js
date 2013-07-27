@@ -37,6 +37,7 @@ define(["mscgenparser", "mscgensmplparser",
 
 var gAutoRender = true;
 var gSmpl = false;
+var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
 
 $(document).ready(function(){
@@ -96,6 +97,12 @@ $(document).ready(function(){
     $("#msc_input").bind({
         keyup : function(e) {
                     msc_inputKeyup();
+                    if (gGaKeyCount%10 === 0) {
+                        gGaKeyCount = 0;
+                        ga('send', 'event', '10 characters typed', 'textarea');
+                    } else {
+                        gGaKeyCount++;
+                    }
                 }
     });
 
