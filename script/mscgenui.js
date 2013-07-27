@@ -40,18 +40,13 @@ var gSmpl = false;
 var ESC_KEY   = 27; 
 
 $(document).ready(function(){
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-42701906-1']);
-    _gaq.push(['_trackPageview']);
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
+    ga('create', 'UA-42701906-1', 'sverweij.github.io');
+    ga('send', 'pageview');
 
     showAutorenderState ();
     showSmplState ();
@@ -59,38 +54,43 @@ $(document).ready(function(){
     $("#autorender").bind({
         click : function(e) {
                     autorenderOnClick();
+                    ga('send', 'event', 'demo', 'toggle_autorender', 'checkbox');
                 }
     });
     $("#smpl").bind({
         click : function(e) {
                     smplOnClick();
+                    ga('send', 'event', 'demo', 'toggle_ms_genny', 'checkbox');
                 }
     });
     $("#show_svg_source").bind({
         click : function(e) {
                     show_svg_sourceOnClick();
-                    _gaq.push(['_trackEvent', 'result', 'show_svg_source', 'button']);
+                    ga('send', 'event', 'demo', 'show_svg_source', 'button');
                 }
     });
     $("#svg").bind({
         dblclick : function(e) {
                     show_svg_sourceOnClick();
-                    _gaq.push(['_trackEvent', 'result', 'show_svg_source', 'svg_coubleclick']);
+                    ga('send', 'event', 'demo', 'show_svg_source', 'svg dblcick');
                 }
     });
     $("#show_svg").bind({
         click : function(e) {
                     show_svgOnClick();
+                    ga('send', 'event', 'demo', 'show_svg_base64', 'button');
                 }
     });
     $("#close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
+                    ga('send', 'event', 'demo', 'close_source_lightbox', 'button');
                 }
     });
     $("#btn_render").bind({
         click : function(e) {
                     renderOnClick();
+                    ga('send', 'event', 'demo', 'render', 'button');
                 }
     });
     $("#msc_input").bind({
@@ -107,6 +107,7 @@ $(document).ready(function(){
            switch(lKey) {                      
                case (ESC_KEY) : {
                    closeLightbox();
+                    ga('send', 'event', 'demo', 'close_source_lightbox', 'ESC_KEY');
                    break;
                } default: {
                    break;
@@ -125,13 +126,11 @@ function msc_inputKeyup () {
 }
 
 function renderOnClick () {
-    _gaq.push(['_trackEvent', 'parser', 'manualrender']);
     render();
 }
 
 function autorenderOnClick () {
     gAutoRender = !gAutoRender;
-    _gaq.push(['_trackEvent', 'parser', 'autorender', gAutoRender]);
     if (gAutoRender) {
         render ();
     }
@@ -140,7 +139,6 @@ function autorenderOnClick () {
 
 function smplOnClick () {
     gSmpl = !gSmpl;
-    _gaq.push(['_trackEvent', 'parser', 'msgenny', gSmpl]);
     if (gSmpl === true) {
         $("#msc_input").val(mscgen2smpl ($("#msc_input").val()));
     } else {
@@ -172,11 +170,9 @@ function show_svgOnClick () {
     var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($("#svg").html()))));
     var lURI = "data:image/svg+xml;base64,"+lb64;
     var lWindow = window.open(lURI, "_blank");
-    _gaq.push(['_trackEvent', 'result', 'show_svg_base64']);
 }
 
 function close_lightboxOnClick(){
-    _gaq.push(['_trackEvent', 'svgsource', 'close']);
     closeLightbox();
 }
 
