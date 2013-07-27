@@ -54,43 +54,43 @@ $(document).ready(function(){
     $("#autorender").bind({
         click : function(e) {
                     autorenderOnClick();
-                    ga('send', 'event', 'demo', 'toggle_autorender', 'checkbox');
+                    ga('send', 'event', 'toggle_autorender', 'checkbox');
                 }
     });
     $("#smpl").bind({
         click : function(e) {
                     smplOnClick();
-                    ga('send', 'event', 'demo', 'toggle_ms_genny', 'checkbox');
+                    ga('send', 'event', 'toggle_ms_genny', 'checkbox');
                 }
     });
     $("#show_svg_source").bind({
         click : function(e) {
                     show_svg_sourceOnClick();
-                    ga('send', 'event', 'demo', 'show_svg_source', 'button');
+                    ga('send', 'event', 'show_svg_source', 'button');
                 }
     });
     $("#svg").bind({
         dblclick : function(e) {
                     show_svg_sourceOnClick();
-                    ga('send', 'event', 'demo', 'show_svg_source', 'svg dblcick');
+                    ga('send', 'event', 'show_svg_source', 'svg dblcick');
                 }
     });
     $("#show_svg").bind({
         click : function(e) {
                     show_svgOnClick();
-                    ga('send', 'event', 'demo', 'show_svg_base64', 'button');
+                    ga('send', 'event', 'show_svg_base64', 'button');
                 }
     });
     $("#close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
-                    ga('send', 'event', 'demo', 'close_source_lightbox', 'button');
+                    ga('send', 'event', 'close_source_lightbox', 'button');
                 }
     });
     $("#btn_render").bind({
         click : function(e) {
                     renderOnClick();
-                    ga('send', 'event', 'demo', 'render', 'button');
+                    ga('send', 'event', 'render', 'button');
                 }
     });
     $("#msc_input").bind({
@@ -107,7 +107,7 @@ $(document).ready(function(){
            switch(lKey) {                      
                case (ESC_KEY) : {
                    closeLightbox();
-                    ga('send', 'event', 'demo', 'close_source_lightbox', 'ESC_KEY');
+                    ga('send', 'event', 'close_source_lightbox', 'ESC_KEY');
                    break;
                } default: {
                    break;
