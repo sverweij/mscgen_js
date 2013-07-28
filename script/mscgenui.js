@@ -5,6 +5,7 @@ msc {
   html [label="index.html", textbgcolor="#ddf"]
 , ui [label="mscgenui.js"]
 , msc [label="mscparser.js"]
+
 , render [label="mscrender.js"]
 , utls [label="mscrenderutensils.js"]
 , doc [label="window.document", textbgcolor="#ddf"];
@@ -15,9 +16,9 @@ msc {
   doc >> ui [label="text"];
   ui =>> msc [label="parse(text)"];
 
-  --- [label="[okiedokie]", linecolor="green"];
+  --- [label="[hunky dory]", linecolor="green"];
   ui << msc [label="parseTree"];
-  ui => render [label="renderParseTree(parseTree)"];
+  ui => render [label="renderParseTree(parseTree, text)"];
   render => utls [label="low level helpers"];  
   utls => doc [label="all kinds of dom manipulation"];
   render => doc [label="all kinds of dom manipulation"];
@@ -27,7 +28,10 @@ msc {
   ui << msc [label="exception"];
   ui =>> ui [label="show error"];
 
-  ui =>> ui [label="show error"];
+  ui =>> html [label="show error"];
+
+  |||;
+  ui note render [label="There's a parser for mscgen and a separate one for ms genny. For simplicity only showning one.", textbgcolor="#ffe"];
   }
 */
 
