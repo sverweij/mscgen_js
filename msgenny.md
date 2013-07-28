@@ -1,5 +1,5 @@
-ms genny
-========
+Who is Ms Genny?
+================
 *mscgen* already is a simple, concise, well readable language. When you use
 it, you will discover it was not designed to be as friendly to write.
 We attempted to fill this room by designing a simplified variant: *ms genny*.
@@ -7,10 +7,8 @@ In *ms genny* we did away with some of *mscgen*'s more fancy features like
 *colors* and *arcskip* in favor of low effort labeling and of automatic 
 entity declarations. 
 
-To have your cake and eat it: in the online demo converting between
-*ms genny* and *mscgen* is as simple as flicking a switch.
 
-example
+Example
 -------
 
     a -> b : ab();
@@ -25,26 +23,24 @@ example
 
 
 which renders as
-<img
-src="data:image/gif;base64,R0lGODlhUAAPAKIAAAsLav///88PD9WqsYmApmZmZtZfYmdakyH5BAQUAP8ALAAAAABQAA8AAAPb
-WLrc/jDKSVe4OOvNu/9gqARDSRBHegyGMahqO4R0bQcjIQ8E4BMCQc930JluyGRmdAAcdiigMLVr
-ApTYWy5FKM1IQe+Mp+L4rphz+qIOBAUYeCY4p2tGrJZeH9y79mZsawFoaIRxF3JyiYxuHiMGb5KT
-kpFvZj4ZbYeCiXaOiKBwnxh4fnt9e3ktgZyHhrChinONs3cFAShFF2JhvCZlG5uchYNun5eedRxM
-AF15XEFRXgZWWdciuM8GCmdSQ84lLQfY5R14wDB5Lyon4ubwS7jx9NcV9/j5+g4JADs=
-" alt="British Blog Directory" width="80" height="15" />
-usage scenarios
+
+![ms genny sample](test/msgennysample.png)
+
+Usage scenarios
 ---------------
 We often find ourselves starting a sequence chart in *ms genny*, and, when
 we're done, converting it to *mscgen* (one click in the on line demo). After
 that we finish it of with coloring or to directly save the source ande the 
 renedered picture to the documentation.
 
+Of course directly using the output from *ms genny* is possible as well.
+
 a note on quotes 
 ----------------
-Just like in mscgen, in ms genny labels need to be surrounded by quotes. 
-To make entry more easy, however, in moste cases ms genny allows to 
-forego the enclosing quotes. Only when a label contains a comma or 
-semicolon, enclosing quotes are mandatory as the parser won't be able to
+Just like in *mscgen*, in *ms genny* labels need to be surrounded by quotes. 
+To make entry more easy, however, in most cases *ms genny* allows to 
+forego quotes. Only when a label contains a comma or 
+semicolon, enclosing quotes are mandatory. This is because the parser won't be able to
 figure out whether it's part of the string or ending the arc.
 
     a => b : "hello b";  # works
@@ -57,12 +53,18 @@ figure out whether it's part of the string or ending the arc.
 
 formal syntax
 -------------
-The formal syntax is described in a [peg][1].
-
-[1]: script/node/mscgensmplparser.pegjs
+The formal syntax is described in a [peg][1]. It's 100% accurate as it is used to 
+generate the parser.
 
 Feature comparison
 ------------------
+To have your cake and eat it too: the [online demo][4] translates between
+*ms genny* and *mscgen* with the flick of a switch. Moreover, with the
+node.js scripts [smpl2msc.js][2] and [msc2smpl.js][3] you can do translations 
+from the command line. Obviously, in that last one features not supported 
+by *ms genny* will not be in the result.
+
+
 <table>
     <tr><th>feature</th><th>mscgen</th><th>ms genny</th></tr>
     <tr>
@@ -88,7 +90,7 @@ Feature comparison
     <tr>
         <td>explicit declaration of start and end of the program</td>
         <td>A mscgen program must start with <code>msc {</code> must be ended by a <code>}</code></td>
-        <td>A ms genny program starts when it starts and ends when it ends</td>
+        <td>Not needed (or supported)</td>
     </tr>
     <tr>
         <td>arc types</td>
@@ -142,3 +144,7 @@ Feature comparison
     </tr>
 </table>
 
+[1]: script/node/mscgensmplparser.pegjs
+[2]: script/node/smpl2msc.js
+[3]: script/node/msc2smpl.js
+[4]: http://sverweij.github.io/mscgen_js/
