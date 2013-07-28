@@ -6,9 +6,8 @@ ms genny
 leaves room for improvement, though.
 
 We have attempted to fill this room by designing a simplified variant: *ms genny*.
-It does away with some of *mscgen*'s more fancy features like
-*colors* and *arcskip* in favor of low effort labeling and of automatic 
-entity declarations. See below for a complete comparison.
+It does away with some of *mscgen*'s more fancy features in favor of low effort labeling
+and of automatic entity declarations. See below for a complete comparison chart.
 
 To have our cake and eat it too we made the [online demo][4] translate between
 the two with the flick of a switch. 
