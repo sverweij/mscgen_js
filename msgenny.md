@@ -3,12 +3,15 @@ ms genny
 *Low effort labeling. Auto declarations*
 
 *mscgen* already is a simple, concise, well readable language. Write-ability
-leaves room for improvement, however.
+leaves room for improvement, though.
+
 We have attempted to fill this room by designing a simplified variant: *ms genny*.
 It does away with some of *mscgen*'s more fancy features like
 *colors* and *arcskip* in favor of low effort labeling and of automatic 
 entity declarations. See below for a complete comparison.
 
+To have our cake and eat it too we made the [online demo][4] translate between
+*ms genny* and *mscgen* with the flick of a switch. 
 
 Example
 -------
@@ -60,11 +63,11 @@ generate the parser.
 
 Feature comparison
 ------------------
-To have your cake and eat it too: the [online demo][4] translates between
-*ms genny* and *mscgen* with the flick of a switch. Moreover, with the
-node.js scripts [smpl2msc.js][2] and [msc2smpl.js][3] you can do translations 
-from the command line. Obviously, in that last one features not supported 
-by *ms genny* will not be in the result.
+As mentioned above the [online demo][4] converts between *mscgen* and *ms genny*.
+Moreover, the source code tree contains two node.js scripts [smpl2msc.js][2] and
+[msc2smpl.js][3] which perform the translations from the command line. 
+
+Note: obviously features not supported by *ms genny* get lost in translation.
 
 
 <table>
