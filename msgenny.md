@@ -42,10 +42,10 @@ Of course directly using the output from *ms genny* is possible as well.
 A note on quotes 
 ----------------
 Just like in *mscgen*, in *ms genny* labels need to be surrounded by quotes. 
-To make entry more easy, however, in most cases *ms genny* allows to 
-forego quotes. Only when a label contains a comma or 
-semicolon, enclosing quotes are mandatory. This is because the parser won't be able to
-figure out whether it's part of the string or ending the arc.
+To make entry more easy, however, in most cases *ms genny* allows you to 
+skip the quotes. Only when a label contains a comma or a semicolon, enclosing 
+quotes are mandatory. This is because in those cases the parser won't be able to
+figure out when the declaration of the arc (or entity) would end:
 
     a => b : "hello b";  # works
     a => b :  hello b;   # works
@@ -57,8 +57,8 @@ figure out whether it's part of the string or ending the arc.
 
 Formal syntax
 -------------
-The formal syntax is described in a [peg][1]. It's 100% accurate as it is used to 
-generate the parser.
+The formal syntax is described in a [parsing expression grammar (peg)][1]. It's 100% accurate
+as it is used to generate the parser.
 
 Feature comparison
 ------------------
@@ -94,7 +94,7 @@ Note: obviously features not supported by *ms genny* get lost in translation.
     <tr>
         <td>explicit declaration of start and end of the program</td>
         <td>A mscgen program must start with <code>msc {</code> must be ended by a <code>}</code></td>
-        <td>Not needed (or supported)</td>
+        <td>Needed nor supported</td>
     </tr>
     <tr>
         <td>arc types</td>
