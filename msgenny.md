@@ -34,7 +34,8 @@ Usage scenarios
 ---------------
 We often find ourselves starting a sequence chart in *ms genny*, and, when
 we're done, converting it to *mscgen* (one click in the on line demo). After
-that we finish it of with coloring or directly save the source the documentation.
+that we either finish it with coloring or directly save the source to
+the documentation.
 
 When in a hurry we directly use the rendered output from *ms genny*.
 
