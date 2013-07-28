@@ -11,7 +11,7 @@ It does away with some of *mscgen*'s more fancy features like
 entity declarations. See below for a complete comparison.
 
 To have our cake and eat it too we made the [online demo][4] translate between
-*ms genny* and *mscgen* with the flick of a switch. 
+the two with the flick of a switch. 
 
 Example
 -------
