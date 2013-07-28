@@ -57,8 +57,8 @@ figure out when the declaration of the arc (or entity) would end:
 
 Formal syntax
 -------------
-The formal syntax is described in a [parsing expression grammar (peg)][1]. It's 100% accurate
-as it is used to generate the parser.
+The formal syntax is described in a [parsing expression grammar][1]. This grammar
+is used to generate the ms genny parser as well.
 
 Feature comparison
 ------------------
