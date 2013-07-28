@@ -11,47 +11,39 @@ ms genny
 - supports labels
 - no support for colors, arcskip, id, url, idurl
 
-Why?
-----
-*scratch*
-
-Me lazy.
-
 usage
 -----
 *scratch*
 
-Write in ms genny, save in mscgen
+Write in ms genny, (finish and) save in mscgen.
 
 example
 -------
 *scratch; maybe bit shorter; also insert pictures*
 
     a -> b : ab();
-    b -> c : bc(TRUE);
+    a -> c : automatically declares entities used in arcs;
     c =>> c : process(1);
-    b <<= c : callback();
+    b <<= c : Has all mscgen arc types... ;
+    b note b: ...notes + boxes ...;
     |||;
-    --- : If more to run;
-    a -> a : next();
-    a => c : ac1();
-    b << c : cb(true);
-    b -> b : stalled(...);
-    a << b : ab() = FALSE,
-    c note c : Just a note ...;
+    --- : Labels usually don't need enclosing quotes;
+    ...;
 
 things
 ------
+Just like in mscgen, in ms genny labels need to be surrounded by quotes. 
+To make entry more easy, however, in moste cases ms genny allows to 
+forego the enclosing quotes. Only when a label contains a comma or 
+semicolon, enclosing quotes are mandatory as the parser won't be able to
+figure out whether it's part of the string or ending the arc.
 
-Labels usually don't need quotes, unless a ; (end arc line declaration)
-or a , (end arc in case you need) is in them:
-
-    a => b : "hello b";  # valid
-    a => b :  hello b;   # valid
-    a => b : "hello; b"; # valid
-    a => b :  hello; b;  # not valid 
-    a => b : "hello, b"; # valid
-    a => b :  hello, b;  # not valid
+    a => b : "hello b";  # works
+    a => b :  hello b;   # works
+    a => b : "hello; b"; # works
+    a => b :  hello; b;  # doesn't work; confuses the parser to think the arc line stops after hello
+    a => b : "hello, b"; # works
+    a => b :  hello, b;  # doesn't work; confuses the parser to think the arc stops after hello
 
 formal syntax
 -------------
