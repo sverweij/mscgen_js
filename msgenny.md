@@ -138,7 +138,7 @@ Note: obviously features not supported by *ms genny* get lost in translation.
     </tr>
     <tr>
         <td>coloring all arcs departing from an entity</td>
-        <td>declare by using the <code>arc*</code> property variants on the entity, e.g. arclinecolor="blue"</td>
+        <td>declare by using the <code>arc*</code> property variants on the entity, e.g. <code>arclinecolor="blue"</code></td>
         <td>not supported</td>
     </tr>
     <tr>
