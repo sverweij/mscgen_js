@@ -24,7 +24,7 @@ mscgen_js was made to go both ways:
 Moreover [ms genny][5], the simplified subset, translates to mscgen with the 
 flip of a switch.
 
-If you find proof to the contrary [tell us][6].
+If you find proof to the contrary on any of this [tell us][6].
 
 License
 -------
