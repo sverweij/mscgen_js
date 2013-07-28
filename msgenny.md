@@ -1,13 +1,13 @@
 ms genny
 ========
-*Low effort labeling. Auto declarations*
+_Low effort labeling. Auto declarations_
 
-*mscgen* already is a simple, concise, well readable language. Write-ability
+mscgen already is a simple, concise, well readable language. Write-ability
 leaves room for improvement, though.
 
-We have attempted to fill this room by designing a simplified variant: *ms genny*.
-It does away with some of *mscgen*'s more fancy features in favor of low effort labeling
-and of automatic entity declarations. See below for a complete comparison chart.
+The *ms genny* language is our attempt to fill that room. It does away with some of 
+mscgen's more fancy features in favor of low effort labeling
+and automatic entity declarations. See below for a complete comparison chart.
 
 To have our cake and eat it too we made the [online demo][4] translate between
 the two with the flick of a switch. 
