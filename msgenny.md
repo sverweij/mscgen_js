@@ -1,11 +1,13 @@
-Who is Ms Genny?
-================
-*mscgen* already is a simple, concise, well readable language. When you use
-it, you will discover it was not designed to be as friendly to write.
-We attempted to fill this room by designing a simplified variant: *ms genny*.
-In *ms genny* we did away with some of *mscgen*'s more fancy features like
+ms genny
+========
+*Low effort labeling. Auto declarations*
+
+*mscgen* already is a simple, concise, well readable language. Write-ability
+leaves room for improvement, however.
+We have attempted to fill this room by designing a simplified variant: *ms genny*.
+It does away with some of *mscgen*'s more fancy features like
 *colors* and *arcskip* in favor of low effort labeling and of automatic 
-entity declarations. 
+entity declarations. See below for a complete comparison.
 
 
 Example
@@ -35,7 +37,7 @@ renedered picture to the documentation.
 
 Of course directly using the output from *ms genny* is possible as well.
 
-a note on quotes 
+A note on quotes 
 ----------------
 Just like in *mscgen*, in *ms genny* labels need to be surrounded by quotes. 
 To make entry more easy, however, in most cases *ms genny* allows to 
@@ -51,7 +53,7 @@ figure out whether it's part of the string or ending the arc.
     a => b :  hello, b;  # doesn't work; confuses the parser to think the arc stops after hello
 
 
-formal syntax
+Formal syntax
 -------------
 The formal syntax is described in a [peg][1]. It's 100% accurate as it is used to 
 generate the parser.
