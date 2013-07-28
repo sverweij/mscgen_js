@@ -26,7 +26,7 @@ Example
     ...;
 
 
-which renders as
+this renders as
 
 ![ms genny sample](test/msgennysample.png)
 
