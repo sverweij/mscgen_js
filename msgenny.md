@@ -34,18 +34,16 @@ Usage scenarios
 ---------------
 We often find ourselves starting a sequence chart in *ms genny*, and, when
 we're done, converting it to *mscgen* (one click in the on line demo). After
-that we finish it of with coloring or to directly save the source ande the 
-renedered picture to the documentation.
+that we finish it of with coloring or directly save the source the documentation.
 
-Of course directly using the output from *ms genny* is possible as well.
+When in a hurry we directly use the rendered output from *ms genny*.
 
 A note on quotes 
 ----------------
 Just like in *mscgen*, in *ms genny* labels need to be surrounded by quotes. 
-To make entry more easy, however, in most cases *ms genny* allows you to 
-skip the quotes. Only when a label contains a comma or a semicolon, enclosing 
-quotes are mandatory. This is because in those cases the parser won't be able to
-figure out when the declaration of the arc (or entity) would end:
+To simplify entry, however, in most cases *ms genny* allows you to 
+skip the quotes. It only needs quotes when a label contains a comma or a 
+semicolon:
 
     a => b : "hello b";  # works
     a => b :  hello b;   # works
@@ -63,8 +61,8 @@ is used to generate the ms genny parser as well.
 Feature comparison
 ------------------
 As mentioned above the [online demo][4] converts between *mscgen* and *ms genny*.
-Moreover, the source code tree contains two node.js scripts [smpl2msc.js][2] and
-[msc2smpl.js][3] which perform the translations from the command line. 
+Moreover, the source code tree contains two node.js scripts which can perform 
+these translations from the command line: [smpl2msc.js][2] and [msc2smpl.js][3] . 
 
 Note: obviously features not supported by *ms genny* get lost in translation.
 
