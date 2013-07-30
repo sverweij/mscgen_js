@@ -297,6 +297,7 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     lPathString += " l0," + pYTo.toString(); // extra down for arcskip
     lPathString += " l-" + lWidth.toString() + ",0"; // left
 
+    /* TODO: yech! */
     if (pDouble) {
         pYTo -= 2;
         lPathString = "M" + pFrom.toString() + ", -" + ((lHeight-4)/2).toString() ;
@@ -311,6 +312,7 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
         lPathString += " l0," + pYTo.toString(); // extra down for arcskip
         lPathString += " l-" + lWidth.toString() + ",0"; // left
     }
+    /* end yech! */
     
     return utl.createPath(lPathString, pClass);
 }
