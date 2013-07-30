@@ -127,6 +127,16 @@ $(document).ready(function(){
                     ga('send', 'event', 'copy', 'svgsource');
                 }
     });
+    $("#langlink").bind ({
+        click : function(e) {
+                    ga('send', 'event', 'link', $("#langlink").attr("href"));
+                }
+    });
+    $("#forkme").bind ({
+        click : function(e) {
+                    ga('send', 'event', 'link', $("#forkme").attr("href"));
+                }
+    });
 
     $("body").bind({
         keydown : function (e) {
