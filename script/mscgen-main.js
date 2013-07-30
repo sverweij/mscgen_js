@@ -1,10 +1,3 @@
-/*
-requirejs.config({
-    paths: {
-        "analytics":"https://www.google-analytics.com/ga.js"
-    }
-});
-*/
 require(["mscgenui"], function(mscgenui) {
 });
 /*
