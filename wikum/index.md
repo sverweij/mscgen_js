@@ -1,3 +1,3 @@
 # Things
 
-- [ms genny] (ms-genny)
+- [ms genny] (msgenny.md)
