@@ -1,6 +1,6 @@
 /*
  * takes a parsetree for a message sequence chart and renders it
- * as a simplified mscgen program. 
+ * as a simplified mscgen (ms genny)program. 
  */
 module.exports = (function(){
 
@@ -32,7 +32,7 @@ function renderEntityName(pString){
     return isQuoatable(pString) ?  "\"" + pString + "\"" : pString;
 }
 
-function renderSmplString(pString){
+function renderMsGennyString (pString){
     function isQuoatable(pString) {
         var lMatchResult = pString.match(/[;,]/);
         if (lMatchResult) {
@@ -71,7 +71,7 @@ function renderEntity(pEntity) {
     var lRetVal = new String();
     lRetVal += renderEntityName(pEntity.name);
     if (pEntity.label){
-        lRetVal += " : " + renderSmplString(pEntity.label);
+        lRetVal += " : " + renderMsGennyString (pEntity.label);
     }
     return lRetVal;
 }
@@ -98,7 +98,7 @@ function renderArc(pArc) {
         lRetVal += " " + renderEntityName(pArc.to);
     }
     if (pArc.label) {
-        lRetVal += " : " + renderSmplString(pArc.label);
+        lRetVal += " : " + renderMsGennyString(pArc.label);
     }
     return lRetVal;
 }

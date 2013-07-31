@@ -3,7 +3,7 @@
  * to an mscgen program
  */
 var parser = require ("./mscgenparser_node");
-var pt2smpl = require ("./parsetree2msgenny");
+var pt2genny = require ("./parsetree2msgenny");
 
 var gInput = new String();
 
@@ -16,7 +16,7 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
     var lParseTree = parser.parse(gInput);
-    process.stdout.write(pt2smpl.render (lParseTree));
+    process.stdout.write(pt2genny.render (lParseTree));
     process.stdin.pause();
 });
 
