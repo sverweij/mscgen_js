@@ -1,3 +1,4 @@
+# ms genny
 _**Low effort labeling. Auto declarations**_
 
 mscgen already is a simple, concise, well readable language. Write-ability
@@ -26,7 +27,7 @@ this renders as
 
 ![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/test/msgennysample.png)
 
-## Usage scenarios ##
+## Usage scenarios
 We often find ourselves starting a sequence chart in *ms genny*, and, when
 we're done, converting it to *mscgen* (one click in the on line demo). After
 that we either finish it with coloring or directly save the source to
@@ -52,7 +53,7 @@ semicolon:
 The formal syntax is described in a [parsing expression grammar][1]. This grammar
 is used to generate the ms genny parser as well.
 
-## Feature comparison ##
+## Feature comparison
 As mentioned above the [online demo][4] converts between *mscgen* and *ms genny*.
 Moreover, the source code tree contains two node.js scripts which can perform 
 these translations from the command line: [smpl2msc.js][2] and [msc2smpl.js][3] . 
