@@ -27,6 +27,23 @@ this renders as
 
 ![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/test/msgennysample.png)
 
+The equivalent mscgen program would have looked like this:
+
+    msc {
+      a, b, c;
+
+      a -> b [label="ab()"];
+      a => c [label="automatically declares entities used in arcs"];
+      c =>> c [label="process(1)"];
+      b <<= c [label="Has all mscgen arc types... "];
+      b note b [label="...notes + boxes ..."];
+      |||;
+      --- [label="Labels usually don't need enclosing quotes"];
+      --- [label="except when they contain , or ;"];
+      ...;
+    }
+
+
 ## Usage scenarios
 We often find ourselves starting a sequence chart in *ms genny*, and, when
 we're done, converting it to *mscgen* (one click in the on line demo). After
