@@ -2,7 +2,7 @@
  * takes a simplified message sequence chart program and translates
  * to an mscgen program
  */
-var parser = require ("./mscgensmplparser_node");
+var parser = require ("./msgennyparser_node");
 var pt2mscgen = require ("./parsetree2mscgen");
 
 var gInput = new String();

@@ -5,8 +5,8 @@
 pegjs --export-var var\ mscparser script/node/mscgenparser.pegjs script/mscgenparser.js
 pegjs script/node/mscgenparser.pegjs script/node/mscgenparser_node.js
 
-pegjs --export-var var\ mscsmplparser script/node/mscgensmplparser.pegjs script/mscgensmplparser.js
-pegjs script/node/mscgensmplparser.pegjs script/node/mscgensmplparser_node.js
+pegjs --export-var var\ msgennyparser script/node/msgennyparser.pegjs script/msgennyparser.js
+pegjs script/node/msgennyparser.pegjs script/node/msgennyparser_node.js
 
 # funkily reuse parstree2mscgen.js node module for web 
 # copy script/node/parsetree2mscgen.js script/parsetree2mscgen.js

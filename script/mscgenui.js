@@ -35,12 +35,12 @@ msc {
   }
 */
 
-define(["mscgenparser", "mscgensmplparser",
-        "mscrender", "parsetree2smpl", "parsetree2mscgen", "jquery"],
+define(["mscgenparser", "msgennyparser",
+        "mscrender", "parsetree2msgenny", "parsetree2mscgen", "jquery"],
         function(msc_parse, smpl_parse, msc_render, to_smpl, to_mscgen, $) {
 
 var gAutoRender = true;
-var gSmpl = false;
+var gMsGenny = false;
 var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
 
@@ -53,8 +53,9 @@ $(document).ready(function(){
     ga('create', 'UA-42701906-1', 'sverweij.github.io');
     ga('send', 'pageview');
 
+
     showAutorenderState ();
-    showSmplState ();
+    showMsGennyState ();
     render();
     $("#autorender").bind({
         click : function(e) {
@@ -182,13 +183,13 @@ function autorenderOnClick () {
 }
 
 function smplOnClick () {
-    gSmpl = !gSmpl;
-    if (gSmpl === true) {
-        $("#msc_input").val(mscgen2smpl ($("#msc_input").val()));
+    gMsGenny = !gMsGenny;
+    if (gMsGenny === true) {
+        $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
     } else {
-        $("#msc_input").val(smpl2mscgen ($("#msc_input").val()));
+        $("#msc_input").val(genny2mscgen ($("#msc_input").val()));
     }
-    showSmplState ();
+    showMsGennyState ();
 }
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
@@ -230,8 +231,8 @@ function showAutorenderState () {
     }
 }
 
-function showSmplState () {
-    if (gSmpl) {
+function showMsGennyState () {
+    if (gMsGenny) {
         $("#smpl").attr("checked", "smplOn");
     } else {
         $("#smpl").removeAttr("checked", "smplOn");
@@ -241,21 +242,21 @@ function showSmplState () {
     }
 }
 
-function mscgen2smpl (pMscgenText) {
+function mscgen2genny (pMscgenText) {
     try { 
         var lParseTree = mscparser.parse($("#msc_input").val());
-        return tosmpl.render(lParseTree);
+        return tomsgenny.render(lParseTree);
     } catch (e) {
         return pMscgenText;
     }
 }
 
-function smpl2mscgen (pSmplText) {
+function genny2mscgen (pMsGennyText) {
     try { 
-        var lParseTree = mscsmplparser.parse($("#msc_input").val());
+        var lParseTree = msgennyparser.parse($("#msc_input").val());
         return tomscgen.render(lParseTree);
     } catch (e) {
-        return pMscgenText;
+        return pMsGennyText;
     }
 }
 
@@ -264,8 +265,8 @@ function render() {
         hideError();
         var lParseTree;
 
-        if (gSmpl) {
-            lParseTree = mscsmplparser.parse($("#msc_input").val());
+        if (gMsGenny) {
+            lParseTree = msgennyparser.parse($("#msc_input").val());
         } else {
             lParseTree = mscparser.parse($("#msc_input").val());
         }

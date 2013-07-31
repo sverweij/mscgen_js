@@ -3,7 +3,7 @@
  * to an mscgen program
  */
 var parser = require ("./mscgenparser_node");
-var pt2smpl = require ("./parsetree2smpl");
+var pt2smpl = require ("./parsetree2msgenny");
 
 var gInput = new String();
 
