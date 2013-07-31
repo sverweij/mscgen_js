@@ -56,7 +56,7 @@ is used to generate the ms genny parser as well.
 ## Feature comparison
 As mentioned above the [online demo][4] converts between *mscgen* and *ms genny*.
 Moreover, the source code tree contains two node.js scripts which can perform 
-these translations from the command line: [smpl2msc.js][2] and [msc2smpl.js][3] . 
+these translations from the command line: [genny2msc.js][2] and [msc2genny.js][3] . 
 
 Note: obviously features not supported by *ms genny* get lost in translation.
 
