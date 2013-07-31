@@ -127,6 +127,7 @@ function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     return lText;
 }
 
+/* TODO: not used. Deletionation candidate */
 function createTextForeign(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     var lFO = document.createElementNS(SVGNS, "foreignObject");
     var lDiv = document.createElementNS(XHTMLNS, "xhtml:div");
@@ -190,6 +191,14 @@ function _createLine(pX1, pY1, pX2, pY2, pClass, pDouble) {
     }
 }
 
+function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass){
+    var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
+    lPathString += " l" + pWidth.toString() + ",0"; // right
+    lPathString += " l0," + (pEndY - pStartY).toString(); // down
+    lPathString += " l-" + pWidth.toString() + ",0"; // left
+    return _createPath(lPathString, pClass)
+}
+
 function _createGroup(pId) {
     var lGroup = document.createElementNS(SVGNS, "g");
     lGroup.setAttribute("id", pId);
@@ -226,6 +235,9 @@ return {
                 },
     createLine: function (pX1, pY1, pX2, pY2, pClass, pDouble) {
                     return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble)
+                },
+    createUTurn: function (pStartX, pStartY, pEndY, pWidth, pClass) {
+                    return _createUTurn (pStartX, pStartY, pEndY, pWidth, pClass)
                 },
     createGroup: function (pId) {
                     return _createGroup(pId);
