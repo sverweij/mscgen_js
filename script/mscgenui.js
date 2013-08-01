@@ -37,7 +37,7 @@ msc {
 
 define(["mscgenparser", "msgennyparser",
         "mscrender", "parsetree2msgenny", "parsetree2mscgen", "jquery"],
-        function(msc_parse, smpl_parse, msc_render, to_smpl, to_mscgen, $) {
+        function(msc_parse, genny_parse, msc_render, to_msgenny, to_mscgen, $) {
 
 var gAutoRender = true;
 var gMsGenny = false;
@@ -65,7 +65,7 @@ $(document).ready(function(){
     });
     $("#smpl").bind({
         click : function(e) {
-                    smplOnClick();
+                    msgennyOnClick();
                     ga('send', 'event', 'toggle_ms_genny', 'checkbox');
                 }
     });
@@ -182,7 +182,7 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
-function smplOnClick () {
+function msgennyOnClick () {
     gMsGenny = !gMsGenny;
     if (gMsGenny === true) {
         $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
