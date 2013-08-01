@@ -63,7 +63,7 @@ $(document).ready(function(){
                     ga('send', 'event', 'toggle_autorender', 'checkbox');
                 }
     });
-    $("#smpl").bind({
+    $("#msgenny").bind({
         click : function(e) {
                     msgennyOnClick();
                     ga('send', 'event', 'toggle_ms_genny', 'checkbox');
@@ -233,9 +233,9 @@ function showAutorenderState () {
 
 function showMsGennyState () {
     if (gMsGenny) {
-        $("#smpl").attr("checked", "smplOn");
+        $("#msgenny").attr("checked", "msgennyOn");
     } else {
-        $("#smpl").removeAttr("checked", "smplOn");
+        $("#msgenny").removeAttr("checked", "msgennyOn");
     }
     if (gAutoRender) {
         render ();
