@@ -1,4 +1,4 @@
-mscgen_js - [mscgen][1] sequence diagrams in a browser
+mscgen_js - turns text into sequence charts
 
 Copyright (C) 2013 Sander Verweij
 
@@ -14,5 +14,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
-
-[1]: http://www.mcternan.me.uk/mscgen/index.html
