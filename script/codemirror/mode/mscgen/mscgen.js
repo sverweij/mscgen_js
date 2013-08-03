@@ -6,6 +6,7 @@ CodeMirror.defineMode("mscgen", function(config, parserConfig) {
         return new RegExp("^((" + words.join(")|(") + "))\\b");
     }
 
+    var gKeywords   = ["msc"];
     var gOptions    = ["hscale", "width", "arcgradient", "wordwraparcs"];
     var gAttributes = ["label", "idurl", "id", "url",
                         "linecolor", "linecolour", 
@@ -15,43 +16,43 @@ CodeMirror.defineMode("mscgen", function(config, parserConfig) {
                         "arctextcolor", "arctextcolour", 
                         "arctextbgcolor", "arctextbgcolour", 
                         "arcskip"];
-/*
-    var gArcToken   = ["|||", "...", "---", 
+    // var gBrackets   = ["\\[", "\\]", "\\{", "\\}"];
+    var gArcs       = ["\\|\\|\\|", "\\.\\.\\.", "---",
                        "--", "<->",
                        "==", "<<=>>",
                               "<=>",
-                       "..", "<<>>",
+                       "\\.\\.", "<<>>",
                        "::", "<:>",
                        "->", "=>>", "=>", ">>", ":>", "-x",
-                       "<-", "<<=", "<=", "<<", "<:" "x-",
-                       "note", "abox", "rbox", "box"];
-                       */
-
-    function tokenBase(stream, state) {
-        return "base";
-    }
-
-    function tokenString(stream, state) {
-        return "string";
-    }
-
-    function tokenComment(stream, state) {
-        return "comment";
-    }
+                       "<-", "<<=", "<=", "<<", "<:", "-x",
+                       "note", "abox", "rbox", "box"
+                      ];
     return {
         token : function (stream, state) {
-                    var ch = stream.next();
-                    if (ch === "#") {
-                        stream.skipToEnd();
-                        return "comment";
-                    }
-                    /*
-                    if (stream.match(wordRegExp(gAttributes))){
-                        return "attribute";
-                    }
-                    */
-                    return "base";
-                },
+            console.debug(stream.string);
+            /* if (stream.match(wordRegexp(gBrackets), true, true)) {
+                return "bracket";
+            } */
+            if (stream.match(wordRegexp(gArcs), true, true)) {
+                return "builtin";
+            }
+            if (stream.match(wordRegexp(gAttributes), true, true)) {
+                return "attribute";
+            }
+            if (stream.match(wordRegexp(gKeywords), true, true)) {
+                return "keyword";
+            }
+            if (stream.match(wordRegexp(gOptions), true, true)) {
+                return "property";
+            }
+            if (stream.match("//", true, true)
+                    || stream.match("#", true, true)) {
+                stream.skipToEnd();
+                return "comment";
+            }
+            var ch = stream.next();
+            return "base";
+        }
     }
 });
 
