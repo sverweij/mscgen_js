@@ -35,14 +35,33 @@ msc {
   }
 */
 
-define(["mscgenparser", "msgennyparser",
-        "mscrender", "parsetree2msgenny", "parsetree2mscgen", "jquery"],
-        function(msc_parse, genny_parse, msc_render, to_msgenny, to_mscgen, $) {
+define(["mscgenparser", "msgennyparser", "mscrender",
+        "parsetree2msgenny", "parsetree2mscgen", "codemirror",
+        "codemirror/addon/edit/closebrackets",
+        "codemirror/addon/edit/matchbrackets",
+        "codemirror/mode/mscgen/mscgen",
+        "jquery"],
+        function(msc_parse, genny_parse, msc_render,
+            to_msgenny, to_mscgen, codemirror,
+            cm_closebrackets,
+            cm_matchbrackets,
+            cm_mscgen,
+            $) {
 
 var gAutoRender = true;
 var gMsGenny = false;
 var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
+var gCodeMirror =
+    CodeMirror.fromTextArea(document.getElementById("msc_input"), {
+        lineNumbers       : true,
+        autoCloseBrackets : true,
+        matchBrackets     : true,
+        theme             : "midnight", 
+        mode              : "mscgen",
+        lineWrapping      : true
+    });
+
 
 $(document).ready(function(){
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -99,6 +118,16 @@ $(document).ready(function(){
                     ga('send', 'event', 'render', 'button');
                 }
     });
+    gCodeMirror.on ("change", function() {
+                    msc_inputKeyup();
+                    if (gGaKeyCount > 17) {
+                        gGaKeyCount = 0;
+                        ga('send', 'event', '17 characters typed', 'textarea');
+                    } else {
+                        gGaKeyCount++;
+                    }
+    });
+    /*
     $("#msc_input").bind({
         keyup : function(e) {
                     msc_inputKeyup();
@@ -120,6 +149,7 @@ $(document).ready(function(){
                     ga('send', 'event', 'copy', 'textarea');
                 }
     });
+    */
     $("#textcopybox").bind({
         cut : function (e) {
                     ga('send', 'event', 'cut', 'svgsource');
@@ -185,9 +215,12 @@ function autorenderOnClick () {
 function msgennyOnClick () {
     gMsGenny = !gMsGenny;
     if (gMsGenny === true) {
-        $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
+        // $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
+        gCodeMirror.setValue(mscgen2genny(gCodeMirror.getValue()));
+        gCodeMirror.setOption("mode", "msgenny");
     } else {
-        $("#msc_input").val(genny2mscgen ($("#msc_input").val()));
+        gCodeMirror.setValue(genny2mscgen(gCodeMirror.getValue()));
+        gCodeMirror.setOption("mode", "mscgen");
     }
     showMsGennyState ();
 }
@@ -244,7 +277,7 @@ function showMsGennyState () {
 
 function mscgen2genny (pMscgenText) {
     try { 
-        var lParseTree = mscparser.parse($("#msc_input").val());
+        var lParseTree = mscparser.parse(pMscgenText);
         return tomsgenny.render(lParseTree);
     } catch (e) {
         return pMscgenText;
@@ -253,7 +286,7 @@ function mscgen2genny (pMscgenText) {
 
 function genny2mscgen (pMsGennyText) {
     try { 
-        var lParseTree = msgennyparser.parse($("#msc_input").val());
+        var lParseTree = msgennyparser.parse(pMsGennyText);
         return tomscgen.render(lParseTree);
     } catch (e) {
         return pMsGennyText;
@@ -266,18 +299,23 @@ function render() {
         var lParseTree;
 
         if (gMsGenny) {
-            lParseTree = msgennyparser.parse($("#msc_input").val());
+            // lParseTree = msgennyparser.parse($("#msc_input").val());
+            lParseTree = msgennyparser.parse(gCodeMirror.getValue());
         } else {
-            lParseTree = mscparser.parse($("#msc_input").val());
+            // lParseTree = mscparser.parse($("#msc_input").val());
+            lParseTree = mscparser.parse(gCodeMirror.getValue());
         }
         msc_render.clean();
-        msc_render.renderParseTree(lParseTree, $("#msc_input").val());
+        msc_render.renderParseTree(lParseTree, gCodeMirror.getValue());
 
     } catch (e) {
         displayError(
             e.line !== undefined && e.column !== undefined
         ? "Line " + e.line + ", column " + e.column + ": " + e.message
         : e.message);
+        // TODO: doesn't work that well when the error is not 
+        // on the position you were typing...
+        // gCodeMirror.setCursor (e.line, e.column);
     }
 }
 

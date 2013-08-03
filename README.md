@@ -34,8 +34,9 @@ it as part of other free software, but _not_ as part of non free softare.
 Thanks
 ------
 
-- [Mike McTernan][7] For creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
-- [David Majda][8] For cooking & maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
+- [Mike McTernan][7] for creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
+- [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
+- [Marijn Haverbeke][10] for the [CodeMirror][11] editor component
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
 [2]: http://sverweij.github.io/mscgen_js
@@ -46,3 +47,5 @@ Thanks
 [7]: http://www.mcternan.me.uk/mscgen
 [8]: http://majda.cz/en/
 [9]: http://pegjs.majda.cz/
+[10]: http://marijnhaverbeke.nl
+[11]: http://codemirror.net
