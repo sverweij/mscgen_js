@@ -29,7 +29,7 @@ CodeMirror.defineMode("mscgen", function(config, parserConfig) {
                       ];
     return {
         token : function (stream, state) {
-            console.debug(stream.string);
+            //console.debug(stream.string);
             /* if (stream.match(wordRegexp(gBrackets), true, true)) {
                 return "bracket";
             } */
