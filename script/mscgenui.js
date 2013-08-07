@@ -38,14 +38,14 @@ msc {
 define(["mscgenparser", "msgennyparser", "mscrender",
         "parsetree2msgenny", "parsetree2mscgen",
         "codemirror",
-        "codemirror/mode/mscgen/mscgen",
+        // "codemirror/mode/mscgen/mscgen",
         "codemirror/addon/edit/closebrackets",
         "codemirror/addon/edit/matchbrackets",
         "jquery"],
         function(msc_parse, genny_parse, msc_render,
             to_msgenny, to_mscgen,
             codemirror,
-            cm_mscgen,
+            // cm_mscgen,
             cm_closebrackets,
             cm_matchbrackets,
             $) {
@@ -60,7 +60,7 @@ var gCodeMirror =
         autoCloseBrackets : true,
         matchBrackets     : true,
         theme             : "midnight", 
-        mode              : "mscgen",
+        // mode              : "mscgen",
         lineWrapping      : true
     });
 
