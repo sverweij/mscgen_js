@@ -32,12 +32,13 @@
           src="script/require.js"></script>
 </head>
 <body>
-    <h1 class="fadable">mscgen_js<i> - turns text into sequence charts</i></h1>
-
+<div id="header" class="fadable">
+    <h1 class="fadable">mscgen_js</h1>
+    <span>turns text into sequence charts</span>
+</div>
 <div id="input_and_controls">
     <h3 class="fadable">
         <span class="intronumber">1</span>
-    <a id="langlink" class="fadable" href="http://www.mcternan.me.uk/mscgen/index.html">mscgen</a>
         text goes here &#x0261f; 
     </h3>
 
@@ -62,9 +63,7 @@ msc {
   b->b [ label = "stalled(...)"];
   a<<b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
   c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
-}
-        
-</textarea>
+}</textarea>
     <div>
         <input type="checkbox" id="autorender">
         <label for="autorender"
@@ -260,6 +259,6 @@ Note: the url bar will contains the base64 encoded version of the svg">
         <textarea readonly="true" id="textcopybox" class="code svg" spellcheck="false"></textarea>
     </div>
 </div>
-<a id="#forkme" href="https://github.com/sverweij/mscgen_js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<a id="forkme" href="https://github.com/sverweij/mscgen_js" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 </body>
 </html>

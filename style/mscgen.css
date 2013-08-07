@@ -17,11 +17,12 @@ textarea {
 }
 h1 {
     font-size        : 1.9em;
+    margin-bottom    : 0;
+}
+#header {
     padding-bottom   : 0.9em;
     border-bottom    : solid lightgrey 1px;
-}
-h1 i {
-    font-weight      : 500;
+    margin-bottom    : 0.4em;
 }
 h2 {
     font-style       : italic;
