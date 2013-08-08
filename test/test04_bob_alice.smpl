@@ -1,35 +1,18 @@
-# entities
-Alice, P1, P2, Bob : haha;
+hscale="2.0";
 
-# arcs
-Alice -> P1 : INVITE;
-Alice <- P1 : 100 Trying;
-P1 -> P2 : INVITE;
-P1 <- P2 : 100 Trying;
-P2 -> Bob : INVITE;
-P2 <- Bob : 100 Trying;
-P2 <- Bob : 180 Ringing;
-P1 <- P2 : 180 Ringing;
-Alice <- P1 : 180 Ringing;
---- : Alice's client plays ringing;
-...;
---- : Bob answers;
-P2 <- Bob : 200 Ok;
-P1 <- P2 : 200 Ok;
-Alice <- P1 : 200 Ok;
-Alice -> P1 : ACK;
-P1 -> P2 : ACK;
-P2 -> Bob : ACK;
---- : two way media;
-...;
---- : Bob hangs up;
-P2 <- Bob : BYE;
-P2 -> Bob : 200 Ok;
-P1 <- P2 : BYE;
-P1 -> P2 : 200 Ok;
-Alice <- P1 : BYE;
-Alice -> P1 : 200 Ok;
-
+--- : public key authentication;
+Alice => Alice : sign message with own private key;
+Alice => Bob : signed message;
+Bob => Alice : get Alice her public key;
+Alice >> Bob : Alices' public key;
+Bob => Bob : verify message with Alices' public key;
+|||;
+--- : public key encryption;
+Alice => Bob : get Bobs' public key;
+Bob >> Alice : Bobs' public key;
+Alice => Alice : encrypt message with Bob's public key;
+Alice => Bob : encrypted message;
+Bob => Bob : decrypt message with own private key;
 /*
     This file is part of mscgen_js.
 
