@@ -177,7 +177,7 @@ function _createLine(pX1, pY1, pX2, pY2, pClass, pDouble) {
 function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass){
     var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
     lPathString += " l" + pWidth.toString() + ",0"; // right
-    lPathString += " l0," + (pEndY - pStartY).toString(); // down
+    lPathString += " l0," + (pEndY).toString(); // down
     lPathString += " l-" + pWidth.toString() + ",0"; // left
     return _createPath(lPathString, pClass)
 }

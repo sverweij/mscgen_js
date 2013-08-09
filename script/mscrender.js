@@ -291,30 +291,14 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     var lWidth  = INTER_ENTITY_SPACING/3;
     var lSign = (pYTo < 0) ? -1 : 1;
 
-    var lPathString = "M" + pFrom.toString() + ", -" + (lHeight/2).toString();
-    lPathString += " l" + lWidth.toString() + ",0"; // right
-    lPathString += " l0," + (lSign * lHeight).toString(); // down
-    lPathString += " l0," + pYTo.toString(); // extra down for arcskip
-    lPathString += " l-" + lWidth.toString() + ",0"; // left
-
-    /* TODO: yech! */
-    if (pDouble) {
-        pYTo -= 2;
-        lPathString = "M" + pFrom.toString() + ", -" + ((lHeight-4)/2).toString() ;
-        lPathString += " l" + (lWidth-4).toString() + ",0"; // right
-        lPathString += " l0," + (lSign * lHeight).toString(); // down
-        lPathString += " l0," + pYTo.toString(); // extra down for arcskip
-        lPathString += " l-" + (lWidth-4).toString() + ",0"; // left
-        pYTo += 8;
-        lPathString += "M" + pFrom.toString() + ", -" + ((lHeight+4)/2).toString();
-        lPathString += " l" + lWidth.toString() + ",0"; // right
-        lPathString += " l0," + (lSign * lHeight).toString(); // down
-        lPathString += " l0," + pYTo.toString(); // extra down for arcskip
-        lPathString += " l-" + lWidth.toString() + ",0"; // left
+    var lGroup = utl.createGroup("selfie");
+    if (pDouble){
+        lGroup.appendChild(utl.createUTurn(pFrom, (lHeight-4)/2, (pYTo - 2 + lHeight) /*lSign*lHeight*/, lWidth-4, "none"));
+        lGroup.appendChild(utl.createUTurn(pFrom, (lHeight+4)/2, (pYTo + 6 + lHeight) /*lSign*lHeight*/, lWidth, pClass));
+    } else {
+        lGroup.appendChild(utl.createUTurn(pFrom, lHeight/2, (pYTo + lHeight) /*lSign*lHeight*/, lWidth, pClass));
     }
-    /* end yech! */
-    
-    return utl.createPath(lPathString, pClass);
+    return lGroup;
 }
 
 function arcColorOverride (pArc) {
