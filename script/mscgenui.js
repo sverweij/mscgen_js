@@ -231,7 +231,7 @@ function msgennyOnClick () {
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
 // namespace prefixes in front of xlink and all hrefs respectively. 
 // this function does a crude global replace to circumvent the
-// resulting problems.
+// resulting problems. Problem happens for xhtml too
 function webkitNamespaceBugWorkaround(pText){
     var lText =  pText.replace(/\ xlink=/g, " xmlns:xlink=", "g");
     lText = lText.replace(/\ href=/g, " xlink:href=", "g");
