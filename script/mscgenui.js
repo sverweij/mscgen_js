@@ -235,8 +235,6 @@ function msgennyOnClick () {
 function webkitNamespaceBugWorkaround(pText){
     var lText =  pText.replace(/\ xlink=/g, " xmlns:xlink=", "g");
     lText = lText.replace(/\ href=/g, " xlink:href=", "g");
-    lText =  lText.replace(/\ xhtml=/g, " xmlns:xhtml=", "g");
-    lText = lText.replace(/\<div/g, "<xhtml:div", "g");// TODO: strictly speaking not needed anymore
     return lText;
 }
 function show_svg_sourceOnClick () {

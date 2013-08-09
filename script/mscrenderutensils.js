@@ -19,7 +19,6 @@ define([], function() {
 
 var SVGNS = new String ("http://www.w3.org/2000/svg");
 var XLINKNS = new String ("http://www.w3.org/1999/xlink");
-var XHTMLNS = new String ("http://www.w3.org/1999/xhtml");
 
 /* superscript style could also be super or a number (1em) or a % (100%) */
 var lSuperscriptStyle = "vertical-align : text-top;";
@@ -127,22 +126,6 @@ function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     return lText;
 }
 
-/* TODO: not used. Deletionation candidate */
-function createTextForeign(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-    var lFO = document.createElementNS(SVGNS, "foreignObject");
-    var lDiv = document.createElementNS(XHTMLNS, "xhtml:div");
-    var lContent = document.createTextNode(pLabel);
-    lFO.setAttribute ("x", pX.toString());
-    lFO.setAttribute ("y", pY.toString());
-    lFO.setAttribute("width","96");
-    lFO.setAttribute("height","40");
-    if (pClass) {
-        lDiv.setAttribute ("class", pClass);
-    }
-    lDiv.appendChild(lContent);
-    lFO.appendChild(lDiv);
-    return lFO;
-}
 
 function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
     // var lSwitch = document.createElementNS(SVGNS, "switch");
@@ -221,13 +204,13 @@ return {
     createPath: function (pD, pClass) {
                     return _createPath(pD, pClass);
                 },
-    createRect: function createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
+    createRect: function (pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
                     return _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY);
                 },
-    createABox: function createABox(pWidth, pHeight, pClass, pX, pY) {
+    createABox: function (pWidth, pHeight, pClass, pX, pY) {
                     return _createABox(pWidth, pHeight, pClass, pX, pY);
                 },
-    createNote: function createNote(pWidth, pHeight, pClass, pX, pY) {
+    createNote: function (pWidth, pHeight, pClass, pX, pY) {
                     return _createNote(pWidth, pHeight, pClass, pX, pY);
                 },
     createText: function (pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
