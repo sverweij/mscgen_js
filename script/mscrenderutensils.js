@@ -26,11 +26,13 @@ lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;"
 
 function _cleanElement (pChildId) {
     var lOldChild = document.getElementById(pChildId);
-    var lParentElement = lOldChild.parentNode;
-    var lNewChild =
-        document.createElementNS(SVGNS, lOldChild.tagName);
-    lNewChild.setAttribute("id", pChildId);
-    lParentElement.replaceChild(lNewChild, lOldChild);
+    if (lOldChild && lOldChild !== null && lOldChild !== undefined) {
+        var lParentElement = lOldChild.parentNode;
+        var lNewChild =
+            document.createElementNS(SVGNS, lOldChild.tagName);
+        lNewChild.setAttribute("id", pChildId);
+        lParentElement.replaceChild(lNewChild, lOldChild);
+    }
 }
 
 function _getTextWidth (pText, pFont) {
@@ -40,6 +42,15 @@ function _getTextWidth (pText, pFont) {
 function _createPath(pD, pClass) {
     var lPath = document.createElementNS(SVGNS, "path");
     lPath.setAttribute ("d", pD);
+    if (pClass) {
+        lPath.setAttribute ("class", pClass);
+    }
+    return lPath;
+}
+
+function _createPolygon(pPoints, pClass) {
+    var lPath = document.createElementNS(SVGNS, "polygon");
+    lPath.setAttribute ("points", pPoints);
     if (pClass) {
         lPath.setAttribute ("class", pClass);
     }
@@ -197,6 +208,28 @@ function _createUse (pX, pY, pLink) {
     return lUse;
 }
 
+function _createMarker(pId, pClass, pOrient) {
+    var lMarker = document.createElementNS(SVGNS, "marker");
+    lMarker.setAttribute("orient", pOrient);
+    lMarker.setAttribute("id", pId);
+    lMarker.setAttribute("class", pClass);
+    return lMarker;
+}
+
+function _createMarkerPath(pId, pClass, pOrient, pD, pPathClass) {
+    var lMarker = _createMarker(pId, pClass, pOrient);
+    var lPath = _createPath(pD, pPathClass);
+    lMarker.appendChild(lPath);
+    return lMarker;
+}
+
+function _createMarkerPolygon(pId, pClass, pOrient, pPoints, pPathClass) {
+    var lMarker = _createMarker(pId, pClass, pOrient);
+    var lPolygon = _createPolygon(pPoints, pPathClass);
+    lMarker.appendChild(lPolygon);
+    return lMarker;
+}
+
 return {
     cleanElement: function (pId) {
                     return _cleanElement(pId);
@@ -228,6 +261,12 @@ return {
     createUse: function(pX, pY, pLink) {
                     return _createUse (pX, pY, pLink);
                },
+    createMarkerPath: function(pId, pClass, pOrient, pD, pPathClass) {
+                    return _createMarkerPath (pId, pClass, pOrient, pD, pPathClass);
+               },
+    createMarkerPolygon: function(pId, pClass, pOrient, pPoints, pPathClass) {
+                    return _createMarkerPolygon (pId, pClass, pOrient, pPoints, pPathClass);
+                },
     getTextWidth: function (pText, pFont) {
                       return _getTextWidth(pText, pFont);
                   }

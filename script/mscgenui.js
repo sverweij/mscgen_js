@@ -299,10 +299,8 @@ function render() {
         var lAST;
 
         if (gMsGenny) {
-            // lAST = msgennyparser.parse($("#msc_input").val());
             lAST = msgennyparser.parse(gCodeMirror.getValue());
         } else {
-            // lAST = mscparser.parse($("#msc_input").val());
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
         msc_render.clean();

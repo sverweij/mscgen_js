@@ -36,13 +36,83 @@ var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
 
 function _clean () {
+    /*
     utl.cleanElement("msc_source");
     utl.cleanElement("sequence");
     utl.cleanElement("notelayer");
     utl.cleanElement("defs");
+    */
+    lChildElement = document.getElementById("svg_output")
+    if (lChildElement &&
+            (lChildElement !== null) &&
+            (lChildElement !== undefined)) {
+        lParentElement = document.getElementById("svg");
+        lParentElement.removeChild(lChildElement);
+    }
+}
+
+function bootstrap(pParentElementId, pSvgElementId) {
+    var SVGNS = new String ("http://www.w3.org/2000/svg");
+    var XLINKNS = new String ("http://www.w3.org/1999/xlink");
+
+    var lParent = document.getElementById(pParentElementId);
+    var lSkeletonSvg = document.createElementNS(SVGNS, "svg");
+    lSkeletonSvg.setAttribute("version", "1.1");
+    lSkeletonSvg.setAttribute("id", pSvgElementId);
+    lSkeletonSvg.setAttribute("xmlns", SVGNS);
+    lSkeletonSvg.setAttribute("xmlns:xlink", XLINKNS);
+    var lDesc = document.createElementNS(SVGNS, "desc");
+    lDesc.setAttribute("id", "msc_source");
+    var lDefs = document.createElementNS(SVGNS, "defs");
+
+    var lStyle = document.createElement("style");
+    lStyle.setAttribute("type", "text/css");
+    lStyle.appendChild(document.createTextNode(gSvgStyleElementString));
+
+    lDefs.appendChild(lStyle);
+    // TODO : lDefs.appendChild( - zootje markers - );
+    lDefs.appendChild(
+            utl.createMarkerPath("signal", "arrow-marker", "auto",
+            "M0,0 l-8,2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("signal-l", "arrow-marker", "auto",
+            "M0,0 l8,2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPolygon("method", "arrow-marker", "auto",
+            "-8,2 0,0, -8,-2", "filled arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPolygon("method-l", "arrow-marker", "auto",
+            "8,2 0,0, 8,-2", "filled arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("returnvalue", "arrow-marker", "auto",
+            "M0,0 l-8,2 M0,0 l-8,-2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("returnvalue-l", "arrow-marker", "auto",
+            "M0,0 l8,2 M0,0 l8,-2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("callback", "arrow-marker", "auto",
+            "M0,0 l-8,2 M0,0 l-8,-2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("callback-l", "arrow-marker", "auto",
+            "M0,0 l8,2 M0,0 l8,-2", "arrow-style"));
+
+    lDefs.appendChild(
+            utl.createMarkerPath("lost", "arrow-marker", "auto",
+            "M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5", "arrow-style"));
+    lDefs.appendChild(utl.createGroup("defs"));
+
+    lSkeletonSvg.appendChild(lDesc);
+    lSkeletonSvg.appendChild(lDefs);
+    var lBody = utl.createGroup("body");
+    lBody.appendChild(utl.createGroup("sequence"));
+    lBody.appendChild(utl.createGroup("notelayer"));
+    lSkeletonSvg.appendChild(lBody);
+    lParent.appendChild(lSkeletonSvg);
 }
 
 function _renderAST (pAST, pSource) {
+
+    bootstrap("svg", "svg_output");
 
     INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
     ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
@@ -89,7 +159,6 @@ function _renderAST (pAST, pSource) {
         lTransform += " scale(" + (pAST.options.width/lCanvasWidth) + ",1)";
         body.setAttribute ("transform", lTransform);
     }
-
 }
 
 function renderEntities (pEntities) {
@@ -575,6 +644,117 @@ function createBox (pId, pFrom, pTo, pArc) {
 }
 
 
+gSvgStyleElementString = 
+"svg { \
+    font-family: Helvetica, sans-serif; \
+    font-size: 9pt; \
+    background-color: white; \
+    stroke : black; \
+    color  : black; \
+} \
+rect { \
+    fill: none; \
+    stroke: inherit; \
+    stroke-width: 2; \
+} \
+rect.textbg { \
+    fill:white; \
+    stroke:white; \
+    stroke-width:0; \
+} \
+line { \
+    stroke: inherit; \
+    stroke-width: 2; \
+} \
+.arcrowomit { \
+    stroke-dasharray: 2,2; \
+} \
+text { \
+    color: inherit; \
+    stroke: inherit; \
+    text-anchor: middle; \
+    stroke-width:0.1; /* makes font seem more crisp */ \
+} \
+text.entity { \
+    text-decoration : underline; \
+} \
+text.anchor-start { \
+    text-anchor: start; \
+} \
+path { \
+    stroke : inherit; \
+    stroke-width : 2; \
+    fill : none; \
+} \
+.dotted { \
+    stroke-dasharray: 5,2; \
+} \
+.arrow-marker { \
+    overflow:visible; \
+} \
+.arrow-style { \
+    stroke-dasharray : none; \
+    stroke-width : 1; \
+} \
+.filled { \
+    stroke:inherit; \
+    fill:black; /* no-inherit */ \
+} \
+.signal { \
+    marker-end : url(#signal); \
+} \
+.signal-both { \
+    marker-end : url(#signal); \
+    marker-start : url(#signal-l); \
+} \
+.method { \
+    marker-end : url(#method); \
+} \
+.method-both { \
+    marker-end : url(#method); \
+    marker-start : url(#method-l); \
+} \
+.returnvalue { \
+    stroke-dasharray: 5,2; \
+    marker-end : url(#returnvalue); \
+} \
+.returnvalue-both { \
+    stroke-dasharray: 5,2; \
+    marker-end : url(#returnvalue); \
+    marker-start : url(#returnvalue-l); \
+} \
+.callback { \
+    marker-end : url(#callback); \
+} \
+.callback-both { \
+    marker-end : url(#callback); \
+    marker-start : url(#callback-l); \
+} \
+.emphasised { \
+    marker-end : url(#method); \
+} \
+.emphasised-both { \
+    marker-end : url(#method); \
+    marker-start : url(#method-l); \
+} \
+.lost { \
+    marker-end : url(#lost); \
+} \
+.arcrowomit { \
+    stroke-dasharray: 2,2; \
+} \
+.box { \
+    /* fill: #ffc;  no-inherit */ \
+    fill : white; \
+    opacity: 0.9; \
+} \
+.boxtext, .arctext { \
+    font-size: 0.8em; \
+    text-anchor: middle; \
+} \
+.comment { \
+    stroke-dasharray: 5,2; \
+}"; 
 return {
     clean : function () {
                 _clean();
