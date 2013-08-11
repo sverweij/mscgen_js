@@ -1,20 +1,20 @@
 /*
- * takes a parsetree for a message sequence chart and renders it
+ * takes an abstract syntax tree for a message sequence chart and renders it
  * as a simplified mscgen (ms genny)program. 
  */
-module.exports = (function(){
+var tomsgenny = (function(){
 
-function _renderParseTree(pParseTree){
+function _renderAST(pAST){
     var lRetVal = new String("");
-    if (pParseTree) {
-        if(pParseTree.options){
-            lRetVal += renderOptions(pParseTree.options) + "\n";
+    if (pAST) {
+        if(pAST.options){
+            lRetVal += renderOptions(pAST.options) + "\n";
         }
-        if (pParseTree.entities) {
-            lRetVal += renderEntities(pParseTree.entities) + "\n";
+        if (pAST.entities) {
+            lRetVal += renderEntities(pAST.entities) + "\n";
         }
-        if (pParseTree.arcs) {
-            lRetVal += renderArcLines(pParseTree.arcs);
+        if (pAST.arcs) {
+            lRetVal += renderArcLines(pAST.arcs);
         }
     }
     return lRetVal;
@@ -122,8 +122,8 @@ function renderArcLines(pArcs) {
 }
 
 var result =  { 
-    render: function (pParseTree){
-        return _renderParseTree(pParseTree);
+    render: function (pAST){
+        return _renderAST(pAST);
     }
 }
 

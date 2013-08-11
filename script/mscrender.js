@@ -42,30 +42,30 @@ function _clean () {
     utl.cleanElement("defs");
 }
 
-function _renderParseTree (pParseTree, pSource) {
+function _renderAST (pAST, pSource) {
 
     INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
     ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
     ARCROW_HEIGHT        = DEFAULT_ARCROW_HEIGHT;
     ARC_GRADIENT         = DEFAULT_ARC_GRADIENT;
 
-    if (pParseTree.options) {
-        if (pParseTree.options.hscale) {
+    if (pAST.options) {
+        if (pAST.options.hscale) {
             INTER_ENTITY_SPACING =
-                pParseTree.options.hscale * DEFAULT_INTER_ENTITY_SPACING;
+                pAST.options.hscale * DEFAULT_INTER_ENTITY_SPACING;
             ENTITY_WIDTH =
-                pParseTree.options.hscale * DEFAULT_ENTITY_WIDTH;
+                pAST.options.hscale * DEFAULT_ENTITY_WIDTH;
         }
-        if (pParseTree.options.arcgradient) {
+        if (pAST.options.arcgradient) {
             ARCROW_HEIGHT =
-                parseInt(pParseTree.options.arcgradient) + DEFAULT_ARCROW_HEIGHT;
+                parseInt(pAST.options.arcgradient) + DEFAULT_ARCROW_HEIGHT;
             ARC_GRADIENT = 
-                parseInt(pParseTree.options.arcgradient) + DEFAULT_ARC_GRADIENT;
+                parseInt(pAST.options.arcgradient) + DEFAULT_ARC_GRADIENT;
         }
     }
 
-    renderEntities(pParseTree.entities);
-    renderArcs(pParseTree.arcs, pParseTree.entities);
+    renderEntities(pAST.entities);
+    renderArcs(pAST.arcs, pAST.entities);
 
     var body = document.getElementById("body");
     var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
@@ -84,9 +84,9 @@ function _renderParseTree (pParseTree, pSource) {
     lSvgElement.setAttribute("width", lCanvasWidth.toString());
     lSvgElement.setAttribute("height", lCanvasHeight.toString());
 
-    if (pParseTree.options && pParseTree.options.width) {
+    if (pAST.options && pAST.options.width) {
         var lTransform = body.getAttribute("transform");
-        lTransform += " scale(" + (pParseTree.options.width/lCanvasWidth) + ",1)";
+        lTransform += " scale(" + (pAST.options.width/lCanvasWidth) + ",1)";
         body.setAttribute ("transform", lTransform);
     }
 
@@ -579,8 +579,8 @@ return {
     clean : function () {
                 _clean();
             },
-    renderParseTree : function (pParseTree, pSource) {
-                          _renderParseTree(pParseTree, pSource);
+    renderAST : function (pAST, pSource) {
+                          _renderAST(pAST, pSource);
                       }
 };
 }); // define

@@ -3,7 +3,6 @@
  * to an mscgen program
  */
 var parser = require ("./msgennyparser_node");
-var ast2mscgen = require ("./ast2mscgen");
 
 var gInput = new String();
 
@@ -16,7 +15,7 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
     var lAST = parser.parse(gInput);
-    process.stdout.write(ast2mscgen.render (lAST));
+    process.stdout.write(JSON.stringify(lAST));
     process.stdin.pause();
 });
 

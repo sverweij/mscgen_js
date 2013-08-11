@@ -17,8 +17,8 @@ pegjs script/node/msgennyparser.pegjs script/node/msgennyparser_node.js
 
 # TODO: test for existence of sed (and what to do if it isn't there?)
 echo "creating web variants of parsetree2*.js ..."
-sed s/module.exports/var\ tomscgen/g script/node/parsetree2mscgen.js > script/parsetree2mscgen.js
-sed s/module.exports/var\ tomsgenny/g script/node/parsetree2msgenny.js > script/parsetree2msgenny.js
+sed s/module.exports/var\ tomscgen/g script/node/ast2mscgen.js > script/ast2mscgen.js
+sed s/module.exports/var\ tomsgenny/g script/node/ast2msgenny.js > script/ast2msgenny.js
 
 echo "optimizing css and javascript with r.js ..."
 # TODO: test for existence of r.js (and npm it if not there/ or use

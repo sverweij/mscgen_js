@@ -17,8 +17,8 @@ msc {
   ui =>> msc [label="parse(text)"];
 
   --- [label="[hunky dory]", linecolor="green"];
-  ui << msc [label="parseTree"];
-  ui => render [label="renderParseTree(parseTree, text)"];
+  ui << msc [label="AST"];
+  ui => render [label="renderAST(AST, text)"];
   render => utls [label="low level helpers"];  
   utls => doc [label="all kinds of dom manipulation"];
   render => doc [label="all kinds of dom manipulation"];
@@ -36,7 +36,7 @@ msc {
 */
 
 define(["mscgenparser", "msgennyparser", "mscrender",
-        "parsetree2msgenny", "parsetree2mscgen",
+        "ast2msgenny", "ast2mscgen",
         "codemirror",
         // "codemirror/mode/mscgen/mscgen",
         "codemirror/addon/edit/closebrackets",
@@ -277,8 +277,8 @@ function showMsGennyState () {
 
 function mscgen2genny (pMscgenText) {
     try { 
-        var lParseTree = mscparser.parse(pMscgenText);
-        return tomsgenny.render(lParseTree);
+        var lAST = mscparser.parse(pMscgenText);
+        return tomsgenny.render(lAST);
     } catch (e) {
         return pMscgenText;
     }
@@ -286,8 +286,8 @@ function mscgen2genny (pMscgenText) {
 
 function genny2mscgen (pMsGennyText) {
     try { 
-        var lParseTree = msgennyparser.parse(pMsGennyText);
-        return tomscgen.render(lParseTree);
+        var lAST = msgennyparser.parse(pMsGennyText);
+        return tomscgen.render(lAST);
     } catch (e) {
         return pMsGennyText;
     }
@@ -296,17 +296,17 @@ function genny2mscgen (pMsGennyText) {
 function render() {
     try {
         hideError();
-        var lParseTree;
+        var lAST;
 
         if (gMsGenny) {
-            // lParseTree = msgennyparser.parse($("#msc_input").val());
-            lParseTree = msgennyparser.parse(gCodeMirror.getValue());
+            // lAST = msgennyparser.parse($("#msc_input").val());
+            lAST = msgennyparser.parse(gCodeMirror.getValue());
         } else {
-            // lParseTree = mscparser.parse($("#msc_input").val());
-            lParseTree = mscparser.parse(gCodeMirror.getValue());
+            // lAST = mscparser.parse($("#msc_input").val());
+            lAST = mscparser.parse(gCodeMirror.getValue());
         }
         msc_render.clean();
-        msc_render.renderParseTree(lParseTree, gCodeMirror.getValue());
+        msc_render.renderAST(lAST, gCodeMirror.getValue());
 
     } catch (e) {
         displayError(
