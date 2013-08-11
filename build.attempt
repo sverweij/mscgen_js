@@ -24,7 +24,6 @@ pegjs script/node/msgennyparser.pegjs script/node/msgennyparser_node.js
 
 # Deployment  (ftp, rsync, ...)
 git checkout master
-git pull origin master
 git checkout gh-pages
 git merge master
 git push
