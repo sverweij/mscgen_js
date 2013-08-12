@@ -203,7 +203,11 @@ module.exports = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, x, d) { return merge (d[0], merge (d[1], d[2])) })(pos0, result0[1], result0[5]);
+          result0 = (function(offset, x, d) { 
+            d[1] = checkForUndeclaredEntities(d[1], d[2]);
+        
+          return merge (d[0], merge (d[1], d[2])) 
+        })(pos0, result0[1], result0[5]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -2783,6 +2787,56 @@ module.exports = (function(){
               for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
               return obj3;
           }
+      
+          function entityExists (pEntities, lName) {
+              var i = 0;
+              if (lName === undefined || lName === "*") {
+                  return true;
+              }
+              if (pEntities && pEntities.entities && lName) {
+                  for (i=0;i<pEntities.entities.length;i++) {
+                      if (pEntities.entities[i].name === lName) {
+                          return true;
+                      }
+                  }
+              }
+              return false;
+          }
+      
+          function EntityNotDefinedError (pEntityName, pArc) {
+              this.message = "Entity '" + pEntityName + "' in arc ";
+              this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
+              this.message += "is not defined.";
+              this.name = "EntityNotDefinedError";
+          }
+      
+          function checkForUndeclaredEntities (pEntities, pArcLineList) {
+              var i = 0;
+              var j = 0;
+              var lEntities = new Object();
+              if (pEntities) {
+                  lEntities = pEntities;
+              } else {
+                  lEntities.entities = [];
+              }
+      
+              if (pArcLineList && pArcLineList.arcs) {
+                  for (i=0;i<pArcLineList.arcs.length;i++) {
+                      for (j=0;j<pArcLineList.arcs[i].length;j++) {
+                          if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
+                              throw new EntityNotDefinedError(pArcLineList.arcs[i][j].from,
+                                          pArcLineList.arcs[i][j]);
+                          }
+                          if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
+                              throw new EntityNotDefinedError(pArcLineList.arcs[i][j].to,
+                                          pArcLineList.arcs[i][j]);
+                          }
+                      }
+                  }
+              }
+              return lEntities;
+          }
+      
       
       
       var result = parseFunctions[startRule]();

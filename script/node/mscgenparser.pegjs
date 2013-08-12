@@ -27,10 +27,64 @@
         for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
         return obj3;
     }
+
+    function entityExists (pEntities, lName) {
+        var i = 0;
+        if (lName === undefined || lName === "*") {
+            return true;
+        }
+        if (pEntities && pEntities.entities && lName) {
+            for (i=0;i<pEntities.entities.length;i++) {
+                if (pEntities.entities[i].name === lName) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function EntityNotDefinedError (pEntityName, pArc) {
+        this.message = "Entity '" + pEntityName + "' in arc ";
+        this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
+        this.message += "is not defined.";
+        this.name = "EntityNotDefinedError";
+    }
+
+    function checkForUndeclaredEntities (pEntities, pArcLineList) {
+        var i = 0;
+        var j = 0;
+        var lEntities = new Object();
+        if (pEntities) {
+            lEntities = pEntities;
+        } else {
+            lEntities.entities = [];
+        }
+
+        if (pArcLineList && pArcLineList.arcs) {
+            for (i=0;i<pArcLineList.arcs.length;i++) {
+                for (j=0;j<pArcLineList.arcs[i].length;j++) {
+                    if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
+                        throw new EntityNotDefinedError(pArcLineList.arcs[i][j].from,
+                                    pArcLineList.arcs[i][j]);
+                    }
+                    if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
+                        throw new EntityNotDefinedError(pArcLineList.arcs[i][j].to,
+                                    pArcLineList.arcs[i][j]);
+                    }
+                }
+            }
+        }
+        return lEntities;
+    }
+
 }
 
 program         = _ x:starttoken _  "{" _ d:declarationlist _ "}" _ 
-{ return merge (d[0], merge (d[1], d[2])) }
+{ 
+    d[1] = checkForUndeclaredEntities(d[1], d[2]);
+
+  return merge (d[0], merge (d[1], d[2])) 
+}
 
 starttoken      = "msc"i
 
@@ -186,3 +240,4 @@ boolean "boolean"
     You should have received a copy of the GNU General Public License
     along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 */
+
