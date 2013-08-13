@@ -750,8 +750,8 @@ path { \
     stroke-dasharray: 5,2; \
 }"; 
 return {
-    clean : function () {
-                _clean();
+    clean : function (pParentElementId) {
+                _clean(pParentElementId);
             },
     renderAST : function (pAST, pSource, pParentElementId) {
                           _renderAST(pAST, pSource, pParentElementId);
