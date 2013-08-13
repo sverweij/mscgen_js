@@ -179,6 +179,11 @@ function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass){
     lPathString += " l" + pWidth.toString() + ",0"; // right
     lPathString += " l0," + (pEndY).toString(); // down
     lPathString += " l-" + pWidth.toString() + ",0"; // left
+    /*
+    var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
+    lPathString += " a "+ pWidth.toString() + " 4 0 0 1 0 " + pEndY.toString();
+    */
+
     return _createPath(lPathString, pClass)
 }
 

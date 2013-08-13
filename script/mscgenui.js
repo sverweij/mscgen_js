@@ -98,8 +98,8 @@ $(document).ready(function(){
     });
     $("#svg").bind({
         dblclick : function(e) {
-                    show_svg_sourceOnClick();
-                    ga('send', 'event', 'show_svg_source', 'svg dblcick');
+                    show_svgOnClick();
+                    ga('send', 'event', 'show_svg_base64', 'svg dblcick');
                 }
     });
     $("#show_svg").bind({
