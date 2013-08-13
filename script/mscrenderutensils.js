@@ -24,17 +24,6 @@ var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 var lSuperscriptStyle = "vertical-align : text-top;";
 lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;"
 
-function _cleanElement (pChildId) {
-    var lOldChild = document.getElementById(pChildId);
-    if (lOldChild && lOldChild !== null && lOldChild !== undefined) {
-        var lParentElement = lOldChild.parentNode;
-        var lNewChild =
-            document.createElementNS(SVGNS, lOldChild.tagName);
-        lNewChild.setAttribute("id", pChildId);
-        lParentElement.replaceChild(lNewChild, lOldChild);
-    }
-}
-
 function _getTextWidth (pText, pFont) {
     return pText.length * 5.7;
 }
@@ -231,9 +220,6 @@ function _createMarkerPolygon(pId, pClass, pOrient, pPoints, pPathClass) {
 }
 
 return {
-    cleanElement: function (pId) {
-                    return _cleanElement(pId);
-                },
     createPath: function (pD, pClass) {
                     return _createPath(pD, pClass);
                 },

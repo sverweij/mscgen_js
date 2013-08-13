@@ -36,12 +36,6 @@ var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
 
 function _clean () {
-    /*
-    utl.cleanElement("msc_source");
-    utl.cleanElement("sequence");
-    utl.cleanElement("notelayer");
-    utl.cleanElement("defs");
-    */
     lChildElement = document.getElementById("svg_output")
     if (lChildElement &&
             (lChildElement !== null) &&
