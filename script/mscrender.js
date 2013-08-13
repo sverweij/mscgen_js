@@ -35,12 +35,12 @@ var gEntity2ArcColor = new Object();
 var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
 
-function _clean () {
+function _clean (pParentElementId) {
     lChildElement = document.getElementById("svg_output")
     if (lChildElement &&
             (lChildElement !== null) &&
             (lChildElement !== undefined)) {
-        lParentElement = document.getElementById("svg");
+        lParentElement = document.getElementById(pParentElementId);
         lParentElement.removeChild(lChildElement);
     }
 }
@@ -104,9 +104,9 @@ function bootstrap(pParentElementId, pSvgElementId) {
     lParent.appendChild(lSkeletonSvg);
 }
 
-function _renderAST (pAST, pSource) {
+function _renderAST (pAST, pSource, pParentElementId) {
 
-    bootstrap("svg", "svg_output");
+    bootstrap(pParentElementId, "svg_output");
 
     INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
     ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
@@ -753,8 +753,8 @@ return {
     clean : function () {
                 _clean();
             },
-    renderAST : function (pAST, pSource) {
-                          _renderAST(pAST, pSource);
+    renderAST : function (pAST, pSource, pParentElementId) {
+                          _renderAST(pAST, pSource, pParentElementId);
                       }
 };
 }); // define

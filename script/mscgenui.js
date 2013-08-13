@@ -129,29 +129,6 @@ $(document).ready(function(){
                         gGaKeyCount++;
                     }
     });
-    /*
-    $("#msc_input").bind({
-        keyup : function(e) {
-                    msc_inputKeyup();
-                    if (gGaKeyCount > 17) {
-                        gGaKeyCount = 0;
-                        ga('send', 'event', '17 characters typed', 'textarea');
-                    } else {
-                        gGaKeyCount++;
-                    }
-                },
-        paste : function (e) {
-                    msc_inputPaste();
-                    ga('send', 'event', 'paste', 'textarea');
-                },
-        cut : function (e) {
-                    ga('send', 'event', 'cut', 'textarea');
-                },
-        copy : function (e) {
-                    ga('send', 'event', 'copy', 'textarea');
-                }
-    });
-    */
     $("#textcopybox").bind({
         cut : function (e) {
                     ga('send', 'event', 'cut', 'svgsource');
@@ -303,8 +280,8 @@ function render() {
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
-        msc_render.clean();
-        msc_render.renderAST(lAST, gCodeMirror.getValue());
+        msc_render.clean("svg");
+        msc_render.renderAST(lAST, gCodeMirror.getValue(), "svg");
 
     } catch (e) {
         displayError(
