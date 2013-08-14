@@ -372,7 +372,7 @@ button {
     background-color : #ddd;
     color            : #000;
     border           : none;
-    font-size        : inherit;
+    font-size        : 1em;
 }
 button:hover, .button:hover {
     text-align : center;
