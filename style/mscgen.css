@@ -379,6 +379,11 @@ button:hover, .button:hover {
     background-color : #555;
     color            : #fff;
 }
+img.icon {
+    display: inline;
+    width: 4em;
+    height: 3em;
+}
 /*
     This file is part of mscgen_js.
     mscgen_js is free software: you can redistribute it and/or modify

@@ -29,6 +29,17 @@
 </head>
 <body>
 <div id="header" class="fadable">
+    <div style="float:right">
+
+<!-- 	    <img src="images/twitter.svg" class="icon">
+	    <img src="images/gplus.svg" class="icon"> -->
+	    <a id="forkme" href="https://github.com/sverweij/mscgen_js" target="_blank">
+	    	<img src="images/github.svg" 
+	    		 alt="fork me on github" 
+	    		 title="fork me on github" class="icon">
+	    </a>
+    </div>
+
     <h1 class="fadable">mscgen_js</h1>
     <span>turns text into sequence charts</span>
 </div>
@@ -83,10 +94,10 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
     <h3 class="fadable" style="display:inline">
         <span class="intronumber">2</span> chart shows up here &#x0261f; 
     </h3>
-     <div style="float:right; left:10em;">
-        <button id="show_svg_source"
+     <div style="float:right; left:10em">
+         <button id="show_svg_source" style="z-index:11"
                 title="Shows the source of the picture (scalable vector graphics)">svg src</button>
-        <button id="show_svg" title="Shows the chart in a separate window.
+        <button id="show_svg" style="z-index:11" title="Shows the chart in a separate window.
 
 Note: the url bar will contains the base64 encoded version of the svg
 Note: Double clicking on the picture has the same effect.">
@@ -100,6 +111,8 @@ Note: Double clicking on the picture has the same effect.">
         <textarea readonly id="textcopybox" class="code svg" spellcheck="false"></textarea>
     </div>
 </div>
-<a id="forkme" href="https://github.com/sverweij/mscgen_js" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;z-index:-1" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<!--
+<a id="forkme" href="https://github.com/sverweij/mscgen_js" target="_blank" style="z-index:1" ><img style="position: absolute; top: 0; right: 0; border: 0;z-index:1" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+-->
  </body>
 </html>
