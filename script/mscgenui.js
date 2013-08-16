@@ -142,6 +142,11 @@ $(document).ready(function(){
                     ga('send', 'event', 'link', $("#langlink").attr("href"));
                 }
     });
+    $("#tweetme").bind ({
+        click : function(e) {
+                    ga('send', 'event', 'link', $("#twitter").attr("href"));
+                }
+    });
     $("#forkme").bind ({
         click : function(e) {
                     ga('send', 'event', 'link', $("#forkme").attr("href"));
