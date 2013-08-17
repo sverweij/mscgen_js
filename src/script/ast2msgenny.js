@@ -26,7 +26,7 @@ function renderEntityName(pString){
         if (lMatchResult) {
             return lMatchResult.length != 1;
         } else {
-            return false;
+            return true;
         }
     }
     return isQuoatable(pString) ?  "\"" + pString + "\"" : pString;
