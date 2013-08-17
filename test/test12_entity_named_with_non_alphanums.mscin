@@ -1,26 +1,11 @@
-/* 
- * reads a mscgen program from input, parses it and (standardly
- * formatted) outputs it again
- */
+# test12 - quoted entities with only non alphanumericals in them
+#          on translating (with msc2*.js) they should keep their 
+#          quotes (whereas alphanumericals shouldn't)
+msc {
+".", a;
 
-var parser = require ("./mscgenparser_node");
-var ast2mscgen = require ("./ast2mscgen");
-
-var gInput = new String();
-
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-
-process.stdin.on('data', function(chunk) {
-    gInput += chunk;
-});
-
-process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    process.stdout.write(ast2mscgen.render (lAST));
-    process.stdin.pause();
-});
-
+a =>> ".";
+}
 /*
     This file is part of mscgen_js.
 

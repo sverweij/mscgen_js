@@ -28,10 +28,10 @@ function renderString(pString) {
 function renderEntityName(pString){
     function isQuoatable(pString) {
         var lMatchResult = pString.match(/[a-z0-9]+/gi);
-        if (lMatchResult) {
+        if (lMatchResult && lMatchResult !== null) {
             return lMatchResult.length != 1;
         } else {
-            return false;
+            return true;
         }
     }
     return isQuoatable(pString) ?  "\"" + pString + "\"" : pString;
