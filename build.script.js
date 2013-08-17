@@ -1,5 +1,5 @@
 ({
-    baseUrl: "./script",
+    baseUrl: "./src/script",
     paths: {
         jquery: "jquery",
         codemirror: "codemirror",

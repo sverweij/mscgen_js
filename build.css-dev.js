@@ -1,4 +1,4 @@
 ({
     cssIn: "./src/style/mscgen-src.css",
-    out: "./style/mscgen.css"
+    out: "./src/style/mscgen.css"
 })

@@ -6,19 +6,19 @@
 # TODO: test for existence of pegjs (and npm it if not there?)
 
 echo "building mscgen parser from peg (web)  ..."
-pegjs --export-var var\ mscparser script/node/mscgenparser.pegjs script/mscgenparser.js
+pegjs --export-var var\ mscparser src/script/node/mscgenparser.pegjs src/script/mscgenparser.js
 echo "building mscgen parser from peg (node)  ..."
-pegjs script/node/mscgenparser.pegjs script/node/mscgenparser_node.js
+pegjs src/script/node/mscgenparser.pegjs src/script/node/mscgenparser_node.js
 
 echo "building msgenny parser from peg (web) ..."
-pegjs --export-var var\ msgennyparser script/node/msgennyparser.pegjs script/msgennyparser.js
+pegjs --export-var var\ msgennyparser src/script/node/msgennyparser.pegjs src/script/msgennyparser.js
 echo "building msgenny parser from peg (node) ..."
-pegjs script/node/msgennyparser.pegjs script/node/msgennyparser_node.js
+pegjs src/script/node/msgennyparser.pegjs src/script/node/msgennyparser_node.js
 
 # TODO: test for existence of sed (and what to do if it isn't there?)
 echo "creating web variants of parsetree2*.js ..."
-sed s/module.exports/var\ tomscgen/g script/node/ast2mscgen.js > script/ast2mscgen.js
-sed s/module.exports/var\ tomsgenny/g script/node/ast2msgenny.js > script/ast2msgenny.js
+sed s/module.exports/var\ tomscgen/g src/script/node/ast2mscgen.js > src/script/ast2mscgen.js
+sed s/module.exports/var\ tomsgenny/g src/script/node/ast2msgenny.js > src/script/ast2msgenny.js
 
 echo "optimizing css and javascript with r.js ..."
 # TODO: test for existence of r.js (and npm it if not there/ or use
@@ -27,3 +27,7 @@ echo "optimizing css and javascript with r.js ..."
 for i in build.*$1*.js; do
     r.js -o $i
 done
+
+cp src/index.html index.html
+mkdir images
+cp src/images/* images/.
