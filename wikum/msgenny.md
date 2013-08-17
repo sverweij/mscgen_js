@@ -102,7 +102,7 @@ Note: obviously features not supported by *ms genny* get lost in translation.
     </tr>
     <tr>
         <td>explicit declaration of start and end of the program</td>
-        <td>A mscgen program must start with <code>msc {</code> must be ended by a <code>}</code></td>
+        <td>A mscgen program must start with <code>msc {</code> and must be ended by a <code>}</code></td>
         <td>Needed nor supported</td>
     </tr>
     <tr>
