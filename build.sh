@@ -29,5 +29,6 @@ for i in build.*$1*.js; do
 done
 
 cp src/index.html index.html
+cp src/script/require.js script/require.js
 mkdir images
 cp src/images/* images/.
