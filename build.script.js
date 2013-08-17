@@ -7,6 +7,6 @@
         cm_matchbrackets: "codemirror/addon/edit/matchbrackets"
 
     },
-    name: "mscgen-main-src",
+    name: "mscgen-main",
     out: "./script/mscgen-main.js"
 })
