@@ -1,0 +1,399 @@
+
+.CodeMirror {
+  
+  font-family: monospace;
+  font-size : 0.7em;
+  height: 40em;
+}
+.CodeMirror-scroll {
+  
+  overflow: auto;
+}
+.CodeMirror-lines {
+  padding: 4px 0; 
+}
+.CodeMirror pre {
+  padding: 0 4px; 
+}
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+  background-color: white; 
+}
+.CodeMirror-gutters {
+  border-right: 1px solid #ddd;
+  background-color: #f7f7f7;
+  white-space: nowrap;
+}
+.CodeMirror-linenumbers {}
+.CodeMirror-linenumber {
+  padding: 0 3px 0 5px;
+  min-width: 20px;
+  text-align: right;
+  color: #999;
+}
+.CodeMirror div.CodeMirror-cursor {
+  border-left: 1px solid black;
+  z-index: 3;
+}
+.CodeMirror div.CodeMirror-secondarycursor {
+  border-left: 1px solid silver;
+}
+.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+  width: auto;
+  border: 0;
+  background: #7e7;
+  z-index: 1;
+}
+.CodeMirror div.CodeMirror-cursor.CodeMirror-overwrite {}
+.cm-tab { display: inline-block; }
+.cm-s-default .cm-keyword {color: #708;}
+.cm-s-default .cm-atom {color: #219;}
+.cm-s-default .cm-number {color: #164;}
+.cm-s-default .cm-def {color: #00f;}
+.cm-s-default .cm-variable {color: black;}
+.cm-s-default .cm-variable-2 {color: #05a;}
+.cm-s-default .cm-variable-3 {color: #085;}
+.cm-s-default .cm-property {color: black;}
+.cm-s-default .cm-operator {color: black;}
+.cm-s-default .cm-comment {color: #a50;}
+.cm-s-default .cm-string {color: #a11;}
+.cm-s-default .cm-string-2 {color: #f50;}
+.cm-s-default .cm-meta {color: #555;}
+.cm-s-default .cm-error {color: #f00;}
+.cm-s-default .cm-qualifier {color: #555;}
+.cm-s-default .cm-builtin {color: #30a;}
+.cm-s-default .cm-bracket {color: #997;}
+.cm-s-default .cm-tag {color: #170;}
+.cm-s-default .cm-attribute {color: #00c;}
+.cm-s-default .cm-header {color: blue;}
+.cm-s-default .cm-quote {color: #090;}
+.cm-s-default .cm-hr {color: #999;}
+.cm-s-default .cm-link {color: #00c;}
+.cm-negative {color: #d44;}
+.cm-positive {color: #292;}
+.cm-header, .cm-strong {font-weight: bold;}
+.cm-em {font-style: italic;}
+.cm-link {text-decoration: underline;}
+.cm-invalidchar {color: #f00;}
+div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
+div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
+.CodeMirror {
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+  background: white;
+  color: black;
+}
+.CodeMirror-scroll {
+  
+  
+  margin-bottom: -30px; margin-right: -30px;
+  padding-bottom: 30px; padding-right: 30px;
+  height: 100%;
+  outline: none; 
+  position: relative;
+}
+.CodeMirror-sizer {
+  position: relative;
+}
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+  position: absolute;
+  z-index: 6;
+  display: none;
+}
+.CodeMirror-vscrollbar {
+  right: 0; top: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.CodeMirror-hscrollbar {
+  bottom: 0; left: 0;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.CodeMirror-scrollbar-filler {
+  right: 0; bottom: 0;
+}
+.CodeMirror-gutter-filler {
+  left: 0; bottom: 0;
+}
+.CodeMirror-gutters {
+  position: absolute; left: 0; top: 0;
+  padding-bottom: 30px;
+  z-index: 3;
+}
+.CodeMirror-gutter {
+  white-space: normal;
+  height: 100%;
+  padding-bottom: 30px;
+  margin-bottom: -32px;
+  display: inline-block;
+  
+  *zoom:1;
+  *display:inline;
+}
+.CodeMirror-gutter-elt {
+  position: absolute;
+  cursor: default;
+  z-index: 4;
+}
+.CodeMirror-lines {
+  cursor: text;
+}
+.CodeMirror pre {
+  
+  -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+  border-width: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  white-space: pre;
+  word-wrap: normal;
+  line-height: inherit;
+  color: inherit;
+  z-index: 2;
+  position: relative;
+  overflow: visible;
+}
+.CodeMirror-wrap pre {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: normal;
+}
+.CodeMirror-code pre {
+  border-right: 30px solid transparent;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.CodeMirror-wrap .CodeMirror-code pre {
+  border-right: none;
+  width: auto;
+}
+.CodeMirror-linebackground {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  z-index: 0;
+}
+.CodeMirror-linewidget {
+  position: relative;
+  z-index: 2;
+  overflow: auto;
+}
+.CodeMirror-widget {
+}
+.CodeMirror-wrap .CodeMirror-scroll {
+  overflow-x: hidden;
+}
+.CodeMirror-measure {
+  position: absolute;
+  width: 100%; height: 0px;
+  overflow: hidden;
+  visibility: hidden;
+}
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor {
+  position: absolute;
+  visibility: hidden;
+  border-right: none;
+  width: 0;
+}
+.CodeMirror-focused div.CodeMirror-cursor {
+  visibility: visible;
+}
+.CodeMirror-selected { background: #d9d9d9; }
+.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }
+.cm-searching {
+  background: #ffa;
+  background: rgba(255, 255, 0, .4);
+}
+.CodeMirror span { *vertical-align: text-bottom; }
+@media print {
+  
+  .CodeMirror div.CodeMirror-cursor {
+    visibility: hidden;
+  }
+}
+.cm-s-midnight span.CodeMirror-matchhighlight { background: #494949 }
+.cm-s-midnight.CodeMirror-focused span.CodeMirror-matchhighlight { background: #314D67 !important; }
+.cm-s-midnight .activeline {background: #253540 !important;}
+.cm-s-midnight.CodeMirror {
+    background: #0F192A;
+    color: #D1EDFF;
+}
+.cm-s-midnight.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+.cm-s-midnight div.CodeMirror-selected {background: #314D67 !important;}
+.cm-s-midnight .CodeMirror-gutters {background: #0F192A; border-right: 1px solid;}
+.cm-s-midnight .CodeMirror-linenumber {color: #D0D0D0;}
+.cm-s-midnight .CodeMirror-cursor {
+    border-left: 1px solid #F8F8F0 !important;
+}
+.cm-s-midnight span.cm-comment {color: #428BDD;}
+.cm-s-midnight span.cm-atom {color: #AE81FF;}
+.cm-s-midnight span.cm-number {color: #D1EDFF;}
+.cm-s-midnight span.cm-property, .cm-s-midnight span.cm-attribute {color: #A6E22E;}
+.cm-s-midnight span.cm-keyword {color: #E83737;}
+.cm-s-midnight span.cm-string {color: #1DC116;}
+.cm-s-midnight span.cm-variable {color: #FFAA3E;}
+.cm-s-midnight span.cm-variable-2 {color: #FFAA3E;}
+.cm-s-midnight span.cm-def {color: #4DD;}
+.cm-s-midnight span.cm-error {background: #F92672; color: #F8F8F0;}
+.cm-s-midnight span.cm-bracket {color: #D1EDFF;}
+.cm-s-midnight span.cm-tag {color: #008;}
+.cm-s-midnight span.cm-link {color: #AE81FF;}
+.cm-s-midnight .CodeMirror-matchingbracket {
+  text-decoration: underline;
+  color: white !important;
+}
+body {
+    color            : black;
+    font-family      : sans-serif;
+    font-size        : 12pt;
+}
+.code {
+    font-family      : Monaco, Consolas, 'Andale Mono', monospace;
+    font-size        : 0.7em;
+    background-color : #555;
+    color            : #fff;
+}
+textarea {
+    border           : solid 0px;
+}
+h1 {
+    font-size        : 1.9em;
+    margin-bottom    : 0;
+}
+#header {
+    padding-bottom   : 0.9em;
+    border-bottom    : solid lightgrey 1px;
+    margin-bottom    : 0.4em;
+}
+h2 {
+    font-style       : italic;
+    font-weight      : 500;
+}
+h3 {
+    margin           : 0;
+    margin-bottom    : 1em;
+    font-weight      : 500;
+}
+.intronumber {
+    padding          : 0.2em 0.5em 0.1em 0.5em;
+    color            : white;
+    background-color : lightgrey;
+    border-radius    : 0.2em;
+}
+.fadable {
+    animation-duration : 60s;
+    animation-name     : fadeout;
+    -webkit-animation-duration : 60s;
+    -webkit-animation-name     : fadeout;
+    color              : lightgrey;
+}
+a.fadable {
+    text-decoration   : underline;
+    -moz-text-decoration-style : dotted;
+    -webkit-text-decoration-style : dotted;
+    text-decoration-style : dotted;
+}
+@keyframes fadeout {
+    from {
+        color       : black;
+    }
+    to {
+        color       : lightgrey;
+    }
+}
+@-webkit-keyframes fadeout {
+    from {
+        color       : black;
+    }
+    to {
+        color       : lightgrey;
+    }
+}
+#input_and_controls {
+    z-index          : 0;
+    position         : relative;
+    vertical-align   : top;
+    float            : left;
+    max-width        : 100%;
+    max-height       : 100%;
+    width            : 32em;
+}
+#input_and_controls > #btn_render {
+    display : none;
+}
+#input_and_controls > #msc_input {
+    width            : 98%;
+    height           : 40em;
+}
+#input_and_controls > #error_output {
+    z-index          : 0;
+    color            : orange;
+    padding          : 1em 0em 1em 0em;
+    border           : solid 1px orange; 
+    display          : none;
+    width            : 100%;
+}
+#svg_output {
+    z-index          : 0;
+    vertical-align   : top;
+    position         : absolute;
+    float            : left;
+}
+#textcopylightbox {
+    z-index : 1;
+    position: fixed;
+    top : 0px;
+    left : 0px;
+    width : 100%;
+    height : 100%;
+    background-color : white;
+    opacity : 0.96;
+    display : none;
+}
+#textcopybox {
+    width            : 100%;
+    height           : 100%;
+}
+#textcopyform {
+    position: absolute;
+    width : 80%;
+    height : 80%;
+    top : 10%;
+    left: 10%;
+    opacity : 1;
+    text-align : right;
+}
+button {
+    cursor           : default;
+    padding          : 0.3em 0.5em 0.3em 0.5em;
+    background-color : #ddd;
+    color            : #000;
+    border           : none;
+    font-size        : 1em;
+}
+button:hover, .button:hover {
+    text-align : center;
+    background-color : #555;
+    color            : #fff;
+}
+img.icon {
+    display: inline;
+    width: 4em;
+    height: 3em;
+}
+/*
+    This file is part of mscgen_js.
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+*/

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+    This file is part of mscgen_js.
+
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <meta name="description" content="message sequence chart renderer">
+    <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
+   
+    <title>mscgen_js - turns text into sequence charts</title>
+    <link rel="stylesheet" href="style/mscgen.css"
+          type="text/css" media="screen">
+    <script data-main="script/mscgen-main.js"
+          src="script/require.js"></script>
+</head>
+<body>
+<div id="header" class="fadable">
+    <div style="float:right">
+
+        <a id="tweetme" href="https://twitter.com/SanderSpeaks"
+            data-dnt="true"
+            target="_blank"><img src="images/twitter.svg"
+            alt="We, on twitter"
+            title="The author, on Twitter"
+            class="icon"></a>
+        <!--
+            <img src="images/gplus.svg" class="icon">
+        -->
+        <a id="forkme" href="https://github.com/sverweij/mscgen_js"
+            target="_blank">
+	    	<img src="images/github.svg" 
+	    		 alt="fork me on github" 
+	    		 title="fork me on github" class="icon">
+	    </a>
+    </div>
+
+    <h1 class="fadable">mscgen_js</h1>
+    <span>turns text into sequence charts</span>
+</div>
+<div id="input_and_controls">
+    <h3 class="fadable">
+        <span class="intronumber">1</span>
+        text goes here &#x0261f; 
+    </h3>
+
+    <textarea id="msc_input" class="code mscgen" spellcheck="false">
+# Sample msc for demonstrating mscgen_js
+msc {
+  hscale="1.2";
+
+  a [label="Entity A", textbgcolor="red", textcolor="white"],
+  b [label="Entity B", textbgcolor="yellow", linecolor="red"],
+  c [label="Entity C", textbgcolor="blue", textcolor="yellow", linecolor="green"];
+
+  a-&gt;b [ label = "ab()" ] ;
+  b-&gt;c [ label = "bc(TRUE)"];
+  c=&gt;&gt;c [ label = "process(1)" ];
+  b&lt;&lt;=c [ label = "callback()", arcskip="1"];
+  |||;
+  ---  [ label = "If more to run", ID="*" ];
+  a-&gt;a [ label = "next()"];
+  a=&gt;c [ label = "ac1()"];
+  b&lt;&lt;c [ label = "cb(true)", textbgcolor="lime"];
+  b-&gt;b [ label = "stalled(...)"];
+  a&lt;&lt;b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
+  c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
+}</textarea>
+    <div>
+        <input type="checkbox" id="autorender">
+        <label for="autorender"
+            title="Automatically renders the chart.
+
+Switch off on slow machines. A render button will appear in stead.">
+            Auto render</label>
+        <input type="checkbox" id="msgenny">
+            <label for="msgenny"
+                title="Switches on lazy bastard mode. Automatically converts between mscgen and ms genny.
+
+Watch out (1): ms genny enables you to work blazingly fast.
+Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">
+                ms genny</label>
+        <button id="btn_render" title="Click to render. Only shows up when 'autorender' is off">render &gt;</button>
+    </div>
+<div id="error_output" class="code"></div>
+</div>
+<div>
+<div style="padding-bottom:1em">
+    <h3 class="fadable" style="display:inline">
+        <span class="intronumber">2</span> chart shows up here &#x0261f; 
+    </h3>
+     <div style="float:right; left:10em">
+         <button id="show_svg_source" style="z-index:11"
+                title="Shows the source of the picture (scalable vector graphics)">svg src</button>
+        <button id="show_svg" style="z-index:11" title="Shows the chart in a separate window.
+
+Note: the url bar will contains the base64 encoded version of the svg
+Note: Double clicking on the picture has the same effect.">
+            solo</button>
+	</div>
+ </div>
+<span id="svg"></span>
+<div id="textcopylightbox">
+    <div id="textcopyform">
+        <button id="close_lightbox">close</button>
+        <textarea readonly id="textcopybox" class="code svg" spellcheck="false"></textarea>
+    </div>
+</div>
+<!--
+<a id="forkme" href="https://github.com/sverweij/mscgen_js" target="_blank" style="z-index:1" ><img style="position: absolute; top: 0; right: 0; border: 0;z-index:1" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+-->
+ </body>
+</html>
