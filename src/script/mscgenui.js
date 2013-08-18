@@ -38,7 +38,7 @@ msc {
 define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
         "ast2msgenny", "ast2mscgen",
         "../lib/codemirror",
-        // "codemirror/mode/mscgen/mscgen",
+        // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
         "../lib/codemirror/addon/edit/matchbrackets"
         ],
@@ -144,6 +144,11 @@ $(document).ready(function(){
     $("#tweetme").bind ({
         click : function(e) {
                     ga('send', 'event', 'link', $("#tweetme").attr("href"));
+                }
+    });
+    $("#gplusme").bind ({
+        click : function(e) {
+                    ga('send', 'event', 'link', $("#gplusme").attr("href"));
                 }
     });
     $("#forkme").bind ({
