@@ -1,5 +1,5 @@
-@import "codemirror/codemirror.css";
-@import "codemirror/midnight.css";
+@import "../lib/codemirror/codemirror.css";
+@import "../lib/codemirror/theme/midnight.css";
 body {
     color            : black;
     font-family      : sans-serif;
