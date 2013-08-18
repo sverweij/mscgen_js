@@ -143,7 +143,7 @@ $(document).ready(function(){
     });
     $("#tweetme").bind ({
         click : function(e) {
-                    ga('send', 'event', 'link', $("#twitter").attr("href"));
+                    ga('send', 'event', 'link', $("#tweetme").attr("href"));
                 }
     });
     $("#forkme").bind ({
