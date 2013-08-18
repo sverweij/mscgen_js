@@ -1,6 +1,6 @@
 # License for pegjs
 
-[source][https://github.com/dmajda/pegjs/blob/master/LICENSE]
+[source](https://github.com/dmajda/pegjs/blob/master/LICENSE)
 
 Copyright (c) 2010-2012 David Majda
 
