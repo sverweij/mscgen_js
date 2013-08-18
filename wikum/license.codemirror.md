@@ -1,6 +1,6 @@
 # CodeMirror license
 
-[source][https://github.com/marijnh/CodeMirror/blob/master/LICENSE]
+[source](https://github.com/marijnh/CodeMirror/blob/master/LICENSE)
 
 Copyright (C) 2013 by Marijn Haverbeke <marijnh@gmail.com> and others
 
