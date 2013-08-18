@@ -1,6 +1,6 @@
 # jQuery license
 
-jQuery is release under an MIT license [source1][https://jquery.org/license/], [source2][https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt]:
+jQuery is release under an MIT license [source1](https://jquery.org/license/), [source2](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt):
 
 Copyright 2013 jQuery Foundation and other contributors
 http://jquery.com/
