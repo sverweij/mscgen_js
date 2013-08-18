@@ -687,7 +687,7 @@ path { \
     overflow:visible; \
 } \
 .arrow-style { \
-    stroke-dasharray : none; \
+    stroke-dasharray : 100,1; /* 'none' should work, but doesn't in webkit */ \
     stroke-width : 1; \
 } \
 .filled { \
