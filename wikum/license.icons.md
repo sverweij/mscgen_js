@@ -1,6 +1,6 @@
 # License for the icons used
 
-The icons were made by the author of [raphaeljs][http://raphaeljs.com/icons/] and are released under an MIT license:
+The icons were made by the author of [raphaeljs](http://raphaeljs.com/icons/) and are released under an MIT license:
 
 Copyright © 2008 Dmitry Baranovskiy
 
