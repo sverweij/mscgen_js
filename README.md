@@ -29,7 +29,9 @@ If you find proof to the contrary on any of this [tell us][6].
 License
 -------
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
-it as part of other free software, but _not_ as part of non free softare.
+it as part of other free software, but _not_ as part of non free software.
+
+mscgen_js is built on various libraries, each of which have their own (mostly MIT) license. In order of significance: [pegjs][12], [codemirror][13], [jQuery][14]. Icons courtesy of dmitry.baranovskiy [license][15].
 
 Thanks
 ------
@@ -49,3 +51,7 @@ Thanks
 [9]: http://pegjs.majda.cz/
 [10]: http://marijnhaverbeke.nl
 [11]: http://codemirror.net
+[12]: wikum/license.pegjs.md
+[13]: wikum/license.codemirror.md
+[14]: wikum/license.jquery.md
+[15]: wikum/license.icons.md
