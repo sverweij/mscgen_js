@@ -35,20 +35,19 @@ msc {
   }
 */
 
-define(["mscgenparser", "msgennyparser", "mscrender",
+define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
         "ast2msgenny", "ast2mscgen",
-        "codemirror",
+        "../lib/codemirror",
         // "codemirror/mode/mscgen/mscgen",
-        "codemirror/addon/edit/closebrackets",
-        "codemirror/addon/edit/matchbrackets",
-        "jquery"],
-        function(msc_parse, genny_parse, msc_render,
+        "../lib/codemirror/addon/edit/closebrackets",
+        "../lib/codemirror/addon/edit/matchbrackets"
+        ],
+        function($, msc_parse, genny_parse, msc_render,
             to_msgenny, to_mscgen,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
-            cm_matchbrackets,
-            $) {
+            cm_matchbrackets) {
 
 var gAutoRender = true;
 var gMsGenny = false;
