@@ -31,7 +31,9 @@ License
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
 it as part of other free software, but _not_ as part of non free software.
 
-mscgen_js is built on various libraries, each of which have their own (mostly MIT) license. In order of significance: [pegjs][12], [codemirror][13], [jQuery][14]. Icons courtesy of dmitry.baranovskiy [license][15].
+mscgen_js is built on various libraries, each of which have their own license (incidentally all
+MIT style). In order of significance: [pegjs][12], [codemirror][13], [jQuery][14]. 
+Icons courtesy of Dmitry Baranovskiy [license][15].
 
 Thanks
 ------
