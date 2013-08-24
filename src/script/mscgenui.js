@@ -41,6 +41,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
         "../lib/codemirror/addon/edit/matchbrackets",
+        "../lib/codemirror/addon/display/placeholder",
         "../lib/canvg/canvg",
         "../lib/canvg/StackBlur",
         "../lib/canvg/rgbcolor"
@@ -51,6 +52,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
             // cm_mscgen,
             cm_closebrackets,
             cm_matchbrackets,
+            cm_placeholder,
             cv,
             cv_stackblur,
             cv_rgbcolor) {
@@ -65,6 +67,7 @@ var gCodeMirror =
         autoCloseBrackets : true,
         matchBrackets     : true,
         theme             : "midnight", 
+        placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
         // mode              : "mscgen",
         lineWrapping      : true
     });
