@@ -22,7 +22,7 @@ var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 
 /* superscript style could also be super or a number (1em) or a % (100%) */
 var lSuperscriptStyle = "vertical-align : text-top;";
-lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;"
+lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
 function _getTextWidth (pText, pFont) {
     return pText.length * 5.7;
@@ -207,6 +207,16 @@ function _createMarker(pId, pClass, pOrient) {
     lMarker.setAttribute("orient", pOrient);
     lMarker.setAttribute("id", pId);
     lMarker.setAttribute("class", pClass);
+    /* TODO: externalize or make these attributes explicit. */
+    lMarker.setAttribute("viewBox", "0 0 10 10");
+    lMarker.setAttribute("refX", "9");
+    lMarker.setAttribute("refY", "3");
+    lMarker.setAttribute("markerUnits", "strokeWidth");
+    lMarker.setAttribute("markerWidth", "10");
+    lMarker.setAttribute("markerHeight", "10");
+    lMarker.setAttribute("refX", "9");
+    lMarker.setAttribute("refX", "9");
+    
     return lMarker;
 }
 
