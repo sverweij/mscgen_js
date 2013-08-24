@@ -179,11 +179,11 @@ $(document).ready(function(){
         keydown : function (e) {
            var lKey = e.keyCode;               
            var lTarget = $(e.currentTarget);   
-                                               
+                                 
            switch(lKey) {                      
                case (ESC_KEY) : {
                    closeLightbox();
-                    ga('send', 'event', 'close_source_lightbox', 'ESC_KEY');
+                    // ga('send', 'event', 'close_source_lightbox', 'ESC_KEY');
                    break;
                } default: {
                    break;
