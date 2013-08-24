@@ -90,13 +90,18 @@ msc {
 
 Switch off on slow machines. A render button will appear in stead.">
             Auto render</label>
-        <input type="checkbox" id="msgenny">
-            <label for="msgenny"
-                title="Switches on lazy bastard mode. Automatically converts between mscgen and ms genny.
+        
+        <input id="msgenny_false" type="radio" name="msgennyrg" checked>
+        <label for="msgenny_false"
+               title="Switches to MscGen mode. Automatically converts Ms Genny back to MscGen">MscGen</label>
+        <input id="msgenny_true"  type="radio" name="msgennyrg">
+        
+        <label for="msgenny_true"
+               title="Switches on lazy bastard mode. Automatically converts from MscGen to Ms Genny.
 
 Watch out (1): ms genny enables you to work blazingly fast.
-Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">
-                ms genny</label>
+Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">Ms Genny</label>
+            
         <button id="btn_render" title="Click to render. Only shows up when 'autorender' is off">render &gt;</button>
     </div>
 <div id="error_output" class="code"></div>
