@@ -40,14 +40,20 @@ define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
-        "../lib/codemirror/addon/edit/matchbrackets"
+        "../lib/codemirror/addon/edit/matchbrackets",
+        "../lib/canvg/canvg",
+        "../lib/canvg/StackBlur",
+        "../lib/canvg/rgbcolor"
         ],
         function($, msc_parse, genny_parse, msc_render,
             to_msgenny, to_mscgen,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
-            cm_matchbrackets) {
+            cm_matchbrackets,
+            cv,
+            cv_stackblur,
+            cv_rgbcolor) {
 
 var gAutoRender = true;
 var gMsGenny = false;
@@ -105,6 +111,12 @@ $(document).ready(function(){
         click : function(e) {
                     show_svgOnClick();
                     ga('send', 'event', 'show_svg_base64', 'button');
+                }
+    });
+    $("#show_png").bind({
+        click : function(e) {
+                    show_pngOnClick();
+                    ga('send', 'event', 'show_png_base64', 'button');
                 }
     });
     $("#close_lightbox").bind({
@@ -223,8 +235,7 @@ function webkitNamespaceBugWorkaround(pText){
     lText = lText.replace(/\ href=/g, " xlink:href=", "g");
     return lText;
 }
-function show_svg_sourceOnClick () {
-    // tracked in caller 
+function show_svg_sourceOnClick () { 
     $("#textcopylightbox").show();
     $("#textcopybox").text(webkitNamespaceBugWorkaround($("#svg").html()));
     $("#textcopybox").select();
@@ -233,6 +244,13 @@ function show_svg_sourceOnClick () {
 function show_svgOnClick () {
     var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($("#svg").html()))));
     var lURI = "data:image/svg+xml;base64,"+lb64;
+    var lWindow = window.open(lURI, "_blank");
+}
+
+function show_pngOnClick () {
+    canvg(document.getElementById("__pngcanvas"), webkitNamespaceBugWorkaround($("#svg").html()));
+    var lCanvas = document.getElementById("__pngcanvas");
+    var lURI   = lCanvas.toDataURL("image/png");
     var lWindow = window.open(lURI, "_blank");
 }
 
