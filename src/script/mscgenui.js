@@ -119,6 +119,12 @@ $(document).ready(function(){
                     ga('send', 'event', 'show_png_base64', 'button');
                 }
     });
+    $("#show_jpg").bind({
+        click : function(e) {
+                    show_jpgOnClick();
+                    ga('send', 'event', 'show_jpg_base64', 'button');
+                }
+    });
     $("#close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
@@ -248,9 +254,17 @@ function show_svgOnClick () {
 }
 
 function show_pngOnClick () {
+    rasterInNewWindow("image/png");
+}
+
+function show_jpgOnClick () {
+    rasterInNewWindow("image/jpeg");
+}
+
+function rasterInNewWindow(pType){
     canvg(document.getElementById("__pngcanvas"), webkitNamespaceBugWorkaround($("#svg").html()));
     var lCanvas = document.getElementById("__pngcanvas");
-    var lURI   = lCanvas.toDataURL("image/png");
+    var lURI   = lCanvas.toDataURL(pType, 0.8);
     var lWindow = window.open(lURI, "_blank");
 }
 
