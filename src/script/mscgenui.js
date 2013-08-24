@@ -89,11 +89,17 @@ $(document).ready(function(){
                     ga('send', 'event', 'toggle_autorender', 'checkbox');
                 }
     });
-    $("#msgenny").bind({
+    $("#msgenny_true").bind ({
         click : function(e) {
-                    msgennyOnClick();
-                    ga('send', 'event', 'toggle_ms_genny', 'checkbox');
-                }
+                    msgennyOnClick(true);
+                    ga('send', 'event', 'toggle_ms_genny', 'radio');
+                }     
+    });
+    $("#msgenny_false").bind ({
+        click : function(e) {
+                    msgennyOnClick(false);
+                    ga('send', 'event', 'toggle_ms_genny', 'radio');
+                }     
     });
     $("#show_svg_source").bind({
         click : function(e) {
@@ -218,15 +224,16 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
-function msgennyOnClick () {
-    gMsGenny = !gMsGenny;
+function msgennyOnClick (pValue) {
+    gMsGenny = pValue;
+
     if (gMsGenny === true) {
         // $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
         gCodeMirror.setValue(mscgen2genny(gCodeMirror.getValue()));
-        gCodeMirror.setOption("mode", "msgenny");
+        // gCodeMirror.setOption("mode", "msgenny");
     } else {
         gCodeMirror.setValue(genny2mscgen(gCodeMirror.getValue()));
-        gCodeMirror.setOption("mode", "mscgen");
+        // gCodeMirror.setOption("mode", "mscgen");
     }
     showMsGennyState ();
 }
@@ -284,9 +291,11 @@ function showAutorenderState () {
 
 function showMsGennyState () {
     if (gMsGenny) {
-        $("#msgenny").attr("checked", "msgennyOn");
+        $("#msgenny_false").removeAttr("checked", "msgennyOn");
+        $("#msgenny_true").attr("checked", "msgennyOn");
     } else {
-        $("#msgenny").removeAttr("checked", "msgennyOn");
+        $("#msgenny_true").removeAttr("checked", "msgennyOn");
+        $("#msgenny_false").attr("checked", "msgennyOn");
     }
     if (gAutoRender) {
         render ();

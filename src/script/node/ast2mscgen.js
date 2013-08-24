@@ -18,7 +18,7 @@ function _renderAST(pAST){
             lRetVal += renderArcLines(pAST.arcs);
         }
     }
-    return lRetVal += "}"
+    return lRetVal += "}";
 }
 
 function renderString(pString) {
@@ -53,9 +53,9 @@ function renderOptions(pOptions){
     pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
 
     for (i=0;i<lOpts.length-1;i++) {
-        lRetVal += INDENT + lOpts[i] + ",\n"
+        lRetVal += INDENT + lOpts[i] + ",\n";
     }
-    lRetVal += INDENT + lOpts[lOpts.length-1] + ";\n"
+    lRetVal += INDENT + lOpts[lOpts.length-1] + ";\n";
     return lRetVal;
 
 }
@@ -76,9 +76,10 @@ function renderAttributes (pThing) {
     pushAttribute(lAttrs, pThing.arcskip, "arcskip");
     
     if (lAttrs.length > 0 ) {
+        var i = 0;
         lRetVal = " ["; 
         for (i=0;i<lAttrs.length-1;i++) {
-            lRetVal += lAttrs[i] + ", "
+            lRetVal += lAttrs[i] + ", ";
         }
         lRetVal += lAttrs[lAttrs.length-1];
         lRetVal += "]";
