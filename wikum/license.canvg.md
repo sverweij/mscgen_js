@@ -1,3 +1,7 @@
+# canvg license
+
+[source](https://code.google.com/p/canvg/source/browse/trunk/MIT-LICENSE.txt)
+
 Copyright (c) 2010-2011 Gabe Lerner (gabelerner@gmail.com) - http://code.google.com/p/canvg/
 
  Permission is hereby granted, free of charge, to any person
