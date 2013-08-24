@@ -98,16 +98,17 @@ function bootstrap(pParentElementId, pSvgElementId) {
     lDefs.appendChild(
             utl.createMarkerPath("callback-l", "arrow-marker", "auto",
             "M 17 1 l -8 2 l 8 2", "arrow-style"));
-
     lDefs.appendChild(
             utl.createMarkerPath("lost", "arrow-marker", "auto",
             "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style"));
-            // "M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5", "arrow-style"));
+
     lDefs.appendChild(utl.createGroup("defs"));
 
     lSkeletonSvg.appendChild(lDesc);
     lSkeletonSvg.appendChild(lDefs);
     var lBody = utl.createGroup("body");
+
+    lBody.appendChild(utl.createGroup("__background"));
     lBody.appendChild(utl.createGroup("sequence"));
     lBody.appendChild(utl.createGroup("notelayer"));
     lSkeletonSvg.appendChild(lBody);
@@ -144,7 +145,18 @@ function _renderAST (pAST, pSource, pParentElementId) {
     var body = document.getElementById("body");
     var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
     var lCanvasHeight = gArcRowYHWM - (ARCROW_HEIGHT/2) + 2*PAD_VERTICAL;
+    var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
+    var lVerticalTransform = PAD_VERTICAL; 
     var lSvgElement = document.getElementById("svg_output");
+    
+    /* canvg ignores the background-color on svg level () and makes the background 
+     * transparent in stead. To work around this insert a white rectangle the size
+     * of the canvas in the background layer:
+     */ 
+    var lBgGroup = document.getElementById("__background");
+    var lBgRect = utl.createRect(lCanvasWidth , lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
+    lBgGroup.appendChild(lBgRect);
+
 
     // TODO: factor down
     if (pSource) {
@@ -154,7 +166,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
     }
 
     body.setAttribute("transform",
-            "translate("+ (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4)) + ","+ PAD_VERTICAL +")");
+            "translate("+ lHorizontalTransform + ","+ lVerticalTransform +")");
     lSvgElement.setAttribute("width", lCanvasWidth.toString());
     lSvgElement.setAttribute("height", lCanvasHeight.toString());
 
@@ -664,6 +676,11 @@ rect { \
     fill: none; \
     stroke: black; \
     stroke-width: 2; \
+} \
+.bglayer { \
+    fill:white; \
+    stroke: white; \
+    stroke-width: 0; \
 } \
 rect.textbg { \
     fill:white; \

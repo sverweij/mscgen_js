@@ -40,7 +40,7 @@ Thanks
 
 - [Mike McTernan][7] for creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
-- [Marijn Haverbeke][10] for the [CodeMirror][11] editor component.
+- [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters like a walk in the park. 
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
