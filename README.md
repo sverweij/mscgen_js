@@ -32,7 +32,7 @@ This software is free software [licensed under GPLv3][3]. This means (a.o.) you 
 it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
-MIT style). In order of significance: [pegjs][12], [codemirror][13], [jQuery][14]. 
+MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [jQuery][14]. 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
 Thanks
@@ -41,6 +41,7 @@ Thanks
 - [Mike McTernan][7] for creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 - [Marijn Haverbeke][10] for the [CodeMirror][11] editor component.
+- Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters like a walk in the park. 
 
 [1]: http://www.mcternan.me.uk/mscgen/index.html
 [2]: http://sverweij.github.io/mscgen_js
@@ -57,3 +58,5 @@ Thanks
 [13]: wikum/license.codemirror.md
 [14]: wikum/license.jquery.md
 [15]: wikum/license.icons.md
+[16]: wikum/license.canvg.md
+[17]: http://code.google.com/p/canvg/
