@@ -60,9 +60,9 @@ function renderOptions(pOptions){
     pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
 
     for (i=0;i<lOpts.length-1;i++) {
-        lRetVal += lOpts[i] + ",\n"
+        lRetVal += lOpts[i] + ",\n";
     }
-    lRetVal += lOpts[lOpts.length-1] + ";\n"
+    lRetVal += lOpts[lOpts.length-1] + ";\n";
     return lRetVal;
 
 }
