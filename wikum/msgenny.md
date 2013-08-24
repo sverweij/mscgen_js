@@ -5,7 +5,8 @@ mscgen already is a simple, concise, well readable language. Write-ability
 leaves room for improvement, though.
 The *ms genny* language is our attempt to fill that room. It does away with some of 
 mscgen's more fancy features in favor of low effort labeling
-and automatic entity declarations. See below for a complete comparison chart.
+and automatic entity declarations, which enables you to set up a sequence chart *very*
+fast. See below for a complete comparison chart.
 
 To have our cake and eat it too we made the [online demo][4] translate between
 the two with the flick of a switch. 

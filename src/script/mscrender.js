@@ -6,6 +6,21 @@
  *  - the target canvas
  *
  * Defines default sizes and distances for all objects.
+
+issue #13
+To get markers to work in canvg and to color them the same color as 
+the associate line, we'll need to do something like this:
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+<g transform="translate(10,20)">
+<defs>
+<marker viewBox="0 0 10 10" id="end" refX="9" refY="3" markerUnits="strokeWidth" markerWidth="10" markerHeight="10" orient="auto">
+<path d="M 1 1 l 8 2 l -8 2 " fill="none" stroke="#ABCDEF" stroke-width="1"/>
+</marker>
+</defs>
+  <line x1="50" y1="20" x2="210" y2="20" stroke-width="2" stroke="#ABCDEF" marker-end="url(#end)"/>
+</g>
+</svg>
  */
 define(["mscrenderutensils"], function(utl) {
 
@@ -36,7 +51,7 @@ var TEXT_HEIGHT = 12; /* TODO: should really be derived */
 
 
 function _clean (pParentElementId) {
-    lChildElement = document.getElementById("svg_output")
+    lChildElement = document.getElementById("svg_output");
     if (lChildElement &&
             (lChildElement !== null) &&
             (lChildElement !== undefined)) {
@@ -44,6 +59,7 @@ function _clean (pParentElementId) {
         lParentElement.removeChild(lChildElement);
     }
 }
+
 
 function bootstrap(pParentElementId, pSvgElementId) {
     var SVGNS = new String ("http://www.w3.org/2000/svg");
@@ -64,35 +80,29 @@ function bootstrap(pParentElementId, pSvgElementId) {
     lStyle.appendChild(document.createTextNode(gSvgStyleElementString));
 
     lDefs.appendChild(lStyle);
-    // TODO : lDefs.appendChild( - zootje markers - );
     lDefs.appendChild(
             utl.createMarkerPath("signal", "arrow-marker", "auto",
-            "M0,0 l-8,2", "arrow-style"));
+            "M 9 3 l -8 2", "arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPath("signal-l", "arrow-marker", "auto",
-            "M0,0 l8,2", "arrow-style"));
+            "M 9 3 l 8 2", "arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPolygon("method", "arrow-marker", "auto",
-            "-8,2 0,0, -8,-2", "filled arrow-style"));
+            "1,1 9,3 1,5", "filled arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPolygon("method-l", "arrow-marker", "auto",
-            "8,2 0,0, 8,-2", "filled arrow-style"));
-    lDefs.appendChild(
-            utl.createMarkerPath("returnvalue", "arrow-marker", "auto",
-            "M0,0 l-8,2 M0,0 l-8,-2", "arrow-style"));
-    lDefs.appendChild(
-            utl.createMarkerPath("returnvalue-l", "arrow-marker", "auto",
-            "M0,0 l8,2 M0,0 l8,-2", "arrow-style"));
+            "17,1 9,3 17,5", "filled arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPath("callback", "arrow-marker", "auto",
-            "M0,0 l-8,2 M0,0 l-8,-2", "arrow-style"));
+            "M 1 1 l 8 2 l -8 2", "arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPath("callback-l", "arrow-marker", "auto",
-            "M0,0 l8,2 M0,0 l8,-2", "arrow-style"));
+            "M 17 1 l -8 2 l 8 2", "arrow-style"));
 
     lDefs.appendChild(
             utl.createMarkerPath("lost", "arrow-marker", "auto",
-            "M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5", "arrow-style"));
+            "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style"));
+            // "M-2.5,-2.5 L2.5,2.5 M-2.5,2.5 L2.5,-2.5", "arrow-style"));
     lDefs.appendChild(utl.createGroup("defs"));
 
     lSkeletonSvg.appendChild(lDesc);
@@ -340,8 +350,10 @@ function renderArcRow(pEntities, pClass) {
             lEntityXPos + (ENTITY_WIDTH/2), 0-(ARCROW_HEIGHT/2), 
             lEntityXPos + (ENTITY_WIDTH/2),   (ARCROW_HEIGHT/2),
             pClass);
+        // TODO #13: render associated marker(s) in <def>
         if (pEntities[i].linecolor) {
             lLine.setAttribute("style", "stroke : " + pEntities[i].linecolor + ";");
+            // TODO #13: color the associated marker(s)
         }
         lGroup.appendChild(lLine);
         lEntityXPos += INTER_ENTITY_SPACING;
@@ -356,6 +368,7 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
 
     var lGroup = utl.createGroup("selfie");
     if (pDouble){
+        // TODO #13: render associated marker(s) in <def>
         lGroup.appendChild(utl.createUTurn(pFrom, (lHeight-4)/2, (pYTo - 2 + lHeight) /*lSign*lHeight*/, lWidth-4, "none"));
         lGroup.appendChild(utl.createUTurn(pFrom, (lHeight+4)/2, (pYTo + 6 + lHeight) /*lSign*lHeight*/, lWidth, pClass));
     } else {
@@ -512,6 +525,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     }
     if (pArc.linecolor) {
         lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+        // TODO #13 also color the associated marker
     }
 
     lGroup.appendChild(lLine);
@@ -648,7 +662,7 @@ gSvgStyleElementString =
 } \
 rect { \
     fill: none; \
-    stroke: inherit; \
+    stroke: black; \
     stroke-width: 2; \
 } \
 rect.textbg { \
@@ -657,7 +671,7 @@ rect.textbg { \
     stroke-width:0; \
 } \
 line { \
-    stroke: inherit; \
+    stroke: black; \
     stroke-width: 2; \
 } \
 .arcrowomit { \
@@ -676,7 +690,7 @@ text.anchor-start { \
     text-anchor: start; \
 } \
 path { \
-    stroke : inherit; \
+    stroke : black; \
     stroke-width : 2; \
     fill : none; \
 } \
@@ -687,6 +701,7 @@ path { \
     overflow:visible; \
 } \
 .arrow-style { \
+	stroke : black; \
     stroke-dasharray : 100,1; /* 'none' should work, but doesn't in webkit */ \
     stroke-width : 1; \
 } \
@@ -710,12 +725,12 @@ path { \
 } \
 .returnvalue { \
     stroke-dasharray: 5,2; \
-    marker-end : url(#returnvalue); \
+    marker-end : url(#callback); \
 } \
 .returnvalue-both { \
     stroke-dasharray: 5,2; \
-    marker-end : url(#returnvalue); \
-    marker-start : url(#returnvalue-l); \
+    marker-end : url(#callback); \
+    marker-start : url(#callback-l); \
 } \
 .callback { \
     marker-end : url(#callback); \
