@@ -82,7 +82,7 @@ $(document).ready(function(){
     ga('create', 'UA-42701906-1', 'sverweij.github.io');
     ga('send', 'pageview');
 
-
+    $("#__pngcanvas").hide();
     showAutorenderState ();
     showMsGennyState ();
     render();
@@ -168,19 +168,19 @@ $(document).ready(function(){
                     ga('send', 'event', 'link', $("#langlink").attr("href"));
                 }
     });
-    $("#tweetme").bind ({
+    $("#__tweetme").bind ({
         click : function(e) {
-                    ga('send', 'event', 'link', $("#tweetme").attr("href"));
+                    ga('send', 'event', 'link', $("#__tweetme").attr("href"));
                 }
     });
-    $("#gplusme").bind ({
+    $("#__gplusme").bind ({
         click : function(e) {
-                    ga('send', 'event', 'link', $("#gplusme").attr("href"));
+                    ga('send', 'event', 'link', $("#__gplusme").attr("href"));
                 }
     });
-    $("#forkme").bind ({
+    $("#__forkme").bind ({
         click : function(e) {
-                    ga('send', 'event', 'link', $("#forkme").attr("href"));
+                    ga('send', 'event', 'link', $("#__forkme").attr("href"));
                 }
     });
 
