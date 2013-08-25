@@ -82,7 +82,7 @@ $(document).ready(function(){
     ga('create', 'UA-42701906-1', 'sverweij.github.io');
     ga('send', 'pageview');
 
-
+    $("#__pngcanvas").hide();
     showAutorenderState ();
     showMsGennyState ();
     render();
