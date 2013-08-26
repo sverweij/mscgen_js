@@ -137,13 +137,6 @@ button:hover, .button:hover {
     background-color: #555;
     color: #fff;
 }
-div.buttonblock {
-    float: right;
-    left: 10em;
-}
-.buttonblock > button {
-    display: inline-block;
-}
 a.icon {
     display: inline-block;
     width: 3em;

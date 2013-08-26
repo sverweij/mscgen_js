@@ -1,65 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-<!--
-    This file is part of mscgen_js.
+    <head>
+        <!--
+        This file is part of mscgen_js.
 
-    mscgen_js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+        mscgen_js is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
 
-    mscgen_js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+        mscgen_js is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
-    -->
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-    <meta name="description" content="message sequence chart renderer">
-    <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
-   
-    <title>mscgen_js - turns text into sequence charts</title>
-    <link rel="stylesheet" href="style/mscgen.css"
-          type="text/css" media="screen">
-    <script data-main="script/mscgen-main.js"
-          src="lib/require.js"></script>
-</head>
-<body>
-<div id="header" class="fadable">
-    <div style="float:right">
-        <a id="__tweetme" href="https://twitter.com/SanderSpeaks"
-           data-dnt="true"
-           class="twitter icon"
-           title="The author on twitter"
-           target="_blank"></a>
-        <a id="__gplusme" 
-           href="https://plus.google.com/118369668878370776334/posts"
-           class="gplus icon"
-           title="The author on google+ (tumbleweed alert!)"
-           target="_blank"></a>
-        <a id="__forkme" href="https://github.com/sverweij/mscgen_js"
-            class="github icon"
-            title="fork me on github"
-            target="_blank"></a>
-        <!-- <a id="__question" href="about:blank"
-            class="question icon"
-            title="How do I do this? And other questions answered."
-            target="_blank"></a> -->
-    </div>
+        You should have received a copy of the GNU General Public License
+        along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+        -->
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <meta name="description" content="message sequence chart renderer">
+        <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
 
-    <h1 class="fadable">mscgen_js</h1>
-    <span>turns text into sequence charts</span>
-</div>
-<div id="input_and_controls">
-    <h3 class="fadable">
-        <span class="intronumber">1</span>
-        your text goes here &#x0261f; 
-    </h3>
+        <title>mscgen_js - turns text into sequence charts</title>
+        <link rel="stylesheet" href="style/mscgen.css"
+        type="text/css" media="screen">
+        <script data-main="script/mscgen-main.js"
+        src="lib/require.js"></script>
+    </head>
+    <body>
+        <div id="header" class="fadable">
+            <div style="float:right">
+                <a id="__tweetme" href="https://twitter.com/SanderSpeaks"
+                data-dnt="true"
+                class="twitter icon"
+                title="The author on twitter"
+                target="_blank"></a>
+                <a id="__gplusme"
+                href="https://plus.google.com/118369668878370776334/posts"
+                class="gplus icon"
+                title="The author on google+ (tumbleweed alert!)"
+                target="_blank"></a>
+                <a id="__forkme" href="https://github.com/sverweij/mscgen_js"
+                class="github icon"
+                title="fork me on github"
+                target="_blank"></a>
+                <!-- <a id="__question" href="about:blank"
+                class="question icon"
+                title="How do I do this? And other questions answered."
+                target="_blank"></a> -->
+            </div>
 
-    <textarea id="msc_input" class="code mscgen" spellcheck="false">
+            <h1 class="fadable">mscgen_js</h1>
+            <span>turns text into sequence charts</span>
+        </div>
+        <div id="input_and_controls">
+            <h3 class="fadable"><span class="intronumber">1</span> your text goes here &#x0261f; </h3>
+            <textarea id="msc_input" class="code mscgen" spellcheck="false">
 # Sample msc for demonstrating mscgen_js
 msc {
   hscale="1.2";
@@ -81,60 +77,67 @@ msc {
   a&lt;&lt;b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
   c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
 }</textarea>
-    <div id="__input_controls">
-        <input type="checkbox" id="autorender">
-        <label for="autorender"
-            title="Automatically renders the chart.
 
-Switch off on slow machines. A render button will appear in stead.">
-            Auto render</label>
-        
-        <input id="msgenny_false" type="radio" name="msgennyrg" checked>
-        <label for="msgenny_false"
-               title="Switches to Mscgen mode. Automatically converts Ms Genny back to Mscgen">Mscgen</label>
-        <input id="msgenny_true"  type="radio" name="msgennyrg">
-        
-        <label for="msgenny_true"
-               title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
+            <div id="__input_controls">
+                <input type="checkbox" id="autorender">
+                <label for="autorender"
+                title="Automatically renders the chart.
+
+Switch off on slow machines. A render button will appear in stead."> Auto render</label>
+
+                <input id="msgenny_false" type="radio" name="msgennyrg" checked>
+                <label for="msgenny_false"
+                title="Switches to Mscgen mode. Automatically converts Ms Genny back to Mscgen">Mscgen</label>
+                <input id="msgenny_true"  type="radio" name="msgennyrg">
+
+                <label for="msgenny_true"
+                title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
 
 Watch out (1): ms genny enables you to work blazingly fast.
 Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">Ms Genny</label>
-            
-        <button id="btn_render"
-                title="Click to render. Only shows up when 'autorender' is off">render &gt;</button>
-    </div>
-<div id="error_output" class="code"></div>
-</div>
 
-  <div>
-        <h3 class="fadable" style="display:inline-block">
-        <span class="intronumber">2</span> your chart will show up here &#x0261f; 
-    </h3>
-     <div class="buttonblock" >
-        <button id="show_svg" title="Shows the chart in a separate window (svg).
+                <button id="btn_render"
+                title="Click to render. Only shows up when 'autorender' is off">
+                    render &gt;
+                </button>
+            </div>
+            <div id="error_output" class="code"></div>
+        </div>
+
+        <div>
+            <h3 class="fadable" style="display:inline-block; padding-right: 2em;"><span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
+            <span style="display:inline-block;">
+                <button id="show_svg" title="Shows the chart in a separate window (svg).
 
 Note: the url bar will contains the base64 encoded version of the svg
 Note: Double clicking on the picture has the same effect.">
-            svg</button>
-        <button id="show_png" title="Shows the chart in a separate window (png).
+                    svg
+                </button>
+                <button id="show_png" title="Shows the chart in a separate window (png).
 
 Note: the url bar will contains the base64 encoded version of the png">
-            png</button>
-        <button id="show_jpg" title="Shows the chart in a separate window (jpeg).
+                    png
+                </button>
+                <button id="show_jpg" title="Shows the chart in a separate window (jpeg).
 
 Note: the url bar will contains the base64 encoded version of the jpeg">
-            jpeg</button>
-         <button id="show_svg_source"
-                title="Shows the source of the picture (scalable vector graphics)">src</button>
-    </div>
-  </div>
-<span id="svg"></span>
-<div id="textcopylightbox">
-    <div id="textcopyform">
-        <button id="close_lightbox">close</button>
-        <textarea readonly id="textcopybox" class="code svg" spellcheck="false"></textarea>
-    </div>
-</div>
-<canvas id="__pngcanvas"></canvas>
- </body>
+                    jpeg
+                </button>
+                <button id="show_svg_source"
+                title="Shows the source of the picture (scalable vector graphics)">
+                    src
+                </button>
+            </span>
+        </div>
+        <span id="svg"></span>
+        <div id="textcopylightbox">
+            <div id="textcopyform">
+                <button id="close_lightbox">
+                    close
+                </button>
+                <textarea readonly id="textcopybox" class="code svg" spellcheck="false"></textarea>
+            </div>
+        </div>
+        <canvas id="__pngcanvas"></canvas>
+    </body>
 </html>
