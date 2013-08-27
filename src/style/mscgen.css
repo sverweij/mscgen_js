@@ -374,7 +374,21 @@ button {
     border: none;
     font-size: 1em;
 }
-button:hover, .button:hover {
+button:hover {
+    text-align: center;
+    background-color: #555;
+    color: #fff;
+}
+a.button {
+    cursor: default;
+    padding: 0.3em 0.5em 0.3em 0.5em;
+    background-color: #ddd;
+    color: #000;
+    border: none;
+    font-size: 1em;
+    text-decoration: none;
+}
+a.button:hover {
     text-align: center;
     background-color: #555;
     color: #fff;
