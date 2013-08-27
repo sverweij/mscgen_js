@@ -76,7 +76,8 @@ msc {
   b-&gt;b [ label = "stalled(...)"];
   a&lt;&lt;b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
   c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
-}</textarea>
+}</textarea>            
+
 
             <div id="__input_controls">
                 <input type="checkbox" id="autorender">
@@ -107,26 +108,31 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
         <div>
             <h3 class="fadable" style="display:inline-block; padding-right: 2em;"><span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
             <span style="display:inline-block;">
-                <button id="show_svg" title="Shows the chart in a separate window (svg).
+                <a id="show_svg"
+                   class="button"
+                   target="_blank" 
+                   title="Shows the chart in a separate window (svg).
 
 Note: the url bar will contains the base64 encoded version of the svg
-Note: Double clicking on the picture has the same effect.">
-                    svg
-                </button>
-                <button id="show_png" title="Shows the chart in a separate window (png).
+Note: Double clicking on the picture has the same effect.">svg</a>
+                
+                <a id="show_png" 
+                   class="button"
+                   target="_blank" 
+                   title="Shows the chart in a separate window (png).
 
-Note: the url bar will contains the base64 encoded version of the png">
-                    png
-                </button>
-                <button id="show_jpg" title="Shows the chart in a separate window (jpeg).
+Note: the url bar will contains the base64 encoded version of the png">png</a>
+                 
+                <a id="show_jpeg"
+                   class="button"
+                   target="_blank"  
+                   title="Shows the chart in a separate window (jpeg).
 
-Note: the url bar will contains the base64 encoded version of the jpeg">
-                    jpeg
-                </button>
-                <button id="show_svg_source"
-                title="Shows the source of the picture (scalable vector graphics)">
-                    src
-                </button>
+Note: the url bar will contains the base64 encoded version of the jpeg">jpeg</a>
+                
+                <a id="show_svg_source"
+                   class="button"
+                   title="Shows the source of the picture (scalable vector graphics)">src</a>
             </span>
         </div>
         <span id="svg"></span>

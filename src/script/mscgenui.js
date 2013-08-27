@@ -118,20 +118,17 @@ $(document).ready(function(){
     });
     $("#show_svg").bind({
         click : function(e) {
-                    show_svgOnClick();
                     ga('send', 'event', 'show_svg_base64', 'button');
                 }
     });
     $("#show_png").bind({
         click : function(e) {
-                    show_pngOnClick();
                     ga('send', 'event', 'show_png_base64', 'button');
                 }
     });
-    $("#show_jpg").bind({
+    $("#show_jpeg").bind({
         click : function(e) {
-                    show_jpgOnClick();
-                    ga('send', 'event', 'show_jpg_base64', 'button');
+                    ga('send', 'event', 'show_jpeg_base64', 'button');
                 }
     });
     $("#close_lightbox").bind({
@@ -257,25 +254,18 @@ function show_svg_sourceOnClick () {
     $("#textcopybox").select();
 }
 
+function toVectorURI (pSourceElementId) {
+    var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($(pSourceElementId).html()))));
+    return "data:image/svg+xml;base64,"+lb64;
+}
 function show_svgOnClick () {
-    var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($("#svg").html()))));
-    var lURI = "data:image/svg+xml;base64,"+lb64;
-    var lWindow = window.open(lURI, "_blank");
+    var lWindow = window.open(toVectorURI("#svg"), "_blank");
 }
 
-function show_pngOnClick () {
-    rasterInNewWindow("image/png");
-}
-
-function show_jpgOnClick () {
-    rasterInNewWindow("image/jpeg");
-}
-
-function rasterInNewWindow(pType){
-    canvg(document.getElementById("__pngcanvas"), webkitNamespaceBugWorkaround($("#svg").html()));
+function toRasterURI(pSourceElementId, pType){
+    canvg(document.getElementById("__pngcanvas"), webkitNamespaceBugWorkaround($(pSourceElementId).html()));
     var lCanvas = document.getElementById("__pngcanvas");
-    var lURI   = lCanvas.toDataURL(pType, 0.8);
-    var lWindow = window.open(lURI, "_blank");
+    return lCanvas.toDataURL(pType, 0.8);
 }
 
 function close_lightboxOnClick(){
@@ -335,6 +325,9 @@ function render() {
         }
         msc_render.clean("svg");
         msc_render.renderAST(lAST, gCodeMirror.getValue(), "svg");
+        $("#show_png").attr('href', toRasterURI("#svg", "image/png"));
+        $("#show_jpeg").attr('href', toRasterURI("#svg", "image/jpeg"));
+        $("#show_svg").attr('href', toVectorURI("#svg"));
 
     } catch (e) {
         displayError(
