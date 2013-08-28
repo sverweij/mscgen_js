@@ -110,6 +110,12 @@ $(document).ready(function(){
                     ga('send', 'event', 'show_svg_source', 'button');
                 }
     });
+    $("#btn_clear").bind({
+        click : function(e) {
+                    clearOnClick();
+                    ga('send', 'event', 'clear', 'button');
+                }
+    });
     $("#svg").bind({
         dblclick : function(e) {
                     show_svgOnClick();
@@ -236,6 +242,10 @@ function msgennyOnClick (pValue) {
         // gCodeMirror.setOption("mode", "mscgen");
     }
     showMsGennyState ();
+}
+
+function clearOnClick(){
+    gCodeMirror.setValue("");
 }
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
