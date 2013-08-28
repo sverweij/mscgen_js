@@ -245,7 +245,12 @@ function msgennyOnClick (pValue) {
 }
 
 function clearOnClick(){
-    gCodeMirror.setValue("");
+    if (gMsGenny === true){
+        gCodeMirror.setValue("");
+    } else {
+        gCodeMirror.setValue("msc{\n  \n}");
+        gCodeMirror.setCursor(1,3);
+    }
 }
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
