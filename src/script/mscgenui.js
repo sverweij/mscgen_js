@@ -110,6 +110,12 @@ $(document).ready(function(){
                     ga('send', 'event', 'show_svg_source', 'button');
                 }
     });
+    $("#btn_clear").bind({
+        click : function(e) {
+                    clearOnClick();
+                    ga('send', 'event', 'clear', 'button');
+                }
+    });
     $("#svg").bind({
         dblclick : function(e) {
                     show_svgOnClick();
@@ -236,6 +242,15 @@ function msgennyOnClick (pValue) {
         // gCodeMirror.setOption("mode", "mscgen");
     }
     showMsGennyState ();
+}
+
+function clearOnClick(){
+    if (gMsGenny === true){
+        gCodeMirror.setValue("");
+    } else {
+        gCodeMirror.setValue("msc{\n  \n}");
+        gCodeMirror.setCursor(1,3);
+    }
 }
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
