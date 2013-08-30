@@ -124,6 +124,19 @@ to {
     opacity: 1;
     text-align: right;
 }
+fieldset {
+    display: inline;
+    border: 1px solid lightgrey;
+    border-top: none;
+    /*border-left: none;*/
+    /*border-right: none;*/
+    border-bottom: none;
+    padding-bottom: 0.3em;
+    padding-top: 0.1em;
+}
+legend {
+    font-size: 0.7em;
+}
 button {
     cursor: default;
     padding: 0.3em 0.5em 0.3em 0.5em;

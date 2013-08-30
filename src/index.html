@@ -78,25 +78,24 @@ msc {
   c note c [label="Just a note ...", linecolor="green", textcolor="green", textbgcolor="lime"];
 }</textarea>            
 
-
             <div id="__input_controls">
                 <input type="checkbox" id="autorender">
                 <label for="autorender"
                 title="Automatically renders the chart.
 
 Switch off on slow machines. A render button will appear in stead."> Auto render</label>
-
-                <input id="msgenny_false" type="radio" name="msgennyrg" checked>
-                <label for="msgenny_false"
-                title="Switches to Mscgen mode. Automatically converts Ms Genny back to Mscgen">Mscgen</label>
-                <input id="msgenny_true"  type="radio" name="msgennyrg">
-
-                <label for="msgenny_true"
-                title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
-
+                <fieldset><legend>syntax</legend>
+                    <input id="msgenny_false" type="radio" name="msgennyrg" checked>
+                    <label for="msgenny_false"
+                    title="Switches to Mscgen mode. Automatically converts Ms Genny back to Mscgen">Mscgen</label>
+                    <input id="msgenny_true"  type="radio" name="msgennyrg">
+    
+                    <label for="msgenny_true"
+                    title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
+    
 Watch out (1): ms genny enables you to work blazingly fast.
 Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">Ms Genny</label>
-
+                </fieldset>
                 <button id="btn_clear" title="Clears the input area">clear</button>
                 <button id="btn_render"
                 title="Click to render. Only shows up when 'autorender' is off">
