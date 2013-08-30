@@ -147,7 +147,17 @@ function _renderAST (pAST, pSource, pParentElementId) {
     var lCanvasHeight = gArcRowYHWM - (ARCROW_HEIGHT/2) + 2*PAD_VERTICAL;
     var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
     var lVerticalTransform = PAD_VERTICAL; 
+    var lScale = 1;
     var lSvgElement = document.getElementById("svg_output");
+    
+    if (pAST.options && pAST.options.width) {
+        lScale =  (pAST.options.width/lCanvasWidth);
+        lCanvasWidth *= lScale;
+        lCanvasHeight *= lScale;
+        lHorizontalTransform *= lScale;
+        lVerticalTransform *= lScale;
+    }
+    
     
     /* canvg ignores the background-color on svg level () and makes the background 
      * transparent in stead. To work around this insert a white rectangle the size
@@ -165,16 +175,13 @@ function _renderAST (pAST, pSource, pParentElementId) {
         lDescription.appendChild(lContent);
     }
 
+
     body.setAttribute("transform",
-            "translate("+ lHorizontalTransform + ","+ lVerticalTransform +")");
+            "translate("+ lHorizontalTransform + ","+ lVerticalTransform +")" 
+             + " scale(" + lScale + "," + lScale + ")");
     lSvgElement.setAttribute("width", lCanvasWidth.toString());
     lSvgElement.setAttribute("height", lCanvasHeight.toString());
 
-    if (pAST.options && pAST.options.width) {
-        var lTransform = body.getAttribute("transform");
-        lTransform += " scale(" + (pAST.options.width/lCanvasWidth) + ",1)";
-        body.setAttribute ("transform", lTransform);
-    }
 }
 
 function renderEntities (pEntities) {
