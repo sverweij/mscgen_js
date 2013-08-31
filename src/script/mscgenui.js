@@ -160,6 +160,10 @@ $(document).ready(function(){
                         gGaKeyCount++;
                     }
     });
+    gCodeMirror.on ("drop", function() {
+                    gCodeMirror.setValue("");
+                    ga('send', 'event', 'drop', 'textarea');
+    });
     $("#textcopybox").bind({
         cut : function (e) {
                     ga('send', 'event', 'cut', 'svgsource');
