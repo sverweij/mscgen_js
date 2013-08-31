@@ -535,7 +535,7 @@ function createArc (pId, pArc, pFrom, pTo) {
      * rendered above the arc in stead of directly on it.
      * TODO: kludgy?
      */ 
-    if (pArc.label && !(pArc.label.contains('\\n'))){
+    if (pArc.label && (pArc.label.indexOf('\\n')===-1)){
         pArc.label += "\\n";
     }
      
@@ -576,6 +576,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
         var lLines = pArc.label.split('\\n');
+        
         pStartY = pStartY - ((lLines.length-1)*TEXT_HEIGHT)/2;
         for (var i = 0; i < lLines.length; i++) {
             lTextWidth = utl.getTextWidth(lLines[i]);
