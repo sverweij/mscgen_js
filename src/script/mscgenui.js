@@ -129,11 +129,13 @@ $(document).ready(function(){
     });
     $("#show_png").bind({
         click : function(e) {
+                    show_rasterOnClick("image/png");
                     ga('send', 'event', 'show_png_base64', 'button');
                 }
     });
     $("#show_jpeg").bind({
         click : function(e) {
+                    show_rasterOnClick("image/jpeg");
                     ga('send', 'event', 'show_jpeg_base64', 'button');
                 }
     });
@@ -283,6 +285,10 @@ function toRasterURI(pSourceElementId, pType){
     return lCanvas.toDataURL(pType, 0.8);
 }
 
+function show_rasterOnClick (pType) {
+    var lWindow = window.open(toRasterURI("#svg", pType), "_blank");
+}
+
 function close_lightboxOnClick(){
     closeLightbox();
 }
@@ -340,9 +346,18 @@ function render() {
         }
         msc_render.clean("svg");
         msc_render.renderAST(lAST, gCodeMirror.getValue(), "svg");
-        $("#show_png").attr('href', toRasterURI("#svg", "image/png"));
-        $("#show_jpeg").attr('href', toRasterURI("#svg", "image/jpeg"));
         $("#show_svg").attr('href', toVectorURI("#svg"));
+        
+        /* the next two lines are too slow for (auto) rendering 
+         *   canvg is called twice for doing exactly the same (svg => canvas)
+         *   rendering is counted in seconds (4-5 seconds for
+         *   test01_all_possible_arcs.mscin)on a 2.53 GHz Intel Core 2 Duo
+         *   running OS X 10.8.4 in FF 23/ Safari 6.0.5
+         * Switched back to rendering on the onclick event. 
+         */ 
+        // $("#show_png").attr('href', toRasterURI("#svg", "image/png"));
+        // $("#show_jpeg").attr('href', toRasterURI("#svg", "image/jpeg"));
+        
 
     } catch (e) {
         displayError(

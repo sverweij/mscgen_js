@@ -31,7 +31,7 @@ var INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
 var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
 var ENTITY_HEIGHT = 30;
-var DEFAULT_ARCROW_HEIGHT = 25;
+var DEFAULT_ARCROW_HEIGHT = 30;
 var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
@@ -529,16 +529,25 @@ function createArc (pId, pArc, pFrom, pTo) {
     if (pArc.arcskip) {
         lYTo = pArc.arcskip*ARCROW_HEIGHT; /* TODO: derive from hashmap */
         lArcGradient = lYTo;
-    } 
+    }
+
+    /* for one line labels add an end of line so it gets 
+     * rendered above the arc in stead of directly on it.
+     * TODO: kludgy?
+     */ 
+    if (pArc.label && (pArc.label.indexOf('\\n')===-1)){
+        pArc.label += "\\n";
+    }
+     
     if (pFrom === pTo) {
         lLine = createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine);
         lGroup.appendChild(
-            createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5)-(TEXT_HEIGHT/2), pTo - pFrom , "anchor-start", false)
+            createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5), pTo - pFrom , "anchor-start", false)
         );
     } else {
         lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
         lGroup.appendChild(
-            createTextLabel(pId + "_txt", pArc, pFrom, 0-(TEXT_HEIGHT/2), pTo - pFrom)
+            createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom)
         );
 
     }
@@ -554,7 +563,7 @@ function createArc (pId, pArc, pFrom, pTo) {
 
 function unescapeString(pString) {
     var lLabel = pString.replace (/\\\"/g, '"');
-    return lLabel.replace(/\\n/g, " ");
+    return lLabel;//.replace(/\\n/g, " ");
 }
 
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) {
@@ -562,31 +571,41 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
 
     if (pArc.label) {
         var lMiddle = pStartX + (pWidth/2);
-        var lTextWidth = utl.getTextWidth(pArc.label);
-        var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
+        var lTextWidth = 0;
         pArc.label = unescapeString(pArc.label);
         pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
-        var lText = utl.createText(pArc.label, lMiddle, pStartY + TEXT_HEIGHT/4, pClass, pArc.url, pArc.id, pArc.idurl);
-        if ( pCenter === undefined || pCenter === true) {
-            var lRect =
-                utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
-                        lMiddle - (lTextWidth/2),  pStartY - (TEXT_HEIGHT/2));
-        } else {
-            var lRect =
-                utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
-                        pStartX,  pStartY - (TEXT_HEIGHT/2));
-        }
-        colorText(lText, pArc);
-        if (pArc.textbgcolor) {
-            lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
-        }
-        if (pArc.url && !pArc.textcolor) {
-            pArc.textcolor = "blue";
+        var lLines = pArc.label.split('\\n');
+        
+        pStartY = pStartY - ((lLines.length-1)*TEXT_HEIGHT)/2;
+        for (var i = 0; i < lLines.length; i++) {
+            lTextWidth = utl.getTextWidth(lLines[i]);
+            var lText = new Object();
+            if (i===0){
+                lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url, pArc.id, pArc.idurl);
+            } else {
+                lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url);
+            }
+            if ( pCenter === undefined || pCenter === true) {
+                var lRect =
+                    utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
+                            lMiddle - (lTextWidth/2),  pStartY - (TEXT_HEIGHT/2) + (i*TEXT_HEIGHT));
+            } else {
+                var lRect =
+                    utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
+                            pStartX,  pStartY - (TEXT_HEIGHT/2) + (i*TEXT_HEIGHT));
+            }
             colorText(lText, pArc);
+            if (pArc.textbgcolor) {
+                lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
+            }
+            if (pArc.url && !pArc.textcolor) {
+                pArc.textcolor = "blue";
+                colorText(lText, pArc);
+            }
+            lGroup.appendChild(lRect);
+            lGroup.appendChild(lText);
         }
-        lGroup.appendChild(lRect);
-        lGroup.appendChild(lText);
 
     }
     return lGroup;
@@ -665,6 +684,7 @@ function createBox (pId, pFrom, pTo, pArc) {
     }
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
+
     lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
 
     return lGroup;
