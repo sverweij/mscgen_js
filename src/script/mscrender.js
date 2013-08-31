@@ -159,7 +159,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
     }
     
     
-    /* canvg ignores the background-color on svg level () and makes the background 
+    /* canvg ignores the background-color on svg level and makes the background 
      * transparent in stead. To work around this insert a white rectangle the size
      * of the canvas in the background layer:
      */ 
