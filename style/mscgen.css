@@ -281,7 +281,7 @@ h3 {
     padding: 0.2em 0.5em 0.1em 0.5em;
     color: white;
     background-color: lightgrey;
-    border-radius: 0.2em;
+    border-radius: 1em;
 }
 .fadable {
     animation-duration: 60s;
