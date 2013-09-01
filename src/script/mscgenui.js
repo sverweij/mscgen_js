@@ -124,6 +124,7 @@ $(document).ready(function(){
     });
     $("#show_svg").bind({
         click : function(e) {
+                    show_svgOnClick();
                     ga('send', 'event', 'show_svg_base64', 'button');
                 }
     });
@@ -350,15 +351,26 @@ function render() {
         }
         msc_render.clean("svg");
         msc_render.renderAST(lAST, gCodeMirror.getValue(), "svg");
-        $("#show_svg").attr('href', toVectorURI("#svg"));
         
-        /* the next two lines are too slow for (auto) rendering 
-         *   canvg is called twice for doing exactly the same (svg => canvas)
-         *   rendering is counted in seconds (4-5 seconds for
-         *   test01_all_possible_arcs.mscin)on a 2.53 GHz Intel Core 2 Duo
-         *   running OS X 10.8.4 in FF 23/ Safari 6.0.5
-         * Switched back to rendering on the onclick event. 
-         */ 
+        /* the next three lines are too slow for (auto) rendering 
+         *   - canvg is called twice for doing exactly the same (svg => canvas)
+         *   - it inserts relatively big amounts of data in the DOM tree 
+         *     (typically 20k for svg, 60k for png, somewhat more for jpeg,
+         *     not even corrected for the base64 penalty)
+         *   - for bigger sources (e.g. test01_all_possible_arcs.mscin) 
+         *     auto rendering is unbearably slow, which stands to reason as 
+         *     the source tree has to be updated with  
+         *     1.3 * (~250k (png) + ~250k (jpeg) + ~80k (svg)) = ~750k 
+         *     on each keystroke  
+         *     How slow? 4-5 seconds for each keystroke for test01 
+         *     on a 2.53 GHz Intel Core 2 Duo running OS X 10.8.4 in 
+         *     FF 23/ Safari 6.0.5
+         *  
+         * Switched back to rendering on the onclick event.
+         * Only generating the svg to base64 encoding is doable in regular 
+         * cases, but is noticeable in test01, 
+         */
+        // $("#show_svg").attr('href', toVectorURI("#svg")); 
         // $("#show_png").attr('href', toRasterURI("#svg", "image/png"));
         // $("#show_jpeg").attr('href', toRasterURI("#svg", "image/jpeg"));
         
