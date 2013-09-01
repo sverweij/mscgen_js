@@ -1,0 +1,15 @@
+# test14: cheat sheet
+a -> b   : ->  (signal);
+a => b   : =>  (method);
+a >> b   : >>  (return value);
+a =>> b  : =>> (callback);
+a -x b   : -x  (lost);
+a :> b   : :>  (emphasised);
+a .. b   : ..  (dotted);
+a note a : note;
+a box a  : box;
+a rbox a : rbox;
+a abox a : abox;
+|||      : ||| (empty row);
+...      : ... (omitted row);
+---      : --- (comment) ;
