@@ -302,9 +302,10 @@ function renderArcs (pArcs, pEntities) {
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
+                                // createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom);
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-(TEXT_HEIGHT/2), lArcEnd)
+                                        0, lArcRowYPos-(TEXT_HEIGHT/2) - LINE_WIDTH, lArcEnd)
                                 );
                             } else if (lFrom === "*"){
                                 var xTo = gEntity2X[lTo];
@@ -322,7 +323,7 @@ function renderArcs (pArcs, pEntities) {
                                 pArcs[i][j].label=lLabel;
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-(TEXT_HEIGHT/2), lArcEnd)
+                                        0, lArcRowYPos-(TEXT_HEIGHT/2) - LINE_WIDTH, lArcEnd)
                                 );
                             } else {
                                 var xFrom = gEntity2X[lFrom];
@@ -672,7 +673,7 @@ function createBox (pId, pFrom, pTo, pArc) {
           lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
           break;
         } case ("abox") : {
-          lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);// (0-lHeight/2));
+          lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
           break;
         } case ("note") : {
           lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
