@@ -161,9 +161,12 @@ $(document).ready(function(){
                         gGaKeyCount++;
                     }
     });
-    gCodeMirror.on ("drop", function() {
-                    gCodeMirror.setValue("");
-                    ga('send', 'event', 'drop', 'textarea');
+    gCodeMirror.on ("drop", function(pThing, pEvent) {
+                    /* if there is a file - clear the textarea */
+                    if (pEvent.dataTransfer.files.length > 0) {
+                        gCodeMirror.setValue("");
+                        ga('send', 'event', 'drop', 'textarea');    
+                    } 
     });
     $("#textcopybox").bind({
         cut : function (e) {
