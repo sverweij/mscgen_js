@@ -162,7 +162,9 @@ $(document).ready(function(){
                     }
     });
     gCodeMirror.on ("drop", function(pThing, pEvent) {
-                    /* if there is a file - clear the textarea */
+                    /* if there is a file in the drop event clear the textarea, 
+                     * otherwise do default handling for drop events (whatever it is)
+                     */
                     if (pEvent.dataTransfer.files.length > 0) {
                         gCodeMirror.setValue("");
                         ga('send', 'event', 'drop', 'textarea');    
