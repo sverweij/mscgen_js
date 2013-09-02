@@ -3,7 +3,7 @@
  * as an mscgen program. 
  */
 var tomscgen = (function(){
-const INDENT = "  ";
+var INDENT = "  ";
 
 function _renderAST(pAST){
     var lRetVal = new String("msc {\n");
