@@ -18,6 +18,7 @@
         along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         -->
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="message sequence chart renderer">
         <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
 
@@ -33,35 +34,46 @@
                 <a id="__tweetme" href="https://twitter.com/SanderSpeaks"
                 data-dnt="true"
                 class="twitter icon"
-                title="The author on twitter"
+                title="Your praise goes here"
                 target="_blank"></a>
                 <a id="__gplusme"
                 href="https://plus.google.com/118369668878370776334/posts"
                 class="gplus icon"
-                title="The author on google+ (tumbleweed alert!)"
+                title="Your praise goes here.
+If you're on G+, that is."
                 target="_blank"></a>
                 <a id="__forkme" href="https://github.com/sverweij/mscgen_js"
                 class="github icon"
                 title="fork me on github"
                 target="_blank"></a>
+                <!-- <a id="__issuetracker" href="about:blank"
+                class="issuetracker icon"
+                title="Complaints go here"
+                target="_blank"></a> -->
                 <!-- <a id="__question" href="about:blank"
                 class="question icon"
                 title="How do I do this? And other questions answered."
                 target="_blank"></a> -->
             </div>
 
-            <h1 class="fadable">mscgen_js</h1>
-            <span>turns text into sequence charts</span>
+            <h1 title="There's some good copy in tooltips. 
+Likely nobody will read them, though."class="fadable">mscgen_js</h1>
+            <span >turns text into sequence charts</span>
         </div>
         <div id="input_and_controls">
-            <h3 class="fadable"><span class="intronumber">1</span> your text goes here &#x0261f;</h3>
-            <!-- 
+            <h3 class="fadable"><span class="intronumber">1</span> your text goes here &#x0261f;</h3>    
+            
+            <!-- <span>
+            <div style="text-align: right;">
             <label for="__samples">Samples</label>
             <select id="__samples">
-                <option value="zog">Blaat</option>
+                <option value='msc { a => b;\nb => c;\nc >> b;\nb >> a;\na note a [label="and this is a note"]}'>Simple</option>
                 <option value="zag">Mekker</option>
-            </select> -->            
+            </select>
+            </div>
+            </span> -->
             <textarea id="msc_input" class="code mscgen" spellcheck="false">
+
 # Sample msc for demonstrating mscgen_js
 msc {
   hscale="1.2";
@@ -112,7 +124,7 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
         </div>
 
         <div>
-            <h3 class="fadable" style="display:inline-block; padding-right: 2em;"><span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
+            <h3 class="fadable" style="display:inline-block; padding-right: 1em;"><span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
             <span style="display:inline-block;">
                 <a id="show_svg"
                    class="button"
