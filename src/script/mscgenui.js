@@ -31,8 +31,8 @@ msc {
   ui =>> html [label="show error"];
 
   |||;
-  ui note render [label="There's a parser for mscgen and a separate one for ms genny. For simplicity only showning one.", textbgcolor="#ffe"];
-  }
+  ui note msc [label="There's a parser for mscgen and a separate one for ms genny.\nFor simplicity only showning one.", textbgcolor="#ffe"];
+}
 */
 
 define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
