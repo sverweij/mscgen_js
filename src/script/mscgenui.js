@@ -106,7 +106,7 @@ $(document).ready(function(){
     });
     $("#show_svg_source").bind({
         click : function(e) {
-                    show_svg_sourceOnClick();
+                    helpmeOnClick();
                     ga('send', 'event', 'show_svg_source', 'button');
                 }
     });
@@ -170,14 +170,6 @@ $(document).ready(function(){
                         ga('send', 'event', 'drop', 'textarea');    
                     } 
     });
-    $("#textcopybox").bind({
-        cut : function (e) {
-                    ga('send', 'event', 'cut', 'svgsource');
-                },
-        copy : function (e) {
-                    ga('send', 'event', 'copy', 'svgsource');
-                }
-    });
     $("#langlink").bind ({
         click : function(e) {
                     ga('send', 'event', 'link', $("#langlink").attr("href"));
@@ -198,6 +190,12 @@ $(document).ready(function(){
                     ga('send', 'event', 'link', $("#__forkme").attr("href"));
                 }
     });
+    $("#__helpme").bind ({
+        click : function(e) {
+                    helpmeOnClick();
+                    ga('send', 'event', 'link', "helpme");
+                }
+    });
 
     $("body").bind({
         keydown : function (e) {
@@ -215,6 +213,7 @@ $(document).ready(function(){
            }
         }
     });
+    // closeLightbox();
 
     
 }); // document ready
@@ -275,10 +274,8 @@ function webkitNamespaceBugWorkaround(pText){
     lText = lText.replace(/\ href=/g, " xlink:href=", "g");
     return lText;
 }
-function show_svg_sourceOnClick () { 
-    $("#textcopylightbox").show();
-    $("#textcopybox").text(webkitNamespaceBugWorkaround($("#svg").html()));
-    $("#textcopybox").select();
+function helpmeOnClick () { 
+    $("#__cheatsheet").toggle();
 }
 
 function toVectorURI (pSourceElementId) {
@@ -393,8 +390,7 @@ function render() {
 
 
 function closeLightbox () {
-    $("textcopybox").text("");
-    $("#textcopylightbox").hide();
+    $("#__cheatsheet").hide();
 }
 
 function hideError () {

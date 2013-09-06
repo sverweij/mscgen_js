@@ -49,10 +49,10 @@ If you're on G+, that is."
                 <!-- <a id="__issuetracker" href="about:blank"
                 class="issuetracker icon"
                 title="Complaints go here"
-                target="_blank"></a> -->
-                <!-- <a id="__question" href="about:blank"
+                target="_blank"></a> 
+                <a id="__helpme"
                 class="question icon"
-                title="How do I do this? And other questions answered."
+                title="Show cheat sheet"
                 target="_blank"></a> -->
             </div>
 
@@ -150,21 +150,16 @@ Note: the url bar will contains the base64 encoded version of the png">png</a>
                    title="Shows the chart in a separate window (jpeg).
 
 Note: the url bar will contains the base64 encoded version of the jpeg">jpeg</a>
-                <!-- 
-                <a id="show_svg_source"
-                   class="button"
-                   title="Shows the source of the picture (scalable vector graphics)">src</a>
-                 -->
             </span>
         </div>
-        <span id="svg"></span>
-        <div id="textcopylightbox">
-            <div id="textcopyform">
+        <div>
+            <div id="__cheatsheet">
                 <button id="close_lightbox">
                     close
                 </button>
-                <textarea readonly id="textcopybox" class="code svg" spellcheck="false"></textarea>
+                <img src="images/test14_cheat_sheet.svg" style="display:block" />
             </div>
+            <span id="svg"></span>
         </div>
         <canvas id="__pngcanvas"></canvas>
     </body>
