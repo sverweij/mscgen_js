@@ -13,9 +13,9 @@
 
 
 ## Building
-build.sh
+Production: ```build.sh```
 
-development only: dev-build.sh
+Development only: ```dev-build.sh```
 
 ## Clean
-sh clean.sh
+```sh clean.sh```
