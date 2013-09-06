@@ -313,7 +313,7 @@ to {
 }
 }
 #input_and_controls {
-    z-index: 0;
+    z-index: 2;
     position: relative;
     vertical-align: top;
     float: left;
@@ -329,7 +329,6 @@ to {
     height: 40em;
 }
 #input_and_controls > #error_output {
-    z-index: 0;
     color: orange;
     padding: 1em 0em 1em 0em;
     border: solid 1px orange;
@@ -342,29 +341,16 @@ to {
     position: absolute;
     float: left;
 }
-#textcopylightbox {
+#__cheatsheet {
     z-index: 1;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    opacity: 0.96;
-    display: none;
-}
-#textcopybox {
-    width: 100%;
-    height: 100%;
-}
-#textcopyform {
     position: absolute;
-    width: 80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
-    opacity: 1;
-    text-align: right;
+    top: 5.5em;
+    right: 1em;
+    background-color: white;
+    text-align:right;
+    
+    opacity: 0.98;
+    display: none;
 }
 fieldset {
     display: inline;
