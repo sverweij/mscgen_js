@@ -1,15 +1,15 @@
 # test14: cheat sheet
-a -> b   : ->  (signal);
-a => b   : =>  (method);
-a >> b   : >>  (return value);
-a =>> b  : =>> (callback);
-a -x b   : -x  (lost);
-a :> b   : :>  (emphasised);
-a .. b   : ..  (dotted);
-a note a : note;
-a box a  : box;
-a rbox a : rbox;
-a abox a : abox;
+a -> b   : a -> b  (signal);
+a => b   : a => b  (method);
+a >> b   : a >> b  (return value);
+a =>> b  : a =>> b (callback);
+a -x b   : a -x b  (lost);
+a :> b   : a :> b  (emphasised);
+a .. b   : a .. b  (dotted);
+a note a : a note a;
+a box a  : a box a;
+a rbox a : a rbox a;
+a abox a : a abox a;
 |||      : ||| (empty row);
 ...      : ... (omitted row);
 ---      : --- (comment) ;
