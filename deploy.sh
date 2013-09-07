@@ -3,6 +3,7 @@
 git checkout gh-pages
 git merge master -m "merge for gh-pages build"
 sh build.sh
-git commit -a -m "build"
+git add .
+git commit -m "build"
 git push
 git checkout master
