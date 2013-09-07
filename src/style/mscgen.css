@@ -268,6 +268,9 @@ h1 {
     border-bottom: solid lightgrey 1px;
     margin-bottom: 0.4em;
 }
+#header > div {
+    float: right;
+}
 h2 {
     font-style: italic;
     font-weight: 500;
@@ -320,6 +323,7 @@ to {
     max-width: 100%;
     max-height: 100%;
     width: 32em;
+    padding-bottom: 1em;
 }
 #input_and_controls > #btn_render {
     display: none;
@@ -345,19 +349,26 @@ to {
     z-index: 1;
     position: absolute;
     top: 5.5em;
-    right: 1em;
+    right: 0em;
     background-color: white;
-    text-align:right;
-    
-    opacity: 0.98;
+    width: 100%;
+    opacity: 0.97;
     display: none;
+}
+.shadow {
+    box-shadow: 0.4em 0.4em 1em -0.2em gray;
+    border-collapse: separate; 
+}
+#__cheatsheet > div {
+    float: right;
+    margin-right: 1em;
+    border-radius: 1em;
+    padding: 0.5em;
 }
 fieldset {
     display: inline;
     border: 1px solid lightgrey;
     border-top: none;
-    
-    
     border-bottom: none;
     padding-bottom: 0.3em;
     padding-top: 0.1em;
