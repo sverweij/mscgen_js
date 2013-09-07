@@ -268,6 +268,9 @@ h1 {
     border-bottom: solid lightgrey 1px;
     margin-bottom: 0.4em;
 }
+#header > div {
+    float: right;
+}
 h2 {
     font-style: italic;
     font-weight: 500;
@@ -313,13 +316,14 @@ to {
 }
 }
 #input_and_controls {
-    z-index: 0;
+    z-index: 2;
     position: relative;
     vertical-align: top;
     float: left;
     max-width: 100%;
     max-height: 100%;
     width: 32em;
+    padding-bottom: 1em;
 }
 #input_and_controls > #btn_render {
     display: none;
@@ -329,7 +333,6 @@ to {
     height: 40em;
 }
 #input_and_controls > #error_output {
-    z-index: 0;
     color: orange;
     padding: 1em 0em 1em 0em;
     border: solid 1px orange;
@@ -342,36 +345,30 @@ to {
     position: absolute;
     float: left;
 }
-#textcopylightbox {
+#__cheatsheet {
     z-index: 1;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 5.5em;
+    right: 0em;
     background-color: white;
-    opacity: 0.96;
+    width: 100%;
+    opacity: 0.97;
     display: none;
 }
-#textcopybox {
-    width: 100%;
-    height: 100%;
+.shadow {
+    box-shadow: 0.4em 0.4em 1em -0.2em gray;
+    border-collapse: separate; 
 }
-#textcopyform {
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
-    opacity: 1;
-    text-align: right;
+#__cheatsheet > div {
+    float: right;
+    margin-right: 1em;
+    border-radius: 1em;
+    padding: 0.5em;
 }
 fieldset {
     display: inline;
     border: 1px solid lightgrey;
     border-top: none;
-    
-    
     border-bottom: none;
     padding-bottom: 0.3em;
     padding-top: 0.1em;
