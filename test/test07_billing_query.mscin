@@ -2,7 +2,7 @@
 # example from http://www.anchor.com.au/blog/2013/06/use-mscgen-for-kickass-diagrams-in-your-documentation/
 # who don't mention mscgen_js (yet...)
 msc {
-    hscale = "2.5";
+    hscale = "1.8";
 
     a [label="Customer", textcolour="maroon", arctextcolour="maroon"],
     b [label="Sysadmin", textcolour="navy", arctextcolour="navy"],
@@ -43,3 +43,4 @@ msc {
     |||;
     ---  [label=" *the support call is completed and documented in Anchor's systems for future reference, and everyone is happy* "];
 }
+

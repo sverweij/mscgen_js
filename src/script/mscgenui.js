@@ -31,8 +31,8 @@ msc {
   ui =>> html [label="show error"];
 
   |||;
-  ui note render [label="There's a parser for mscgen and a separate one for ms genny. For simplicity only showning one.", textbgcolor="#ffe"];
-  }
+  ui note msc [label="There's a parser for mscgen and a separate one for ms genny.\nFor simplicity only showning one.", textbgcolor="#ffe"];
+}
 */
 
 define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
@@ -106,7 +106,7 @@ $(document).ready(function(){
     });
     $("#show_svg_source").bind({
         click : function(e) {
-                    show_svg_sourceOnClick();
+                    helpmeOnClick();
                     ga('send', 'event', 'show_svg_source', 'button');
                 }
     });
@@ -162,19 +162,13 @@ $(document).ready(function(){
                     }
     });
     gCodeMirror.on ("drop", function(pThing, pEvent) {
-                    /* if there is a file - clear the textarea */
+                    /* if there is a file in the drop event clear the textarea, 
+                     * otherwise do default handling for drop events (whatever it is)
+                     */
                     if (pEvent.dataTransfer.files.length > 0) {
                         gCodeMirror.setValue("");
                         ga('send', 'event', 'drop', 'textarea');    
                     } 
-    });
-    $("#textcopybox").bind({
-        cut : function (e) {
-                    ga('send', 'event', 'cut', 'svgsource');
-                },
-        copy : function (e) {
-                    ga('send', 'event', 'copy', 'svgsource');
-                }
     });
     $("#langlink").bind ({
         click : function(e) {
@@ -196,6 +190,12 @@ $(document).ready(function(){
                     ga('send', 'event', 'link', $("#__forkme").attr("href"));
                 }
     });
+    $("#__helpme").bind ({
+        click : function(e) {
+                    helpmeOnClick();
+                    ga('send', 'event', 'link', "helpme");
+                }
+    });
 
     $("body").bind({
         keydown : function (e) {
@@ -213,6 +213,7 @@ $(document).ready(function(){
            }
         }
     });
+    // closeLightbox();
 
     
 }); // document ready
@@ -273,10 +274,8 @@ function webkitNamespaceBugWorkaround(pText){
     lText = lText.replace(/\ href=/g, " xlink:href=", "g");
     return lText;
 }
-function show_svg_sourceOnClick () { 
-    $("#textcopylightbox").show();
-    $("#textcopybox").text(webkitNamespaceBugWorkaround($("#svg").html()));
-    $("#textcopybox").select();
+function helpmeOnClick () { 
+    $("#__cheatsheet").toggle();
 }
 
 function toVectorURI (pSourceElementId) {
@@ -391,8 +390,7 @@ function render() {
 
 
 function closeLightbox () {
-    $("textcopybox").text("");
-    $("#textcopylightbox").hide();
+    $("#__cheatsheet").hide();
 }
 
 function hideError () {
