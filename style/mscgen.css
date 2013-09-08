@@ -426,6 +426,10 @@ a.github {
     
     background-image: url('../images/github.svg');
 }
+a.issuetracker {
+    
+    background-image: url('../images/issuetracker.svg');
+}
 a.question {
     
     background-image: url('../images/question.svg');

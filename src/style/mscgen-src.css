@@ -187,6 +187,10 @@ a.github {
     /*background-image: url('../images/sprite.svg#__github_viewbox');*/
     background-image: url('../images/github.svg');
 }
+a.issuetracker {
+    /*background-image: url('../images/sprite.svg#__question_viewbox');*/
+    background-image: url('../images/issuetracker.svg');
+}
 a.question {
     /*background-image: url('../images/sprite.svg#__question_viewbox');*/
     background-image: url('../images/question.svg');
