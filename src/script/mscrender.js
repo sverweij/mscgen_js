@@ -30,8 +30,8 @@ var DEFAULT_INTER_ENTITY_SPACING = 160;
 var INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
 var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
-var ENTITY_HEIGHT = 30;
-var DEFAULT_ARCROW_HEIGHT = 30;
+var ENTITY_HEIGHT = 32;
+var DEFAULT_ARCROW_HEIGHT = 32;
 var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
@@ -540,23 +540,26 @@ function createArc (pId, pArc, pFrom, pTo) {
     }
      
     if (pFrom === pTo) {
-        lLine = createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine);
+        var lSelfRefArc = createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine);
+        if (pArc.linecolor) {
+           lSelfRefArc.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+        }
+        lGroup.appendChild(lSelfRefArc);
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5), pTo - pFrom , "anchor-start", false)
         );
     } else {
-        lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
+        var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
+        if (pArc.linecolor) {
+           lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+        }
+        lGroup.appendChild (lLine);
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom)
         );
-
-    }
-    if (pArc.linecolor) {
-        lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
-        // TODO #13 also color the associated marker
     }
 
-    lGroup.appendChild(lLine);
+    // lGroup.appendChild(lLine);
     return lGroup;
 }
 
@@ -577,13 +580,14 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
 
         var lLines = pArc.label.split('\\n');
         
-        pStartY = pStartY - ((lLines.length-1)*TEXT_HEIGHT)/2;
+        pStartY = pStartY - (((lLines.length-1)*TEXT_HEIGHT)/2) - 1;
         for (var i = 0; i < lLines.length; i++) {
             lTextWidth = utl.getTextWidth(lLines[i]);
             var lText = new Object();
             if (i===0){
                 lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url, pArc.id, pArc.idurl);
             } else {
+                pStartY += 2;
                 lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url);
             }
             if ( pCenter === undefined || pCenter === true) {
@@ -638,8 +642,7 @@ function createComment (pId, pArc) {
 function colorText (pElement, pArc){
     if (pArc.textcolor) {
         var lStyleString = new String();
-        lStyleString += "fill:" + pArc.textcolor + ";"
-        lStyleString += "stroke:" + pArc.textcolor + ";"
+        lStyleString += "fill:" + pArc.textcolor + ";";
         pElement.setAttribute("style", lStyleString);
     }
 }
@@ -647,10 +650,10 @@ function colorText (pElement, pArc){
 function colorBox (pElement, pArc) {
     var lStyleString = new String();
     if (pArc.textbgcolor) {
-        lStyleString += "fill:" + pArc.textbgcolor + ";"
+        lStyleString += "fill:" + pArc.textbgcolor + ";";
     }
     if (pArc.linecolor) {
-        lStyleString += "stroke:" + pArc.linecolor + ";"
+        lStyleString += "stroke:" + pArc.linecolor + ";";
     }
     pElement.setAttribute("style", lStyleString);
 }
@@ -691,7 +694,7 @@ function createBox (pId, pFrom, pTo, pArc) {
 }
 
 
-gSvgStyleElementString = 
+var gSvgStyleElementString = 
 "svg { \
     font-family: Helvetica, sans-serif; \
     font-size: 9pt; \
@@ -723,9 +726,8 @@ line { \
 } \
 text { \
     color: inherit; \
-    stroke: inherit; \
+    stroke: none; \
     text-anchor: middle; \
-    stroke-width:0.1; /* makes font seem more crisp */ \
 } \
 text.entity { \
     text-decoration : underline; \
