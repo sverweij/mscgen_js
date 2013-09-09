@@ -20,7 +20,7 @@ h1 {
 }
 #header {
     padding-bottom: 0.9em;
-    border-bottom: solid lightgrey 1px;
+    border-bottom: solid lightgray 1px;
     margin-bottom: 0.4em;
 }
 #header > div {
@@ -38,7 +38,7 @@ h3 {
 .intronumber {
     padding: 0.2em 0.5em 0.1em 0.5em;
     color: white;
-    background-color: lightgrey;
+    background-color: lightgray;
     border-radius: 1em;
 }
 
@@ -47,7 +47,7 @@ h3 {
     animation-name: fadeout;
     -webkit-animation-duration: 60s;
     -webkit-animation-name: fadeout;
-    color: lightgrey;
+    color: lightgray;
 }
 a.fadable {
     text-decoration: underline;
@@ -60,7 +60,7 @@ from {
     color: black;
 }
 to {
-    color: lightgrey;
+    color: lightgray;
 }
 }
 @-webkit-keyframes
@@ -68,7 +68,7 @@ fadeout {from {
     color: black;
 }
 to {
-    color: lightgrey;
+    color: lightgray;
 }
 }
 
@@ -106,11 +106,11 @@ to {
 #__cheatsheet {
     z-index: 1;
     position: absolute;
-    top: 5.5em;
+    top: 4.5em;
     right: 0em;
-    background-color: white;
+    background-color: transparent;
     width: 100%;
-    opacity: 0.97;
+    /*opacity: 97%;*/
     display: none;
 }
 
@@ -119,15 +119,19 @@ to {
     border-collapse: separate; /* apparently needed for IE */
 }
 #__cheatsheet > div {
+    background-color: white;
     float: right;
     margin-right: 1em;
     border-radius: 1em;
+    max-width: 25em;
+    max-height: 80%;
     padding: 0.5em;
+    opacity: 0.97;
 }
 
 fieldset {
     display: inline;
-    border: 1px solid lightgrey;
+    border: 1px solid lightgray;
     border-top: none;
     border-bottom: none;
     padding-bottom: 0.3em;
@@ -136,33 +140,29 @@ fieldset {
 legend {
     font-size: 0.7em;
 }
-button {
+button, a.button {
     cursor: default;
     padding: 0.3em 0.5em 0.3em 0.5em;
-    background-color: #ddd;
+    background-color: lightgray;
     color: #000;
     border: none;
-    font-size: 1em;
-}
-button:hover {
-    text-align: center;
-    background-color: #555;
-    color: #fff;
-}
-a.button {
-    cursor: default;
-    padding: 0.3em 0.5em 0.3em 0.5em;
-    background-color: #ddd;
-    color: #000;
-    border: none;
+    border-radius: 0.1em;
     font-size: 1em;
     text-decoration: none;
 }
-
-a.button:hover {
+button:hover, a.button:hover {
     text-align: center;
     background-color: #555;
     color: #fff;
+}
+a {
+    color: blue;
+}
+a:hover {
+    color: green;
+}
+a:visited {
+    color: blue;
 }
 a.icon {
     display: inline-block;
