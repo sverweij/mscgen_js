@@ -170,9 +170,10 @@ $(document).ready(function(){
                         ga('send', 'event', 'drop', 'textarea');    
                     } 
     });
-    $("#langlink").bind ({
+    $("#__langlink").bind ({
         click : function(e) {
-                    ga('send', 'event', 'link', $("#langlink").attr("href"));
+                    console.debug($("#__langlink").attr("href"));
+                    ga('send', 'event', 'link', $("#__langlink").attr("href"));
                 }
     });
     $("#__tweetme").bind ({
