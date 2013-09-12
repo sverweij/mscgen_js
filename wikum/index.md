@@ -63,6 +63,15 @@ c -x b: Whaaat?;
 b >> a: Magic answer;
 ```
 
+To demarcate more strongly and/ or to comment on a part, use *comment* (---), like so:
+``` msgenny
+a =>> b: read_out_loud(message);
+---: for each line in the message:;
+b => "text to speach\nprocessor": get_audio (line);
+"text to speach\nprocessor" >> b: audio_stream;
+b -> speaker: play(audio_stream);
+```
+
 #### ignore this
 In your program lines starting with # or // are ignored, as is everything between c-style block comments
 ``` msgenny
@@ -75,6 +84,7 @@ Caveat: on translating to mcgen all ignorable text get lost.
 ### advanced stuff
 #### options: arcgradient, hscale, width
 #### naming entities, explicit order
+#### both ways, no way
 #### broadcasts, parallel calls
 
 ### using the on line demo
@@ -85,6 +95,7 @@ Drag'n drop
 
 Auto render or not?
 Language switch.
+Help
 
 ### mscgen
 Click!
