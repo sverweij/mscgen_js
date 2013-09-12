@@ -39,14 +39,42 @@ a note a: we're not done yet ...;
 ```
 
 #### multi line text
-'splain \n
-
-#### comments
+``` msgenny
+a note b: This is a note consisting of\ntwo lines of text;
+b => c: Breaking text in two\nalso works for arcs;
+```
 
 #### empty rows, omitted rows, comments
+Sometimes your chart needs some more space between arcs, e.g. to emphasise grouping. 
+``` msgenny
+a =>> b: do something for me;
+b >> a: done;
+|||;
+a => c: "b is done doing something; go bother him"; 
+c -> b: bother;
+```
 
-### advanced use
+To indicate you deliberately left out stuff of your chart, you can use ellipses, like this:
+``` msgenny
+a =>> b: Do the voodoo;
+b => c: Iberian dance task;
+c -x b: Whaaat?;
+...: magic happens here;
+b >> a: Magic answer;
+```
+
+#### ignore this
+In your program lines starting with # or // are ignored, as is everything between c-style block comments
+``` msgenny
+# This line is ignored
+a =>> b: what's happening here? ; /* honestly don't know */
+// ignored line
+```
+Caveat: on translating to mcgen all ignorable text get lost.
+
+### advanced stuff
 #### options: arcgradient, hscale, width
+#### naming entities, explicit order
 #### broadcasts, parallel calls
 
 ### using the on line demo
