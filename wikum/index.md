@@ -85,23 +85,32 @@ Caveat: on translating to mcgen all ignorable text get lost.
 #### options: arcgradient, hscale, width
 #### naming entities, explicit order
 #### both ways, no way
+#### box, rbox, abox
 #### broadcasts, parallel calls
 
 ### using the on line demo
 By default renders as you type.
+
 saving as svg (includes your program!), png, jpeg
 
 Drag'n drop
 
-Auto render or not?
+Auto render
+
 Language switch.
+
 Help
 
 ### mscgen
 Click!
-Why? mscgen compatibility, doxygen integration. Features: coloring, arcskip, hyperlinks
+Why? 
+- mscgen compatibility, 
+- doxygen integration. 
+- Features: coloring, arcskip, hyperlinks
+
 #### coloring
 textcolor, textbgcolor, linecolor
+
 #### coloring everyting departing from a lifeline
 #### arcskip
 #### id, url, idurl
