@@ -11,9 +11,10 @@
 - [Advanced stuff](#advanced-stuff)
   - [options: arcgradient, hscale, width](#options-arcgradient-hscale-width)
   - [naming entities, explicit order](#naming-entities-explicit-order)
+  - [broadcasts, parallel calls](#broadcasts-parallel-calls)  
   - [both ways, no way](#both-ways-no-way)
   - [box, rbox, abox](#box-rbox-abox)
-  - [broadcasts, parallel calls](#broadcasts-parallel-calls)
+  
 
 ## Basics
 ### a sends a signal to b
@@ -172,9 +173,28 @@ A << fe: Whoop!;
 ```
 ![tut16.png](tutorial/tut16.png)
 
-### both ways, no way
-### box, rbox, abox
 ### broadcasts, parallel calls
+``` msgenny
+arcgradient="20";
+a, b, c, d;
+b =>> *;
+```
+![tut17.png](tutorial/tut17.png)
+
+
+``` msgenny
+a, b, c, d, n;
+a => b: parallel with c => d,
+ c => d: parallel with a => b, 
+ n note n: a note on the same line;
+```
+![tut18.png](tutorial/tut18.png)
+
+### both ways, no way
+
+
+### box, rbox, abox
+
 
 ### using the on line demo
 By default renders as you type.
