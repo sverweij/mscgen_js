@@ -1,22 +1,22 @@
 # Tutorial
 
 - [Basics](#basics)
-  - [a sends a signal to b](#signal)
-  - [adding text](#text)
-  - [b replies to a](#reply)
-  - [notes](#note)
-  - [multiline text](#multiline)
-  - [empty rows, omitted rows, comments](#wholerow)
-  - [ignore this](#ignore)
-- Advanced stuff
-  - options: arcgradient, hscale, width
-  - naming entities, explicit order
-  - both ways, no way
-  - box, rbox, abox
-  - broadcasts, parallel calls
+  - [a sends a signal to b](#a-sends-a-signal-to-b)
+  - [adding text](#adding-text)
+  - [b replies to a](#b-replies-to-a)
+  - [notes](#notes)
+  - [multiline text](#multiline-text)
+  - [empty rows, omitted rows, comments](#empty-rows-omitted-rows-comments)
+  - [ignore this](#ignore-this)
+- [Advanced stuff](#advanced-stuff)
+  - [options: arcgradient, hscale, width](#options-arcgradient-hscale-width)
+  - [naming entities, explicit order](#naming-entities-explicit-order)
+  - [both ways, no way](#both-ways-no-way)
+  - [box, rbox, abox](#box-rbox-abox)
+  - [broadcasts, parallel calls](#broadcasts-parallel-calls)
 
-<h2 id="basics">Basics</h2>
-<h3 id="signal">a sends a signal to b</h3>
+## Basics
+### a sends a signal to b
 ``` msgenny
 a -> b;
 ```
@@ -24,7 +24,7 @@ a -> b;
 
 As you can see this creates two entities (a and b), both with a lifeline, and an arrow from the first to the second lifeline. 
 
-<h3 id="text">padding text</h3>
+### padding text
 To show what , add the text after a colon, like so:
 
 ``` msgenny
@@ -39,7 +39,7 @@ a -> b: ping;
 ```
 achieves the same.
 
-<h3 id="reply">b replies to a</h3>
+### b replies to a
 This works the same, as  
 ``` msgenny
 a -> b: ping;
@@ -47,7 +47,7 @@ b >> a: heard ya!;
 ```
 ![tut03.png](tutorial/tut03.png)
 
-<h3 id="note">notes </h3>
+### notes
 ``` msgenny
 a -> b: ping;
 b >> a: heard ya!;
@@ -55,14 +55,14 @@ a note a: we're not done yet ...;
 ```
 ![tut04.png](tutorial/tut04.png)
 
-<h3 id="multiline">multi line text</h3>
+### multi line text
 ``` msgenny
 a note b: This is a note consisting of\ntwo lines of text;
 b => c: Breaking text in two\nalso works for arcs;
 ```
 ![tut05.png](tutorial/tut05.png)
 
-<h3 id="wholerow">empty rows, omitted rows, comments</h3>
+### empty rows, omitted rows, comments
 Sometimes your chart needs some more space between arcs, e.g. to emphasise grouping. 
 ``` msgenny
 a =>> b: do something for me;
@@ -95,7 +95,7 @@ b -> speaker: play(audio_stream);
 ```
 ![tut08.png](tutorial/tut08.png)
 
-<h3 id="ignore">ignore this</h3>
+### ignore this
 In your program lines starting with # or // are ignored, as is everything between c-style block comments
 ``` msgenny
 # This line is ignored
@@ -106,8 +106,29 @@ Caveat: on translating to mcgen all ignorable text get lost.
 
 ![tut09.png](tutorial/tut09.png)
 
-<h2 id="advanced">Advanced stuff</h2>
+## Advanced stuff
 ### options: arcgradient, hscale, width
+With *arcgradient* all lines get skewed a little. 
+Options go on top
+``` msgenny
+arcgradient="20";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+```
+![tut10.png](tutorial/tut10.png)
+
+*hscale* stretches the chart a bit. 
+``` msgenny
+arcgradient="20", hscale="1.337";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+```
+![tut11.png](tutorial/tut11.png)
+
 ### naming entities, explicit order
 ### both ways, no way
 ### box, rbox, abox
