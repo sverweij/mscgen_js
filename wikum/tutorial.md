@@ -4,7 +4,7 @@
 ``` msgenny
 a -> b;
 ```
-
+![a sample sequence chart, rendered as png](tutorial/tut01.png)
 As you can see this creates two entities (a and b), both with a lifeline, and an arrow from the first to the second lifeline. 
 
 ### adding text
