@@ -129,6 +129,16 @@ client => server : ACK;
 ```
 ![tut11.png](tutorial/tut11.png)
 
+... and *width* scales the whole chart so it fits in exactly the amount of pixels width. 
+``` msgenny
+arcgradient="20", hscale="1.337", width="314";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+```
+![tut12.png](tutorial/tut12.png)
+
 ### naming entities, explicit order
 ### both ways, no way
 ### box, rbox, abox
