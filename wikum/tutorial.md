@@ -146,25 +146,31 @@ fe => be: "getToken\n(username, password)";
 fe << be: [OK] token;
 A << fe: Whoop!;
 ```
+![tut13.png](tutorial/tut13.png)
 
 ``` msgenny
 A: Actor, fe:Front end, be: Back end;
+
 A =>> fe: "log me in\n(username, password)";
 fe => be: "getToken\n(username, password)";
 fe << be: [OK] token;
 A << fe: Whoop!;
 ```
+![tut14.png](tutorial/tut14.png)
 
 ``` msgenny
 1 =>> 4;
 3 >> 2;
 ```
+![tut15.png](tutorial/tut15.png)
 
 ``` msgenny
 1,2,3,4;
+
 1 =>> 4;
 3 >> 2;
 ```
+![tut16.png](tutorial/tut16.png)
 
 ### both ways, no way
 ### box, rbox, abox
