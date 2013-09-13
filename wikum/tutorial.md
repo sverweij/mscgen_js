@@ -129,7 +129,43 @@ client => server : ACK;
 ```
 ![tut11.png](tutorial/tut11.png)
 
+... and *width* scales the whole chart so it fits in exactly the amount of pixels width. 
+``` msgenny
+arcgradient="20", hscale="1.337", width="314";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+```
+![tut12.png](tutorial/tut12.png)
+
 ### naming entities, explicit order
+``` msgenny
+A =>> fe: "log me in\n(username, password)";
+fe => be: "getToken\n(username, password)";
+fe << be: [OK] token;
+A << fe: Whoop!;
+```
+
+``` msgenny
+A: Actor, fe:Front end, be: Back end;
+A =>> fe: "log me in\n(username, password)";
+fe => be: "getToken\n(username, password)";
+fe << be: [OK] token;
+A << fe: Whoop!;
+```
+
+``` msgenny
+1 =>> 4;
+3 >> 2;
+```
+
+``` msgenny
+1,2,3,4;
+1 =>> 4;
+3 >> 2;
+```
+
 ### both ways, no way
 ### box, rbox, abox
 ### broadcasts, parallel calls
