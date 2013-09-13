@@ -1,10 +1,18 @@
 # tutorial
 ## Basics
 ### a sends a signal to b
+<table>
+<tr>
+<td>
 ``` msgenny
 a -> b;
 ```
+</td>
+<td>
 ![a sample sequence chart, rendered as png](tutorial/tut01.png)
+</td>
+</table>
+
 As you can see this creates two entities (a and b), both with a lifeline, and an arrow from the first to the second lifeline. 
 
 ### adding text
