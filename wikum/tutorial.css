@@ -12,7 +12,7 @@ article {
     padding: 3em;
     background-color: white;
     border-radius: 0.5em;
-    overflow: scroll;
+    overflow: visible;
 }
 code, pre {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
