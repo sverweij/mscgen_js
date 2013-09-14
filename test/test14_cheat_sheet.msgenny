@@ -4,12 +4,12 @@ a => b   : a => b  (method);
 a >> b   : a >> b  (return value);
 a =>> b  : a =>> b (callback);
 a -x b   : a -x b  (lost);
-a :> b   : a :> b  (emphasised);
+a :> b   : a :> b  (emphasis);
 a .. b   : a .. b  (dotted);
-a note a : a note a;
-a box a  : a box a;
-a rbox a : a rbox a;
-a abox a : a abox a;
+a note a : a note a, 
+b box b  : b box b;
+a rbox a : a rbox a, 
+b abox b : b abox b;
 |||      : ||| (empty row);
 ...      : ... (omitted row);
 ---      : --- (comment) ;

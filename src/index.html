@@ -51,9 +51,9 @@ If you're on G+, that is."
                 title="Complaints go here"
                 target="_blank"></a> -->
                 <a id="__helpme"
+                href="#"
                 class="question icon"
-                title="Show cheat sheet"
-                target="_blank"></a>
+                title="Show cheat sheet"></a>
             </div>
 
             <h1 title="There's some good copy in tooltips. 
@@ -73,7 +73,6 @@ Likely nobody will read them, though."class="fadable">mscgen_js</h1>
             </div>
             </span> -->
             <textarea id="msc_input" class="code mscgen" spellcheck="false">
-
 # Sample msc for demonstrating mscgen_js
 msc {
   hscale="1.2";
@@ -128,41 +127,38 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
                 <h3 class="fadable" 
                     style="display:inline-block; padding-right: 1em;">
                     <span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
-            
                 <a id="show_svg"
                    class="button"
                    target="_blank" 
                    type="image/svg+xml"
                    title="Shows the chart in a separate window (svg).
 
-Note: the url bar will contains the base64 encoded version of the svg
+Note: the url bar will contain the base64 encoded version of the svg
 Note: Double clicking on the picture has the same effect.">svg</a>
-                
                 <a id="show_png" 
                    class="button"
                    target="_blank" 
                    type="image/png"
                    title="Shows the chart in a separate window (png).
 
-Note: the url bar will contains the base64 encoded version of the png">png</a>
-                 
+Note: the url bar will contain the base64 encoded version of the png">png</a>
                 <a id="show_jpeg"
                    class="button"
                    target="_blank"
                    type="image/jpeg"
                    title="Shows the chart in a separate window (jpeg).
 
-Note: the url bar will contains the base64 encoded version of the jpeg">jpeg</a>
+Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
             </span>
         </div>
         <span id="svg"></span>
         <canvas id="__pngcanvas"></canvas>
         <div id="__cheatsheet">
-            <div class="shadow">
-                <span>Cheat sheet</span>
+            <div class="shadow" style="overflow: auto;">
+                <span style="display:inline-block;height:2.0em;padding-left: 0.5em;padding-top:0.5em;">Cheat sheet</span>
                 <button id="close_lightbox" style="float:right; color:white;border-radius:1em">X</button>
-                <img src="images/test14_cheat_sheet.svg" style="display: block"/>
-                <p style="border-top:1px solid lightgray;padding-top:1em;">
+                <img style="border-top: 1px solid lightgray; padding-top:1em;border-bottom: 1px solid lightgray; padding-bottom: 1em;" src="images/test14_cheat_sheet.svg" style="display: block"/>
+                <p>
                     For a complete <em>mscgen</em> reference visit 
                     <a id="__langlink" href="http://www.mcternan.me.uk/mscgen" target="_blank">the site of its creator</a>.
                 </p>
