@@ -67,9 +67,12 @@ code {
         padding: 0em;
         border-radius: 0em;
     }
-    .code, img {
+    .code {
         display: block;
         overflow: auto;
+    }
+    img {
+        max-width: 100%;
     }
     .hideonmobile {
         display: none;
