@@ -85,7 +85,7 @@ a -> b: "ping";
 
 <p class="info">Note: when your description doesn't contain a <code>,</code> or a <code>;</code>
 it is possible to leave the quotes out of the label, so in this case 
-<code class="msgenny">a -> b: ping;</code> would have achieved exactly the same.</p>
+<code class="msgenny">a -> b: ping;</code> would have achieved exactly the same effect.</p>
 
 <h3 id="b-replies-to-a"><code>b</code> replies to <code>a</code></h3>
 <p>Adding extra parts to the conversation works along the same lines</p>
@@ -284,8 +284,60 @@ c rbox d : rbox;
 
 <h3> coloring</h3>
 <p>textcolor, textbgcolor, linecolor</p>
+<pre class="code mscgen">
+msc {
+a [label="linecolor=\n\"orange\"", 
+   linecolor="orange"],
+b [label="textbgcolor=\n\"yellow\"", 
+   textbgcolor="yellow"];
 
+a =>> b  [label="linecolor=\"blue\"", 
+          linecolor="blue"];
+b >> a   [label="textcolor=\"green\"",
+          textcolor="green"];
+a => b   [label="textbgcolor=\"lime\"",
+          textbgcolor="lime"];
+a note a [label="color bonanza",
+          linecolor="violet",
+          textbgcolor="pink",
+          textcolor="red"],
+b note b  [label="color\nbonanza",
+          linecolor="#7777FF",
+          textbgcolor="cyan",
+          textcolor="blue"];
+}
+</pre>
 <h3> coloring everyting departing from a lifeline</h3>
+<pre class="code mscgen">
+msc {
+hscale="0.6";
+
+  cust [label="customer"],
+  ui [label="UI"],
+  c [label="Controler", 
+     linecolor="red", textbgcolor="yellow",
+     arclinecolor="red", arctextcolor="red",
+     arctextbgcolor="yellow"],
+  a [label="Customer\nstore"],
+  m [label="Model"],
+  e [label="Event\nlogger"];
+
+  cust =>> ui [label="Account\n(id, secret)?"];
+  ui =>> c [label="Get account\ninfo"];
+  c -> e [label="log(id, 'getAccount', 'start')"];
+  c => a [label="identify\n(id, secret)"];
+  a >> c [label="token"];
+  c => m [label="getAccount(id)"];
+  m >> c [label="Account data"];
+  c =>> c [label="mangle(Account Data)"];
+  c -> e [label="log(id, 'getAccount', 'OK')"];
+  
+  ui << c [label="Account data"];
+  ui =>> ui [label="render"];
+}
+</pre>
+<img id="tut33" src="tutorial/tut33.png" alt="tut33">
+
 <h3> arcskip</h3>
 <h3> id, url, idurl</h3>
 </article>

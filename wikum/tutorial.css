@@ -11,7 +11,7 @@ article {
     margin-top: 0.25em;
     padding: 3em;
     background-color: white;
-    border-radius: 3px;
+    border-radius: 0.5em;
     overflow: auto;
 }
 code, pre {
@@ -19,7 +19,10 @@ code, pre {
 }
 h1, h2 {
     padding-bottom: 0.5em;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid #F8F8F8;
+}
+a {
+    color: blue;
 }
 a:visited {
     color: blue;
@@ -39,7 +42,7 @@ code {
     vertical-align: top;
 }
 .shadow {
-    box-shadow: 0.4em 0.4em 1em -0.2em gray;
+    box-shadow: 0.0em 0.0em 1em -0.2em gray;
     border-collapse: separate; /* apparently needed for IE */
 }
 .info:before {
@@ -55,12 +58,13 @@ code {
 
 @media screen and (max-width: 640px) {
     body {
-        margin: 0;
+        margin: 0em;
     }
     article {
-        margin: 0;
-        border: 0;
-        padding: 0;
+        margin: 0em;
+        border: 0em;
+        padding: 0em;
+        border-radius: 0em;
     }
 
     .hideonmobile {
@@ -68,20 +72,24 @@ code {
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-width: 641px) and (max-width: 768px) {
     body {
-        margin: 30;
+        margin: 0em;
     }
     article {
-        margin: 0;
-        border: 0;
+        margin: 0em;
+        border: 0em;
         padding: 1em;
-        border-radius: 0px;
+        border-radius: 0em;
     }
 }
 
-@media screen and (min-width: 800px) and (max-width: 1024px) {
+@media screen and (min-width: 769px) and (max-width: 1024px) {
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1025px) {
+    article {
+        margin-left: 15%;
+        margin-right: 15%;
+    }
 }
