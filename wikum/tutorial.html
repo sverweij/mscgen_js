@@ -70,7 +70,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <pre class="code msgenny">
 a -> b;
 </pre>
-<img alt="tut01" src="tutorial/tut01.png">
+<img alt="tut01" src="tutorial/tut01.svg">
 <p>As you can see this creates two entities (a and b), both with a lifeline, and an arrow from the first to the second lifeline.</p>
             
 
@@ -81,7 +81,7 @@ a -> b: "ping";
 </pre>            
 
 
-<img id="tut02" src="tutorial/tut02.png" alt="tut02">
+<img id="tut02" src="tutorial/tut02.svg" alt="tut02">
 
 <p class="info">Note: when your description doesn't contain a <code>,</code> or a <code>;</code>
 it is possible to leave the quotes out of the label, so in this case 
@@ -93,7 +93,7 @@ it is possible to leave the quotes out of the label, so in this case
 a -> b: ping;
 b >> a: heard ya!;
 </pre>                        
-<img id="tut03" src="tutorial/tut03.png" alt="tut03">
+<img id="tut03" src="tutorial/tut03.svg" alt="tut03">
 <p>There is a plethora of arcs (arrows, lines) at your disposal. We've thrown
 a small cheat sheet together that sums up the basic ones 
 (<a href="tutorial/test14_cheat_sheet.svg" target="_blank">svg</a>, 
@@ -108,14 +108,14 @@ a -> b: ping;
 b >> a: heard ya!;
 a note a: we're not done yet ...;
 </pre>                        
-<img id="tut04" src="tutorial/tut04.png" alt="tut04">
+<img id="tut04" src="tutorial/tut04.svg" alt="tut04">
 
 <h3 id="multiline-text">Multiline text</h3>
 <pre class="code msgenny">
 a note b: This is a note consisting of\ntwo lines of text;
 b => c  : Breaking text in two\nalso works for arcs;
 </pre>                        
-<img id="tut05" src="tutorial/tut05.png" alt="tut05">
+<img id="tut05" src="tutorial/tut05.svg" alt="tut05">
 
 <h3 id="empty-rows-omitted-rows-comments">Empty rows, omitted rows, comments</h3>
 <p>Sometimes your chart needs some more space between arcs, e.g. to emphasise grouping.</p>
@@ -126,7 +126,7 @@ b >>  a: done;
 a => c : "b is done doing something;\ngo bother him";
 c -> b : bother;
 </pre>                        
-<img id="tut06" src="tutorial/tut06.png" alt="tut06">
+<img id="tut06" src="tutorial/tut06.svg" alt="tut06">
 
 <p>To indicate you deliberately left out stuff of your chart, you can use ellipses, like this:</p>
  <pre class="code msgenny">
@@ -136,7 +136,7 @@ c -x b : Whaaat?;
 ...    : magic happens here;
 b >> a : Magic answer;
 </pre>
-<img id="tut07" src="tutorial/tut07.png" alt="tut07">
+<img id="tut07" src="tutorial/tut07.svg" alt="tut07">
 
 <p>To demarcate more strongly and/ or to comment on a part, use <em>comment</em> (---), like so:</p>
  <pre class="code msgenny">
@@ -146,7 +146,7 @@ b => "text to\nspeach": getAudio (line);
 "text to\nspeach" >> b: lAudioStream;
 b -> speaker: play(lAudioStream);
 </pre>
-<img id="tut08" src="tutorial/tut08.png" alt="tut08">
+<img id="tut08" src="tutorial/tut08.svg" alt="tut08">
 
 <h3 id="ignore-this">Ignore this</h3>
 <p>In your program lines starting with <code>#</code> or <code>//</code> 
@@ -156,7 +156,7 @@ b -> speaker: play(lAudioStream);
 a =>> b: what's happening here? ; /* honestly don't know */
 // ignored line
 </pre>                        
-<img id="tut09" src="tutorial/tut09.png" alt="tut09">
+<img id="tut09" src="tutorial/tut09.svg" alt="tut09">
 <p class="warning">Caveat: on translating to mscgen all ignorable text get lost.</p>
 
 <h2 id="advanced-stuff">Advanced stuff</h2>
@@ -170,7 +170,7 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>                        
-<img id="tut10" src="tutorial/tut10.png" alt="tut10">
+<img id="tut10" src="tutorial/tut10.svg" alt="tut10">
 
 <p><em>hscale</em> horizontally scales the chart a bit. Numbers bigger than 1 enlarge 
 it; smaller than 1 shrink it.</p>
@@ -181,7 +181,7 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<img id="tut11" src="tutorial/tut11.png" alt="tut11">
+<img id="tut11" src="tutorial/tut11.svg" alt="tut11">
 
 <p>... and <em>width</em> scales the whole chart so it fits in exactly the amount of pixels width.</p>
 <pre class="code msgenny">
@@ -191,7 +191,7 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<img id="tut12" src="tutorial/tut12.png" alt="tut12">
+<img id="tut12" src="tutorial/tut12.svg" alt="tut12">
 
 <h3 id="naming-entities-explicit-order">Explicit entity declarations: labeling entities, use your own order</h3>
 <p>To prevent you from having to enter long entity names in each line, you can explicitly 
@@ -204,14 +204,14 @@ fe => be: "getToken\n(id, secret)";
 fe << be: [OK] token;
 A << fe: Whoop!;
 </pre>
-<img id="tut14" src="tutorial/tut14.png" alt="tut14">
+<img id="tut14" src="tutorial/tut14.svg" alt="tut14">
 
 <p>The msgenny parser puts the entities in the order they occur in your script, e.g. </p>
 <pre class="code msgenny">
 1 =>> 4;
 3 >> 2;
 </pre>
-<img id="tut15" src="tutorial/tut15.png" alt="tut15">
+<img id="tut15" src="tutorial/tut15.svg" alt="tut15">
 
 <p>If that's not what you want, declare them in the order you want them to appear:</p>
 <pre class="code msgenny">
@@ -220,7 +220,7 @@ A << fe: Whoop!;
 1 =>> 4;
 3 >> 2;
 </pre>
-<img id="tut16" src="tutorial/tut16.png" alt="tut16">
+<img id="tut16" src="tutorial/tut16.svg" alt="tut16">
 
 <h3 id="broadcasts-parallel-calls">broadcasts, parallel calls</h3>
 <p>When an entity has to send a message to all entities at once (broadcast) use <code>*</code> as entity name. 
@@ -230,7 +230,7 @@ arcgradient="14";
 a, b, c, d;
 b =>> *;
 </pre>                        
-<img id="tut17" src="tutorial/tut17.png" alt="tut17">
+<img id="tut17" src="tutorial/tut17.svg" alt="tut17">
 
 <p>In situations where you want to epress two calls being executed in parallel (or for some
 other reason want to see two arcs on one row), seperat them with a <code>,</code> in stead
@@ -241,7 +241,7 @@ a => b: parallel\nwith c => b,
 c => b: parallel\nwith a => b,
 n note n: a note on\nthe same line;
 </pre>
-<img id="tut18" src="tutorial/tut18.png" alt="tut18">
+<img id="tut18" src="tutorial/tut18.svg" alt="tut18">
 
 <h3 id="both-ways-no-way">Both ways, no way</h3>
 <p>For almost every arc type (<code>-></code>, <code>=></code>, <code>=>></code>, 
@@ -253,7 +253,7 @@ a <<=>> b, b <<>> c;
 a -- b, b .. c;
 a :: b, b <:> c ;
 </pre>
-<img id="tut19" src="tutorial/tut19.png" alt="tut19">
+<img id="tut19" src="tutorial/tut19.svg" alt="tut19">
 
 <h3 id="box-rbox-abox">box, rbox, abox</h3>
 <p>State and condition boxes are part of the origin mscgen standard, and hence they're supported in ms genny as well. </p>
@@ -262,7 +262,7 @@ a  box b :  box;
 b abox c : abox;
 c rbox d : rbox;
 </pre>
-<img id="tut20" src="tutorial/tut20.png" alt="tut20">
+<img id="tut20" src="tutorial/tut20.svg" alt="tut20">
 </article>
 <article class="shadow">
 <h2>Using the on line demo</h2>
@@ -286,6 +286,8 @@ c rbox d : rbox;
 <p>textcolor, textbgcolor, linecolor</p>
 <pre class="code mscgen">
 msc {
+hscale="0.9";
+    
 a [label="linecolor=\n\"orange\"", 
    linecolor="orange"],
 b [label="textbgcolor=\n\"yellow\"", 
@@ -307,6 +309,8 @@ b note b  [label="color\nbonanza",
           textcolor="blue"];
 }
 </pre>
+<img id="tut32" src="tutorial/tut32.svg" alt="tut32">
+
 <h3> coloring everyting departing from a lifeline</h3>
 <pre class="code mscgen">
 msc {
@@ -336,7 +340,7 @@ hscale="0.6";
   ui =>> ui [label="render"];
 }
 </pre>
-<img id="tut33" src="tutorial/tut33.png" alt="tut33">
+<img id="tut33" src="tutorial/tut33.svg" alt="tut33">
 
 <h3> arcskip</h3>
 <h3> id, url, idurl</h3>
