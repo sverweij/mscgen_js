@@ -12,10 +12,11 @@ article {
     padding: 3em;
     background-color: white;
     border-radius: 0.5em;
-    overflow: auto;
+    overflow: scroll;
 }
 code, pre {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
+    font-size: 1em;
 }
 h1, h2 {
     padding-bottom: 0.5em;
@@ -35,7 +36,7 @@ code {
 .code {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
-    overflow: auto;
+    /*overflow: auto;*/
     padding: 6px 10px;
     border-radius: 3px;
     display: inline-block;
