@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+This file is part of mscgen_js.
+
+mscgen_js is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+mscgen_js is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="message sequence chart renderer">
+<meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
+<meta http-equiv="refresh" content="3">
+<title>mscgen_js - tutorial</title>
+<link rel="stylesheet" href="tutorial.css" type="text/css" media="screen">
+
+<body>
+<article class="shadow">
+<h1 id="tutorial">Language tutorial</h1>
+
+<ul>
+    <li>
+        <a href="#basics">Basics</a>
+        <ul>
+            <li>
+                <a href="#a-sends-a-signal-to-b">a sends a signal to b</a>
+            <li>
+                <a href="#adding-text">adding text</a>
+            <li>
+                <a href="#b-replies-to-a">b replies to a</a>
+            <li>
+                <a href="#notes">notes</a>
+            <li>
+                <a href="#multiline-text">multiline text</a>
+            <li>
+                <a href="#empty-rows-omitted-rows-comments">empty rows, omitted rows, comments</a>
+            <li>
+                <a href="#ignore-this">ignore this</a>
+        </ul>
+    <li>
+        <a href="#advanced-stuff">Advanced stuff</a>
+        <ul>
+            <li>
+                <a href="#options-arcgradient-hscale-width">options: arcgradient, hscale, width</a>
+            <li>
+                <a href="#naming-entities-explicit-order">naming entities, explicit order</a>
+            <li>
+                <a href="#broadcasts-parallel-calls">broadcasts, parallel calls</a>
+            <li>
+                <a href="#both-ways-no-way">both ways, no way</a>
+            <li>
+                <a href="#box-rbox-abox">box, rbox, abox</a>
+        </ul>
+</ul>
+<h2 id="basics">Basics</h2>
+
+<h3 id="a-sends-a-signal-to-b"><code>a</code> sends a signal to <code>b</code></h3>
+<p>The most simple sequence chart you can draw is one where an entity <code>a</code> sends a signal to an entity <code>b</code></p>
+<pre class="code msgenny">
+a -> b;
+</pre>
+<img alt="tut01" src="tutorial/tut01.png">
+<p>As you can see this creates two entities (a and b), both with a lifeline, and an arrow from the first to the second lifeline.</p>
+            
+
+<h3 id="adding-text">Adding labels</h3>
+<p>To show what the signal entailed, add a label behind the signal, like so:</p>
+<pre class="code msgenny">
+a -> b: "ping";
+</pre>            
+
+
+<img id="tut02" src="tutorial/tut02.png" alt="tut02">
+
+<p class="info">Note: when your description doesn't contain a <code>,</code> or a <code>;</code>
+it is possible to leave the quotes out of the label, so in this case 
+<code class="msgenny">a -> b: ping;</code> would have achieved exactly the same.</p>
+
+<h3 id="b-replies-to-a"><code>b</code> replies to <code>a</code></h3>
+<p>Adding extra parts to the conversation works along the same lines</p>
+<pre class="code msgenny">
+a -> b: ping;
+b >> a: heard ya!;
+</pre>                        
+<img id="tut03" src="tutorial/tut03.png" alt="tut03">
+<p>There is a plethora of arcs (arrows, lines) at your disposal. We've thrown
+a small cheat sheet together that sums up the basic ones 
+(<a href="tutorial/test14_cheat_sheet.svg" target="_blank">svg</a>, 
+<a href="tutorial/test14_cheat_sheet.png" target="_blank">png</a>). As we've 
+been using it quite a lot, we've put it behind the (?) button in the online
+demo as well.</p>
+
+<h3 id="notes">Notes</h3>
+<p>To add a note to a chart use the special <code>note</code> arc type. </p>
+<pre class="code msgenny">
+a -> b: ping;
+b >> a: heard ya!;
+a note a: we're not done yet ...;
+</pre>                        
+<img id="tut04" src="tutorial/tut04.png" alt="tut04">
+
+<h3 id="multiline-text">Multiline text</h3>
+<pre class="code msgenny">
+a note b: This is a note consisting of\ntwo lines of text;
+b => c  : Breaking text in two\nalso works for arcs;
+</pre>                        
+<img id="tut05" src="tutorial/tut05.png" alt="tut05">
+
+<h3 id="empty-rows-omitted-rows-comments">Empty rows, omitted rows, comments</h3>
+<p>Sometimes your chart needs some more space between arcs, e.g. to emphasise grouping.</p>
+<pre class="code msgenny">
+a =>> b: do something for me;
+b >>  a: done;
+|||;
+a => c : "b is done doing something;\ngo bother him";
+c -> b : bother;
+</pre>                        
+<img id="tut06" src="tutorial/tut06.png" alt="tut06">
+
+<p>To indicate you deliberately left out stuff of your chart, you can use ellipses, like this:</p>
+ <pre class="code msgenny">
+a =>> b: Do the voodoo;
+b => c : Iberian dance task;
+c -x b : Whaaat?;
+...    : magic happens here;
+b >> a : Magic answer;
+</pre>
+<img id="tut07" src="tutorial/tut07.png" alt="tut07">
+
+<p>To demarcate more strongly and/ or to comment on a part, use <em>comment</em> (---), like so:</p>
+ <pre class="code msgenny">
+a =>> b: readOutLoud\n(message);
+---    : for each line in the message:;
+b => "text to\nspeach": getAudio (line);
+"text to\nspeach" >> b: lAudioStream;
+b -> speaker: play(lAudioStream);
+</pre>
+<img id="tut08" src="tutorial/tut08.png" alt="tut08">
+
+<h3 id="ignore-this">Ignore this</h3>
+<p>In your program lines starting with <code>#</code> or <code>//</code> 
+    are ignored, as is everything between <code>/* c-style block comments */</code></p>
+<pre class="code msgenny">
+# This line is ignored
+a =>> b: what's happening here? ; /* honestly don't know */
+// ignored line
+</pre>                        
+<img id="tut09" src="tutorial/tut09.png" alt="tut09">
+<p class="warning">Caveat: on translating to mscgen all ignorable text get lost.</p>
+
+<h2 id="advanced-stuff">Advanced stuff</h2>
+<h3 id="options-arcgradient-hscale-width">Options: arcgradient, hscale, width</h3>
+<p>With <em>arcgradient</em> all lines get skewed a little.</p>
+<p>Options go on top</p>
+<pre class="code msgenny">
+arcgradient="10";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+</pre>                        
+<img id="tut10" src="tutorial/tut10.png" alt="tut10">
+
+<p><em>hscale</em> horizontally scales the chart a bit. Numbers bigger than 1 enlarge 
+it; smaller than 1 shrink it.</p>
+<pre class="code msgenny">
+arcgradient="10", hscale="0.6";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+</pre>
+<img id="tut11" src="tutorial/tut11.png" alt="tut11">
+
+<p>... and <em>width</em> scales the whole chart so it fits in exactly the amount of pixels width.</p>
+<pre class="code msgenny">
+arcgradient="10", width="240";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+</pre>
+<img id="tut12" src="tutorial/tut12.png" alt="tut12">
+
+<h3 id="naming-entities-explicit-order">Explicit entity declarations: labeling entities, use your own order</h3>
+<p>To prevent you from having to enter long entity names in each line, you can explicitly 
+declare entity names at the start of your script and give them labels. </p>
+<pre class="code msgenny">
+A: Actor, fe:Front end, be: Back end;
+
+A =>> fe: "log me in\n(id, secret)";
+fe => be: "getToken\n(id, secret)";
+fe << be: [OK] token;
+A << fe: Whoop!;
+</pre>
+<img id="tut14" src="tutorial/tut14.png" alt="tut14">
+
+<p>The msgenny parser puts the entities in the order they occur in your script, e.g. </p>
+<pre class="code msgenny">
+1 =>> 4;
+3 >> 2;
+</pre>
+<img id="tut15" src="tutorial/tut15.png" alt="tut15">
+
+<p>If that's not what you want, declare them in the order you want them to appear:</p>
+<pre class="code msgenny">
+1,2,3,4;
+
+1 =>> 4;
+3 >> 2;
+</pre>
+<img id="tut16" src="tutorial/tut16.png" alt="tut16">
+
+<h3 id="broadcasts-parallel-calls">broadcasts, parallel calls</h3>
+<p>When an entity has to send a message to all entities at once (broadcast) use <code>*</code> as entity name. 
+    When you use this it is practical to use the arcgradient option to prevent lins from overlapping.</p> 
+<pre class="code msgenny">
+arcgradient="14";
+a, b, c, d;
+b =>> *;
+</pre>                        
+<img id="tut17" src="tutorial/tut17.png" alt="tut17">
+
+<p>In situations where you want to epress two calls being executed in parallel (or for some
+other reason want to see two arcs on one row), seperat them with a <code>,</code> in stead
+of with a <code>;</code></p>
+<pre class="code msgenny">
+a, b, c, n;
+a => b: parallel\nwith c => b,
+c => b: parallel\nwith a => b,
+n note n: a note on\nthe same line;
+</pre>
+<img id="tut18" src="tutorial/tut18.png" alt="tut18">
+
+<h3 id="both-ways-no-way">Both ways, no way</h3>
+<p>For almost every arc type (<code>-></code>, <code>=></code>, <code>=>></code>, 
+<code>>></code>, <code>:></code>) a two way variant exists, as well as a variant 
+without arrows: </p>
+<pre class="code msgenny">
+a <-> b, b <=> c;
+a <<=>> b, b <<>> c;
+a -- b, b .. c;
+a :: b, b <:> c ;
+</pre>
+<img id="tut19" src="tutorial/tut19.png" alt="tut19">
+
+<h3 id="box-rbox-abox">box, rbox, abox</h3>
+<p>State and condition boxes are part of the origin mscgen standard, and hence they're supported in ms genny as well. </p>
+<pre class="code msgenny">
+a  box b :  box;
+b abox c : abox;
+c rbox d : rbox;
+</pre>
+<img id="tut20" src="tutorial/tut20.png" alt="tut20">
+</article>
+<article class="shadow">
+<h2>Using the on line demo</h2>
+<p>By default renders as you type.</p>
+<p>saving as svg (includes your program!), png, jpeg</p>
+<p>Drag'n drop</p>
+<p>Auto render</p>
+<p>Language switch.</p>
+<p>Help</p>
+</article>
+
+<article class="shadow">
+<h2> mscgen</h3>
+<p>Click!</p>
+<p>Why?</p>
+<p>- mscgen compatibility,</p>
+<p>- doxygen integration.</p>
+<p>- Features: coloring, arcskip, hyperlinks</p>
+
+<h3> coloring</h3>
+<p>textcolor, textbgcolor, linecolor</p>
+
+<h3> coloring everyting departing from a lifeline</h3>
+<h3> arcskip</h3>
+<h3> id, url, idurl</h3>
+</article>
+</body>
+</html>

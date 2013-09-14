@@ -1,0 +1,87 @@
+body {
+    color: black;
+    font-family: sans-serif;
+    font-size: 10pt;
+    background-color: #F8F8F8;
+}
+
+article {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 0.25em;
+    padding: 3em;
+    background-color: white;
+    border-radius: 3px;
+    overflow: auto;
+}
+code, pre {
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+h1, h2 {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid lightgrey;
+}
+a:visited {
+    color: blue;
+}
+code {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+}
+.code {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: top;
+}
+.shadow {
+    box-shadow: 0.4em 0.4em 1em -0.2em gray;
+    border-collapse: separate; /* apparently needed for IE */
+}
+.info:before {
+    content: "(i) ";
+    color: blue;
+    font-weight: bold;
+}
+.warning:before {
+    content: "/!\\ ";
+    color: orange;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 640px) {
+    body {
+        margin: 0;
+    }
+    article {
+        margin: 0;
+        border: 0;
+        padding: 0;
+    }
+
+    .hideonmobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        margin: 30;
+    }
+    article {
+        margin: 0;
+        border: 0;
+        padding: 1em;
+        border-radius: 0px;
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 1024px) {
+}
