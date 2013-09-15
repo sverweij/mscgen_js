@@ -77,9 +77,9 @@ a -> b;
             
 
 <h3 id="adding-text">Adding labels</h3>
-<p>To show what the signal entailed, add a label behind the signal, like so:</p>
+<p>To add a label to your signal, put it behind a colon, like so:</p>
 <pre class="code msgenny">
-a -> b: "ping";
+a -> b<span class="highlight">: "ping"</span>;
 </pre>            
 
 
@@ -93,7 +93,7 @@ it is possible to leave the quotes out of the label, so in this case
 <p>Adding extra parts to the conversation works along the same lines</p>
 <pre class="code msgenny">
 a -> b: ping;
-b >> a: heard ya!;
+<span class="highlight">b >> a: heard ya!;</span>
 </pre>                        
 <img id="tut03" src="tutorial/tut03.svg" alt="tut03">
 <p>There is a plethora of arcs (arrows, lines) at your disposal. We've thrown
@@ -104,18 +104,23 @@ been using it quite a lot, we've put it behind the (?) button in the online
 demo as well.</p>
 
 <h3 id="notes">Notes</h3>
-<p>To add a note to a chart use the special <code>note</code> arc type. </p>
+<p>To add a note to a chart use the special <code>note</code> arc type. 
+Notes are similar to arcs in that they start on a lifeline and end
+on one.</p>
 <pre class="code msgenny">
 a -> b: ping;
 b >> a: heard ya!;
-a note a: we're not done yet ...;
+<span class="highlight">a note a: we're not done yet ...;</span>
 </pre>                        
 <img id="tut04" src="tutorial/tut04.svg" alt="tut04">
 
 <h3 id="multiline-text">Multiline text</h3>
+<p>You can break a long label in pieces by putting the (c-style) escape code 
+<code>\n</code> on the spots you want to split the label. This works for 
+<em>all</em> labels.</p>
 <pre class="code msgenny">
-a note b: This is a note consisting of\ntwo lines of text;
-b => c  : Breaking text in two\nalso works for arcs;
+a note b: This is a note consisting of<span class="highlight">\n</span>two lines of text;
+b => c  : Breaking text in two<span class="highlight">\n</span>also works for arcs;
 </pre>                        
 <img id="tut05" src="tutorial/tut05.svg" alt="tut05">
 
@@ -124,7 +129,7 @@ b => c  : Breaking text in two\nalso works for arcs;
 <pre class="code msgenny">
 a =>> b: do something for me;
 b >>  a: done;
-|||;
+<span class="highlight">|||;</span>
 a => c : "b is done doing something;\ngo bother him";
 c -> b : bother;
 </pre>                        
@@ -135,7 +140,7 @@ c -> b : bother;
 a =>> b: Do the voodoo;
 b => c : Iberian dance task;
 c -x b : Whaaat?;
-...    : magic happens here;
+<span class="highlight">...    : magic happens here;</span>
 b >> a : Magic answer;
 </pre>
 <img id="tut07" src="tutorial/tut07.svg" alt="tut07">
@@ -143,7 +148,7 @@ b >> a : Magic answer;
 <p>To demarcate more strongly and/ or to comment on a part, use <em>comment</em> (---), like so:</p>
  <pre class="code msgenny">
 a =>> b: readOutLoud\n(message);
----    : for each line in the message:;
+<span class="highlight">---    : for each line in the message:;</span>
 b => "text to\nspeach": getAudio (line);
 "text to\nspeach" >> b: lAudioStream;
 b -> speaker: play(lAudioStream);
@@ -154,19 +159,19 @@ b -> speaker: play(lAudioStream);
 <p>In your program lines starting with <code>#</code> or <code>//</code> 
     are ignored, as is everything between <code>/* c-style block comments */</code></p>
 <pre class="code msgenny">
-# This line is ignored
-a =>> b: what's happening here? ; /* honestly don't know */
-// ignored line
+<span class="highlight"># This line is ignored</span>
+a =>> b: what's happening here? ; <span class="highlight">/* don't know */</span>
+<span class="highlight">// ignored line</span>
 </pre>                        
 <img id="tut09" src="tutorial/tut09.svg" alt="tut09">
-<p class="warning">Caveat: on translating to mscgen all ignorable text get lost.</p>
+<p class="warning">Caveat: on translating to mscgen all ignorable text gets lost.</p>
 
 <h2 id="advanced-stuff">Advanced stuff</h2>
 <h3 id="options-arcgradient-hscale-width">Options: arcgradient, hscale, width</h3>
 <p>With <em>arcgradient</em> all lines get skewed a little.</p>
 <p>Options go on top</p>
 <pre class="code msgenny">
-arcgradient="10";
+<span class="highlight">arcgradient="10"</span>;
 
 client => server : SYN;
 server => client : SYN + ACK;
@@ -177,7 +182,7 @@ client => server : ACK;
 <p><em>hscale</em> horizontally scales the chart a bit. Numbers bigger than 1 enlarge 
 it; smaller than 1 shrink it.</p>
 <pre class="code msgenny">
-arcgradient="10", hscale="0.6";
+arcgradient="10", <span class="highlight">hscale="0.6"</span>;
 
 client => server : SYN;
 server => client : SYN + ACK;
@@ -187,7 +192,7 @@ client => server : ACK;
 
 <p>... and <em>width</em> scales the whole chart so it fits in exactly the amount of pixels width.</p>
 <pre class="code msgenny">
-arcgradient="10", width="240";
+arcgradient="10", <span class="highlight">width="240"</span>;
 
 client => server : SYN;
 server => client : SYN + ACK;
@@ -199,12 +204,12 @@ client => server : ACK;
 <p>To prevent you from having to enter long entity names in each line, you can explicitly 
 declare entity names at the start of your script and give them labels. </p>
 <pre class="code msgenny">
-A: Actor, fe:Front end, be: Back end;
+<span class="highlight">A: Actor, fe:Front end, be: Back end;</span>
 
 A =>> fe: "log me in\n(id, secret)";
 fe => be: "getToken\n(id, secret)";
-fe << be: [OK] token;
-A << fe: Whoop!;
+fe &lt;&lt; be: [OK] token;
+A &lt;&lt; fe: Whoop!;
 </pre>
 <img id="tut14" src="tutorial/tut14.svg" alt="tut14">
 
@@ -217,7 +222,7 @@ A << fe: Whoop!;
 
 <p>If that's not what you want, declare them in the order you want them to appear:</p>
 <pre class="code msgenny">
-1,2,3,4;
+<span class="highlight">1,2,3,4;</span>
 
 1 =>> 4;
 3 >> 2;
@@ -230,7 +235,7 @@ A << fe: Whoop!;
 <pre class="code msgenny">
 arcgradient="14";
 a, b, c, d;
-b =>> *;
+b =>> <span class="highlight">*</span>;
 </pre>                        
 <img id="tut17" src="tutorial/tut17.svg" alt="tut17">
 
@@ -239,8 +244,8 @@ other reason want to see two arcs on one row), seperat them with a <code>,</code
 of with a <code>;</code></p>
 <pre class="code msgenny">
 a, b, c, n;
-a => b: parallel\nwith c => b,
-c => b: parallel\nwith a => b,
+a => b: parallel\nwith c => b<span class="highlight">,</span>
+c => b: parallel\nwith a => b<span class="highlight">,</span>
 n note n: a note on\nthe same line;
 </pre>
 <img id="tut18" src="tutorial/tut18.svg" alt="tut18">
@@ -250,10 +255,10 @@ n note n: a note on\nthe same line;
 <code>>></code>, <code>:></code>) a two way variant exists, as well as a variant 
 without arrows: </p>
 <pre class="code msgenny">
-a <-> b, b <=> c;
-a <<=>> b, b <<>> c;
+a &lt;-> b, b &lt;=> c;
+a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
-a :: b, b <:> c ;
+a :: b, b &lt;:> c ;
 </pre>
 <img id="tut19" src="tutorial/tut19.svg" alt="tut19">
 
@@ -277,43 +282,43 @@ c rbox d : rbox;
 </article>
 
 <article class="shadow">
-<h2> mscgen</h3>
+<h2 id="mscgen">Mscgen</h2>
 <p>Click!</p>
 <p>Why?</p>
 <p>- mscgen compatibility,</p>
 <p>- doxygen integration.</p>
 <p>- Features: coloring, arcskip, hyperlinks</p>
 
-<h3> coloring</h3>
+<h3 id="coloring">Coloring</h3>
 <p>textcolor, textbgcolor, linecolor</p>
 <pre class="code mscgen">
 msc {
 hscale="0.9";
     
 a [label="linecolor=\n\"orange\"", 
-   linecolor="orange"],
+   <span class="highlight">linecolor="orange"</span>,
 b [label="textbgcolor=\n\"yellow\"", 
-   textbgcolor="yellow"];
+   <span class="highlight">textbgcolor="yellow"</span>;
 
 a =>> b  [label="linecolor=\"blue\"", 
-          linecolor="blue"];
+          <span class="highlight">linecolor="blue"</span>;
 b >> a   [label="textcolor=\"green\"",
-          textcolor="green"];
+          <span class="highlight">textcolor="green"</span>;
 a => b   [label="textbgcolor=\"lime\"",
-          textbgcolor="lime"];
+          <span class="highlight">textbgcolor="lime"</span>;
 a note a [label="color bonanza",
-          linecolor="violet",
-          textbgcolor="pink",
-          textcolor="red"],
+          <span class="highlight">linecolor="violet"</span>
+          <span class="highlight">textbgcolor="pink"</span>
+          <span class="highlight">textcolor="red"</span>,
 b note b  [label="color\nbonanza",
-          linecolor="#7777FF",
-          textbgcolor="cyan",
-          textcolor="blue"];
+          <span class="highlight">linecolor="#7777FF"</span>
+          <span class="highlight">textbgcolor="cyan"</span>
+          <span class="highlight">textcolor="blue"</span>;
 }
 </pre>
 <img id="tut32" src="tutorial/tut32.svg" alt="tut32">
 
-<h3> coloring everyting departing from a lifeline</h3>
+<h3 id="coloring-everything-departing-from-a-lifeline">Coloring everyting departing from a lifeline</h3>
 <pre class="code mscgen">
 msc {
 hscale="0.6";
@@ -322,8 +327,8 @@ hscale="0.6";
   ui [label="UI"],
   c [label="Controler", 
      linecolor="red", textbgcolor="yellow",
-     arclinecolor="red", arctextcolor="red",
-     arctextbgcolor="yellow"],
+     <span class="highlight">arclinecolor="red", arctextcolor="red",</span>
+     <span class="highlight">arctextbgcolor="yellow"],</span>
   a [label="Customer\nstore"],
   m [label="Model"],
   e [label="Event\nlogger"];
@@ -338,14 +343,14 @@ hscale="0.6";
   c =>> c [label="mangle(Account Data)"];
   c -> e [label="log(id, 'getAccount', 'OK')"];
   
-  ui << c [label="Account data"];
+  ui &lt;&lt; c [label="Account data"];
   ui =>> ui [label="render"];
 }
 </pre>
 <img id="tut33" src="tutorial/tut33.svg" alt="tut33">
 
-<h3> arcskip</h3>
-<h3> id, url, idurl</h3>
+<h3 id="arcskip"><code>arcskip</code></h3>
+<h3 id="url-id-idurl">url, id, idurl</h3>
 </article>
 </body>
 </html>
