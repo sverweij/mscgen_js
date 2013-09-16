@@ -30,7 +30,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <body>
 <article class="shadow">
 <h1 id="tutorial">Language tutorial</h1>
-
+<nav>
 <ul>
     <li>
         <a href="#basics">Basics</a>
@@ -65,6 +65,9 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
                 <a href="#box-rbox-abox">box, rbox, abox</a>
         </ul>
 </ul>
+</nav>
+
+<section>
 <h2 id="basics">Basics</h2>
 
 <h3 id="a-sends-a-signal-to-b"><code>a</code> sends a signal to <code>b</code></h3>
@@ -165,7 +168,9 @@ a =>> b: what's happening here? ; <span class="highlight">/* don't know */</span
 </pre>                        
 <img id="tut09" src="tutorial/tut09.svg" alt="tut09">
 <p class="warning">Caveat: on translating to mscgen all ignorable text gets lost.</p>
+</section>
 
+<section>
 <h2 id="advanced-stuff">Advanced stuff</h2>
 <h3 id="options-arcgradient-hscale-width">Options: arcgradient, hscale, width</h3>
 <p>With <em>arcgradient</em> all lines get skewed a little.</p>
@@ -272,24 +277,27 @@ c rbox d : rbox;
 <img id="tut20" src="tutorial/tut20.svg" alt="tut20">
 </article>
 <article class="shadow">
-<h2>Using the on line demo</h2>
+<h1>Using the on line demo</h1>
 <p>By default renders as you type.</p>
 <p>saving as svg (includes your program!), png, jpeg</p>
 <p>Drag'n drop</p>
 <p>Auto render</p>
 <p>Language switch.</p>
 <p>Help</p>
+</section>
+
 </article>
 
 <article class="shadow">
-<h2 id="mscgen">Mscgen</h2>
+<h1 id="mscgen">Mscgen</h1>
 <p>Click!</p>
 <p>Why?</p>
 <p>- mscgen compatibility,</p>
 <p>- doxygen integration.</p>
 <p>- Features: coloring, arcskip, hyperlinks</p>
 
-<h3 id="coloring">Coloring</h3>
+<section>
+<h2 id="coloring">Coloring</h2>
 <p>textcolor, textbgcolor, linecolor</p>
 <pre class="code mscgen">
 msc {
@@ -317,8 +325,10 @@ b note b  [label="color\nbonanza",
 }
 </pre>
 <img id="tut32" src="tutorial/tut32.svg" alt="tut32">
+</section>
 
-<h3 id="coloring-everything-departing-from-a-lifeline">Coloring everyting departing from a lifeline</h3>
+<section>
+<h2 id="coloring-everything-departing-from-a-lifeline">Coloring everyting departing from a lifeline</h2>
 <pre class="code mscgen">
 msc {
 hscale="0.6";
@@ -348,9 +358,13 @@ hscale="0.6";
 }
 </pre>
 <img id="tut33" src="tutorial/tut33.svg" alt="tut33">
-
-<h3 id="arcskip"><code>arcskip</code></h3>
-<h3 id="url-id-idurl">url, id, idurl</h3>
+</section>
+<section>
+<h2 id="arcskip"><code>arcskip</code></h2>
+</section>
+<section>
+<h2 id="url-id-idurl">url, id, idurl</h2>
+</section>
 </article>
 </body>
 </html>

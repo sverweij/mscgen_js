@@ -3,6 +3,7 @@ body {
     font-family: sans-serif;
     font-size: 10pt;
     background-color: #F8F8F8;
+    counter-reset: article-counter;
 }
 
 article {
@@ -13,10 +14,27 @@ article {
     background-color: white;
     border-radius: 0.5em;
     overflow: hidden;
+    counter-reset: chapter-counter;
+}
+section {
+    counter-reset: paragraph-counter;
 }
 code, pre {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
     font-size: 1em;
+}
+h1:before {
+    /*counter-reset: paragraph-counter;*/
+    counter-increment: article-counter;
+    content: counter(article-counter) " ";
+}
+h2:before {
+    counter-increment: chapter-counter;
+    content: counter(article-counter) "." counter(chapter-counter) " ";
+}
+h3:before {
+    counter-increment: paragraph-counter;
+    content: counter(article-counter) "." counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
 h1, h2 {
     padding-bottom: 0.5em;
