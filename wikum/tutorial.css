@@ -82,7 +82,7 @@ code {
     color: orange;
     font-weight: bold;
 }
-.highlight {
+mark {
     background-color: #FFFFAA;
 }
 
