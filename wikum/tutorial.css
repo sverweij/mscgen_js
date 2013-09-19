@@ -19,12 +19,10 @@ section {
     counter-reset: paragraph-counter;
 }
 h1, h2, h3, h4 {
-    margin-left: 1em;
-    margin-right: 1em;
 }
 p, pre {
-    margin-left: 2em;
-    margin-right: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 code, pre {
     font-family: Consolas, "Liberation Mono", Courier, monospace;
@@ -84,7 +82,7 @@ code {
     color: orange;
     font-weight: bold;
 }
-.highlight {
+mark {
     background-color: #FFFFAA;
 }
 
@@ -95,7 +93,8 @@ code {
     article {
         margin: 0em;
         border: 0em;
-        padding: 0em;
+        padding-left: 1em;
+        padding-right: 1em;
         border-radius: 0em;
     }
     .code {
