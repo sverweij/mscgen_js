@@ -277,6 +277,15 @@ function samplesOnChange() {
         $.ajax({
             url : $("#__samples").val(),
             success : function(pData) {
+                if (gMsGenny) {
+                    if ($("#__samples").val() && $("#__samples").val().endsWith("mscin")){
+                        pData = mscgen2genny(pData);
+                    }
+                } else {
+                    if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
+                        pData = genny2mscgen (pData);
+                    }
+                }
                 gCodeMirror.setValue(pData);
             },
             dataType : "text"
