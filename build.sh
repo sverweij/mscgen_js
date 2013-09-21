@@ -33,3 +33,6 @@ mkdir lib
 cp src/lib/require.js lib/require.js
 mkdir images
 cp src/images/* images/.
+mkdir samples
+cp src/samples/*.mscin samples/.
+cp src/samples/*.msgenny samples/.
