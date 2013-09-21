@@ -277,18 +277,15 @@ function samplesOnChange() {
         $.ajax({
             url : $("#__samples").val(),
             success : function(pData) {
-                if (gMsGenny) {
-                    if ($("#__samples").val() && $("#__samples").val().endsWith("mscin")){
-                        gMsGenny = false;
-                        showMsGennyState ();
-                    }
+                if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
+                    gMsGenny = true;
                 } else {
-                    if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
-                        gMsGenny = true;
-                        showMsGennyState ();
-                    }
+                    gMsGenny = false;
                 }
+                showMsGennyState ();
                 gCodeMirror.setValue(pData);
+            },
+            error : function (a,b,error){ 
             },
             dataType : "text"
         });
