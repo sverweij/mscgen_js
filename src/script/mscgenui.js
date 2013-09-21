@@ -154,7 +154,7 @@ $(document).ready(function(){
     });
     $("#__samples").bind("change", function (e) {
                     samplesOnChange();
-                    ga('send', 'event', 'selectexample', 'list' );
+                    ga('send', 'event', 'selectexample', $("#__samples").val() );
     });
 
     gCodeMirror.on ("change", function() {
