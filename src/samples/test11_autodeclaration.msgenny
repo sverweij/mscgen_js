@@ -1,4 +1,8 @@
 # test11: entity automatic declaration
+
+# note that for  none of the entities used below
+# an explicit entity declaration exists
+
 cust => shop : order(thing);
 shop => "delivery service" : deliver(thing);
 "delivery service" => cust : thing;
