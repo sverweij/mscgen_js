@@ -195,6 +195,16 @@ a.question {
     /*background-image: url('../images/sprite.svg#__question_viewbox');*/
     background-image: url('../images/question.svg');
 }
+.herpes {
+    float: right;
+    position: relative;
+}
+
+@media screen and (max-width: 480px) {
+    .hideonmobile {
+        display: none;
+    }
+}
 /*
  This file is part of mscgen_js.
 
