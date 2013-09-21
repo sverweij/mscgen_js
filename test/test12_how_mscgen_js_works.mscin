@@ -1,13 +1,21 @@
-msc{
-  hscale="0.2";
-  a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z;
-  f=>l;l=>y;y=>i;i=>n;n=>g;
-  ...;
-  s=>p;p=>a;a=>g;g=>h, 
-  u note y[label="Here's what to look for...", url="https://upload.wikimedia.org/wikipedia/commons/7/76/FSM_Logo.svg"]
-  ;h=>e;e=>t;t=>t;t=>i;
-  ...;
-m=>o;o=>n;n=>s;s=>t;t=>e;e=>r;
+# how mscgen_js works internally
+msc {
+  
+  hscale="0.9";
+  
+  you, mscgen_js, parser [label="parser (pegjs)"],  renderer, canvg;
+
+  you       => mscgen_js [label="some text"];
+  mscgen_js => parser [label="ok?"];
+  parser    >> mscgen_js [label="syntax tree"];
+  mscgen_js => renderer [label="syntax tree"];
+  renderer  => renderer [label="render"];
+  renderer  >> mscgen_js;
+  mscgen_js >> you [label="vector picture"];
+  you       => mscgen_js [label="raster graphics?"];
+  mscgen_js => canvg [label="vector picture"];
+  canvg     >> mscgen_js [label="raster picture"];
+  mscgen_js >> you [label="raster picture"];
 }
 
 
@@ -28,3 +36,4 @@ m=>o;o=>n;n=>s;s=>t;t=>e;e=>r;
     License along with mscgen_js. If not, see 
     <http://www.gnu.org/licenses/>.
 */
+
