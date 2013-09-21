@@ -38,18 +38,17 @@ Icons courtesy of Dmitry Baranovskiy [license][15].
 Thanks
 ------
 
-- [Mike McTernan][7] for creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
+- [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters like a walk in the park. 
 
-[1]: http://www.mcternan.me.uk/mscgen/index.html
+[1]: http://www.mcternan.me.uk/mscgen
 [2]: http://sverweij.github.io/mscgen_js
 [3]: license.md
-[4]: test/readme.mscin
+[4]: src/samples/readme.mscin
 [5]: wikum/msgenny.md
 [6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
-[7]: http://www.mcternan.me.uk/mscgen
 [8]: http://majda.cz/en/
 [9]: http://pegjs.majda.cz/
 [10]: http://marijnhaverbeke.nl

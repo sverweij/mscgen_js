@@ -154,7 +154,7 @@ $(document).ready(function(){
     });
     $("#__samples").bind("change", function (e) {
                     samplesOnChange();
-                    ga('send', 'event', 'selectexample', 'list' );
+                    ga('send', 'event', 'selectexample', $("#__samples").val() );
     });
 
     gCodeMirror.on ("change", function() {
@@ -277,16 +277,15 @@ function samplesOnChange() {
         $.ajax({
             url : $("#__samples").val(),
             success : function(pData) {
-                if (gMsGenny) {
-                    if ($("#__samples").val() && $("#__samples").val().endsWith("mscin")){
-                        pData = mscgen2genny(pData);
-                    }
+                if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
+                    gMsGenny = true;
                 } else {
-                    if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
-                        pData = genny2mscgen (pData);
-                    }
+                    gMsGenny = false;
                 }
+                showMsGennyState ();
                 gCodeMirror.setValue(pData);
+            },
+            error : function (a,b,error){ 
             },
             dataType : "text"
         });
@@ -430,6 +429,21 @@ function hideError () {
 function displayError (pString) {
     $("#error_output").show();
     $("#error_output").text(pString);
+}
+
+
+if (!String.prototype.endsWith) {
+    Object.defineProperty(String.prototype, 'endsWith', {
+        enumerable: false,
+        configurable: false,
+        writable: false,
+        value: function (searchString, position) {
+            position = position || this.length;
+            position = position - searchString.length;
+            var lastIndex = this.lastIndexOf(searchString);
+            return lastIndex !== -1 && lastIndex === position;
+        }
+    });
 }
 
 }); // define
