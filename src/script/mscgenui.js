@@ -152,6 +152,11 @@ $(document).ready(function(){
                     ga('send', 'event', 'render', 'button');
                 }
     });
+    $("#__samples").bind("change", function (e) {
+                    samplesOnChange();
+                    ga('send', 'event', 'selectexample', 'list' );
+    });
+
     gCodeMirror.on ("change", function() {
                     msc_inputKeyup();
                     if (gGaKeyCount > 17) {
@@ -215,7 +220,7 @@ $(document).ready(function(){
         }
     });
     // closeLightbox();
-
+    samplesOnChange();
     
 }); // document ready
 
@@ -264,6 +269,30 @@ function clearOnClick(){
         gCodeMirror.setCursor(1,3);
     }
 }
+
+function samplesOnChange() {
+    if ("none" === $("#__samples").val()) {
+        clearOnClick();
+    } else {
+        $.ajax({
+            url : $("#__samples").val(),
+            success : function(pData) {
+                if (gMsGenny) {
+                    if ($("#__samples").val() && $("#__samples").val().endsWith("mscin")){
+                        pData = mscgen2genny(pData);
+                    }
+                } else {
+                    if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
+                        pData = genny2mscgen (pData);
+                    }
+                }
+                gCodeMirror.setValue(pData);
+            },
+            dataType : "text"
+        });
+    }
+}
+
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:

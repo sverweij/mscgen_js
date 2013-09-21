@@ -2,7 +2,7 @@
 # source: https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol
 msc {
   # options
-  hscale="2.4";
+  hscale="1.8";
 
   # entities
   c [label="Client"],

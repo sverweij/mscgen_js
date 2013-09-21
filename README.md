@@ -10,7 +10,7 @@ Sample
 ------
 [This mscgen source][4] would render something like this:
 
-![a sample sequence chart, rendered as png](test/readme.png)
+![a sample sequence chart, rendered as png](src/samples/readme.png)
 
 
 mscgen_js and the mscgen standard

@@ -26,7 +26,7 @@ the two with the flick of a switch.
 
 this renders as
 
-![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/test/msgennysample.png)
+![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/src/samples/msgennysample.png)
 
 The equivalent mscgen program would have looked like this:
 

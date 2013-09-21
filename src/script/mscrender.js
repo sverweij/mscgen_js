@@ -716,6 +716,7 @@ rect.textbg { \
     fill:white; \
     stroke:white; \
     stroke-width:0; \
+    opacity: 0.9; \
 } \
 line { \
     stroke: black; \
