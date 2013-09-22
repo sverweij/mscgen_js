@@ -140,7 +140,7 @@ $(document).ready(function(){
                     ga('send', 'event', 'show_jpeg_base64', 'button');
                 }
     });
-    $("#close_lightbox").bind({
+    $("#__close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
                     ga('send', 'event', 'close_source_lightbox', 'button');

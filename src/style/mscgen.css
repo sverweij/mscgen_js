@@ -263,12 +263,12 @@ h1 {
     font-size: 1.9em;
     margin-bottom: 0;
 }
-#header {
+header {
     padding-bottom: 0.9em;
     border-bottom: solid lightgray 1px;
     margin-bottom: 0.4em;
 }
-#header > div {
+header > div {
     float: right;
 }
 h2 {
@@ -279,6 +279,7 @@ h3 {
     margin: 0;
     margin-bottom: 1em;
     font-weight: 500;
+    display: inline-block;
 }
 .intronumber {
     padding: 0.2em 0.5em 0.1em 0.5em;
@@ -324,6 +325,7 @@ to {
     max-height: 100%;
     width: 32em;
     padding-bottom: 1em;
+    margin-right: 1em;
 }
 #input_and_controls > #btn_render {
     display: none;
@@ -355,19 +357,41 @@ to {
     
     display: none;
 }
-.shadow {
+.popup {
     box-shadow: 0.4em 0.4em 1em -0.2em gray;
     border-collapse: separate; 
-}
-#__cheatsheet > div {
     background-color: white;
+    overflow: auto;
+    border-radius: 1em;
+    opacity: 0.97;
+}
+.popup > h1 {
+    font-size: 1em;
+    font-weight: normal;
+    display: inline-block;
+    height: 2.0em;
+    padding-left: 0.5em;
+    padding-top: 0.5em;"
+    padding-bottom: 0.5em;
+}
+.popup > button.close {
+    color: white;
+    border-radius: 1em;
+    float: right;
+}
+.popup > p {
+    border-top: 1px solid lightgray;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin: 0em;
+    display: block
+}
+#__cheatsheet > .popup {
     float: right;
     margin-right: 1em;
-    border-radius: 1em;
     max-width: 25em;
     max-height: 80%;
     padding: 0.5em;
-    opacity: 0.97;
 }
 fieldset {
     display: inline;
@@ -416,23 +440,18 @@ a.icon {
     padding-right: 0.5em;
 }
 a.twitter {
-    
     background-image: url('../images/twitter.svg');
 }
 a.gplus {
-    
     background-image: url('../images/gplus.svg');
 }
 a.github {
-    
     background-image: url('../images/github.svg');
 }
 a.issuetracker {
-    
     background-image: url('../images/issuetracker.svg');
 }
 a.question {
-    
     background-image: url('../images/question.svg');
 }
 .herpes {
@@ -440,8 +459,27 @@ a.question {
     position: relative;
 }
 @media screen and (max-width: 480px) {
+    #__cheatsheet > .popup {
+        width: 100%;
+        max-width: 100%;
+        float: left;
+    }
+    .popup > button.close {
+        margin-right: 1em;
+    }
     .hideonmobile {
         display: none;
+    }
+    a.hideonmobile {
+        display: none;
+    }
+    img {
+        max-width: 100%;
+    }
+}
+@media screen and (max-width: 800px) {
+    #__cheatsheet {
+        z-index: 3;
     }
 }
 /*
