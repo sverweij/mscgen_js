@@ -29,83 +29,87 @@
         src="lib/require.js"></script>
     </head>
     <body>
-        <div id="header" class="fadable">
+        <header class="fadable">
             <div>
                 <a id="__tweetme" href="https://twitter.com/SanderSpeaks"
                 data-dnt="true"
-                class="twitter icon"
+                class="twitter icon hideonmobile"
                 title="Your praise goes here"
                 target="_blank"></a>
                 <a id="__gplusme"
                 href="https://plus.google.com/118369668878370776334/posts"
-                class="gplus icon"
+                class="gplus icon hideonmobile"
                 title="Your praise goes here.
-If you're on G+, that is."
+                If you're on G+, that is."
                 target="_blank"></a>
                 <a id="__forkme" href="https://github.com/sverweij/mscgen_js"
-                class="github icon"
+                class="github icon hideonmobile"
                 title="fork me on github"
                 target="_blank"></a>
-                <!-- <a id="__issuetracker" href="https://github.com/sverweij/mscgen_js/issues?state=open"
+                <a id="__issuetracker" href="https://github.com/sverweij/mscgen_js/issues?state=open"
                 class="issuetracker icon"
                 title="Complaints go here"
-                target="_blank"></a> -->
+                target="_blank"></a>
                 <a id="__helpme"
                 href="#"
                 class="question icon"
                 title="Show cheat sheet"></a>
             </div>
 
-            <h1 title="There's some good copy in tooltips. 
+            <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though." class="fadable">mscgen_js</h1>
             <span >turns text into sequence charts</span>
-        </div>
-        <div id="input_and_controls" style="margin-right: 1em;">
+        </header>
+        <div id="input_and_controls">
             <div>
-            <h3 class="fadable" style="display:inline-block"><span class="intronumber">1</span> your text goes here &#x0261f;</h3>    
-            
-            <div class="herpes hideonmobile">
-            <select id="__samples">
-                <option value="none">select an example...</option>
-                <option value="samples/readme.mscin">showing off</option>
-                <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
-                <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
-                <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
-                <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
-                <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
-                <option value="samples/test08_smtp.mscin">sample: SMTP</option>
-                <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
-                <option value="samples/smoketest.mscin">test: smoke test</option>
-                <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
-                <option value="samples/test02_some_coloring.mscin">test: colors</option>
-                <option value="samples/test11_autodeclaration.msgenny">test: auto entities (Genny)</option>
-                <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
-                <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
-                <option value="samples/test43_flag.mscin">weird: flag</option>
-            </select>
-            </div>
-            </div>
-            <textarea id="msc_input" class="code mscgen" spellcheck="false"></textarea>            
+                <h3 class="fadable"><span class="intronumber">1</span> your text goes here &#x0261f;</h3>
 
+                <div class="herpes hideonmobile">
+                    <select id="__samples">
+                        <option value="none">select an example...</option>
+                        <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
+                        <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
+                        <option value="samples/readme.mscin">showing off Mscgen</option>
+                        <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
+                        <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
+                        <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
+                        <option value="samples/test08_smtp.mscin">sample: SMTP</option>
+                        <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
+                        <option value="samples/smoketest.mscin">test: smoke test</option>
+                        <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
+                        <option value="samples/test02_some_coloring.mscin">test: colors</option>
+                        <option value="samples/test11_autodeclaration.msgenny">test: auto entities (Genny)</option>
+                        <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
+                        <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
+                        <option value="samples/test43_flag.mscin">weird: flag</option>
+                    </select>
+                </div>
+            </div>
+            <textarea id="msc_input" class="code mscgen" spellcheck="false"></textarea>                                    
             <div id="__input_controls">
                 <input type="checkbox" id="autorender">
                 <label for="autorender"
                 title="Automatically renders the chart.
 
-Switch off on slow machines. A render button will appear in stead."> Auto render</label>
-                <fieldset><legend>syntax</legend>
+Switch off on slow machines. A render button will appear in stead.">Auto render</label>
+                <fieldset>
+                    <legend>
+                        syntax
+                    </legend>
                     <input id="msgenny_false" type="radio" name="msgennyrg" checked>
                     <label for="msgenny_false"
                     title="Switches to Mscgen mode. Automatically converts Ms Genny back to Mscgen">Mscgen</label>
                     <input id="msgenny_true"  type="radio" name="msgennyrg">
-    
+
                     <label for="msgenny_true"
                     title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
-    
+
 Watch out (1): ms genny enables you to work blazingly fast.
 Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">Ms Genny</label>
                 </fieldset>
-                <button id="btn_clear" title="Clears the input area">clear</button>
+                <button id="btn_clear" title="Clears the input area">
+                    clear
+                </button>
                 <button id="btn_render"
                 title="Click to render. Only shows up when 'autorender' is off">
                     render &gt;
@@ -116,29 +120,28 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
 
         <div>
             <div style="display:inline-block;">
-                <h3 class="fadable" 
-                    style="display:inline-block; padding-right: 1em;">
-                    <span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
+                <h3 class="fadable"
+                style="padding-right: 1em;"><span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
                 <a id="show_svg"
-                   class="button"
-                   target="_blank" 
-                   type="image/svg+xml"
-                   title="Shows the chart in a separate window (svg).
+                class="button"
+                target="_blank"
+                type="image/svg+xml"
+                title="Shows the chart in a separate window (svg).
 
 Note: the url bar will contain the base64 encoded version of the svg
 Note: Double clicking on the picture has the same effect.">svg</a>
-                <a id="show_png" 
-                   class="button"
-                   target="_blank" 
-                   type="image/png"
-                   title="Shows the chart in a separate window (png).
+                <a id="show_png"
+                class="button"
+                target="_blank"
+                type="image/png"
+                title="Shows the chart in a separate window (png).
 
 Note: the url bar will contain the base64 encoded version of the png">png</a>
                 <a id="show_jpeg"
-                   class="button"
-                   target="_blank"
-                   type="image/jpeg"
-                   title="Shows the chart in a separate window (jpeg).
+                class="button"
+                target="_blank"
+                type="image/jpeg"
+                title="Shows the chart in a separate window (jpeg).
 
 Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
             </div>
@@ -146,13 +149,16 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
         <span id="svg"></span>
         <canvas id="__pngcanvas"></canvas>
         <div id="__cheatsheet">
-            <div class="shadow" style="overflow: auto;">
-                <span style="display:inline-block;height:2.0em;padding-left: 0.5em;padding-top:0.5em;">Cheat sheet</span>
-                <button id="close_lightbox" style="float:right; color:white;border-radius:1em">X</button>
-                <img style="border-top: 1px solid lightgray; padding-top:1em;border-bottom: 1px solid lightgray; padding-bottom: 1em;display: block" alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+            <div class="popup">
+                <h1 class="fadable">Cheat sheet</h1>
+                <button id="__close_lightbox" class="close">
+                    X
+                </button>
                 <p>
-                    For a complete <em>mscgen</em> reference visit 
-                    <a id="__langlink" href="http://www.mcternan.me.uk/mscgen" target="_blank">the site of its creator</a>.
+                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                </p>
+                <p>
+                    For a complete <em>mscgen</em> reference visit <a id="__langlink" href="http://www.mcternan.me.uk/mscgen" target="_blank">the site of its creator</a>.
                 </p>
             </div>
         </div>

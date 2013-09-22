@@ -1,6 +1,6 @@
 # Alice & Bob classics: public key encryption
 msc {
-  hscale="2.0";
+  hscale="1.4";
 
   Alice, Bob;
 
@@ -9,7 +9,7 @@ msc {
   Alice => Bob [label="signed message"];
   Bob   => Alice [label="get Alice her public key"];
   Alice >> Bob [label="Alices' public key"];
-  Bob   => Bob [label="verify message with Alices' public key"];
+  Bob   => Bob [label="verify message with\nAlices' public key\n\n"];
 
   |||;
   ---[label="public key encryption"];
@@ -17,5 +17,5 @@ msc {
   Bob   >> Alice [label="Bobs' public key"];
   Alice => Alice [label="encrypt message with Bob's public key"];
   Alice => Bob [label="encrypted message"];
-  Bob   => Bob [label="decrypt message with own private key"];
+  Bob   => Bob [label="decrypt message with\nown private key\n\n"];
 }

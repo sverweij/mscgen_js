@@ -10,7 +10,7 @@ msc {
   parser    >> mscgen_js [label="syntax tree"];
   mscgen_js => renderer [label="syntax tree"];
   renderer  => renderer [label="render"];
-  renderer  >> mscgen_js;
+  renderer  >> mscgen_js [label="vector picture"];
   mscgen_js >> you [label="vector picture"];
   you       => mscgen_js [label="raster graphics?"];
   mscgen_js => canvg [label="vector picture"];
