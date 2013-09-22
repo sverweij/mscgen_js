@@ -1,7 +1,7 @@
 # test14: cheat sheet
 a -> b   : a -> b  (signal);
 a => b   : a => b  (method);
-a >> b   : a >> b  (return value);
+b >> a   : b >> a  (return value);
 a =>> b  : a =>> b (callback);
 a -x b   : a -x b  (lost);
 a :> b   : a :> b  (emphasis);
