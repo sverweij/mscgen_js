@@ -45,7 +45,7 @@ Thanks
 
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: http://sverweij.github.io/mscgen_js
-[3]: license.md
+[3]: wikum/license.mscgen_js.md
 [4]: src/samples/readme.mscin
 [5]: wikum/msgenny.md
 [6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
