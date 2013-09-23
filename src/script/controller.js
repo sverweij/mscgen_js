@@ -35,7 +35,7 @@ msc {
 }
 */
 
-define(["jquery", "mscgenparser", "msgennyparser", "mscrender",
+define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "ast2msgenny", "ast2mscgen",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
