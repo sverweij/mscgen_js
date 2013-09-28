@@ -8,11 +8,13 @@ mscgen_js
 
 Sample
 ------
-This mscgen source ...
+This sequence chart ...
+
+![a sample sequence chart, rendered as png](src/samples/readme.png)
+
+was made with this *mscgen* source:
 ``` mscgen
 msc {
-  hscale="1.2";
-
   a [ label="Entity A", textbgcolor="red", textcolor="white" ],
   b [ label="Entity B", textbgcolor="yellow" ],
   c [ label="Entity C", textbgcolor="blue", textcolor="yellow" ];
@@ -32,10 +34,6 @@ msc {
             textcolor="green", textbgcolor="lime" ];
 }
 ```
-... renders something like this:
-
-![a sample sequence chart, rendered as png](src/samples/readme.png)
-
 
 mscgen_js and the mscgen standard
 ---------------------------------
@@ -61,7 +59,6 @@ Icons courtesy of Dmitry Baranovskiy [license][15].
 
 Thanks
 ------
-
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for releasing both to the public domain.
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
