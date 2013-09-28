@@ -29,7 +29,7 @@ this renders as
 ![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/src/samples/msgennysample.png)
 
 The equivalent mscgen program would have looked like this:
-
+``` mscgen
     msc {
       a, b, c;
 
@@ -43,7 +43,7 @@ The equivalent mscgen program would have looked like this:
       --- [label="except when they contain , or ;"];
       ...;
     }
-
+```
 
 ## Usage scenarios
 We often find ourselves starting a sequence chart in *ms genny*, and, when
