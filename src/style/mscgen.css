@@ -423,12 +423,15 @@ a {
     color: blue;
 }
 a:hover {
-    color: green;
+    color: blue;
 }
 a:visited {
     color: blue;
 }
-a.icon {
+div.icon:hover {
+    cursor: pointer;
+}
+a.icon, div.icon {
     display: inline-block;
     width: 3em;
     height: 3em;
@@ -451,7 +454,7 @@ a.github {
 a.issuetracker {
     background-image: url('../images/issuetracker.svg');
 }
-a.question {
+div.question {
     background-image: url('../images/question.svg');
 }
 .herpes {
