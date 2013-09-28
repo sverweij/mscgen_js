@@ -175,9 +175,13 @@ $(document).ready(function(){
                         ga('send', 'event', 'drop', 'textarea');    
                     } 
     });
+    $("#__tutlink").bind ({
+        click : function(e) {
+                    ga('send', 'event', 'link', $("#__tutlink").attr("href"));
+                }
+    });
     $("#__langlink").bind ({
         click : function(e) {
-                    console.debug($("#__langlink").attr("href"));
                     ga('send', 'event', 'link', $("#__langlink").attr("href"));
                 }
     });
