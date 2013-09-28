@@ -22,7 +22,7 @@ the associate line, we'll need to do something like this:
 </g>
 </svg>
  */
-define(["mscrenderutensils"], function(utl) {
+define(["renderutensils"], function(utl) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;

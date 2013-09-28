@@ -1,8 +1,6 @@
 # msc showing off some mscgen features for the readme 
 msc {
 
-  hscale="1.2";
-
   a [ label="Entity A", textbgcolor="red", textcolor="white" ],
   b [ label="Entity B", textbgcolor="yellow" ],
   c [ label="Entity C", textbgcolor="blue", textcolor="yellow" ];

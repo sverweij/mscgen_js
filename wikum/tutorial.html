@@ -363,9 +363,34 @@ hscale="0.6";
 </section>
 <section>
 <h2 id="arcskip"><code>arcskip</code></h2>
+<pre class="code mscgen">
+msc {
+    a, b;
+    
+    a =>> b [label="with arcskip", <mark>arcskip="1"</mark>];
+    |||;
+    a =>> b [label="without arcskip"];
+}
+</pre>
+<img id="tut34" src="tutorial/tut34.svg" alt="tut34">
 </section>
 <section>
 <h2 id="url-id-idurl">url, id, idurl</h2>
+<pre class="code mscgen">
+msc {
+    a [<mark>id="this is the idof entity a"</mark>],
+    b [label="link to\ngithub page", 
+       <mark>url="http://www.github.com/sverweij/mscgen_js"</mark>];
+    
+    a => b [label="link to mscgen\nissues on github",
+            <mark>url="https://github.com/sverweij/mscgen_js/issues?state=open"</mark>];
+            
+    a note b [label="works in entities, arcs, notes and boxes",
+              <mark>id="id links to about:blank"</mark>,
+              <mark>idurl="about:blank"</mark>];
+}
+</pre>
+<img id="tut35" src="tutorial/tut35.svg" alt="tut35">
 </section>
 </article>
 </body>
