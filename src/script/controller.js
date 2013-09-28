@@ -175,30 +175,14 @@ $(document).ready(function(){
                         ga('send', 'event', 'drop', 'textarea');    
                     } 
     });
-    $("#__tutlink").bind ({
+    $("a[href]").bind({
         click : function(e) {
-                    ga('send', 'event', 'link', $("#__tutlink").attr("href"));
-                }
-    });
-    $("#__langlink").bind ({
-        click : function(e) {
-                    ga('send', 'event', 'link', $("#__langlink").attr("href"));
-                }
-    });
-    $("#__tweetme").bind ({
-        click : function(e) {
-                    ga('send', 'event', 'link', $("#__tweetme").attr("href"));
-                }
-    });
-    $("#__gplusme").bind ({
-        click : function(e) {
-                    ga('send', 'event', 'link', $("#__gplusme").attr("href"));
-                }
-    });
-    $("#__forkme").bind ({
-        click : function(e) {
-                    ga('send', 'event', 'link', $("#__forkme").attr("href"));
-                }
+            var lTarget = e.currentTarget ? (e.currentTarget.href ? e.currentTarget.href : "unknown") : "unknown";
+            
+            if (!(lTarget.endsWith("#"))){
+                ga('send', 'event', 'link', lTarget);
+            }
+        }
     });
     $("#__helpme").bind ({
         click : function(e) {
