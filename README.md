@@ -8,7 +8,31 @@ mscgen_js
 
 Sample
 ------
-[This mscgen source][4] would render something like this:
+This mscgen source ...
+``` mscgen
+msc {
+  hscale="1.2";
+
+  a [ label="Entity A", textbgcolor="red", textcolor="white" ],
+  b [ label="Entity B", textbgcolor="yellow" ],
+  c [ label="Entity C", textbgcolor="blue", textcolor="yellow" ];
+
+  a->b [ label = "ab()" ] ;
+  b->c [ label = "bc(TRUE)"];
+  c=>>c [ label = "process(1)" ];
+  b<<=c [ label = "callback()", arcskip="1"];
+  |||;
+  ---  [ label = "If more to run", ID="*" ];
+  a->a [ label = "next()"];
+  a=>c [ label = "ac1()"];
+  b<<c [ label = "cb(true)", textbgcolor="lime"];
+  b->b [ label = "stalled(...)"];
+  a<<b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
+  c note c [ label="Just a note ...", linecolor="green", 
+            textcolor="green", textbgcolor="lime" ];
+}
+```
+... renders something like this:
 
 ![a sample sequence chart, rendered as png](src/samples/readme.png)
 
@@ -46,7 +70,6 @@ Thanks
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: http://sverweij.github.io/mscgen_js
 [3]: wikum/license.mscgen_js.md
-[4]: src/samples/readme.mscin
 [5]: wikum/msgenny.md
 [6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
 [8]: http://majda.cz/en/
