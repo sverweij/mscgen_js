@@ -60,6 +60,9 @@ code {
     display: inline-block;
     vertical-align: top;
 }
+img {
+    max-width: 100%;
+}
 .shadow {
     box-shadow: 0.0em 0.0em 1em -0.2em gray;
     border-collapse: separate; /* apparently needed for IE */
@@ -100,9 +103,6 @@ mark {
     .code {
         display: block;
         overflow: auto;
-    }
-    img {
-        max-width: 100%;
     }
     .hideonmobile {
         display: none;
