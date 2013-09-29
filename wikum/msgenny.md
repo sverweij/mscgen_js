@@ -12,38 +12,38 @@ To have our cake and eat it too we made the [online demo][4] translate between
 the two with the flick of a switch. 
 
 ## Example
-
-    a -> b : ab();
-    a => c : automatically declares entities used in arcs;
-    c =>> c : process(1);
-    b <<= c : Has all mscgen arc types... ;
-    b note b: ...notes + boxes ...;
-    |||;
-    --- : Labels usually don't need enclosing quotes;
-    --- : "except when they contain , or ;";
-    ...;
-
+``` msgenny
+a -> b : ab();
+a => c : automatically declares entities used in arcs;
+c =>> c : process(1);
+b <<= c : Has all mscgen arc types... ;
+b note b: ...notes + boxes ...;
+|||;
+--- : Labels usually don't need enclosing quotes;
+--- : "except when they contain , or ;";
+...;
+```
 
 this renders as
 
 ![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/src/samples/msgennysample.png)
 
 The equivalent mscgen program would have looked like this:
+``` mscgen
+msc {
+  a, b, c;
 
-    msc {
-      a, b, c;
-
-      a -> b [label="ab()"];
-      a => c [label="automatically declares entities used in arcs"];
-      c =>> c [label="process(1)"];
-      b <<= c [label="Has all mscgen arc types... "];
-      b note b [label="...notes + boxes ..."];
-      |||;
-      --- [label="Labels usually don't need enclosing quotes"];
-      --- [label="except when they contain , or ;"];
-      ...;
-    }
-
+  a -> b [label="ab()"];
+  a => c [label="automatically declares entities used in arcs"];
+  c =>> c [label="process(1)"];
+  b <<= c [label="Has all mscgen arc types... "];
+  b note b [label="...notes + boxes ..."];
+  |||;
+  --- [label="Labels usually don't need enclosing quotes"];
+  --- [label="except when they contain , or ;"];
+  ...;
+}
+```
 
 ## Usage scenarios
 We often find ourselves starting a sequence chart in *ms genny*, and, when
