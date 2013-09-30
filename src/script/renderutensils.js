@@ -24,8 +24,13 @@ var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 var lSuperscriptStyle = "vertical-align : text-top;";
 lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
-function _getTextWidth (pText, pFont) {
-    return pText.length * 5.7;
+function _getTextWidth (pText) {
+    var lText = _createText(pText,0,0);
+    var lBody = document.getElementById('body'); // TODO: assumes 'body' to exist in element
+    lBody.appendChild(lText);
+    var lRetval = lText.getBBox().width; // height,  x, y
+    lBody.removeChild(lText);
+    return lRetval;
 }
 
 function _createPath(pD, pClass) {
@@ -248,13 +253,13 @@ return {
                     return _createNote(pWidth, pHeight, pClass, pX, pY);
                 },
     createText: function (pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-                    return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL)
+                    return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
                 },
     createLine: function (pX1, pY1, pX2, pY2, pClass, pDouble) {
-                    return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble)
+                    return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
                 },
     createUTurn: function (pStartX, pStartY, pEndY, pWidth, pClass) {
-                    return _createUTurn (pStartX, pStartY, pEndY, pWidth, pClass)
+                    return _createUTurn (pStartX, pStartY, pEndY, pWidth, pClass);
                 },
     createGroup: function (pId) {
                     return _createGroup(pId);
@@ -268,10 +273,10 @@ return {
     createMarkerPolygon: function(pId, pClass, pOrient, pPoints, pPathClass) {
                     return _createMarkerPolygon (pId, pClass, pOrient, pPoints, pPathClass);
                 },
-    getTextWidth: function (pText, pFont) {
-                      return _getTextWidth(pText, pFont);
+    getTextWidth: function (pText) {
+                      return _getTextWidth(pText);
                   }
-}
+};
 });
 /*
     This file is part of mscgen_js.
