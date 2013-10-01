@@ -24,6 +24,14 @@ var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 var lSuperscriptStyle = "vertical-align : text-top;";
 lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
+function _getBBox(pElement){
+    var lBody = document.getElementById('body'); // TODO: assumes 'body' to exist in element
+    lBody.appendChild(pElement);
+    var lRetval = lText.getBBox(); // height,  x, y
+    lBody.removeChild(lText);
+    return lRetval;    
+}
+
 function _getTextWidth (pText) {
     var lText = _createText(pText,0,0);
     var lBody = document.getElementById('body'); // TODO: assumes 'body' to exist in element
@@ -275,7 +283,11 @@ return {
                 },
     getTextWidth: function (pText) {
                       return _getTextWidth(pText);
+              },
+    getBBox: function (pElement) {
+                      return _getBBox(pElement);
                   }
+
 };
 });
 /*
