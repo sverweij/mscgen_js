@@ -24,13 +24,12 @@ var XLINKNS = new String ("http://www.w3.org/1999/xlink");
 var lSuperscriptStyle = "vertical-align : text-top;";
 lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
-function _getTextWidth (pText) {
-    var lText = _createText(pText,0,0);
+function _getBBox(pElement){
     var lBody = document.getElementById('body'); // TODO: assumes 'body' to exist in element
-    lBody.appendChild(lText);
-    var lRetval = lText.getBBox().width; // height,  x, y
-    lBody.removeChild(lText);
-    return lRetval;
+    lBody.appendChild(pElement);
+    var lRetval = pElement.getBBox(); // height,  x, y
+    lBody.removeChild(pElement);
+    return lRetval;    
 }
 
 function _createPath(pD, pClass) {
@@ -273,9 +272,10 @@ return {
     createMarkerPolygon: function(pId, pClass, pOrient, pPoints, pPathClass) {
                     return _createMarkerPolygon (pId, pClass, pOrient, pPoints, pPathClass);
                 },
-    getTextWidth: function (pText) {
-                      return _getTextWidth(pText);
+    getBBox: function (pElement) {
+                      return _getBBox(pElement);
                   }
+
 };
 });
 /*
