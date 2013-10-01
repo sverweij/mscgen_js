@@ -574,7 +574,6 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
 
     if (pArc.label) {
         var lMiddle = pStartX + (pWidth/2);
-        var lTextWidth = 0;
         pArc.label = unescapeString(pArc.label);
         pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
@@ -582,22 +581,25 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
         
         pStartY = pStartY - (((lLines.length-1)*TEXT_HEIGHT)/2) - 1;
         for (var i = 0; i < lLines.length; i++) {
-            lTextWidth = utl.getTextWidth(lLines[i]);
             var lText = new Object();
+            var lBBox = new Object();
             if (i===0){
                 lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url, pArc.id, pArc.idurl);
+                lBBox = utl.getBBox(lText);
             } else {
                 pStartY += 2;
                 lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url);
+                lBBox = utl.getBBox(lText);
             }
+            
             if ( pCenter === undefined || pCenter === true) {
                 var lRect =
-                    utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
-                            lMiddle - (lTextWidth/2),  pStartY - (TEXT_HEIGHT/2) + (i*TEXT_HEIGHT));
+                    utl.createRect(lBBox.width, lBBox.height, "textbg",
+                        lMiddle - (lBBox.width/2), pStartY - (lBBox.height/2) + (i*lBBox.height));
             } else {
                 var lRect =
-                    utl.createRect(lTextWidth,TEXT_HEIGHT, "textbg",
-                            pStartX,  pStartY - (TEXT_HEIGHT/2) + (i*TEXT_HEIGHT));
+                    utl.createRect(lBBox.width,lBBox.height, "textbg",
+                            pStartX,  pStartY - (lBBox.height/2) + (i*lBBox.height));
             }
             colorText(lText, pArc);
             if (pArc.textbgcolor) {
@@ -610,7 +612,6 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
             lGroup.appendChild(lRect);
             lGroup.appendChild(lText);
         }
-
     }
     return lGroup;
 }
