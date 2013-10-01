@@ -31,7 +31,7 @@ var INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
 var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
 var ENTITY_HEIGHT = 32;
-var DEFAULT_ARCROW_HEIGHT = 32;
+var DEFAULT_ARCROW_HEIGHT = 36;
 var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
@@ -47,7 +47,7 @@ var gArcRowYHWM = 0;
 var gEntity2X = new Object();
 var gArcRow2Y = new Object();
 var gEntity2ArcColor = new Object();
-var TEXT_HEIGHT = 12; /* TODO: should really be derived */
+var gTextHeight = 12; /* sensible default - gets overwritten in bootstrap */
 
 
 function _clean (pParentElementId) {
@@ -107,12 +107,14 @@ function bootstrap(pParentElementId, pSvgElementId) {
     lSkeletonSvg.appendChild(lDesc);
     lSkeletonSvg.appendChild(lDefs);
     var lBody = utl.createGroup("body");
-
+    
     lBody.appendChild(utl.createGroup("__background"));
     lBody.appendChild(utl.createGroup("sequence"));
     lBody.appendChild(utl.createGroup("notelayer"));
     lSkeletonSvg.appendChild(lBody);
     lParent.appendChild(lSkeletonSvg);
+
+    gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0,0)).height; 
 }
 
 function _renderAST (pAST, pSource, pParentElementId) {
@@ -304,7 +306,7 @@ function renderArcs (pArcs, pEntities) {
                                 // createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom);
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-(TEXT_HEIGHT/2) - LINE_WIDTH, lArcEnd)
+                                        0, lArcRowYPos-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
                             } else if (lFrom === "*"){
                                 var xTo = gEntity2X[lTo];
@@ -322,7 +324,7 @@ function renderArcs (pArcs, pEntities) {
                                 pArcs[i][j].label=lLabel;
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-(TEXT_HEIGHT/2) - LINE_WIDTH, lArcEnd)
+                                        0, lArcRowYPos-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
                             } else {
                                 var xFrom = gEntity2X[lFrom];
@@ -347,15 +349,14 @@ function renderEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
     
-    if (!(pEntity.label)) {
+    if (!(pEntity.label)) { //12 - 8 = 4 4/12 = 1/3
         pEntity.label = pEntity.name;
     }
     colorBox(lRect, pEntity);
     lGroup.appendChild(lRect);
     lGroup.appendChild(
             createTextLabel(pId + "_txt", pEntity,
-                0, (ENTITY_HEIGHT + TEXT_HEIGHT -8 )/2,
-                ENTITY_WIDTH, "entity")); /* TODO: -8 should really be derived */
+                0, ENTITY_HEIGHT/2, ENTITY_WIDTH, "entity")); 
     return lGroup;
 }
 
@@ -579,16 +580,16 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
 
         var lLines = pArc.label.split('\\n');
         
-        pStartY = pStartY - (((lLines.length-1)*TEXT_HEIGHT)/2) - 1;
+        pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - 1;
         for (var i = 0; i < lLines.length; i++) {
             var lText = new Object();
             var lBBox = new Object();
             if (i===0){
-                lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url, pArc.id, pArc.idurl);
+                lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url, pArc.id, pArc.idurl);
                 lBBox = utl.getBBox(lText);
             } else {
                 pStartY += 2;
-                lText = utl.createText(lLines[i], lMiddle, pStartY + TEXT_HEIGHT/4 + (i*TEXT_HEIGHT), pClass, pArc.url);
+                lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url);
                 lBBox = utl.getBBox(lText);
             }
             
