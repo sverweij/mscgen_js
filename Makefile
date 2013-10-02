@@ -34,7 +34,7 @@ hoja-node: $(GENERATED_SOURCES_NODE) src/script/node/ast2mscgen.js src/script/no
 dev-build: hoja-web hoja-node
 
 # TODO: explicitly add other dependicies (?) 
-# r.js automatically traces this stuff. From the run on 2013-10-02 21:41
+# r.js automatically traces this stuff. From the run on 2013-10-02 21:41:
 # src/script/jquery.js
 # src/script/mscgenparser.js
 # src/script/msgennyparser.js
@@ -82,7 +82,7 @@ deploy: checkout-gh-pages build
 	git checkout master
 
 clean:
-	rm -rf style script lib images samples index.html
+	rm -rf $(PRODDIRS) index.html
 
 superscrub: clean
 	rm -rf $(GENERATED_SOURCES)
