@@ -4,6 +4,7 @@ help:
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
+PRODDIRS=lib images samples style
 
 src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
 	pegjs --export-var var\ mscparser $< $@
@@ -59,16 +60,15 @@ optimize-js: $(GENERATED_SOURCES_WEB)
 			name="mscgen-main" \
 			out="./script/mscgen-main.js"
 
-build: hoja-web hoja-node optimize-js
+$(PRODDIRS):
+	mkdir $@
+
+build: hoja-web hoja-node optimize-js $(PRODDIRS)
 	cp src/index.html index.html
-	mkdir lib
 	cp src/lib/require.js lib/require.js
-	mkdir images
 	cp src/images/* images/.
-	mkdir samples
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
-	mkdir style
 	cp src/style/mscgen.css style/.
     
 checkout-gh-pages:
