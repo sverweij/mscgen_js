@@ -4,6 +4,7 @@ help:
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
+PRODDIRS=lib images samples style
 
 src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
 	pegjs --export-var var\ mscparser $< $@
@@ -33,7 +34,7 @@ hoja-node: $(GENERATED_SOURCES_NODE) src/script/node/ast2mscgen.js src/script/no
 dev-build: hoja-web hoja-node
 
 # TODO: explicitly add other dependicies (?) 
-# r.js automatically traces this stuff. From the run on 2013-10-02 21:41
+# r.js automatically traces this stuff. From the run on 2013-10-02 21:41:
 # src/script/jquery.js
 # src/script/mscgenparser.js
 # src/script/msgennyparser.js
@@ -59,16 +60,15 @@ optimize-js: $(GENERATED_SOURCES_WEB)
 			name="mscgen-main" \
 			out="./script/mscgen-main.js"
 
-build: hoja-web hoja-node optimize-js
+$(PRODDIRS):
+	mkdir $@
+
+build: hoja-web hoja-node optimize-js $(PRODDIRS)
 	cp src/index.html index.html
-	mkdir lib
 	cp src/lib/require.js lib/require.js
-	mkdir images
 	cp src/images/* images/.
-	mkdir samples
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
-	mkdir style
 	cp src/style/mscgen.css style/.
     
 checkout-gh-pages:
@@ -82,7 +82,7 @@ deploy: checkout-gh-pages build
 	git checkout master
 
 clean:
-	rm -rf style script lib images samples index.html
+	rm -rf $(PRODDIRS) index.html
 
 superscrub: clean
 	rm -rf $(GENERATED_SOURCES)
