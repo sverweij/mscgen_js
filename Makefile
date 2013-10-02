@@ -1,45 +1,65 @@
-dev-build:
-	echo "building mscgen parser from peg (web)  ..."
-	pegjs --export-var var\ mscparser src/script/node/mscgenparser.pegjs src/script/mscgenparser.js
-	echo "building mscgen parser from peg (node)  ..."
-	pegjs src/script/node/mscgenparser.pegjs src/script/node/mscgenparser_node.js
+help:
+	@echo possible targets: dev-build build deploy clean
+	
+GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
+GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
+GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 
-	echo "building msgenny parser from peg (web) ..."
-	pegjs --export-var var\ msgennyparser src/script/node/msgennyparser.pegjs src/script/msgennyparser.js
-	echo "building msgenny parser from peg (node) ..."
-	pegjs src/script/node/msgennyparser.pegjs src/script/node/msgennyparser_node.js
+src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
+	pegjs --export-var var\ mscparser $< $@
 
-	echo "creating web variants of ast2*.js ..."
-	sed s/module.exports/var\ tomscgen/g src/script/node/ast2mscgen.js > src/script/ast2mscgen.js
-	sed s/module.exports/var\ tomsgenny/g src/script/node/ast2msgenny.js > src/script/ast2msgenny.js
+src/script/msgennyparser.js: src/script/node/msgennyparser.pegjs 
+	pegjs --export-var var\ msgennyparser $< $@
 
-	echo "assembling css"
-	r.js -o dev-build.css.js
+src/script/node/mscgenparser_node.js: src/script/node/mscgenparser.pegjs 
+	pegjs $< $@
 
-build:
-	echo "building mscgen parser from peg (web)  ..."
-	pegjs --export-var var\ mscparser src/script/node/mscgenparser.pegjs src/script/mscgenparser.js
-	echo "building mscgen parser from peg (node)  ..."
-	pegjs src/script/node/mscgenparser.pegjs src/script/node/mscgenparser_node.js
+src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
+	pegjs $< $@
 
-	echo "building msgenny parser from peg (web) ..."
-	pegjs --export-var var\ msgennyparser src/script/node/msgennyparser.pegjs src/script/msgennyparser.js
-	echo "building msgenny parser from peg (node) ..."
-	pegjs src/script/node/msgennyparser.pegjs src/script/node/msgennyparser_node.js
+src/script/ast2mscgen.js: src/script/node/ast2mscgen.js
+	sed s/module.exports/var\ tomscgen/g $< > $@
 
-	# TODO: test for existence of sed (and what to do if it isn't there?)
-	echo "creating web variants of ast2*.js ..."
-	sed s/module.exports/var\ tomscgen/g src/script/node/ast2mscgen.js > src/script/ast2mscgen.js
-	sed s/module.exports/var\ tomsgenny/g src/script/node/ast2msgenny.js > src/script/ast2msgenny.js
+src/script/ast2msgenny.js: src/script/node/ast2msgenny.js
+	sed s/module.exports/var\ tomsgenny/g $< > $@
 
-	echo "optimizing css and javascript with r.js ..."
-	# TODO: test for existence of r.js (and npm it if not there/ or use
-	# cp yadda-src.js yadda.js which also works but isn't as efficient
-	# on page loading)
-	for i in build.*$1*.js; do
-		r.js -o $i
-	done
+src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css
+	r.js -o cssIn=src/style/mscgen-src.css out=$@
 
+hoja-web: $(GENERATED_SOURCES_WEB) 
+
+hoja-node: $(GENERATED_SOURCES_NODE) src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
+		
+dev-build: hoja-web hoja-node
+
+# TODO: explicitly add other dependicies (?) 
+# r.js automatically traces this stuff. From the run on 2013-10-02 21:41
+# src/script/jquery.js
+# src/script/mscgenparser.js
+# src/script/msgennyparser.js
+# src/script/renderutensils.js
+# src/script/renderast.js
+# src/script/ast2msgenny.js
+# src/script/ast2mscgen.js
+# src/script/../lib/codemirror.js
+# src/script/../lib/codemirror/addon/edit/closebrackets.js
+# src/script/../lib/codemirror/addon/edit/matchbrackets.js
+# src/script/../lib/codemirror/addon/display/placeholder.js
+# src/script/../lib/canvg/canvg.js
+# src/script/../lib/canvg/StackBlur.js
+# src/script/../lib/canvg/rgbcolor.js
+# src/script/controller.js
+# src/script/mscgen-main.js
+optimize-js: $(GENERATED_SOURCES_WEB) 
+	r.js -o baseUrl="./src/script" \
+			paths.jquery="jquery" \
+			paths.codemirror="codemirror" \
+			paths.cm_closebrackets="codemirror/addon/edit/closebrackets" \
+			paths.cm_matchbrackets="codemirror/addon/edit/matchbrackets" \
+			name="mscgen-main" \
+			out="./script/mscgen-main.js"
+
+build: hoja-web hoja-node optimize-js
 	cp src/index.html index.html
 	mkdir lib
 	cp src/lib/require.js lib/require.js
@@ -48,11 +68,14 @@ build:
 	mkdir samples
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
+	mkdir style
+	cp src/style/mscgen.css style/.
     
-deploy: build
+checkout-gh-pages:
 	git checkout gh-pages
 	git merge master -m "merge for gh-pages build"
-	sh build.sh
+
+deploy: checkout-gh-pages build
 	git add .
 	git commit -a -m "build"
 	git push
@@ -60,3 +83,6 @@ deploy: build
 
 clean:
 	rm -rf style script lib images samples index.html
+
+superscrub: clean
+	rm -rf $(GENERATED_SOURCES)
