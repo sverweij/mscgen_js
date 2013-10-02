@@ -599,7 +599,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
                         lMiddle - (lBBox.width/2), pStartY - (lBBox.height/2) + (i*lBBox.height));
             } else {
                 var lRect =
-                    utl.createRect(lBBox.width,lBBox.height, "textbg",
+                    utl.createRect(lBBox.width, lBBox.height, "textbg",
                             pStartX,  pStartY - (lBBox.height/2) + (i*lBBox.height));
             }
             colorText(lText, pArc);
