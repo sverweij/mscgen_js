@@ -1,10 +1,11 @@
 # On building mscgen_js (/demo)
 ## Steps
 - master branch only contains source/ dev version
-- special dev-build.sh that executes a complete build *except* for minifying to one js
+- target dev-build that executes a complete build *except* for minifying to one js
 - gh-pages branch also contains built stuff  
 
 ## Pre requisites
+- make
 - bash (echo, cp, mkdir, rm, sed)
 - node
     - r.js
@@ -13,9 +14,9 @@
 
 
 ## Building
-Production: ```build.sh```
+Production: ```make deploy``` (builds, optimizes, pushes to gh-pages)
 
-Development only: ```dev-build.sh```
+Development only: ```make dev-build``` 
 
 ## Clean
-```sh clean.sh```
+```make clean``` or, to also remove generated source files (e.g. from peg, or combined css): ```make superscrub```
