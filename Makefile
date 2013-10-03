@@ -5,6 +5,8 @@ GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 PRODDIRS=lib images samples style
+.PHONY: help hoja-web hoja-node dev-build optimize-js build checkout-gh-pages deploy clean superscrub
+
 
 src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
 	pegjs --export-var var\ mscparser $< $@
