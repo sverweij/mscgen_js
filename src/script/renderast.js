@@ -30,8 +30,8 @@ var DEFAULT_INTER_ENTITY_SPACING = 160;
 var INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
 var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
-var ENTITY_HEIGHT = 32;
-var DEFAULT_ARCROW_HEIGHT = 36;
+var ENTITY_HEIGHT = 34;
+var DEFAULT_ARCROW_HEIGHT = 38;
 var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
@@ -547,7 +547,7 @@ function createArc (pId, pArc, pFrom, pTo) {
         }
         lGroup.appendChild(lSelfRefArc);
         lGroup.appendChild(
-            createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5), pTo - pFrom , "anchor-start", false)
+            createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5), pTo - pFrom , "anchor-start")
         );
     } else {
         var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
@@ -570,7 +570,7 @@ function unescapeString(pString) {
     return lLabel;//.replace(/\\n/g, " ");
 }
 
-function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) {
+function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
     var lGroup = utl.createGroup(pId);
 
     if (pArc.label) {
@@ -588,20 +588,12 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass, pCenter) 
                 lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url, pArc.id, pArc.idurl);
                 lBBox = utl.getBBox(lText);
             } else {
-                pStartY += 2;
+                pStartY += 1;
                 lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url);
                 lBBox = utl.getBBox(lText);
             }
             
-            if ( pCenter === undefined || pCenter === true) {
-                var lRect =
-                    utl.createRect(lBBox.width, lBBox.height, "textbg",
-                        lMiddle - (lBBox.width/2), pStartY - (lBBox.height/2) + (i*lBBox.height));
-            } else {
-                var lRect =
-                    utl.createRect(lBBox.width, lBBox.height, "textbg",
-                            pStartX,  pStartY - (lBBox.height/2) + (i*lBBox.height));
-            }
+            var lRect = utl.createRect(lBBox.width, lBBox.height, "textbg", lBBox.x, lBBox.y);
             colorText(lText, pArc);
             if (pArc.textbgcolor) {
                 lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
