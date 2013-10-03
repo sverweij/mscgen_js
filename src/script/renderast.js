@@ -656,14 +656,16 @@ function createBox (pId, pFrom, pTo, pArc) {
     if (pFrom > pTo) {
         var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
     }
-
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
-    var lHeight = ARCROW_HEIGHT - 2*LINE_WIDTH;
-
+    
     var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
     var lGroup = utl.createGroup(pId);
     var lBox;
-
+    var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
+    var lBBox = utl.getBBox(lTextGroup);
+    
+    var lHeight = Math.max(lBBox.height, ARCROW_HEIGHT - 2*LINE_WIDTH);
+    
     switch (pArc.kind) {
           case ("rbox") : {
           lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
@@ -681,8 +683,7 @@ function createBox (pId, pFrom, pTo, pArc) {
     }
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
-
-    lGroup.appendChild(createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth));
+    lGroup.appendChild(lTextGroup);
 
     return lGroup;
 }
