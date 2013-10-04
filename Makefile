@@ -1,11 +1,11 @@
 help:
-	@echo possible targets: dev-build build deploy clean
+	@echo possible targets: dev-build build deploy-gh-pages clean
 	
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 PRODDIRS=lib images samples style
-.PHONY: help hoja-web hoja-node dev-build optimize-js build checkout-gh-pages deploy clean superscrub
+.PHONY: help hoja-web hoja-node dev-build build checkout-gh-pages deploy-gh-pages clean superscrub
 
 
 src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
@@ -37,23 +37,25 @@ dev-build: hoja-web hoja-node
 
 # TODO: explicitly add other dependicies (?) 
 # r.js automatically traces this stuff. From the run on 2013-10-02 21:41:
-# src/script/jquery.js
-# src/script/mscgenparser.js
-# src/script/msgennyparser.js
-# src/script/renderutensils.js
-# src/script/renderast.js
-# src/script/ast2msgenny.js
-# src/script/ast2mscgen.js
-# src/script/../lib/codemirror.js
-# src/script/../lib/codemirror/addon/edit/closebrackets.js
-# src/script/../lib/codemirror/addon/edit/matchbrackets.js
-# src/script/../lib/codemirror/addon/display/placeholder.js
-# src/script/../lib/canvg/canvg.js
-# src/script/../lib/canvg/StackBlur.js
-# src/script/../lib/canvg/rgbcolor.js
-# src/script/controller.js
-# src/script/mscgen-main.js
-optimize-js: $(GENERATED_SOURCES_WEB) 
+
+
+LIB_SOURCES_WEB=src/lib/codemirror.js \
+src/lib/codemirror/addon/edit/closebrackets.js \
+src/lib/codemirror/addon/edit/matchbrackets.js \
+src/lib/codemirror/addon/display/placeholder.js \
+src/lib/canvg/canvg.js \
+src/lib/canvg/StackBlur.js \
+src/lib/canvg/rgbcolor.js \
+src/script/jquery.js
+
+SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
+src/script/renderast.js \
+src/script/controller.js \
+src/script/mscgen-main.js
+
+SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
+
+script/mscgen-main.js: $(SOURCES_WEB)  
 	r.js -o baseUrl="./src/script" \
 			paths.jquery="jquery" \
 			paths.codemirror="codemirror" \
@@ -65,7 +67,7 @@ optimize-js: $(GENERATED_SOURCES_WEB)
 $(PRODDIRS):
 	mkdir $@
 
-build: hoja-web hoja-node optimize-js $(PRODDIRS)
+build: $(PRODDIRS) $(GENERATED_SOURCES_NODE) script/mscgen-main.js 
 	cp src/index.html index.html
 	cp src/lib/require.js lib/require.js
 	cp src/images/* images/.
@@ -77,7 +79,7 @@ checkout-gh-pages:
 	git checkout gh-pages
 	git merge master -m "merge for gh-pages build"
 
-deploy: checkout-gh-pages build
+deploy-gh-pages: checkout-gh-pages build
 	git add .
 	git commit -a -m "build"
 	git push
