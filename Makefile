@@ -67,13 +67,19 @@ script/mscgen-main.js: $(SOURCES_WEB)
 $(PRODDIRS):
 	mkdir $@
 
-build: $(PRODDIRS) $(GENERATED_SOURCES_NODE) script/mscgen-main.js 
-	cp src/index.html index.html
-	cp src/lib/require.js lib/require.js
+index.html: src/index.html
+	cp $< $@
+
+lib/require.js: src/lib/require.js
+	cp $< $@
+
+style/mscgen.css: src/style/mscgen.css
+	cp $< $@
+
+build: $(PRODDIRS) $(GENERATED_SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	cp src/images/* images/.
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
-	cp src/style/mscgen.css style/.
     
 checkout-gh-pages:
 	git checkout gh-pages
