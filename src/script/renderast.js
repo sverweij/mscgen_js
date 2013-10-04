@@ -163,7 +163,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
      * transparent in stead. To work around this insert a white rectangle the size
      * of the canvas in the background layer.
      * 
-     * We do this _before_ scaling are applied to the svg
+     * We do this _before_ scaling is applied to the svg
      */ 
     var lBgGroup = document.getElementById("__background");
     var lBgRect = utl.createRect(lCanvasWidth , lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
