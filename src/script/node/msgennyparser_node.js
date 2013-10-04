@@ -1276,7 +1276,9 @@ module.exports = (function(){
       
       function parse_dualarctoken() {
         var result0;
+        var pos0;
         
+        pos0 = pos;
         if (input.substr(pos, 2) === "--") {
           result0 = "--";
           pos += 2;
@@ -1423,6 +1425,12 @@ module.exports = (function(){
               }
             }
           }
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, kind) {return kind.toLowerCase()})(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
         }
         return result0;
       }

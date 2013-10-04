@@ -156,13 +156,13 @@ dualarc         =
   {return {kind:kind, from: from, to:"*"}})
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
-dualarctoken    =   "--"  / "<->"
+dualarctoken    = kind:(   "--"  / "<->"
                   / "=="  / "<<=>>"
                           / "<=>"
                   / ".."  / "<<>>"
                   / "::"  / "<:>" 
                   / fwdarrowtoken / bckarrowtoken
-                  / "note"i / "abox"i / "rbox"i / "box"i
+                  / "note"i / "abox"i / "rbox"i / "box"i) {return kind.toLowerCase()}
 fwdarrowtoken   "left to right arrow"
                 = "->" / "=>>"/ "=>" / ">>"/ ":>" / "-x"i
 bckarrowtoken   "right to left arrow"
@@ -240,4 +240,3 @@ boolean "boolean"
     You should have received a copy of the GNU General Public License
     along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 */
-

@@ -157,13 +157,13 @@ dualarc         =
   {return {kind:kind, from: from, to: "*"}})
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
-dualarctoken    =   "--"  / "<->"
+dualarctoken    =   kind:("--"  / "<->"
                   / "=="  / "<<=>>"
                           / "<=>"
                   / ".."  / "<<>>"
                   / "::"  / "<:>" 
                   / fwdarrowtoken / bckarrowtoken
-                  / "note"i / "abox"i / "rbox"i / "box"i
+                  / "note"i / "abox"i / "rbox"i / "box"i) {return kind.toLowerCase()}
 fwdarrowtoken   "left to right arrow"
                 = "->" / "=>>"/ "=>" / ">>"/ ":>" / "-x"i
 bckarrowtoken   "right to left arrow"
