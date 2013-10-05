@@ -13,7 +13,7 @@ Build and deploy to github-pages: ```make deploy-gh-pages``` - this target ...
 - executes a production build
 - adds and commits changes, 
 - pushes the changes to *origin*
-- switches to the *master* branch
+- switches (back) to the *master* branch
 
 
 Production: ```make build```. As explained above the idea is only to run and commit
@@ -21,10 +21,10 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 ```make clean```. 
 
 ## Cleaning
-- ```make clean``` removes built prodocution files
+- ```make clean``` removes built production files
 - ```make superscrub``` removes built production files as well as all generated files in the src tree
 
-## Pre requisites
+## Prerequisites
 - make
 - bash (cp, mkdir, rm, sed)
 - nodejs
