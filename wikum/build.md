@@ -1,4 +1,4 @@
-# On building mscgen_js (/demo)
+# Building mscgen_js (/demo)
 
 ## Principles
 - *master* branch only contains source/ dev version
