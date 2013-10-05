@@ -1,13 +1,13 @@
 # Building mscgen_js (/demo)
 
-## Principles
+## Deployment Principles
 - *master* branch only contains source/ dev version
 - *gh-pages* branch contains production build
 
 ## Building
 Development only: ```make dev-build``` - this should create the state the *master* branch is in.
 
-Build and deploy to github-pages: ```make deploy-gh-pages``` - this target ...
+Production build and deploy to github-pages: ```make deploy-gh-pages``` - this target ...
 - switches to the *gh-pages* branch, 
 - merges master into *gh-pages*
 - executes a production build
@@ -18,7 +18,7 @@ Build and deploy to github-pages: ```make deploy-gh-pages``` - this target ...
 
 Production: ```make build```. As explained above the idea is only to run and commit
 this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a 
-```make clean```. 
+```make clean``` before any ```git add``` or ```git commit```.
 
 ## Cleaning
 - ```make clean``` removes built production files
