@@ -5,9 +5,10 @@
 - *gh-pages* branch contains production build
 
 ## Building
-Development only: ```make dev-build``` - this should create the state the *master* branch is in.
+Development only: ```make dev-build``` - this should create the state the *master* branch is in. 
+It creates all generated sources, but keeps them in the ```src``` tree.
 
-Production build and deploy to github-pages: ```make deploy-gh-pages``` - this target ...
+Production build and deploy to github-pages: ```make deploy-gh-pages``` - this *make target*:
 - switches to the *gh-pages* branch, 
 - merges master into *gh-pages*
 - executes a production build
