@@ -43,9 +43,8 @@ var DIR_BOTH = 5;
 var DIR_NONE = 8;
 
 var gEntityXHWM = 0;
-var gArcRowYHWM = 0;
+var gRowCount = 0;
 var gEntity2X = new Object();
-var gArcRow2Y = new Object();
 var gEntity2ArcColor = new Object();
 var gTextHeight = 12; /* sensible default - gets overwritten in bootstrap */
 
@@ -109,7 +108,8 @@ function bootstrap(pParentElementId, pSvgElementId) {
     var lBody = utl.createGroup("body");
     
     lBody.appendChild(utl.createGroup("__background"));
-    lBody.appendChild(utl.createGroup("sequence"));
+    lBody.appendChild(utl.createGroup("lifelinelayer"));
+    lBody.appendChild(utl.createGroup("sequencelayer"));
     lBody.appendChild(utl.createGroup("notelayer"));
     lSkeletonSvg.appendChild(lBody);
     lParent.appendChild(lSkeletonSvg);
@@ -146,7 +146,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
 
     var body = document.getElementById("body");
     var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
-    var lCanvasHeight = gArcRowYHWM - (ARCROW_HEIGHT/2) + 2*PAD_VERTICAL;
+    var lCanvasHeight = getRowInfo(gRowCount).y - (getRowInfo(gRowCount).height/2) + 2*PAD_VERTICAL;
     var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
     var lVerticalTransform = PAD_VERTICAL; 
     var lScale = 1;
@@ -185,9 +185,16 @@ function _renderAST (pAST, pSource, pParentElementId) {
 
 }
 
+function getRowInfo (pRowNumber){
+    return {
+            y: (ENTITY_HEIGHT + (1.5*ARCROW_HEIGHT)) + pRowNumber*ARCROW_HEIGHT, 
+            height: ARCROW_HEIGHT
+    };
+}
+
 function renderEntities (pEntities) {
     var defs = document.getElementById("defs");
-    var sequence = document.getElementById("sequence");
+    var sequence = document.getElementById("sequencelayer");
     var lEntityXPos = 0;
     var i;
 
@@ -217,10 +224,10 @@ function renderEntities (pEntities) {
 
 function renderArcs (pArcs, pEntities) {
     var defs = document.getElementById("defs");
-    var sequence = document.getElementById("sequence");
+    var lifelinelayer = document.getElementById("lifelinelayer");
+    var sequence = document.getElementById("sequencelayer");
     var notelayer = document.getElementById("notelayer");
 
-    var lArcRowYPos = ENTITY_HEIGHT + (ARCROW_HEIGHT/2);
     var lLabel = "";
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
     var lArcMiddle = lArcEnd/2;
@@ -228,13 +235,10 @@ function renderArcs (pArcs, pEntities) {
 
     var i,j,k = 0;
 
-    gArcRow2Y = new Object();
-
     defs.appendChild(renderArcRow(pEntities, "arcrow"));
     defs.appendChild(renderArcRow(pEntities, "arcrowomit"));
 
-    sequence.appendChild(utl.createUse(0, lArcRowYPos, "arcrow"));
-    lArcRowYPos += ARCROW_HEIGHT;
+    lifelinelayer.appendChild(utl.createUse(0, getRowInfo(-1).y, "arcrow"));
 
     if (pArcs) {
         for (i=0;i<pArcs.length;i++) {
@@ -244,47 +248,47 @@ function renderArcs (pArcs, pEntities) {
                 if (pArcs[i][j].label) { lLabel = pArcs[i][j].label; }
                 switch(pArcs[i][j].kind) {
                     case ("..."): {
-                        sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, "arcrowomit"));
+                        lifelinelayer.appendChild(
+                                utl.createUse(0, getRowInfo(i).y, "arcrowomit"));
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, lCurrentId));
+                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
                         break;
                         }
                     case ("|||"): {
-                        sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, "arcrow"));
+                        lifelinelayer.appendChild(
+                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, lCurrentId));
+                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
                         break;
                         }
                     case ("---"): {
-                        sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, "arcrow"));
+                        lifelinelayer.appendChild(
+                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         defs.appendChild(
                                 createComment(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, lCurrentId));
+                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
                         break;
                         }
                     case("box"): case("rbox"): case("abox") : case("note"): {
-                        sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, "arcrow"));
+                        lifelinelayer.appendChild(
+                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         defs.appendChild(
                             createBox(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
                                         gEntity2X[pArcs[i][j].to],
                                         pArcs[i][j]));
                         notelayer.appendChild(
-                                utl.createUse(0, lArcRowYPos, lCurrentId));
+                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
                         break;
                         }
                     default:{
-                        sequence.appendChild(
-                                utl.createUse(0, lArcRowYPos, "arcrow"));
+                        lifelinelayer.appendChild(
+                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
@@ -299,14 +303,14 @@ function renderArcs (pArcs, pEntities) {
                                                       pArcs[i][j], xFrom, xTo
                                                        ));
                                         sequence.appendChild(
-                                                utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
+                                                utl.createUse(0, getRowInfo(i).y, lCurrentId + "bc" + k));
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
                                 // createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom);
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
+                                        0, getRowInfo(i).y-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
                             } else if (lFrom === "*"){
                                 var xTo = gEntity2X[lTo];
@@ -318,31 +322,29 @@ function renderArcs (pArcs, pEntities) {
                                             createArc(lCurrentId + "bc" + k,
                                                       pArcs[i][j], xFrom, xTo
                                                        ));
-                                        sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId + "bc" + k));
+                                        sequence.appendChild(utl.createUse(0, getRowInfo(i).y, lCurrentId + "bc" + k));
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, lArcRowYPos-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
+                                        0, getRowInfo(i).y-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
                             } else {
                                 var xFrom = gEntity2X[lFrom];
                                 var xTo = gEntity2X[lTo];
                                 defs.appendChild(
                                     createArc(lCurrentId, pArcs[i][j], xFrom, xTo));
-                                sequence.appendChild(utl.createUse(0, lArcRowYPos, lCurrentId));
+                                sequence.appendChild(utl.createUse(0, getRowInfo(i).y, lCurrentId));
                             }
                         }
                         break;
                     }
                 }
             }
-            lArcRowYPos += ARCROW_HEIGHT;
-            gArcRow2Y[i+1] = lArcRowYPos;
         }
     }
-    gArcRowYHWM = lArcRowYPos;
+    gRowCount = i;
 }
 
 function renderEntity (pId, pEntity) {
