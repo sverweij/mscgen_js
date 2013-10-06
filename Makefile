@@ -1,37 +1,46 @@
+SHELL=/bin/sh
+.SUFFIXES:
+.SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
+PEGJS=pegjs
+RJS=r.js
+GIT=git
+
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \
-src/lib/codemirror/addon/edit/closebrackets.js \
-src/lib/codemirror/addon/edit/matchbrackets.js \
-src/lib/codemirror/addon/display/placeholder.js \
-src/lib/canvg/canvg.js \
-src/lib/canvg/StackBlur.js \
-src/lib/canvg/rgbcolor.js \
-src/script/jquery.js
+    src/lib/codemirror/addon/edit/closebrackets.js \
+    src/lib/codemirror/addon/edit/matchbrackets.js \
+    src/lib/codemirror/addon/display/placeholder.js \
+    src/lib/canvg/canvg.js \
+    src/lib/canvg/StackBlur.js \
+    src/lib/canvg/rgbcolor.js \
+    src/script/jquery.js
 SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
-src/script/renderast.js \
-src/script/controller.js \
-src/script/mscgen-main.js
+    src/script/renderast.js \
+    src/script/controller.js \
+    src/script/mscgen-main.js
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-.PHONY: help hoja-node dev-build build checkout-gh-pages deploy-gh-pages clean superscrub
+SOURCES_NODE=$(GENERATED_SOURCES_NODE) src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
+
+.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean 
 
 help:
-	@echo possible targets: dev-build build deploy-gh-pages clean
+	@echo possible targets:	dev-build install deploy-gh-pages clean
 
 # file targets
 src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
-	pegjs --export-var var\ mscparser $< $@
+	$(PEGJS) --export-var var\ mscparser $< $@
 
 src/script/msgennyparser.js: src/script/node/msgennyparser.pegjs 
-	pegjs --export-var var\ msgennyparser $< $@
+	$(PEGJS) --export-var var\ msgennyparser $< $@
 
 src/script/node/mscgenparser_node.js: src/script/node/mscgenparser.pegjs 
-	pegjs $< $@
+	$(PEGJS) $< $@
 
 src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
-	pegjs $< $@
+	$(PEGJS) $< $@
 
 src/script/ast2mscgen.js: src/script/node/ast2mscgen.js
 	sed s/module.exports/var\ tomscgen/g $< > $@
@@ -40,7 +49,7 @@ src/script/ast2msgenny.js: src/script/node/ast2msgenny.js
 	sed s/module.exports/var\ tomsgenny/g $< > $@
 
 src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css
-	r.js -o cssIn=src/style/mscgen-src.css out=$@
+	$(RJS) -o cssIn=src/style/mscgen-src.css out=$@
 
 $(PRODDIRS):
 	mkdir $@
@@ -54,13 +63,8 @@ lib/require.js: src/lib/require.js
 style/mscgen.css: src/style/mscgen.css
 	cp $< $@
 
-# "phony" targets
-hoja-node: $(GENERATED_SOURCES_NODE) src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
-		
-dev-build: $(GENERATED_SOURCES_WEB) hoja-node
-
 script/mscgen-main.js: $(SOURCES_WEB)  
-	r.js -o baseUrl="./src/script" \
+	$(RJS) -o baseUrl="./src/script" \
 			paths.jquery="jquery" \
 			paths.codemirror="codemirror" \
 			paths.cm_closebrackets="codemirror/addon/edit/closebrackets" \
@@ -68,24 +72,29 @@ script/mscgen-main.js: $(SOURCES_WEB)
 			name="mscgen-main" \
 			out="./script/mscgen-main.js"
 
+# "phony" targets
+dev-build: $(SOURCES_WEB) $(SOURCES_NODE)
 
-build: $(PRODDIRS) $(GENERATED_SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
+install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	cp src/images/* images/.
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
     
 checkout-gh-pages:
-	git checkout gh-pages
-	git merge master -m "merge for gh-pages build"
+	$(GIT) checkout gh-pages
+	$(GIT) merge master -m "merge for gh-pages build"
 
-deploy-gh-pages: checkout-gh-pages build
-	git add .
-	git commit -a -m "build"
-	git push
-	git checkout master
+deploy-gh-pages: checkout-gh-pages install
+	$(GIT) add .
+	$(GIT) commit -a -m "build"
+	$(GIT) push
+	$(GIT) checkout master
 
-clean:
+check:
+    #TODO 
+    
+mostlyclean:
 	rm -rf $(PRODDIRS) index.html
 
-superscrub: clean
+clean: mostlyclean
 	rm -rf $(GENERATED_SOURCES)

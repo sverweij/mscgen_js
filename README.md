@@ -1,16 +1,14 @@
-mscgen_js
-=========
+# mscgen_js
 *Turns text into sequence charts.*
 
 - Uses the [mscgen][1] mini language. 
 - Supports a [simplified subset of mscgen][5] for lazy bastards.
 - [Demo here][2]
 
-Sample
-------
+## Sample
 This sequence chart ...
 
-![a sample sequence chart, rendered as png](src/samples/readme.png)
+![a sample sequence chart, rendered as png](wikum/readme.png)
 
 was made with this *mscgen* source:
 ``` mscgen
@@ -35,8 +33,7 @@ msc {
 }
 ```
 
-mscgen_js and the mscgen standard
----------------------------------
+## mscgen_js and the mscgen standard
 mscgen_js was made to go both ways:
 
 - Accept all valid [mscgen][1] programs and render them correctly. 
@@ -48,8 +45,12 @@ flip of a switch.
 
 If you find proof to the contrary on any of this [tell us][6].
 
-License
--------
+
+## Building mscgen_js yourself
+
+See [build.md][7]
+
+## License
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
 it as part of other free software, but _not_ as part of non free software.
 
@@ -57,8 +58,7 @@ mscgen_js is built on various libraries, each of which have their own license (i
 MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [jQuery][14]. 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
-Thanks
-------
+## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for 
   releasing both to the public domain (the last one under a [GPLv2][18] license to be precise).
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
@@ -70,6 +70,7 @@ Thanks
 [3]: wikum/license.mscgen_js.md
 [5]: wikum/msgenny.md
 [6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
+[7]: wikum/build.md
 [8]: http://majda.cz/en/
 [9]: http://pegjs.majda.cz/
 [10]: http://marijnhaverbeke.nl

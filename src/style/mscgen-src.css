@@ -92,14 +92,14 @@ to {
     width: 98%;
     height: 40em;
 }
-#input_and_controls > #error_output {
+#input_and_controls > #__error_output {
     color: orange;
     padding: 1em 0em 1em 0em;
     border: solid 1px orange;
     display: none;
     width: 100%;
 }
-#svg_output {
+#__svg {
     z-index: 0;
     vertical-align: top;
     position: absolute;
