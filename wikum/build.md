@@ -17,13 +17,16 @@ Production build and deploy to github-pages: ```make deploy-gh-pages``` - this *
 - switches (back) to the *master* branch
 
 
-Production: ```make build```. As explained above the idea is only to run and commit
+Production: ```make install```. As explained above the idea is only to run and commit
 this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a 
-```make clean``` before any ```git add``` or ```git commit```.
+```make mostlyclean``` before any ```git add``` or ```git commit```.
 
 ## Cleaning
-- ```make clean``` removes built production files
-- ```make superscrub``` removes built production files as well as all generated files in the src tree
+- ```make mostlyclean``` removes built production files
+- ```make clean``` removes built production files as well as all generated files in the src tree
+
+## testing 
+```make check``` (does nothing at this time; most checks are of a visual nature)
 
 ## Prerequisites
 - make
