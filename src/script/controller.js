@@ -368,8 +368,8 @@ function render() {
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
-        msc_render.clean("svg");
-        msc_render.renderAST(lAST, gCodeMirror.getValue(), "svg");
+        msc_render.clean("__svg");
+        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
         
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)
@@ -411,12 +411,12 @@ function closeLightbox () {
 }
 
 function hideError () {
-    $("#error_output").hide();
+    $("#__error_output").hide();
 }
 
 function displayError (pString) {
-    $("#error_output").show();
-    $("#error_output").text(pString);
+    $("#__error_output").show();
+    $("#__error_output").text(pString);
 }
 
 

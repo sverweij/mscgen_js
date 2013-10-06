@@ -25,7 +25,7 @@ var lSuperscriptStyle = "vertical-align : text-top;";
 lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
 function _getBBox(pElement){
-    var lBody = document.getElementById('body'); // TODO: assumes 'body' to exist in element
+    var lBody = document.getElementById("__body"); // TODO: assumes '__body' to exist in element
     lBody.appendChild(pElement);
     var lRetval = pElement.getBBox(); // height,  x, y
     lBody.removeChild(pElement);
