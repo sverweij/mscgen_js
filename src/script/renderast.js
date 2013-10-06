@@ -245,6 +245,7 @@ function renderArcs (pArcs, pEntities) {
 
     if (pArcs) {
         for (i=0;i<pArcs.length;i++) {
+            var lArcRowOmit = false;
             for (j=0;j<pArcs[i].length;j++) {
                 var lCurrentId = i.toString() + "_" + j.toString();
                 lLabel = "";
@@ -253,6 +254,7 @@ function renderArcs (pArcs, pEntities) {
                     case ("..."): {
                         lifelinelayer.appendChild(
                                 utl.createUse(0, getRowInfo(i).y, "arcrowomit"));
+                        lArcRowOmit = true;
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(
@@ -260,8 +262,6 @@ function renderArcs (pArcs, pEntities) {
                         break;
                         }
                     case ("|||"): {
-                        lifelinelayer.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(
@@ -269,8 +269,6 @@ function renderArcs (pArcs, pEntities) {
                         break;
                         }
                     case ("---"): {
-                        lifelinelayer.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         defs.appendChild(
                                 createComment(lCurrentId,pArcs[i][j]));
                         sequence.appendChild(
@@ -278,8 +276,6 @@ function renderArcs (pArcs, pEntities) {
                         break;
                         }
                     case("box"): case("rbox"): case("abox") : case("note"): {
-                        lifelinelayer.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         defs.appendChild(
                             createBox(lCurrentId,
                                         gEntity2X[pArcs[i][j].from],
@@ -290,8 +286,6 @@ function renderArcs (pArcs, pEntities) {
                         break;
                         }
                     default:{
-                        lifelinelayer.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, "arcrow"));
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
@@ -315,7 +309,7 @@ function renderArcs (pArcs, pEntities) {
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
                                         0, getRowInfo(i).y-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
-                            } else if (lFrom === "*"){
+                            } else if (lFrom === "*") {
                                 var xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
                                     if (pEntities[k].name != lTo) {
@@ -339,15 +333,20 @@ function renderArcs (pArcs, pEntities) {
                                 defs.appendChild(
                                     createArc(lCurrentId, pArcs[i][j], xFrom, xTo));
                                 sequence.appendChild(utl.createUse(0, getRowInfo(i).y, lCurrentId));
-                            }
-                        }
+                            }  /// lTo or lFrom === "*" 
+                        } // if both a from and a to
                         break;
-                    }
-                }
+                    } // case default 
+                } // switch
+            } // for all arcs in a row
+            /* here we know how high the row will become, and only here we 
+             * can determine the height of the row (the y position ) */
+            if (!lArcRowOmit){
+                lifelinelayer.appendChild(utl.createUse(0, getRowInfo(i).y, "arcrow"));
             }
-        }
-    }
-}
+        } // for all rows
+    } // if pArcs
+} // function
 
 function renderEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
@@ -364,15 +363,21 @@ function renderEntity (pId, pEntity) {
     return lGroup;
 }
 
-function renderArcRow(pEntities, pClass) {
+function renderArcRow(pEntities, pClass, pHeight, pId) {
     var i = 0;
-    var lGroup = utl.createGroup(pClass); // passing pClass as pId here
+    if ((pId === undefined)||(pId === null)) {
+        pId = pClass;
+    }
+    if ((pHeight === undefined)||(pHeight === null)) {
+        pHeight = ARCROW_HEIGHT;
+    }
+    var lGroup = utl.createGroup(pId); // passing pClass as pId here
     var lEntityXPos = 0;
 
     for (i=0;i<pEntities.length;i++){
         var lLine = utl.createLine (
-            lEntityXPos + (ENTITY_WIDTH/2), 0-(ARCROW_HEIGHT/2), 
-            lEntityXPos + (ENTITY_WIDTH/2),   (ARCROW_HEIGHT/2),
+            lEntityXPos + (ENTITY_WIDTH/2), 0-(pHeight/2), 
+            lEntityXPos + (ENTITY_WIDTH/2),   (pHeight/2),
             pClass);
         // TODO #13: render associated marker(s) in <def>
         if (pEntities[i].linecolor) {
@@ -615,7 +620,6 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
 
 function createEmptyArcText (pId, pArc) {
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
-    var lArcMiddle = lArcEnd / 2;
     var lGroup = utl.createGroup(pId);
 
     lGroup.appendChild(createTextLabel(pId, pArc, 0, 0, lArcEnd));
