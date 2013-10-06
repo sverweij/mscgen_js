@@ -239,8 +239,6 @@ function renderArcs (pArcs, pEntities) {
     var i,j,k = 0;
 
     defs.appendChild(renderArcRow(pEntities, "arcrow"));
-    defs.appendChild(renderArcRow(pEntities, "arcrowomit"));
-
     lifelinelayer.appendChild(utl.createUse(0, getRowInfo(-1).y, "arcrow"));
 
     if (pArcs) {
@@ -252,8 +250,6 @@ function renderArcs (pArcs, pEntities) {
                 if (pArcs[i][j].label) { lLabel = pArcs[i][j].label; }
                 switch(pArcs[i][j].kind) {
                     case ("..."): {
-                        lifelinelayer.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, "arcrowomit"));
                         lArcRowOmit = true;
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
@@ -304,7 +300,6 @@ function renderArcs (pArcs, pEntities) {
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
-                                // createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom);
                                 sequence.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
                                         0, getRowInfo(i).y-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
@@ -339,11 +334,19 @@ function renderArcs (pArcs, pEntities) {
                     } // case default 
                 } // switch
             } // for all arcs in a row
-            /* here we know how high the row will become, and only here we 
-             * can determine the height of the row (the y position ) */
-            if (!lArcRowOmit){
-                lifelinelayer.appendChild(utl.createUse(0, getRowInfo(i).y, "arcrow"));
-            }
+            /* only here we can determine the height of the row and the y position 
+             * This means the xxx.appendChild(utl.createUse ...) things in 
+             * the most inner loop above can only really be done here
+             * ... which means we have to remember into wich layer each of them
+             *  is supposed to go.
+             */
+            var lArcRowId = "arcrow_" + i.toString();
+            var lArcRowClass = "arcrow";
+            if (lArcRowOmit) { lArcRowClass = "arcrowomit"; }
+            var lRow = renderArcRow(pEntities, lArcRowClass, getRowInfo(i).height, lArcRowId);
+            defs.appendChild(lRow);
+            lifelinelayer.appendChild(utl.createUse(0, getRowInfo(i).y, lArcRowId));
+            
         } // for all rows
     } // if pArcs
 } // function
@@ -352,7 +355,7 @@ function renderEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
     
-    if (!(pEntity.label)) { //12 - 8 = 4 4/12 = 1/3
+    if (!(pEntity.label)) {
         pEntity.label = pEntity.name;
     }
     colorBox(lRect, pEntity);
