@@ -8,7 +8,7 @@
 ## Sample
 This sequence chart ...
 
-![a sample sequence chart, rendered as png](src/samples/readme.png)
+![a sample sequence chart, rendered as png](wikum/readme.png)
 
 was made with this *mscgen* source:
 ``` mscgen
