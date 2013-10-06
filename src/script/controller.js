@@ -116,7 +116,7 @@ $(document).ready(function(){
                     ga('send', 'event', 'clear', 'button');
                 }
     });
-    $("#svg").bind({
+    $("#__svg").bind({
         dblclick : function(e) {
                     show_svgOnClick();
                     ga('send', 'event', 'show_svg_base64', 'svg dblcick');
@@ -300,7 +300,7 @@ function toVectorURI (pSourceElementId) {
     return "data:image/svg+xml;base64,"+lb64;
 }
 function show_svgOnClick () {
-    var lWindow = window.open(toVectorURI("#svg"), "_blank");
+    var lWindow = window.open(toVectorURI("#__svg"), "_blank");
 }
 
 function toRasterURI(pSourceElementId, pType){
@@ -310,7 +310,7 @@ function toRasterURI(pSourceElementId, pType){
 }
 
 function show_rasterOnClick (pType) {
-    var lWindow = window.open(toRasterURI("#svg", pType), "_blank");
+    var lWindow = window.open(toRasterURI("#__svg", pType), "_blank");
 }
 
 function close_lightboxOnClick(){
@@ -389,9 +389,9 @@ function render() {
          * Only generating the svg to base64 encoding is doable in regular 
          * cases, but is noticeable in test01, 
          */
-        // $("#show_svg").attr('href', toVectorURI("#svg")); 
-        // $("#show_png").attr('href', toRasterURI("#svg", "image/png"));
-        // $("#show_jpeg").attr('href', toRasterURI("#svg", "image/jpeg"));
+        // $("#show_svg").attr('href', toVectorURI("#__svg")); 
+        // $("#show_png").attr('href', toRasterURI("#__svg", "image/png"));
+        // $("#show_jpeg").attr('href', toRasterURI("#__svg", "image/jpeg"));
         
 
     } catch (e) {
