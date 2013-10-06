@@ -43,7 +43,6 @@ var DIR_BOTH = 5;
 var DIR_NONE = 8;
 
 var gEntityXHWM = 0;
-var gRowCount = 0;
 var gEntity2X = new Object();
 var gEntity2ArcColor = new Object();
 var gTextHeight = 12; /* sensible default - gets overwritten in bootstrap */
@@ -146,7 +145,11 @@ function _renderAST (pAST, pSource, pParentElementId) {
 
     var body = document.getElementById("__body");
     var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
-    var lCanvasHeight = getRowInfo(gRowCount).y - (getRowInfo(gRowCount).height/2) + 2*PAD_VERTICAL;
+    
+    var lNoArcs = pAST.arcs ? pAST.arcs.length: 0;
+    var lRowInfo = getRowInfo(lNoArcs);
+ 
+    var lCanvasHeight = lRowInfo.y - (lRowInfo.height/2) + 2*PAD_VERTICAL;
     var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
     var lVerticalTransform = PAD_VERTICAL; 
     var lScale = 1;
@@ -344,7 +347,6 @@ function renderArcs (pArcs, pEntities) {
             }
         }
     }
-    gRowCount = i;
 }
 
 function renderEntity (pId, pEntity) {
