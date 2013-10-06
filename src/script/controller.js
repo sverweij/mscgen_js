@@ -86,7 +86,7 @@ $(document).ready(function(){
     showAutorenderState ();
     showMsGennyState ();
     render();
-    $("#autorender").bind({
+    $("#__autorender").bind({
         click : function(e) {
                     autorenderOnClick();
                     ga('send', 'event', 'toggle_autorender', 'checkbox');
@@ -319,10 +319,10 @@ function close_lightboxOnClick(){
 
 function showAutorenderState () {
     if (gAutoRender) {
-        $("#autorender").attr("checked", "autorenderOn");
+        $("#__autorender").attr("checked", "autorenderOn");
         $("#btn_render").hide();
     } else {
-        $("#autorender").removeAttr ("checked", "autorenderOn");
+        $("#__autorender").removeAttr ("checked", "autorenderOn");
         $("#btn_render").show();
     }
 }
