@@ -244,6 +244,7 @@ function renderArcs (pArcs, pEntities) {
     if (pArcs) {
         for (i=0;i<pArcs.length;i++) {
             var lArcRowOmit = false;
+            var lRowMemory = [];
             for (j=0;j<pArcs[i].length;j++) {
                 var lCurrentId = i.toString() + "_" + j.toString();
                 lLabel = "";
@@ -253,22 +254,19 @@ function renderArcs (pArcs, pEntities) {
                         lArcRowOmit = true;
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
-                        sequence.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
+                        lRowMemory.push ({id:lCurrentId, layer:sequence});
                         break;
                         }
                     case ("|||"): {
                         defs.appendChild(
                                 createEmptyArcText(lCurrentId,pArcs[i][j]));
-                        sequence.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
+                        lRowMemory.push ({id:lCurrentId, layer:sequence});
                         break;
                         }
                     case ("---"): {
                         defs.appendChild(
                                 createComment(lCurrentId,pArcs[i][j]));
-                        sequence.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
+                        lRowMemory.push ({id:lCurrentId, layer:sequence});
                         break;
                         }
                     case("box"): case("rbox"): case("abox") : case("note"): {
@@ -277,8 +275,7 @@ function renderArcs (pArcs, pEntities) {
                                         gEntity2X[pArcs[i][j].from],
                                         gEntity2X[pArcs[i][j].to],
                                         pArcs[i][j]));
-                        notelayer.appendChild(
-                                utl.createUse(0, getRowInfo(i).y, lCurrentId));
+                        lRowMemory.push ({id:lCurrentId, layer:notelayer});
                         break;
                         }
                     default:{
@@ -295,15 +292,16 @@ function renderArcs (pArcs, pEntities) {
                                             createArc(lCurrentId + "bc" + k,
                                                       pArcs[i][j], xFrom, xTo
                                                        ));
-                                        sequence.appendChild(
-                                                utl.createUse(0, getRowInfo(i).y, lCurrentId + "bc" + k));
+                                        lRowMemory.push ({id:lCurrentId + "bc" + k, layer:sequence});   
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
-                                sequence.appendChild(
+                                
+                                defs.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, getRowInfo(i).y-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
+                                        0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
+                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});   
                             } else if (lFrom === "*") {
                                 var xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
@@ -314,20 +312,21 @@ function renderArcs (pArcs, pEntities) {
                                             createArc(lCurrentId + "bc" + k,
                                                       pArcs[i][j], xFrom, xTo
                                                        ));
-                                        sequence.appendChild(utl.createUse(0, getRowInfo(i).y, lCurrentId + "bc" + k));
+                                        lRowMemory.push ({id:lCurrentId + "bc" + k, layer:sequence});
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
-                                sequence.appendChild(
+                                defs.appendChild(
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, getRowInfo(i).y-(gTextHeight/2) - LINE_WIDTH, lArcEnd)
+                                        0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 );
+                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence}); 
                             } else {
                                 var xFrom = gEntity2X[lFrom];
                                 var xTo = gEntity2X[lTo];
                                 defs.appendChild(
                                     createArc(lCurrentId, pArcs[i][j], xFrom, xTo));
-                                sequence.appendChild(utl.createUse(0, getRowInfo(i).y, lCurrentId));
+                                lRowMemory.push ({id:lCurrentId, layer:sequence});    
                             }  /// lTo or lFrom === "*" 
                         } // if both a from and a to
                         break;
@@ -347,6 +346,9 @@ function renderArcs (pArcs, pEntities) {
             defs.appendChild(lRow);
             lifelinelayer.appendChild(utl.createUse(0, getRowInfo(i).y, lArcRowId));
             
+            for (var m=0; m < lRowMemory.length; m++) {
+                lRowMemory[m].layer.appendChild(utl.createUse(0, getRowInfo(i).y, lRowMemory[m].id));
+            };
         } // for all rows
     } // if pArcs
 } // function
