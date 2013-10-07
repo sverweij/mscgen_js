@@ -280,7 +280,6 @@ function samplesOnChange() {
     }
 }
 
-
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
 // namespace prefixes in front of xlink and all hrefs respectively. 
