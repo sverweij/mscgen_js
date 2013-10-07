@@ -1,17 +1,17 @@
-# entities
 customer, MT : rebooking\ncontroler, search, PS : product shop, CO : checkout;
 
 ---: eligibility;
-MT note MT: Eligibility. if checked in\nadvise to undo before rbkg;
+..., MT note MT: "Eligibility.\nif 'checked in', advise to\nundo before rebooking";
 
 ---: selection;
+MT note MT: unknown birthdates are\nasked for in check out;
 customer =>> MT : rebook me;
 MT >> customer : show selection screen;
 customer =>> MT : "select connections,\n dates etc";
 MT =>> search : redirect(lots of data);
 
 ---: search;
-search note search : "calendar & upsell search\nrbkg fee, small amnt waiver";
+..., search note search : "calendar & upsell search\nrbkg fee, small amnt waiver";
 search >> customer : for each connection\nshow a list of flights;
 customer =>> search : select;
 search >> MT : selection;
@@ -19,7 +19,7 @@ MT =>> PS : "CreateShop(selection, reservation, stuff)";
 
 ---: paid option selection;
 MT =>> PS : redirect;
-PS note PS : determine exchangeability\npre-select on target flights;
+..., PS note PS : determine exchangeability\npre-select on target flights;
 PS >> customer : show paid option screen (show complete itinerary);
 customer =>> PS : select;
 PS =>> PS : update conversation state;
@@ -30,5 +30,5 @@ MT =>> CO : PS is done;
 ---: check out;
 CO =>> PS : GetConversationState;
 PS >> CO : conversationstate;
-CO =>> CO : payment\ninteraction;
+..., CO note CO : payment\ninteraction;
 CO =>> MT : "redirect(rebooking, status)";
