@@ -77,12 +77,15 @@ function renderEntity(pEntity) {
 }
 
 function renderEntities(pEntities) {
-    var lRetVal = new String("# entities\n");
+    var lRetVal = new String();
     var i = 0;
-    for (i=0;i<pEntities.length-1;i++){
-        lRetVal += renderEntity(pEntities[i]) + ", ";
+    if (pEntities.length > 0) {
+        lRetVal = new String("# entities\n");
+        for ( i = 0; i < pEntities.length - 1; i++) {
+            lRetVal += renderEntity(pEntities[i]) + ", ";
+        }
+        lRetVal += renderEntity(pEntities[pEntities.length - 1]) + ";\n";
     }
-    lRetVal += renderEntity(pEntities[pEntities.length-1]) + ";\n";
     return lRetVal;
 }
 
