@@ -1,0 +1,7 @@
+|||;
+note note note: "this is a note consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.",
+box box box: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
+abox abox abox: To me it is not clear what\nthe source of this defect\ncould be...,
+rbox rbox rbox;
+|||;
+|||;
