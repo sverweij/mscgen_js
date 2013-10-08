@@ -677,7 +677,7 @@ function createBox (pId, pFrom, pTo, pArc) {
     var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
     var lBBox = utl.getBBox(lTextGroup);
     
-    var lHeight = Math.max(lBBox.height, ARCROW_HEIGHT - 2*LINE_WIDTH);
+    var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT - 2*LINE_WIDTH);
     
     switch (pArc.kind) {
           case ("rbox") : {
