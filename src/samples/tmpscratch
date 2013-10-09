@@ -1,7 +1,11 @@
 customer, MT : rebooking\ncontroler, search, PS : product shop, CO : checkout;
 
----: eligibility;
-..., MT note MT: "Eligibility.\nif 'checked in', advise to\nundo before rebooking";
+..., ---: eligibility;
+customer =>> MT: "show my PNR\n(PNR, lastname)";
+
+|||;
+MT box MT: "retrieve PNR, CreateShop...\n Determine eligibility.\nif 'checked in', advise to\nundo before rebooking";
+
 
 ---: selection;
 MT note MT: unknown birthdates are\nasked for in check out;
