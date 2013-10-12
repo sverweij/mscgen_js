@@ -318,10 +318,10 @@ function renderArcs (pArcs, pEntities) {
                                 }
                                 pArcs[i][j].label=lLabel;
                                 
-                                defs.appendChild(
+                                lElement = 
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
-                                );
+                                ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});   
                             } else if (lFrom === "*") {
                                 var xTo = gEntity2X[lTo];
@@ -337,10 +337,10 @@ function renderArcs (pArcs, pEntities) {
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
-                                defs.appendChild(
+                                lElement = 
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
-                                );
+                                ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence}); 
                             } else {
                                 var xFrom = gEntity2X[lFrom];
