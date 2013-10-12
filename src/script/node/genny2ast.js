@@ -23,7 +23,7 @@ process.stdin.on('end', function() {
 /*
 fs.readFile('input.msc', function (err, data) {
     if (err) throw err;
-        console.log(data);
+        process.stdout.write(data);
 });
 */
 /*

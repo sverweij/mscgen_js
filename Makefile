@@ -75,7 +75,12 @@ script/mscgen-main.js: $(SOURCES_WEB)
 # "phony" targets
 dev-build: $(SOURCES_WEB) $(SOURCES_NODE)
 
-install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
+noconsolestatements:
+	@echo scanning for console statements ...
+	grep -r console src/script/* | grep -c console | grep ^0$$
+	@echo ... ok
+
+install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	cp src/images/* images/.
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
