@@ -1,6 +1,27 @@
-note note note: "this is a note consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.",
-box box box: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
-abox abox abox: To me it is not clear what\nthe source of this defect\ncould be...,
+note note note: 
+"Pop-up fap Brooklyn\n
+skateboard,vinyl viral\n
+umami chia semiotics jean\n
+shorts typewriter\n
+Williamsburg stumptown.\n
+Flannel scenester drinking\n
+vinegar, Thundercats pug\n
+farm-to-table 90's authentic\n
+chillwave Blue Bottle fanny\n
+pack kale chips sartorial\n
+literally ennui.",
+box box box: 
+"Tote bag salvia hoodie lo-fi.\n
+Carles chambray butcher,\n
+flannel seitan cardigan\n
+8-bit narwhal umami selfies\n
+Tonx keytar artisan trust\n
+fund.",
+abox abox abox: 
+"Flexitarian slow-carb fanny\n
+pack, sriracha butcher\n
+pop-up sartorial Portland\n
+flannel bicycle rights bitters.",
 rbox rbox rbox;
 
 note note rbox: a note with just one line in it;
@@ -9,11 +30,21 @@ note rbox rbox: an rbox with just one line in it;
 note abox rbox: an abox with just one line in it;
 
 note note note,
-box box box: To me it is not clear what\nthe source of this defect\ncould be...,
-abox abox abox: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
-rbox rbox rbox: "this is an rbox consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.";
+box box box: 
+"Plaid quinoa tofu, gastropub\n
+bicycle rights synth\n
+aesthetic lo-fi\n
+Shoreditch actually.",
+abox abox abox: 
+"Artisan readymade wolf,\n
+ugh PBR master cleanse\n
+PBR&B viral cred. Trust\n
+fund fanny pack letterpress\n
+organic Etsy master\n
+cleanse.",
+rbox rbox rbox: "this is an rbox consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nThis apparently works.\nThere's some simple math\nto it, but also a tad of\nmagic. That needs to get\nstamped out in a future\nsprint, but for now we\ndeclare it as Good Enough\nbecause it works.\nGobbledeegook courtesy of\nhttp://hipsteripsum.me";
 
 note note rbox: 1\n2\n3\n4\n5\n6;
-note box rbox: 1\n2\n3\n4\n5\n6;
+note box rbox: 1\n2\n3\n4\n5\n6\n7\n8\n9\n10;
 note rbox rbox: 1\n2\n3\n4\n5\n6;
-note abox rbox: 1\n2\n3\n4\n5\n6;
+note abox rbox: 1\n2\n3\n4\n5\n6\n7\n8\n9\n10;
