@@ -1,7 +1,19 @@
-|||;
 note note note: "this is a note consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.",
 box box box: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
 abox abox abox: To me it is not clear what\nthe source of this defect\ncould be...,
 rbox rbox rbox;
-|||;
-|||;
+
+note note rbox: a note with just one line in it;
+note box rbox: a box with just one line in it;
+note rbox rbox: an rbox with just one line in it;
+note abox rbox: an abox with just one line in it;
+
+note note note,
+box box box: To me it is not clear what\nthe source of this defect\ncould be...,
+abox abox abox: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
+rbox rbox rbox: "this is an rbox consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.";
+
+note note rbox: 1\n2\n3\n4\n5\n6;
+note box rbox: 1\n2\n3\n4\n5\n6;
+note rbox rbox: 1\n2\n3\n4\n5\n6;
+note abox rbox: 1\n2\n3\n4\n5\n6;
