@@ -45,7 +45,7 @@ function pushAttribute(pArray, pAttr, pString) {
 
 function renderOptions(pOptions){
     var lOpts = [];
-    var lRetVal = new String(INDENT + "# options\n");
+    var lRetVal = new String(); // new String(INDENT + "# options\n");
     var i = 0;
 
     pushAttribute(lOpts, pOptions.hscale, "hscale");
@@ -99,7 +99,7 @@ function renderEntities(pEntities) {
     var lRetVal = new String();
     var i = 0;
     if (pEntities.length > 0) {
-        lRetVal = new String(INDENT + "# entities\n");
+        lRetVal = new String(); // new String(INDENT + "# entities\n");
         for ( i = 0; i < pEntities.length - 1; i++) {
             lRetVal += INDENT + renderEntity(pEntities[i]) + ",\n";
         }
@@ -124,7 +124,7 @@ function renderArc(pArc) {
 }
 
 function renderArcLines(pArcs) {
-    var lRetVal = new String(INDENT + "# arcs\n");
+    var lRetVal = new String (); // new String(INDENT + "# arcs\n");
     var i = 0;
     var j = 0;
 
