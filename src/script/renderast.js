@@ -68,9 +68,9 @@ function setRowInfo (pRowNumber, pHeight, pY){
         pHeight = ARCROW_HEIGHT;
     } 
     if (pY === undefined){
-        var lSnark = getRowInfo(pRowNumber - 1);
-        if (lSnark && lSnark.y > 0){
-            pY = lSnark.y + (lSnark.height + pHeight)/2; 
+        var lPreviousRowInfo = getRowInfo(pRowNumber - 1);
+        if (lPreviousRowInfo && lPreviousRowInfo.y > 0){
+            pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight)/2; 
         } else { // TODO: this might be overkill
             pY = (ENTITY_HEIGHT + (1.5*ARCROW_HEIGHT)) + pRowNumber*ARCROW_HEIGHT;
         }
@@ -618,7 +618,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
 
         var lLines = pArc.label.split('\\n');
         
-        pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - 1;
+        pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
         for (var i = 0; i < lLines.length; i++) {
             var lText = new Object();
             var lBBox = new Object();
