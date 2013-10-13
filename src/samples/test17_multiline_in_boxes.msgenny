@@ -1,26 +1,16 @@
 note note note: 
-"Pop-up fap Brooklyn\n
-skateboard,vinyl viral\n
-umami chia semiotics jean\n
-shorts typewriter\n
-Williamsburg stumptown.\n
-Flannel scenester drinking\n
-vinegar, Thundercats pug\n
-farm-to-table 90's authentic\n
-chillwave Blue Bottle fanny\n
-pack kale chips sartorial\n
-literally ennui.",
+"Pop-up fap Brooklyn skateboard,vinyl viral umami chia semiotics jean shorts typewriter Williamsburg stumptown. Flannel scenester drinking vinegar, Thundercats pug farm-to-table 90's authentic chillwave Blue Bottle fanny pack kale chips sartorial literally ennui.",
 box box box: 
-"Tote bag salvia hoodie lo-fi.\n
-Carles chambray butcher,\n
-flannel seitan cardigan\n
-8-bit narwhal umami selfies\n
-Tonx keytar artisan trust\n
+"Tote bag salvia hoodie lo-fi. 
+Carles chambray butcher, 
+flannel seitan cardigan 
+8-bit narwhal umami selfies 
+Tonx keytar artisan trust 
 fund.",
 abox abox abox: 
-"Flexitarian slow-carb fanny\n
-pack, sriracha butcher\n
-pop-up sartorial Portland\n
+"Flexitarian slow-carb fanny 
+pack, sriracha butcher 
+pop-up sartorial Portland 
 flannel bicycle rights bitters.",
 rbox rbox rbox;
 
@@ -31,18 +21,18 @@ note abox rbox: an abox with just one line in it;
 
 note note note,
 box box box: 
-"Plaid quinoa tofu, gastropub\n
-bicycle rights synth\n
-aesthetic lo-fi\n
+"Plaid quinoa tofu, gastropub 
+bicycle rights synth 
+aesthetic lo-fi 
 Shoreditch actually.",
 abox abox abox: 
-"Artisan readymade wolf,\n
-ugh PBR master cleanse\n
-PBR&B viral cred. Trust\n
-fund fanny pack letterpress\n
-organic Etsy master\n
+"Artisan readymade wolf, 
+ugh PBR master cleanse 
+PBR&B viral cred. Trust 
+fund fanny pack letterpress 
+organic Etsy master 
 cleanse.",
-rbox rbox rbox: "this is an rbox consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nThis apparently works.\nThere's some simple math\nto it, but also a tad of\nmagic. That needs to get\nstamped out in a future\nsprint, but for now we\ndeclare it as Good Enough\nbecause it works.\nGobbledeegook courtesy of\nhttp://hipsteripsum.me";
+rbox rbox rbox: "this is an rbox consisting of multiple lines. the box auto resizes itself to the desired height. This  should even work when there is a LOT of lines. This apparently works. There's some simple math to it, but also a tad of magic. That needs to get stamped out in a future sprint, but for now we declare it as Good Enough because it works. Gobbledeegook courtesy of http://hipsteripsum.me";
 
 note note rbox: 1\n2\n3\n4\n5\n6;
 note box rbox: 1\n2\n3\n4\n5\n6\n7\n8\n9\n10;
