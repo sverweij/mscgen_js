@@ -14,10 +14,10 @@ pop-up sartorial Portland
 flannel bicycle rights bitters.",
 rbox rbox rbox;
 
-note note rbox: a note with just one line in it;
-note box rbox: a box with just one line in it;
-note rbox rbox: an rbox with just one line in it;
-note abox rbox: an abox with just one line in it;
+note note rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
+note box rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
+note rbox rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
+note abox rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
 
 note note note,
 box box box: 
