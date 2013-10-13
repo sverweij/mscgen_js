@@ -78,6 +78,41 @@ function setRowInfo (pRowNumber, pHeight, pY){
     gRowInfo[pRowNumber] = {y:pY, height: pHeight};
 }
 
+function wrap(pText, pMaxLength) {
+    var lCharCount = 0;
+    var lRetval = [];
+    var lStart = 0;
+    var lEnd = 0;
+
+    var i = 0;
+    var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
+
+    while (i <= lText.length) {
+        if (i === (lText.length)) {
+            lRetval.push(lText.substring(lStart, i));
+        } else if (lText[i] === '\n') {
+            lCharCount = 0;
+            lEnd = i;
+            lRetval.push(lText.substring(lStart, lEnd));
+            lStart = lEnd + 1;
+        } else if ((lCharCount++ >= pMaxLength)) {
+            lEnd = lText.substring(0, i).lastIndexOf(' ');
+            if (lEnd === -1 || lEnd < lStart) {
+                lCharCount = 1;
+                lEnd = i;
+                lNewStart = i;
+            } else {
+                lCharCount = 0;
+                lNewStart = lEnd + 1;
+            }
+            lRetval.push(lText.substring(lStart, lEnd));
+            lStart = lNewStart;
+        }
+        i++;
+    }
+    return lRetval;
+}
+
 function _clean (pParentElementId) {
     lChildElement = document.getElementById("__svg_output");
     if (lChildElement &&
@@ -585,7 +620,7 @@ function createArc (pId, pArc, pFrom, pTo) {
         }
         lGroup.appendChild(lSelfRefArc);
         lGroup.appendChild(
-            createTextLabel(pId + "_txt", pArc, pFrom +2 , 0-(ARCROW_HEIGHT/5), pTo - pFrom , "anchor-start")
+            createTextLabel(pId + "_txt", pArc, pFrom +2 - (INTER_ENTITY_SPACING/2), 0-(ARCROW_HEIGHT/5), INTER_ENTITY_SPACING, "anchor-start")
         );
     } else {
         var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
@@ -608,6 +643,22 @@ function unescapeString(pString) {
     return lLabel;//.replace(/\\n/g, " ");
 }
 
+
+function determineMaxTextWidth(pWidth) {
+    var lAbsWidth = Math.abs(pWidth);
+    var lMagicFactor = lAbsWidth / 8;
+        
+   if (lAbsWidth > 160 && lAbsWidth <= 320){
+        lMagicFactor = lAbsWidth / 6.4;
+    } else if (lAbsWidth > 320 && lAbsWidth <= 480){
+        lMagicFactor = lAbsWidth / 5.9;
+    } else if (lAbsWidth > 480)  {
+        lMagicFactor = lAbsWidth / 5.6; 
+    }
+    return lMagicFactor;
+}
+
+
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
     var lGroup = utl.createGroup(pId);
 
@@ -616,7 +667,19 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         pArc.label = unescapeString(pArc.label);
         pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
-        var lLines = pArc.label.split('\\n');
+        // var lLines = pArc.label.split('\\n');
+        // switch(pArc.kind){ 
+            // case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
+                var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
+                var lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                // break;
+            // }
+            // default: {
+                // TODO: don't word wrap (and just split) the label 
+                // when the wordwraparcs option is not true:
+                 // break; 
+            // }
+        // } 
         
         pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
         for (var i = 0; i < lLines.length; i++) {

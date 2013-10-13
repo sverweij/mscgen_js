@@ -1,19 +1,40 @@
-note note note: "this is a note consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.",
-box box box: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
-abox abox abox: To me it is not clear what\nthe source of this defect\ncould be...,
+note note note: 
+"Pop-up fap Brooklyn skateboard,vinyl viral umami chia semiotics jean shorts typewriter Williamsburg stumptown. Flannel scenester drinking vinegar, Thundercats pug farm-to-table 90's authentic chillwave Blue Bottle fanny pack kale chips sartorial literally ennui.",
+box box box: 
+"Tote bag salvia hoodie lo-fi. 
+Carles chambray butcher, 
+flannel seitan cardigan 
+8-bit narwhal umami selfies 
+Tonx keytar artisan trust 
+fund.",
+abox abox abox: 
+"Flexitarian slow-carb fanny 
+pack, sriracha butcher 
+pop-up sartorial Portland 
+flannel bicycle rights bitters.",
 rbox rbox rbox;
 
-note note rbox: a note with just one line in it;
-note box rbox: a box with just one line in it;
-note rbox rbox: an rbox with just one line in it;
-note abox rbox: an abox with just one line in it;
+note note rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
+note box rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
+note rbox rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
+note abox rbox: "a note with just one line in it. It's a reasonably long line, though, so it might fill up from left to the right";
 
 note note note,
-box box box: To me it is not clear what\nthe source of this defect\ncould be...,
-abox abox abox: "with one, two or three\nlines there is no problem\n the spacing on bottom and\ntop seems to be correct.\nWith lots more, the text\n\"creeps down\". ",
-rbox rbox rbox: "this is an rbox consisting\nof multiple lines.\nthe box auto resizes itself to\nthe desired height. This \nshould even work when\nthere is a LOT of lines.\nIn practice, however, there is\na slight problem in the\nEXACT determination.";
+box box box: 
+"Plaid quinoa tofu, gastropub 
+bicycle rights synth 
+aesthetic lo-fi 
+Shoreditch actually.",
+abox abox abox: 
+"Artisan readymade wolf, 
+ugh PBR master cleanse 
+PBR&B viral cred. Trust 
+fund fanny pack letterpress 
+organic Etsy master 
+cleanse.",
+rbox rbox rbox: "this is an rbox consisting of multiple lines. the box auto resizes itself to the desired height. This  should even work when there is a LOT of lines. This apparently works. There's some simple math to it, but also a tad of magic. That needs to get stamped out in a future sprint, but for now we declare it as Good Enough because it works. Gobbledeegook courtesy of http://hipsteripsum.me";
 
 note note rbox: 1\n2\n3\n4\n5\n6;
-note box rbox: 1\n2\n3\n4\n5\n6;
+note box rbox: 1\n2\n3\n4\n5\n6\n7\n8\n9\n10;
 note rbox rbox: 1\n2\n3\n4\n5\n6;
-note abox rbox: 1\n2\n3\n4\n5\n6;
+note abox rbox: 1\n2\n3\n4\n5\n6\n7\n8\n9\n10;
