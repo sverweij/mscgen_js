@@ -95,7 +95,7 @@ deploy-gh-pages: checkout-gh-pages install
 	$(GIT) push
 	$(GIT) checkout master
 
-check:
+check: noconsolestatements
     #TODO 
     
 mostlyclean:
