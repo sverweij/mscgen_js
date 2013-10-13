@@ -30,7 +30,7 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 
 ## Prerequisites
 - make
-- bash (cp, mkdir, rm, sed)
+- bash (cp, mkdir, rm, sed, grep)
 - nodejs
     - r.js
     - pegjs
