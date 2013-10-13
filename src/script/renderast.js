@@ -646,7 +646,7 @@ function unescapeString(pString) {
 
 function determineMaxTextWidth(pWidth) {
     var lAbsWidth = Math.abs(pWidth);
-    var lMagicFactor = lAbsWidth / 7.8;
+    var lMagicFactor = lAbsWidth / 8;
         
    if (lAbsWidth > 160 && lAbsWidth <= 320){
         lMagicFactor = lAbsWidth / 6.4;
