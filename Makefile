@@ -76,9 +76,12 @@ script/mscgen-main.js: $(SOURCES_WEB)
 dev-build: $(SOURCES_WEB) $(SOURCES_NODE)
 
 noconsolestatements:
-	@echo scanning for console statements ...
+	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
 	grep -r console src/script/* | grep -c console | grep ^0$$
 	@echo ... ok
+
+consolecheck:
+	grep -r console src/script/*
 
 install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	cp src/images/* images/.
