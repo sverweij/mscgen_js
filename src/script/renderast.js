@@ -36,6 +36,7 @@ var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
 var DEFAULT_ARC_GRADIENT = 0;
 var ARC_GRADIENT = DEFAULT_ARC_GRADIENT;
+var WORDWRAPARCS = false;
 
 var DIR_LTR  = 2;
 var DIR_RTL  = 3;
@@ -201,6 +202,17 @@ function _renderAST (pAST, pSource, pParentElementId) {
                 parseInt(pAST.options.arcgradient) + DEFAULT_ARCROW_HEIGHT;
             ARC_GRADIENT = 
                 parseInt(pAST.options.arcgradient) + DEFAULT_ARC_GRADIENT;
+        }
+        if (pAST.options.wordwraparcs){  
+            if (  pAST.options.wordwraparcs === true
+                ||pAST.options.wordwraparcs === "true" // TODO: these variants should be filtered out by the parser
+                ||pAST.options.wordwraparcs === "on"
+                ||pAST.options.wordwraparcs === "1"
+                ||pAST.options.wordwraparcs === 1){
+                WORDWRAPARCS = true;
+            } else {
+                WORDWRAPARCS = false;
+            }
         }
     }
 
@@ -667,19 +679,20 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         pArc.label = unescapeString(pArc.label);
         pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
-        // var lLines = pArc.label.split('\\n');
-        // switch(pArc.kind){ 
-            // case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
+        var lLines = pArc.label.split('\\n');
+        switch(pArc.kind){ 
+            case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
                 var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
-                var lLines = wrap(pArc.label, lMaxTextWidthInChars);
-                // break;
-            // }
-            // default: {
-                // TODO: don't word wrap (and just split) the label 
-                // when the wordwraparcs option is not true:
-                 // break; 
-            // }
-        // } 
+                lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                break;
+            }
+            default: {
+                if (WORDWRAPARCS){
+                    var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
+                    lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                }
+            }
+        } 
         
         pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
         for (var i = 0; i < lLines.length; i++) {
