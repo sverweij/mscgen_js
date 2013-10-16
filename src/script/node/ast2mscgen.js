@@ -51,6 +51,8 @@ function renderOptions(pOptions){
     pushAttribute(lOpts, pOptions.hscale, "hscale");
     pushAttribute(lOpts, pOptions.width, "width");
     pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
+    pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
+
 
     for (i=0;i<lOpts.length-1;i++) {
         lRetVal += INDENT + lOpts[i] + ",\n";
