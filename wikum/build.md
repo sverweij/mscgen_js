@@ -26,7 +26,7 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 - ```make clean``` removes built production files as well as all generated files in the src tree
 
 ## Testing 
-```make check``` (does nothing at this time; most checks are of a visual nature)
+```make check``` (only checks for ```console``` statments at this time; most other checks are of a visual nature)
 
 ## Prerequisites
 - make
