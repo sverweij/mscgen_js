@@ -1,6 +1,5 @@
 # test01: all possible arcs
-hscale="0.75",
-arcgradient="18";
+hscale="0.6", arcgradient="18", wordwraparcs="false";
 
 0;
 
