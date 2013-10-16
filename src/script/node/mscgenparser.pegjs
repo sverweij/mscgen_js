@@ -27,6 +27,14 @@
         for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
         return obj3;
     }
+    
+    function flattenBoolean(pBoolean) {
+        var lBoolean = "false";
+        switch(pBoolean) {
+            case("true"): case("on"): case("1"): lBoolean = "true";
+        }
+        return lBoolean;
+    }
 
     function entityExists (pEntities, lName) {
         var i = 0;
@@ -112,7 +120,11 @@ option          = _ n:optionname _ "=" _
 {
    var lOption = new Object();
    n = n.toLowerCase();
-   lOption[n]=v;
+   if (n === "wordwraparcs"){
+      lOption[n] = flattenBoolean(v);
+   } else {
+      lOption[n]=v;
+   }
    return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
