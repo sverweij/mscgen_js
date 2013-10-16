@@ -222,7 +222,7 @@ real "real"
   = digits:([0-9]+ "." [0-9]+) { return parseFloat(digits.join("")); }
 
 boolean "boolean"
-  = "true"i / "false"i
+  = "true"i / "false"i/ "on"i/ "off"i
 
 /*
     This file is part of mscgen_js.

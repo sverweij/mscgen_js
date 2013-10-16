@@ -2436,6 +2436,28 @@ module.exports = (function(){
               matchFailed("\"false\"");
             }
           }
+          if (result0 === null) {
+            if (input.substr(pos, 2).toLowerCase() === "on") {
+              result0 = input.substr(pos, 2);
+              pos += 2;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"on\"");
+              }
+            }
+            if (result0 === null) {
+              if (input.substr(pos, 3).toLowerCase() === "off") {
+                result0 = input.substr(pos, 3);
+                pos += 3;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"off\"");
+                }
+              }
+            }
+          }
         }
         reportFailures--;
         if (reportFailures === 0 && result0 === null) {
