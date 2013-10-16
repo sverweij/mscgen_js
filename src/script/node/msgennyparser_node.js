@@ -428,7 +428,11 @@ module.exports = (function(){
           result0 = (function(offset, n, v) {
            var lOption = new Object();
            n = n.toLowerCase();
-           lOption[n]=v;
+           if (n === "wordwraparcs"){
+              lOption[n] = flattenBoolean(v);
+           } else {
+              lOption[n]=v;
+           }
            return lOption;
         })(pos0, result0[1], result0[5]);
         }
@@ -2518,6 +2522,14 @@ module.exports = (function(){
               for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
               for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
               return obj3;
+          }
+          
+          function flattenBoolean(pBoolean) {
+              var lBoolean = "false";
+              switch(pBoolean) {
+                  case("true"): case("on"): case("1"): lBoolean = "true";
+              }
+              return lBoolean;
           }
       
           function entityExists (pEntities, lName) {
