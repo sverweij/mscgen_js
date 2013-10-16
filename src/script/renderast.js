@@ -213,6 +213,8 @@ function _renderAST (pAST, pSource, pParentElementId) {
             } else {
                 WORDWRAPARCS = false;
             }
+        } else {
+            WORDWRAPARCS = false;
         }
     }
 
