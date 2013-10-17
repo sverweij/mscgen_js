@@ -21,6 +21,9 @@ the associate line, we'll need to do something like this:
   <line x1="50" y1="20" x2="210" y2="20" stroke-width="2" stroke="#ABCDEF" marker-end="url(#end)"/>
 </g>
 </svg>
+
+@author Sander Verweij 
+@version 481
  */
 define(["renderutensils"], function(utl) {
 
@@ -30,7 +33,8 @@ var DEFAULT_INTER_ENTITY_SPACING = 160;
 var INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
 var DEFAULT_ENTITY_WIDTH = 100;
 var ENTITY_WIDTH = DEFAULT_ENTITY_WIDTH;
-var ENTITY_HEIGHT = 34;
+var DEFAULT_ENTITY_HEIGHT = 34;
+var ENTITY_HEIGHT = DEFAULT_ENTITY_HEIGHT;
 var DEFAULT_ARCROW_HEIGHT = 38;
 var LINE_WIDTH = 2; // TODO: === to use in the css
 var ARCROW_HEIGHT = DEFAULT_ARCROW_HEIGHT;
@@ -423,17 +427,20 @@ function renderArcs (pArcs, pEntities) {
 } // function
 
 function renderEntity (pId, pEntity) {
-    var lGroup = utl.createGroup(pId);
-    var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
-    
+    var lGroup = utl.createGroup(pId);  
     if (!(pEntity.label)) {
         pEntity.label = pEntity.name;
     }
+    var lTextLabel = createTextLabel(pId + "_txt", pEntity,
+                0, ENTITY_HEIGHT/2, ENTITY_WIDTH, "entity");
+    var lBBox = utl.getBBox(lTextLabel);
+    var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
+    
+    // var lRect = utl.createRect(ENTITY_WIDTH, Math.max(lBBox.height, ENTITY_HEIGHT));
+    
     colorBox(lRect, pEntity);
     lGroup.appendChild(lRect);
-    lGroup.appendChild(
-            createTextLabel(pId + "_txt", pEntity,
-                0, ENTITY_HEIGHT/2, ENTITY_WIDTH, "entity")); 
+    lGroup.appendChild(lTextLabel); 
     return lGroup;
 }
 
