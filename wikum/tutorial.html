@@ -172,7 +172,7 @@ a =>> b: what's happening here? ; <mark>/* don't know */</mark>
 
 <section>
 <h2 id="advanced-stuff">Advanced stuff</h2>
-<h3 id="options-arcgradient-hscale-width">Options: arcgradient, hscale, width</h3>
+<h3 id="options-arcgradient-hscale-width">Options: arcgradient, hscale, width, wordwraparcs</h3>
 <p>With <em>arcgradient</em> all lines get skewed a little.</p>
 <p>Options go on top</p>
 <pre class="code msgenny">
@@ -205,6 +205,37 @@ client => server : ACK;
 </pre>
 <img id="tut12" src="tutorial/tut12.svg" alt="tut12">
 
+<p>The default behaviour for regular (= not note, box, abox or rbox) arcs is that 
+text does <em>not</em> get wrapped automatically. To override this you can use the
+boolean <em>wordwraparcs</em> option. Just like the other options, this one was
+copied from <em>mscgen</em>. <em>mscgen</em> not only accepts <code>true</code> and
+<code>false</code>, but also <code>on</code> and <code>off</code> and <code>1</code>
+and <code>0</code> all with or without quotes.    
+
+<pre class="code msgenny">
+<mark>wordwraparcs=false</mark>; # default behaviour
+a =>   b : This will get wrapped when wordwraparcs=true;
+a note b : "Text in notes, boxes (box, abox, rbox) 
+            and entities gets wrapped automatically.
+            The wordwraparcs option does not influence
+            that behavior.";
+</pre>
+<img id="tut13a" src="tutorial/tut13a.svg" alt="tut13a">
+
+<pre class="code msgenny">
+<mark>wordwraparcs=true</mark>; # override default behaviour
+a =>   b : This will get wrapped when wordwraparcs=true;
+a note b : "Text in notes, boxes (box, abox, rbox) 
+            and entities gets wrapped automatically.
+            The wordwraparcs option does not influence
+            that behavior.";
+</pre>
+<img id="tut13b" src="tutorial/tut13b.svg" alt="tut13b">
+
+</p>
+
+
+
 <h3 id="naming-entities-explicit-order">Explicit entity declarations: labeling entities, use your own order</h3>
 <p>To prevent you from having to enter long entity names in each line, you can explicitly 
 declare entity names at the start of your script and give them labels. </p>
@@ -236,7 +267,7 @@ A &lt;&lt; fe: Whoop!;
 
 <h3 id="broadcasts-parallel-calls">broadcasts, parallel calls</h3>
 <p>When an entity has to send a message to all entities at once (broadcast) use <code>*</code> as entity name. 
-    When you use this it is practical to use the arcgradient option to prevent lins from overlapping.</p> 
+    When you use this it is practical to use the arcgradient option to prevent lines from overlapping.</p> 
 <pre class="code msgenny">
 arcgradient="14";
 a, b, c, d;
@@ -283,6 +314,7 @@ c <mark>rbox</mark> d : rbox;
 <p>By default renders as you type.</p>
 <img class="shadow" src="tutorial/demo - screenshot - autofaded.png" alt="a screenshot of the demo">
 <p>saving as svg (includes your program!), png, jpeg</p>
+<p>double click diagram</p>
 <p>Drag'n drop</p>
 <p>Auto render</p>
 <p>Language switch.</p>
