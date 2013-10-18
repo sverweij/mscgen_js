@@ -93,7 +93,7 @@ function wrap(pText, pMaxLength) {
     var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
 
     while (i <= lText.length) {
-        if (i === (lText.length)) {
+        if (i >= (lText.length)) {
             lRetval.push(lText.substring(lStart, i));
         } else if (lText[i] === '\n') {
             lCharCount = 0;
