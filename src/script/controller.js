@@ -46,8 +46,6 @@ msc {
 /* global canvg */
 /* global mscparser */
 /* global msgennyparser */
-/* global tomscgen */
-/* global tomsgenny */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "ast2msgenny", "ast2mscgen",
