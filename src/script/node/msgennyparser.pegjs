@@ -53,7 +53,7 @@
     }
 
     function initEntity(lName ) {
-        var lEntity = new Object();
+        var lEntity = {};
         lEntity.name = lName;
         return lEntity;
     }
@@ -61,7 +61,7 @@
     function extractUndeclaredEntities (pEntities, pArcLineList) {
         var i = 0;
         var j = 0;
-        var lEntities = new Object();
+        var lEntities = {};
         if (pEntities) {
             lEntities = pEntities;
         } else {
@@ -99,7 +99,7 @@ declarationlist = (o:optionlist {return {options:o}})?
 optionlist      = o:((o:option "," {return o})* 
                   (o:option ";" {return o})) 
 {
-  var lOptionList = new Object();
+  var lOptionList = {};
   var opt, bla;
   for (opt in o[0]) {
     for (bla in o[0][opt]){
@@ -115,7 +115,7 @@ option          = _ n:optionname _ "=" _
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _ 
 {
-   var lOption = new Object();
+   var lOption = {};
    n = n.toLowerCase();
    if (n === "wordwraparcs"){
       lOption[n] = flattenBoolean(v);
@@ -133,7 +133,7 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 }
 entity "entity" =  _ i:identifier _ l:(":" _ l:string _ {return l})?
 {
-  var lEntity = new Object();
+  var lEntity = {};
   lEntity["name"] = i;
   if (l) {
     lEntity["label"] = l;

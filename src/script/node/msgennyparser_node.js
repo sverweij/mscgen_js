@@ -323,7 +323,7 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, o) {
-          var lOptionList = new Object();
+          var lOptionList = {};
           var opt, bla;
           for (opt in o[0]) {
             for (bla in o[0][opt]){
@@ -426,7 +426,7 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, n, v) {
-           var lOption = new Object();
+           var lOption = {};
            n = n.toLowerCase();
            if (n === "wordwraparcs"){
               lOption[n] = flattenBoolean(v);
@@ -685,7 +685,7 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, i, l) {
-          var lEntity = new Object();
+          var lEntity = {};
           lEntity["name"] = i;
           if (l) {
             lEntity["label"] = l;
@@ -2548,7 +2548,7 @@ module.exports = (function(){
           }
       
           function initEntity(lName ) {
-              var lEntity = new Object();
+              var lEntity = {};
               lEntity.name = lName;
               return lEntity;
           }
@@ -2556,7 +2556,7 @@ module.exports = (function(){
           function extractUndeclaredEntities (pEntities, pArcLineList) {
               var i = 0;
               var j = 0;
-              var lEntities = new Object();
+              var lEntities = {};
               if (pEntities) {
                   lEntities = pEntities;
               } else {

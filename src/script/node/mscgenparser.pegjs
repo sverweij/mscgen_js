@@ -61,7 +61,7 @@
     function checkForUndeclaredEntities (pEntities, pArcLineList) {
         var i = 0;
         var j = 0;
-        var lEntities = new Object();
+        var lEntities = {};
         if (pEntities) {
             lEntities = pEntities;
         } else {
@@ -102,7 +102,7 @@ declarationlist = (o:optionlist {return {options:o}})?
 optionlist      = o:((o:option "," {return o})* 
                   (o:option ";" {return o})) 
 {
-  var lOptionList = new Object();
+  var lOptionList = {};
   var opt, bla;
   for (opt in o[0]) {
     for (bla in o[0][opt]){
@@ -118,7 +118,7 @@ option          = _ n:optionname _ "=" _
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _ 
 {
-   var lOption = new Object();
+   var lOption = {};
    n = n.toLowerCase();
    if (n === "wordwraparcs"){
       lOption[n] = flattenBoolean(v);
@@ -136,7 +136,7 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 }
 entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
 {
-  var lOption = new Object();
+  var lOption = {};
   lOption["name"] = i;
   lOption = merge (lOption, al);
   return lOption;
@@ -182,7 +182,7 @@ bckarrowtoken   "right to left arrow"
 
 attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
 {
-  var obj = new Object();
+  var obj = {};
   var opt, bla;
   for (opt in al[0]) {
     for (bla in al[0][opt]){
@@ -194,7 +194,7 @@ attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
 }
 attribute       = _ n:attributename _ "=" _ v:string _
 {
-  var lAttribute = new Object();
+  var lAttribute = {};
   n = n.toLowerCase();
   n = n.replace("colour", "color");
   lAttribute[n] = v;
