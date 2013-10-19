@@ -2,6 +2,11 @@
  * takes an abstract syntax tree for a message sequence chart and renders it
  * as a simplified mscgen (ms genny)program. 
  */
+
+/* jshint node:true */
+/* jshint undef:true */
+/* jshint unused:strict */
+
 module.exports = (function(){
 
 function _renderAST(pAST){

@@ -35,6 +35,18 @@ msc {
 }
 */
 
+/* jshint undef:true */
+/* jshint unused:false */
+/* jshint browser:true */
+/* jshint jquery:true */
+/* jshint nonstandard:true */
+/* global define */
+/* global ga */
+/* global CodeMirror */
+/* global canvg */
+/* global mscparser */
+/* global msgennyparser */
+
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "ast2msgenny", "ast2mscgen",
         "../lib/codemirror",
@@ -47,7 +59,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, msc_parse, genny_parse, msc_render,
-            to_msgenny, to_mscgen,
+            tomsgenny, tomscgen,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -74,12 +86,12 @@ var gCodeMirror =
 
 
 $(document).ready(function(){
-    /* jshint asi:true */
-    /* jshint sub:true */
+    /* jshint -W030 *//* jshint -W033 *//* jshint -W069 */
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    /* jshint +W030 *//* jshint +W033 *//* jshint +W069 */
 
     ga('create', 'UA-42701906-1', 'sverweij.github.io');
     ga('send', 'pageview');

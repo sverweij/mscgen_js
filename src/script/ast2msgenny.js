@@ -2,7 +2,12 @@
  * takes an abstract syntax tree for a message sequence chart and renders it
  * as a simplified mscgen (ms genny)program. 
  */
-var tomsgenny = (function(){
+
+/* jshint node:true */
+/* jshint undef:true */
+/* jshint unused:strict */
+
+define ([], function(){
 
 function _renderAST(pAST){
     var lRetVal = "";
@@ -131,7 +136,7 @@ var result =  {
 };
 
 return result;
-})();
+});
 /*
     This file is part of mscgen_js.
 

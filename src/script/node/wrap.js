@@ -1,7 +1,12 @@
+/* jshint node:true */
+/* jshint undef:true */
+/* jshint unused:strict */
+
 function wrap(pText, pMaxLength) {
     var lCharCount = 0;
     var lRetval = [];
     var lStart = 0;
+    var lNewStart = 0;
     var lEnd = 0;
 
     var i = 0;

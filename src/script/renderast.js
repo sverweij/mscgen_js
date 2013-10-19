@@ -26,7 +26,13 @@ the associate line, we'll need to do something like this:
 @version 481
  */
 
-define(["renderutensils"], function(utl) {
+/* jshint undef:true */
+/* jshint unused:strict */
+/* jshint browser:true */
+/* jshint trailing:true */
+/* global define */
+
+define(["renderutensils", "textutensils"], function(utl, txt) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;
@@ -60,10 +66,10 @@ function clearRowInfo(){
 
 function getRowInfo (pRowNumber){
     if (gRowInfo[pRowNumber]) {
-        return gRowInfo[pRowNumber];    
+        return gRowInfo[pRowNumber];
     } else {
         return {
-                y: (ENTITY_HEIGHT + (1.5*ARCROW_HEIGHT)) + pRowNumber*ARCROW_HEIGHT, 
+                y: (ENTITY_HEIGHT + (1.5*ARCROW_HEIGHT)) + pRowNumber*ARCROW_HEIGHT,
                 height: ARCROW_HEIGHT
         };
     }
@@ -72,11 +78,11 @@ function getRowInfo (pRowNumber){
 function setRowInfo (pRowNumber, pHeight, pY){
     if (pHeight === undefined || pHeight < ARCROW_HEIGHT){
         pHeight = ARCROW_HEIGHT;
-    } 
+    }
     if (pY === undefined){
         var lPreviousRowInfo = getRowInfo(pRowNumber - 1);
         if (lPreviousRowInfo && lPreviousRowInfo.y > 0){
-            pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight)/2; 
+            pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight)/2;
         } else { // TODO: this might be overkill
             pY = (ENTITY_HEIGHT + (1.5*ARCROW_HEIGHT)) + pRowNumber*ARCROW_HEIGHT;
         }
@@ -84,47 +90,12 @@ function setRowInfo (pRowNumber, pHeight, pY){
     gRowInfo[pRowNumber] = {y:pY, height: pHeight};
 }
 
-function wrap(pText, pMaxLength) {
-    var lCharCount = 0;
-    var lRetval = [];
-    var lStart = 0;
-    var lEnd = 0;
-
-    var i = 0;
-    var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
-
-    while (i <= lText.length) {
-        if (i >= (lText.length)) {
-            lRetval.push(lText.substring(lStart, i));
-        } else if (lText[i] === '\n') {
-            lCharCount = 0;
-            lEnd = i;
-            lRetval.push(lText.substring(lStart, lEnd));
-            lStart = lEnd + 1;
-        } else if ((lCharCount++ >= pMaxLength)) {
-            lEnd = lText.substring(0, i).lastIndexOf(' ');
-            if (lEnd === -1 || lEnd < lStart) {
-                lCharCount = 1;
-                lEnd = i;
-                lNewStart = i;
-            } else {
-                lCharCount = 0;
-                lNewStart = lEnd + 1;
-            }
-            lRetval.push(lText.substring(lStart, lEnd));
-            lStart = lNewStart;
-        }
-        i++;
-    }
-    return lRetval;
-}
-
 function _clean (pParentElementId) {
-    lChildElement = document.getElementById("__svg_output");
+    var lChildElement = document.getElementById("__svg_output");
     if (lChildElement &&
             (lChildElement !== null) &&
             (lChildElement !== undefined)) {
-        lParentElement = document.getElementById(pParentElementId);
+        var lParentElement = document.getElementById(pParentElementId);
         lParentElement.removeChild(lChildElement);
     }
 }
@@ -183,7 +154,7 @@ function bootstrap(pParentElementId, pSvgElementId) {
     lSkeletonSvg.appendChild(lBody);
     lParent.appendChild(lSkeletonSvg);
 
-    gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0,0)).height; 
+    gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0,0)).height;
 }
 
 function _renderAST (pAST, pSource, pParentElementId) {
@@ -205,10 +176,10 @@ function _renderAST (pAST, pSource, pParentElementId) {
         if (pAST.options.arcgradient) {
             ARCROW_HEIGHT =
                 parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-            ARC_GRADIENT = 
+            ARC_GRADIENT =
                 parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
         }
-        if (pAST.options.wordwraparcs){  
+        if (pAST.options.wordwraparcs){
             if (pAST.options.wordwraparcs === "true"){
                 WORDWRAPARCS = true;
             } else {
@@ -230,7 +201,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
     
     var lCanvasHeight = lRowInfo.y + (lRowInfo.height/2) + 2*PAD_VERTICAL;
     var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
-    var lVerticalTransform = PAD_VERTICAL; 
+    var lVerticalTransform = PAD_VERTICAL;
     var lScale = 1;
     var lSvgElement = document.getElementById("__svg_output");
 
@@ -308,8 +279,6 @@ function renderArcs (pArcs, pEntities) {
 
     var lLabel = "";
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
-    var lArcMiddle = lArcEnd/2;
-    var lNoEntities = pEntities.length;
 
     var i,j,k = 0;
 
@@ -368,16 +337,16 @@ function renderArcs (pArcs, pEntities) {
                                             createArc(lCurrentId + "bc" + k,
                                                       pArcs[i][j], xFrom, xTo
                                                        ));
-                                        lRowMemory.push ({id:lCurrentId + "bc" + k, layer:sequence});   
+                                        lRowMemory.push ({id:lCurrentId + "bc" + k, layer:sequence});
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
                                 
-                                lElement = 
+                                lElement =
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 ;
-                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});   
+                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
                             } else if (lFrom === "*") {
                                 xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
@@ -392,16 +361,16 @@ function renderArcs (pArcs, pEntities) {
                                     }
                                 }
                                 pArcs[i][j].label=lLabel;
-                                lElement = 
+                                lElement =
                                     createTextLabel(lCurrentId + "_txt", pArcs[i][j],
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 ;
-                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence}); 
+                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
                             } else {
                                 xFrom = gEntity2X[lFrom];
                                 xTo = gEntity2X[lTo];
                                 lElement = createArc(lCurrentId, pArcs[i][j], xFrom, xTo);
-                                lRowMemory.push ({id:lCurrentId, layer:sequence});    
+                                lRowMemory.push ({id:lCurrentId, layer:sequence});
                             }  /// lTo or lFrom === "*" 
                         } // if both a from and a to
                     } // case default 
@@ -433,20 +402,20 @@ function renderArcs (pArcs, pEntities) {
 } // function
 
 function renderEntity (pId, pEntity) {
-    var lGroup = utl.createGroup(pId);  
+    var lGroup = utl.createGroup(pId);
     if (!(pEntity.label)) {
         pEntity.label = pEntity.name;
     }
     var lTextLabel = createTextLabel(pId + "_txt", pEntity,
                 0, ENTITY_HEIGHT/2, ENTITY_WIDTH, "entity");
-    var lBBox = utl.getBBox(lTextLabel);
+    // var lBBox = utl.getBBox(lTextLabel);
     var lRect = utl.createRect(ENTITY_WIDTH, ENTITY_HEIGHT);
     
     // var lRect = utl.createRect(ENTITY_WIDTH, Math.max(lBBox.height, ENTITY_HEIGHT));
     
     colorBox(lRect, pEntity);
     lGroup.appendChild(lRect);
-    lGroup.appendChild(lTextLabel); 
+    lGroup.appendChild(lTextLabel);
     return lGroup;
 }
 
@@ -463,7 +432,7 @@ function renderArcRow(pEntities, pClass, pHeight, pId) {
 
     for (i=0;i<pEntities.length;i++){
         var lLine = utl.createLine (
-            lEntityXPos + (ENTITY_WIDTH/2), 0-(pHeight/2), 
+            lEntityXPos + (ENTITY_WIDTH/2), 0-(pHeight/2),
             lEntityXPos + (ENTITY_WIDTH/2),   (pHeight/2),
             pClass);
         // TODO #13: render associated marker(s) in <def>
@@ -480,7 +449,6 @@ function renderArcRow(pEntities, pClass, pHeight, pId) {
 function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     var lHeight = 2*(ARCROW_HEIGHT/5);
     var lWidth  = INTER_ENTITY_SPACING/3;
-    var lSign = (pYTo < 0) ? -1 : 1;
 
     var lGroup = utl.createGroup("selfie");
     if (pDouble){
@@ -516,7 +484,6 @@ function arcColorOverride (pArc) {
 function createArc (pId, pArc, pFrom, pTo) {
     var lGroup = utl.createGroup(pId);
     var lClass = "";
-    var lLabel = pArc.label ? pArc.label : undefined;
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
     var pTmp = 0;
@@ -654,7 +621,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     /* for one line labels add an end of line so it gets 
      * rendered above the arc in stead of directly on it.
      * TODO: kludgy?
-     */ 
+     */
     if (pArc.label && (pArc.label.indexOf('\\n')===-1)){
         pArc.label += "\\n";
     }
@@ -683,49 +650,29 @@ function createArc (pId, pArc, pFrom, pTo) {
     return lGroup;
 }
 
-
-function unescapeString(pString) {
-    var lLabel = pString.replace (/\\\"/g, '"');
-    return lLabel;//.replace(/\\n/g, " ");
-}
-
-
-function determineMaxTextWidth(pWidth) {
-    var lAbsWidth = Math.abs(pWidth);
-    var lMagicFactor = lAbsWidth / 8;
-        
-   if (lAbsWidth > 160 && lAbsWidth <= 320){
-        lMagicFactor = lAbsWidth / 6.4;
-    } else if (lAbsWidth > 320 && lAbsWidth <= 480){
-        lMagicFactor = lAbsWidth / 5.9;
-    } else if (lAbsWidth > 480)  {
-        lMagicFactor = lAbsWidth / 5.6; 
-    }
-    return lMagicFactor;
-}
-
-
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
     var lGroup = utl.createGroup(pId);
 
     if (pArc.label) {
         var lMiddle = pStartX + (pWidth/2);
-        pArc.label = unescapeString(pArc.label);
-        pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
+        pArc.label = txt.unescapeString(pArc.label);
+        if (pArc.id){
+            pArc.id = txt.unescapeString(pArc.id);
+        }
 
         var lLines = pArc.label.split('\\n');
-        var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
-        switch(pArc.kind){ 
+        var lMaxTextWidthInChars = txt.determineMaxTextWidth(pWidth);
+        switch(pArc.kind){
             case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
-                lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
             }
             break;
             default: {
                 if (WORDWRAPARCS){
-                    lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                    lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
                 }
             }
-        } 
+        }
         
         pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
         for (var i = 0; i < lLines.length; i++) {
@@ -837,7 +784,7 @@ function createBox (pId, pFrom, pTo, pArc) {
 }
 
 
-var gSvgStyleElementString = 
+var gSvgStyleElementString =
 /*jshint multistr:true */
 "svg { \
     font-family: Helvetica, sans-serif; \
@@ -954,7 +901,7 @@ path { \
 } \
 .comment { \
     stroke-dasharray: 5,2; \
-}"; 
+}";
 return {
     clean : function (pParentElementId) {
                 _clean(pParentElementId);

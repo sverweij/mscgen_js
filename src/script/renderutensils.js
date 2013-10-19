@@ -15,6 +15,11 @@
  * length of a string.
  */
 
+/* jshint undef:true */
+/* jshint unused:strict */
+/* jshint browser:true */
+/* global define */
+
 define([], function() {
 
 var SVGNS = "http://www.w3.org/2000/svg";

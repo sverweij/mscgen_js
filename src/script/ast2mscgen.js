@@ -2,7 +2,12 @@
  * takes an abstract syntax tree for a message sequence chart and renders it
  * as an mscgen program. 
  */
-var tomscgen = (function(){
+
+/* jshint node:true */
+/* jshint undef:true */
+/* jshint unused:strict */
+
+define ([], function(){
 var INDENT = "  ";
 
 function _renderAST(pAST){
@@ -149,7 +154,7 @@ var result =  {
 };
 
 return result;
-})();
+});
 /*
     This file is part of mscgen_js.
 

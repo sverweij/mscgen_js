@@ -4,7 +4,7 @@ SHELL=/bin/sh
 PEGJS=pegjs
 RJS=r.js
 GIT=git
-LINT=jshint
+LINT=jshint --verbose --show-non-errors
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
@@ -19,11 +19,13 @@ LIB_SOURCES_WEB=src/lib/codemirror.js \
     src/lib/canvg/rgbcolor.js \
     src/script/jquery.js
 SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
+    src/script/textutensils.js \
     src/script/renderast.js \
     src/script/controller.js \
     src/script/mscgen-main.js
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-SOURCES_NODE=$(GENERATED_SOURCES_NODE) src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
+SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
+SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 
 .PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint
 
@@ -44,10 +46,12 @@ src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
 	$(PEGJS) $< $@
 
 src/script/ast2mscgen.js: src/script/node/ast2mscgen.js
-	sed s/module.exports/var\ tomscgen/g $< > $@
+	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< | \
+		sed s/\}\)\(\)\;/\}\)\;/g > $@
 
 src/script/ast2msgenny.js: src/script/node/ast2msgenny.js
-	sed s/module.exports/var\ tomsgenny/g $< > $@
+	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< | \
+		sed s/\}\)\(\)\;/\}\)\;/g > $@
 
 src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css
 	$(RJS) -o cssIn=src/style/mscgen-src.css out=$@
@@ -85,7 +89,7 @@ consolecheck:
 	grep -r console src/script/*
 
 lint:
-	$(LINT) $(SCRIPT_SOURCES_WEB)
+	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
 install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	cp src/images/* images/.

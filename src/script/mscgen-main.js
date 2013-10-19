@@ -1,3 +1,5 @@
+/* global require */
+/* jshint unused:false */
 require(["controller"], function(controller) {
 });
 /*
