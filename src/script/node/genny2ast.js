@@ -3,6 +3,7 @@
  * to an mscgen program
  */
 /* jshint indent:4 */
+/* jshint node:true */
 
 var parser = require ("./msgennyparser_node");
 
