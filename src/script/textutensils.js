@@ -1,6 +1,6 @@
 /* jshint undef:true */
 /* jshint unused:strict */
-/* jshint browser:true */
+/* jshint indent:4 */
 /* global define */
 
 define([], function() {

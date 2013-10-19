@@ -2,6 +2,8 @@
  * takes a simplified message sequence chart program and translates
  * to an mscgen program
  */
+/* jshint indent:4 */
+
 var parser = require ("./msgennyparser_node");
 
 var gInput = "";
