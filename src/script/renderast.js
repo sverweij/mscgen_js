@@ -32,7 +32,7 @@ the associate line, we'll need to do something like this:
 /* jshint trailing:true */
 /* global define */
 
-define(["renderutensils"], function(utl) {
+define(["renderutensils", "textutensils"], function(utl, txt) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;
@@ -88,42 +88,6 @@ function setRowInfo (pRowNumber, pHeight, pY){
         }
     }
     gRowInfo[pRowNumber] = {y:pY, height: pHeight};
-}
-
-function wrap(pText, pMaxLength) {
-    var lCharCount = 0;
-    var lRetval = [];
-    var lStart = 0;
-    var lNewStart = 0;
-    var lEnd = 0;
-
-    var i = 0;
-    var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
-
-    while (i <= lText.length) {
-        if (i >= (lText.length)) {
-            lRetval.push(lText.substring(lStart, i));
-        } else if (lText[i] === '\n') {
-            lCharCount = 0;
-            lEnd = i;
-            lRetval.push(lText.substring(lStart, lEnd));
-            lStart = lEnd + 1;
-        } else if ((lCharCount++ >= pMaxLength)) {
-            lEnd = lText.substring(0, i).lastIndexOf(' ');
-            if (lEnd === -1 || lEnd < lStart) {
-                lCharCount = 1;
-                lEnd = i;
-                lNewStart = i;
-            } else {
-                lCharCount = 0;
-                lNewStart = lEnd + 1;
-            }
-            lRetval.push(lText.substring(lStart, lEnd));
-            lStart = lNewStart;
-        }
-        i++;
-    }
-    return lRetval;
 }
 
 function _clean (pParentElementId) {
@@ -686,46 +650,26 @@ function createArc (pId, pArc, pFrom, pTo) {
     return lGroup;
 }
 
-
-function unescapeString(pString) {
-    var lLabel = pString.replace (/\\\"/g, '"');
-    return lLabel;//.replace(/\\n/g, " ");
-}
-
-
-function determineMaxTextWidth(pWidth) {
-    var lAbsWidth = Math.abs(pWidth);
-    var lMagicFactor = lAbsWidth / 8;
-        
-   if (lAbsWidth > 160 && lAbsWidth <= 320){
-        lMagicFactor = lAbsWidth / 6.4;
-    } else if (lAbsWidth > 320 && lAbsWidth <= 480){
-        lMagicFactor = lAbsWidth / 5.9;
-    } else if (lAbsWidth > 480)  {
-        lMagicFactor = lAbsWidth / 5.6;
-    }
-    return lMagicFactor;
-}
-
-
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
     var lGroup = utl.createGroup(pId);
 
     if (pArc.label) {
         var lMiddle = pStartX + (pWidth/2);
-        pArc.label = unescapeString(pArc.label);
-        pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
+        pArc.label = txt.unescapeString(pArc.label);
+        if (pArc.id){
+            pArc.id = txt.unescapeString(pArc.id);
+        }
 
         var lLines = pArc.label.split('\\n');
-        var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
+        var lMaxTextWidthInChars = txt.determineMaxTextWidth(pWidth);
         switch(pArc.kind){
             case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
-                lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
             }
             break;
             default: {
                 if (WORDWRAPARCS){
-                    lLines = wrap(pArc.label, lMaxTextWidthInChars);
+                    lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
                 }
             }
         }
