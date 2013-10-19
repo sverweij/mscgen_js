@@ -33,11 +33,15 @@ help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean
 
 # file targets
-src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
-	$(PEGJS) --export-var var\ mscparser $< $@
+src/script/mscgenparser.js: src/script/node/mscgenparser_node.js
+	# $(PEGJS) --export-var var\ mscparser $< $@
+	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< | \
+		sed s/\}\)\(\)\;/\}\)\;/g > $@
 
-src/script/msgennyparser.js: src/script/node/msgennyparser.pegjs 
-	$(PEGJS) --export-var var\ msgennyparser $< $@
+src/script/msgennyparser.js: src/script/node/msgennyparser_node.js
+	# $(PEGJS) --export-var var\ msgennyparser $< $@
+	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< | \
+		sed s/\}\)\(\)\;/\}\)\;/g > $@
 
 src/script/node/mscgenparser_node.js: src/script/node/mscgenparser.pegjs 
 	$(PEGJS) $< $@

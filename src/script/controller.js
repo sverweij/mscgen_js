@@ -44,8 +44,6 @@ msc {
 /* global ga */
 /* global CodeMirror */
 /* global canvg */
-/* global mscparser */
-/* global msgennyparser */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "ast2msgenny", "ast2mscgen",
@@ -58,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/StackBlur",
         "../lib/canvg/rgbcolor"
         ],
-        function($, msc_parse, genny_parse, msc_render,
+        function($, mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
             codemirror,
             // cm_mscgen,
