@@ -33,7 +33,7 @@ function wrap(pText, pMaxLength) {
     return lRetval;
 }
 
-var gInput = new String();
+var gInput = "";
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');

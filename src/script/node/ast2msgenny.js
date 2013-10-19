@@ -5,7 +5,7 @@
 module.exports = (function(){
 
 function _renderAST(pAST){
-    var lRetVal = new String("");
+    var lRetVal = "";
     if (pAST) {
         if(pAST.options){
             lRetVal += renderOptions(pAST.options) + "\n";
@@ -52,7 +52,7 @@ function pushAttribute(pArray, pAttr, pString) {
 
 function renderOptions(pOptions){
     var lOpts = [];
-    var lRetVal = new String(); // new String("# options\n");
+    var lRetVal = "";
     var i = 0;
 
     pushAttribute(lOpts, pOptions.hscale, "hscale");
@@ -69,7 +69,7 @@ function renderOptions(pOptions){
 }
 
 function renderEntity(pEntity) {
-    var lRetVal = new String();
+    var lRetVal = "";
     lRetVal += renderEntityName(pEntity.name);
     if (pEntity.label){
         lRetVal += " : " + renderMsGennyString (pEntity.label);
@@ -78,10 +78,9 @@ function renderEntity(pEntity) {
 }
 
 function renderEntities(pEntities) {
-    var lRetVal = new String();
+    var lRetVal = "";
     var i = 0;
     if (pEntities.length > 0) {
-        lRetVal = new String(); // new String("# entities\n");
         for ( i = 0; i < pEntities.length - 1; i++) {
             lRetVal += renderEntity(pEntities[i]) + ", ";
         }
@@ -91,7 +90,7 @@ function renderEntities(pEntities) {
 }
 
 function renderArc(pArc) {
-    var lRetVal = new String();
+    var lRetVal = "";
     if (pArc.from) {
         lRetVal += renderEntityName(pArc.from) + " ";
     }
@@ -108,7 +107,7 @@ function renderArc(pArc) {
 }
 
 function renderArcLines(pArcs) {
-    var lRetVal = new String(); // new String("# arcs\n");
+    var lRetVal = "";
     var i = 0;
     var j = 0;
 
@@ -129,7 +128,7 @@ var result =  {
     render: function (pAST){
         return _renderAST(pAST);
     }
-}
+};
 
 return result;
 })();

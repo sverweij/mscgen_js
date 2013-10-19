@@ -4,6 +4,7 @@ SHELL=/bin/sh
 PEGJS=pegjs
 RJS=r.js
 GIT=git
+LINT=jshint
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
@@ -83,6 +84,9 @@ noconsolestatements:
 consolecheck:
 	grep -r console src/script/*
 
+lint:
+	$(LINT) $(SCRIPT_SOURCES_WEB)
+
 install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	cp src/images/* images/.
 	cp src/samples/*.mscin samples/.
@@ -98,7 +102,7 @@ deploy-gh-pages: checkout-gh-pages install
 	$(GIT) push
 	$(GIT) checkout master
 
-check: noconsolestatements
+check: noconsolestatements lint
     #TODO 
     
 mostlyclean:

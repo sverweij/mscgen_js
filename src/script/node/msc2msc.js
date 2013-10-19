@@ -6,7 +6,7 @@
 var parser = require ("./mscgenparser_node");
 var ast2mscgen = require ("./ast2mscgen");
 
-var gInput = new String();
+var gInput = "";
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');

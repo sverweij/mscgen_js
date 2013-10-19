@@ -17,8 +17,8 @@
 
 define([], function() {
 
-var SVGNS = new String ("http://www.w3.org/2000/svg");
-var XLINKNS = new String ("http://www.w3.org/1999/xlink");
+var SVGNS = "http://www.w3.org/2000/svg";
+var XLINKNS = "http://www.w3.org/1999/xlink";
 
 /* superscript style could also be super or a number (1em) or a % (100%) */
 var lSuperscriptStyle = "vertical-align : text-top;";
@@ -116,12 +116,12 @@ function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         // lTSpanID.setAttribute("y", "-1");
     
         if (pIDURL) {
-            var lA = document.createElementNS(SVGNS, "a");
-            lA.setAttributeNS(XLINKNS, "xlink:href", pIDURL);
-            lA.setAttributeNS(XLINKNS, "xlink:title", pIDURL);
-            lA.setAttributeNS(XLINKNS, "xlink:show", "new");
-            lA.appendChild(lTSpanID);
-            lText.appendChild(lA);
+            var lAid = document.createElementNS(SVGNS, "a");
+            lAid.setAttributeNS(XLINKNS, "xlink:href", pIDURL);
+            lAid.setAttributeNS(XLINKNS, "xlink:title", pIDURL);
+            lAid.setAttributeNS(XLINKNS, "xlink:show", "new");
+            lAid.appendChild(lTSpanID);
+            lText.appendChild(lAid);
 
         } else {
             lText.appendChild(lTSpanID);
@@ -188,7 +188,7 @@ function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass){
     lPathString += " a "+ pWidth.toString() + " 4 0 0 1 0 " + pEndY.toString();
     */
 
-    return _createPath(lPathString, pClass)
+    return _createPath(lPathString, pClass);
 }
 
 function _createGroup(pId) {
