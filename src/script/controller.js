@@ -74,6 +74,8 @@ var gCodeMirror =
 
 
 $(document).ready(function(){
+    /* jshint asi:true */
+    /* jshint sub:true */
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -200,8 +202,9 @@ $(document).ready(function(){
                case (ESC_KEY) : {
                    closeLightbox();
                     // ga('send', 'event', 'close_source_lightbox', 'ESC_KEY');
-                   break;
-               } default: {
+               } 
+               break;
+               default: {
                    break;
                }
            }
@@ -394,10 +397,12 @@ function render() {
         
 
     } catch (e) {
-        displayError(
-            e.line !== undefined && e.column !== undefined
-        ? "Line " + e.line + ", column " + e.column + ": " + e.message
-        : e.message);
+        if (e.line !== undefined && e.column !== undefined) {
+            displayError(
+             "Line " + e.line + ", column " + e.column + ": " + e.message);
+        } else {
+            displayError(e.message);
+        }
         // TODO: doesn't work that well when the error is not 
         // on the position you were typing...
         // gCodeMirror.setCursor (e.line, e.column);

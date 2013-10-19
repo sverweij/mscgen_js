@@ -4,7 +4,7 @@
  */
 var parser = require ("./mscgenparser_node");
 
-var gInput = new String();
+var gInput = "";
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');

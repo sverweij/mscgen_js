@@ -6,7 +6,7 @@ var tomscgen = (function(){
 var INDENT = "  ";
 
 function _renderAST(pAST){
-    var lRetVal = new String("msc {\n");
+    var lRetVal = "msc {\n";
     if (pAST) {
         if(pAST.options){
             lRetVal += renderOptions(pAST.options) + "\n";
@@ -45,7 +45,7 @@ function pushAttribute(pArray, pAttr, pString) {
 
 function renderOptions(pOptions){
     var lOpts = [];
-    var lRetVal = new String(); // new String(INDENT + "# options\n");
+    var lRetVal = "";
     var i = 0;
 
     pushAttribute(lOpts, pOptions.hscale, "hscale");
@@ -64,7 +64,7 @@ function renderOptions(pOptions){
 
 function renderAttributes (pThing) {
     var lAttrs = [];
-    var lRetVal = new String("");
+    var lRetVal = "";
     pushAttribute(lAttrs, pThing.label, "label");
     pushAttribute(lAttrs, pThing.idurl, "idurl");
     pushAttribute(lAttrs, pThing.id, "id");
@@ -91,17 +91,16 @@ function renderAttributes (pThing) {
 }
 
 function renderEntity(pEntity) {
-    var lRetVal = new String();
+    var lRetVal = "";
     lRetVal += renderEntityName(pEntity.name);
     lRetVal += renderAttributes(pEntity);
     return lRetVal;
 }
 
 function renderEntities(pEntities) {
-    var lRetVal = new String();
+    var lRetVal = "";
     var i = 0;
     if (pEntities.length > 0) {
-        lRetVal = new String(); // new String(INDENT + "# entities\n");
         for ( i = 0; i < pEntities.length - 1; i++) {
             lRetVal += INDENT + renderEntity(pEntities[i]) + ",\n";
         }
@@ -111,7 +110,7 @@ function renderEntities(pEntities) {
 }
 
 function renderArc(pArc) {
-    var lRetVal = new String();
+    var lRetVal = "";
     if (pArc.from) {
         lRetVal += renderEntityName(pArc.from) + " ";
     }
@@ -126,7 +125,7 @@ function renderArc(pArc) {
 }
 
 function renderArcLines(pArcs) {
-    var lRetVal = new String (); // new String(INDENT + "# arcs\n");
+    var lRetVal = "";
     var i = 0;
     var j = 0;
 
@@ -147,7 +146,7 @@ var result =  {
     render: function (pAST){
         return _renderAST(pAST);
     }
-}
+};
 
 return result;
 })();

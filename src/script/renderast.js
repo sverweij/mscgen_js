@@ -25,6 +25,7 @@ the associate line, we'll need to do something like this:
 @author Sander Verweij 
 @version 481
  */
+
 define(["renderutensils"], function(utl) {
 
 var PAD_VERTICAL = 3;
@@ -48,8 +49,8 @@ var DIR_BOTH = 5;
 var DIR_NONE = 8;
 
 var gEntityXHWM = 0;
-var gEntity2X = new Object();
-var gEntity2ArcColor = new Object();
+var gEntity2X = {};
+var gEntity2ArcColor = {};
 var gTextHeight = 12; /* sensible default - gets overwritten in bootstrap */
 var gRowInfo = [];
 
@@ -93,7 +94,7 @@ function wrap(pText, pMaxLength) {
     var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
 
     while (i <= lText.length) {
-        if (i === (lText.length)) {
+        if (i >= (lText.length)) {
             lRetval.push(lText.substring(lStart, i));
         } else if (lText[i] === '\n') {
             lCharCount = 0;
@@ -129,8 +130,8 @@ function _clean (pParentElementId) {
 }
 
 function bootstrap(pParentElementId, pSvgElementId) {
-    var SVGNS = new String ("http://www.w3.org/2000/svg");
-    var XLINKNS = new String ("http://www.w3.org/1999/xlink");
+    var SVGNS = "http://www.w3.org/2000/svg";
+    var XLINKNS = "http://www.w3.org/1999/xlink";
 
     var lParent = document.getElementById(pParentElementId);
     var lSkeletonSvg = document.createElementNS(SVGNS, "svg");
@@ -203,9 +204,9 @@ function _renderAST (pAST, pSource, pParentElementId) {
         }
         if (pAST.options.arcgradient) {
             ARCROW_HEIGHT =
-                parseInt(pAST.options.arcgradient) + DEFAULT_ARCROW_HEIGHT;
+                parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
             ARC_GRADIENT = 
-                parseInt(pAST.options.arcgradient) + DEFAULT_ARC_GRADIENT;
+                parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
         }
         if (pAST.options.wordwraparcs){  
             if (pAST.options.wordwraparcs === "true"){
@@ -259,8 +260,8 @@ function _renderAST (pAST, pSource, pParentElementId) {
     }
 
     body.setAttribute("transform",
-            "translate("+ lHorizontalTransform + ","+ lVerticalTransform +")" 
-             + " scale(" + lScale + "," + lScale + ")");
+        "translate("+ lHorizontalTransform + ","+ lVerticalTransform +")" +
+        " scale(" + lScale + "," + lScale + ")");
     lSvgElement.setAttribute("width", lCanvasWidth.toString());
     lSvgElement.setAttribute("height", lCanvasHeight.toString());
 
@@ -272,9 +273,9 @@ function renderEntities (pEntities) {
     var lEntityXPos = 0;
     var i;
 
-    gEntity2X = new Object();
-    gEntity2ArcColor = new Object();
-    var arcColors = new Object();
+    gEntity2X = {};
+    gEntity2ArcColor = {};
+    var arcColors = {};
 
     if (pEntities) {
         for (i=0;i<pEntities.length;i++){
@@ -284,12 +285,15 @@ function renderEntities (pEntities) {
                 utl.createUse(lEntityXPos,0,pEntities[i].name));
             gEntity2X[pEntities[i].name] = lEntityXPos + (ENTITY_WIDTH/2);
             lEntityXPos += INTER_ENTITY_SPACING;
-            pEntities[i].arclinecolor ? 
-                arcColors.arclinecolor = pEntities[i].arclinecolor : null;
-            pEntities[i].arctextcolor ? 
-                arcColors.arctextcolor = pEntities[i].arctextcolor : null;
-            pEntities[i].arctextbgcolor ? 
-                arcColors.arctextbgcolor = pEntities[i].arctextbgcolor : null;
+            if (pEntities[i].arclinecolor) {
+                arcColors.arclinecolor = pEntities[i].arclinecolor;
+            }
+            if (pEntities[i].arctextcolor) {
+                arcColors.arctextcolor = pEntities[i].arctextcolor;
+            }
+            if (pEntities[i].arctextbgcolor) {
+                arcColors.arctextbgcolor = pEntities[i].arctextbgcolor;
+            }
             gEntity2ArcColor[pEntities[i].name] = arcColors;
         }
     }
@@ -328,35 +332,37 @@ function renderArcs (pArcs, pEntities) {
                         lArcRowOmit = true;
                         lElement = createEmptyArcText(lCurrentId,pArcs[i][j]);
                         lRowMemory.push ({id:lCurrentId, layer:sequence});
-                        break;
                         }
+                        break;
                     case ("|||"): {
                         lElement = createEmptyArcText(lCurrentId,pArcs[i][j]);
                         lRowMemory.push ({id:lCurrentId, layer:sequence});
-                        break;
                         }
+                        break;
                     case ("---"): {
                         lElement = createComment(lCurrentId,pArcs[i][j]);
                         lRowMemory.push ({id:lCurrentId, layer:sequence});
-                        break;
                         }
+                        break;
                     case("box"): case("rbox"): case("abox") : case("note"): {
                         lElement = createBox(lCurrentId,
                                              gEntity2X[pArcs[i][j].from],
                                              gEntity2X[pArcs[i][j].to],
                                              pArcs[i][j]);
                         lRowMemory.push ({id:lCurrentId, layer:notelayer});
-                        break;
                         }
+                        break;
                     default:{
+                        var xTo = 0;
+                        var xFrom = 0;
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
                             if (lTo === "*"){
-                                var xFrom = gEntity2X[lFrom];
+                                xFrom = gEntity2X[lFrom];
                                 for (k=0;k<pEntities.length;k++){
                                     if (pEntities[k].name != lFrom) {
-                                        var xTo = gEntity2X[pEntities[k].name];
+                                        xTo = gEntity2X[pEntities[k].name];
                                         pArcs[i][j].label = "";
                                         defs.appendChild(
                                             createArc(lCurrentId + "bc" + k,
@@ -373,10 +379,10 @@ function renderArcs (pArcs, pEntities) {
                                 ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});   
                             } else if (lFrom === "*") {
-                                var xTo = gEntity2X[lTo];
+                                xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
                                     if (pEntities[k].name != lTo) {
-                                        var xFrom = gEntity2X[pEntities[k].name];
+                                        xFrom = gEntity2X[pEntities[k].name];
                                         pArcs[i][j].label ="";
                                         defs.appendChild(
                                             createArc(lCurrentId + "bc" + k,
@@ -392,14 +398,14 @@ function renderArcs (pArcs, pEntities) {
                                 ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence}); 
                             } else {
-                                var xFrom = gEntity2X[lFrom];
-                                var xTo = gEntity2X[lTo];
+                                xFrom = gEntity2X[lFrom];
+                                xTo = gEntity2X[lTo];
                                 lElement = createArc(lCurrentId, pArcs[i][j], xFrom, xTo);
                                 lRowMemory.push ({id:lCurrentId, layer:sequence});    
                             }  /// lTo or lFrom === "*" 
                         } // if both a from and a to
-                        break;
                     } // case default 
+                    break;
                 } // switch
                 if (lElement){
                     setRowInfo (i, Math.max (getRowInfo(i).height, utl.getBBox(lElement).height + 2*LINE_WIDTH));
@@ -421,7 +427,7 @@ function renderArcs (pArcs, pEntities) {
             
             for (var m=0; m < lRowMemory.length; m++) {
                 lRowMemory[m].layer.appendChild(utl.createUse(0, getRowInfo(i).y, lRowMemory[m].id));
-            };
+            }
         } // for all rows
     } // if pArcs
 } // function
@@ -493,12 +499,15 @@ function arcColorOverride (pArc) {
             (pArc.direction === DIR_RTL) ? pArc.to : pArc.from;
 
         if (gEntity2ArcColor[lFrom] ) {
-            (!(pArc.linecolor) && gEntity2ArcColor[lFrom].arclinecolor) ?
-                pArc.linecolor = gEntity2ArcColor[lFrom].arclinecolor : 0;
-            (!(pArc.textcolor) && gEntity2ArcColor[lFrom].arctextcolor) ?
-                pArc.textcolor = gEntity2ArcColor[lFrom].arctextcolor : 0;
-            (!(pArc.textbgcolor) && gEntity2ArcColor[lFrom].arctextbgcolor) ?
-                pArc.textbgcolor = gEntity2ArcColor[lFrom].arctextbgcolor : 0;
+            if (!(pArc.linecolor) && gEntity2ArcColor[lFrom].arclinecolor) {
+                pArc.linecolor = gEntity2ArcColor[lFrom].arclinecolor;
+            }
+            if ((!(pArc.textcolor) && gEntity2ArcColor[lFrom].arctextcolor) ) {
+                pArc.textcolor = gEntity2ArcColor[lFrom].arctextcolor;
+            }
+            if (!(pArc.textbgcolor) && gEntity2ArcColor[lFrom].arctextbgcolor) {
+                pArc.textbgcolor = gEntity2ArcColor[lFrom].arctextbgcolor;
+            }
         }
     }
     return pArc;
@@ -510,108 +519,128 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lLabel = pArc.label ? pArc.label : undefined;
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
-
+    var pTmp = 0;
 
     switch(pArc.kind) {
         case ("->"): {
-            lClass = "signal";
-            pArc.direction = DIR_LTR;
+                lClass = "signal";
+                pArc.direction = DIR_LTR;
+            }
             break;
-        } case ("<-"): {
-            lClass = "signal";
-            pArc.direction = DIR_RTL;
-            var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
+        case ("<-"): {
+                lClass = "signal";
+                pArc.direction = DIR_RTL;
+                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
+            }
             break;
-        } case ("<->"): {
-            lClass = "signal-both";
-            pArc.direction = DIR_BOTH;
+        case ("<->"): {
+                lClass = "signal-both";
+                pArc.direction = DIR_BOTH;
+            }
             break;
-        } case ("--"): {
+        case ("--"): {
+                pArc.direction = DIR_NONE;
+            }
+            break;
+        case ("=>"): {
+                lClass = "method";
+                pArc.direction = DIR_LTR;
+            }
+            break;
+        case ("<="): {
+                lClass = "method";
+                pArc.direction = DIR_RTL;
+                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
+            }
+            break;
+        case ("<=>"): {
+                lClass = "method-both";
+                pArc.direction = DIR_BOTH;
+            }
+            break;
+        case ("=="): {
+                pArc.direction = DIR_NONE;
+            }
+            break;
+        case (">>"):{
+                lClass = "returnvalue";
+                pArc.direction = DIR_LTR;
+            }
+            break;
+        case ("<<"): {
+                lClass = "returnvalue";
+                pArc.direction = DIR_RTL;
+                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
+            }
+            break;
+        case ("<<>>"):{
+                lClass = "returnvalue-both";
+                pArc.direction = DIR_BOTH;
+            }
+            break;
+        case (".."): {
+                lClass = "dotted";
+                pArc.direction = DIR_NONE;
+            }
+            break;
+        case ("=>>"): {
+                lClass = "callback";
+                pArc.direction = DIR_LTR;
+            }
+            break;
+        case ("<<="): {
+                lClass = "callback";
+                pArc.direction = DIR_RTL;
+                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
+            }
+            break;
+        case ("<<=>>"): {
+                lClass = "callback-both";
+                pArc.direction = DIR_BOTH;
+            }
+            break;
+        case (":>"): {
+                lClass = "emphasised";
+                pArc.direction = DIR_LTR;
+                lDoubleLine = true;
+            }
+            break;
+        case ("<:"): {
+                lClass = "emphasised";
+                pArc.direction = DIR_RTL;
+                lDoubleLine = true;
+                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
+            }
+            break;
+        case ("<:>"): {
+                lDoubleLine = true;
+                pArc.direction = DIR_BOTH;
+                lClass = "emphasised-both";
+            }
+            break;
+        case ("::"): {
+                lClass = "double";
+                pArc.direction = DIR_NONE;
+                lDoubleLine = true;
+            }
+            break;
+        case ("-x"): case("-X"): {
+                lClass = "lost";
+                pArc.direction = DIR_LTR;
+                pTo =  pFrom + (pTo - pFrom)*(3/4);
+            }
+            break;
+        case ("x-"): case("X-"): {
+                lClass = "lost";
+                pArc.direction = DIR_RTL;
+                pTmp = pTo;
+                pTo = pFrom;
+                pFrom = pTmp;
+                pTo =  pFrom + (pTo - pFrom)*(3/4);
+            }
+            break;
+        default : {
             pArc.direction = DIR_NONE;
-            break;
-        } case ("=>"): {
-            lClass = "method";
-            pArc.direction = DIR_LTR;
-            break;
-        } case ("<="): {
-            lClass = "method";
-            pArc.direction = DIR_RTL;
-            var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            break;
-        } case ("<=>"): {
-            lClass = "method-both";
-            pArc.direction = DIR_BOTH;
-            break;
-        } case ("=="): {
-            pArc.direction = DIR_NONE;
-            break;
-        } case (">>"):{
-            lClass = "returnvalue";
-            pArc.direction = DIR_LTR;
-            break;
-        } case ("<<"): {
-            lClass = "returnvalue";
-            pArc.direction = DIR_RTL;
-            var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            break;
-        } case ("<<>>"):{
-            lClass = "returnvalue-both";
-            pArc.direction = DIR_BOTH;
-            break;
-        } case (".."): {
-            lClass = "dotted";
-            pArc.direction = DIR_NONE;
-            break;
-        } case ("=>>"): {
-            lClass = "callback";
-            pArc.direction = DIR_LTR;
-            break;
-        } case ("<<="): {
-            lClass = "callback";
-            pArc.direction = DIR_RTL;
-            var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            break;
-        } case ("<<=>>"): {
-            lClass = "callback-both";
-            pArc.direction = DIR_BOTH;
-            break;
-        } case (":>"): {
-            lClass = "emphasised";
-            pArc.direction = DIR_LTR;
-            lDoubleLine = true;
-            break;
-        } case ("<:"): {
-            lClass = "emphasised";
-            pArc.direction = DIR_RTL;
-            lDoubleLine = true;
-            var pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            break;
-        } case ("<:>"): {
-            lDoubleLine = true;
-            pArc.direction = DIR_BOTH;
-            lClass = "emphasised-both";
-            break;
-        } case ("::"): {
-            lClass = "double";
-            pArc.direction = DIR_NONE;
-            lDoubleLine = true;
-            break;
-        } case ("-x"): case("-X"): {
-            lClass = "lost";
-            pArc.direction = DIR_LTR;
-            pTo =  pFrom + (pTo - pFrom)*(3/4);
-            break;
-        } case ("x-"): case("X-"): {
-            lClass = "lost";
-            pArc.direction = DIR_RTL;
-            var pTmp = pTo;
-            pTo = pFrom;
-            pFrom = pTmp;
-            pTo =  pFrom + (pTo - pFrom)*(3/4);
-            break;
-        } default : {
-            pArc.direction = DIR_NONE;
-            break;
         }
     }
     pArc = arcColorOverride (pArc);
@@ -685,15 +714,14 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         pArc.id = pArc.id ? unescapeString(pArc.id) : undefined;
 
         var lLines = pArc.label.split('\\n');
+        var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
         switch(pArc.kind){ 
             case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
-                var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
                 lLines = wrap(pArc.label, lMaxTextWidthInChars);
-                break;
             }
+            break;
             default: {
                 if (WORDWRAPARCS){
-                    var lMaxTextWidthInChars = determineMaxTextWidth(pWidth);
                     lLines = wrap(pArc.label, lMaxTextWidthInChars);
                 }
             }
@@ -701,8 +729,8 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         
         pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
         for (var i = 0; i < lLines.length; i++) {
-            var lText = new Object();
-            var lBBox = new Object();
+            var lText = {};
+            var lBBox = {};
             if (i===0){
                 lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url, pArc.id, pArc.idurl);
                 lBBox = utl.getBBox(lText);
@@ -753,14 +781,14 @@ function createComment (pId, pArc) {
 
 function colorText (pElement, pArc){
     if (pArc.textcolor) {
-        var lStyleString = new String();
+        var lStyleString = "";
         lStyleString += "fill:" + pArc.textcolor + ";";
         pElement.setAttribute("style", lStyleString);
     }
 }
 
 function colorBox (pElement, pArc) {
-    var lStyleString = new String();
+    var lStyleString = "";
     if (pArc.textbgcolor) {
         lStyleString += "fill:" + pArc.textbgcolor + ";";
     }
@@ -785,18 +813,20 @@ function createBox (pId, pFrom, pTo, pArc) {
     var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT - 2*LINE_WIDTH);
     
     switch (pArc.kind) {
-          case ("rbox") : {
-          lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
-          break;
-        } case ("abox") : {
-          lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
-          break;
-        } case ("note") : {
-          lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
-          break;
-        } default : {
-          lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2));
-          break;
+        case ("rbox") : {
+            lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
+        }
+        break;
+        case ("abox") : {
+            lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
+        }
+        break;
+        case ("note") : {
+            lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
+        }
+        break;
+        default : {
+            lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2));
         }
     }
     colorBox (lBox, pArc);
@@ -808,6 +838,7 @@ function createBox (pId, pFrom, pTo, pArc) {
 
 
 var gSvgStyleElementString = 
+/*jshint multistr:true */
 "svg { \
     font-family: Helvetica, sans-serif; \
     font-size: 9pt; \
