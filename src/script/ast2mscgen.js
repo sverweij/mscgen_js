@@ -2,6 +2,11 @@
  * takes an abstract syntax tree for a message sequence chart and renders it
  * as an mscgen program. 
  */
+
+/* jshint node:true */
+/* jshint undef:true */
+/* jshint unused:strict */
+
 var tomscgen = (function(){
 var INDENT = "  ";
 
