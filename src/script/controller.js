@@ -61,7 +61,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, msc_parse, genny_parse, msc_render,
-            to_msgenny, to_mscgen,
+            tomsgenny, tomscgen,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,

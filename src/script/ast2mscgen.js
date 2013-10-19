@@ -7,7 +7,7 @@
 /* jshint undef:true */
 /* jshint unused:strict */
 
-var tomscgen = (function(){
+define ([], function(){
 var INDENT = "  ";
 
 function _renderAST(pAST){
@@ -154,7 +154,7 @@ var result =  {
 };
 
 return result;
-})();
+});
 /*
     This file is part of mscgen_js.
 

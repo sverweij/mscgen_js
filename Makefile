@@ -19,12 +19,14 @@ LIB_SOURCES_WEB=src/lib/codemirror.js \
     src/lib/canvg/rgbcolor.js \
     src/script/jquery.js
 SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
+    src/script/textutensils.js \
     src/script/renderast.js \
     src/script/controller.js \
     src/script/mscgen-main.js
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
+TMP:=/tmp/__mscgen_js_makefile_node_to_webjs_tmpfile__
 
 .PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint
 
@@ -45,10 +47,16 @@ src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
 	$(PEGJS) $< $@
 
 src/script/ast2mscgen.js: src/script/node/ast2mscgen.js
-	sed s/module.exports/var\ tomscgen/g $< > $@
+	# sed s/module.exports/var\ tomscgen/g $< > $@
+	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< > $(TMP)
+	sed s/\}\)\(\)\;/\}\)\;/g $(TMP) > $@
+	rm $(TMP)
 
 src/script/ast2msgenny.js: src/script/node/ast2msgenny.js
-	sed s/module.exports/var\ tomsgenny/g $< > $@
+	# sed s/module.exports/var\ tomsgenny/g $< > $@
+	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< > $(TMP)
+	sed s/\}\)\(\)\;/\}\)\;/g $(TMP) > $@
+	rm $(TMP)
 
 src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css
 	$(RJS) -o cssIn=src/style/mscgen-src.css out=$@

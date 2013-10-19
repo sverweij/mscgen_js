@@ -7,7 +7,7 @@
 /* jshint undef:true */
 /* jshint unused:strict */
 
-var tomsgenny = (function(){
+define ([], function(){
 
 function _renderAST(pAST){
     var lRetVal = "";
@@ -136,7 +136,7 @@ var result =  {
 };
 
 return result;
-})();
+});
 /*
     This file is part of mscgen_js.
 
