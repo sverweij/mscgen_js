@@ -1,11 +1,11 @@
-/*
- * takes a simplified message sequence chart program and translates
- * to an mscgen program
+/* 
+ * reads a mscgen program from input, parses it and (standardly
+ * formatted) outputs it again
  */
 /* jshint indent:4 */
 /* jshint node:true */
-var parser = require ("./mscgenparser_node");
-var ast2genny = require ("./ast2msgenny");
+
+var txt = require ("./textutensils");
 
 var gInput = "";
 
@@ -17,8 +17,11 @@ process.stdin.on('data', function(chunk) {
 });
 
 process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    process.stdout.write(ast2genny.render (lAST));
+    var lWrappedAry = txt.wrap(gInput, 20);
+    for (var i =0; i< lWrappedAry.length; i++ ){
+        process.stdout.write(lWrappedAry[i]);
+        process.stdout.write('\n');
+    }
     process.stdin.pause();
 });
 

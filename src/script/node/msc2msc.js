@@ -2,6 +2,8 @@
  * reads a mscgen program from input, parses it and (standardly
  * formatted) outputs it again
  */
+/* jshint indent:4 */
+/* jshint node:true */
 
 var parser = require ("./mscgenparser_node");
 var ast2mscgen = require ("./ast2mscgen");

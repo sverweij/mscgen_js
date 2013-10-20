@@ -1,7 +1,12 @@
 /* jshint undef:true */
 /* jshint unused:strict */
-/* jshint browser:true */
+/* jshint indent:4 */
 /* global define */
+/* jshinte node:true */
+
+if (typeof define !== 'function') {
+        var define = require('amdefine')(module);
+}
 
 define([], function() {
     

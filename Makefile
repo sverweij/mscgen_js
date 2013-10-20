@@ -1,13 +1,18 @@
 SHELL=/bin/sh
 .SUFFIXES:
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
-PEGJS=pegjs
-RJS=r.js
+PEGJS=node_modules/pegjs/bin/pegjs
+RJS=node_modules/requirejs/bin/r.js
 GIT=git
-LINT=jshint --verbose --show-non-errors
+LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
+CJS2AMD=utl/commonjs2amd.sh
+NPM=npm
 
-GENERATED_SOURCES_WEB=src/script/mscgenparser.js src/script/msgennyparser.js src/script/ast2mscgen.js src/script/ast2msgenny.js src/style/mscgen.css
-GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js src/script/node/msgennyparser_node.js
+GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
+	src/script/msgennyparser.js \
+	src/style/mscgen.css
+GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js \
+	src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \
@@ -19,39 +24,33 @@ LIB_SOURCES_WEB=src/lib/codemirror.js \
     src/lib/canvg/rgbcolor.js \
     src/script/jquery.js
 SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
-    src/script/textutensils.js \
+    src/script/node/textutensils.js \
     src/script/renderast.js \
     src/script/controller.js \
     src/script/mscgen-main.js
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js src/script/node/ast2msgenny.js
+SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
+	src/script/node/ast2msgenny.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 
-.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint
+.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node
 
 help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean
 
 # file targets
-src/script/mscgenparser.js: src/script/node/mscgenparser.pegjs 
-	$(PEGJS) --export-var var\ mscparser $< $@
 
-src/script/msgennyparser.js: src/script/node/msgennyparser.pegjs 
-	$(PEGJS) --export-var var\ msgennyparser $< $@
+src/script/mscgenparser.js: src/script/node/mscgenparser_node.js
+	$(CJS2AMD) < $< > $@
+
+src/script/msgennyparser.js: src/script/node/msgennyparser_node.js
+	$(CJS2AMD) < $< > $@
 
 src/script/node/mscgenparser_node.js: src/script/node/mscgenparser.pegjs 
 	$(PEGJS) $< $@
 
 src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
 	$(PEGJS) $< $@
-
-src/script/ast2mscgen.js: src/script/node/ast2mscgen.js
-	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< | \
-		sed s/\}\)\(\)\;/\}\)\;/g > $@
-
-src/script/ast2msgenny.js: src/script/node/ast2msgenny.js
-	sed s/module\.exports\ =\ \(/define\ \([],\ /g $< | \
-		sed s/\}\)\(\)\;/\}\)\;/g > $@
 
 src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css
 	$(RJS) -o cssIn=src/style/mscgen-src.css out=$@
@@ -78,6 +77,15 @@ script/mscgen-main.js: $(SOURCES_WEB)
 			out="./script/mscgen-main.js"
 
 # "phony" targets
+build-prerequisites:
+	$(NPM) install pegjs requirejs jshint
+
+runtime-prerequisites-node:
+	# cd src/script/node
+	$(NPM) install amdefine
+
+prerequisites: build-prerequisites runtime-prerequisites-node
+
 dev-build: $(SOURCES_WEB) $(SOURCES_NODE)
 
 noconsolestatements:
