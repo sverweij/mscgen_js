@@ -8,7 +8,12 @@
 /* jshint unused:strict */
 /* jshint indent:4 */
 
-module.exports = (function() {
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+
+define ([],function() {
 
     function _renderAST(pAST) {
         var lRetVal = "";
@@ -139,7 +144,7 @@ module.exports = (function() {
     };
 
     return result;
-})();
+});
 /*
  This file is part of mscgen_js.
 

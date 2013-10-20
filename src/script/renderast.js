@@ -32,7 +32,7 @@ the associate line, we'll need to do something like this:
 /* jshint trailing:true */
 /* global define */
 
-define(["renderutensils", "textutensils"], function(utl, txt) {
+define(["renderutensils", "node/textutensils"], function(utl, txt) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;

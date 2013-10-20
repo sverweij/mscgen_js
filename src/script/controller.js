@@ -46,7 +46,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "ast2msgenny", "ast2mscgen",
+        "node/ast2msgenny", "node/ast2mscgen",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
