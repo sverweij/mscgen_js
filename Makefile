@@ -35,7 +35,7 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/ast2msgenny.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 
-.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report
+.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
 
 help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean
@@ -119,8 +119,11 @@ deploy-gh-pages: checkout-gh-pages install
 report:
 	$(PLATO) -r -d platoreports -x "jquery|parser" src/script/
 
-check: noconsolestatements lint
-	$(MOCHA) -R spec src/script/node/test/
+test:
+	# $(MOCHA) -R spec src/script/node/test/
+	$(MOCHA) -R dot src/script/node/test/
+
+check: noconsolestatements lint test
     
 mostlyclean:
 	rm -rf $(PRODDIRS) index.html
