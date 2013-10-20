@@ -26,14 +26,14 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 - ```make clean``` removes built production files as well as all generated files in the src tree
 
 ## Testing 
--```make test```
-    - runs the (still small amount of) unit tests
+- ```make test```
+    - runs the (growing amount of) unit tests
+    - (most checks are still run manually with a well trained pair of eyeballs ...)
 
-- ```make check```:
+- ```make check```
     -  checks for occurence of ```console``` statements 
     -  runs jshint on non-library, non-generated source code
     -  runs a ```make test```
-    -  most other checks are of a visual nature)
 
 ## Prerequisites
 - make
