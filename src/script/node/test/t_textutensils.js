@@ -40,7 +40,7 @@ describe('textutensils', function() {
         it('should break up in 1 piece', function() {
             assert.equal(lEmptyStringAry.length, 1);
         });
-        it('should have thing the empty string in it\'s only component', function() {
+        it('should have the empty string in it\'s only component', function() {
             assert.equal(lEmptyStringAry[0], "");
         });
     });
