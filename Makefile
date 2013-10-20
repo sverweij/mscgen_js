@@ -3,6 +3,8 @@ SHELL=/bin/sh
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
+PLATO=plato
+MOCHA=mocha
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CJS2AMD=utl/commonjs2amd.sh
@@ -78,7 +80,7 @@ script/mscgen-main.js: $(SOURCES_WEB)
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint
+	$(NPM) install pegjs requirejs jshint plato mocha
 
 runtime-prerequisites-node:
 	# cd src/script/node
@@ -115,10 +117,10 @@ deploy-gh-pages: checkout-gh-pages install
 	$(GIT) checkout master
 
 report:
-	plato -r -d report -x "jquery|parser" src/script/
+	$(PLATO) -r -d platoreports -x "jquery|parser" src/script/
 
 check: noconsolestatements lint
-    #TODO 
+	$(MOCHA) -R spec src/script/node/test/
     
 mostlyclean:
 	rm -rf $(PRODDIRS) index.html

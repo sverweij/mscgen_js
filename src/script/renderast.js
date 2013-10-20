@@ -327,7 +327,7 @@ function renderArcs (pArcs, pEntities) {
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
-                            if (lTo === "*"){
+                            if (lTo === "*"){ // it's a broadcast arc
                                 xFrom = gEntity2X[lFrom];
                                 for (k=0;k<pEntities.length;k++){
                                     if (pEntities[k].name != lFrom) {
@@ -347,7 +347,7 @@ function renderArcs (pArcs, pEntities) {
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
-                            } else if (lFrom === "*") {
+                            } else if (lFrom === "*") { // it's a broadcast arc
                                 xTo = gEntity2X[lTo];
                                 for (k=0;k<pEntities.length;k++){
                                     if (pEntities[k].name != lTo) {
@@ -366,7 +366,7 @@ function renderArcs (pArcs, pEntities) {
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
-                            } else {
+                        } else { // it's a regular arc
                                 xFrom = gEntity2X[lFrom];
                                 xTo = gEntity2X[lTo];
                                 lElement = createArc(lCurrentId, pArcs[i][j], xFrom, xTo);
@@ -382,10 +382,6 @@ function renderArcs (pArcs, pEntities) {
                 }
             } // for all arcs in a row
             /* only here we can determine the height of the row and the y position 
-             * This means the xxx.appendChild(utl.createUse ...) things in 
-             * the most inner loop above can only really be done here
-             * ... which means we have to remember into wich layer each of them
-             *  is supposed to go.
              */
             var lArcRowId = "arcrow_" + i.toString();
             var lArcRowClass = "arcrow";
