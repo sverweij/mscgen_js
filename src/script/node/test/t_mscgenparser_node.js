@@ -1,27 +1,20 @@
 var assert = require("assert");
 var parser = require("../mscgenparser_node");
+var tst = require("./testutensils");
+var fix = require("./astfixtures");
 
 describe('mscgenparser', function() {
     describe('#parse() - simple script', function() {
 
         it('should render a simple AST, with two entities auto declared', function() {
-            lAST = parser.parse('msc { a,b; a => b [label="a simple mscgen script"];}');
-            assert.equal(JSON.stringify(lAST), JSON.stringify({
-                "entities" : [{
-                    "name" : "a"
-                }, {
-                    "name" : "b"
-                }],
-                "arcs" : [[{
-                    "kind" : "=>",
-                    "from" : "a",
-                    "to" : "b",
-                    "label" : "a simple mscgen script"
-                }]]
-            }));
+            var lAST = parser.parse('msc { a,b; a => b [label="a simple script"];}');
+            tst.assertequalJSON(lAST, fix.astSimple());
         });
 
-        it("should produce an (almost empty) AST for empty input");
+        it("should produce an (almost empty) AST for empty input", function() {
+            var lAST = parser.parse("msc{}");
+            tst.assertequalJSON(lAST, fix.astEmpty());
+        });
         it("should produce an AST even when non entity arcs are its only content");
         it("should produce lowercase for upper/ mixed case arc kinds");
         it("should produce lowercase for upper/ mixed case options");
