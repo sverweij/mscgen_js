@@ -31,6 +31,7 @@ describe('mscgenparser', function() {
             lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
             tst.assertequalJSON(lAST, fix.astMixedAttributes());
         });
+        it("should translate *colour to *color");
         it("should produce only 'true' or 'false' for all variants of wordwraparcs", function() {
             tst.assertequalJSON(parser.parse('msc { wordwraparcs=true;}'), fix.astWorwraparcstrue());
             tst.assertequalJSON(parser.parse('msc { wordwraparcs="true";}'), fix.astWorwraparcstrue());

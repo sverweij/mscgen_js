@@ -11,7 +11,7 @@ describe('ast2msgenny', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should surround labels with a , them with quotes", function() {
+        it("should wrap labels with a , in quotes", function() {
             var lAST = {
                 "entities" : [{
                     "name" : "a",
@@ -23,7 +23,7 @@ describe('ast2msgenny', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should surround labels with a ; them with quotes", function() {
+        it("should wrap labels with a ; in quotes", function() {
             var lAST = {
                 "entities" : [{
                     "name" : "a",
@@ -40,6 +40,7 @@ describe('ast2msgenny', function() {
             var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs="true";\n\na;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("should ignore all attributes, except label");
 
     });
 });
