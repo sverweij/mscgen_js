@@ -31,7 +31,7 @@
     
     function flattenBoolean(pBoolean) {
         var lBoolean = "false";
-        switch(pBoolean) {
+        switch(pBoolean.toLowerCase()) {
             case("true"): case("on"): case("1"): lBoolean = "true";
         }
         return lBoolean;
