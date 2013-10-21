@@ -48,6 +48,44 @@ module.exports = (function() {
                     "label" : "end"
                 }]]
             };
-        }
+        },
+        astWorwraparcstrue : function() {
+            return {
+                "options" : {
+                    "wordwraparcs" : "true",
+                },
+                "entities" : []
+            };
+        },
+        astBoxArcs : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }, {
+                    "name" : "d"
+                }],
+                "arcs" : [[{
+                    "kind" : "note",
+                    "from" : "a",
+                    "to" : "a",
+                }, {
+                    "kind" : "box",
+                    "from" : "b",
+                    "to" : "b",
+                }, {
+                    "kind" : "abox",
+                    "from" : "c",
+                    "to" : "c",
+                }, {
+                    "kind" : "rbox",
+                    "from" : "d",
+                    "to" : "d",
+                }]]
+            };
+        },
     };
 })();

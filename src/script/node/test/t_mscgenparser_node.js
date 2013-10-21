@@ -15,13 +15,26 @@ describe('mscgenparser', function() {
             var lAST = parser.parse("msc{}");
             tst.assertequalJSON(lAST, fix.astEmpty());
         });
-        it("should produce an AST even when non entity arcs are its only content", function(){
+        it("should produce an AST even when non entity arcs are its only content", function() {
             var lAST = parser.parse('msc{--- [label="start"]; ... [label="no entities ..."]; ---[label="end"];}');
             tst.assertequalJSON(lAST, fix.astNoEntities());
         });
-        it("should produce lowercase for upper/ mixed case arc kinds");
-        it("should produce lowercase for upper/ mixed case options");
-        it("should produce only 'true' or 'false' for all variants of wordwraparcs");
+        it("should produce lowercase for upper/ mixed case arc kinds", function() {
+            lAST = parser.parse('msc { a, b, c, d; a NoTE a, b BOX b, c aBox c, d rbOX d;}');
+            tst.assertequalJSON(lAST, fix.astBoxArcs());
+        });
+        it("should produce lowercase for upper/ mixed case options", function() {
+            lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
+            tst.assertequalJSON(lAST, fix.astOptions());
+        });
+        it("should produce only 'true' or 'false' for all variants of wordwraparcs", function() {
+            tst.assertequalJSON(parser.parse('msc { wordwraparcs=true;}'), fix.astWorwraparcstrue());
+            tst.assertequalJSON(parser.parse('msc { wordwraparcs="true";}'), fix.astWorwraparcstrue());
+            tst.assertequalJSON(parser.parse('msc { wordwraparcs=on;}'), fix.astWorwraparcstrue());
+            tst.assertequalJSON(parser.parse('msc { wordwraparcs="on";}'), fix.astWorwraparcstrue());
+            tst.assertequalJSON(parser.parse('msc { wordwraparcs=1;}'), fix.astWorwraparcstrue());
+            tst.assertequalJSON(parser.parse('msc { wordwraparcs="1";}'), fix.astWorwraparcstrue());
+        });
         it("should throw a SyntaxError on an invalid program", function() {
             try {
                 var lAST = parser.parse('a');
