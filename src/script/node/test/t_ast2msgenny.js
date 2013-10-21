@@ -37,7 +37,7 @@ describe('ast2msgenny', function() {
 
         it("should render options when they're in the syntax tree", function() {
             var lProgram = renderer.render(fix.astOptions());
-            var lExpectedProgram = "hscale=\"1.2\",\nwidth=\"800\",\narcgradient=\"17\",\nwordwraparcs=\"true\";\n\na;\n\n";
+            var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs="true";\n\na;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
 

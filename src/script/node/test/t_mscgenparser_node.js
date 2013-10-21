@@ -4,7 +4,7 @@ var tst = require("./testutensils");
 var fix = require("./astfixtures");
 
 describe('mscgenparser', function() {
-    describe('#parse() - simple script', function() {
+    describe('#parse()', function() {
 
         it('should render a simple AST, with two entities auto declared', function() {
             var lAST = parser.parse('msc { a,b; a => b [label="a simple script"];}');
@@ -26,6 +26,10 @@ describe('mscgenparser', function() {
         it("should produce lowercase for upper/ mixed case options", function() {
             lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
             tst.assertequalJSON(lAST, fix.astOptions());
+        });
+        it("should produce lowercase for upper/ mixed case attributes", function() {
+            lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
+            tst.assertequalJSON(lAST, fix.astMixedAttributes());
         });
         it("should produce only 'true' or 'false' for all variants of wordwraparcs", function() {
             tst.assertequalJSON(parser.parse('msc { wordwraparcs=true;}'), fix.astWorwraparcstrue());

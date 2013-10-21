@@ -87,5 +87,23 @@ module.exports = (function() {
                 }]]
             };
         },
+        astMixedAttributes : function() {
+            return {
+                "entities" : [{
+                    "name" : "a",
+                    "label" : "miXed",
+                    "textbgcolor" : "orange"
+                }],
+                "arcs" : [[{
+                    "kind" : "note",
+                    "from" : "a",
+                    "to" : "a",
+                    "linecolor" : "red",
+                    "textcolor" : "blue",
+                    "arcskip" : "4"
+                }]]
+
+            };
+        }
     };
 })();
