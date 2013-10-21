@@ -21,7 +21,7 @@ module.exports = (function() {
                 }]]
             };
         },
-        astOptions : function(){
+        astOptions : function() {
             return {
                 "options" : {
                     "arcgradient" : "17",
@@ -32,6 +32,21 @@ module.exports = (function() {
                 "entities" : [{
                     "name" : "a"
                 }]
+            };
+        },
+        astNoEntities : function() {
+            return {
+                "entities" : [],
+                "arcs" : [[{
+                    "kind" : "---",
+                    "label" : "start"
+                }], [{
+                    "kind" : "...",
+                    "label" : "no entities ...",
+                }], [{
+                    "kind" : "---",
+                    "label" : "end"
+                }]]
             };
         }
     };

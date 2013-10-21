@@ -15,7 +15,10 @@ describe('mscgenparser', function() {
             var lAST = parser.parse("msc{}");
             tst.assertequalJSON(lAST, fix.astEmpty());
         });
-        it("should produce an AST even when non entity arcs are its only content");
+        it("should produce an AST even when non entity arcs are its only content", function(){
+            var lAST = parser.parse('msc{--- [label="start"]; ... [label="no entities ..."]; ---[label="end"];}');
+            tst.assertequalJSON(lAST, fix.astNoEntities());
+        });
         it("should produce lowercase for upper/ mixed case arc kinds");
         it("should produce lowercase for upper/ mixed case options");
         it("should produce only 'true' or 'false' for all variants of wordwraparcs");
