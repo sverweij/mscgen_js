@@ -26,12 +26,23 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 - ```make clean``` removes built production files as well as all generated files in the src tree
 
 ## Testing 
-```make check``` (only checks for ```console``` statments at this time; most other checks are of a visual nature)
+- ```make test```
+    - runs the (growing amount of) unit tests
+    - (most checks are still run manually with a well trained pair of eyeballs ...)
+
+- ```make check```
+    -  checks for occurence of ```console``` statements 
+    -  runs jshint on non-library, non-generated source code
+    -  runs a ```make test```
 
 ## Prerequisites
 - make
 - bash (cp, mkdir, rm, sed, grep)
 - nodejs
+    - amdefine (running modules shared between node and web)
     - r.js
     - pegjs
+    - jshint (linting)
+    - mocha (unit testing)
+    - plato (code reporting)
 - git (for gh-pages deployment target only)

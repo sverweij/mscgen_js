@@ -1,11 +1,10 @@
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint indent:4 */
-/* global define */
-/* jshinte node:true */
+/* jshint node:true */
 
 if (typeof define !== 'function') {
-        var define = require('amdefine')(module);
+    var define = require('amdefine')(module);
 }
 
 define([], function() {
