@@ -1,4 +1,4 @@
-# License for requirejs
+# requirejs license
 
 [source](https://github.com/jrburke/requirejs/blob/master/LICENSE])
 
