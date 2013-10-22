@@ -55,11 +55,10 @@ This software is free software [licensed under GPLv3][3]. This means (a.o.) you 
 it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
-MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [requirejs], [jQuery][14], [amdefine]. 
+MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [requirejs][19], [jQuery][14], [amdefine][20]. 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
-It uses [mocha], [jshint] and [plato] to maintain some modicum of verifiable code quality and 
-[make] for a build system.
+It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
 
 ## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for 
@@ -85,3 +84,8 @@ It uses [mocha], [jshint] and [plato] to maintain some modicum of verifiable cod
 [16]: wikum/license.canvg.md
 [17]: http://code.google.com/p/canvg/
 [18]: http://code.google.com/p/mscgen/source/browse/trunk/COPYING
+[19]: wikum/license.requirejs.md
+[20]: wikum/license.amdefine.md
+[21]: wikum/license.mocha.md
+[22]: wikum/license.jshint.md
+[23]: wikum/license.plato.md
