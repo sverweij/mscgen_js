@@ -104,6 +104,45 @@ module.exports = (function() {
                 }]]
 
             };
+        },
+        astColourColor : function() {
+            return {
+                "entities" : [{
+                    "name" : "a",
+                    "textcolor" : "green",
+                    "textbgcolor" : "cyan",
+                    "linecolor" : "#ABCDEF"
+                }]
+            };
+        },
+        astAllAttributes : function() {
+            return {
+                "entities" : [{
+                    "name" : "a",
+                    "label" : "Label for A",
+                    "textcolor" : "green",
+                    "textbgcolor" : "cyan",
+                    "linecolor" : "#ABCDEF",
+                    "arclinecolor" : "violet",
+                    "arctextcolor" : "pink",
+                    "arctextbgcolor" : "brown",
+                    "id" : "Just and id",
+                    "idurl" : "http://localhost/idurl",
+                    "url" : "http://localhost/url"
+                }],
+                "arcs" :[[{
+                    "kind" : "<<=>>",
+                    "from" :"a",
+                    "to":"a",
+                    "label" : "Label for a <<=>> a",
+                    "textcolor" : "green",
+                    "textbgcolor" : "cyan",
+                    "linecolor" : "#ABCDEF",
+                    "id" : "Just and id",
+                    "idurl" : "http://localhost/idurl",
+                    "url" : "http://localhost/url"
+                }]]
+            };
         }
     };
 })();

@@ -40,7 +40,11 @@ describe('ast2msgenny', function() {
             var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs="true";\n\na;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("should ignore all attributes, except label");
+        it("should ignore all attributes, except label and name", function () {
+            var lProgram = renderer.render(fix.astAllAttributes());
+            var lExpectedPorgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
+            assert.equal(lProgram, lExpectedPorgram);
+        });
 
     });
 });
