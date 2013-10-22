@@ -1,4 +1,6 @@
-https://github.com/jrburke/requirejs/blob/master/LICENSE
+# License for requirejs
+
+[source](https://github.com/jrburke/requirejs/blob/master/LICENSE])
 
 RequireJS is released under two licenses: new BSD, and MIT. You may pick the
 license that best suits your development needs. The text of both licenses are
