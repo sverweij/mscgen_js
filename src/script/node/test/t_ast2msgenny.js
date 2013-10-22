@@ -42,7 +42,7 @@ describe('ast2msgenny', function() {
         });
         it("should ignore all attributes, except label and name", function () {
             var lProgram = renderer.render(fix.astAllAttributes());
-            var lExpectedPorgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
+            var lExpectedPorgram = "a : Label for A;\n\na <<=>> a : Label for a;\n";
             assert.equal(lProgram, lExpectedPorgram);
         });
 
