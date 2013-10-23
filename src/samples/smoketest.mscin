@@ -1,9 +1,9 @@
 msc {
   # options
-  hscale="1.0", width="600", arcgradient="8";
+  hscale="1.0", width="700", arcgradient="8";
 
   # entities
-  a [label="entity a", textbgcolor="pink"],
+  a [label="Entity A", textbgcolor="pink"],
   b [textbgcolor="violet"],
   "entity c" [textbgcolor="purple",
               textcolor="yellow",
@@ -11,7 +11,7 @@ msc {
               arclinecolor="orange",
               arctextcolor="yellow",
               arctextbgcolor="purple"],
-  d [textbgcolor="black", textcolor="white"];
+  "d" [textbgcolor="black", textcolor="white"];
 
   # arcs
   a =>> b [label="do magic",
@@ -23,7 +23,7 @@ msc {
   b >> a [label="response",
           linecolor="green",
           textcolor="green"],
-  d note d [label="note with a link",
+  d note d [label="note with a link to the code of mscgen_js on github",
             url="https://github.com/sverweij/mscgen_js"];
   b :> "entity c" [label="with emphasis"];
   "entity c" :> "entity c"
@@ -54,14 +54,15 @@ msc {
             linecolor="yellow"],
   b rbox b [label="This is an 'rbox' example",
             textbgcolor="cyan"],
-  "entity c" abox "entity c" [label="This is an 'abox'",
-                              textcolor="white",
-                              textbgcolor="brown",
-                              linecolor="orange"],
-  d note d [label="Example of a note",
+
+  d note d [label="Example of a note with a lot of text, wrapping over more than two lines, so the whole row is expanded.",
             linecolor="green",
             textcolor="green",
             textbgcolor="#0F0"];
+  b abox d [label="This is an 'abox' spanning several lifelines. To get text to wrap you'd need to enter a LOT of it. Anyhoo, it's working.",
+                              textcolor="white",
+                              textbgcolor="brown",
+                              linecolor="orange"],
   |||;
   ---[label="broadcast tests",
       textcolor="purple", linecolor="brown"];
