@@ -69,7 +69,6 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
 
 var gAutoRender = true;
 var gLanguage = "mscgen";
-var gAST = {};
 var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
 var gCodeMirror =
@@ -229,7 +228,7 @@ $(document).ready(function(){
     });
     // closeLightbox();
     samplesOnChange();
-    if (window.location.search.indexOf("debug")>-1) {
+    if (window.location.search.indexOf("debug") > -1) {
         $(".debug").show();
         ga('send', 'event', 'debug', 'true');
     }
@@ -272,28 +271,24 @@ function switchLanguageOnClick (pValue) {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
     
-        if (lAST && lAST != {}){
+        if (lAST != {}){
             if ("msgenny" === pValue){
                 gCodeMirror.setValue(tomsgenny.render(lAST));
+                // gCodeMirror.setOption("mode", "msgenny");
             } else if ("json" === pValue){
                 gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
+                // gCodeMirror.setOption("mode", "json");
             } else {
                 gCodeMirror.setValue(tomscgen.render(lAST));
+                // gCodeMirror.setOption("mode", "mscgen");
             }
-            gLanguage = pValue;
+            
         }
     } catch(e) {
         // do nothing
     }
-        // if ("msgenny" === pValue) {
-            // // $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
-            // gCodeMirror.setValue(mscgen2genny(gCodeMirror.getValue()));
-            // // gCodeMirror.setOption("mode", "msgenny");
-        // } else if ("mscgen" === pValue) {
-            // gCodeMirror.setValue(genny2mscgen(gCodeMirror.getValue()));
-            // // gCodeMirror.setOption("mode", "mscgen");
-        // }
-
+    
+    gLanguage = pValue;
     showMsGennyState ();
 }
 
@@ -398,38 +393,20 @@ function showMsGennyState () {
     }
 }
 
-// function mscgen2genny (pMscgenText) {
-    // try { 
-        // var lAST = mscparser.parse(pMscgenText);
-        // return tomsgenny.render(lAST);
-    // } catch (e) {
-        // return pMscgenText;
-    // }
-// }
-// 
-// function genny2mscgen (pMsGennyText) {
-    // try { 
-        // var lAST = msgennyparser.parse(pMsGennyText);
-        // return tomscgen.render(lAST);
-    // } catch (e) {
-        // return pMsGennyText;
-    // }
-// }
-
 function render() {
     try {
-        gAST = {};
+        var lAST = {};
         hideError();
 
         if ("msgenny" === gLanguage) {
-            gAST = msgennyparser.parse(gCodeMirror.getValue());
+            lAST = msgennyparser.parse(gCodeMirror.getValue());
         } else if ("json" === gLanguage){
-            gAST = JSON.parse(gCodeMirror.getValue());
+            lAST = JSON.parse(gCodeMirror.getValue());
         } else {
-            gAST = mscparser.parse(gCodeMirror.getValue());
+            lAST = mscparser.parse(gCodeMirror.getValue());
         }
         msc_render.clean("__svg");
-        msc_render.renderAST(gAST, gCodeMirror.getValue(), "__svg");
+        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
         
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)
@@ -452,7 +429,6 @@ function render() {
         // $("#show_svg").attr('href', toVectorURI("#__svg")); 
         // $("#show_png").attr('href', toRasterURI("#__svg", "image/png"));
         // $("#show_jpeg").attr('href', toRasterURI("#__svg", "image/jpeg"));
-        
 
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
