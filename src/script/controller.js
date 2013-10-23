@@ -25,7 +25,7 @@ msc {
   render note render [label="move dom manipulation down?"];
 
   --- [label="[parse error]", linecolor="red"];
-  ui << msc [label="exception"];
+  ui << msc [label="exception"];    
   ui =>> ui [label="show error"];
 
   ui =>> html [label="show error"];
@@ -68,7 +68,8 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
             cv_rgbcolor) {
 
 var gAutoRender = true;
-var gMsGenny = false;
+var gLanguage = "mscgen";
+var gAST = {};
 var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
 var gCodeMirror =
@@ -106,14 +107,20 @@ $(document).ready(function(){
     });
     $("#msgenny_true").bind ({
         click : function(e) {
-                    msgennyOnClick(true);
-                    ga('send', 'event', 'toggle_ms_genny', 'radio');
+                    switchLanguageOnClick("msgenny");
+                    ga('send', 'event', 'toggle_ms_genny', 'true');
                 }     
     });
     $("#msgenny_false").bind ({
         click : function(e) {
-                    msgennyOnClick(false);
-                    ga('send', 'event', 'toggle_ms_genny', 'radio');
+                    switchLanguageOnClick("mscgen");
+                    ga('send', 'event', 'toggle_ms_genny', 'false');
+                }     
+    });
+    $("#json_true").bind ({
+        click : function(e) {
+                    switchLanguageOnClick("json");
+                    ga('send', 'event', 'toggle_ms_genny', 'json');
                 }     
     });
     $("#show_svg_source").bind({
@@ -222,6 +229,10 @@ $(document).ready(function(){
     });
     // closeLightbox();
     samplesOnChange();
+    if (window.location.search.indexOf("debug")>-1) {
+        $(".debug").show();
+        ga('send', 'event', 'debug', 'true');
+    }
     
 }); // document ready
 
@@ -248,23 +259,50 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
-function msgennyOnClick (pValue) {
-    gMsGenny = pValue;
-
-    if (gMsGenny === true) {
-        // $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
-        gCodeMirror.setValue(mscgen2genny(gCodeMirror.getValue()));
-        // gCodeMirror.setOption("mode", "msgenny");
-    } else {
-        gCodeMirror.setValue(genny2mscgen(gCodeMirror.getValue()));
-        // gCodeMirror.setOption("mode", "mscgen");
+function switchLanguageOnClick (pValue) {
+    var lPreviousLanguage = gLanguage;
+    var lAST = {};
+    
+    try {
+        if ("msgenny" === lPreviousLanguage) {
+            lAST = msgennyparser.parse(gCodeMirror.getValue());
+        } else if ("json" === lPreviousLanguage){
+            lAST = JSON.parse(gCodeMirror.getValue());
+        } else {
+            lAST = mscparser.parse(gCodeMirror.getValue());
+        }
+    
+        if (lAST && lAST != {}){
+            if ("msgenny" === pValue){
+                gCodeMirror.setValue(tomsgenny.render(lAST));
+            } else if ("json" === pValue){
+                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
+            } else {
+                gCodeMirror.setValue(tomscgen.render(lAST));
+            }
+            gLanguage = pValue;
+        }
+    } catch(e) {
+        // do nothing
     }
+        // if ("msgenny" === pValue) {
+            // // $("#msc_input").val(mscgen2genny ($("#msc_input").val()));
+            // gCodeMirror.setValue(mscgen2genny(gCodeMirror.getValue()));
+            // // gCodeMirror.setOption("mode", "msgenny");
+        // } else if ("mscgen" === pValue) {
+            // gCodeMirror.setValue(genny2mscgen(gCodeMirror.getValue()));
+            // // gCodeMirror.setOption("mode", "mscgen");
+        // }
+
     showMsGennyState ();
 }
 
+
 function clearOnClick(){
-    if (gMsGenny === true){
+    if ("msgenny" === gLanguage){
         gCodeMirror.setValue("");
+    } else if ("json" === gLanguage){
+        gCodeMirror.setValue("");        
     } else {
         gCodeMirror.setValue("msc{\n  \n}");
         gCodeMirror.setCursor(1,3);
@@ -279,9 +317,11 @@ function samplesOnChange() {
             url : $("#__samples").val(),
             success : function(pData) {
                 if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
-                    gMsGenny = true;
+                    gLanguage = "msgenny";
+                } else if ($("#__samples").val() && $("#__samples").val().endsWith("json")){
+                    gLanguage = "json";
                 } else {
-                    gMsGenny = false;
+                    gLanguage = "mscgen";
                 }
                 showMsGennyState ();
                 gCodeMirror.setValue(pData);
@@ -340,48 +380,56 @@ function showAutorenderState () {
 }
 
 function showMsGennyState () {
-    if (gMsGenny) {
+    if ("msgenny" === gLanguage) {
         $("#msgenny_false").removeAttr("checked", "msgennyOn");
         $("#msgenny_true").attr("checked", "msgennyOn");
-    } else {
+        $("#json_true").removeAttr("checked", "msgennyOn");
+    } else if ("json" === gLanguage){
+        $("#msgenny_false").removeAttr("checked", "msgennyOn");
         $("#msgenny_true").removeAttr("checked", "msgennyOn");
+        $("#json_true").attr("checked", "msgennyOn");
+    } else {
         $("#msgenny_false").attr("checked", "msgennyOn");
+        $("#msgenny_true").removeAttr("checked", "msgennyOn");
+        $("#json_true").removeAttr("checked", "msgennyOn");
     }
     if (gAutoRender) {
         render ();
     }
 }
 
-function mscgen2genny (pMscgenText) {
-    try { 
-        var lAST = mscparser.parse(pMscgenText);
-        return tomsgenny.render(lAST);
-    } catch (e) {
-        return pMscgenText;
-    }
-}
-
-function genny2mscgen (pMsGennyText) {
-    try { 
-        var lAST = msgennyparser.parse(pMsGennyText);
-        return tomscgen.render(lAST);
-    } catch (e) {
-        return pMsGennyText;
-    }
-}
+// function mscgen2genny (pMscgenText) {
+    // try { 
+        // var lAST = mscparser.parse(pMscgenText);
+        // return tomsgenny.render(lAST);
+    // } catch (e) {
+        // return pMscgenText;
+    // }
+// }
+// 
+// function genny2mscgen (pMsGennyText) {
+    // try { 
+        // var lAST = msgennyparser.parse(pMsGennyText);
+        // return tomscgen.render(lAST);
+    // } catch (e) {
+        // return pMsGennyText;
+    // }
+// }
 
 function render() {
     try {
+        gAST = {};
         hideError();
-        var lAST;
 
-        if (gMsGenny) {
-            lAST = msgennyparser.parse(gCodeMirror.getValue());
+        if ("msgenny" === gLanguage) {
+            gAST = msgennyparser.parse(gCodeMirror.getValue());
+        } else if ("json" === gLanguage){
+            gAST = JSON.parse(gCodeMirror.getValue());
         } else {
-            lAST = mscparser.parse(gCodeMirror.getValue());
+            gAST = mscparser.parse(gCodeMirror.getValue());
         }
         msc_render.clean("__svg");
-        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
+        msc_render.renderAST(gAST, gCodeMirror.getValue(), "__svg");
         
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)

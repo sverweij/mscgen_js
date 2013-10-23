@@ -220,6 +220,9 @@ div.question {
     float: right;
     position: relative;
 }
+.debug {
+    display: none;
+}
 
 @media screen and (max-width: 480px) {
 
