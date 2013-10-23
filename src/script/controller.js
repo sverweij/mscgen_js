@@ -271,7 +271,7 @@ function switchLanguageOnClick (pValue) {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
     
-        if (lAST && lAST != {}){
+        if (lAST != {}){
             if ("msgenny" === pValue){
                 gCodeMirror.setValue(tomsgenny.render(lAST));
                 // gCodeMirror.setOption("mode", "msgenny");
@@ -282,12 +282,13 @@ function switchLanguageOnClick (pValue) {
                 gCodeMirror.setValue(tomscgen.render(lAST));
                 // gCodeMirror.setOption("mode", "mscgen");
             }
-            gLanguage = pValue;
+            
         }
     } catch(e) {
         // do nothing
     }
-
+    
+    gLanguage = pValue;
     showMsGennyState ();
 }
 
