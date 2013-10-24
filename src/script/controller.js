@@ -72,7 +72,7 @@ var gLanguage = "mscgen";
 var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
 var gCodeMirror =
-    CodeMirror.fromTextArea(document.getElementById("msc_input"), {
+    CodeMirror.fromTextArea(document.getElementById("__msc_input"), {
         lineNumbers       : true,
         autoCloseBrackets : true,
         matchBrackets     : true,
@@ -104,31 +104,25 @@ $(document).ready(function(){
                     ga('send', 'event', 'toggle_autorender', 'checkbox');
                 }
     });
-    $("#msgenny_true").bind ({
+    $("#__language_msgenny").bind ({
         click : function(e) {
                     switchLanguageOnClick("msgenny");
-                    ga('send', 'event', 'toggle_ms_genny', 'true');
+                    ga('send', 'event', 'toggle_ms_genny', 'msgenny');
                 }     
     });
-    $("#msgenny_false").bind ({
+    $("#__language_mscgen").bind ({
         click : function(e) {
                     switchLanguageOnClick("mscgen");
-                    ga('send', 'event', 'toggle_ms_genny', 'false');
+                    ga('send', 'event', 'toggle_ms_genny', 'mscgen');
                 }     
     });
-    $("#json_true").bind ({
+    $("#__language_json").bind ({
         click : function(e) {
                     switchLanguageOnClick("json");
                     ga('send', 'event', 'toggle_ms_genny', 'json');
                 }     
     });
-    $("#show_svg_source").bind({
-        click : function(e) {
-                    helpmeOnClick();
-                    ga('send', 'event', 'show_svg_source', 'button');
-                }
-    });
-    $("#btn_clear").bind({
+    $("#__btn_clear").bind({
         click : function(e) {
                     clearOnClick();
                     ga('send', 'event', 'clear', 'button');
@@ -140,19 +134,19 @@ $(document).ready(function(){
                     ga('send', 'event', 'show_svg_base64', 'svg dblcick');
                 }
     });
-    $("#show_svg").bind({
+    $("#__show_svg").bind({
         click : function(e) {
                     show_svgOnClick();
                     ga('send', 'event', 'show_svg_base64', 'button');
                 }
     });
-    $("#show_png").bind({
+    $("#__show_png").bind({
         click : function(e) {
                     show_rasterOnClick("image/png");
                     ga('send', 'event', 'show_png_base64', 'button');
                 }
     });
-    $("#show_jpeg").bind({
+    $("#__show_jpeg").bind({
         click : function(e) {
                     show_rasterOnClick("image/jpeg");
                     ga('send', 'event', 'show_jpeg_base64', 'button');
@@ -164,7 +158,7 @@ $(document).ready(function(){
                     ga('send', 'event', 'close_source_lightbox', 'button');
                 }
     });
-    $("#btn_render").bind({
+    $("#__btn_render").bind({
         click : function(e) {
                     renderOnClick();
                     ga('send', 'event', 'render', 'button');
@@ -367,26 +361,26 @@ function close_lightboxOnClick(){
 function showAutorenderState () {
     if (gAutoRender) {
         $("#__autorender").attr("checked", "autorenderOn");
-        $("#btn_render").hide();
+        $("#__btn_render").hide();
     } else {
         $("#__autorender").removeAttr ("checked", "autorenderOn");
-        $("#btn_render").show();
+        $("#__btn_render").show();
     }
 }
 
 function showMsGennyState () {
     if ("msgenny" === gLanguage) {
-        $("#msgenny_false").removeAttr("checked", "msgennyOn");
-        $("#msgenny_true").attr("checked", "msgennyOn");
-        $("#json_true").removeAttr("checked", "msgennyOn");
+        $("#__language_mscgen").removeAttr("checked", "msgennyOn");
+        $("#__language_msgenny").attr("checked", "msgennyOn");
+        $("#__language_json").removeAttr("checked", "msgennyOn");
     } else if ("json" === gLanguage){
-        $("#msgenny_false").removeAttr("checked", "msgennyOn");
-        $("#msgenny_true").removeAttr("checked", "msgennyOn");
-        $("#json_true").attr("checked", "msgennyOn");
+        $("#__language_mscgen").removeAttr("checked", "msgennyOn");
+        $("#__language_msgenny").removeAttr("checked", "msgennyOn");
+        $("#__language_json").attr("checked", "msgennyOn");
     } else {
-        $("#msgenny_false").attr("checked", "msgennyOn");
-        $("#msgenny_true").removeAttr("checked", "msgennyOn");
-        $("#json_true").removeAttr("checked", "msgennyOn");
+        $("#__language_mscgen").attr("checked", "msgennyOn");
+        $("#__language_msgenny").removeAttr("checked", "msgennyOn");
+        $("#__language_json").removeAttr("checked", "msgennyOn");
     }
     if (gAutoRender) {
         render ();
