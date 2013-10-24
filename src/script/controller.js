@@ -173,7 +173,7 @@ $(document).ready(function(){
                     msc_inputKeyup();
                     if (gGaKeyCount > 17) {
                         gGaKeyCount = 0;
-                        ga('send', 'event', '17 characters typed', 'textarea');
+                        ga('send', 'event', '17 characters typed', gLanguage);
                     } else {
                         gGaKeyCount++;
                     }
@@ -184,7 +184,7 @@ $(document).ready(function(){
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
                         gCodeMirror.setValue("");
-                        ga('send', 'event', 'drop', 'textarea');    
+                        ga('send', 'event', 'drop', gLanguage);    
                     } 
     });
     $("a[href]").bind({
