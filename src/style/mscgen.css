@@ -316,7 +316,7 @@ to {
     color: lightgray;
 }
 }
-#input_and_controls {
+#__input_and_controls {
     z-index: 2;
     position: relative;
     vertical-align: top;
@@ -327,14 +327,14 @@ to {
     padding-bottom: 1em;
     margin-right: 1em;
 }
-#input_and_controls > #btn_render {
+#__input_and_controls > #__btn_render {
     display: none;
 }
-#input_and_controls > #msc_input {
+#__input_and_controls > #__msc_input {
     width: 98%;
     height: 40em;
 }
-#input_and_controls > #__error_output {
+#__input_and_controls > #__error_output {
     color: orange;
     padding: 1em 0em 1em 0em;
     border: solid 1px orange;
