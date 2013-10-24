@@ -87,7 +87,7 @@ Likely nobody will read them, though." class="fadable">mscgen_js</h1>
                     </select>
                 </div>
             </div>
-            <textarea id="msc_input" class="code mscgen" spellcheck="false"></textarea>                                    
+            <textarea id="__msc_input" class="code mscgen" spellcheck="false"></textarea>                                    
             <div id="__input_controls">
                 <input type="checkbox" id="__autorender">
                 <label for="__autorender"
@@ -98,26 +98,26 @@ Switch off on slow machines. A render button will appear in stead.">Auto render<
                     <legend>
                         language
                     </legend>
-                    <input id="msgenny_false" type="radio" name="msgennyrg" checked>
-                    <label for="msgenny_false"
+                    <input id="__language_mscgen" type="radio" name="languagerg" checked>
+                    <label for="__language_mscgen"
                     title="Switches to Mscgen mode. Automatically converts Ms Genny back to Mscgen">Mscgen</label>
-                    <input id="msgenny_true"  type="radio" name="msgennyrg">
+                    <input id="__language_msgenny"  type="radio" name="languagerg">
 
-                    <label for="msgenny_true"
+                    <label for="__language_msgenny"
                     title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
 
 Watch out (1): ms genny enables you to work blazingly fast.
 Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">Ms Genny</label>
                     <span class="debug">
-                        <input id="json_true" type="radio" name="msgennyrg">
-                        <label for="json_true"
+                        <input id="__language_json" type="radio" name="languagerg">
+                        <label for="__language_json"
                         title="Switches to abstract syntax tree representation (json)">AST</label>
                     </span>
                 </fieldset>
-                <button id="btn_clear" title="Clears the input area">
+                <button id="__btn_clear" title="Clears the input area">
                     clear
                 </button>
-                <button id="btn_render"
+                <button id="__btn_render"
                 title="Click to render. Only shows up when 'autorender' is off">
                     render &gt;
                 </button>
@@ -128,7 +128,7 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
         <div style="display:inline-block;">
             <h3 class="fadable"
             style="padding-right: 1em;"><span class="intronumber">2</span> your chart will show up here &#x0261f; </h3>
-            <a id="show_svg"
+            <a id="__show_svg"
                 class="button"
                 target="_blank"
                 type="image/svg+xml"
@@ -136,14 +136,14 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
 
 Note: the url bar will contain the base64 encoded version of the svg
 Note: Double clicking on the picture has the same effect.">svg</a>
-            <a id="show_png"
+            <a id="__show_png"
                 class="button"
                 target="_blank"
                 type="image/png"
                 title="Shows the chart in a separate window (png).
 
 Note: the url bar will contain the base64 encoded version of the png">png</a>
-            <a id="show_jpeg"
+            <a id="__show_jpeg"
                 class="button"
                 target="_blank"
                 type="image/jpeg"
