@@ -84,11 +84,7 @@ txt.setupStringShims();
 
 $(document).ready(function(){
     
-    if (window.location.search.indexOf("donottrack") > -1) {
-        gaga.gaSetup(false);
-    } else {
-        gaga.gaSetup(true);
-    }
+    gaga.gaSetup(!(window.location.search.indexOf("donottrack") > -1));
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
 
@@ -97,10 +93,17 @@ $(document).ready(function(){
         gaga.g('send', 'event', 'debug', 'true');
     }
 
+    setupEvents();
+    
     $("#__pngcanvas").hide();
     showAutorenderState ();
     showMsGennyState ();
     render();
+    samplesOnChange();
+    
+}); // document ready
+
+function setupEvents () {
     $("#__autorender").bind({
         click : function(e) {
                     autorenderOnClick();
@@ -223,10 +226,8 @@ $(document).ready(function(){
            }
         }
     });
-    // closeLightbox();
-    samplesOnChange();
     
-}); // document ready
+}
 
 function msc_inputKeyup () {
     if (gAutoRender) {
