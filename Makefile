@@ -29,6 +29,7 @@ SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
     src/script/node/textutensils.js \
     src/script/renderast.js \
     src/script/controller.js \
+	src/script/gaga.js \
     src/script/mscgen-main.js
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
