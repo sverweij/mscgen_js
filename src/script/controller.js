@@ -84,7 +84,7 @@ txt.setupStringShims();
 
 $(document).ready(function(){
     
-    gaga.gaSetup(!(window.location.search.indexOf("donottrack") > -1));
+    gaga.gaSetup(window.location.search.indexOf("donottrack") <= -1);
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
 
