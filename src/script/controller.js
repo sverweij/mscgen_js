@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "gaga",
+        "node/ast2msgenny", "node/ast2mscgen", "gaga", "node/textutensils",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -56,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, gaga,
+            tomsgenny, tomscgen, gaga, txt,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -80,9 +80,10 @@ var gCodeMirror =
         // mode              : "mscgen",
         lineWrapping      : true
     });
-
+txt.setupStringShims();
 
 $(document).ready(function(){
+    
     if (window.location.search.indexOf("donottrack") > -1) {
         gaga.gaSetup(false);
     } else {
@@ -449,20 +450,6 @@ function displayError (pString) {
     $("#__error_output").text(pString);
 }
 
-
-if (!String.prototype.endsWith) {
-    Object.defineProperty(String.prototype, 'endsWith', {
-        enumerable: false,
-        configurable: false,
-        writable: false,
-        value: function (searchString, position) {
-            position = position || this.length;
-            position = position - searchString.length;
-            var lastIndex = this.lastIndexOf(searchString);
-            return lastIndex !== -1 && lastIndex === position;
-        }
-    });
-}
 
 }); // define
 /*

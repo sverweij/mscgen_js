@@ -3,15 +3,15 @@
 /* jshint indent:4 */
 /* jshint node:true */
 
-if (typeof define !== 'function') {
+if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
 define([], function() {
-    
+
     /*
-     * Wraps text on the first space found before pMaxlength, 
-     * or exactly pMaxLength when no space wos found. 
+     * Wraps text on the first space found before pMaxlength,
+     * or exactly pMaxLength when no space wos found.
      * Classic "greedy" algorithm.
      */
     function _wrap(pText, pMaxLength) {
@@ -52,12 +52,12 @@ define([], function() {
 
     /*
      * Determine the number of that fits within pWidth amount
-     * of pixels. 
-     * 
-     * Uses heuristics that work for 9pt Helvetica in svg's. 
-     * TODO: make more generic, or use an algorithm that 
+     * of pixels.
+     *
+     * Uses heuristics that work for 9pt Helvetica in svg's.
+     * TODO: make more generic, or use an algorithm that
      *       uses the real width of the text under discourse
-     *       (e.g. using it's BBox; although I fear this 
+     *       (e.g. using it's BBox; although I fear this
      *        might be expensive)
      */
     function _determineMaxTextWidth(pWidth) {
@@ -84,6 +84,22 @@ define([], function() {
         //.replace(/\\n/g, " ");
     }
 
+    function _setupStringShims() {
+        if (!String.prototype.endsWith) {
+            Object.defineProperty(String.prototype, 'endsWith', {
+                enumerable : false,
+                configurable : false,
+                writable : false,
+                value : function(searchString, position) {
+                    position = position || this.length;
+                    position = position - searchString.length;
+                    var lastIndex = this.lastIndexOf(searchString);
+                    return lastIndex !== -1 && lastIndex === position;
+                }
+            });
+        }
+    }
+
     return {
         wrap : function(pText, pMaxLength) {
             return _wrap(pText, pMaxLength);
@@ -93,22 +109,25 @@ define([], function() {
         },
         unescapeString : function(pString) {
             return _unescapeString(pString);
+        },
+        setupStringShims : function() {
+            return _setupStringShims();
         }
     };
 });
 /*
-    This file is part of mscgen_js.
+ This file is part of mscgen_js.
 
-    mscgen_js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ mscgen_js is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    mscgen_js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ mscgen_js is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ You should have received a copy of the GNU General Public License
+ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+ */
