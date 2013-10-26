@@ -41,12 +41,11 @@ msc {
 /* jshint jquery:true */
 /* jshint nonstandard:true */
 /* global define */
-/* global ga */
 /* global CodeMirror */
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen",
+        "node/ast2msgenny", "node/ast2mscgen", "gaga",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -57,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen,
+            tomsgenny, tomscgen, gaga,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -84,15 +83,18 @@ var gCodeMirror =
 
 
 $(document).ready(function(){
-    /* jshint -W030 *//* jshint -W033 *//* jshint -W069 */
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    /* jshint +W030 *//* jshint +W033 *//* jshint +W069 */
+    if (window.location.search.indexOf("donottrack") > -1) {
+        gaga.gaSetup(false);
+    } else {
+        gaga.gaSetup(true);
+    }
+    gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
+    gaga.g('send', 'pageview');
 
-    ga('create', 'UA-42701906-1', 'sverweij.github.io');
-    ga('send', 'pageview');
+    if (window.location.search.indexOf("debug") > -1) {
+        $(".debug").show();
+        gaga.g('send', 'event', 'debug', 'true');
+    }
 
     $("#__pngcanvas").hide();
     showAutorenderState ();
@@ -101,79 +103,79 @@ $(document).ready(function(){
     $("#__autorender").bind({
         click : function(e) {
                     autorenderOnClick();
-                    ga('send', 'event', 'toggle_autorender', 'checkbox');
+                    gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
                 }
     });
     $("#__language_msgenny").bind ({
         click : function(e) {
                     switchLanguageOnClick("msgenny");
-                    ga('send', 'event', 'toggle_ms_genny', 'msgenny');
+                    gaga.g('send', 'event', 'toggle_ms_genny', 'msgenny');
                 }     
     });
     $("#__language_mscgen").bind ({
         click : function(e) {
                     switchLanguageOnClick("mscgen");
-                    ga('send', 'event', 'toggle_ms_genny', 'mscgen');
+                    gaga.g('send', 'event', 'toggle_ms_genny', 'mscgen');
                 }     
     });
     $("#__language_json").bind ({
         click : function(e) {
                     switchLanguageOnClick("json");
-                    ga('send', 'event', 'toggle_ms_genny', 'json');
+                    gaga.g('send', 'event', 'toggle_ms_genny', 'json');
                 }     
     });
     $("#__btn_clear").bind({
         click : function(e) {
                     clearOnClick();
-                    ga('send', 'event', 'clear', 'button');
+                    gaga.g('send', 'event', 'clear', 'button');
                 }
     });
     $("#__svg").bind({
         dblclick : function(e) {
                     show_svgOnClick();
-                    ga('send', 'event', 'show_svg_base64', 'svg dblcick');
+                    gaga.g('send', 'event', 'show_svg_base64', 'svg dblcick');
                 }
     });
     $("#__show_svg").bind({
         click : function(e) {
                     show_svgOnClick();
-                    ga('send', 'event', 'show_svg_base64', 'button');
+                    gaga.g('send', 'event', 'show_svg_base64', 'button');
                 }
     });
     $("#__show_png").bind({
         click : function(e) {
                     show_rasterOnClick("image/png");
-                    ga('send', 'event', 'show_png_base64', 'button');
+                    gaga.g('send', 'event', 'show_png_base64', 'button');
                 }
     });
     $("#__show_jpeg").bind({
         click : function(e) {
                     show_rasterOnClick("image/jpeg");
-                    ga('send', 'event', 'show_jpeg_base64', 'button');
+                    gaga.g('send', 'event', 'show_jpeg_base64', 'button');
                 }
     });
     $("#__close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
-                    ga('send', 'event', 'close_source_lightbox', 'button');
+                    gaga.g('send', 'event', 'close_source_lightbox', 'button');
                 }
     });
     $("#__btn_render").bind({
         click : function(e) {
                     renderOnClick();
-                    ga('send', 'event', 'render', 'button');
+                    gaga.g('send', 'event', 'render', 'button');
                 }
     });
     $("#__samples").bind("change", function (e) {
                     samplesOnChange();
-                    ga('send', 'event', 'selectexample', $("#__samples").val() );
+                    gaga.g('send', 'event', 'selectexample', $("#__samples").val() );
     });
 
     gCodeMirror.on ("change", function() {
                     msc_inputKeyup();
                     if (gGaKeyCount > 17) {
                         gGaKeyCount = 0;
-                        ga('send', 'event', '17 characters typed', gLanguage);
+                        gaga.g('send', 'event', '17 characters typed', gLanguage);
                     } else {
                         gGaKeyCount++;
                     }
@@ -184,7 +186,7 @@ $(document).ready(function(){
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
                         gCodeMirror.setValue("");
-                        ga('send', 'event', 'drop', gLanguage);    
+                        gaga.g('send', 'event', 'drop', gLanguage);    
                     } 
     });
     $("a[href]").bind({
@@ -192,14 +194,14 @@ $(document).ready(function(){
             var lTarget = e.currentTarget ? (e.currentTarget.href ? e.currentTarget.href : "unknown") : "unknown";
             
             if (!(lTarget.endsWith("#"))){
-                ga('send', 'event', 'link', lTarget);
+                gaga.g('send', 'event', 'link', lTarget);
             }
         }
     });
     $("#__helpme").bind ({
         click : function(e) {
                     helpmeOnClick();
-                    ga('send', 'event', 'link', "helpme");
+                    gaga.g('send', 'event', 'link', "helpme");
                 }
     });
 
@@ -211,7 +213,7 @@ $(document).ready(function(){
            switch(lKey) {                      
                case (ESC_KEY) : {
                    closeLightbox();
-                    // ga('send', 'event', 'close_source_lightbox', 'ESC_KEY');
+                    // gaga.g('send', 'event', 'close_source_lightbox', 'ESC_KEY');
                } 
                break;
                default: {
@@ -222,10 +224,6 @@ $(document).ready(function(){
     });
     // closeLightbox();
     samplesOnChange();
-    if (window.location.search.indexOf("debug") > -1) {
-        $(".debug").show();
-        ga('send', 'event', 'debug', 'true');
-    }
     
 }); // document ready
 
