@@ -21,9 +21,9 @@ define([], function () {
         }
     }
 
-    function _g() {
+    function _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
         if (true === gTrack)  {
-            ga(arguments);
+            ga(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
         }
     }
 
@@ -31,8 +31,8 @@ define([], function () {
         gaSetup : function(pTrack) {
             return _gaSetup(pTrack);
         },
-        g : function() {
-            return _g();
+        g : function(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
+            return _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
         }
     };
 });
