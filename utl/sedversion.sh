@@ -1,2 +1,2 @@
 #!/bin/sh
-sed s/{version}/`date "+mscgen_js-build_%Y%M%d_%H:%M:%S"`/g
+sed s/{version}/"`date "+build %Y%M%d %H:%M:%S"`"/g
