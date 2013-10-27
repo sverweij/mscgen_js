@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "gaga", "node/textutensils",
+        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -56,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, gaga, txt,
+            tomsgenny, tomscgen, todot, gaga, txt,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -84,7 +84,7 @@ txt.setupStringShims();
 
 $(document).ready(function(){
     
-    gaga.gaSetup(!(window.location.search.indexOf("donottrack") > -1));
+    gaga.gaSetup(window.location.search.indexOf("donottrack") <= -1);
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
 
@@ -126,6 +126,12 @@ function setupEvents () {
         click : function(e) {
                     switchLanguageOnClick("json");
                     gaga.g('send', 'event', 'toggle_ms_genny', 'json');
+                }     
+    });
+    $("#__language_dot").bind ({
+        click : function(e) {
+                    switchLanguageOnClick("dot");
+                    gaga.g('send', 'event', 'toggle_ms_genny', 'dot');
                 }     
     });
     $("#__btn_clear").bind({
@@ -261,6 +267,8 @@ function switchLanguageOnClick (pValue) {
             lAST = msgennyparser.parse(gCodeMirror.getValue());
         } else if ("json" === lPreviousLanguage){
             lAST = JSON.parse(gCodeMirror.getValue());
+        } else if ("dot" === lPreviousLanguage){
+            // dot => AST not supported yet.
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
@@ -272,6 +280,9 @@ function switchLanguageOnClick (pValue) {
             } else if ("json" === pValue){
                 gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
                 // gCodeMirror.setOption("mode", "json");
+            } else if ("dot" === pValue){
+                gCodeMirror.setValue(todot.render(lAST));
+                // gCodeMirror.setOption("mode", "dot");
             } else {
                 gCodeMirror.setValue(tomscgen.render(lAST));
                 // gCodeMirror.setOption("mode", "mscgen");
@@ -373,14 +384,22 @@ function showMsGennyState () {
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").attr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
+        $("#__language_dot").removeAttr("checked", "msgennyOn");
     } else if ("json" === gLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").attr("checked", "msgennyOn");
+        $("#__language_dot").removeAttr("checked", "msgennyOn");
+    } else if ("dot" === gLanguage){
+        $("#__language_mscgen").removeAttr("checked", "msgennyOn");
+        $("#__language_msgenny").removeAttr("checked", "msgennyOn");
+        $("#__language_json").removeAttr("checked", "msgennyOn");
+        $("#__language_dot").attr("checked", "msgennyOn");
     } else {
         $("#__language_mscgen").attr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
+        $("#__language_dot").removeAttr("checked", "msgennyOn");
     }
     if (gAutoRender) {
         render ();
@@ -396,6 +415,8 @@ function render() {
             lAST = msgennyparser.parse(gCodeMirror.getValue());
         } else if ("json" === gLanguage){
             lAST = JSON.parse(gCodeMirror.getValue());
+        } else if ("dot" === gLanguage){
+            // dot to AST not supported (yet)
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }

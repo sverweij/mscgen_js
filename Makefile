@@ -8,6 +8,7 @@ MOCHA=mocha
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CJS2AMD=utl/commonjs2amd.sh
+SEDVERSION=utl/sedversion.sh
 NPM=npm
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
@@ -16,6 +17,10 @@ GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js \
 	src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
+SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
+	src/script/node/ast2msgenny.js \
+	src/script/node/ast2dot.js
+SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \
     src/lib/codemirror/addon/edit/closebrackets.js \
@@ -25,16 +30,14 @@ LIB_SOURCES_WEB=src/lib/codemirror.js \
     src/lib/canvg/StackBlur.js \
     src/lib/canvg/rgbcolor.js \
     src/script/jquery.js
-SCRIPT_SOURCES_WEB=src/script/renderutensils.js \
+SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
+	src/script/renderutensils.js \
     src/script/node/textutensils.js \
     src/script/renderast.js \
     src/script/controller.js \
 	src/script/gaga.js \
-    src/script/mscgen-main.js
+    src/script/mscgen-main.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
-	src/script/node/ast2msgenny.js
-SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 
 .PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
 
@@ -62,7 +65,7 @@ $(PRODDIRS):
 	mkdir $@
 
 index.html: src/index.html
-	cp $< $@
+	$(SEDVERSION) < $< > $@
 
 lib/require.js: src/lib/require.js
 	cp $< $@
