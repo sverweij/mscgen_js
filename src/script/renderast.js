@@ -179,14 +179,9 @@ function _renderAST (pAST, pSource, pParentElementId) {
             ARC_GRADIENT =
                 parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
         }
-        if (pAST.options.wordwraparcs){
-            if (pAST.options.wordwraparcs === "true"){
-                WORDWRAPARCS = true;
-            } else {
-                WORDWRAPARCS = false;
-            }
-        } else {
-            WORDWRAPARCS = false;
+        WORDWRAPARCS = false;
+        if (pAST.options.wordwraparcs && pAST.options.wordwraparcs === "true"){
+            WORDWRAPARCS = true;
         }
     }
 
@@ -216,8 +211,8 @@ function _renderAST (pAST, pSource, pParentElementId) {
      * transparent in stead. To work around this insert a white rectangle the size
      * of the canvas in the background layer.
      * 
-     * We do this _before_ scaling are applied to the svg
-     */
+     * We do this _before_ scaling is applied to the svg
+     */ 
     var lBgGroup = document.getElementById("__background");
     var lBgRect = utl.createRect(lCanvasWidth , lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
     lBgGroup.appendChild(lBgRect);
@@ -587,13 +582,13 @@ function createArc (pId, pArc, pFrom, pTo) {
                 lDoubleLine = true;
             }
             break;
-        case ("-x"): case("-X"): {
+        case ("-x"): {
                 lClass = "lost";
                 pArc.direction = DIR_LTR;
                 pTo =  pFrom + (pTo - pFrom)*(3/4);
             }
             break;
-        case ("x-"): case("X-"): {
+        case ("x-"): {
                 lClass = "lost";
                 pArc.direction = DIR_RTL;
                 pTmp = pTo;
@@ -835,7 +830,7 @@ path { \
     overflow:visible; \
 } \
 .arrow-style { \
-	stroke : black; \
+    stroke : black; \
     stroke-dasharray : 100,1; /* 'none' should work, but doesn't in webkit */ \
     stroke-width : 1; \
 } \
