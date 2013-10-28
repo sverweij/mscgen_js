@@ -179,14 +179,9 @@ function _renderAST (pAST, pSource, pParentElementId) {
             ARC_GRADIENT =
                 parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
         }
-        if (pAST.options.wordwraparcs){
-            if (pAST.options.wordwraparcs === "true"){
-                WORDWRAPARCS = true;
-            } else {
-                WORDWRAPARCS = false;
-            }
-        } else {
-            WORDWRAPARCS = false;
+        WORDWRAPARCS = false;
+        if (pAST.options.wordwraparcs && pAST.options.wordwraparcs === "true"){
+            WORDWRAPARCS = true;
         }
     }
 
