@@ -582,13 +582,13 @@ function createArc (pId, pArc, pFrom, pTo) {
                 lDoubleLine = true;
             }
             break;
-        case ("-x"): case("-X"): {
+        case ("-x"): {
                 lClass = "lost";
                 pArc.direction = DIR_LTR;
                 pTo =  pFrom + (pTo - pFrom)*(3/4);
             }
             break;
-        case ("x-"): case("X-"): {
+        case ("x-"): {
                 lClass = "lost";
                 pArc.direction = DIR_RTL;
                 pTmp = pTo;
