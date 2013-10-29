@@ -26,7 +26,7 @@ b note b: ...notes + boxes ...;
 
 this renders as
 
-![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/src/samples/msgennysample.png)
+![ms genny sample](https://raw.github.com/sverweij/mscgen_js/master/wikum/msgennysample.png)
 
 The equivalent mscgen program would have looked like this:
 ``` mscgen
