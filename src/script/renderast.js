@@ -49,11 +49,6 @@ var DEFAULT_ARC_GRADIENT = 0;
 var ARC_GRADIENT = DEFAULT_ARC_GRADIENT;
 var WORDWRAPARCS = false;
 
-var DIR_LTR  = 2;
-var DIR_RTL  = 3;
-var DIR_BOTH = 5;
-var DIR_NONE = 8;
-
 var gEntityXHWM = 0;
 var gEntity2X = {};
 var gEntity2ArcColor = {};
@@ -464,10 +459,10 @@ function determineArcClass (pKind){
         "<:>" : "emphasised-both",
         "::" : "double",
         "-x" : "lost"
-    }; 
+    };
     var lRetval = "";
     if (pKind && arc2class[pKind]){
-        lRetval = arc2class[pKind];   
+        lRetval = arc2class[pKind];
     }
     return lRetval;
 }

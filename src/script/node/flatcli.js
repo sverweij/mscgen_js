@@ -10,4 +10,4 @@ var lAST = parser.parse ('msc { \
 }');
 x.flatten(lAST);
 
-console.log(JSON.stringify(lAST, null, " "));
+process.stdout.write(JSON.stringify(lAST, null, " "));
