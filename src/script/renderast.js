@@ -457,8 +457,8 @@ function createArc (pId, pArc, pFrom, pTo) {
     lClass = determineArcClass(pArc.kind);
     
     if (( ":>"=== pArc.kind )||
-        ( ":>"=== pArc.kind )||
-        ( ":>"=== pArc.kind )){
+        ( "::"=== pArc.kind )||
+        ( "<:>"=== pArc.kind )){
             lDoubleLine = true;
     }
     
