@@ -337,26 +337,7 @@ function renderArcs (pArcs, pEntities) {
                                         0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
                                 ;
                                 lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
-                            } else if (lFrom === "*") { // it's a broadcast arc
-                                xTo = gEntity2X[lTo];
-                                for (k=0;k<pEntities.length;k++){
-                                    if (pEntities[k].name != lTo) {
-                                        xFrom = gEntity2X[pEntities[k].name];
-                                        pArcs[i][j].label ="";
-                                        defs.appendChild(
-                                            createArc(lCurrentId + "bc" + k,
-                                                      pArcs[i][j], xFrom, xTo
-                                                       ));
-                                        lRowMemory.push ({id:lCurrentId + "bc" + k, layer:sequence});
-                                    }
-                                }
-                                pArcs[i][j].label=lLabel;
-                                lElement =
-                                    createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
-                                ;
-                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
-                        } else { // it's a regular arc
+                            } else { // it's a regular arc
                                 xFrom = gEntity2X[lFrom];
                                 xTo = gEntity2X[lTo];
                                 lElement = createArc(lCurrentId, pArcs[i][j], xFrom, xTo);
