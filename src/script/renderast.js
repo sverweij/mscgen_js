@@ -32,7 +32,7 @@ the associate line, we'll need to do something like this:
 /* jshint trailing:true */
 /* global define */
 
-define(["renderutensils", "node/textutensils"], function(utl, txt) {
+define(["renderutensils", "node/textutensils", "node/flattenast"], function(utl, txt, flatten) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;
@@ -184,7 +184,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
             WORDWRAPARCS = true;
         }
     }
-
+    pAST = flatten.flatten(pAST);
     renderEntities(pAST.entities);
     renderArcs(pAST.arcs, pAST.entities);
 
@@ -212,7 +212,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
      * of the canvas in the background layer.
      * 
      * We do this _before_ scaling is applied to the svg
-     */ 
+     */
     var lBgGroup = document.getElementById("__background");
     var lBgRect = utl.createRect(lCanvasWidth , lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
     lBgGroup.appendChild(lBgRect);
@@ -394,9 +394,6 @@ function renderArcs (pArcs, pEntities) {
 
 function renderEntity (pId, pEntity) {
     var lGroup = utl.createGroup(pId);
-    if (!(pEntity.label)) {
-        pEntity.label = pEntity.name;
-    }
     var lTextLabel = createTextLabel(pId + "_txt", pEntity,
                 0, ENTITY_HEIGHT/2, ENTITY_WIDTH, "entity");
     // var lBBox = utl.getBBox(lTextLabel);
@@ -452,24 +449,27 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
     return lGroup;
 }
 
-function arcColorOverride (pArc) {
-    if (pArc.direction && pArc.from && pArc.to) {
-        var lFrom =
-            (pArc.direction === DIR_RTL) ? pArc.to : pArc.from;
-
-        if (gEntity2ArcColor[lFrom] ) {
-            if (!(pArc.linecolor) && gEntity2ArcColor[lFrom].arclinecolor) {
-                pArc.linecolor = gEntity2ArcColor[lFrom].arclinecolor;
-            }
-            if ((!(pArc.textcolor) && gEntity2ArcColor[lFrom].arctextcolor) ) {
-                pArc.textcolor = gEntity2ArcColor[lFrom].arctextcolor;
-            }
-            if (!(pArc.textbgcolor) && gEntity2ArcColor[lFrom].arctextbgcolor) {
-                pArc.textbgcolor = gEntity2ArcColor[lFrom].arctextbgcolor;
-            }
-        }
+function determineArcClass (pKind){
+    var arc2class = {
+        "->" : "signal",
+        "<->" : "signal-both",
+        "=>" : "method",
+        "<=>" : "method-both",
+        ">>" : "returnvalue",
+        "<<>>" : "returnvalue-both",
+        ".." : "dotted",
+        "=>>" : "callback",
+        "<<=>>" : "callback-both",
+        ":>" : "emphasised",
+        "<:>" : "emphasised-both",
+        "::" : "double",
+        "-x" : "lost"
+    }; 
+    var lRetval = "";
+    if (pKind && arc2class[pKind]){
+        lRetval = arc2class[pKind];   
     }
-    return pArc;
+    return lRetval;
 }
 
 function createArc (pId, pArc, pFrom, pTo) {
@@ -477,131 +477,18 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lClass = "";
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
-    var pTmp = 0;
-
-    switch(pArc.kind) {
-        case ("->"): {
-                lClass = "signal";
-                pArc.direction = DIR_LTR;
-            }
-            break;
-        case ("<-"): {
-                lClass = "signal";
-                pArc.direction = DIR_RTL;
-                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            }
-            break;
-        case ("<->"): {
-                lClass = "signal-both";
-                pArc.direction = DIR_BOTH;
-            }
-            break;
-        case ("--"): {
-                pArc.direction = DIR_NONE;
-            }
-            break;
-        case ("=>"): {
-                lClass = "method";
-                pArc.direction = DIR_LTR;
-            }
-            break;
-        case ("<="): {
-                lClass = "method";
-                pArc.direction = DIR_RTL;
-                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            }
-            break;
-        case ("<=>"): {
-                lClass = "method-both";
-                pArc.direction = DIR_BOTH;
-            }
-            break;
-        case ("=="): {
-                pArc.direction = DIR_NONE;
-            }
-            break;
-        case (">>"):{
-                lClass = "returnvalue";
-                pArc.direction = DIR_LTR;
-            }
-            break;
-        case ("<<"): {
-                lClass = "returnvalue";
-                pArc.direction = DIR_RTL;
-                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            }
-            break;
-        case ("<<>>"):{
-                lClass = "returnvalue-both";
-                pArc.direction = DIR_BOTH;
-            }
-            break;
-        case (".."): {
-                lClass = "dotted";
-                pArc.direction = DIR_NONE;
-            }
-            break;
-        case ("=>>"): {
-                lClass = "callback";
-                pArc.direction = DIR_LTR;
-            }
-            break;
-        case ("<<="): {
-                lClass = "callback";
-                pArc.direction = DIR_RTL;
-                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            }
-            break;
-        case ("<<=>>"): {
-                lClass = "callback-both";
-                pArc.direction = DIR_BOTH;
-            }
-            break;
-        case (":>"): {
-                lClass = "emphasised";
-                pArc.direction = DIR_LTR;
-                lDoubleLine = true;
-            }
-            break;
-        case ("<:"): {
-                lClass = "emphasised";
-                pArc.direction = DIR_RTL;
-                lDoubleLine = true;
-                pTmp = pTo; pTo = pFrom; pFrom = pTmp;
-            }
-            break;
-        case ("<:>"): {
-                lDoubleLine = true;
-                pArc.direction = DIR_BOTH;
-                lClass = "emphasised-both";
-            }
-            break;
-        case ("::"): {
-                lClass = "double";
-                pArc.direction = DIR_NONE;
-                lDoubleLine = true;
-            }
-            break;
-        case ("-x"): {
-                lClass = "lost";
-                pArc.direction = DIR_LTR;
-                pTo =  pFrom + (pTo - pFrom)*(3/4);
-            }
-            break;
-        case ("x-"): {
-                lClass = "lost";
-                pArc.direction = DIR_RTL;
-                pTmp = pTo;
-                pTo = pFrom;
-                pFrom = pTmp;
-                pTo =  pFrom + (pTo - pFrom)*(3/4);
-            }
-            break;
-        default : {
-            pArc.direction = DIR_NONE;
-        }
+    
+    lClass = determineArcClass(pArc.kind);
+    
+    if (( ":>"=== pArc.kind )||
+        ( ":>"=== pArc.kind )||
+        ( ":>"=== pArc.kind )){
+            lDoubleLine = true;
     }
-    pArc = arcColorOverride (pArc);
+    
+    if ("-x" === pArc.kind ) {
+        pTo =  pFrom + (pTo - pFrom)*(3/4);
+    }
 
     var lYTo = 0;
     if (pArc.arcskip) {
