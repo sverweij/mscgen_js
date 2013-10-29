@@ -117,7 +117,7 @@ checkout-gh-pages:
 
 deploy-gh-pages: checkout-gh-pages install
 	$(GIT) add .
-	$(GIT) commit -all --message="build" --allow-empty
+	$(GIT) commit --all --message="build" --allow-empty
 	$(GIT) push
 	$(GIT) checkout master
 
