@@ -1805,7 +1805,7 @@ define ([], function(){
               if (result3 !== null) {
                 result4 = parse__();
                 if (result4 !== null) {
-                  result5 = parse_string();
+                  result5 = parse_identifier();
                   if (result5 !== null) {
                     result6 = parse__();
                     if (result6 !== null) {
