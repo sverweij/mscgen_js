@@ -863,7 +863,7 @@ define ([], function(){
       }
       
       function parse_arcline() {
-        var result0, result1, result2;
+        var result0, result1, result2, result3;
         var pos0, pos1, pos2, pos3;
         
         pos0 = pos;
@@ -873,17 +873,23 @@ define ([], function(){
         pos3 = pos;
         result1 = parse_arc();
         if (result1 !== null) {
-          if (input.charCodeAt(pos) === 44) {
-            result2 = ",";
-            pos++;
-          } else {
-            result2 = null;
-            if (reportFailures === 0) {
-              matchFailed("\",\"");
-            }
-          }
+          result2 = parse__();
           if (result2 !== null) {
-            result1 = [result1, result2];
+            if (input.charCodeAt(pos) === 44) {
+              result3 = ",";
+              pos++;
+            } else {
+              result3 = null;
+              if (reportFailures === 0) {
+                matchFailed("\",\"");
+              }
+            }
+            if (result3 !== null) {
+              result1 = [result1, result2, result3];
+            } else {
+              result1 = null;
+              pos = pos3;
+            }
           } else {
             result1 = null;
             pos = pos3;
@@ -904,17 +910,23 @@ define ([], function(){
           pos3 = pos;
           result1 = parse_arc();
           if (result1 !== null) {
-            if (input.charCodeAt(pos) === 44) {
-              result2 = ",";
-              pos++;
-            } else {
-              result2 = null;
-              if (reportFailures === 0) {
-                matchFailed("\",\"");
-              }
-            }
+            result2 = parse__();
             if (result2 !== null) {
-              result1 = [result1, result2];
+              if (input.charCodeAt(pos) === 44) {
+                result3 = ",";
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\",\"");
+                }
+              }
+              if (result3 !== null) {
+                result1 = [result1, result2, result3];
+              } else {
+                result1 = null;
+                pos = pos3;
+              }
             } else {
               result1 = null;
               pos = pos3;
