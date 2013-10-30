@@ -12,11 +12,12 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(["./flattenast"], function(flatten) {
 
     var INDENT = "  ";
 
     function _renderAST(pAST) {
+        var lAST = flatten.flatten(pAST);
         var lRetVal = "digraph {\n";
         lRetVal += INDENT + 'rankdir=LR\n';
         lRetVal += INDENT + 'splines=true\n';
@@ -25,15 +26,15 @@ define([], function() {
         lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee ]\n';
         lRetVal += "\n";
 
-        if (pAST) {
-            if (pAST.options) {
-                lRetVal += renderOptions(pAST.options) + "\n";
+        if (lAST) {
+            if (lAST.options) {
+                lRetVal += renderOptions(lAST.options) + "\n";
             }
-            if (pAST.entities) {
-                lRetVal += renderEntities(pAST.entities) + "\n";
+            if (lAST.entities) {
+                lRetVal += renderEntities(lAST.entities) + "\n";
             }
-            if (pAST.arcs) {
-                lRetVal += renderArcLines(pAST.arcs);
+            if (lAST.arcs) {
+                lRetVal += renderArcLines(lAST.arcs);
             }
         }
         return lRetVal += "}";
@@ -104,22 +105,20 @@ define([], function() {
         return lRetVal;
     }
 
-    function swapBackArcs(pArc) {
-        if (pArc.kind.indexOf("<") > -1) {
-            var x = pArc.to;
-            pArc.to = pArc.from;
-            pArc.from = x;
+    function counterizeArc (pArc, pCounter){
+        var lArc = pArc;
+        if (lArc.label === undefined) {
+            lArc.label = "(" + pCounter + ")";
+        } else {
+            lArc.label = "(" + pCounter + ") " + lArc.label;
         }
+        return lArc;
     }
-
+    
     function renderArc(pArc, pCounter) {
         var lRetVal = "";
-        if (pArc.label) {
-            pArc.label = "(" + pCounter + ") " + pArc.label;
-        } else {
-            pArc.label = "(" + pCounter + ")";
-        }
-        swapBackArcs(pArc);
+        // TODO: push to flattenast
+        pArc = counterizeArc(pArc, pCounter);
         lRetVal += renderEntityName(pArc.from) + " ";
         lRetVal += "->";
         // todo: expand this ...
