@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(["./flattenast"], function(flatten) {
 
     var INDENT = "  ";
 
@@ -25,15 +25,17 @@ define([], function() {
         lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee ]\n';
         lRetVal += "\n";
 
-        if (pAST) {
-            if (pAST.options) {
-                lRetVal += renderOptions(pAST.options) + "\n";
+        var lAST = flatten.flatten(pAST);
+
+        if (lAST) {
+            if (lAST.options) {
+                lRetVal += renderOptions(lAST.options) + "\n";
             }
-            if (pAST.entities) {
-                lRetVal += renderEntities(pAST.entities) + "\n";
+            if (lAST.entities) {
+                lRetVal += renderEntities(lAST.entities) + "\n";
             }
-            if (pAST.arcs) {
-                lRetVal += renderArcLines(pAST.arcs);
+            if (lAST.arcs) {
+                lRetVal += renderArcLines(lAST.arcs);
             }
         }
         return lRetVal += "}";
@@ -104,27 +106,26 @@ define([], function() {
         return lRetVal;
     }
 
-    function swapBackArcs(pArc) {
-        if (pArc.kind.indexOf("<") > -1) {
-            var x = pArc.to;
-            pArc.to = pArc.from;
-            pArc.from = x;
+    function counterizeArc(pArc, pCounter) {
+        var lRetVal = "";
+        var lArc = pArc;
+        if (lArc.label) {
+            lArc.label = "(" + pCounter + ") " + lArc.label;
+        } else {
+            lArc.label = "(" + pCounter + ")";
         }
+        return lArc;
     }
 
     function renderArc(pArc, pCounter) {
         var lRetVal = "";
-        if (pArc.label) {
-            pArc.label = "(" + pCounter + ") " + pArc.label;
-        } else {
-            pArc.label = "(" + pCounter + ")";
-        }
-        swapBackArcs(pArc);
-        lRetVal += renderEntityName(pArc.from) + " ";
+        var lArc = counterizeArc(pArc, pCounter);
+
+        lRetVal += renderEntityName(lArc.from) + " ";
         lRetVal += "->";
-        // todo: expand this ...
-        lRetVal += " " + renderEntityName(pArc.to);
-        lRetVal += renderAttributes(pArc);
+        // TODO: expand this ...
+        lRetVal += " " + renderEntityName(lArc.to);
+        lRetVal += renderAttributes(lArc);
         return lRetVal;
     }
 
