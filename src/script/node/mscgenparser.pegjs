@@ -142,7 +142,7 @@ entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
   return lOption;
 }
 arclist         = (a:arcline _ ";" {return a})+
-arcline         = al:((a:arc "," {return a})* (a:arc {return [a]}))
+arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
 {
    al[0].push(al[1][0]);
 
