@@ -192,7 +192,7 @@ attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
   obj = merge(obj, al[1]);
   return obj;
 }
-attribute       = _ n:attributename _ "=" _ v:string _
+attribute       = _ n:attributename _ "=" _ v:identifier _
 {
   var lAttribute = {};
   n = n.toLowerCase();

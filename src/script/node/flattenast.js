@@ -60,7 +60,7 @@ define([], function() {
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;
         
-        if (!(lEntity.label)) {
+        if (lEntity.label === undefined) {
             lEntity.label = lEntity.name;
         }
         return lEntity;
