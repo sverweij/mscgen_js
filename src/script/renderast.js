@@ -410,18 +410,29 @@ function renderArcRow(pEntities, pClass, pHeight, pId) {
     return lGroup;
 }
 
-function createSelfRefArc(pClass, pFrom, pYTo, pDouble) {
+function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
     var lHeight = 2*(ARCROW_HEIGHT/5);
     var lWidth  = INTER_ENTITY_SPACING/3;
 
     var lGroup = utl.createGroup("selfie");
     if (pDouble){
         // TODO #13: render associated marker(s) in <def>
-        lGroup.appendChild(utl.createUTurn(pFrom, (lHeight-4)/2, (pYTo - 2 + lHeight) /*lSign*lHeight*/, lWidth-4, "none"));
-        lGroup.appendChild(utl.createUTurn(pFrom, (lHeight+4)/2, (pYTo + 6 + lHeight) /*lSign*lHeight*/, lWidth, pClass));
+        var lInnerTurn = utl.createUTurn(pFrom, (lHeight-4)/2, (pYTo - 2 + lHeight) /*lSign*lHeight*/, lWidth-4, "none");
+        var lOuterTurn = utl.createUTurn(pFrom, (lHeight+4)/2, (pYTo + 6 + lHeight) /*lSign*lHeight*/, lWidth, pClass);
+        if (pLineColor) {
+            lInnerTurn.setAttribute("style", "stroke: " + pLineColor + ";");
+            lOuterTurn.setAttribute("style", "stroke: " + pLineColor + ";");
+        }
+        lGroup.appendChild(lInnerTurn);
+        lGroup.appendChild(lOuterTurn);
     } else {
-        lGroup.appendChild(utl.createUTurn(pFrom, lHeight/2, (pYTo + lHeight) /*lSign*lHeight*/, lWidth, pClass));
+        var lUTurn = utl.createUTurn(pFrom, lHeight/2, (pYTo + lHeight) /*lSign*lHeight*/, lWidth, pClass);
+        if (pLineColor) {
+            lUTurn.setAttribute("style", "stroke: " + pLineColor + ";");
+        }
+        lGroup.appendChild(lUTurn);
     }
+
     return lGroup;
 }
 
@@ -481,11 +492,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     }
      
     if (pFrom === pTo) {
-        var lSelfRefArc = createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine);
-        if (pArc.linecolor) {
-           lSelfRefArc.setAttribute("style", "stroke: " + pArc.linecolor + ";");
-        }
-        lGroup.appendChild(lSelfRefArc);
+        lGroup.appendChild(createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine, pArc.linecolor));
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom +2 - (INTER_ENTITY_SPACING/2), 0-(ARCROW_HEIGHT/5), INTER_ENTITY_SPACING, "anchor-start")
         );

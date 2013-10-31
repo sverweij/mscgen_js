@@ -26,6 +26,7 @@ define(["./flattenast"], function(flatten) {
         lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee ]\n';
         lRetVal += "\n";
 
+        var lAST = flatten.flatten(pAST);
         if (lAST) {
             if (lAST.options) {
                 lRetVal += renderOptions(lAST.options) + "\n";
@@ -105,25 +106,26 @@ define(["./flattenast"], function(flatten) {
         return lRetVal;
     }
 
-    function counterizeArc (pArc, pCounter){
+    function counterizeArc(pArc, pCounter) {
+        var lRetVal = "";
         var lArc = pArc;
-        if (lArc.label === undefined) {
-            lArc.label = "(" + pCounter + ")";
-        } else {
+        if (lArc.label) {
             lArc.label = "(" + pCounter + ") " + lArc.label;
+        } else {
+            lArc.label = "(" + pCounter + ")";
         }
         return lArc;
     }
     
     function renderArc(pArc, pCounter) {
         var lRetVal = "";
-        // TODO: push to flattenast
-        pArc = counterizeArc(pArc, pCounter);
-        lRetVal += renderEntityName(pArc.from) + " ";
+        var lArc = counterizeArc(pArc, pCounter);
+
+        lRetVal += renderEntityName(lArc.from) + " ";
         lRetVal += "->";
-        // todo: expand this ...
-        lRetVal += " " + renderEntityName(pArc.to);
-        lRetVal += renderAttributes(pArc);
+        // TODO: expand this ...
+        lRetVal += " " + renderEntityName(lArc.to);
+        lRetVal += renderAttributes(lArc);
         return lRetVal;
     }
 
