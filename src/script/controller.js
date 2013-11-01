@@ -420,9 +420,12 @@ function render() {
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
-        msc_render.clean("__svg");
-        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
-        
+        if (lAST.entities){
+            msc_render.clean("__svg");
+            msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
+        } else {
+            displayError ("(no abstract syntax tree)");
+        }
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)
          *   - it inserts relatively big amounts of data in the DOM tree 
