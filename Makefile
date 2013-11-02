@@ -115,8 +115,8 @@ checkout-gh-pages:
 	$(GIT) checkout gh-pages
 	$(GIT) merge master -m "merge for gh-pages build"
 
-deploy-gh-pages: checkout-gh-pages install
-	$(GIT) add .
+deploy-gh-pages: checkout-gh-pages clean install
+	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css
 	$(GIT) commit --all --message="build" --allow-empty
 	$(GIT) push
 	$(GIT) checkout master
