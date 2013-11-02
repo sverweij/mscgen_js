@@ -69,7 +69,7 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
 
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: http://sverweij.github.io/mscgen_js
-[3]: wikum/license.mscgen_js.md
+[3]: wikum/licenses/license.mscgen_js.md
 [5]: wikum/msgenny.md
 [6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
 [7]: wikum/build.md
@@ -77,15 +77,15 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
 [9]: http://pegjs.majda.cz/
 [10]: http://marijnhaverbeke.nl
 [11]: http://codemirror.net
-[12]: wikum/license.pegjs.md
-[13]: wikum/license.codemirror.md
-[14]: wikum/license.jquery.md
-[15]: wikum/license.icons.md
-[16]: wikum/license.canvg.md
+[12]: wikum/licenses/license.pegjs.md
+[13]: wikum/licenses/license.codemirror.md
+[14]: wikum/licenses/license.jquery.md
+[15]: wikum/licenses/license.icons.md
+[16]: wikum/licenses/license.canvg.md
 [17]: http://code.google.com/p/canvg/
 [18]: http://code.google.com/p/mscgen/source/browse/trunk/COPYING
-[19]: wikum/license.requirejs.md
-[20]: wikum/license.amdefine.md
-[21]: wikum/license.mocha.md
-[22]: wikum/license.jshint.md
-[23]: wikum/license.plato.md
+[19]: wikum/licenses/license.requirejs.md
+[20]: wikum/licenses/license.amdefine.md
+[21]: wikum/licenses/license.mocha.md
+[22]: wikum/licenses/license.jshint.md
+[23]: wikum/licenses/license.plato.md
