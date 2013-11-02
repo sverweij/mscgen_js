@@ -6,31 +6,27 @@
 /* jshint node:true */
 /* jshint undef:true */
 /* jshint unused:strict */
-/* jshint indent:4 */
 
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flattenast"], function(flatten) {
+define(["./flattenast", "./textutensils"], function(flatten, txt) {
 
     var INDENT = "  ";
 
     function _renderAST(pAST) {
-        var lRetVal = "digraph {\n";
+        var lRetVal = "graph {\n";
         lRetVal += INDENT + 'rankdir=LR\n';
         lRetVal += INDENT + 'splines=true\n';
         lRetVal += INDENT + 'ordering=out\n';
-        lRetVal += INDENT + 'node [shape=record, style=filled, fillcolor=white fontname="Helvetica", fontsize="9" ]\n';
-        lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee ]\n';
+        lRetVal += INDENT + 'node [style=filled, fillcolor=white fontname="Helvetica", fontsize="9" ]\n';
+        lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n';
         lRetVal += "\n";
 
         var lAST = flatten.flatten(pAST);
 
         if (lAST) {
-            if (lAST.options) {
-                lRetVal += renderOptions(lAST.options) + "\n";
-            }
             if (lAST.entities) {
                 lRetVal += renderEntities(lAST.entities) + "\n";
             }
@@ -42,7 +38,14 @@ define(["./flattenast"], function(flatten) {
     }
 
     function renderString(pString) {
-        return pString.replace(/\"/g, "\\\"");
+        var lStringAry = txt.wrap(pString.replace(/\"/g, "\\\""), 40);
+        var lString = "";
+
+        for (var i = 0; i < lStringAry.length - 1; i++) {
+            lString += lStringAry[i] + "\n";
+        }
+        lString += lStringAry[lStringAry.length - 1];
+        return lString;
     }
 
     function renderEntityName(pString) {
@@ -55,14 +58,8 @@ define(["./flattenast"], function(flatten) {
         }
     }
 
-    function renderOptions(pOptions) {
-        var lRetVal = "";
-        return lRetVal;
-    }
-
-    function renderAttributes(pThing) {
+    function translateAttributes(pThing) {
         var lAttrs = [];
-        var lRetVal = "";
         pushAttribute(lAttrs, pThing.label, "label");
         // pushAttribute(lAttrs, pThing.idurl, "idurl");
         // pushAttribute(lAttrs, pThing.id, "id");
@@ -70,18 +67,18 @@ define(["./flattenast"], function(flatten) {
         pushAttribute(lAttrs, pThing.linecolor, "color");
         pushAttribute(lAttrs, pThing.textcolor, "fontcolor");
         pushAttribute(lAttrs, pThing.textbgcolor, "fillcolor");
-        // pushAttribute(lAttrs, pThing.arclinecolor, "arclinecolor");
-        // pushAttribute(lAttrs, pThing.arctextcolor, "arctextcolor");
-        // pushAttribute(lAttrs, pThing.arctextbgcolor, "arctextbgcolor");
-        // pushAttribute(lAttrs, pThing.arcskip, "arcskip");
+        return lAttrs;
+    }
 
-        if (lAttrs.length > 0) {
+    function renderAttributeBlock(pAttrs) {
+        var lRetVal = [];
+        if (pAttrs.length > 0) {
             var i = 0;
             lRetVal = " [";
-            for ( i = 0; i < lAttrs.length - 1; i++) {
-                lRetVal += lAttrs[i] + ", ";
+            for ( i = 0; i < pAttrs.length - 1; i++) {
+                lRetVal += pAttrs[i] + ", ";
             }
-            lRetVal += lAttrs[lAttrs.length - 1];
+            lRetVal += pAttrs[pAttrs.length - 1];
             lRetVal += "]";
         }
 
@@ -91,7 +88,7 @@ define(["./flattenast"], function(flatten) {
     function renderEntity(pEntity) {
         var lRetVal = "";
         lRetVal += renderEntityName(pEntity.name);
-        lRetVal += renderAttributes(pEntity);
+        lRetVal += renderAttributeBlock(translateAttributes(pEntity));
         return lRetVal;
     }
 
@@ -107,7 +104,6 @@ define(["./flattenast"], function(flatten) {
     }
 
     function counterizeArc(pArc, pCounter) {
-        var lRetVal = "";
         var lArc = pArc;
         if (lArc.label) {
             lArc.label = "(" + pCounter + ") " + lArc.label;
@@ -117,15 +113,104 @@ define(["./flattenast"], function(flatten) {
         return lArc;
     }
 
+    function getAggregatedKind(pKind) {
+        if (["->", "=>", "=>>", ">>", ":>", "-x"].indexOf(pKind) > -1) {
+            return "directional";
+        } else if (["note", "box", "abox", "rbox"].indexOf(pKind) > -1) {
+            return "box";
+        } else if (["<->", "<=>", "<<=>>", "<<>>", "<:>"].indexOf(pKind) > -1) {
+            return "bidirectional";
+        } else if (["--", "==", "..", "::"].indexOf(pKind) > -1) {
+            return "nondirectional";
+        }
+        return "empty";
+    }
+
+    function getStyle(pKind) {
+        var kind2style = {
+            ">>" : "dashed",
+            "<<>>" : "dashed",
+            ".." : "dashed",
+            ":>" : "bold",
+            "<:>" : "bold",
+            "::" : "bold",
+            "rbox" : "rounded"
+        };
+        return kind2style[pKind];
+    }
+
+    function getArrowStyle(pKind) {
+        var kind2arrowStyle = {
+            "->" : "rvee",
+            "<->" : "rvee",
+            "=>" : "normal",
+            "<=>" : "normal",
+            "-x" : "oinvonormal"
+        };
+        return kind2arrowStyle[pKind];
+    }
+
+    function getBoxShape(pKind) {
+        var kind2shape = {
+            "box" : "box",
+            "abox" : "hexagon",
+            "rbox" : "box",
+            "note" : "note",
+        };
+        return kind2shape[pKind];
+    }
+
     function renderArc(pArc, pCounter) {
         var lRetVal = "";
-        var lArc = counterizeArc(pArc, pCounter);
+        var lArc = pArc;
+        var lAttrs = [];
+        var lAggregatedKind = getAggregatedKind(pArc.kind);
 
-        lRetVal += renderEntityName(lArc.from) + " ";
-        lRetVal += "->";
-        // TODO: expand this ...
-        lRetVal += " " + renderEntityName(lArc.to);
-        lRetVal += renderAttributes(lArc);
+        if (lAggregatedKind === "box") {
+            var lBoxName = "box" + pCounter.toString();
+            lRetVal += lBoxName;
+            lAttrs = translateAttributes(lArc);
+            pushAttribute(lAttrs, getStyle(pArc.kind), "style");
+            pushAttribute(lAttrs, getBoxShape(pArc.kind), "shape");
+
+            lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT;
+
+            lAttrs = [];
+            pushAttribute(lAttrs, "dotted", "style");
+            pushAttribute(lAttrs, "none", "dir");
+
+            lRetVal += lBoxName + " -- {" + renderEntityName(lArc.from) + "," + renderEntityName(lArc.to) + "}";
+            lRetVal += renderAttributeBlock(lAttrs);
+        } else {
+            switch(lAggregatedKind) {
+                case ("directional") :
+                    {
+                        pushAttribute(lAttrs, getStyle(pArc.kind), "style");
+                        pushAttribute(lAttrs, getArrowStyle(pArc.kind), "arrowhead");
+                    }
+                    break;
+                case("bidirectional"):
+                    {
+                        pushAttribute(lAttrs, getStyle(pArc.kind), "style");
+                        pushAttribute(lAttrs, getArrowStyle(pArc.kind), "arrowhead");
+                        pushAttribute(lAttrs, getArrowStyle(pArc.kind), "arrowtail");
+                        pushAttribute(lAttrs, "both", "dir");
+                    }
+                    break;
+                case ("nondirectional"):
+                    {
+                        pushAttribute(lAttrs, getStyle(pArc.kind), "style");
+                        pushAttribute(lAttrs, "none", "dir");
+                    }
+                    break;
+            }
+            lArc = counterizeArc(pArc, pCounter);
+            lAttrs = translateAttributes(lArc);
+            lRetVal += renderEntityName(lArc.from) + " ";
+            lRetVal += "--";
+            lRetVal += " " + renderEntityName(lArc.to);
+            lRetVal += renderAttributeBlock(lAttrs);
+        }
         return lRetVal;
     }
 
@@ -140,7 +225,7 @@ define(["./flattenast"], function(flatten) {
                 if (pArcs[i].length > 0) {
                     for ( j = 0; j < pArcs[i].length; j++) {
                         if (pArcs[i][j].from && pArcs[i][j].kind && pArcs[i][j].to) {
-                            lRetVal += INDENT + renderArc(pArcs[i][j], ++lCounter) + ";\n";
+                            lRetVal += INDENT + renderArc(pArcs[i][j], ++lCounter) + "\n";
                         }
                     }
                 }
