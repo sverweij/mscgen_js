@@ -181,6 +181,8 @@ define(["./flattenast", "./textutensils"], function(flatten, txt) {
             lRetVal += lBoxName + " -- {" + renderEntityName(lArc.from) + "," + renderEntityName(lArc.to) + "}";
             lRetVal += renderAttributeBlock(lAttrs);
         } else {
+            lArc = counterizeArc(pArc, pCounter);
+            lAttrs = translateAttributes(lArc);
             switch(lAggregatedKind) {
                 case ("directional") :
                     {
@@ -203,8 +205,6 @@ define(["./flattenast", "./textutensils"], function(flatten, txt) {
                     }
                     break;
             }
-            lArc = counterizeArc(pArc, pCounter);
-            lAttrs = translateAttributes(lArc);
             lRetVal += renderEntityName(lArc.from) + " ";
             lRetVal += "--";
             lRetVal += " " + renderEntityName(lArc.to);
