@@ -4,3 +4,4 @@
 .settings/*
 node_modules
 platoreports
+src/favicon.ico
