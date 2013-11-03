@@ -134,9 +134,8 @@ define([], function() {
     }
 
     function _flatten(pAST) {
-        var fa = [nameAsLabel];
         var lAST = pAST;
-        lAST.entities = flattenEntities(lAST.entities, fa);
+        lAST.entities = flattenEntities(lAST.entities, [nameAsLabel]);
 
         lAST.arcs = flattenArcs(pAST.entities, pAST.arcs, null, [swapRTLArc, explodeArc, overrideColors]);
         return lAST;
