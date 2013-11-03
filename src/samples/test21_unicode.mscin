@@ -10,8 +10,8 @@ msc {
     圖 ('tú') is a character used for 'map', 'chart' or 'diagram'."];
   message =>> sequence [label="信息 ('xìnxī') - message"];
   sequence => chart [label="發 ('fā') - send,\nissue or delegate"];
-  chart >> sequence [label="回复 ('huífù') - reply"];
   chart =>> chart [label="本身 - self"],
   sequence box sequence [label="箱 ('xiāng') - box"];
+  chart >> sequence [label="回复 ('huífù') - reply"];
   message << sequence [label="砂光機"];
 }
