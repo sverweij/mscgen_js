@@ -8,6 +8,8 @@ MOCHA=mocha
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CJS2AMD=utl/commonjs2amd.sh
+PNG2FAVICO=utl/png2favico.sh
+RESIZE=utl/resize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 
@@ -39,6 +41,21 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/node/flattenast.js \
     src/script/mscgen-main.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
+FAVICONMASTER=src/images/source-favicon-1200x1200.png
+FAVICONS=favicon.ico \
+	favicon-24.png \
+	favicon-32.png \
+	favicon-48.png \
+	favicon-64.png \
+	favicon-57.png \
+	favicon-72.png \
+	favicon-96.png \
+	favicon-120.png \
+	favicon-144.png \
+	favicon-152.png \
+	favicon-195.png \
+	favicon-228.png
+	 
 
 .PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
 
@@ -46,6 +63,11 @@ help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean
 
 # file targets
+favicon.ico: $(FAVICONMASTER)
+	$(PNG2FAVICO) $< $@
+
+favicon-%.png: $(FAVICONMASTER)
+	$(RESIZE) $< $@ 
 
 src/script/mscgenparser.js: src/script/node/mscgenparser_node.js
 	$(CJS2AMD) < $< > $@
@@ -106,7 +128,7 @@ consolecheck:
 lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
-install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css
+install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
 	cp src/images/* images/.
 	cp src/samples/*.mscin samples/.
 	cp src/samples/*.msgenny samples/.
@@ -134,4 +156,4 @@ mostlyclean:
 	rm -rf $(PRODDIRS) index.html
 
 clean: mostlyclean
-	rm -rf $(GENERATED_SOURCES)
+	rm -rf $(GENERATED_SOURCES) $(FAVICONS)

@@ -164,6 +164,12 @@ function setupEvents () {
                     gaga.g('send', 'event', 'show_jpeg_base64', 'button');
                 }
     });
+    $("#__show_dot").bind({
+        click : function(e) {
+                    show_dotOnClick();
+                    gaga.g('send', 'event', 'show_dot', 'button');
+                }
+    });
     $("#__close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
@@ -258,22 +264,30 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
+
+function getAST(pLanguage) {
+    var lAST = {};
+    if ("msgenny" === pLanguage) {
+        lAST = msgennyparser.parse(gCodeMirror.getValue());
+    } else if ("json" === pLanguage) {
+        lAST = JSON.parse(gCodeMirror.getValue());
+    } else if ("dot" === pLanguage) {
+        // dot => AST not supported yet.
+    } else {
+        lAST = mscparser.parse(gCodeMirror.getValue());
+    }
+    return lAST;
+}
+
+
 function switchLanguageOnClick (pValue) {
     var lPreviousLanguage = gLanguage;
     var lAST = {};
     
     try {
-        if ("msgenny" === lPreviousLanguage) {
-            lAST = msgennyparser.parse(gCodeMirror.getValue());
-        } else if ("json" === lPreviousLanguage){
-            lAST = JSON.parse(gCodeMirror.getValue());
-        } else if ("dot" === lPreviousLanguage){
-            // dot => AST not supported yet.
-        } else {
-            lAST = mscparser.parse(gCodeMirror.getValue());
-        }
+        lAST = getAST(lPreviousLanguage);
     
-        if (lAST != {}){
+        if (lAST !== {}){
             if ("msgenny" === pValue){
                 gCodeMirror.setValue(tomsgenny.render(lAST));
                 // gCodeMirror.setOption("mode", "msgenny");
@@ -363,6 +377,11 @@ function toRasterURI(pSourceElementId, pType){
 
 function show_rasterOnClick (pType) {
     var lWindow = window.open(toRasterURI("#__svg", pType), "_blank");
+}
+
+function show_dotOnClick(){
+    // var lWindow = window.open('data:text/plain;base64,'+btoa(unescape(encodeURIComponent("Aap noot mies"))));
+    var lWindow = window.open('data:text/plain;,'+encodeURIComponent(todot.render(getAST(gLanguage))));
 }
 
 function close_lightboxOnClick(){
