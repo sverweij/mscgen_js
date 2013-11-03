@@ -11,9 +11,10 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flattenast", "./textutensils"], function(flatten, txt) {
+define(["./flattenast", "./textutensils", "./dotmap"], function(flatten, txt, map) {
 
     var INDENT = "  ";
+
 
     function _renderAST(pAST) {
         var lRetVal = "graph {\n";
@@ -112,65 +113,18 @@ define(["./flattenast", "./textutensils"], function(flatten, txt) {
         return lArc;
     }
 
-    function getAggregatedKind(pKind) {
-        if (["->", "=>", "=>>", ">>", ":>", "-x"].indexOf(pKind) > -1) {
-            return "directional";
-        } else if (["note", "box", "abox", "rbox"].indexOf(pKind) > -1) {
-            return "box";
-        } else if (["<->", "<=>", "<<=>>", "<<>>", "<:>"].indexOf(pKind) > -1) {
-            return "bidirectional";
-        } else if (["--", "==", "..", "::"].indexOf(pKind) > -1) {
-            return "nondirectional";
-        }
-        return "empty";
-    }
-
-    function getStyle(pKind) {
-        var kind2style = {
-            ">>" : "dashed",
-            "<<>>" : "dashed",
-            ".." : "dashed",
-            ":>" : "bold",
-            "<:>" : "bold",
-            "::" : "bold",
-            "rbox" : "rounded"
-        };
-        return kind2style[pKind];
-    }
-
-    function getArrowStyle(pKind) {
-        var kind2arrowStyle = {
-            "->" : "rvee",
-            "<->" : "rvee",
-            "=>" : "normal",
-            "<=>" : "normal",
-            "-x" : "oinvonormal"
-        };
-        return kind2arrowStyle[pKind];
-    }
-
-    function getBoxShape(pKind) {
-        var kind2shape = {
-            "box" : "box",
-            "abox" : "hexagon",
-            "rbox" : "box",
-            "note" : "note",
-        };
-        return kind2shape[pKind];
-    }
-
     function renderArc(pArc, pCounter) {
         var lRetVal = "";
         var lArc = pArc;
         var lAttrs = [];
-        var lAggregatedKind = getAggregatedKind(pArc.kind);
+        var lAggregatedKind = map.getAggregate(pArc.kind);
 
         if (lAggregatedKind === "box") {
             var lBoxName = "box" + pCounter.toString();
             lRetVal += lBoxName;
             lAttrs = translateAttributes(lArc);
-            pushAttribute(lAttrs, getStyle(pArc.kind), "style");
-            pushAttribute(lAttrs, getBoxShape(pArc.kind), "shape");
+            pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
+            pushAttribute(lAttrs, map.getShape(pArc.kind), "shape");
 
             lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT;
 
@@ -183,24 +137,22 @@ define(["./flattenast", "./textutensils"], function(flatten, txt) {
         } else {
             lArc = counterizeArc(pArc, pCounter);
             lAttrs = translateAttributes(lArc);
+            pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
             switch(lAggregatedKind) {
                 case ("directional") :
                     {
-                        pushAttribute(lAttrs, getStyle(pArc.kind), "style");
-                        pushAttribute(lAttrs, getArrowStyle(pArc.kind), "arrowhead");
+                        pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
                     }
                     break;
                 case("bidirectional"):
                     {
-                        pushAttribute(lAttrs, getStyle(pArc.kind), "style");
-                        pushAttribute(lAttrs, getArrowStyle(pArc.kind), "arrowhead");
-                        pushAttribute(lAttrs, getArrowStyle(pArc.kind), "arrowtail");
+                        pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+                        pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
                         pushAttribute(lAttrs, "both", "dir");
                     }
                     break;
                 case ("nondirectional"):
                     {
-                        pushAttribute(lAttrs, getStyle(pArc.kind), "style");
                         pushAttribute(lAttrs, "none", "dir");
                     }
                     break;

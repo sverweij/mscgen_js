@@ -133,7 +133,8 @@ define([], function() {
 
     }
 
-    function _flatten(pAST, pEntityFunctions, pArcRowFunctions, pArcFunctions) {
+    function _flatten(pAST) {
+        var fa = [nameAsLabel];
         var lAST = pAST;
         var lEntityFunctions = [nameAsLabel];
         lEntityFunctions.concat(pEntityFunctions);
@@ -145,8 +146,8 @@ define([], function() {
     }
 
     return {
-        flatten : function(pAST, pEntityFunctions, pArcRowFunctions, pArcFunctions) {
-            return _flatten(pAST, pEntityFunctions, pArcRowFunctions, pArcFunctions);
+        flatten : function(pAST) {
+            return _flatten(pAST);
         }
     };
 });

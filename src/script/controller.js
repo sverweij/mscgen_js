@@ -381,7 +381,7 @@ function show_rasterOnClick (pType) {
 
 function show_dotOnClick(){
     // var lWindow = window.open('data:text/plain;base64,'+btoa(unescape(encodeURIComponent("Aap noot mies"))));
-    var lWindow = window.open('data:text/plain;,'+encodeURIComponent(todot.render(getAST(gLanguage))));
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gLanguage))));
 }
 
 function close_lightboxOnClick(){
