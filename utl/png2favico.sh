@@ -1,4 +1,5 @@
 #!/bin/sh
+# adapted from http://www.imagemagick.org/Usage/thumbnails/#favicon
 optipng -quiet $1
 convert $1  -bordercolor white -border 0 \
           \( -clone 0 -resize 16x16 \) \
