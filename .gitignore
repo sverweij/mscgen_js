@@ -6,3 +6,4 @@ node_modules
 platoreports
 src/favicon.ico
 src/favicon-*.png
+src/*tmp*.html
