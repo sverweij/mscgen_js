@@ -10,6 +10,7 @@ body {
     font-size: 0.7em;
     background-color: #555;
     color: #fff;
+    margin-top: 10em;
 }
 textarea {
     border: solid 0px;

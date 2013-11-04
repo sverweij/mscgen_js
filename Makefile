@@ -42,8 +42,9 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/node/flattenast.js \
     src/script/mscgen-main.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-FAVICONMASTER=src/images/source-favicon-1200x1200.png
+FAVICONMASTER=src/images/xu.png
 FAVICONS=favicon.ico \
+	favicon-16.png \
 	favicon-24.png \
 	favicon-32.png \
 	favicon-48.png \
@@ -152,6 +153,11 @@ test:
 	$(MOCHA) -R dot src/script/node/test/
 
 check: noconsolestatements lint test
+
+ibartfast: 
+	rm *.png *.ico
+
+slart: ibartfast $(FAVICONS)
     
 mostlyclean:
 	rm -rf $(PRODDIRS) index.html
