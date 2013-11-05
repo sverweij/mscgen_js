@@ -4,6 +4,7 @@ body {
     color: black;
     font-family: sans-serif;
     font-size: 12pt;
+    margin-top: 0;
 }
 .code {
     font-family: Monaco, Consolas, 'Andale Mono', monospace;
@@ -18,11 +19,19 @@ textarea {
 h1 {
     font-size: 1.9em;
     margin-bottom: 0;
+    margin-top: 0;
+    color: white;
 }
 header {
     padding-bottom: 0.9em;
+    padding-top: 1em;
     border-bottom: solid lightgray 1px;
     margin-bottom: 0.4em;
+    background-image: url('../images/bg.png');
+     background-repeat: no-repeat;
+     /*background-size: cover;*/
+     background-position: center;
+     
 }
 header > div {
     float: right;
