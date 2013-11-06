@@ -160,6 +160,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
     ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
     ARCROW_HEIGHT        = DEFAULT_ARCROW_HEIGHT;
     ARC_GRADIENT         = DEFAULT_ARC_GRADIENT;
+    WORDWRAPARCS         = false;
 
     if (pAST.options) {
         if (pAST.options.hscale) {
@@ -174,7 +175,6 @@ function _renderAST (pAST, pSource, pParentElementId) {
             ARC_GRADIENT =
                 parseInt(pAST.options.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
         }
-        WORDWRAPARCS = false;
         if (pAST.options.wordwraparcs && pAST.options.wordwraparcs === "true"){
             WORDWRAPARCS = true;
         }
