@@ -1,11 +1,12 @@
-you       => mscgen_js : some text;
-mscgen_js => parser    : ok?;
-parser    >> mscgen_js : syntax tree;
-mscgen_js => renderer  : syntax tree;
+# how mscgen_js works internally, roughly
+you       => controler : some text;
+controler => parser    : ok?;
+parser    >> controler : syntax tree;
+controler => renderer  : syntax tree;
 renderer  => renderer  : render;
-renderer  >> mscgen_js : vector picture;
-mscgen_js >> you       : vector picture;
-you       => mscgen_js : raster graphics?;
-mscgen_js => canvg     : vector picture;
-canvg     >> mscgen_js : raster picture;
-mscgen_js >> you       : raster picture;
+renderer  >> controler : vector picture;
+controler >> you       : vector picture;
+you       => controler : raster graphics?;
+controler => canvg     : vector picture;
+canvg     >> controler : raster picture;
+controler >> you       : raster picture;
