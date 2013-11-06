@@ -131,9 +131,8 @@ lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
 install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	cp src/images/* images/.
-	cp src/samples/*.mscin samples/.
-	cp src/samples/*.msgenny samples/.
+	cp -R src/images .
+	cp -R src/samples .
     
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
