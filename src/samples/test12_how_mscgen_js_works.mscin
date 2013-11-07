@@ -1,19 +1,19 @@
-# how mscgen_js works internally
+# how mscgen_js works internally, roughly
 msc {
   
   hscale="0.9";
   
-  you, mscgen_js, parser [label="parser (pegjs)"],  renderer, canvg;
+  you, controler, parser [label="parser (pegjs)"],  renderer, canvg;
 
-  you       => mscgen_js [label="some text"];
-  mscgen_js => parser [label="ok?"];
-  parser    >> mscgen_js [label="syntax tree"];
-  mscgen_js => renderer [label="syntax tree"];
+  you       => controler [label="some text"];
+  controler => parser [label="ok?"];
+  parser    >> controler [label="syntax tree"];
+  controler => renderer [label="syntax tree"];
   renderer  => renderer [label="render"];
-  renderer  >> mscgen_js [label="vector picture"];
-  mscgen_js >> you [label="vector picture"];
-  you       => mscgen_js [label="raster graphics?"];
-  mscgen_js => canvg [label="vector picture"];
-  canvg     >> mscgen_js [label="raster picture"];
-  mscgen_js >> you [label="raster picture"];
+  renderer  >> controler [label="vector picture"];
+  controler >> you [label="vector picture"];
+  you       => controler [label="raster graphics?"];
+  controler => canvg [label="vector picture"];
+  canvg     >> controler [label="raster picture"];
+  controler >> you [label="raster picture"];
 }

@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils",
+        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/flattenast",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -56,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, gaga, txt,
+            tomsgenny, tomscgen, todot, gaga, txt, flatten,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -128,12 +128,13 @@ function setupEvents () {
                     gaga.g('send', 'event', 'toggle_ms_genny', 'json');
                 }     
     });
-    $("#__language_dot").bind ({
+    $("#__btn_colorize").bind({
         click : function(e) {
-                    switchLanguageOnClick("dot");
-                    gaga.g('send', 'event', 'toggle_ms_genny', 'dot');
-                }     
+                    colorizeOnClick();
+                    gaga.g('send', 'event', 'colorize', 'button');
+                }
     });
+
     $("#__btn_clear").bind({
         click : function(e) {
                     clearOnClick();
@@ -271,8 +272,6 @@ function getAST(pLanguage) {
         lAST = msgennyparser.parse(gCodeMirror.getValue());
     } else if ("json" === pLanguage) {
         lAST = JSON.parse(gCodeMirror.getValue());
-    } else if ("dot" === pLanguage) {
-        // dot => AST not supported yet.
     } else {
         lAST = mscparser.parse(gCodeMirror.getValue());
     }
@@ -294,14 +293,10 @@ function switchLanguageOnClick (pValue) {
             } else if ("json" === pValue){
                 gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
                 // gCodeMirror.setOption("mode", "json");
-            } else if ("dot" === pValue){
-                gCodeMirror.setValue(todot.render(lAST));
-                // gCodeMirror.setOption("mode", "dot");
             } else {
                 gCodeMirror.setValue(tomscgen.render(lAST));
                 // gCodeMirror.setOption("mode", "mscgen");
             }
-            
         }
     } catch(e) {
         // do nothing
@@ -321,6 +316,30 @@ function clearOnClick(){
         gCodeMirror.setValue("msc{\n  \n}");
         gCodeMirror.setCursor(1,3);
     }
+}
+
+function colorizeOnClick(){
+    var lAST = {};
+    
+    try {
+        lAST = getAST(gLanguage);
+    
+        if (lAST !== {}){
+            lAST = flatten.colorize(lAST);
+            
+            if ("msgenny" === gLanguage){
+                gCodeMirror.setValue(tomsgenny.render(lAST));
+            } else if ("json" === gLanguage){
+                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
+            } else {
+                gCodeMirror.setValue(tomscgen.render(lAST));
+            }
+        }
+    } catch(e) {
+        // do nothing
+        console.log(e);
+    }
+    
 }
 
 function samplesOnChange() {
@@ -403,22 +422,18 @@ function showMsGennyState () {
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").attr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
-        $("#__language_dot").removeAttr("checked", "msgennyOn");
     } else if ("json" === gLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").attr("checked", "msgennyOn");
-        $("#__language_dot").removeAttr("checked", "msgennyOn");
     } else if ("dot" === gLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
-        $("#__language_dot").attr("checked", "msgennyOn");
     } else {
         $("#__language_mscgen").attr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
-        $("#__language_dot").removeAttr("checked", "msgennyOn");
     }
     if (gAutoRender) {
         render ();
@@ -434,17 +449,11 @@ function render() {
             lAST = msgennyparser.parse(gCodeMirror.getValue());
         } else if ("json" === gLanguage){
             lAST = JSON.parse(gCodeMirror.getValue());
-        } else if ("dot" === gLanguage){
-            // dot to AST not supported (yet)
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
-        if (gLanguage !== "dot"){
-            msc_render.clean("__svg");
-            msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
-        } else {
-            displayError ("dot parsing not implemented (yet?)");
-        }
+        msc_render.clean("__svg");
+        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)
          *   - it inserts relatively big amounts of data in the DOM tree 
@@ -479,7 +488,6 @@ function render() {
         // gCodeMirror.setCursor (e.line, e.column);
     }
 }
-
 
 function closeLightbox () {
     $("#__cheatsheet").hide();
