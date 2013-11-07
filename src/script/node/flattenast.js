@@ -193,8 +193,8 @@ define([], function() {
             "linecolor" : "orange",
             "textbgcolor" : "#FFFFCC"
         }, {
-            "linecolor" : "green",
-            "textbgcolor" : "lime"
+            "linecolor" : "#117700",
+            "textbgcolor" : "#00FF00"
         }, {
             "linecolor" : "purple",
             "textbgcolor" : "violet"
@@ -209,7 +209,7 @@ define([], function() {
             gColorCombiCount = 0;
         }
 
-        return lColorCombiAry[lColorCombiCount]
+        return lColorCombiAry[lColorCombiCount];
     }
 
     function colorizeEntity(pEntity) {
