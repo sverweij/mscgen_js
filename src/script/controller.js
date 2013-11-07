@@ -337,7 +337,6 @@ function colorizeOnClick(){
         }
     } catch(e) {
         // do nothing
-        console.log(e);
     }
     
 }
