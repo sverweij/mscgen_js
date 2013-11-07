@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils",
+        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/flattenast",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -56,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, gaga, txt,
+            tomsgenny, tomscgen, todot, gaga, txt, flatten,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -128,6 +128,13 @@ function setupEvents () {
                     gaga.g('send', 'event', 'toggle_ms_genny', 'json');
                 }     
     });
+    $("#__btn_colorize").bind({
+        click : function(e) {
+                    colorizeOnClick();
+                    gaga.g('send', 'event', 'colorize', 'button');
+                }
+    });
+
     $("#__btn_clear").bind({
         click : function(e) {
                     clearOnClick();
@@ -309,6 +316,30 @@ function clearOnClick(){
         gCodeMirror.setValue("msc{\n  \n}");
         gCodeMirror.setCursor(1,3);
     }
+}
+
+function colorizeOnClick(){
+    var lAST = {};
+    
+    try {
+        lAST = getAST(gLanguage);
+    
+        if (lAST !== {}){
+            lAST = flatten.colorize(lAST);
+            
+            if ("msgenny" === gLanguage){
+                gCodeMirror.setValue(tomsgenny.render(lAST));
+            } else if ("json" === gLanguage){
+                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
+            } else {
+                gCodeMirror.setValue(tomscgen.render(lAST));
+            }
+        }
+    } catch(e) {
+        // do nothing
+        console.log(e);
+    }
+    
 }
 
 function samplesOnChange() {
