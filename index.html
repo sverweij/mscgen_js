@@ -29,12 +29,12 @@
         <link rel="icon" sizes="144x144" href="./favicon-144.png">
         <link rel="icon" sizes="128x128" href="./favicon-128.png">
         
-        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="./favicon-152.png">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./favicon-144.png">
-        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="./favicon-120.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./favicon-114.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="./favicon-72.png">
-        <link rel="apple-touch-icon-precomposed" href="./favicon-57.png">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="./iosfavicon-152.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./iosfavicon-144.png">
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="./iosfavicon-120.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./iosfavicon-114.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="./iosfavicon-72.png">
+        <link rel="apple-touch-icon-precomposed" href="./iosfavicon-57.png">
         <link rel="shortcut icon" href="./favicon.ico">
         
         <title>mscgen_js - turns text into sequence charts</title>
@@ -124,17 +124,19 @@ Switch off on slow machines. A render button will appear in stead.">Auto render<
                     title="Switches on lazy bastard mode. Automatically converts from Mscgen to Ms Genny.
 
 Watch out (1): ms genny enables you to work blazingly fast.
-Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">Ms Genny</label>
+Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts">MsGenny</label>
                     <span class="debug">
                         <input id="__language_json" type="radio" name="languagerg">
                         <label for="__language_json"
                         title="Switches to abstract syntax tree representation (json)">AST</label>
-                        <button id="__btn_colorize" title="Auto colors the sequence chart">clr</button>
                     </span>
                 </fieldset>
-                <button id="__btn_clear" title="Clears the input area">
+                <button id="__btn_colorize" title="Auto colors the sequence chart
+                        
+Note: !! removes comments and reformats your source!!">color</button>
+                <!-- <button id="__btn_clear" title="Clears the input area">
                     clear
-                </button>
+                </button> -->
                 <button id="__btn_render"
                 title="Click to render. Only shows up when 'autorender' is off">
                     render &gt;
@@ -174,7 +176,7 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
                 type="text/dot"
                 title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
                 <span class="debug fadable">
-                    <em>build 20131107 22:49</em>
+                    <em>build 20131108 22:30</em>
                 </span>
         </div>
         <br>
