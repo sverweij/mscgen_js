@@ -34,7 +34,7 @@ define ([],function() {
     }
 
     function renderString(pString) {
-        return pString.replace(/\"/g, "\\\"");
+        return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
     }
 
     function renderEntityName(pString) {
