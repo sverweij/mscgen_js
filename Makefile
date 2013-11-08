@@ -10,6 +10,7 @@ LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
 RESIZE=utl/resize.sh
+IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 
@@ -49,12 +50,15 @@ FAVICONS=favicon.ico \
 	favicon-32.png \
 	favicon-48.png \
 	favicon-64.png \
-	favicon-57.png \
-	favicon-72.png \
+	iosfavicon-57.png \
+	iosfavicon-72.png \
 	favicon-96.png \
-	favicon-120.png \
+	iosfavicon-114.png \
+	iosfavicon-120.png \
 	favicon-144.png \
+	iosfavicon-144.png \
 	favicon-152.png \
+	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
 	 
@@ -70,6 +74,9 @@ favicon.ico: $(FAVICONMASTER)
 
 favicon-%.png: $(FAVICONMASTER)
 	$(RESIZE) $< $@ 
+
+iosfavicon-%.png: $(FAVICONMASTER)
+	$(IOSRESIZE) $< $@ 
 
 src/script/mscgenparser.js: src/script/node/mscgenparser_node.js
 	$(CJS2AMD) < $< > $@
@@ -154,7 +161,7 @@ test:
 check: noconsolestatements lint test
 
 ibartfast: 
-	rm *.png *.ico
+	rm -rf *.png *.ico
 
 slart: ibartfast $(FAVICONS)
     
