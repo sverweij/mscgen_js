@@ -421,18 +421,17 @@ function showMsGennyState () {
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").attr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
+        $("#__btn_colorize").hide();
     } else if ("json" === gLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").attr("checked", "msgennyOn");
-    } else if ("dot" === gLanguage){
-        $("#__language_mscgen").removeAttr("checked", "msgennyOn");
-        $("#__language_msgenny").removeAttr("checked", "msgennyOn");
-        $("#__language_json").removeAttr("checked", "msgennyOn");
+        $("#__btn_colorize").show();
     } else {
         $("#__language_mscgen").attr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
+        $("#__btn_colorize").show();
     }
     if (gAutoRender) {
         render ();
