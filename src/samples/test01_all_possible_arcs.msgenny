@@ -1,7 +1,8 @@
-# test01: all possible arcs
-hscale="0.6", arcgradient="18", wordwraparcs="false";
+hscale="0.6",
+arcgradient="18",
+wordwraparcs="false";
 
-0;
+0, a, b, c, d, e, f, g, h, i, j, k;
 
 a -- b : left to right,
 b -- c : right to left,
@@ -92,20 +93,19 @@ g abox g : g abox g;
 0 -- a : comment,
 --- : ---;
 0 -- a : broadcasts;
-a -> * : a -> *;
-* <- c : * <- c;
-a => * : a => *;
-* <= c : * <= c;
-a >> * : a >> *;
-* << c : * << c;
-a =>> * : a =>> *;
-* <<= c : * <<= c;
-a -x * : a -x *;
-* x- c : * x- c;
-a :> * : a :> *;
-* <: c : * <: c;
+a -> "*" : a -> *;
+"*" <- c : * <- c;
+d => "*" : a => *;
+"*" <= e : * <= c;
+f >> "*" : a >> *;
+"*" << g : * << c;
+h =>> "*" : a =>> *;
+"*" <<= i : * <<= c;
+j -x "*" : a -x *;
+"*" x- k : * x- c;
+a :> "*" : a :> *;
+"*" <: c : * <: c;
 ||| : "options used: hscale=\"0.6\", arcgradient=\"18\"";
-
 
 /*
     This file is part of mscgen_js.
