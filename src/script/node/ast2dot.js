@@ -11,7 +11,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flattenast", "./textutensils", "./dotmap"], function(flatten, txt, map) {
+define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) {
 
     var INDENT = "  ";
 

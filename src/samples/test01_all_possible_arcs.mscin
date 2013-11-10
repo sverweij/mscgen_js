@@ -114,20 +114,19 @@ msc {
   0 -- a [label="broadcasts"];
   a -> * [label="a -> *"];
   * <- c [label="* <- c"];  
-  a => * [label="a => *"];
-  * <= c [label="* <= c"];
-  a >> * [label="a >> *"];
-  * << c [label="* << c"];
-  a =>> * [label="a =>> *"];
-  * <<= c [label="* <<= c"];
-  a -x * [label="a -x *"];
-  * x- c [label="* x- c"];
+  d => * [label="a => *"];
+  * <= e [label="* <= c"];
+  f >> * [label="a >> *"];
+  * << g [label="* << c"];
+  h =>> * [label="a =>> *"];
+  * <<= i [label="* <<= c"];
+  j -x * [label="a -x *"];
+  * x- k [label="* x- c"];
   a :> * [label="a :> *"];
   * <: c [label="* <: c"];
   
   ||| [label="options used: hscale=\"0.6\", arcgradient=\"18\""];
 }
-
 
 /*
     This file is part of mscgen_js.

@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/flattenast",
+        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -56,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, gaga, txt, flatten,
+            tomsgenny, tomscgen, todot, gaga, txt, colorize,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -325,7 +325,7 @@ function colorizeOnClick(){
         lAST = getAST(gLanguage);
     
         if (lAST !== {}){
-            lAST = flatten.colorize(lAST);
+            lAST = colorize.colorize(lAST);
             
             if ("msgenny" === gLanguage){
                 gCodeMirror.setValue(tomsgenny.render(lAST));
