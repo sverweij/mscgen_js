@@ -152,7 +152,7 @@ deploy-gh-pages: checkout-gh-pages clean install
 	$(GIT) checkout master
 
 report:
-	$(PLATO) -r -d platoreports -x "jquery|parser" src/script/
+	$(PLATO) -r -d platoreports -x "jquery|parser|test" src/script/
 
 test:
 	# $(MOCHA) -R spec src/script/node/test/
