@@ -1,6 +1,0 @@
-msc {
-    a [linecolor=blue],
-    b [textcolor=red];
-
-    a => b [label=aap noot mies, textbgcolor=yellow];
-}
