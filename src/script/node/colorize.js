@@ -22,7 +22,7 @@ if ( typeof define !== 'function') {
 define(["./transformast"], function(transform) {
     var gColorCombiCount = 0;
 
-    function colorizeArc(pEntities, pArc) {
+    function colorizeArc(pArc) {
         var lArc = pArc;
         var lArc2ColorCombi = {
             "note" : {

@@ -1,10 +1,10 @@
 /*
  * Simplifies an AST:
  *    - entities without a label get one (the name of the label)
- *    - unify directions (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
- *    - explode broadcast arcs
- *    - distribute arc*color from the entities to the affected arcs
- *    - add direction attribute to arcs
+ *    - arc directions get unified to always go forward 
+ *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
+ *    - explodes broadcast arcs (TODO)
+ *    - distributes arc*color from the entities to the affected arcs
  */
 
 /* jshint node:true */
@@ -26,8 +26,8 @@ define(["./transformast"], function(transform) {
         }
         return lEntity;
     }
-
-    function swapRTLArc(pEntities, pArc) {
+    
+    function swapRTLArc(pArc) {
         var lRTLkinds = {
             "<-" : "->",
             "<=" : "=>",
@@ -53,7 +53,7 @@ define(["./transformast"], function(transform) {
      * assumes arc direction to be either LTR, both, or none
      * so arc.from exists.
      */
-    function overrideColors(pEntities, pArc) {
+    function overrideColors(pArc, pEntities) {
         function getEntityIndex(pEntities, pNameKey) {
             var i;
             // TODO: could benefit from cache or precalculation
@@ -83,7 +83,7 @@ define(["./transformast"], function(transform) {
         return lArc;
     }
 
-    function explodeArc(pEntities, pArc) {
+    function explodeArc(pArc) {
         var lArc = pArc;
         if (lArc && lArc.from && lArc.to && lArc.to === "*") {
             // for each entity (except pArc.from) insert a new, parallel arc in the current arc row
@@ -96,14 +96,6 @@ define(["./transformast"], function(transform) {
 
 
     return {
-        /*
-         * Simplifies an AST:
-         *    - entities without a label get one (the name of the label)
-         *    - unify directions (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
-         *    - explode broadcast arcs
-         *    - distribute arc*color from the entities to the affected arcs
-         *    - add direction attribute to arcs
-         */
         flatten : function(pAST) {
             return transform.transform(pAST, [nameAsLabel], [swapRTLArc, explodeArc, overrideColors]);
         }

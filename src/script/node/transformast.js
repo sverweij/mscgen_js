@@ -37,13 +37,13 @@ define([], function() {
             for ( lRowCount = 0; lRowCount < lArcRows.length; lRowCount++) {
                 if (pRowFunctionAry) {
                     for ( lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
-                        lArcRows[lRowCount] = pRowFunctionAry[lRowFuncCount](pEntities, lArcRows[lRowCount]);
+                        lArcRows[lRowCount] = pRowFunctionAry[lRowFuncCount](lArcRows[lRowCount], pEntities);
                     }
                 }
                 if (pFunctionAry) {
                     for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
                         for ( lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
-                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](pEntities, lArcRows[lRowCount][lArcCount]);
+                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](lArcRows[lRowCount][lArcCount], pEntities);
                         }
                     }
                 }
