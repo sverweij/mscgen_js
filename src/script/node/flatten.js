@@ -16,46 +16,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
-    var gColorCombiCount = 0;
-
-    function flattenEntities(pEntities, pFunctionAry) {
-        var i, j;
-        var lEntities = pEntities;
-        if (lEntities) {
-            for ( i = 0; i < lEntities.length; i++) {
-                if (pFunctionAry) {
-                    for ( j = 0; j < pFunctionAry.length; j++) {
-                        lEntities[i] = pFunctionAry[j](lEntities[i]);
-                    }
-                }
-            }
-        }
-        return lEntities;
-    }
-
-    function flattenArcs(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
-        var lRowCount, lArcCount, lRowFuncCount, lFuncCount;
-        var lArcRows = pArcRows;
-
-        if (pEntities && lArcRows) {
-            for ( lRowCount = 0; lRowCount < lArcRows.length; lRowCount++) {
-                if (pRowFunctionAry) {
-                    for ( lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
-                        lArcRows[lRowCount] = pRowFunctionAry[lRowFuncCount](pEntities, lArcRows[lRowCount]);
-                    }
-                }
-                if (pFunctionAry) {
-                    for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
-                        for ( lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
-                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](pEntities, lArcRows[lRowCount][lArcCount]);
-                        }
-                    }
-                }
-            }
-        }
-        return lArcRows;
-    }
+define(["./transformast"], function(transform) {
 
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;
@@ -133,96 +94,6 @@ define([], function() {
 
     }
 
-    function _transform(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms) {
-        var lAST = pAST;
-        lAST.entities = flattenEntities(lAST.entities, pEnityTransforms);
-
-        lAST.arcs = flattenArcs(pAST.entities, pAST.arcs, pArcRowTransforms, pArcTransforms);
-        return lAST;
-    }
-
-    function colorizeArc(pEntities, pArc) {
-        var lArc = pArc;
-        var lArc2ColorCombi = {
-            "note" : {
-                "linecolor" : "black",
-                "textbgcolor" : "#FFFFCC"
-            },
-            "box" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            },
-            "rbox" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            },
-            "abox" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            },
-
-        };
-        if (!(lArc.linecolor || lArc.textcolor || lArc.textbgcolor)) {
-            var lColorCombi = lArc2ColorCombi[pArc.kind];
-            if (lColorCombi) {
-                lArc.linecolor = lColorCombi.linecolor;
-                lArc.textcolor = lColorCombi.linecolor;
-                lArc.textbgcolor = lColorCombi.textbgcolor;
-            }
-        }
-        return lArc;
-    }
-
-    function getNextColorCombi() {
-        var lColorCombiAry = [{
-            "linecolor" : "black",
-            "textbgcolor" : "lightgrey"
-        }, {
-            "linecolor" : "#008800",
-            "textbgcolor" : "#CCFFCC"
-        }, {
-            "linecolor" : "#FF0000",
-            "textbgcolor" : "#FFCCCC"
-        }, {
-            "linecolor" : "#0000FF",
-            "textbgcolor" : "#CCCCFF"
-        }, {
-            "linecolor" : "#FF00FF",
-            "textbgcolor" : "#FFCCFF"
-        }, {
-            "linecolor" : "orange",
-            "textbgcolor" : "#FFFFCC"
-        }, {
-            "linecolor" : "#117700",
-            "textbgcolor" : "#00FF00"
-        }, {
-            "linecolor" : "purple",
-            "textbgcolor" : "violet"
-        }, {
-            "linecolor" : "grey",
-            "textbgcolor" : "white"
-        }];
-        var lColorCombiCount = gColorCombiCount;
-        if (gColorCombiCount < lColorCombiAry.length - 1) {
-            gColorCombiCount += 1;
-        } else {
-            gColorCombiCount = 0;
-        }
-
-        return lColorCombiAry[lColorCombiCount];
-    }
-
-    function colorizeEntity(pEntity) {
-        var lEntity = pEntity;
-        if (!(lEntity.linecolor || lEntity.textcolor || lEntity.textbgcolor || lEntity.arclinecolor || lEntity.arctextcolor || lEntity.arctextbgcolor)) {
-            var lNextColorCombi = getNextColorCombi();
-            lEntity.linecolor = lNextColorCombi.linecolor;
-            lEntity.textbgcolor = lNextColorCombi.textbgcolor;
-            lEntity.arctextcolor = lNextColorCombi.linecolor;
-            lEntity.arclinecolor = lNextColorCombi.linecolor;
-        }
-        return lEntity;
-    }
 
     return {
         /*
@@ -234,23 +105,7 @@ define([], function() {
          *    - add direction attribute to arcs
          */
         flatten : function(pAST) {
-            return _transform(pAST, [nameAsLabel], [swapRTLArc, explodeArc, overrideColors]);
-        },
-        /* Automatically adds colors to an AST:
-         *    - any entity without a color(linecolor, textcolor,
-         *      textbgcolor or their arc* variants) get assigned a
-         *      - linecolor
-         *      - textbgcolor
-         *      - arclinecolor
-         *    - colors picked rom from an array (possibly random w no repeat?)
-         *    - notes without any color get a
-         *      - black linecolor
-         *      - light yellow textbgcolor
-         */
-        colorize : function(pAST) {
-            gColorCombiCount = 0;
-
-            return _transform(pAST, [colorizeEntity], [colorizeArc]);
+            return transform.transform(pAST, [nameAsLabel], [swapRTLArc, explodeArc, overrideColors]);
         }
     };
 });

@@ -1,4 +1,6 @@
-var x = require("./flattenast");
+var x = require("./flatten");
+var c = require("./colorize");
+
 var parser = require("./mscgenparser_node");
 
 var lAST = parser.parse ('msc { \
@@ -11,8 +13,8 @@ var lAST = parser.parse ('msc { \
     b note b [label="do not color as already has color", linecolor="red"];\
 }');
 var lAST = parser.parse('msc{ a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t; b note c; d box e; a rbox a; e abox d;}');
-lAST = x.flatten(lAST);
-lAST = x.colorize(lAST);
+// lAST = x.flatten(lAST);
+lAST = c.colorize(lAST);
 
 
 process.stdout.write(JSON.stringify(lAST, null, " "));
