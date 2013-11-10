@@ -38,6 +38,10 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 ## Prerequisites
 - make
 - bash (cp, mkdir, rm, sed, grep, expr)
+- all js necessary to run the mscgen_js demo (web) are included in the distribution
+- many node modules use amdefine, which is not distributed. To install run either
+  ```npm install amdefine``` (for amdefine only) or ```make prerequisites``` (to install
+  the other nodejs dependencies as well)
 - nodejs
     - pegjs (mandatory)    
     - r.js (mandatory for smashing together css sources. Optional for creating opti)
