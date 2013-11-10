@@ -23,7 +23,10 @@ GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/ast2msgenny.js \
 	src/script/node/ast2dot.js \
-	src/script/node/dotmap.js
+	src/script/node/dotmap.js \
+	src/script/node/transformast.js \
+	src/script/node/flatten.js \
+	src/script/node/colorize.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \
@@ -40,7 +43,6 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
     src/script/renderast.js \
     src/script/controller.js \
 	src/script/gaga.js \
-	src/script/node/flattenast.js \
     src/script/mscgen-main.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 FAVICONMASTER=src/images/xu.png
