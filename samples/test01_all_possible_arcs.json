@@ -644,7 +644,7 @@
     [
       {
         "kind": "=>",
-        "from": "a",
+        "from": "d",
         "to": "*",
         "label": "a => *"
       }
@@ -653,14 +653,14 @@
       {
         "kind": "<=",
         "from": "*",
-        "to": "c",
+        "to": "e",
         "label": "* <= c"
       }
     ],
     [
       {
         "kind": ">>",
-        "from": "a",
+        "from": "f",
         "to": "*",
         "label": "a >> *"
       }
@@ -669,14 +669,14 @@
       {
         "kind": "<<",
         "from": "*",
-        "to": "c",
+        "to": "g",
         "label": "* << c"
       }
     ],
     [
       {
         "kind": "=>>",
-        "from": "a",
+        "from": "h",
         "to": "*",
         "label": "a =>> *"
       }
@@ -685,14 +685,14 @@
       {
         "kind": "<<=",
         "from": "*",
-        "to": "c",
+        "to": "i",
         "label": "* <<= c"
       }
     ],
     [
       {
         "kind": "-x",
-        "from": "a",
+        "from": "j",
         "to": "*",
         "label": "a -x *"
       }
@@ -701,7 +701,7 @@
       {
         "kind": "x-",
         "from": "*",
-        "to": "c",
+        "to": "k",
         "label": "* x- c"
       }
     ],
@@ -724,7 +724,7 @@
     [
       {
         "kind": "|||",
-        "label": "options used: hscale=\"0.6\", arcgradient=\"18\""
+        "label": "options used: hscale=\\\"0.6\\\", arcgradient=\\\"18\\\""
       }
     ]
   ]
