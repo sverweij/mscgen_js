@@ -37,12 +37,12 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 
 ## Prerequisites
 - make
-- bash (cp, mkdir, rm, sed, grep)
+- bash (cp, mkdir, rm, sed, grep, expr)
 - nodejs
-    - amdefine (running modules shared between node and web)
-    - r.js
-    - pegjs
-    - jshint (linting)
-    - mocha (unit testing)
-    - plato (code reporting)
+    - pegjs (mandatory)    
+    - r.js (mandatory for smashing together css sources. Optional for creating opti)
+    - jshint (optional: linting)
+    - mocha (optional: unit testing)
+    - plato (optional: code reporting)
 - git (for gh-pages deployment target only)
+- imagemagik and optipng (generating favicons)
