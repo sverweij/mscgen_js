@@ -16,7 +16,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./transformast"], function(transform) {
+define(["./asttransform"], function(transform) {
 
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;

@@ -19,7 +19,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./transformast"], function(transform) {
+define(["./asttransform"], function(transform) {
     var gColorCombiCount = 0;
 
     function colorizeArc(pArc) {
