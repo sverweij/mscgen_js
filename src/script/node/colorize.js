@@ -57,7 +57,7 @@ define(["./asttransform"], function(transform) {
     function getNextColorCombi() {
         var lColorCombiAry = [{
             "linecolor" : "black",
-            "textbgcolor" : "lightgrey"
+            "textbgcolor" : "#DDDDDD"
         }, {
             "linecolor" : "#008800",
             "textbgcolor" : "#CCFFCC"
