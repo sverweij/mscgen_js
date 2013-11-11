@@ -312,11 +312,12 @@ function renderArcs (pArcs, pEntities) {
                         }
                         break;
                     default:{
-                        var xTo = 0;
-                        var xFrom = 0;
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
+                            var xTo = 0;
+                            var xFrom = 0;
+                            
                             if (lTo === "*"){ // it's a broadcast arc
                                 xFrom = gEntity2X[lFrom];
                                 for (k=0;k<pEntities.length;k++){

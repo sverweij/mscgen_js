@@ -1,5 +1,5 @@
 /*
- * Transforms an AST using the given functions that 
+ * Transforms an AST using the given functions that
  * operate on entities, arcs and arc rows respectively
  */
 
@@ -17,12 +17,12 @@ define([], function() {
     function transformEntities(pEntities, pFunctionAry) {
         var i, j;
         var lEntities = pEntities;
-        if (lEntities) {
+        var bla = [];
+
+        if (lEntities && pFunctionAry) {
             for ( i = 0; i < lEntities.length; i++) {
-                if (pFunctionAry) {
-                    for ( j = 0; j < pFunctionAry.length; j++) {
-                        lEntities[i] = pFunctionAry[j](lEntities[i]);
-                    }
+                for ( j = 0; j < pFunctionAry.length; j++) {
+                    lEntities[i] = pFunctionAry[j](lEntities[i]);
                 }
             }
         }
@@ -33,7 +33,7 @@ define([], function() {
         var lRowCount, lArcCount, lRowFuncCount, lFuncCount;
         var lArcRows = pArcRows;
 
-        if (pEntities && lArcRows) {
+        if (pEntities && lArcRows && (pRowFunctionAry || pFunctionAry)) {
             for ( lRowCount = 0; lRowCount < lArcRows.length; lRowCount++) {
                 if (pRowFunctionAry) {
                     for ( lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
@@ -43,7 +43,7 @@ define([], function() {
                 if (pFunctionAry) {
                     for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
                         for ( lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
-                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](lArcRows[lRowCount][lArcCount], pEntities);
+                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](lArcRows[lRowCount][lArcCount], pEntities, lArcRows[lRowCount]);
                         }
                     }
                 }
@@ -61,8 +61,8 @@ define([], function() {
     }
 
     return {
-        transform : function(pEnityTransforms, pArcTransforms, pArcRowTransforms) {
-            return _transform(pEnityTransforms, pArcTransforms, pArcRowTransforms);
+        transform : function(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms) {
+            return _transform(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms);
         }
     };
 });

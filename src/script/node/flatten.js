@@ -1,7 +1,7 @@
 /*
  * Simplifies an AST:
  *    - entities without a label get one (the name of the label)
- *    - arc directions get unified to always go forward 
+ *    - arc directions get unified to always go forward
  *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
  *    - explodes broadcast arcs (TODO)
  *    - distributes arc*color from the entities to the affected arcs
@@ -16,7 +16,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./transformast"], function(transform) {
+define(["./asttransform"], function(transform) {
 
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;
@@ -26,7 +26,7 @@ define(["./transformast"], function(transform) {
         }
         return lEntity;
     }
-    
+
     function swapRTLArc(pArc) {
         var lRTLkinds = {
             "<-" : "->",
@@ -83,21 +83,9 @@ define(["./transformast"], function(transform) {
         return lArc;
     }
 
-    function explodeArc(pArc) {
-        var lArc = pArc;
-        if (lArc && lArc.from && lArc.to && lArc.to === "*") {
-            // for each entity (except pArc.from) insert a new, parallel arc in the current arc row
-            // If there is a label, insert it once. Simple hack could be to insert a ||| with the label,
-            //    possibly extended by an endline
-        }
-        return lArc;
-
-    }
-
-
     return {
         flatten : function(pAST) {
-            return transform.transform(pAST, [nameAsLabel], [swapRTLArc, explodeArc, overrideColors]);
+            return transform.transform(pAST, [nameAsLabel], [swapRTLArc, overrideColors]);
         }
     };
 });

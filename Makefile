@@ -24,7 +24,7 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/ast2msgenny.js \
 	src/script/node/ast2dot.js \
 	src/script/node/dotmap.js \
-	src/script/node/transformast.js \
+	src/script/node/asttransform.js \
 	src/script/node/flatten.js \
 	src/script/node/colorize.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)

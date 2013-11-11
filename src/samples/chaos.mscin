@@ -1,0 +1,117 @@
+{
+  "options": {
+    "hscale": "0.5",
+    "arcgradient": "200"
+  },
+  "entities": [
+    {
+      "name": "a",
+      "linecolor": "black",
+      "textbgcolor": "lightgrey",
+      "arclinecolor": "black",
+      "arctextcolor": "black"
+    },
+    {
+      "name": "b",
+      "linecolor": "#008800",
+      "textbgcolor": "#CCFFCC",
+      "arclinecolor": "#008800",
+      "arctextcolor": "#008800"
+    },
+    {
+      "name": "c",
+      "linecolor": "#FF0000",
+      "textbgcolor": "#FFCCCC",
+      "arclinecolor": "#FF0000",
+      "arctextcolor": "#FF0000"
+    },
+    {
+      "name": "d",
+      "linecolor": "#0000FF",
+      "textbgcolor": "#CCCCFF",
+      "arclinecolor": "#0000FF",
+      "arctextcolor": "#0000FF"
+    },
+    {
+      "name": "e",
+      "linecolor": "#FF00FF",
+      "textbgcolor": "#FFCCFF",
+      "arclinecolor": "#FF00FF",
+      "arctextcolor": "#FF00FF"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "=>>",
+        "from": "a",
+        "to": "*",
+        "label": "",
+        "arcskip": "-1"
+      },
+      {
+        "kind": "=>>",
+        "from": "b",
+        "to": "*",
+        "label": "",
+        "arcskip": "-1"
+      },
+      {
+        "kind": "=>>",
+        "from": "c",
+        "to": "*",
+        "label": "",
+        "arcskip": "-1"
+      },
+      {
+        "kind": "=>>",
+        "from": "d",
+        "to": "*",
+        "label": "",
+        "arcskip": "-1"
+      },
+      {
+        "kind": "=>>",
+        "from": "e",
+        "to": "*",
+        "label": "",
+        "arcskip": "-1"
+      },
+      {
+        "kind": "=>>",
+        "from": "a",
+        "to": "*",
+        "label": "Black\\n\\n\\n\\n\\n\\n\\n\\n"
+      },
+      {
+        "kind": "=>>",
+        "from": "b",
+        "to": "*",
+        "label": "Green\\n\\n\\n\\n\\n\\n"
+      },
+      {
+        "kind": "=>>",
+        "from": "c",
+        "to": "*",
+        "label": "Red\\n\\n\\n\\n"
+      },
+      {
+        "kind": "=>>",
+        "from": "d",
+        "to": "*",
+        "label": "Blue\\n\\n"
+      },
+      {
+        "kind": "=>>",
+        "from": "e",
+        "to": "*",
+        "label": "Pink"
+      }
+    ],
+    [
+      {
+        "kind": "|||"
+      }
+    ]
+  ]
+}
