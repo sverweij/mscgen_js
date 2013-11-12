@@ -202,6 +202,8 @@ function setupEvents () {
                      * otherwise do default handling for drop events (whatever it is)
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
+                        // TODO
+                        console.log(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
                         gCodeMirror.setValue("");
                         gaga.g('send', 'event', 'drop', gLanguage);    
                     } 
@@ -343,12 +345,8 @@ function samplesOnChange() {
         $.ajax({
             url : $("#__samples").val(),
             success : function(pData) {
-                if ($("#__samples").val() && $("#__samples").val().endsWith("msgenny")){
-                    gLanguage = "msgenny";
-                } else if ($("#__samples").val() && $("#__samples").val().endsWith("json")){
-                    gLanguage = "json";
-                } else {
-                    gLanguage = "mscgen";
+                if ($("#__samples").val()) {
+                    gLanguage = txt.classifyExtension($("#__samples").val());
                 }
                 showMsGennyState ();
                 gCodeMirror.setValue(pData);
