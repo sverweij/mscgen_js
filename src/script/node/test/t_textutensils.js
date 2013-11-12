@@ -56,6 +56,64 @@ describe('textutensils', function() {
             assert.equal(lWrapAry[0], lWrapThis);
         });
     });
+    
+    describe('#classify() - ', function() {
+        var lProg = "    /* blah */ msc{";
+
+        it('should classify as mscgen ', function() {
+            assert.equal(txt.classify(lProg), "mscgen");
+        });
+    });
+
+    describe('#classify() - ', function() {
+        var lProg = " /* blah */ msc    {";
+
+        it('should classify as mscgen as well ', function() {
+            assert.equal(txt.classify(lProg), "mscgen");
+        });
+    });
+
+    describe('#classify() - ', function() {
+        var lProg = '{ \
+          "entities": [] \
+        }';
+
+        it('should classify as json ', function() {
+            assert.equal(txt.classify(lProg), "json");
+        });
+    });
+
+    describe('#classify() - ', function() {
+        var lProg = 'aap, noot, mies;';
+
+        it('should classify as msgenny ', function() {
+            assert.equal(txt.classify(lProg), "msgenny");
+        });
+    });
+
+    describe('#classifyExtension() - ', function() {
+
+        it('empty string should classify as mscgen ', function() {
+            assert.equal(txt.classifyExtension(''), "mscgen");
+        });
+
+        it('should classify as mscgen ', function() {
+            assert.equal(txt.classifyExtension('raggerderag.msc'), "mscgen");
+        });
+
+        it('should classify as msgenny ', function() {
+            assert.equal(txt.classifyExtension('daaris/;d"orgelm.msgenny'), "msgenny");
+        });
+
+        it('string ending with . should classify as mscgen', function() {
+            assert.equal(txt.classifyExtension('aap.noot/mies.'), "mscgen");
+        });
+
+
+        it('should classify as ast/json ', function() {
+            assert.equal(txt.classifyExtension('test01_all_arcs.json'), "json");
+        });
+    });
 
 });
 

@@ -17,7 +17,6 @@ define([], function() {
     function transformEntities(pEntities, pFunctionAry) {
         var i, j;
         var lEntities = pEntities;
-        var bla = [];
 
         if (lEntities && pFunctionAry) {
             for ( i = 0; i < lEntities.length; i++) {
