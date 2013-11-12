@@ -202,8 +202,8 @@ function setupEvents () {
                      * otherwise do default handling for drop events (whatever it is)
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
-                        // TODO
-                        console.log(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
+                        gLanguage = txt.classifyExtension(pEvent.dataTransfer.files[0].name);
+                        showMsGennyState ();
                         gCodeMirror.setValue("");
                         gaga.g('send', 'event', 'drop', gLanguage);    
                     } 
