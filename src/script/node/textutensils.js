@@ -111,7 +111,7 @@ define([], function() {
             "mscin":"mscgen",
             "json":"json",
             "ast":"json"
-        }
+        };
         var lPos = pString.lastIndexOf(".");
         if (lPos > -1) {
             var lExt = pString.slice(lPos + 1);
