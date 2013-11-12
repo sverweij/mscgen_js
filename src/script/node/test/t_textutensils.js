@@ -56,6 +56,40 @@ describe('textutensils', function() {
             assert.equal(lWrapAry[0], lWrapThis);
         });
     });
+    
+    describe('#classify() - ', function() {
+        var lProg = "    /* blah */ msc{";
+
+        it('should classify as mscgen ', function() {
+            assert.equal(txt.classify(lProg), "mscgen");
+        });
+    });
+
+    describe('#classify() - ', function() {
+        var lProg = " /* blah */ msc    {";
+
+        it('should classify as mscgen as well ', function() {
+            assert.equal(txt.classify(lProg), "mscgen");
+        });
+    });
+
+    describe('#classify() - ', function() {
+        var lProg = '{ \
+          "entities": [] \
+        }';
+
+        it('should classify as json ', function() {
+            assert.equal(txt.classify(lProg), "json");
+        });
+    });
+
+    describe('#classify() - ', function() {
+        var lProg = 'aap, noot, mies;';
+
+        it('should classify as msgenny ', function() {
+            assert.equal(txt.classify(lProg), "msgenny");
+        });
+    });
 
 });
 

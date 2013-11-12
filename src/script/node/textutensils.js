@@ -84,6 +84,25 @@ define([], function() {
         //.replace(/\\n/g, " ");
     }
 
+    /*
+     * given a string returns the language the string
+     * probably was written in. Possible return values:
+     * - mscgen
+     * - json
+     * - msgenny
+     */
+    function _classify (pString){
+        var gReMscGen = new RegExp("msc\\s*{");
+        var gReJSON = new RegExp("^\\s*{");
+
+        if (gReMscGen.test(pString)){
+            return "mscgen";
+        } else if (gReJSON.test(pString)) {
+            return "json";
+        }
+        return "msgenny";
+    }
+
     function _setupStringShims() {
         if (!String.prototype.endsWith) {
             Object.defineProperty(String.prototype, 'endsWith', {
@@ -110,6 +129,9 @@ define([], function() {
         unescapeString : function(pString) {
             return _unescapeString(pString);
         },
+        classify : function(pString) {
+            return _classify(pString);
+        }, 
         setupStringShims : function() {
             return _setupStringShims();
         }
