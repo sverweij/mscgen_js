@@ -247,11 +247,6 @@ function msc_inputKeyup () {
         render();
     }
 }
-function msc_inputPaste () {
-    if (gAutoRender) {
-        render();
-    }
-}
 
 function renderOnClick () {
     render();
