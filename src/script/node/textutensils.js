@@ -84,60 +84,25 @@ define([], function() {
         //.replace(/\\n/g, " ");
     }
 
-    /*
-     * given a string returns the language the string
-     * probably was written in. Possible return values:
-     * - mscgen
-     * - json
-     * - msgenny
-     */
-    function _classify (pString){
-        var gReMscGen = new RegExp("msc\\s*{");
-        var gReJSON = new RegExp("^\\s*{");
-
-        if (gReMscGen.test(pString)){
-            return "mscgen";
-        } else if (gReJSON.test(pString)) {
-            return "json";
-        }
-        return "msgenny";
-    }
-
-    function _classifyExtension (pString){
+    function _classifyExtension(pString) {
         var lExtMap = {
-            "msgenny": "msgenny",
-            "mscgen": "mscgen",
-            "msc":"mscgen",
-            "mscin":"mscgen",
-            "json":"json",
-            "ast":"json"
+            "msgenny" : "msgenny",
+            "mscgen" : "mscgen",
+            "msc" : "mscgen",
+            "mscin" : "mscgen",
+            "json" : "json",
+            "ast" : "json"
         };
         var lPos = pString.lastIndexOf(".");
         if (lPos > -1) {
             var lExt = pString.slice(lPos + 1);
-            if (lExtMap[lExt]){
+            if (lExtMap[lExt]) {
                 return lExtMap[lExt];
             }
         }
 
         return "mscgen";
 
-    }
-
-    function _setupStringShims() {
-        if (!String.prototype.endsWith) {
-            Object.defineProperty(String.prototype, 'endsWith', {
-                enumerable : false,
-                configurable : false,
-                writable : false,
-                value : function(searchString, position) {
-                    position = position || this.length;
-                    position = position - searchString.length;
-                    var lastIndex = this.lastIndexOf(searchString);
-                    return lastIndex !== -1 && lastIndex === position;
-                }
-            });
-        }
     }
 
     return {
@@ -152,12 +117,6 @@ define([], function() {
         },
         classifyExtension : function(pString) {
             return _classifyExtension(pString);
-        }, 
-        classify : function(pString) {
-            return _classify(pString);
-        }, 
-        setupStringShims : function() {
-            return _setupStringShims();
         }
     };
 });

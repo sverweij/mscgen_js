@@ -80,7 +80,6 @@ var gCodeMirror =
         // mode              : "mscgen",
         lineWrapping      : true
     });
-txt.setupStringShims();
 
 $(document).ready(function(){
     
@@ -210,11 +209,13 @@ function setupEvents () {
     });
     $("a[href]").bind({
         click : function(e) {
-            var lTarget = e.currentTarget ? (e.currentTarget.href ? e.currentTarget.href : "unknown") : "unknown";
+            var lTarget = "unknown";
             
-            if (!(lTarget.endsWith("#"))){
-                gaga.g('send', 'event', 'link', lTarget);
+            if (e.currentTarget && e.currentTarget.href){
+                lTarget = e.currentTarget.href;
             }
+            
+            gaga.g('send', 'event', 'link', lTarget);
         }
     });
     $("#__helpme").bind ({
