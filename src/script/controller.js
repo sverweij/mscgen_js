@@ -80,7 +80,6 @@ var gCodeMirror =
         // mode              : "mscgen",
         lineWrapping      : true
     });
-txt.setupStringShims();
 
 $(document).ready(function(){
     
@@ -211,10 +210,7 @@ function setupEvents () {
     $("a[href]").bind({
         click : function(e) {
             var lTarget = e.currentTarget ? (e.currentTarget.href ? e.currentTarget.href : "unknown") : "unknown";
-            
-            if (!(lTarget.endsWith("#"))){
-                gaga.g('send', 'event', 'link', lTarget);
-            }
+            gaga.g('send', 'event', 'link', lTarget);
         }
     });
     $("#__helpme").bind ({

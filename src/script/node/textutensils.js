@@ -123,7 +123,7 @@ define([], function() {
         return "mscgen";
 
     }
-
+/*
     function _setupStringShims() {
         if (!String.prototype.endsWith) {
             Object.defineProperty(String.prototype, 'endsWith', {
@@ -139,6 +139,7 @@ define([], function() {
             });
         }
     }
+    */
 
     return {
         wrap : function(pText, pMaxLength) {
@@ -155,10 +156,11 @@ define([], function() {
         }, 
         classify : function(pString) {
             return _classify(pString);
-        }, 
+        }
+        /*, 
         setupStringShims : function() {
             return _setupStringShims();
-        }
+        }*/
     };
 });
 /*
