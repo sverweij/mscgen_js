@@ -209,7 +209,12 @@ function setupEvents () {
     });
     $("a[href]").bind({
         click : function(e) {
-            var lTarget = e.currentTarget ? (e.currentTarget.href ? e.currentTarget.href : "unknown") : "unknown";
+            var lTarget = "unknown";
+            
+            if (e.currentTarget && e.currentTarget.href){
+                lTarget = e.currentTarget.href;
+            }
+            
             gaga.g('send', 'event', 'link', lTarget);
         }
     });
