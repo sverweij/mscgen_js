@@ -170,8 +170,8 @@ slart: ibartfast $(FAVICONS)
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html
 
-mostlyclean: somewhatclean:
-	$(GENERATED_SOURCES)
+mostlyclean: somewhatclean
+	rm -rf $(GENERATED_SOURCES)
 
 clean: mostlyclean
-	rm -rf $(GENERATED_SOURCES) $(FAVICONS)
+	rm -rf $(FAVICONS)
