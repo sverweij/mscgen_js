@@ -311,8 +311,8 @@ c <mark>rbox</mark> d : rbox;
 
 <article id="demo" class="shadow">
 <h1>Using the on line demo</h1>
-<p>With the on line "demo" you can write mscgen programs while seeing the
-    chart grow. 
+<p>With the on line "demo" you can write mscgen programs and see the
+    chart grow in real time.
     </p>
 <h2>Input</h2>
 <p>The typing area on the right uses is fairly advanced code editor
@@ -325,20 +325,39 @@ c <mark>rbox</mark> d : rbox;
 <ul>
     <li>Auto render</li>
     <li>Language</li>
-    <li>Color</li>
+    <li><em>Color</em> - Automatically colors the sequence chart using the following rules:
+        <ul>
+            <li>If the Entity does not have a color yet, the demo assigns it colors 
+                from a carefully scheme and applies it to that entity:
+                <ul>
+                    <li>line color</li>
+                    <li>background color</li>
+                    <li>arc line color the same as the line color (so all lines departing
+                        from the entities lifeline get the same color)</li>
+                    <li>arc text color</li>
+                </ul>
+            </li>
+            <li>If a note does not have any color yet it gets a light 
+                yellow background and bllack text and lines.</li>
+            <li>If a box (/abox/ rbox) does nt have any color yet it
+                gets a white background and black text and line</li>
+        </ul>
+        As msgenny does not support colors, the auto color function only works
+        for mscgen (and in abstract syntax tree when in debug mode). 
+     </li>
 </ul>
 </p>
 
 <h2>Output</h2>
 <ul>
-    <li><span title="Scalable Vector Graphics">svg</span> - clicking the <em>svg</em> button or
+    <li><em><span title="Scalable Vector Graphics">svg</span></em> - clicking the <em>svg</em> button or
         double clicking the sequence chart opens the chart in a new window (or tab). 
         In most browsers it's super easy to save the image to your local file
         system from there.
         </li>
-    <li>png and jpeg - opens a new window/ tab with the "rasterized" version of the
+    <li><em>png</em> and <em>jpeg</em> - opens a new window/ tab with the "rasterized" version of the
         chart in the lossless png </li>
-    <li>dot - (only available in debug mode) opens a new window with a graphviz dot
+    <li><em>dot</em> - (only available in debug mode) opens a new window with a graphviz dot
         program, that represents the communication diagram version of your sequence chart.</li>
 </ul>
 
@@ -351,7 +370,8 @@ c <mark>rbox</mark> d : rbox;
 </p>
 <p>The right half of the screen is for output. The </p>
 <p>saving as svg (includes your program!), png, jpeg. dot</p>
-<p>Help</p>
+<h2>Help us improve this shit</h2>
+<p></p>
 
 
 </article>
