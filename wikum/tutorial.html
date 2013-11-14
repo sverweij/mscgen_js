@@ -311,13 +311,46 @@ c <mark>rbox</mark> d : rbox;
 
 <article id="demo" class="shadow">
 <h1>Using the on line demo</h1>
-<p>By default renders as you type.</p>
+<p>With the on line "demo" you can write mscgen programs while seeing the
+    chart grow. 
+    </p>
+<h2>Input</h2>
+<p>The typing area on the right uses is fairly advanced code editor
+    (it uses <em>codemirror</em>). It (a.o.) supports undo/ redo history, 
+    automatic insertion of brackets and quotes, just like you would 
+    expect of an off line code editor. You can even drop files directly from
+    your desktop.</p>
 <img class="shadow" src="tutorial/demo - screenshot - autofaded.png" alt="a screenshot of the demo">
-<p>saving as svg (includes your program!), png, jpeg</p>
-<p>double click diagram</p>
-<p>Drag'n drop</p>
-<p>Auto render</p>
-<p>Language switch.</p>
+<p>
+<ul>
+    <li>Auto render</li>
+    <li>Language</li>
+    <li>Color</li>
+</ul>
+</p>
+
+<h2>Output</h2>
+<ul>
+    <li><span title="Scalable Vector Graphics">svg</span> - clicking the <em>svg</em> button or
+        double clicking the sequence chart opens the chart in a new window (or tab). 
+        In most browsers it's super easy to save the image to your local file
+        system from there.
+        </li>
+    <li>png and jpeg - opens a new window/ tab with the "rasterized" version of the
+        chart in the lossless png </li>
+    <li>dot - (only available in debug mode) opens a new window with a graphviz dot
+        program, that represents the communication diagram version of your sequence chart.</li>
+</ul>
+
+<h2>Debug mode</h2>
+<ul>
+    <li>AST/ json support</li>
+    <li>dot</li>
+    <li>build &amp; version number</li>
+</ul>
+</p>
+<p>The right half of the screen is for output. The </p>
+<p>saving as svg (includes your program!), png, jpeg. dot</p>
 <p>Help</p>
 
 
