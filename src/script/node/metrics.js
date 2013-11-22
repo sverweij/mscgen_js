@@ -28,7 +28,7 @@ if ( typeof define !== 'function') {
 
 define(["./asttransform", "./dotmap", "./flatten"], function(transform, map, flat) {
     var gEntityCounts = {};
-    var gStats = {}
+    var gStats = {};
 
     function init() {
         gEntityCounts = {};

@@ -26,6 +26,8 @@ if ( typeof define !== 'function') {
 
 define(["./asttransform", "./metrics"], function(transform, metrics) {
     var gEntityCounts = {};
+    var gSmallest = 0;
+    var gLargest = 0;
 
     function calculateColor(pValue, pMin, pMax) {
         var lTargetRange = 0xAA - 0x00;
@@ -98,15 +100,13 @@ define(["./asttransform", "./metrics"], function(transform, metrics) {
             gEntityCounts = lStats.entityStats;
             gSmallest = lStats.minInOutCount;
             gLargest = lStats.maxInOutCount;
-            lAST = transform.transform(pAST, [greyCountEntity]);
-            return lAST;
+            return transform.transform(pAST, [greyCountEntity]);
 
         },
         inoutweigh : function(pAST) {
             var lStats = metrics.getStats(pAST);
             gEntityCounts = lStats.entityStats;
-            lAST = transform.transform(pAST, [inoutWeighEntity]);
-            return lAST;
+            return transform.transform(pAST, [inoutWeighEntity]);
         }
     };
 });
