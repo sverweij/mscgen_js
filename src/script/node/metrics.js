@@ -7,9 +7,15 @@
  *   as incoming _and_ outgoing
  *
  * returns an object with stats on the given AST (guaranteed)
- *  - entityCount - the number of entities
- *  - minInOutCount - the lowest number of arcs on an entity
- *  - maxInOutCount - the hightest number of arcs on an entity
+ *  - entityCount     - the number of entities
+ *  - minInOutCount   - the lowest number of arcs going in and out of  any entity
+ *  - maxInOutCount   - the highest number of arcs going in and out of any entity
+ *  - avgInCount      - the average number of arcs going into entities 
+ *  - avgOutCount     - the average number of arcs going out of entities
+ *  - avgInOutCount   - the average number of arcs going in and out of entities
+ *  - totalInCount    - the total number of af arcs going into entities
+ *  - totalOutCount   - the total number of af arcs going out of entities
+ *  - totalInOutCount - the total number of af arcs going into and out of entities
  *  - entityStats; for each entity in the given AST:
  *      - incount    - the number of incoming arcs
  *      - outcount   - the number of outgoing arcs
@@ -42,7 +48,7 @@ define(["./asttransform", "./dotmap", "./flatten"], function(transform, map, fla
             avgInOutCount : 0, //
             maxArcInCount : 0,
             maxArcOutCount : 0,
-            maxInOutCount : 0,
+            maxInOutCount : 0, //
             totalInCount : 0, //
             totalOutCount : 0, //
             totalInOutCount : 0, //
