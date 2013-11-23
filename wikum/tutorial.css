@@ -8,6 +8,7 @@ body {
 article {
     margin-left: 10%;
     margin-right: 10%;
+    max-width: 65em;
     margin-top: 0.25em;
     padding: 3em;
     background-color: white;
@@ -125,10 +126,10 @@ mark {
 }
 
 @media screen and (min-width: 1025px) {
-    article {
-        margin-left: 15%;
-        margin-right: 15%;
-    }
+    /*article {
+        margin-left: 20%;
+        margin-right: 20%;
+    }*/
 }
 /*
  This file is part of mscgen_js.

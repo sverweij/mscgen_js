@@ -130,10 +130,10 @@ module.exports = (function() {
                     "idurl" : "http://localhost/idurl",
                     "url" : "http://localhost/url"
                 }],
-                "arcs" :[[{
+                "arcs" : [[{
                     "kind" : "<<=>>",
-                    "from" :"a",
-                    "to":"a",
+                    "from" : "a",
+                    "to" : "a",
                     "label" : "Label for a <<=>> a",
                     "textcolor" : "green",
                     "textbgcolor" : "cyan",
@@ -141,6 +141,82 @@ module.exports = (function() {
                     "id" : "Just and id",
                     "idurl" : "http://localhost/idurl",
                     "url" : "http://localhost/url"
+                }]]
+            };
+        },
+        astBroadcastCounting : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }, {
+                    "name" : "d"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "*"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "b",
+                    "to" : "*"
+                }]]
+            };
+        },
+        astCountingTest : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }, {
+                    "name" : "d"
+                }, {
+                    "name" : "e"
+                }, {
+                    "name" : "f",
+                    "label" : "Rémy"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "b"
+                }, {
+                    "kind" : "<<=>>",
+                    "from" : "c",
+                    "to" : "d"
+                }], [{
+                    "kind" : "<<=",
+                    "from" : "b",
+                    "to" : "a"
+                }, {
+                    "kind" : "--",
+                    "from" : "c",
+                    "to" : "d"
+                }], [{
+                    "kind" : "box",
+                    "from" : "a",
+                    "to" : "d",
+                    "label" : "boxes dont count"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "e",
+                    "to" : "e",
+                    "label" : "self references don't count"
+                }], [{
+                    "kind" : "note",
+                    "from" : "c",
+                    "to" : "c",
+                    "label" : "notes don't count"
                 }]]
             };
         }

@@ -157,6 +157,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
     bootstrap(pParentElementId, "__svg_output");
 
     INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
+    ENTITY_HEIGHT        = DEFAULT_ENTITY_HEIGHT;
     ENTITY_WIDTH         = DEFAULT_ENTITY_WIDTH;
     ARCROW_HEIGHT        = DEFAULT_ARCROW_HEIGHT;
     ARC_GRADIENT         = DEFAULT_ARC_GRADIENT;
@@ -228,6 +229,26 @@ function _renderAST (pAST, pSource, pParentElementId) {
 
 }
 
+
+function getMaxEntityHeight(pEntities) {
+    /* crude method for determining the max entity height; create all entities,
+     * measure the max, and than re-render using the max thus gotten
+     */
+    var lHWM = ENTITY_HEIGHT;
+    var lEntityMemory = [];
+    var i = 0;
+    
+    for ( i = 0; i < pEntities.length; i++) {
+        lEntityMemory[i] = renderEntity(pEntities[i].name, pEntities[i]);
+        var lHeight = utl.getBBox(lEntityMemory[i]).height;
+        if (lHeight > lHWM) {
+            lHWM = lHeight;
+        }
+    }
+    return lHWM;
+}
+
+
 function renderEntities (pEntities) {
     var defs = document.getElementById("__defs");
     var sequence = document.getElementById("__sequencelayer");
@@ -237,8 +258,9 @@ function renderEntities (pEntities) {
     gEntity2X = {};
     gEntity2ArcColor = {};
     var arcColors = {};
-
+    
     if (pEntities) {
+        ENTITY_HEIGHT = getMaxEntityHeight(pEntities) + LINE_WIDTH*2;
         for (i=0;i<pEntities.length;i++){
             arcColors = {};
             defs.appendChild(renderEntity(pEntities[i].name, pEntities[i]));

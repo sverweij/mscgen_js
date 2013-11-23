@@ -27,7 +27,7 @@ define(["./asttransform"], function(transform) {
         return lEntity;
     }
 
-    function swapRTLArc(pArc) {
+    function _swapRTLArc(pArc) {
         var lRTLkinds = {
             "<-" : "->",
             "<=" : "=>",
@@ -84,8 +84,11 @@ define(["./asttransform"], function(transform) {
     }
 
     return {
+        swapRTLArc : function(pArc) {
+            return _swapRTLArc(pArc);
+        },
         flatten : function(pAST) {
-            return transform.transform(pAST, [nameAsLabel], [swapRTLArc, overrideColors]);
+            return transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]);
         }
     };
 });

@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize",
+        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -56,7 +56,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, gaga, txt, colorize,
+            tomsgenny, tomscgen, todot, gaga, txt, colorize, statstrans,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -134,10 +134,16 @@ function setupEvents () {
                 }
     });
 
-    $("#__btn_clear").bind({
+    $("#__btn_weigh").bind({
         click : function(e) {
-                    clearOnClick();
-                    gaga.g('send', 'event', 'clear', 'button');
+                    weighOnClick();
+                    gaga.g('send', 'event', 'weigh', 'button');
+                }
+    });
+    $("#__btn_ioweigh").bind({
+        click : function(e) {
+                    weighOnClick("io");
+                    gaga.g('send', 'event', 'ioweigh', 'button');
                 }
     });
     $("#__svg").bind({
@@ -338,6 +344,31 @@ function colorizeOnClick(){
     }
     
 }
+function weighOnClick(pType){
+      var lAST = {};
+    
+    try {
+        lAST = getAST(gLanguage);
+    
+        if (lAST !== {}){
+            if ("io" === pType){
+                lAST = statstrans.inoutweigh(lAST);
+            } else {
+                lAST = statstrans.greyweigh(lAST);
+            }
+            
+            if ("msgenny" === gLanguage){
+                gCodeMirror.setValue(tomsgenny.render(lAST));
+            } else if ("json" === gLanguage){
+                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
+            } else {
+                gCodeMirror.setValue(tomscgen.render(lAST));
+            }
+        }
+    } catch(e) {
+        // do nothing
+    }  
+}
 
 function samplesOnChange() {
     if ("none" === $("#__samples").val()) {
@@ -416,16 +447,22 @@ function showMsGennyState () {
         $("#__language_msgenny").attr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").hide();
+        $("#__btn_weigh").hide();
+        $("#__btn_ioweigh").hide();
     } else if ("json" === gLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").attr("checked", "msgennyOn");
         $("#__btn_colorize").show();
+        $("#__btn_weigh").show();
+        $("#__btn_ioweigh").show();
     } else {
         $("#__language_mscgen").attr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").show();
+        $("#__btn_weigh").show();
+        $("#__btn_ioweigh").show();
     }
     if (gAutoRender) {
         render ();

@@ -65,7 +65,8 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
   releasing both to the public domain (the last one under a [GPLv2][18] license to be precise).
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
-- Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters like a walk in the park. 
+- Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters almost
+  like a walk in the park. 
 
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: http://sverweij.github.io/mscgen_js

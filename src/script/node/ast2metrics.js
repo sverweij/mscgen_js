@@ -1,11 +1,11 @@
-var x = require("./flatten");
-var g = require("./statstransforms");
-
-var parser = require("./mscgenparser_node");
-var ast2mscgen = require("./ast2mscgen");
-
+/*
+ * takes a simplified message sequence chart program and translates
+ * to an mscgen program
+ */
 /* jshint indent:4 */
 /* jshint node:true */
+
+var metrics = require ("./metrics");
 
 var gInput = "";
 
@@ -17,14 +17,18 @@ process.stdin.on('data', function(chunk) {
 });
 
 process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    // lAST = x.flatten(lAST);
-    lAST = g.inoutweigh(lAST);
-    process.stdout.write(ast2mscgen.render (lAST));
+    var lStats = metrics.getStats(JSON.parse(gInput));
+    process.stdout.write(JSON.stringify(lStats, null, "   "));
     process.stdin.pause();
 });
 
 
+/*
+fs.readFile('input.msc', function (err, data) {
+    if (err) throw err;
+        process.stdout.write(data);
+});
+*/
 /*
     This file is part of mscgen_js.
 
