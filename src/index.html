@@ -69,8 +69,19 @@ If you're on G+, that is."
                 title="Show cheat sheet"></div>
             </div>
 
+            <div class="debug fadable" style="font-size: small">
+                <div><em>version:</em> ${version}</div>
+                <div><em>build-date:</em> ${date}</div>
+                <div><em>commit:</em> ${commit}</div>
+            </div>
+
             <h1 title="There's some good copy in tooltips.
-Likely nobody will read them, though." class="fadable">mscgen_js</h1>
+Likely nobody will read them, though.
+
+mscgen_js
+    version: ${version}
+    build-date: ${date}
+    commit: ${commit}" class="fadable">mscgen_js</h1>
             <span>turns text into sequence charts</span>
         </header>
         <div id="__input_and_controls">
@@ -180,9 +191,6 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
                 target="_blank"
                 type="text/dot"
                 title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
-                <span class="debug fadable">
-                    <em>{version}</em>
-                </span>
         </div>
         <br>
         <span id="__svg"></span>
