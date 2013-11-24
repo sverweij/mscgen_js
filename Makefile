@@ -65,7 +65,7 @@ FAVICONS=favicon.ico \
 	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
-	 
+VERSIONEMBEDDABLESOURCES=index.html
 
 .PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
 
@@ -154,6 +154,10 @@ deploy-gh-pages: checkout-gh-pages mostlyclean install
 	$(GIT) commit --all --message="build" --allow-empty
 	$(GIT) push
 	$(GIT) checkout master
+
+release: $(VERSIONEMBEDDABLESOURCES)
+	$(GIT) add $(VERSIONEMBEDDABLESOURCES)
+	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
 
 report:
 	$(PLATO) -r -d platoreports -x "jquery|parser|test" src/script/
