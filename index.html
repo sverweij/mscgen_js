@@ -70,18 +70,18 @@ If you're on G+, that is."
             </div>
 
             <div class="debug fadable" style="font-size: small">
-                <div><em>version:</em> 0.7.0</div>
-                <div><em>build-date:</em> 20131124 13:26</div>
-                <div><em>commit:</em> 04d8c54220610b36c755b145158bb59c65e84ee1</div>
+                <div><em>version:</em> 0.7.1</div>
+                <div><em>build-date:</em> 20131125 21:20</div>
+                <div><em>commit:</em> 1e0bf86e2578df74e600b928d9134708aa232ed2</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.7.0
-    build-date: 20131124 13:26
-    commit: 04d8c54220610b36c755b145158bb59c65e84ee1" class="fadable">mscgen_js</h1>
+    version: 0.7.1
+    build-date: 20131125 21:20
+    commit: 1e0bf86e2578df74e600b928d9134708aa232ed2" class="fadable">mscgen_js</h1>
             <span>turns text into sequence charts</span>
         </header>
         <div id="__input_and_controls">
@@ -102,6 +102,7 @@ mscgen_js
                         <option class="debug" value="samples/smoketest.mscin">test: smoke test</option>
                         <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
                         <option value="samples/test02_some_coloring.mscin">test: colors</option>
+                        <option class="debug" value="samples/rainbow.mscin">test: rainbow</option>
                         <option class="debug" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
                         <option class="debug" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
                         <option class="debug" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
@@ -146,6 +147,8 @@ Watch out (2): switching to ms genny strips all fancy stuff from mscgen scripts"
                         
 Note: !! removes comments and reformats your source!!">color</button>
                 <span class="debug">
+                    
+                <button id="__btn_colorize_hard" title="Auto color; overrides existing colors"><span style="font-size: xx-small">hard color override</span></button>
                     <button id="__btn_weigh" title="Auto colors the entities in the chart according to 'weight'
                                             
                     Note: !! removes comments and reformats your source!!">weigh</button>
