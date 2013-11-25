@@ -129,10 +129,17 @@ function setupEvents () {
     });
     $("#__btn_colorize").bind({
         click : function(e) {
-                    colorizeOnClick();
+                    colorizeOnClick(false);
                     gaga.g('send', 'event', 'colorize', 'button');
                 }
     });
+    $("#__btn_colorize_hard").bind({
+        click : function(e) {
+                    colorizeOnClick(true);
+                    gaga.g('send', 'event', 'colorize_hard', 'button');
+                }
+    });
+
 
     $("#__btn_weigh").bind({
         click : function(e) {
@@ -322,14 +329,14 @@ function clearOnClick(){
     }
 }
 
-function colorizeOnClick(){
+function colorizeOnClick(pHardOverride){
     var lAST = {};
     
     try {
         lAST = getAST(gLanguage);
     
         if (lAST !== {}){
-            lAST = colorize.colorize(lAST);
+            lAST = colorize.colorize(lAST, pHardOverride);
             
             if ("msgenny" === gLanguage){
                 gCodeMirror.setValue(tomsgenny.render(lAST));
@@ -447,6 +454,7 @@ function showMsGennyState () {
         $("#__language_msgenny").attr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").hide();
+        $("#__btn_colorize_hard").hide();
         $("#__btn_weigh").hide();
         $("#__btn_ioweigh").hide();
     } else if ("json" === gLanguage){
@@ -454,6 +462,7 @@ function showMsGennyState () {
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").attr("checked", "msgennyOn");
         $("#__btn_colorize").show();
+        $("#__btn_colorize_hard").show();
         $("#__btn_weigh").show();
         $("#__btn_ioweigh").show();
     } else {
@@ -461,6 +470,7 @@ function showMsGennyState () {
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").show();
+        $("#__btn_colorize_hard").show();
         $("#__btn_weigh").show();
         $("#__btn_ioweigh").show();
     }

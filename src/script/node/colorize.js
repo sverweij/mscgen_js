@@ -21,6 +21,7 @@ if ( typeof define !== 'function') {
 
 define(["./asttransform"], function(transform) {
     var gColorCombiCount = 0;
+    var gHardOverride = false;
 
     function colorizeArc(pArc) {
         var lArc = pArc;
@@ -43,7 +44,7 @@ define(["./asttransform"], function(transform) {
             },
 
         };
-        if (!hasColors(lArc)) {
+        if (!hasColors(lArc)||gHardOverride) {
             var lColorCombi = lArc2ColorCombi[pArc.kind];
             if (lColorCombi) {
                 lArc.linecolor = lColorCombi.linecolor;
@@ -105,10 +106,11 @@ define(["./asttransform"], function(transform) {
 
     function colorizeEntity(pEntity) {
         var lEntity = pEntity;
-        if (!hasColors(pEntity)) {
+        if (!hasColors(pEntity)||gHardOverride) {
             var lNextColorCombi = getNextColorCombi();
             lEntity.linecolor = lNextColorCombi.linecolor;
             lEntity.textbgcolor = lNextColorCombi.textbgcolor;
+            lEntity.textcolor = "black";
             lEntity.arctextcolor = lNextColorCombi.linecolor;
             lEntity.arclinecolor = lNextColorCombi.linecolor;
         }
@@ -116,8 +118,13 @@ define(["./asttransform"], function(transform) {
     }
 
     return {
-        colorize : function(pAST) {
+        colorize : function(pAST, pHardOverride) {
             gColorCombiCount = 0;
+            if (pHardOverride){
+                gHardOverride = true;
+            } else {
+                gHardOverride = false;
+            }
 
             return transform.transform(pAST, [colorizeEntity], [colorizeArc]);
         }
