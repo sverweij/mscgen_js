@@ -44,7 +44,7 @@ define(["./asttransform"], function(transform) {
             },
 
         };
-        if (!hasColors(lArc)||gHardOverride) {
+        if (!hasColors(lArc) || gHardOverride) {
             var lColorCombi = lArc2ColorCombi[pArc.kind];
             if (lColorCombi) {
                 lArc.linecolor = lColorCombi.linecolor;
@@ -57,9 +57,6 @@ define(["./asttransform"], function(transform) {
 
     function getNextColorCombi() {
         var lColorCombiAry = [{
-            "linecolor" : "black",
-            "textbgcolor" : "#DDDDDD"
-        }, {
             "linecolor" : "#008800",
             "textbgcolor" : "#CCFFCC"
         }, {
@@ -71,6 +68,9 @@ define(["./asttransform"], function(transform) {
         }, {
             "linecolor" : "#FF00FF",
             "textbgcolor" : "#FFCCFF"
+        }, {
+            "linecolor" : "black",
+            "textbgcolor" : "#DDDDDD"
         }, {
             "linecolor" : "orange",
             "textbgcolor" : "#FFFFCC"
@@ -106,7 +106,7 @@ define(["./asttransform"], function(transform) {
 
     function colorizeEntity(pEntity) {
         var lEntity = pEntity;
-        if (!hasColors(pEntity)||gHardOverride) {
+        if (!hasColors(pEntity) || gHardOverride) {
             var lNextColorCombi = getNextColorCombi();
             lEntity.linecolor = lNextColorCombi.linecolor;
             lEntity.textbgcolor = lNextColorCombi.textbgcolor;
@@ -120,7 +120,7 @@ define(["./asttransform"], function(transform) {
     return {
         colorize : function(pAST, pHardOverride) {
             gColorCombiCount = 0;
-            if (pHardOverride){
+            if (pHardOverride) {
                 gHardOverride = true;
             } else {
                 gHardOverride = false;

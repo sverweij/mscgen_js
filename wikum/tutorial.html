@@ -118,9 +118,10 @@ b >> a: heard ya!;
 <img id="tut04" src="tutorial/tut04.svg" alt="tut04">
 
 <h3 id="multiline-text">Multiline text</h3>
-<p>You can break a long label in pieces by putting the (c-style) escape code 
+<p>The demo automatically breaks long lines into multiple lines. However, 
+you can break a long label in pieces manually by putting the (c-style) escape code 
 <code>\n</code> on the spots you want to split the label. This works for 
-<em>all</em> labels.</p>
+<em>all</em> labels.</p> 
 <pre class="code msgenny">
 a note b: This is a note consisting of<mark>\n</mark>two lines of text;
 b => c  : Breaking text in two<mark>\n</mark>also works for arcs;
@@ -314,6 +315,7 @@ c <mark>rbox</mark> d : rbox;
 <p>With the on line "demo" you can write mscgen programs and see the
     chart grow in real time.
     </p>
+<section>
 <h2>Input</h2>
 <p>The typing area on the right uses <em>codemirror</em>. This means it (a.o.) supports 
     undo history and automatic bracket matching, just like you would 
@@ -321,56 +323,78 @@ c <mark>rbox</mark> d : rbox;
     your desktop.</p>
 <img class="shadow" src="tutorial/demo - screenshot - autofaded.png" alt="a screenshot of the demo">
 <p>
-<ul>
-    <li>Auto render</li>
-    <li>Language</li>
-    <li><em>Color</em> - Automatically colors the sequence chart using the following rules:
-        <ul>
-            <li>If the Entity does not have a color yet, the demo assigns it colors 
-                from a carefully selected scheme and applies it to that entity:
-                <ul>
-                    <li>line color</li>
-                    <li>background color</li>
-                    <li>arc line color the same as the line color (so all lines departing
-                        from the entities lifeline get the same color)</li>
-                    <li>arc text color</li>
-                </ul>
-            </li>
-            <li>If a note does not have any color yet it gets a light 
-                yellow background and black text and lines.</li>
-            <li>If a box (/abox/ rbox) doesn't have any color yet it
-                gets a white background and black text and line</li>
-        </ul>
-        As msgenny does not support colors, the auto color function only works
-        for mscgen (and in abstract syntax tree when in debug mode). 
-     </li>
-</ul>
+<h3>Auto render</h3>
+<p>By default the demo automatically renders the chart. However, if you're on
+    a <em>very</em> slow machine, you can switch off this behavior. The demo will
+    offer you a <em>Render</em> button that renders the chart only when you click it.
+</p>
+<h3>Language</h3>
+<p>
+    <ul>
+        <li>mscgen, msgenny, JSON/ AST</li>
+        <li>comment "wipe"</li>
+        <li>feature "wipe"</li>
+    </ul>
+</p>
+<h3>Color</h3>
+<p>Automatically colors the sequence chart using the following rules:
+    <ul>
+        <li>If the Entity does not have a color yet, the demo assigns it colors 
+            from a carefully selected scheme and applies it to that entity:
+            <ul>
+                <li>line color</li>
+                <li>background color</li>
+                <li>arc line color the same as the line color (so all lines departing
+                    from the entities lifeline get the same color)</li>
+                <li>arc text color</li>
+            </ul>
+        </li>
+        <li>If a note does not have any color yet it gets a light 
+            yellow background and black text and lines.</li>
+        <li>If a box (/abox/ rbox) doesn't have any color yet it
+            gets a white background and black text and line</li>
+    </ul>
+    As msgenny does not support colors, the auto color function only works
+    for mscgen (and in abstract syntax tree when in debug mode). 
+</p>
+</section>
+<section>
+<h2>Output</h2>
+<p>The demo supports several output formats.
+</p>
+<h3>Vector graphics: svg</h3>
+<p>clicking the <em>svg</em> button or
+    double clicking the sequence chart opens the chart in a new window (or tab). 
+    In most browsers it's super easy to save the image to your local file
+    system from there.
 </p>
 
-<h2>Output</h2>
-<ul>
-    <li><em><span title="Scalable Vector Graphics">svg</span></em> - clicking the <em>svg</em> button or
-        double clicking the sequence chart opens the chart in a new window (or tab). 
-        In most browsers it's super easy to save the image to your local file
-        system from there.
-        </li>
-    <li><em>png</em> and <em>jpeg</em> - opens a new window/ tab with the "rasterized" version of the
-        chart in the lossless png </li>
-    <li><em>dot</em> - (only available in debug mode) opens a new window with a graphviz dot
-        program, that represents the communication diagram version of your sequence chart.</li>
-</ul>
+<h3>Raster graphics: png and jpeg</h3>
+<p>Opens a new window/ tab with the "rasterized" version of the
+    chart in the lossless png.
+</p>
 
+<h3>Graphviz dot</h3>
+<p>(only available in debug mode) opens a new window with a graphviz dot
+    program, that represents the communication diagram version of the sequence chart.
+</p>
+</section>
+<section>
 <h2>Debug mode</h2>
 <ul>
     <li>AST/ json support</li>
-    <li>dot</li>
+    <li>hard color override</li>
+    <li>metrics based coloring</li>
+    <li>graphviz dot</li>
     <li>build &amp; version number</li>
 </ul>
 </p>
+</section>
+<section>
 <h2>Help us improve this</h2>
 <p></p>
 
-
+</section>
 </article>
 
 <article id="mscgen" class="shadow">
