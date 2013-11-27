@@ -1,0 +1,17 @@
+msc {
+  hscale="0.6";
+
+  a,
+  b,
+  c,
+  d;
+
+  a =>> b,
+  d =>> c,
+  c =>> b [arcskip="1"],
+  b =>> c [arcskip="1"];
+  b =>> a,
+  c =>> d,
+  d =>> d [arcskip="-1"];
+  |||;
+}
