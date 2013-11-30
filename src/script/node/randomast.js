@@ -78,7 +78,7 @@ define(["./randomutensils"], function(utl) {
         var lArc = {};
         var lNoArcsPerRow = utl.genRandomBool(0.2) ? utl.genRandomNumber(2, 4) : 1;
         var lEntityLessArcKinds = ["|||", "...", "---"];
-        
+
         if (utl.genRandomBool(0.8)) {// ~ 80% regular, 20% non entity arcs
             for (var j = 0; j < lNoArcsPerRow; j++) {
                 lArcRow.push(genRandomArc(pEntities));
@@ -103,9 +103,7 @@ define(["./randomutensils"], function(utl) {
 
     return {
         run : function() {
-            var lRetval = _run();
-            console.log(JSON.stringify(lRetval, null, " "));
-            return lRetval;
+            return _run();
         }
     };
 });
