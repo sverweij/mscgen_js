@@ -11,6 +11,9 @@ if ( typeof define !== 'function') {
 }
 
 define([], function() {
+    var COLOR_LIGHT = 1;
+    var COLOR_DARK = 2;
+    var COLOR_WHATEVER = 3;
 
     function _genRandomReal(pMin, pMax) {
         return pMin + Math.random() * (pMax - pMin);
@@ -19,7 +22,7 @@ define([], function() {
     function _genRandomNumber(pMin, pMax) {
         return Math.round(_genRandomReal(pMin, pMax));
     }
-    
+
     function _genRandomString(pMaxLength) {
         var lLength = _genRandomNumber(1, pMaxLength);
         var lRetval = "";
@@ -50,6 +53,28 @@ define([], function() {
         return lRand < lTrueWeight;
     }
 
+    function _genRandomColor(pColorThingie) {
+        var lRetval = "#";
+        var lHexAll = "0123456789ABCDEF";
+        var lHexDark = "0123456";
+        var lHexLight = "789ABCDEF";
+        var lHex = lHexAll;
+
+        switch(pColorThingie) {
+            case(COLOR_LIGHT): {
+                lHex = lHexLight;
+                break;
+            }case(COLOR_DARK): {
+                lHex = lHexDark;
+                break;
+            }
+        }
+        for (var i = 0; i < 6; i++) {
+            lRetval += _genRandomFromArray(lHex);
+        }
+        return lRetval;
+    }
+
     return {
         genRandomString : function(pMaxLength) {
             return _genRandomString(pMaxLength);
@@ -68,6 +93,14 @@ define([], function() {
         },
         genRandomBool : function(pTrueWeight) {
             return _genRandomBool(pTrueWeight);
+        },
+        genRandomColor : function(pColorThingie) {
+            return _genRandomColor(pColorThingie);
+        },
+        COLORTHINGIES : {
+            light : COLOR_LIGHT,
+            dark : COLOR_DARK,
+            whatever : COLOR_WHATEVER
         }
     };
 });
