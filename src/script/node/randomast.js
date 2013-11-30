@@ -12,9 +12,34 @@ if ( typeof define !== 'function') {
 
 define(["./randomutensils"], function(utl) {
 
+    var CONF = {
+        maxEntities : 13,
+        maxEntityNameLetters : 10,
+        maxEntityLabelWords : 3,
+        entityColorRatio : 0.3,
+        arcToBoxRatio : 0.9,
+        arcToNonEntityArcRatio : 0.8,
+        multipleArcsPerRowRatio : 0.2,
+        maxArcRows : 42,
+        maxArcsPerRow : 4,
+        maxArcWords : 7,
+        maxBoxWords : 42,
+        maxEntityLessArcWords : 11,
+        optionRatio : 0.3,
+        options : {
+            hscaleMin : 0.2,
+            hscaleMax : 1.8,
+            widthMin : 400,
+            widthMax : 1481,
+            arcgradientMin : 1,
+            arcgradientMax : 32,
+            worwraparcsTrueRatio : 0.9
+        }
+    };
+
     function _run() {
         var lAST = {};
-        if (utl.genRandomBool(0.2)) {
+        if (utl.genRandomBool(CONF.optionRatio)) {
             lAST.options = genRandomOptions();
         }
         lAST.entities = genRandomEntities();
@@ -26,16 +51,16 @@ define(["./randomutensils"], function(utl) {
         var lRetval = {};
 
         if (utl.genRandomBool()) {
-            lRetval.hscale = utl.genRandomReal(0.2, 2.0).toString();
+            lRetval.hscale = utl.genRandomReal(CONF.options.hscaleMin, CONF.options.hscaleMax).toString();
         }
         if (utl.genRandomBool()) {
-            lRetval.width = utl.genRandomNumber(400, 1481).toString();
+            lRetval.width = utl.genRandomNumber(CONF.options.widthMin, CONF.options.widthMax).toString();
         }
         if (utl.genRandomBool()) {
-            lRetval.arcgradient = utl.genRandomNumber(0, 24).toString();
+            lRetval.arcgradient = utl.genRandomNumber(CONF.options.arcgradientMin, CONF.options.arcgradientMax).toString();
         }
         if (utl.genRandomBool()) {
-            lRetval.wordwraparcs = utl.genRandomBool().toString();
+            lRetval.wordwraparcs = utl.genRandomBool(CONF.options.worwraparcsTrueRatio).toString();
         }
         return lRetval;
     }
@@ -44,12 +69,23 @@ define(["./randomutensils"], function(utl) {
         var lRetval = [];
         var lEntity = {};
 
-        var lNoEntities = utl.genRandomNumber(1, 13);
+        var lNoEntities = utl.genRandomNumber(1, CONF.maxEntities);
 
         for (var i = 0; i < lNoEntities; i++) {
             lEntity = {};
-            lEntity.name = utl.genRandomString(10);
-            lEntity.label = utl.genRandomSentence(3);
+            lEntity.name = utl.genRandomString(CONF.maxEntityNameLetters);
+            lEntity.label = utl.genRandomSentence(CONF.maxEntityLabelWords);
+            if (utl.genRandomBool(CONF.entityColorRatio)) {
+                lEntity.linecolor = utl.genRandomColor(utl.COLORTHINGIES.dark);
+                lEntity.textbgcolor = utl.genRandomColor(utl.COLORTHINGIES.light);
+                lEntity.textcolor = utl.genRandomColor(utl.COLORTHINGIES.dark);
+                if (utl.genRandomBool(1- CONF.entityColorRatio)) {
+                    lEntity.arclinecolor = lEntity.linecolor;
+                    lEntity.arctextbgcolor = lEntity.textbgcolor;
+                    lEntity.arctextcolor = lEntity.textcolor;
+                }
+            }
+
             lRetval.push(lEntity);
         }
         return lRetval;
@@ -60,12 +96,14 @@ define(["./randomutensils"], function(utl) {
         var lArcBoxKinds = ["note", "box", "abox", "rbox"];
         var lArc = {};
 
-        if (utl.genRandomBool(0.9)) {// ~90% arrowish, 10% boxes
+        if (utl.genRandomBool(CONF.arcToBoxRatio)) {
             lArc.kind = utl.genRandomFromArray(lArcKinds);
-            lArc.label = utl.genRandomSentence(7);
+            lArc.label = utl.genRandomSentence(CONF.maxArcWords);
         } else {
             lArc.kind = utl.genRandomFromArray(lArcBoxKinds);
-            lArc.label = utl.genRandomSentence(42);
+            lArc.label = utl.genRandomSentence(CONF.maxBoxWords);
+            lArc.linecolor = utl.genRandomColor(utl.COLORTHINGIES.whatever);
+            lArc.textbgcolor = utl.genRandomColor(utl.COLORTHINGIES.whatever);
         }
         lArc.from = pEntities[utl.genRandomNumber(0, pEntities.length - 1)].name;
         lArc.to = pEntities[utl.genRandomNumber(0, pEntities.length - 1)].name;
@@ -76,16 +114,16 @@ define(["./randomutensils"], function(utl) {
     function genRandomArcRow(pEntities) {
         var lArcRow = [];
         var lArc = {};
-        var lNoArcsPerRow = utl.genRandomBool(0.2) ? utl.genRandomNumber(2, 4) : 1;
+        var lNoArcsPerRow = utl.genRandomBool(CONF.multipleArcsPerRowRatio) ? utl.genRandomNumber(2, CONF.maxArcsPerRow) : 1;
         var lEntityLessArcKinds = ["|||", "...", "---"];
 
-        if (utl.genRandomBool(0.8)) {// ~ 80% regular, 20% non entity arcs
+        if (utl.genRandomBool(CONF.arcToNonEntityArcRatio)) {// ~ 80% regular, 20% non entity arcs
             for (var j = 0; j < lNoArcsPerRow; j++) {
                 lArcRow.push(genRandomArc(pEntities));
             }
         } else {
             lArc.kind = utl.genRandomFromArray(lEntityLessArcKinds);
-            lArc.label = utl.genRandomSentence(11);
+            lArc.label = utl.genRandomSentence(CONF.maxEntityLessArcWords);
             lArcRow.push(lArc);
         }
         return lArcRow;
@@ -93,7 +131,7 @@ define(["./randomutensils"], function(utl) {
 
     function genRandomArcRows(pEntities) {
         var lRetval = [];
-        var lNoArcs = utl.genRandomNumber(1, 42);
+        var lNoArcs = utl.genRandomNumber(1, CONF.maxArcRows);
 
         for (var i = 0; i < lNoArcs; i++) {
             lRetval.push(genRandomArcRow(pEntities));
