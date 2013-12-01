@@ -178,11 +178,11 @@ define([], function() {
     function createDoubleLine(pX1, pY1, pX2, pY2, pClass) {
         var lSpace = 2;
         var lPathString = "M" + pX1.toString() + "," + pY1.toString();
-        var lLenX = pX2 - pX1;
-        var lLenY = pY2 - pY1;
         var ldx = pX2 > pX1 ? ldx = 1 : ldx = -1;
         var ldy = ldx * (pY2 - pY1) / (pX2 - pX1);
-
+        var lLenX = pX2 - pX1;
+        var lLenY = pY2 - pY1;
+        
         lPathString += "l" + ldx.toString() + "," + ldy.toString();
         // left stubble
         lPathString += "M" + pX1.toString() + "," + (pY1 - lSpace).toString();
@@ -204,6 +204,113 @@ define([], function() {
         } else {
             return createDoubleLine(pX1, pY1, pX2, pY2, pClass);
         }
+    }
+
+    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
+    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
+    // </marker>
+    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
+        var lKind2Attrs = {
+            "->" : {
+                pathEnd : "M 9 3 l -8 2",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            },
+            "<->" : {
+                pathEnd : "M 9 3 l -8 2",
+                pathStart : "M 9 3 l 8 2",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            },
+            "=>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "<=>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                pathStart : "M 17,1 9,3 17,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "=>>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            },
+            "<<=>>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                pathStart : "M 17 1 l -8 2 l 8 2",
+                linestyle : "stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            ">>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            "<<>>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                pathStart : "M 17 1 l -8 2 l 8 2",
+                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            ".." : {
+                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            ":>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "<:>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                pathStart : "M 17,1 9,3 17,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "-x" : {
+                pathEnd : "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            }
+        };
+        var lDefaultAttrs = {
+            linestyle : "stroke: inherit;",
+            headclass : "arrow-style inherit"
+        };
+
+        var lLine = _createLine(pX1, pY1, pX2, pY2, undefined, pKind.indexOf(":") > -1);
+        var lAttrs = lKind2Attrs[pKind];
+        var lArrowGroup = _createGroup(pId);
+
+        if (lAttrs === undefined) {
+            lAttrs = lDefaultAttrs;
+        }
+        if (lAttrs.pathEnd) {
+            if (lAttrs.headclass) {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, lAttrs.headclass));
+            } else {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, "arrow-style"));
+            }
+            lLine.setAttribute("marker-end", "url(#" + pId + "_end" + ")");
+        }
+        if (lAttrs.pathStart) {
+            if (lAttrs.headclass) {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_start", "arrow-marker", "auto", lAttrs.pathStart, lAttrs.headclass));
+            } else {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_start", "arrow-marker", "auto", lAttrs.pathStart, "arrow-style"));
+            }
+            lLine.setAttribute("marker-start", "url(#" + pId + "_start" + ")");
+        }
+        if (lAttrs.linestyle) {
+            lLine.setAttribute("style", lAttrs.linestyle);
+        }
+        lArrowGroup.appendChild(lLine);
+
+        return lArrowGroup;
+
     }
 
     function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass) {
@@ -287,6 +394,9 @@ define([], function() {
         },
         createLine : function(pX1, pY1, pX2, pY2, pClass, pDouble) {
             return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
+        },
+        createArrow : function(pId, pX1, pY1, pX2, pY2, pKind) {
+            return _createArrow(pId, pX1, pY1, pX2, pY2, pKind);
         },
         createUTurn : function(pStartX, pStartY, pEndY, pWidth, pClass) {
             return _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass);

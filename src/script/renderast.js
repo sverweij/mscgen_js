@@ -521,10 +521,12 @@ function createArc (pId, pArc, pFrom, pTo) {
         );
     } else {
         var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
+        // var lLine = utl.createArrow(pId, pFrom, 0, pTo, lArcGradient, pArc.kind);
         if (pArc.linecolor) {
-           lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+           lLine.setAttribute("style", "stroke:" + pArc.linecolor + "; fill: " + pArc.linecolor + ";" );
         }
         lGroup.appendChild (lLine);
+        // lGroup = lLine;
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom)
         );
@@ -713,6 +715,7 @@ text.anchor-start { \
 } \
 path { \
     stroke : black; \
+    color : black; \
     stroke-width : 2; \
     fill : none; \
 } \
@@ -731,7 +734,22 @@ path { \
     stroke:inherit; \
     fill:black; /* no-inherit */ \
 } \
-.signal { \
+.arcrowomit { \
+    stroke-dasharray: 2,2; \
+} \
+.box { \
+    /* fill: #ffc;  no-inherit */ \
+    fill : white; \
+    opacity: 0.9; \
+} \
+.boxtext, .arctext { \
+    font-size: 0.8em; \
+    text-anchor: middle; \
+} \
+.comment { \
+    stroke-dasharray: 5,2; \
+} \
+ .signal { \
     marker-end : url(#signal); \
 } \
 .signal-both { \
@@ -748,6 +766,7 @@ path { \
 .returnvalue { \
     stroke-dasharray: 5,2; \
     marker-end : url(#callback); \
+    stroke : inherit ; \
 } \
 .returnvalue-both { \
     stroke-dasharray: 5,2; \
@@ -771,20 +790,12 @@ path { \
 .lost { \
     marker-end : url(#lost); \
 } \
-.arcrowomit { \
-    stroke-dasharray: 2,2; \
+.inherit { \
+    stroke : inherit; \
+    color : inherit; \
 } \
-.box { \
-    /* fill: #ffc;  no-inherit */ \
-    fill : white; \
-    opacity: 0.9; \
-} \
-.boxtext, .arctext { \
-    font-size: 0.8em; \
-    text-anchor: middle; \
-} \
-.comment { \
-    stroke-dasharray: 5,2; \
+.inherit-fill { \
+    fill : inherit; \
 }";
 return {
     clean : function (pParentElementId) {
@@ -795,6 +806,11 @@ return {
                       }
 };
 }); // define
+
+/*
+
+*/
+
 /*
     This file is part of mscgen_js.
 
