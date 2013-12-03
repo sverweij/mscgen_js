@@ -39,8 +39,15 @@ define(["./randomutensils"], function(utl) {
 
     function _run() {
         var lAST = {};
+        var lOptions = {
+            empty : true
+        };
+
         if (utl.genRandomBool(CONF.optionRatio)) {
-            lAST.options = genRandomOptions();
+            lOptions = genRandomOptions();
+            if (!lOptions.empty) {
+                lAST.options = lOptions;
+            }
         }
         lAST.entities = genRandomEntities();
         lAST.arcs = genRandomArcRows(lAST.entities);
@@ -48,19 +55,25 @@ define(["./randomutensils"], function(utl) {
     }
 
     function genRandomOptions() {
-        var lRetval = {};
+        var lRetval = {
+            empty : true
+        };
 
         if (utl.genRandomBool()) {
             lRetval.hscale = utl.genRandomReal(CONF.options.hscaleMin, CONF.options.hscaleMax).toString();
+            delete lRetval.empty;
         }
         if (utl.genRandomBool()) {
             lRetval.width = utl.genRandomNumber(CONF.options.widthMin, CONF.options.widthMax).toString();
+            delete lRetval.empty;
         }
         if (utl.genRandomBool()) {
             lRetval.arcgradient = utl.genRandomNumber(CONF.options.arcgradientMin, CONF.options.arcgradientMax).toString();
+            delete lRetval.empty;
         }
         if (utl.genRandomBool()) {
             lRetval.wordwraparcs = utl.genRandomBool(CONF.options.worwraparcsTrueRatio).toString();
+            delete lRetval.empty;
         }
         return lRetval;
     }
@@ -79,7 +92,7 @@ define(["./randomutensils"], function(utl) {
                 lEntity.linecolor = utl.genRandomColor(utl.COLORTHINGIES.dark);
                 lEntity.textbgcolor = utl.genRandomColor(utl.COLORTHINGIES.light);
                 lEntity.textcolor = utl.genRandomColor(utl.COLORTHINGIES.dark);
-                if (utl.genRandomBool(1- CONF.entityColorRatio)) {
+                if (utl.genRandomBool(1 - CONF.entityColorRatio)) {
                     lEntity.arclinecolor = lEntity.linecolor;
                     lEntity.arctextbgcolor = lEntity.textbgcolor;
                     lEntity.arctextcolor = lEntity.textcolor;
