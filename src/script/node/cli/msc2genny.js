@@ -4,8 +4,8 @@
  */
 /* jshint indent:4 */
 /* jshint node:true */
-
-var parser = require ("./msgennyparser_node");
+var parser = require ("../mscgenparser_node");
+var ast2genny = require ("../ast2msgenny");
 
 var gInput = "";
 
@@ -18,17 +18,10 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
     var lAST = parser.parse(gInput);
-    process.stdout.write(JSON.stringify(lAST));
+    process.stdout.write(ast2genny.render (lAST));
     process.stdin.pause();
 });
 
-
-/*
-fs.readFile('input.msc', function (err, data) {
-    if (err) throw err;
-        process.stdout.write(data);
-});
-*/
 /*
     This file is part of mscgen_js.
 
