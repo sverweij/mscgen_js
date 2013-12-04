@@ -106,8 +106,6 @@ function _clean (pParentElementId, pWindow) {
             (lChildElement !== null) &&
             (lChildElement !== undefined)) {
         var lParentElement = gDocument.getElementById(pParentElementId);
-        console.log(lParentElement);
-        console.log(lChildElement);
         lParentElement.removeChild(lChildElement);
     }
 }
