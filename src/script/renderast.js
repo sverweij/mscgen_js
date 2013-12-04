@@ -29,8 +29,8 @@ the associate line, we'll need to do something like this:
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint browser:true */
+/* jshint node:true */
 /* jshint trailing:true */
-/* global define */
 
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
@@ -115,14 +115,12 @@ function bootstrap(pParentElementId, pSvgElementId, pWindow) {
     var XLINKNS = "http://www.w3.org/1999/xlink";
     
     init(pWindow);
-    // var lParent = gDocument.body;
+
     var lParent = gDocument.getElementById(pParentElementId);
     if (lParent === null){
         lParent = gDocument.body;
     }
-    // if (typeof(pParentElementId) !== "string") {
-        // lParent = gDocument.getElementById(pParentElementId);
-    // }
+
     var lSkeletonSvg = gDocument.createElementNS(SVGNS, "svg");
     lSkeletonSvg.setAttribute("version", "1.1");
     lSkeletonSvg.setAttribute("id", pSvgElementId);
