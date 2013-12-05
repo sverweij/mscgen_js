@@ -1,8 +1,8 @@
-var x = require("./flatten");
-var g = require("./statstransforms");
+var x = require("../flatten");
+var g = require("../statstransforms");
 
-var parser = require("./mscgenparser_node");
-var ast2mscgen = require("./ast2mscgen");
+var parser = require("../mscgenparser_node");
+var ast2mscgen = require("../ast2mscgen");
 
 /* jshint indent:4 */
 /* jshint node:true */
