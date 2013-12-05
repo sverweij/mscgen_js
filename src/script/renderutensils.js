@@ -34,12 +34,20 @@ define([], function() {
     lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
     function _getBBox(pElement) {
-        var lBody = gDocument.getElementById("__body");
-        // TODO: assumes '__body' to exist in element
-        lBody.appendChild(pElement);
-        var lRetval = pElement.getBBox();
-        // height,  x, y
-        lBody.removeChild(pElement);
+        var lRetval = {
+            height : 10,
+            width : 10,
+            x : 2,
+            y : 2
+        };
+        if ( typeof (pElement.getBBox) === 'function') {
+            var lBody = gDocument.getElementById("__body");
+            // TODO: assumes '__body' to exist in element
+            lBody.appendChild(pElement);
+            lRetval = pElement.getBBox();
+            lBody.removeChild(pElement);
+        }
+        
         return lRetval;
     }
 
