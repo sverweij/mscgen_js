@@ -22,30 +22,58 @@ if ( typeof define !== 'function') {
 define(["./asttransform"], function(transform) {
     var gColorCombiCount = 0;
     var gHardOverride = false;
+    var gArcColorCombis = {
+        "note" : {
+            "linecolor" : "black",
+            "textbgcolor" : "#FFFFCC"
+        },
+        "box" : {
+            "linecolor" : "black",
+            "textbgcolor" : "white"
+        },
+        "rbox" : {
+            "linecolor" : "black",
+            "textbgcolor" : "white"
+        },
+        "abox" : {
+            "linecolor" : "black",
+            "textbgcolor" : "white"
+        },
+    };
+
+    var gEntityColorArray = [{
+        "linecolor" : "#008800",
+        "textbgcolor" : "#CCFFCC"
+    }, {
+        "linecolor" : "#FF0000",
+        "textbgcolor" : "#FFCCCC"
+    }, {
+        "linecolor" : "#0000FF",
+        "textbgcolor" : "#CCCCFF"
+    }, {
+        "linecolor" : "#FF00FF",
+        "textbgcolor" : "#FFCCFF"
+    }, {
+        "linecolor" : "black",
+        "textbgcolor" : "#DDDDDD"
+    }, {
+        "linecolor" : "orange",
+        "textbgcolor" : "#FFFFCC"
+    }, {
+        "linecolor" : "#117700",
+        "textbgcolor" : "#00FF00"
+    }, {
+        "linecolor" : "purple",
+        "textbgcolor" : "violet"
+    }, {
+        "linecolor" : "grey",
+        "textbgcolor" : "white"
+    }];
 
     function colorizeArc(pArc) {
         var lArc = pArc;
-        var lArc2ColorCombi = {
-            "note" : {
-                "linecolor" : "black",
-                "textbgcolor" : "#FFFFCC"
-            },
-            "box" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            },
-            "rbox" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            },
-            "abox" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            },
-
-        };
         if (!hasColors(lArc) || gHardOverride) {
-            var lColorCombi = lArc2ColorCombi[pArc.kind];
+            var lColorCombi = gArcColorCombis[pArc.kind];
             if (lColorCombi) {
                 lArc.linecolor = lColorCombi.linecolor;
                 lArc.textcolor = lColorCombi.linecolor;
@@ -56,42 +84,14 @@ define(["./asttransform"], function(transform) {
     }
 
     function getNextColorCombi() {
-        var lColorCombiAry = [{
-            "linecolor" : "#008800",
-            "textbgcolor" : "#CCFFCC"
-        }, {
-            "linecolor" : "#FF0000",
-            "textbgcolor" : "#FFCCCC"
-        }, {
-            "linecolor" : "#0000FF",
-            "textbgcolor" : "#CCCCFF"
-        }, {
-            "linecolor" : "#FF00FF",
-            "textbgcolor" : "#FFCCFF"
-        }, {
-            "linecolor" : "black",
-            "textbgcolor" : "#DDDDDD"
-        }, {
-            "linecolor" : "orange",
-            "textbgcolor" : "#FFFFCC"
-        }, {
-            "linecolor" : "#117700",
-            "textbgcolor" : "#00FF00"
-        }, {
-            "linecolor" : "purple",
-            "textbgcolor" : "violet"
-        }, {
-            "linecolor" : "grey",
-            "textbgcolor" : "white"
-        }];
         var lColorCombiCount = gColorCombiCount;
-        if (gColorCombiCount < lColorCombiAry.length - 1) {
+        if (gColorCombiCount < gEntityColorArray.length - 1) {
             gColorCombiCount += 1;
         } else {
             gColorCombiCount = 0;
         }
 
-        return lColorCombiAry[lColorCombiCount];
+        return gEntityColorArray[lColorCombiCount];
     }
 
     function hasColors(pArcOrEntity) {
@@ -117,16 +117,51 @@ define(["./asttransform"], function(transform) {
         return lEntity;
     }
 
-    return {
-        colorize : function(pAST, pHardOverride) {
-            gColorCombiCount = 0;
-            if (pHardOverride) {
-                gHardOverride = true;
-            } else {
-                gHardOverride = false;
-            }
+    function _colorize(pAST, pHardOverride, pEntityColorArray, pArcColorCombis) {
+        if (pEntityColorArray) {
+            gEntityColorArray = pEntityColorArray;
+        }
+        if (pArcColorCombis) {
+            gArcColorCombis = pArcColorCombis;
+        }
+        gColorCombiCount = 0;
+        if (pHardOverride) {
+            gHardOverride = true;
+        } else {
+            gHardOverride = false;
+        }
 
-            return transform.transform(pAST, [colorizeEntity], [colorizeArc]);
+        return transform.transform(pAST, [colorizeEntity], [colorizeArc]);
+    }
+
+    return {
+        colorize : function(pAST, pHardOverride, pEntityColorArray, pArcColorCombis) {
+            return _colorize(pAST, pHardOverride, pEntityColorArray, pArcColorCombis);
+        },
+        colorizeRY : function(pAST, pHardOverride) {
+            var lEntityColorCombiAry = [{
+                "linecolor" : "#830000",
+                "textbgcolor" : "#FFFFCC"
+            }];
+            var lArc2ColorCombi = {
+                "note" : {
+                    "linecolor" : "#830000",
+                    "textbgcolor" : "#FFFFCC"
+                },
+                "box" : {
+                    "linecolor" : "#830000",
+                    "textbgcolor" : "white"
+                },
+                "rbox" : {
+                    "linecolor" : "#830000",
+                    "textbgcolor" : "white"
+                },
+                "abox" : {
+                    "linecolor" : "#830000",
+                    "textbgcolor" : "white"
+                },
+            };
+            return _colorize(pAST, pHardOverride, lEntityColorCombiAry, lArc2ColorCombi);
         }
     };
 });
