@@ -35,8 +35,8 @@ define([], function() {
 
     function _getBBox(pElement) {
         var lRetval = {
-            height : 10,
-            width : 10,
+            height : 15,
+            width : 15,
             x : 2,
             y : 2
         };
