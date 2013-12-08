@@ -512,6 +512,9 @@ function determineArcClass (pKind, pFrom, pTo){
                 }
                 if (lRetval === "signal-both"){ 
                     lRetval = "signal-both-u";
+                    if (pFrom === pTo){
+                        lRetval = "signal-both-self";
+                    }
                 }
             }
         }
@@ -799,6 +802,10 @@ path { \
 .signal-both-u { \
     marker-end : url(#signal-u); \
     marker-start : url(#signal-lu); \
+} \
+.signal-both-self { \
+    marker-end : url(#signal-u); \
+    marker-start : url(#signal-l); \
 } \
 .method { \
     marker-end : url(#method); \
