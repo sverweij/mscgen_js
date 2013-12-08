@@ -1,11 +1,12 @@
-/*
- * takes a simplified message sequence chart program and translates
- * to an mscgen program
+/* 
+ * reads a mscgen program from input, parses it and (standardly
+ * formatted) outputs it again
  */
 /* jshint indent:4 */
 /* jshint node:true */
 
-var parser = require ("./mscgenparser_node");
+var parser = require ("../mscgenparser_node");
+var ast2mscgen = require ("../ast2mscgen");
 
 var gInput = "";
 
@@ -18,7 +19,7 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
     var lAST = parser.parse(gInput);
-    process.stdout.write(JSON.stringify(lAST));
+    process.stdout.write(ast2mscgen.render (lAST));
     process.stdin.pause();
 });
 

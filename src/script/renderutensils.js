@@ -2,7 +2,7 @@
  * renders individual elements in sequence charts
  *
  * knows of:
- *  document
+ *  gDocument
  *  linewidth (implicit
  *
  * defines:
@@ -16,30 +16,43 @@
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint browser:true */
+/* jshint node:true */
 /* jshint indent:4 */
-/* global define */
+
+if ( typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
 
 define([], function() {
 
     var SVGNS = "http://www.w3.org/2000/svg";
     var XLINKNS = "http://www.w3.org/1999/xlink";
+    var gDocument;
 
     /* superscript style could also be super or a number (1em) or a % (100%) */
     var lSuperscriptStyle = "vertical-align : text-top;";
     lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
     function _getBBox(pElement) {
-        var lBody = document.getElementById("__body");
-        // TODO: assumes '__body' to exist in element
-        lBody.appendChild(pElement);
-        var lRetval = pElement.getBBox();
-        // height,  x, y
-        lBody.removeChild(pElement);
+        var lRetval = {
+            height : 15,
+            width : 15,
+            x : 2,
+            y : 2
+        };
+        if ( typeof (pElement.getBBox) === 'function') {
+            var lBody = gDocument.getElementById("__body");
+            // TODO: assumes '__body' to exist in element
+            lBody.appendChild(pElement);
+            lRetval = pElement.getBBox();
+            lBody.removeChild(pElement);
+        }
+        
         return lRetval;
     }
 
     function _createPath(pD, pClass) {
-        var lPath = document.createElementNS(SVGNS, "path");
+        var lPath = gDocument.createElementNS(SVGNS, "path");
         lPath.setAttribute("d", pD);
         if (pClass) {
             lPath.setAttribute("class", pClass);
@@ -48,7 +61,7 @@ define([], function() {
     }
 
     function _createPolygon(pPoints, pClass) {
-        var lPath = document.createElementNS(SVGNS, "polygon");
+        var lPath = gDocument.createElementNS(SVGNS, "polygon");
         lPath.setAttribute("points", pPoints);
         if (pClass) {
             lPath.setAttribute("class", pClass);
@@ -57,7 +70,7 @@ define([], function() {
     }
 
     function _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
-        var lRect = document.createElementNS(SVGNS, "rect");
+        var lRect = gDocument.createElementNS(SVGNS, "rect");
         lRect.setAttribute("width", pWidth);
         lRect.setAttribute("height", pHeight);
         if (pX) {
@@ -112,11 +125,11 @@ define([], function() {
     }
 
     function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        var lText = document.createElementNS(SVGNS, "text");
-        var lTSpanLabel = document.createElementNS(SVGNS, "tspan");
-        var lTSpanID = document.createElementNS(SVGNS, "tspan");
+        var lText = gDocument.createElementNS(SVGNS, "text");
+        var lTSpanLabel = gDocument.createElementNS(SVGNS, "tspan");
+        var lTSpanID = gDocument.createElementNS(SVGNS, "tspan");
 
-        var lContent = document.createTextNode(pLabel);
+        var lContent = gDocument.createTextNode(pLabel);
         lText.setAttribute("x", pX.toString());
         lText.setAttribute("y", pY.toString());
         if (pClass) {
@@ -125,7 +138,7 @@ define([], function() {
 
         lTSpanLabel.appendChild(lContent);
         if (pURL) {
-            var lA = document.createElementNS(SVGNS, "a");
+            var lA = gDocument.createElementNS(SVGNS, "a");
             lA.setAttributeNS(XLINKNS, "xlink:href", pURL);
             lA.setAttributeNS(XLINKNS, "xlink:title", pURL);
             lA.setAttributeNS(XLINKNS, "xlink:show", "new");
@@ -136,12 +149,12 @@ define([], function() {
         }
 
         if (pID) {
-            lTSpanID.appendChild(document.createTextNode(" [" + pID + "]"));
+            lTSpanID.appendChild(gDocument.createTextNode(" [" + pID + "]"));
             lTSpanID.setAttribute("style", lSuperscriptStyle);
             // lTSpanID.setAttribute("y", "-1");
 
             if (pIDURL) {
-                var lAid = document.createElementNS(SVGNS, "a");
+                var lAid = gDocument.createElementNS(SVGNS, "a");
                 lAid.setAttributeNS(XLINKNS, "xlink:href", pIDURL);
                 lAid.setAttributeNS(XLINKNS, "xlink:title", pIDURL);
                 lAid.setAttributeNS(XLINKNS, "xlink:show", "new");
@@ -156,7 +169,7 @@ define([], function() {
     }
 
     function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        // var lSwitch = document.createElementNS(SVGNS, "switch");
+        // var lSwitch = gDocument.createElementNS(SVGNS, "switch");
         // lSwitch.appendChild(createTextForeign(pLabel, pX, pY, pClass, pURL, pIDURL));
         // lSwitch.appendChild(createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL));
         // return lSwitch;
@@ -164,7 +177,7 @@ define([], function() {
     }
 
     function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
-        var lLine = document.createElementNS(SVGNS, "line");
+        var lLine = gDocument.createElementNS(SVGNS, "line");
         lLine.setAttribute("x1", pX1.toString());
         lLine.setAttribute("y1", pY1.toString());
         lLine.setAttribute("x2", pX2.toString());
@@ -178,10 +191,10 @@ define([], function() {
     function createDoubleLine(pX1, pY1, pX2, pY2, pClass) {
         var lSpace = 2;
         var lPathString = "M" + pX1.toString() + "," + pY1.toString();
-        var lLenX = pX2 - pX1;
-        var lLenY = pY2 - pY1;
         var ldx = pX2 > pX1 ? ldx = 1 : ldx = -1;
         var ldy = ldx * (pY2 - pY1) / (pX2 - pX1);
+        var lLenX = pX2 - pX1;
+        var lLenY = pY2 - pY1;
 
         lPathString += "l" + ldx.toString() + "," + ldy.toString();
         // left stubble
@@ -206,6 +219,113 @@ define([], function() {
         }
     }
 
+    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
+    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
+    // </marker>
+    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
+        var lKind2Attrs = {
+            "->" : {
+                pathEnd : "M 9 3 l -8 2",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            },
+            "<->" : {
+                pathEnd : "M 9 3 l -8 2",
+                pathStart : "M 9 3 l 8 2",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            },
+            "=>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "<=>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                pathStart : "M 17,1 9,3 17,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "=>>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            },
+            "<<=>>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                pathStart : "M 17 1 l -8 2 l 8 2",
+                linestyle : "stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            ">>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            "<<>>" : {
+                pathEnd : "M 1 1 l 8 2 l -8 2",
+                pathStart : "M 17 1 l -8 2 l 8 2",
+                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            ".." : {
+                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
+                headclass : "arrow-style inherit"
+            },
+            ":>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "<:>" : {
+                pathEnd : "M 1,1 9,3 1,5 z",
+                pathStart : "M 17,1 9,3 17,5 z",
+                linestyle : "stroke: inherit",
+                headclass : "filled arrow-style inherit inherit-fill"
+            },
+            "-x" : {
+                pathEnd : "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5",
+                linestyle : "stroke: inherit",
+                headclass : "arrow-style inherit"
+            }
+        };
+        var lDefaultAttrs = {
+            linestyle : "stroke: inherit;",
+            headclass : "arrow-style inherit"
+        };
+
+        var lLine = _createLine(pX1, pY1, pX2, pY2, undefined, pKind.indexOf(":") > -1);
+        var lAttrs = lKind2Attrs[pKind];
+        var lArrowGroup = _createGroup(pId);
+
+        if (lAttrs === undefined) {
+            lAttrs = lDefaultAttrs;
+        }
+        if (lAttrs.pathEnd) {
+            if (lAttrs.headclass) {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, lAttrs.headclass));
+            } else {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, "arrow-style"));
+            }
+            lLine.setAttribute("marker-end", "url(#" + pId + "_end" + ")");
+        }
+        if (lAttrs.pathStart) {
+            if (lAttrs.headclass) {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_start", "arrow-marker", "auto", lAttrs.pathStart, lAttrs.headclass));
+            } else {
+                lArrowGroup.appendChild(_createMarkerPath(pId + "_start", "arrow-marker", "auto", lAttrs.pathStart, "arrow-style"));
+            }
+            lLine.setAttribute("marker-start", "url(#" + pId + "_start" + ")");
+        }
+        if (lAttrs.linestyle) {
+            lLine.setAttribute("style", lAttrs.linestyle);
+        }
+        lArrowGroup.appendChild(lLine);
+
+        return lArrowGroup;
+
+    }
+
     function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass) {
         var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
         lPathString += " l" + pWidth.toString() + ",0";
@@ -223,14 +343,14 @@ define([], function() {
     }
 
     function _createGroup(pId) {
-        var lGroup = document.createElementNS(SVGNS, "g");
+        var lGroup = gDocument.createElementNS(SVGNS, "g");
         lGroup.setAttribute("id", pId);
 
         return lGroup;
     }
 
     function _createUse(pX, pY, pLink) {
-        var lUse = document.createElementNS(SVGNS, "use");
+        var lUse = gDocument.createElementNS(SVGNS, "use");
         lUse.setAttribute("x", pX.toString());
         lUse.setAttribute("y", pY.toString());
         lUse.setAttributeNS(XLINKNS, "xlink:href", "#" + pLink);
@@ -238,7 +358,7 @@ define([], function() {
     }
 
     function _createMarker(pId, pClass, pOrient) {
-        var lMarker = document.createElementNS(SVGNS, "marker");
+        var lMarker = gDocument.createElementNS(SVGNS, "marker");
         lMarker.setAttribute("orient", pOrient);
         lMarker.setAttribute("id", pId);
         lMarker.setAttribute("class", pClass);
@@ -270,6 +390,9 @@ define([], function() {
     }
 
     return {
+        init : function(pDocument) {
+            gDocument = pDocument;
+        },
         createPath : function(pD, pClass) {
             return _createPath(pD, pClass);
         },
@@ -287,6 +410,9 @@ define([], function() {
         },
         createLine : function(pX1, pY1, pX2, pY2, pClass, pDouble) {
             return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
+        },
+        createArrow : function(pId, pX1, pY1, pX2, pY2, pKind) {
+            return _createArrow(pId, pX1, pY1, pX2, pY2, pKind);
         },
         createUTurn : function(pStartX, pStartY, pEndY, pWidth, pClass) {
             return _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass);

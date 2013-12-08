@@ -29,10 +29,14 @@ the associate line, we'll need to do something like this:
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint browser:true */
+/* jshint node:true */
 /* jshint trailing:true */
-/* global define */
 
-define(["renderutensils", "node/textutensils", "node/flatten"], function(utl, txt, flatten) {
+if ( typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define(["./renderutensils", "./node/textutensils", "./node/flatten"], function(utl, txt, flatten) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;
@@ -54,6 +58,7 @@ var gEntity2X = {};
 var gEntity2ArcColor = {};
 var gTextHeight = 12; /* sensible default - gets overwritten in bootstrap */
 var gRowInfo = [];
+var gDocument;
 
 function clearRowInfo(){
     gRowInfo = [];
@@ -85,41 +90,63 @@ function setRowInfo (pRowNumber, pHeight, pY){
     gRowInfo[pRowNumber] = {y:pY, height: pHeight};
 }
 
-function _clean (pParentElementId) {
-    var lChildElement = document.getElementById("__svg_output");
+function init (pWindow){
+    if ("object" !== typeof (document)) {
+        gDocument = pWindow.document;
+    } else {
+        gDocument = window.document;
+    }
+    utl.init(gDocument);
+}
+
+function _clean (pParentElementId, pWindow) {
+    init(pWindow);
+    var lChildElement = gDocument.getElementById("__svg_output");
     if (lChildElement &&
             (lChildElement !== null) &&
             (lChildElement !== undefined)) {
-        var lParentElement = document.getElementById(pParentElementId);
+        var lParentElement = gDocument.getElementById(pParentElementId);
         lParentElement.removeChild(lChildElement);
     }
 }
 
-function bootstrap(pParentElementId, pSvgElementId) {
+function bootstrap(pParentElementId, pSvgElementId, pWindow) {
     var SVGNS = "http://www.w3.org/2000/svg";
     var XLINKNS = "http://www.w3.org/1999/xlink";
+    
+    init(pWindow);
 
-    var lParent = document.getElementById(pParentElementId);
-    var lSkeletonSvg = document.createElementNS(SVGNS, "svg");
+    var lParent = gDocument.getElementById(pParentElementId);
+    if (lParent === null){
+        lParent = gDocument.body;
+    }
+
+    var lSkeletonSvg = gDocument.createElementNS(SVGNS, "svg");
     lSkeletonSvg.setAttribute("version", "1.1");
     lSkeletonSvg.setAttribute("id", pSvgElementId);
     lSkeletonSvg.setAttribute("xmlns", SVGNS);
     lSkeletonSvg.setAttribute("xmlns:xlink", XLINKNS);
-    var lDesc = document.createElementNS(SVGNS, "desc");
+    var lDesc = gDocument.createElementNS(SVGNS, "desc");
     lDesc.setAttribute("id", "__msc_source");
-    var lDefs = document.createElementNS(SVGNS, "defs");
+    var lDefs = gDocument.createElementNS(SVGNS, "defs");
 
-    var lStyle = document.createElement("style");
+    var lStyle = gDocument.createElement("style");
     lStyle.setAttribute("type", "text/css");
-    lStyle.appendChild(document.createTextNode(gSvgStyleElementString));
+    lStyle.appendChild(gDocument.createTextNode(gSvgStyleElementString));
 
     lDefs.appendChild(lStyle);
     lDefs.appendChild(
             utl.createMarkerPath("signal", "arrow-marker", "auto",
             "M 9 3 l -8 2", "arrow-style"));
     lDefs.appendChild(
+            utl.createMarkerPath("signal-u", "arrow-marker", "auto",
+            "M 9 3 l -8 -2", "arrow-style"));
+    lDefs.appendChild(
             utl.createMarkerPath("signal-l", "arrow-marker", "auto",
             "M 9 3 l 8 2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("signal-lu", "arrow-marker", "auto",
+            "M 9 3 l 8 -2", "arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPolygon("method", "arrow-marker", "auto",
             "1,1 9,3 1,5", "filled arrow-style"));
@@ -152,9 +179,9 @@ function bootstrap(pParentElementId, pSvgElementId) {
     gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0,0)).height;
 }
 
-function _renderAST (pAST, pSource, pParentElementId) {
+function _renderAST (pAST, pSource, pParentElementId, pWindow) {
 
-    bootstrap(pParentElementId, "__svg_output");
+    bootstrap(pParentElementId, "__svg_output", pWindow);
 
     INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
     ENTITY_HEIGHT        = DEFAULT_ENTITY_HEIGHT;
@@ -184,7 +211,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
     renderEntities(pAST.entities);
     renderArcs(pAST.arcs, pAST.entities);
 
-    var body = document.getElementById("__body");
+    var body = gDocument.getElementById("__body");
     var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
     
     var lNoArcs = pAST.arcs ? pAST.arcs.length: 0;
@@ -194,12 +221,12 @@ function _renderAST (pAST, pSource, pParentElementId) {
     var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
     var lVerticalTransform = PAD_VERTICAL;
     var lScale = 1;
-    var lSvgElement = document.getElementById("__svg_output");
+    var lSvgElement = gDocument.getElementById("__svg_output");
 
     // TODO: factor down
     if (pSource) {
-        var lDescription = document.getElementById("__msc_source");
-        var lContent = document.createTextNode("\n\n# Generated by mscgen_js - http://sverweij.github.io/mscgen_js\n" + pSource);
+        var lDescription = gDocument.getElementById("__msc_source");
+        var lContent = gDocument.createTextNode("\n\n# Generated by mscgen_js - http://sverweij.github.io/mscgen_js\n" + pSource);
         lDescription.appendChild(lContent);
     }
     
@@ -209,7 +236,7 @@ function _renderAST (pAST, pSource, pParentElementId) {
      * 
      * We do this _before_ scaling is applied to the svg
      */
-    var lBgGroup = document.getElementById("__background");
+    var lBgGroup = gDocument.getElementById("__background");
     var lBgRect = utl.createRect(lCanvasWidth , lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
     lBgGroup.appendChild(lBgRect);
 
@@ -250,8 +277,8 @@ function getMaxEntityHeight(pEntities) {
 
 
 function renderEntities (pEntities) {
-    var defs = document.getElementById("__defs");
-    var sequence = document.getElementById("__sequencelayer");
+    var defs = gDocument.getElementById("__defs");
+    var sequence = gDocument.getElementById("__sequencelayer");
     var lEntityXPos = 0;
     var i;
 
@@ -284,10 +311,10 @@ function renderEntities (pEntities) {
 }
 
 function renderArcs (pArcs, pEntities) {
-    var defs = document.getElementById("__defs");
-    var lifelinelayer = document.getElementById("__lifelinelayer");
-    var sequence = document.getElementById("__sequencelayer");
-    var notelayer = document.getElementById("__notelayer");
+    var defs = gDocument.getElementById("__defs");
+    var lifelinelayer = gDocument.getElementById("__lifelinelayer");
+    var sequence = gDocument.getElementById("__sequencelayer");
+    var notelayer = gDocument.getElementById("__notelayer");
 
     var lLabel = "";
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
@@ -459,7 +486,7 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
     return lGroup;
 }
 
-function determineArcClass (pKind){
+function determineArcClass (pKind, pFrom, pTo){
     var arc2class = {
         "->" : "signal",
         "<->" : "signal-both",
@@ -478,6 +505,20 @@ function determineArcClass (pKind){
     var lRetval = "";
     if (pKind && arc2class[pKind]){
         lRetval = arc2class[pKind];
+        if (pFrom && pTo){
+            if (pFrom >= pTo) {
+                if (lRetval === "signal"){
+                    lRetval = "signal-u";
+                }
+                if (lRetval === "signal-both"){
+                    if (pFrom === pTo){
+                        lRetval = "signal-both-self";
+                    } else {
+                        lRetval = "signal-both-u";
+                    }
+                }
+            }
+        }
     }
     return lRetval;
 }
@@ -488,7 +529,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
     
-    lClass = determineArcClass(pArc.kind);
+    lClass = determineArcClass(pArc.kind, pFrom, pTo);
     
     if (( ":>"=== pArc.kind )||
         ( "::"=== pArc.kind )||
@@ -521,10 +562,12 @@ function createArc (pId, pArc, pFrom, pTo) {
         );
     } else {
         var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
+        // var lLine = utl.createArrow(pId, pFrom, 0, pTo, lArcGradient, pArc.kind);
         if (pArc.linecolor) {
-           lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+           lLine.setAttribute("style", "stroke:" + pArc.linecolor + "; fill: " + pArc.linecolor + ";" );
         }
         lGroup.appendChild (lLine);
+        // lGroup = lLine;
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom)
         );
@@ -713,6 +756,7 @@ text.anchor-start { \
 } \
 path { \
     stroke : black; \
+    color : black; \
     stroke-width : 2; \
     fill : none; \
 } \
@@ -731,11 +775,37 @@ path { \
     stroke:inherit; \
     fill:black; /* no-inherit */ \
 } \
+.arcrowomit { \
+    stroke-dasharray: 2,2; \
+} \
+.box { \
+    /* fill: #ffc;  no-inherit */ \
+    fill : white; \
+    opacity: 0.9; \
+} \
+.boxtext, .arctext { \
+    font-size: 0.8em; \
+    text-anchor: middle; \
+} \
+.comment { \
+    stroke-dasharray: 5,2; \
+} \
 .signal { \
     marker-end : url(#signal); \
 } \
+.signal-u { \
+    marker-end : url(#signal-u); \
+} \
 .signal-both { \
     marker-end : url(#signal); \
+    marker-start : url(#signal-l); \
+} \
+.signal-both-u { \
+    marker-end : url(#signal-u); \
+    marker-start : url(#signal-lu); \
+} \
+.signal-both-self { \
+    marker-end : url(#signal-u); \
     marker-start : url(#signal-l); \
 } \
 .method { \
@@ -748,6 +818,7 @@ path { \
 .returnvalue { \
     stroke-dasharray: 5,2; \
     marker-end : url(#callback); \
+    stroke : inherit ; \
 } \
 .returnvalue-both { \
     stroke-dasharray: 5,2; \
@@ -771,28 +842,20 @@ path { \
 .lost { \
     marker-end : url(#lost); \
 } \
-.arcrowomit { \
-    stroke-dasharray: 2,2; \
+.inherit { \
+    stroke : inherit; \
+    color : inherit; \
 } \
-.box { \
-    /* fill: #ffc;  no-inherit */ \
-    fill : white; \
-    opacity: 0.9; \
-} \
-.boxtext, .arctext { \
-    font-size: 0.8em; \
-    text-anchor: middle; \
-} \
-.comment { \
-    stroke-dasharray: 5,2; \
+.inherit-fill { \
+    fill : inherit; \
 }";
 return {
-    clean : function (pParentElementId) {
-                _clean(pParentElementId);
-            },
-    renderAST : function (pAST, pSource, pParentElementId) {
-                          _renderAST(pAST, pSource, pParentElementId);
-                      }
+    clean : function (pParentElementId, pWindow) {
+        _clean(pParentElementId, pWindow);
+    },
+    renderAST : function (pAST, pSource, pParentElementId, pWindow) {
+        _renderAST(pAST, pSource, pParentElementId, pWindow);
+    }
 };
 }); // define
 /*

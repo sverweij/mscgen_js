@@ -28,7 +28,9 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/flatten.js \
 	src/script/node/colorize.js \
 	src/script/node/statstransforms.js \
-	src/script/node/metrics.js
+	src/script/node/metrics.js \
+	src/script/node/randomast.js \
+	src/script/node/randomutensils.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \
@@ -124,7 +126,7 @@ build-prerequisites:
 
 runtime-prerequisites-node:
 	# cd src/script/node
-	$(NPM) install amdefine
+	$(NPM) install amdefine jsdom posix-getopt
 
 prerequisites: build-prerequisites runtime-prerequisites-node
 

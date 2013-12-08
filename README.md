@@ -55,8 +55,9 @@ This software is free software [licensed under GPLv3][3]. This means (a.o.) you 
 it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
-MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [requirejs][19], [jQuery][14], [amdefine][20]. 
-Icons courtesy of Dmitry Baranovskiy [license][15].
+MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [jsdom][25], 
+[requirejs][19], [jQuery][14], [amdefine][20], [posix-getopt][28]. 
+Icons courtesy of Dmitry Baranovskiy [license][18].
 
 It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
 
@@ -65,8 +66,9 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
   releasing both to the public domain (the last one under a [GPLv2][18] license to be precise).
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
-- Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters almost
+- Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters _almost_
   like a walk in the park. 
+- [Elijah Insua][24] for [jsdom][25], which makes it possible to render vector graphics in node.js.
 
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: http://sverweij.github.io/mscgen_js
@@ -90,3 +92,9 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
 [21]: wikum/licenses/license.mocha.md
 [22]: wikum/licenses/license.jshint.md
 [23]: wikum/licenses/license.plato.md
+[24]: http://tmpvar.com/
+[25]: https://github.com/tmpvar/jsdom
+[25]: wikum/licenses/license.jsdom.md
+[26]: http://cs.brown.edu/~dap/
+[27]: https://npmjs.org/package/posix-getopt
+[28]: wikum/licenses/license.posix-getopt.md

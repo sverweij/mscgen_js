@@ -491,8 +491,8 @@ function render() {
         } else {
             lAST = mscparser.parse(gCodeMirror.getValue());
         }
-        msc_render.clean("__svg");
-        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg");
+        msc_render.clean("__svg", window);
+        msc_render.renderAST(lAST, gCodeMirror.getValue(), "__svg", window);
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)
          *   - it inserts relatively big amounts of data in the DOM tree 
