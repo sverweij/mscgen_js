@@ -161,6 +161,7 @@ release: $(VERSIONEMBEDDABLESOURCES)
 	$(GIT) add $(VERSIONEMBEDDABLESOURCES)
 	$(GIT) commit -m "update version to `cat VERSION` in sources with embedded version numbers"
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
+	$(GIT) push --tags
 
 report:
 	$(PLATO) -r -d platoreports -x "jquery|parser|test" src/script/
