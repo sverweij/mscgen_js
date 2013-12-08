@@ -56,7 +56,7 @@ it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [jsdom][25], 
-[requirejs][19], [jQuery][14], [amdefine][20] [posix-getopt][28]. 
+[requirejs][19], [jQuery][14], [amdefine][20], [posix-getopt][28]. 
 Icons courtesy of Dmitry Baranovskiy [license][18].
 
 It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
