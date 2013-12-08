@@ -1,5 +1,9 @@
-hscale=2;
-a -> b: signal left to right;
-b -> a: signal right to left;
-a <-> b: signal both ways - starting at a;
-b <-> a: signal both ways - starting at b;
+hscale="2";
+
+a -> b : signal left to right;
+b -> a : signal right to left;
+a -> a : signal to self left to right;
+a <- a : signal to self right to left;
+a <-> a : both way signal to self;
+a <-> b : signal both ways - starting at a;
+b <-> a : signal both ways - starting at b;
