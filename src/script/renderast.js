@@ -506,7 +506,7 @@ function determineArcClass (pKind, pFrom, pTo){
     if (pKind && arc2class[pKind]){
         lRetval = arc2class[pKind];
         if (pFrom && pTo){
-            if (pFrom > pTo) {
+            if (pFrom >= pTo) {
                 if (lRetval === "signal"){ 
                     lRetval = "signal-u";
                 }
