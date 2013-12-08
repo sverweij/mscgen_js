@@ -139,8 +139,14 @@ function bootstrap(pParentElementId, pSvgElementId, pWindow) {
             utl.createMarkerPath("signal", "arrow-marker", "auto",
             "M 9 3 l -8 2", "arrow-style"));
     lDefs.appendChild(
+            utl.createMarkerPath("signal-u", "arrow-marker", "auto",
+            "M 9 3 l -8 -2", "arrow-style"));
+    lDefs.appendChild(
             utl.createMarkerPath("signal-l", "arrow-marker", "auto",
             "M 9 3 l 8 2", "arrow-style"));
+    lDefs.appendChild(
+            utl.createMarkerPath("signal-lu", "arrow-marker", "auto",
+            "M 9 3 l 8 -2", "arrow-style"));
     lDefs.appendChild(
             utl.createMarkerPolygon("method", "arrow-marker", "auto",
             "1,1 9,3 1,5", "filled arrow-style"));
@@ -480,7 +486,7 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
     return lGroup;
 }
 
-function determineArcClass (pKind){
+function determineArcClass (pKind, pFrom, pTo){
     var arc2class = {
         "->" : "signal",
         "<->" : "signal-both",
@@ -499,6 +505,16 @@ function determineArcClass (pKind){
     var lRetval = "";
     if (pKind && arc2class[pKind]){
         lRetval = arc2class[pKind];
+        if (pFrom && pTo){
+            if (pFrom > pTo) {
+                if (lRetval === "signal"){ 
+                    lRetval = "signal-u";
+                }
+                if (lRetval === "signal-both"){ 
+                    lRetval = "signal-both-u";
+                }
+            }
+        }
     }
     return lRetval;
 }
@@ -509,7 +525,7 @@ function createArc (pId, pArc, pFrom, pTo) {
     var lArcGradient = ARC_GRADIENT;
     var lDoubleLine = false;
     
-    lClass = determineArcClass(pArc.kind);
+    lClass = determineArcClass(pArc.kind, pFrom, pTo);
     
     if (( ":>"=== pArc.kind )||
         ( "::"=== pArc.kind )||
@@ -770,12 +786,19 @@ path { \
 .comment { \
     stroke-dasharray: 5,2; \
 } \
- .signal { \
+.signal { \
     marker-end : url(#signal); \
+} \
+.signal-u { \
+    marker-end : url(#signal-u); \
 } \
 .signal-both { \
     marker-end : url(#signal); \
     marker-start : url(#signal-l); \
+} \
+.signal-both-u { \
+    marker-end : url(#signal-u); \
+    marker-start : url(#signal-lu); \
 } \
 .method { \
     marker-end : url(#method); \
