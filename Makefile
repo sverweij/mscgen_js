@@ -122,11 +122,11 @@ script/mscgen-main.js: $(SOURCES_WEB)
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha jsdom
+	$(NPM) install pegjs requirejs jshint plato mocha
 
 runtime-prerequisites-node:
 	# cd src/script/node
-	$(NPM) install amdefine
+	$(NPM) install amdefine jsdom posix-getopt
 
 prerequisites: build-prerequisites runtime-prerequisites-node
 
