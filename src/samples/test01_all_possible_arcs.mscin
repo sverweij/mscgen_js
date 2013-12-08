@@ -115,26 +115,23 @@ msc {
   a -> *      [label="a -> *"];
   * <- c      [label="* <- c"];
   b <-> "*"   [label="b <-> *"];
-#  * <-> b    [label="* <-> b"];
   d => *      [label="d => *"];
   * <= e      [label="* <= e"];
   d <=> "*"   [label="d <=> *"];
-#  * <=> e    [label="* <=> e"];
   f >> *      [label="f >> *"];
   * << g      [label="* << g"];
   f <<>> "*"  [label="f <<>> *"];
-#  * <<>> g    [label="* <<>> g"];
-
   h =>> *     [label="h =>> *"];
   * <<= i     [label="* <<= i"];
   h <<=>> "*" [label="h <<=>> *"];
-#  * <<=>> i   [label="* <<=>> i"];
   j -x *      [label="j -x *"];
   * x- k      [label="* x- k"];
   a :> *      [label="a :> *"];
   * <: c      [label="* <: c"];
   b <:> "*"   [label="b <:> *"];
-#  * <:> b     [label="b <:> *"];
+
+# not supported by mscgen:  
+#  "*" <-> b, "*" <=> e, "*" <<>> g, "*" <<=>> i, "*" <:> b
 
   ||| [label="options used: hscale=\"0.6\", arcgradient=\"18\""];
 }

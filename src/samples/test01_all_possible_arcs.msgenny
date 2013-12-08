@@ -110,6 +110,9 @@ j -x "*" : j -x *;
 a :> "*" : a :> *;
 "*" <: c : * <: c;
 b <:> "*" : b <:> *;
+
+# not supported by mscgen:  
+#  "*" <-> b, "*" <=> e, "*" <<>> g, "*" <<=>> i, "*" <:> b
 ||| : "options used: hscale=\"0.6\", arcgradient=\"18\"";
 
 /*
