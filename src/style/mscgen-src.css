@@ -28,10 +28,9 @@ header {
     border-bottom: solid lightgray 1px;
     margin-bottom: 0.4em;
     background-image: url('../images/bg.png');
-     background-repeat: no-repeat;
-     /*background-size: cover;*/
-     background-position: 25%;
-     
+    background-repeat: no-repeat;
+    /*background-size: cover;*/
+    background-position: 25%;
 }
 header > div {
     float: right;
@@ -200,10 +199,10 @@ a:visited {
 div.icon:hover {
     cursor: pointer;
 }
-a.icon, div.icon {
+.icon {
     display: inline-block;
-    width: 3em;
-    height: 3em;
+    width: 2.2em;
+    height: 2.2em;
     /*border: solid black 1px;*/
     background-repeat: no-repeat;
     background-position: center;
@@ -224,6 +223,8 @@ a.issuetracker {
     background-image: url('../images/issuetracker.svg');
 }
 div.question {
+    width: 3em;
+    height: 3em;
     background-image: url('../images/question.svg');
 }
 .herpes {
