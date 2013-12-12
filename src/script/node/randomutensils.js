@@ -61,13 +61,18 @@ define([], function() {
         var lHex = lHexAll;
 
         switch(pColorThingie) {
-            case(COLOR_LIGHT): {
-                lHex = lHexLight;
+            case(COLOR_LIGHT):
+                {
+                    lHex = lHexLight;
+
+                }
                 break;
-            }case(COLOR_DARK): {
-                lHex = lHexDark;
+            case(COLOR_DARK):
+                {
+                    lHex = lHexDark;
+
+                }
                 break;
-            }
         }
         for (var i = 0; i < 6; i++) {
             lRetval += _genRandomFromArray(lHex);
