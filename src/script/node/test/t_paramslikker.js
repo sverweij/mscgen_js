@@ -19,6 +19,9 @@ describe('textutensils', function() {
         it('should return an empty object when no name value pairs passed', function() {
             utl.assertequalJSON({}, par.getParams("?debug&donottrack"));
         });
+        it('should return an empty object - invalidly passed stuff', function() {
+            utl.assertequalJSON({}, par.getParams('?msc=msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'));
+        });
     });
 
     describe('#getParams - happy days', function() {
@@ -48,9 +51,7 @@ describe('textutensils', function() {
                 msc : 'msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'
             }, par.getParams('?msc=' + escape('msc{a,b,c; a->b; c->b; b >> * [label="answer"]}')));
         });
-        it('should return an empty object - invalidly passed stuff', function() {
-            utl.assertequalJSON({}, par.getParams('?msc=msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'));
-        });
+
     });
 });
 
