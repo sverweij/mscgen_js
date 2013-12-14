@@ -8,23 +8,37 @@
 /* jshint unused:strict */
 /* jshint indent:4 */
 
-if (typeof define !== 'function') {
+if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-
-define ([],function() {
+define([], function() {
 
     var INDENT = "  ";
+    var SP = " ";
+    var EOL = "\n";
 
-    function _renderAST(pAST) {
-        var lRetVal = "msc {\n";
+    function init(pMinimal) {
+        if (true === pMinimal) {
+            INDENT = "";
+            SP = "";
+            EOL = "";
+        } else {
+            INDENT = "  ";
+            SP = " ";
+            EOL = "\n";
+        }
+    }
+
+    function _renderAST(pAST, pMinimal) {
+        init(pMinimal);
+        var lRetVal = "msc" + SP + "{" + EOL;
         if (pAST) {
             if (pAST.options) {
-                lRetVal += renderOptions(pAST.options) + "\n";
+                lRetVal += renderOptions(pAST.options) + EOL;
             }
             if (pAST.entities) {
-                lRetVal += renderEntities(pAST.entities) + "\n";
+                lRetVal += renderEntities(pAST.entities) + EOL;
             }
             if (pAST.arcs) {
                 lRetVal += renderArcLines(pAST.arcs);
@@ -67,9 +81,9 @@ define ([],function() {
         pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
 
         for ( i = 0; i < lOpts.length - 1; i++) {
-            lRetVal += INDENT + lOpts[i] + ",\n";
+            lRetVal += INDENT + lOpts[i] + "," + EOL;
         }
-        lRetVal += INDENT + lOpts[lOpts.length - 1] + ";\n";
+        lRetVal += INDENT + lOpts[lOpts.length - 1] + ";" + EOL;
         return lRetVal;
 
     }
@@ -91,9 +105,9 @@ define ([],function() {
 
         if (lAttrs.length > 0) {
             var i = 0;
-            lRetVal = " [";
+            lRetVal = SP + "[";
             for ( i = 0; i < lAttrs.length - 1; i++) {
-                lRetVal += lAttrs[i] + ", ";
+                lRetVal += lAttrs[i] + "," + SP;
             }
             lRetVal += lAttrs[lAttrs.length - 1];
             lRetVal += "]";
@@ -114,9 +128,9 @@ define ([],function() {
         var i = 0;
         if (pEntities.length > 0) {
             for ( i = 0; i < pEntities.length - 1; i++) {
-                lRetVal += INDENT + renderEntity(pEntities[i]) + ",\n";
+                lRetVal += INDENT + renderEntity(pEntities[i]) + "," + EOL;
             }
-            lRetVal += INDENT + renderEntity(pEntities[pEntities.length - 1]) + ";\n";
+            lRetVal += INDENT + renderEntity(pEntities[pEntities.length - 1]) + ";" + EOL;
         }
         return lRetVal;
     }
@@ -124,13 +138,13 @@ define ([],function() {
     function renderArc(pArc) {
         var lRetVal = "";
         if (pArc.from) {
-            lRetVal += renderEntityName(pArc.from) + " ";
+            lRetVal += renderEntityName(pArc.from) + SP;
         }
         if (pArc.kind) {
             lRetVal += pArc.kind;
         }
         if (pArc.to) {
-            lRetVal += " " + renderEntityName(pArc.to);
+            lRetVal += SP + renderEntityName(pArc.to);
         }
         lRetVal += renderAttributes(pArc);
         return lRetVal;
@@ -145,9 +159,9 @@ define ([],function() {
             for ( i = 0; i < pArcs.length; i++) {
                 if (pArcs[i].length > 0) {
                     for ( j = 0; j < pArcs[i].length - 1; j++) {
-                        lRetVal += INDENT + renderArc(pArcs[i][j]) + ",\n";
+                        lRetVal += INDENT + renderArc(pArcs[i][j]) + "," + EOL;
                     }
-                    lRetVal += INDENT + renderArc(pArcs[i][pArcs[i].length - 1]) + ";\n";
+                    lRetVal += INDENT + renderArc(pArcs[i][pArcs[i].length - 1]) + ";" + EOL;
                 }
             }
         }
@@ -155,8 +169,8 @@ define ([],function() {
     }
 
     var result = {
-        render : function(pAST) {
-            return _renderAST(pAST);
+        render : function(pAST, pMinimal) {
+            return _renderAST(pAST, pMinimal);
         }
     };
 

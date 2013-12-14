@@ -30,7 +30,8 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/statstransforms.js \
 	src/script/node/metrics.js \
 	src/script/node/randomast.js \
-	src/script/node/randomutensils.js
+	src/script/node/randomutensils.js \
+	src/script/node/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \

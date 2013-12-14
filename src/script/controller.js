@@ -46,6 +46,7 @@ msc {
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "node/paramslikker",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -57,6 +58,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         ],
         function($, mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, gaga, txt, colorize, statstrans,
+            params,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -82,23 +84,25 @@ var gCodeMirror =
     });
 
 $(document).ready(function(){
+
+    var lParams = params.getParams (window.location.search); 
     
-    gaga.gaSetup(window.location.search.indexOf("donottrack") <= -1);
+    gaga.gaSetup("false" === lParams.donottrack || undefined === lParams.donottrack );
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
+    
 
-    if (window.location.search.indexOf("debug") > -1) {
-        $(".debug").show();
-        gaga.g('send', 'event', 'debug', 'true');
-    }
 
     setupEvents();
-    
+    processParams(lParams);
+        
     $("#__pngcanvas").hide();
     showAutorenderState ();
     showMsGennyState ();
     render();
-    samplesOnChange();
+    if (undefined === lParams.msc) {
+        samplesOnChange();
+    }
     
 }); // document ready
 
@@ -183,6 +187,12 @@ function setupEvents () {
                     gaga.g('send', 'event', 'show_dot', 'button');
                 }
     });
+    $("#__show_url").bind({
+        click : function(e) {
+                    show_urlOnClick();
+                    gaga.g('send', 'event', 'show_url', 'button');
+                }
+    });
     $("#__close_lightbox").bind({
         click : function(e) {
                     close_lightboxOnClick();
@@ -256,6 +266,25 @@ function setupEvents () {
         }
     });
     
+}
+
+function processParams(pParams){
+    if ("true" === pParams.debug) {
+        $(".debug").show();
+        gaga.g('send', 'event', 'debug', 'true');
+    }
+    
+    if (pParams.msc) {
+        gCodeMirror.setValue(pParams.msc);
+        gaga.g('send', 'event', 'params.msc');
+    }
+    if (pParams.lang){
+        gLanguage = pParams.lang;
+        gaga.g('send', 'event', 'params.lang', pParams.lang);
+    }
+    if (pParams.outputformat){
+        gaga.g('send', 'event', 'params.outputformat', pParams.outputformat);
+    }
 }
 
 function msc_inputKeyup () {
@@ -430,8 +459,16 @@ function show_rasterOnClick (pType) {
 }
 
 function show_dotOnClick(){
-    // var lWindow = window.open('data:text/plain;base64,'+btoa(unescape(encodeURIComponent("Aap noot mies"))));
     var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gLanguage))));
+}
+
+function show_urlOnClick(){
+    // window.location = 
+    var lWindow = window.open(window.location.protocol +  
+        window.location.host + 
+        window.location.pathname + 
+        '?debug=true&lang=' + gLanguage + 
+        '&msc=' +  escape(gCodeMirror.getValue()));
 }
 
 function close_lightboxOnClick(){
