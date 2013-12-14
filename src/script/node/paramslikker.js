@@ -1,23 +1,18 @@
 /*
- * renders individual elements in sequence charts
+ * based on a regular URL search string, returns an object
+ * with the key value pairs
  *
- * knows of:
- *  gDocument
- *  linewidth (implicit
- *
- * defines:
- *  defaults for
- *      slope offset on aboxes
- *      fold size on notes
- *      space to use between double lines
- *
- */
+ * e.g. input: "?lang=mscgen&outputformat=png&msc=msc%20%7B%20a%2Cb%2Cc%3B%20a%20%3D%3E%20b%20%5Blabel%3D%22what%20is%20this%3F%22%5D%3B%20b%20%3D%3E%3E%20c%20%5Blabel%3D%22do%20you%20know%3F%22%5D%3B%20c%20%3E%3E%20a%20%5Blabel%3D%22those%20are%20cool%20beans%22%5D%3B%7D"
 
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint browser:true */
-/* jshint node:true */
-/* jshint indent:4 */
+ * output:
+ * {
+ *  "lang": "mscgen",
+ *  "outputformat": "png",
+ *  "msc": "msc { a,b,c; a => b [label=\"what is this?\"]; b =>> c [label=\"do you know?\"]; c >> a [label=\"thos are cool beans\"];}"
+ * }
+ */
+/* jshint undef:true, unused:strict, browser:true, node:true, indent:4 */
+/* global unescape: false */
 
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
@@ -28,6 +23,7 @@ define([], function() {
     function _getParams(pSearchString) {
         var lRetval = {};
         if (pSearchString) {
+            //  search string always starts with a "?" - skip this
             var lSearchString = pSearchString.slice(1);
             var lKeyVals = lSearchString.split("&");
             var lKeyVal;
@@ -44,18 +40,6 @@ define([], function() {
     }
 
     return {
-        /*
-         * based on a regular URL search string, returns an object
-         * with the key value pairs
-         * 
-         * e.g. input: "?msc=msc%20%7B%20a%2Cb%2Cc%3B%20a%20%3D%3E%20b%20%5Blabel%3D%22what%20is%20this%3F%22%5D%3B%20b%20%3D%3E%3E%20c%20%5Blabel%3D%22do%20you%20know%3F%22%5D%3B%20c%20%3E%3E%20a%20%5Blabel%3D%22those%20are%20cool%20beans%22%5D%3B%7D&lang=mscgen&outputformat=png" returns the object
-         * output: 
-         * {
-         *  "msc": "msc { a,b,c; a => b [label=\"what is this?\"]; b =>> c [label=\"do you know?\"]; c >> a [label=\"thos are cool beans\"];}",
-         *  "lang": "mscgen",
-         *  "outputformat": "png"
-         * }
-         */
         getParams : function(pSearchString) {
             return _getParams(pSearchString);
         }
