@@ -46,6 +46,7 @@ msc {
 
 define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "node/paramslikker",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
         "../lib/codemirror/addon/edit/closebrackets",
@@ -57,6 +58,7 @@ define(["jquery", "mscgenparser", "msgennyparser", "renderast",
         ],
         function($, mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, gaga, txt, colorize, statstrans,
+            params,
             codemirror,
             // cm_mscgen,
             cm_closebrackets,
@@ -80,14 +82,17 @@ var gCodeMirror =
         // mode              : "mscgen",
         lineWrapping      : true
     });
+var gParams = {};
 
 $(document).ready(function(){
+
+    gParams = params.getParams (window.location.search); 
     
-    gaga.gaSetup(window.location.search.indexOf("donottrack") <= -1);
+    gaga.gaSetup("false" === gParams.donottrack || undefined === gParams.donottrack );
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
 
-    if (window.location.search.indexOf("debug") > -1) {
+    if ("true" === gParams.debug) {
         $(".debug").show();
         gaga.g('send', 'event', 'debug', 'true');
     }
