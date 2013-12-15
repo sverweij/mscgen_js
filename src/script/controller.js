@@ -91,8 +91,6 @@ $(document).ready(function(){
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
     
-
-
     setupEvents();
     processParams(lParams);
         
