@@ -36,7 +36,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils", "./node/textutensils", "./node/flatten"], function(utl, txt, flatten) {
+define(["./renderutensils", "./node/textutensils", "./node/flatten", "./node/dotmap"], function(utl, txt, flatten, map) {
 
 var PAD_VERTICAL = 3;
 var PAD_HORIZONTAL = 3;
@@ -170,7 +170,9 @@ function bootstrap(pParentElementId, pSvgElementId, pWindow) {
     var lBody = utl.createGroup("__body");
     
     lBody.appendChild(utl.createGroup("__background"));
+    
     lBody.appendChild(utl.createGroup("__lifelinelayer"));
+    lBody.appendChild(utl.createGroup("__arcspanlayer"));
     lBody.appendChild(utl.createGroup("__sequencelayer"));
     lBody.appendChild(utl.createGroup("__notelayer"));
     lSkeletonSvg.appendChild(lBody);
@@ -310,108 +312,121 @@ function renderEntities (pEntities) {
     gEntityXHWM = lEntityXPos;
 }
 
-function renderArcs (pArcs, pEntities) {
+function renderArcs(pArcs, pEntities, pContext) {
     var defs = gDocument.getElementById("__defs");
+    var arcspanlayer = gDocument.getElementById("__arcspanlayer");
     var lifelinelayer = gDocument.getElementById("__lifelinelayer");
     var sequence = gDocument.getElementById("__sequencelayer");
     var notelayer = gDocument.getElementById("__notelayer");
 
     var lLabel = "";
+    var lContext = pContext ? pContext : "msc";
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
 
-    var i,j,k = 0;
+    var i, j, k = 0;
 
     defs.appendChild(renderArcRow(pEntities, "arcrow"));
     lifelinelayer.appendChild(utl.createUse(0, getRowInfo(-1).y, "arcrow"));
-    
-    clearRowInfo();
+
+    if ("msc" === lContext) {
+        clearRowInfo();
+    }
     if (pArcs) {
-        for (i=0;i<pArcs.length;i++) {
+        for ( i = 0; i < pArcs.length; i++) {
             var lArcRowOmit = false;
             var lRowMemory = [];
-            setRowInfo (i);
-            for (j=0;j<pArcs[i].length;j++) {
-                var lCurrentId = i.toString() + "_" + j.toString();
+            setRowInfo(i);
+            for ( j = 0; j < pArcs[i].length; j++) {
+                var lCurrentId = lContext + "_" + i.toString() + "_" + j.toString();
                 var lElement;
                 lLabel = "";
-                if (pArcs[i][j].label) { lLabel = pArcs[i][j].label; }
-                switch(pArcs[i][j].kind) {
-                    case ("..."): {
-                        lArcRowOmit = true;
-                        lElement = createEmptyArcText(lCurrentId,pArcs[i][j]);
-                        lRowMemory.push ({id:lCurrentId, layer:sequence});
-                        }
+                if (pArcs[i][j].label) {
+                    lLabel = pArcs[i][j].label;
+                }
+                switch(map.getAggregate(pArcs[i][j].kind)) {
+                    case("emptyarc"):
+                        renderEmptyArc(pArcs[i][j], lCurrentId, lArcRowOmit);
+                        lRowMemory.push({
+                            id : lCurrentId,
+                            layer : sequence
+                        });
                         break;
-                    case ("|||"): {
-                        lElement = createEmptyArcText(lCurrentId,pArcs[i][j]);
-                        lRowMemory.push ({id:lCurrentId, layer:sequence});
-                        }
+                    case("box"):
+                        lElement = createBox(lCurrentId, gEntity2X[pArcs[i][j].from], gEntity2X[pArcs[i][j].to], pArcs[i][j]);
+                        lRowMemory.push({
+                            id : lCurrentId,
+                            layer : notelayer
+                        });
                         break;
-                    case ("---"): {
-                        lElement = createComment(lCurrentId,pArcs[i][j]);
-                        lRowMemory.push ({id:lCurrentId, layer:sequence});
-                        }
+                    case("arcspanning"):
+                        // TODO: arcspanning creation probably best after rendering the arcrows in them
+                        /* TODO: temp hack - render arcspanning as a box */
+                        pArcs[i][j].kind = "box";  
+                        lElement = createBox(lCurrentId, gEntity2X[pArcs[i][j].from], gEntity2X[pArcs[i][j].to], pArcs[i][j]);
+                        /* TODO: temp hack end */
+                        lRowMemory.push({
+                            id : lCurrentId,
+                            layer : arcspanlayer
+                        });
                         break;
-                    case("box"): case("rbox"): case("abox") : case("note"): {
-                        lElement = createBox(lCurrentId,
-                                             gEntity2X[pArcs[i][j].from],
-                                             gEntity2X[pArcs[i][j].to],
-                                             pArcs[i][j]);
-                        lRowMemory.push ({id:lCurrentId, layer:notelayer});
-                        }
-                        break;
-                    default:{
+                    default:
                         if (pArcs[i][j].from && pArcs[i][j].to) {
                             var lFrom = pArcs[i][j].from;
                             var lTo = pArcs[i][j].to;
                             var xTo = 0;
                             var xFrom = 0;
-                            
-                            if (lTo === "*"){ // it's a broadcast arc
+
+                            if (lTo === "*") {// it's a broadcast arc
                                 xFrom = gEntity2X[lFrom];
-                                for (k=0;k<pEntities.length;k++){
+                                for ( k = 0; k < pEntities.length; k++) {
                                     if (pEntities[k].name != lFrom) {
                                         xTo = gEntity2X[pEntities[k].name];
                                         pArcs[i][j].label = "";
-                                        defs.appendChild(
-                                            createArc(lCurrentId + "bc" + k,
-                                                      pArcs[i][j], xFrom, xTo
-                                                       ));
-                                        lRowMemory.push ({id:lCurrentId + "bc" + k, layer:sequence});
+                                        defs.appendChild(createArc(lCurrentId + "bc" + k, pArcs[i][j], xFrom, xTo));
+                                        lRowMemory.push({
+                                            id : lCurrentId + "bc" + k,
+                                            layer : sequence
+                                        });
                                     }
                                 }
-                                pArcs[i][j].label=lLabel;
-                                
-                                lElement =
-                                    createTextLabel(lCurrentId + "_txt", pArcs[i][j],
-                                        0, 0 - (gTextHeight/2) - LINE_WIDTH, lArcEnd)
-                                ;
-                                lRowMemory.push ({id:lCurrentId + "_txt", layer:sequence});
-                            } else { // it's a regular arc
+                                pArcs[i][j].label = lLabel;
+
+                                lElement = createTextLabel(lCurrentId + "_txt", pArcs[i][j], 0, 0 - (gTextHeight / 2) - LINE_WIDTH, lArcEnd);
+                                lRowMemory.push({
+                                    id : lCurrentId + "_txt",
+                                    layer : sequence
+                                });
+                            } else {// it's a regular arc
                                 xFrom = gEntity2X[lFrom];
                                 xTo = gEntity2X[lTo];
                                 lElement = createArc(lCurrentId, pArcs[i][j], xFrom, xTo);
-                                lRowMemory.push ({id:lCurrentId, layer:sequence});
-                            }  /// lTo or lFrom === "*" 
-                        } // if both a from and a to
-                    } // case default 
-                    break;
-                } // switch
-                if (lElement){
-                    setRowInfo (i, Math.max (getRowInfo(i).height, utl.getBBox(lElement).height + 2*LINE_WIDTH));
+                                lRowMemory.push({
+                                    id : lCurrentId,
+                                    layer : sequence
+                                });
+                            }  /// lTo or lFrom === "*"
+                        }// if both a from and a to
+                        break;
+                }// switch
+                if (lElement) {
+                    setRowInfo(i, Math.max(getRowInfo(i).height, utl.getBBox(lElement).height + 2 * LINE_WIDTH));
                     defs.appendChild(lElement);
                 }
-            } // for all arcs in a row
-            /* only here we can determine the height of the row and the y position 
+            }// for all arcs in a row
+            
+            /* 
+             *  only here we can determine the height of the row and the y position
              */
-            var lArcRowId = "arcrow_" + i.toString();
+            var lArcRowId = "arcrow_" + lContext + i.toString();
             var lArcRowClass = "arcrow";
-            if (lArcRowOmit) { lArcRowClass = "arcrowomit"; }
+            if (lArcRowOmit) {
+                lArcRowClass = "arcrowomit";
+            }
             var lRow = renderArcRow(pEntities, lArcRowClass, getRowInfo(i).height, lArcRowId);
             defs.appendChild(lRow);
             lifelinelayer.appendChild(utl.createUse(0, getRowInfo(i).y, lArcRowId));
-            
-            for (var m=0; m < lRowMemory.length; m++) {
+
+            for (var m = 0; m < lRowMemory.length; m++) {
                 lRowMemory[m].layer.appendChild(utl.createUse(0, getRowInfo(i).y, lRowMemory[m].id));
             }
         } // for all rows
@@ -521,6 +536,23 @@ function determineArcClass (pKind, pFrom, pTo){
         }
     }
     return lRetval;
+}
+
+function renderEmptyArc(pArc, pId, pArcRowOmit) {
+    var lElement;
+    switch(pArc.kind) {
+        case ("..."):
+            lArcRowOmit = true;
+            lElement = createEmptyArcText(pId, pArc);
+            break;
+        case ("|||"):
+            lElement = createEmptyArcText(pId, pArc);
+            break;
+        case ("---"):
+            lElement = createComment(pId, pArc);
+            break;
+    }
+    return lElement;
 }
 
 function createArc (pId, pArc, pFrom, pTo) {
