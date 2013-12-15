@@ -83,7 +83,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return lArc;
     }
 
-    function unwindArcRow(pArcRow, pAST) {
+    function unwindArcRow(pArcRow, pAST, pFrom, pTo) {
         var lArcCount;
         var lArcSpanningArc = {};
         if ("arcspanning" === map.getAggregate(pArcRow[0].kind)) {
@@ -95,13 +95,21 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
                     delete lArcSpanningArc.arcs;
                     pAST.arcs.push([lArcSpanningArc]);
                     for ( lArcCount = 0; lArcCount < pArcRow[0].arcs.length; lArcCount++) {
-                        unwindArcRow(pArcRow[0].arcs[lArcCount], pAST);
+                        unwindArcRow(pArcRow[0].arcs[lArcCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to);
                     }
                 } else {
                     pAST.arcs.push([lArcSpanningArc]);
                 }
             }
         } else {
+            if (pFrom && pTo) {
+                for (var i = 0; i < pArcRow.length; i++) {
+                    if ("---" === pArcRow[i].kind) {
+                        pArcRow[i].from = pFrom;
+                        pArcRow[i].to = pTo;
+                    }
+                }
+            }
             pAST.arcs.push(pArcRow);
         }
     }
