@@ -3,7 +3,7 @@ var parser = require("../xuparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
 
-describe('mscgenparser', function() {
+describe('xuparser', function() {
     describe('#parse()', function() {
 
         it('should render a simple AST, with two entities auto declared', function() {
