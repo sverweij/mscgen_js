@@ -403,6 +403,56 @@ module.exports = (function() {
                     "kind" : "..."
                 }]]
             };
+        },
+        astOptWithComment : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "b",
+                    "to" : "c",
+                    "arcs" : [[{
+                        "kind" : "---",
+                        "label" : "within opt"
+                    }]],
+                    "label" : "label for opt"
+                }], [{
+                    "kind" : "---",
+                    "label" : "outside opt"
+                }]]
+            };
+        },
+        astOptWithCommentUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "b",
+                    "to" : "c",
+                    "label" : "label for opt",
+                    "numberofarcs" : "1"
+                }], [{
+                    "kind" : "---",
+                    "label" : "within opt",
+                    "from" : "b",
+                    "to" : "c"
+                }], [{
+                    "kind" : "---",
+                    "label" : "outside opt"
+                }]]
+            };
         }
     };
 })();

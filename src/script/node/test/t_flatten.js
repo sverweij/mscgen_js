@@ -17,6 +17,9 @@ describe('unwind', function() {
         it('when already unwound, should return the identical AST (alt wihtin a loop) ', function() {
             utl.assertequalJSON(fix.astAltWithinLoopUnWound(), flatten.unwind(fix.astAltWithinLoopUnWound()));
         });
+        it('should keep comments within arc spanning arc bounds', function() {
+            utl.assertequalJSON(fix.astOptWithCommentUnWound(), flatten.unwind(fix.astOptWithComment()));
+        });
     });
 
 });
