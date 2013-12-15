@@ -1,4 +1,4 @@
-# test50 - some possible expansions
+# test50 - some possible expansions to get closer to what's possible in UML sequence diagrams
 msc {
     a,
     b[label="change store"],
@@ -10,15 +10,15 @@ msc {
 
     a=>>b [label="get change list()"];
 
-    alt [label="changes found"] {
+    a alt f [label="changes found"] {
         b>>a [label="list of changes"];
         a=>>c [label="cull old stuff (list of changes)"];
 
-        loop [label="for each change"] {
+        b loop e [label="for each change"] {
             c=>>b [label="get change()"];
             b>>c  [label="change"];
 
-            alt [label="change too old"] {
+            c alt e [label="change too old"] {
                 c=>>d [label="queue(change)"];
                 --- [label="change newer than latest run"];
                 c=>>e [label="queue(change)"];
