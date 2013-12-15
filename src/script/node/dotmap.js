@@ -29,6 +29,9 @@ define([], function() {
         "rbox" : "rounded"
     };
     var KIND2AGGREGATE = {
+        "|||": "emptyarc",
+        "...": "emptyarc",
+        "---": "emptyarc",
         "->" : "directional",
         "=>" : "directional",
         "=>>" : "directional",
@@ -47,7 +50,18 @@ define([], function() {
         "--" : "nondirectional",
         "==" : "nondirectional",
         ".." : "nondirectional",
-        "::" : "nondirectional"
+        "::" : "nondirectional",
+        "alt" : "arcspanning",
+        "opt" : "arcspanning",
+        "par" : "arcspanning",
+        "loop" : "arcspanning",
+        "critical" : "arcspanning",
+        "neg" : "arcspanning",
+        "assert" : "arcspanning",
+        "strict" : "arcspanning",
+        "seq" : "arcspanning",
+        "ignore" : "arcspanning",
+        "consider" : "arcspanning"
     };
     return {
         getArrow : function(pKey) {
