@@ -462,11 +462,15 @@ function show_dotOnClick(){
 
 function show_urlOnClick(){
     // window.location = 
-    var lWindow = window.open(window.location.protocol +  
-        window.location.host + 
-        window.location.pathname + 
-        '?debug=true&lang=' + gLanguage + 
-        '&msc=' +  escape(gCodeMirror.getValue()));
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+
+        encodeURIComponent(
+            window.location.protocol + '//' +
+            window.location.host + 
+            window.location.pathname + 
+            '?donottrack=true&debug=true&lang=' + gLanguage + 
+            '&msc=' +  escape(gCodeMirror.getValue())
+        )
+    );
 }
 
 function close_lightboxOnClick(){
