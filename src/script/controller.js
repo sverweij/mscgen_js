@@ -44,7 +44,7 @@ msc {
 /* global CodeMirror */
 /* global canvg */
 
-define(["jquery", "mscgenparser", "msgennyparser", "renderast",
+define(["jquery", "xuparser", "msgennyparser", "renderast",
         "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
         "node/paramslikker",
         "../lib/codemirror",
