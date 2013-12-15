@@ -23,7 +23,6 @@ the associate line, we'll need to do something like this:
 </svg>
 
 @author Sander Verweij 
-@version 481
  */
 
 /* jshint undef:true */
@@ -312,7 +311,7 @@ function renderEntities (pEntities) {
     gEntityXHWM = lEntityXPos;
 }
 
-function renderArcs(pArcs, pEntities, pContext) {
+function renderArcs(pArcs, pEntities) {
     var defs = gDocument.getElementById("__defs");
     var arcspanlayer = gDocument.getElementById("__arcspanlayer");
     var lifelinelayer = gDocument.getElementById("__lifelinelayer");
@@ -320,7 +319,6 @@ function renderArcs(pArcs, pEntities, pContext) {
     var notelayer = gDocument.getElementById("__notelayer");
 
     var lLabel = "";
-    var lContext = pContext ? pContext : "msc";
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
 
     var i, j, k = 0;
@@ -328,16 +326,14 @@ function renderArcs(pArcs, pEntities, pContext) {
     defs.appendChild(renderArcRow(pEntities, "arcrow"));
     lifelinelayer.appendChild(utl.createUse(0, getRowInfo(-1).y, "arcrow"));
 
-    if ("msc" === lContext) {
-        clearRowInfo();
-    }
+    clearRowInfo();
     if (pArcs) {
         for ( i = 0; i < pArcs.length; i++) {
             var lArcRowOmit = false;
             var lRowMemory = [];
             setRowInfo(i);
             for ( j = 0; j < pArcs[i].length; j++) {
-                var lCurrentId = lContext + "_" + i.toString() + "_" + j.toString();
+                var lCurrentId = i.toString() + "_" + j.toString();
                 var lElement;
                 lLabel = "";
                 if (pArcs[i][j].label) {
@@ -345,7 +341,8 @@ function renderArcs(pArcs, pEntities, pContext) {
                 }
                 switch(map.getAggregate(pArcs[i][j].kind)) {
                     case("emptyarc"):
-                        renderEmptyArc(pArcs[i][j], lCurrentId, lArcRowOmit);
+                        lElement = renderEmptyArc(pArcs[i][j], lCurrentId);
+                        lArcRowOmit = ("..." === pArcs[i][j].kind);
                         lRowMemory.push({
                             id : lCurrentId,
                             layer : sequence
@@ -360,9 +357,9 @@ function renderArcs(pArcs, pEntities, pContext) {
                         break;
                     case("arcspanning"):
                         // TODO: arcspanning creation probably best after rendering the arcrows in them
-                        /* TODO: temp hack - render arcspanning as a box */
-                        pArcs[i][j].kind = "box";  
-                        lElement = createBox(lCurrentId, gEntity2X[pArcs[i][j].from], gEntity2X[pArcs[i][j].to], pArcs[i][j]);
+                        /* TODO: temp hack - render arcspanning as a comment line */
+                        pArcs[i][j].label = pArcs[i][j].kind.toUpperCase() + ": " + pArcs[i][j].label;
+                        lElement = createComment(lCurrentId, pArcs[i][j]);
                         /* TODO: temp hack end */
                         lRowMemory.push({
                             id : lCurrentId,
@@ -417,7 +414,7 @@ function renderArcs(pArcs, pEntities, pContext) {
             /* 
              *  only here we can determine the height of the row and the y position
              */
-            var lArcRowId = "arcrow_" + lContext + i.toString();
+            var lArcRowId = "arcrow_" + i.toString();
             var lArcRowClass = "arcrow";
             if (lArcRowOmit) {
                 lArcRowClass = "arcrowomit";
@@ -538,13 +535,10 @@ function determineArcClass (pKind, pFrom, pTo){
     return lRetval;
 }
 
-function renderEmptyArc(pArc, pId, pArcRowOmit) {
+function renderEmptyArc(pArc, pId) {
     var lElement;
     switch(pArc.kind) {
         case ("..."):
-            lArcRowOmit = true;
-            lElement = createEmptyArcText(pId, pArc);
-            break;
         case ("|||"):
             lElement = createEmptyArcText(pId, pArc);
             break;
@@ -622,15 +616,13 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         var lLines = pArc.label.split('\\n');
         var lMaxTextWidthInChars = txt.determineMaxTextWidth(pWidth);
         switch(pArc.kind){
-            case("box"): case("rbox"): case("abox"): case("note"): case(undefined):{
+            case("box"): case("rbox"): case("abox"): case("note"): case(undefined):
                 lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
-            }
-            break;
-            default: {
+                break;
+            default:
                 if (WORDWRAPARCS){
                     lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
                 }
-            }
         }
         
         pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
@@ -663,11 +655,15 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
 }
 
 function createEmptyArcText (pId, pArc) {
+    var lArcStart = 0;
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
     var lGroup = utl.createGroup(pId);
 
-    lGroup.appendChild(createTextLabel(pId, pArc, 0, 0, lArcEnd));
-                
+    if (pArc.from && pArc.to){
+        lArcStart = gEntity2X[pArc.from];
+        lArcEnd = Math.abs (gEntity2X[pArc.to] - gEntity2X[pArc.from]);
+    }
+    lGroup.appendChild(createTextLabel(pId, pArc, lArcStart, 0, lArcEnd));
     return lGroup;
 }
 
@@ -675,6 +671,11 @@ function createComment (pId, pArc) {
     var lArcEnd = gEntityXHWM - INTER_ENTITY_SPACING + ENTITY_WIDTH;
     var lGroup = utl.createGroup(pId);
     var lLine = utl.createLine(0, 0, lArcEnd, 0, "dotted");
+    
+    if (pArc.from && pArc.to){
+        lLine = utl.createLine(gEntity2X[pArc.from] - ENTITY_WIDTH/4, 0, gEntity2X[pArc.to] + ENTITY_WIDTH/4, 0, "dotted");
+    }
+    
     lGroup.appendChild(lLine);
     lGroup.appendChild(createEmptyArcText(pId + "_txt", pArc));
 
@@ -719,21 +720,17 @@ function createBox (pId, pFrom, pTo, pArc) {
     var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT - 2*LINE_WIDTH);
     
     switch (pArc.kind) {
-        case ("rbox") : {
+        case ("rbox") :
             lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
-        }
-        break;
-        case ("abox") : {
+            break;
+        case ("abox") :
             lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
-        }
-        break;
-        case ("note") : {
+            break;
+        case ("note") :
             lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
-        }
-        break;
-        default : {
+            break;
+        default :
             lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2));
-        }
     }
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
