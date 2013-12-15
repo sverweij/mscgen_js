@@ -358,7 +358,7 @@ function renderArcs(pArcs, pEntities) {
                     case("arcspanning"):
                         // TODO: arcspanning creation probably best after rendering the arcrows in them
                         /* TODO: temp hack - render arcspanning as a comment line */
-                        pArcs[i][j].label = pArcs[i][j].kind.toUpperCase() + ": " + pArcs[i][j].label;
+                        pArcs[i][j].label = pArcs[i][j].kind.toUpperCase() + (pArcs[i][j].label ? ": " + pArcs[i][j].label : "") ;
                         lElement = createComment(lCurrentId, pArcs[i][j]);
                         /* TODO: temp hack end */
                         lRowMemory.push({
