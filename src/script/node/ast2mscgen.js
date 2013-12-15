@@ -12,18 +12,21 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(["./dotmap.js"], function(map) {
 
     var INDENT = "  ";
     var SP = " ";
     var EOL = "\n";
+    var gMinimal = false;
 
     function init(pMinimal) {
         if (true === pMinimal) {
+            gMinimal = true;
             INDENT = "";
             SP = "";
             EOL = "";
         } else {
+            gMinimal = false;
             INDENT = "  ";
             SP = " ";
             EOL = "\n";
@@ -135,13 +138,22 @@ define([], function() {
         return lRetVal;
     }
 
+    function renderKind(pKind) {
+        if (true === gMinimal) {
+            if ("box" === map.getAggregate(pKind) ){
+                return " " + pKind + " ";
+            }
+        }
+        return pKind;
+    }
+
     function renderArc(pArc) {
         var lRetVal = "";
         if (pArc.from) {
             lRetVal += renderEntityName(pArc.from) + SP;
         }
         if (pArc.kind) {
-            lRetVal += pArc.kind;
+            lRetVal += renderKind(pArc.kind);
         }
         if (pArc.to) {
             lRetVal += SP + renderEntityName(pArc.to);

@@ -29,4 +29,12 @@ describe('ast2mscgen', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
     });
+    
+    describe('#renderAST() - notes and boxes in minification', function() {
+        it('should render a "minified" mscgen script', function() {
+            var lProgram = renderer.render(fix.astBoxes(), true);
+            var lExpectedProgram = 'msc{a,b;a note b;a box a,b rbox b;b abox a;}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+    });
 });

@@ -219,6 +219,32 @@ module.exports = (function() {
                     "label" : "notes don't count"
                 }]]
             };
+        },
+        astBoxes : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "note",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "box",
+                    "from" : "a",
+                    "to" : "a"
+                }, {
+                    "kind" : "rbox",
+                    "from" : "b",
+                    "to" : "b"
+                }], [{
+                    "kind" : "abox",
+                    "from" : "b",
+                    "to" : "a"
+                }]]
+            };
         }
     };
 })();
