@@ -275,6 +275,35 @@ module.exports = (function() {
                 }]]
             };
         },
+        astOneAltUnwound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "alt",
+                    "from" : "b",
+                    "to" : "c",
+                    "numberofarcs" : "2"
+                }], [{
+                    "kind" : "=>",
+                    "from" : "b",
+                    "to" : "c"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "c",
+                    "to" : "b"
+                }]]
+            };
+        },
         astAltWithinLoop : function() {
             return {
                 "entities" : [{
@@ -300,25 +329,76 @@ module.exports = (function() {
                             "kind" : "->",
                             "from" : "b",
                             "to" : "c",
-                            "label" : "blahs(i)"
+                            "label" : "-> within alt"
                         }], [{
                             "kind" : ">>",
                             "from" : "c",
                             "to" : "b",
-                            "label" : "thing"
+                            "label" : ">> within alt"
                         }]],
-                        "label" : "hunky dory"
+                        "label" : "label for alt"
                     }], [{
                         "kind" : ">>",
                         "from" : "b",
-                        "to" : "a"
+                        "to" : "a",
+                        "label" : ">> within loop"
                     }]],
-                    "label" : "for each blah"
+                    "label" : "label for loop"
                 }], [{
                     "kind" : "=>>",
                     "from" : "a",
                     "to" : "a",
-                    "label" : "happy-the-peppy"
+                    "label" : "happy-the-peppy - outside"
+                }], [{
+                    "kind" : "..."
+                }]]
+            };
+        },
+        astAltWithinLoopUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "c",
+                    "label" : "label for loop",
+                    "numberofarcs" : "2"
+                }], [{
+                    "kind" : "alt",
+                    "from" : "b",
+                    "to" : "c",
+                    "label" : "label for alt",
+                    "numberofarcs" : "2"
+                }], [{
+                    "kind" : "->",
+                    "from" : "b",
+                    "to" : "c",
+                    "label" : "-> within alt"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "c",
+                    "to" : "b",
+                    "label" : ">> within alt"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "b",
+                    "to" : "a",
+                    "label" : ">> within loop"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "a",
+                    "label" : "happy-the-peppy - outside"
                 }], [{
                     "kind" : "..."
                 }]]
@@ -326,5 +406,4 @@ module.exports = (function() {
         }
     };
 })();
-
 
