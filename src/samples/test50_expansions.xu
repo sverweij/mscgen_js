@@ -1,4 +1,5 @@
-# test50 - some possible expansions to get closer to what's possible in UML sequence diagrams
+# test50 - some  expansions to get closer to 
+#          what is possible in UML sequence diagrams
 msc {
     a,
     b[label="change store"],
@@ -7,31 +8,30 @@ msc {
     e[label="natalis queue"],
     f;
 
-
     a=>>b [label="get change list()"];
 
-    a alt f [label="changes found"] {
+    a alt f {
         b>>a [label="list of changes"];
         a=>>c [label="cull old stuff (list of changes)"];
 
-        b loop e [label="for each change"] {
+        b loop e {
             c=>>b [label="get change()"];
             b>>c  [label="change"];
 
-            c alt e [label="change too old"] {
+            c alt e {
                 c=>>d [label="queue(change)"];
                 --- [label="change newer than latest run"];
                 c=>>e [label="queue(change)"];
             --- [label="all other cases"];
                 ||| [label="leave well alone"];
-            }
-        } 
+            } [label="change too old"] ;
+        } [label="for each change"] ;
         c>>a[label="done processing"];
         --- [label="nothing found"];
         b>>a [label="nothing"];
         a note a [label="silent exit"];
 
-    }
+    }[label="changes found"];
 
 }
 
