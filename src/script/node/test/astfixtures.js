@@ -372,7 +372,7 @@ module.exports = (function() {
                     "from" : "a",
                     "to" : "c",
                     "label" : "label for loop",
-                    "numberofarcs" : "2"
+                    "numberofarcs" : "4"
                 }], [{
                     "kind" : "alt",
                     "from" : "b",

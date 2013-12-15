@@ -83,6 +83,16 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return lArc;
     }
 
+    function calcNumberOfArcs(pArcRow) {
+        var lRetval = pArcRow.arcs.length;
+        for (var i = 0; i < pArcRow.arcs.length; i++) {
+            if ("arcspanning" === map.getAggregate(pArcRow.arcs[i][0].kind)){
+                lRetval += calcNumberOfArcs(pArcRow.arcs[i][0]);
+            }
+        }
+        return lRetval;
+    }
+
     function unwindArcRow(pArcRow, pAST, pFrom, pTo) {
         var lArcCount;
         var lArcSpanningArc = {};
@@ -91,7 +101,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
             if (lArcSpanningArc) {
                 if (lArcSpanningArc.arcs) {
-                    lArcSpanningArc.numberofarcs = lArcSpanningArc.arcs.length.toString(10);
+                    lArcSpanningArc.numberofarcs = calcNumberOfArcs(lArcSpanningArc).toString(10);
                     delete lArcSpanningArc.arcs;
                     pAST.arcs.push([lArcSpanningArc]);
                     for ( lArcCount = 0; lArcCount < pArcRow[0].arcs.length; lArcCount++) {
