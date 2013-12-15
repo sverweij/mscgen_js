@@ -245,6 +245,86 @@ module.exports = (function() {
                     "to" : "a"
                 }]]
             };
+        },
+        astOneAlt : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "alt",
+                    "from" : "b",
+                    "to" : "c",
+                    "arcs" : [[{
+                        "kind" : "=>",
+                        "from" : "b",
+                        "to" : "c"
+                    }], [{
+                        "kind" : ">>",
+                        "from" : "c",
+                        "to" : "b"
+                    }]]
+                }]]
+            };
+        },
+        astAltWithinLoop : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "c",
+                    "arcs" : [[{
+                        "kind" : "alt",
+                        "from" : "b",
+                        "to" : "c",
+                        "arcs" : [[{
+                            "kind" : "->",
+                            "from" : "b",
+                            "to" : "c",
+                            "label" : "blahs(i)"
+                        }], [{
+                            "kind" : ">>",
+                            "from" : "c",
+                            "to" : "b",
+                            "label" : "thing"
+                        }]],
+                        "label" : "hunky dory"
+                    }], [{
+                        "kind" : ">>",
+                        "from" : "b",
+                        "to" : "a"
+                    }]],
+                    "label" : "for each blah"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "a",
+                    "label" : "happy-the-peppy"
+                }], [{
+                    "kind" : "..."
+                }]]
+            };
         }
     };
 })();
+
+
