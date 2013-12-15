@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap.js"], function(map) {
+define(["./dotmap"], function(map) {
 
     var INDENT = "  ";
     var SP = " ";
