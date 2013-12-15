@@ -63,7 +63,7 @@ describe('mscgenparser', function() {
             var lAST = parser.parse('msc { a,b,c; a => b; b alt c { b => c; c >> b; };}');
             tst.assertequalJSON(lAST, fix.astOneAlt());
         });
-        
+
         it('should render an AST, with an alt in it', function() {
             var lAST = parser.parse('msc { a,b,c; a => b; a loop c { b alt c { b -> c [label="blahs(i)"]; c >> b [label="thing"]; } [label="hunky dory"]; b >> a;} [label="for each blah"]; a =>> a [label="happy-the-peppy"];...;}');
             tst.assertequalJSON(lAST, fix.astAltWithinLoop());
