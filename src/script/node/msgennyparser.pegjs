@@ -169,19 +169,22 @@ dualarc         =
   {return {kind:kind, from: from, to: "*"}})
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
-dualarctoken    =   kind:("--"  / "<->"
+dualarctoken    = kind:(
+                    bidiarrowtoken/ fwdarrowtoken / bckarrowtoken
+                  / boxtoken) 
+                 {return kind.toLowerCase()}
+bidiarrowtoken   "bi-directional arrow"
+                =   "--"  / "<->"
                   / "=="  / "<<=>>"
                           / "<=>"
                   / ".."  / "<<>>"
-                  / "::"  / "<:>" 
-                  / fwdarrowtoken / bckarrowtoken
-                  / "note"i / "abox"i / "rbox"i / "box"i) {return kind.toLowerCase()}
+                  / "::"  / "<:>"
 fwdarrowtoken   "left to right arrow"
                 = "->" / "=>>"/ "=>" / ">>"/ ":>" / "-x"i
 bckarrowtoken   "right to left arrow"
                 = "<-" / "<<=" / "<=" / "<<" / "<:" / "x-"i 
-
-
+boxtoken        "box"
+                = "note"i / "abox"i / "rbox"i / "box"i
 string          = quotedstring / unquotedstring
 quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*
