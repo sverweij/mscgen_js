@@ -114,7 +114,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         } else {
             if (pFrom && pTo) {
                 for (var i = 0; i < pArcRow.length; i++) {
-                    if ("---" === pArcRow[i].kind) {
+                    if ("emptyarc" === map.getAggregate(pArcRow[i].kind)) {
                         pArcRow[i].from = pFrom;
                         pArcRow[i].to = pTo;
                     }
