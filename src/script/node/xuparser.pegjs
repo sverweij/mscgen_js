@@ -192,7 +192,7 @@ boxtoken        "box"
 spanarctoken    "arc spanning box"
                 = "alt"i / "opt"i / "par"i / "loop"i
                   / "critical"i / "neg"i /"assert"i / "strict"i
-                  / "seq"i / "ignore"i / "consider"i {return "box"}
+                  / "seq"i / "ignore"i / "consider"i
 
 attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
 {
