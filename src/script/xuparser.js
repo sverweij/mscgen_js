@@ -1825,7 +1825,6 @@ define ([], function(){
       
       function parse_spanarctoken() {
         var result0;
-        var pos0;
         
         reportFailures++;
         if (input.substr(pos, 3).toLowerCase() === "alt") {
@@ -1928,7 +1927,6 @@ define ([], function(){
                             }
                           }
                           if (result0 === null) {
-                            pos0 = pos;
                             if (input.substr(pos, 8).toLowerCase() === "consider") {
                               result0 = input.substr(pos, 8);
                               pos += 8;
@@ -1937,12 +1935,6 @@ define ([], function(){
                               if (reportFailures === 0) {
                                 matchFailed("\"consider\"");
                               }
-                            }
-                            if (result0 !== null) {
-                              result0 = (function(offset) {return "box"})(pos0);
-                            }
-                            if (result0 === null) {
-                              pos = pos0;
                             }
                           }
                         }
