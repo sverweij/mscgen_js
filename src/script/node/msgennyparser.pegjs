@@ -149,7 +149,8 @@ arcline         = al:((a:arc "," {return a})* (a:arc {return [a]}))
 }
 arc             = a:((a:singlearc {return a}) 
                 / (a:dualarc {return a})
-                / (a:commentarc {return a}))
+                / (a:commentarc {return a})
+                / (a:spanarc {return a}))
                   al:(":" _ l:string _ {return l})?
 {
   if (al) {
@@ -167,6 +168,10 @@ dualarc         =
   {return {kind:kind, from: "*", to:to}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to: "*"}})
+spanarc         = 
+ (_ from:identifier _ kind:spanarctoken _ to:identifier _ "{" _ al:arclist _ "}" _
+  {return {kind: kind, from:from, to:to, arcs:al}})
+  
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
 dualarctoken    = kind:(
@@ -185,6 +190,10 @@ bckarrowtoken   "right to left arrow"
                 = "<-" / "<<=" / "<=" / "<<" / "<:" / "x-"i 
 boxtoken        "box"
                 = "note"i / "abox"i / "rbox"i / "box"i
+spanarctoken    "arc spanning box"
+                = "alt"i / "opt"i / "par"i / "loop"i
+                  / "critical"i / "neg"i /"assert"i / "strict"i
+                  / "seq"i / "ignore"i / "consider"i
 string          = quotedstring / unquotedstring
 quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*

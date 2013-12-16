@@ -50,5 +50,16 @@ describe('msgennyparser', function() {
 
         });
     });
+
+    describe('#parse() - expansions', function() {
+        it('should render a simple AST, with an alt', function() {
+            var lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
+            tst.assertequalJSON(lAST, fix.astOneAlt());
+        });
+        it('should render an AST, with an alt in it', function() {
+            var lAST = parser.parse('a => b; a loop c { b alt c { b -> c: -> within alt; c >> b: >> within alt; }: label for alt; b >> a: >> within loop;}: label for loop; a =>> a: happy-the-peppy - outside;...;');
+            tst.assertequalJSON(lAST, fix.astAltWithinLoop());
+        });
+    });
 });
 
