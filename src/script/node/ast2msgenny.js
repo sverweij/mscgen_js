@@ -8,13 +8,12 @@
 /* jshint unused:strict */
 /* jshint indent:4 */
 
-if (typeof define !== 'function') {
+if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-
-define ([],function() {
-
+define([], function() {
+    INDENT = "  ";
     function _renderAST(pAST) {
         var lRetVal = "";
         if (pAST) {
@@ -25,7 +24,7 @@ define ([],function() {
                 lRetVal += renderEntities(pAST.entities) + "\n";
             }
             if (pAST.arcs) {
-                lRetVal += renderArcLines(pAST.arcs);
+                lRetVal += renderArcLines(pAST.arcs, "");
             }
         }
         return lRetVal;
@@ -102,7 +101,7 @@ define ([],function() {
         return lRetVal;
     }
 
-    function renderArc(pArc) {
+    function renderArc(pArc, pIndent) {
         var lRetVal = "";
         if (pArc.from) {
             lRetVal += renderEntityName(pArc.from) + " ";
@@ -113,13 +112,18 @@ define ([],function() {
         if (pArc.to) {
             lRetVal += " " + renderEntityName(pArc.to);
         }
+        if (pArc.arcs) {
+            lRetVal += " {\n";
+            lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
+            lRetVal += pIndent + "}";
+        }
         if (pArc.label) {
             lRetVal += " : " + renderMsGennyString(pArc.label);
         }
         return lRetVal;
     }
 
-    function renderArcLines(pArcs) {
+    function renderArcLines(pArcs, pIndent) {
         var lRetVal = "";
         var i = 0;
         var j = 0;
@@ -128,9 +132,9 @@ define ([],function() {
             for ( i = 0; i < pArcs.length; i++) {
                 if (pArcs[i].length > 0) {
                     for ( j = 0; j < pArcs[i].length - 1; j++) {
-                        lRetVal += renderArc(pArcs[i][j]) + ",\n";
+                        lRetVal += pIndent + renderArc(pArcs[i][j], pIndent) + ",\n";
                     }
-                    lRetVal += renderArc(pArcs[i][pArcs[i].length - 1]) + ";\n";
+                    lRetVal += pIndent + renderArc(pArcs[i][pArcs[i].length - 1], pIndent) + ";\n";
                 }
             }
         }
