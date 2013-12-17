@@ -453,6 +453,29 @@ module.exports = (function() {
                     "label" : "outside opt"
                 }]]
             };
+        },
+        astDeclarationWithinArcspan : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "c"
+                }, {
+                    "name" : "d"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "alt",
+                    "from" : "a",
+                    "to" : "b",
+                    "arcs" : [[{
+                        "kind" : "->",
+                        "from" : "c",
+                        "to" : "d"
+                    }]]
+                }]]
+            };
         }
     };
 })();
