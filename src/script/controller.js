@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "xuparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
         "node/paramslikker",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
