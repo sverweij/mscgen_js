@@ -3,7 +3,7 @@ var renderer = require("../ast2msgenny");
 var fix = require("./astfixtures");
 
 describe('ast2msgenny', function() {
-    describe('#renderAST() - simple syntax tree', function() {
+    describe('#renderAST() - mscgen classic compatible - simple syntax tree', function() {
 
         it('should, given a simple syntax tree, render a msgenny script', function() {
             var lProgram = renderer.render(fix.astSimple());
@@ -40,11 +40,36 @@ describe('ast2msgenny', function() {
             var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs="true";\n\na;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("should ignore all attributes, except label and name", function () {
+        it("should ignore all attributes, except label and name", function() {
             var lProgram = renderer.render(fix.astAllAttributes());
             var lExpectedPorgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
             assert.equal(lProgram, lExpectedPorgram);
         });
 
+    });
+
+    describe('#renderAST() - xu compatible', function() {
+        it('alt only - render correct script', function() {
+            var lProgram = renderer.render(fix.astOneAlt());
+            var lExpectedProgram = "a, b, c;\n\na => b;\nb alt c {\n  b => c;\n  c >> b;\n};\n";
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it('alt within loop - render correct script', function() {
+            var lProgram = renderer.render(fix.astAltWithinLoop());
+            var lExpectedProgram =
+"a, b, c;\n\
+\n\
+a => b;\n\
+a loop c {\n\
+  b alt c {\n\
+    b -> c : -> within alt;\n\
+    c >> b : >> within alt;\n\
+  } : label for alt;\n\
+  b >> a : >> within loop;\n\
+} : label for loop;\n\
+a =>> a : happy-the-peppy - outside;\n\
+...;\n";
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 });

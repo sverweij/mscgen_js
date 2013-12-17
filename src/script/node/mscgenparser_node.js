@@ -54,8 +54,10 @@ module.exports = (function(){
         "singlearctoken": parse_singlearctoken,
         "commenttoken": parse_commenttoken,
         "dualarctoken": parse_dualarctoken,
+        "bidiarrowtoken": parse_bidiarrowtoken,
         "fwdarrowtoken": parse_fwdarrowtoken,
         "bckarrowtoken": parse_bckarrowtoken,
+        "boxtoken": parse_boxtoken,
         "attributelist": parse_attributelist,
         "attribute": parse_attribute,
         "attributename": parse_attributename,
@@ -1369,6 +1371,29 @@ module.exports = (function(){
         var pos0;
         
         pos0 = pos;
+        result0 = parse_bidiarrowtoken();
+        if (result0 === null) {
+          result0 = parse_fwdarrowtoken();
+          if (result0 === null) {
+            result0 = parse_bckarrowtoken();
+            if (result0 === null) {
+              result0 = parse_boxtoken();
+            }
+          }
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, kind) {return kind.toLowerCase()})(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_bidiarrowtoken() {
+        var result0;
+        
+        reportFailures++;
         if (input.substr(pos, 2) === "--") {
           result0 = "--";
           pos += 2;
@@ -1458,56 +1483,6 @@ module.exports = (function(){
                             matchFailed("\"<:>\"");
                           }
                         }
-                        if (result0 === null) {
-                          result0 = parse_fwdarrowtoken();
-                          if (result0 === null) {
-                            result0 = parse_bckarrowtoken();
-                            if (result0 === null) {
-                              if (input.substr(pos, 4).toLowerCase() === "note") {
-                                result0 = input.substr(pos, 4);
-                                pos += 4;
-                              } else {
-                                result0 = null;
-                                if (reportFailures === 0) {
-                                  matchFailed("\"note\"");
-                                }
-                              }
-                              if (result0 === null) {
-                                if (input.substr(pos, 4).toLowerCase() === "abox") {
-                                  result0 = input.substr(pos, 4);
-                                  pos += 4;
-                                } else {
-                                  result0 = null;
-                                  if (reportFailures === 0) {
-                                    matchFailed("\"abox\"");
-                                  }
-                                }
-                                if (result0 === null) {
-                                  if (input.substr(pos, 4).toLowerCase() === "rbox") {
-                                    result0 = input.substr(pos, 4);
-                                    pos += 4;
-                                  } else {
-                                    result0 = null;
-                                    if (reportFailures === 0) {
-                                      matchFailed("\"rbox\"");
-                                    }
-                                  }
-                                  if (result0 === null) {
-                                    if (input.substr(pos, 3).toLowerCase() === "box") {
-                                      result0 = input.substr(pos, 3);
-                                      pos += 3;
-                                    } else {
-                                      result0 = null;
-                                      if (reportFailures === 0) {
-                                        matchFailed("\"box\"");
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
                       }
                     }
                   }
@@ -1516,11 +1491,9 @@ module.exports = (function(){
             }
           }
         }
-        if (result0 !== null) {
-          result0 = (function(offset, kind) {return kind.toLowerCase()})(pos0, result0);
-        }
-        if (result0 === null) {
-          pos = pos0;
+        reportFailures--;
+        if (reportFailures === 0 && result0 === null) {
+          matchFailed("bi-directional arrow");
         }
         return result0;
       }
@@ -1671,6 +1644,59 @@ module.exports = (function(){
         reportFailures--;
         if (reportFailures === 0 && result0 === null) {
           matchFailed("right to left arrow");
+        }
+        return result0;
+      }
+      
+      function parse_boxtoken() {
+        var result0;
+        
+        reportFailures++;
+        if (input.substr(pos, 4).toLowerCase() === "note") {
+          result0 = input.substr(pos, 4);
+          pos += 4;
+        } else {
+          result0 = null;
+          if (reportFailures === 0) {
+            matchFailed("\"note\"");
+          }
+        }
+        if (result0 === null) {
+          if (input.substr(pos, 4).toLowerCase() === "abox") {
+            result0 = input.substr(pos, 4);
+            pos += 4;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"abox\"");
+            }
+          }
+          if (result0 === null) {
+            if (input.substr(pos, 4).toLowerCase() === "rbox") {
+              result0 = input.substr(pos, 4);
+              pos += 4;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"rbox\"");
+              }
+            }
+            if (result0 === null) {
+              if (input.substr(pos, 3).toLowerCase() === "box") {
+                result0 = input.substr(pos, 3);
+                pos += 3;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"box\"");
+                }
+              }
+            }
+          }
+        }
+        reportFailures--;
+        if (reportFailures === 0 && result0 === null) {
+          matchFailed("box");
         }
         return result0;
       }

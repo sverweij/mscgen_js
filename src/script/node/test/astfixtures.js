@@ -219,6 +219,264 @@ module.exports = (function() {
                     "label" : "notes don't count"
                 }]]
             };
+        },
+        astBoxes : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "note",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "box",
+                    "from" : "a",
+                    "to" : "a"
+                }, {
+                    "kind" : "rbox",
+                    "from" : "b",
+                    "to" : "b"
+                }], [{
+                    "kind" : "abox",
+                    "from" : "b",
+                    "to" : "a"
+                }]]
+            };
+        },
+        astOneAlt : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "alt",
+                    "from" : "b",
+                    "to" : "c",
+                    "arcs" : [[{
+                        "kind" : "=>",
+                        "from" : "b",
+                        "to" : "c"
+                    }], [{
+                        "kind" : ">>",
+                        "from" : "c",
+                        "to" : "b"
+                    }]]
+                }]]
+            };
+        },
+        astOneAltUnwound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "alt",
+                    "from" : "b",
+                    "to" : "c",
+                    "numberofarcs" : "2"
+                }], [{
+                    "kind" : "=>",
+                    "from" : "b",
+                    "to" : "c"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "c",
+                    "to" : "b"
+                }]]
+            };
+        },
+        astAltWithinLoop : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "c",
+                    "arcs" : [[{
+                        "kind" : "alt",
+                        "from" : "b",
+                        "to" : "c",
+                        "arcs" : [[{
+                            "kind" : "->",
+                            "from" : "b",
+                            "to" : "c",
+                            "label" : "-> within alt"
+                        }], [{
+                            "kind" : ">>",
+                            "from" : "c",
+                            "to" : "b",
+                            "label" : ">> within alt"
+                        }]],
+                        "label" : "label for alt"
+                    }], [{
+                        "kind" : ">>",
+                        "from" : "b",
+                        "to" : "a",
+                        "label" : ">> within loop"
+                    }]],
+                    "label" : "label for loop"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "a",
+                    "label" : "happy-the-peppy - outside"
+                }], [{
+                    "kind" : "..."
+                }]]
+            };
+        },
+        astAltWithinLoopUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "c",
+                    "label" : "label for loop",
+                    "numberofarcs" : "4"
+                }], [{
+                    "kind" : "alt",
+                    "from" : "b",
+                    "to" : "c",
+                    "label" : "label for alt",
+                    "numberofarcs" : "2"
+                }], [{
+                    "kind" : "->",
+                    "from" : "b",
+                    "to" : "c",
+                    "label" : "-> within alt"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "c",
+                    "to" : "b",
+                    "label" : ">> within alt"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "b",
+                    "to" : "a",
+                    "label" : ">> within loop"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "a",
+                    "to" : "a",
+                    "label" : "happy-the-peppy - outside"
+                }], [{
+                    "kind" : "..."
+                }]]
+            };
+        },
+        astOptWithComment : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "b",
+                    "to" : "c",
+                    "arcs" : [[{
+                        "kind" : "---",
+                        "label" : "within opt"
+                    }]],
+                    "label" : "label for opt"
+                }], [{
+                    "kind" : "---",
+                    "label" : "outside opt"
+                }]]
+            };
+        },
+        astOptWithCommentUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }, {
+                    "name" : "c"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "b",
+                    "to" : "c",
+                    "label" : "label for opt",
+                    "numberofarcs" : "1"
+                }], [{
+                    "kind" : "---",
+                    "label" : "within opt",
+                    "from" : "b",
+                    "to" : "c"
+                }], [{
+                    "kind" : "---",
+                    "label" : "outside opt"
+                }]]
+            };
+        },
+        astDeclarationWithinArcspan : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "c"
+                }, {
+                    "name" : "d"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "alt",
+                    "from" : "a",
+                    "to" : "b",
+                    "arcs" : [[{
+                        "kind" : "->",
+                        "from" : "c",
+                        "to" : "d"
+                    }]]
+                }]]
+            };
         }
     };
 })();
+

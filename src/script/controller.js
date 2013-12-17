@@ -44,8 +44,8 @@ msc {
 /* global CodeMirror */
 /* global canvg */
 
-define(["jquery", "mscgenparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2mscgen", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+define(["jquery", "xuparser", "msgennyparser", "renderast",
+        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
         "node/paramslikker",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
@@ -91,8 +91,6 @@ $(document).ready(function(){
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
     
-
-
     setupEvents();
     processParams(lParams);
         
@@ -464,11 +462,15 @@ function show_dotOnClick(){
 
 function show_urlOnClick(){
     // window.location = 
-    var lWindow = window.open(window.location.protocol +  
-        window.location.host + 
-        window.location.pathname + 
-        '?debug=true&lang=' + gLanguage + 
-        '&msc=' +  escape(gCodeMirror.getValue()));
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+
+        encodeURIComponent(
+            window.location.protocol + '//' +
+            window.location.host + 
+            window.location.pathname + 
+            '?donottrack=true&debug=true&lang=' + gLanguage + 
+            '&msc=' +  escape(gCodeMirror.getValue())
+        )
+    );
 }
 
 function close_lightboxOnClick(){

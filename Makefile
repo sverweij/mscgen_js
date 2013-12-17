@@ -16,11 +16,13 @@ NPM=npm
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
+	src/script/xuparser.js \
 	src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js \
 	src/script/node/msgennyparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
+	src/script/node/ast2xu.js \
 	src/script/node/ast2msgenny.js \
 	src/script/node/ast2dot.js \
 	src/script/node/dotmap.js \
@@ -91,10 +93,16 @@ src/script/mscgenparser.js: src/script/node/mscgenparser_node.js
 src/script/msgennyparser.js: src/script/node/msgennyparser_node.js
 	$(CJS2AMD) < $< > $@
 
+src/script/xuparser.js: src/script/node/xuparser_node.js
+	$(CJS2AMD) < $< > $@
+
 src/script/node/mscgenparser_node.js: src/script/node/mscgenparser.pegjs 
 	$(PEGJS) $< $@
 
 src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
+	$(PEGJS) $< $@
+
+src/script/node/xuparser_node.js: src/script/node/xuparser.pegjs
 	$(PEGJS) $< $@
 
 src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css

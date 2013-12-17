@@ -1,12 +1,12 @@
 var assert = require("assert");
-var parser = require("../mscgenparser_node");
+var parser = require("../xuparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
 
-describe('mscgenparser', function() {
+describe('xuparser', function() {
     describe('#parse()', function() {
 
-        it('should render a simple AST', function() {
+        it('should render a simple AST, with two entities auto declared', function() {
             var lAST = parser.parse('msc { a,b; a => b [label="a simple script"];}');
             tst.assertequalJSON(lAST, fix.astSimple());
         });
@@ -57,5 +57,37 @@ describe('mscgenparser', function() {
 
         });
     });
+
+    describe('#parse() - xu specific extensions', function() {
+        it('should render an AST, with an alt in it', function() {
+            var lAST = parser.parse('msc { a,b,c; a => b; b alt c { b => c; c >> b; };}');
+            tst.assertequalJSON(lAST, fix.astOneAlt());
+        });
+
+        it('should render an AST, with an alt in it', function() {
+            var lAST = parser.parse('msc { a,b,c; a => b; a loop c { b alt c { b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; } [label="label for alt"]; b >> a [label=">> within loop"];} [label="label for loop"]; a =>> a [label="happy-the-peppy - outside"];...;}');
+            tst.assertequalJSON(lAST, fix.astAltWithinLoop());
+        });
+    });
 });
 
+/*
+
+ msc {
+ a,
+ b,
+ c;
+
+ a => b;
+ a loop c {
+ b alt c {
+ b -> c [label="blahs(i)"];
+ c >> b [label="thing"];
+ } [label="hunky dory"];
+ b >> a;
+ } [label="for each blah"];
+
+ a =>> a [label="happy-the-peppy"];
+ ...;
+ }
+ */

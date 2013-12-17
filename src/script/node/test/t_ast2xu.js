@@ -1,8 +1,8 @@
 var assert = require("assert");
-var renderer = require("../ast2mscgen");
+var renderer = require("../ast2xu");
 var fix = require("./astfixtures");
 
-describe('ast2mscgen', function() {
+describe('ast2xu', function() {
     describe('#renderAST() - simple syntax tree', function() {
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple());
@@ -34,6 +34,46 @@ describe('ast2mscgen', function() {
         it('should render a "minified" mscgen script', function() {
             var lProgram = renderer.render(fix.astBoxes(), true);
             var lExpectedProgram = 'msc{a,b;a note b;a box a,b rbox b;b abox a;}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+    });
+    
+    describe('#renderAST() - xu compatible', function() {
+        it('alt only - render correct script', function() {
+            var lProgram = renderer.render(fix.astOneAlt());
+            var lExpectedProgram = 
+'msc {\n\
+  a,\n\
+  b,\n\
+  c;\n\
+\n\
+  a => b;\n\
+  b alt c {\n\
+    b => c;\n\
+    c >> b;\n\
+  };\n\
+}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it('alt within loop - render correct script', function() {
+            var lProgram = renderer.render(fix.astAltWithinLoop());
+            var lExpectedProgram =
+'msc {\n\
+  a,\n\
+  b,\n\
+  c;\n\
+\n\
+  a => b;\n\
+  a loop c {\n\
+    b alt c {\n\
+      b -> c [label="-> within alt"];\n\
+      c >> b [label=">> within alt"];\n\
+    } [label="label for alt"];\n\
+    b >> a [label=">> within loop"];\n\
+  } [label="label for loop"];\n\
+  a =>> a [label="happy-the-peppy - outside"];\n\
+  ...;\n\
+}';
             assert.equal(lProgram, lExpectedProgram);
         });
     });

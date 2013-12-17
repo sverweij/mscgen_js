@@ -16,7 +16,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform"], function(transform) {
+define(["./asttransform", "./dotmap"], function(transform, map) {
 
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;
@@ -83,12 +83,72 @@ define(["./asttransform"], function(transform) {
         return lArc;
     }
 
+    function calcNumberOfArcs(pArcRow) {
+        var lRetval = pArcRow.arcs.length;
+        for (var i = 0; i < pArcRow.arcs.length; i++) {
+            if ("arcspanning" === map.getAggregate(pArcRow.arcs[i][0].kind)){
+                lRetval += calcNumberOfArcs(pArcRow.arcs[i][0]);
+            }
+        }
+        return lRetval;
+    }
+
+    function unwindArcRow(pArcRow, pAST, pFrom, pTo) {
+        var lArcCount;
+        var lArcSpanningArc = {};
+        if ("arcspanning" === map.getAggregate(pArcRow[0].kind)) {
+            lArcSpanningArc = JSON.parse(JSON.stringify(pArcRow[0]));
+
+            if (lArcSpanningArc) {
+                if (lArcSpanningArc.arcs) {
+                    lArcSpanningArc.numberofarcs = calcNumberOfArcs(lArcSpanningArc).toString(10);
+                    delete lArcSpanningArc.arcs;
+                    pAST.arcs.push([lArcSpanningArc]);
+                    for ( lArcCount = 0; lArcCount < pArcRow[0].arcs.length; lArcCount++) {
+                        unwindArcRow(pArcRow[0].arcs[lArcCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to);
+                    }
+                } else {
+                    pAST.arcs.push([lArcSpanningArc]);
+                }
+            }
+        } else {
+            if (pFrom && pTo) {
+                for (var i = 0; i < pArcRow.length; i++) {
+                    if ("emptyarc" === map.getAggregate(pArcRow[i].kind)) {
+                        pArcRow[i].from = pFrom;
+                        pArcRow[i].to = pTo;
+                    }
+                }
+            }
+            pAST.arcs.push(pArcRow);
+        }
+    }
+
+    function _unwind(pAST) {
+        var lRowCount;
+        var lAST = {};
+
+        lAST.options = pAST.options ? JSON.parse(JSON.stringify(pAST.options)) : undefined;
+        lAST.entities = pAST.entities ? JSON.parse(JSON.stringify(pAST.entities)) : undefined;
+        lAST.arcs = [];
+
+        if (pAST && pAST.arcs) {
+            for ( lRowCount = 0; lRowCount < pAST.arcs.length; lRowCount++) {
+                unwindArcRow(pAST.arcs[lRowCount], lAST);
+            }
+        }
+        return lAST;
+    }
+
     return {
         swapRTLArc : function(pArc) {
             return _swapRTLArc(pArc);
         },
+        unwind : function(pAST) {
+            return _unwind(pAST);
+        },
         flatten : function(pAST) {
-            return transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]);
+            return transform.transform(_unwind(pAST), [nameAsLabel], [_swapRTLArc, overrideColors]);
         }
     };
 });
