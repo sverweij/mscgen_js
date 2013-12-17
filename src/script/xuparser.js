@@ -1825,8 +1825,10 @@ define ([], function(){
       
       function parse_spanarctoken() {
         var result0;
+        var pos0;
         
         reportFailures++;
+        pos0 = pos;
         if (input.substr(pos, 3).toLowerCase() === "alt") {
           result0 = input.substr(pos, 3);
           pos += 3;
@@ -1945,6 +1947,12 @@ define ([], function(){
               }
             }
           }
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, kind) {return kind.toLowerCase()})(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
         }
         reportFailures--;
         if (reportFailures === 0 && result0 === null) {

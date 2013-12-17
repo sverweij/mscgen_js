@@ -190,9 +190,10 @@ bckarrowtoken   "right to left arrow"
 boxtoken        "box"
                 = "note"i / "abox"i / "rbox"i / "box"i
 spanarctoken    "arc spanning box"
-                = "alt"i / "opt"i / "par"i / "loop"i
+                = kind:("alt"i / "opt"i / "par"i / "loop"i
                   / "critical"i / "neg"i /"assert"i / "strict"i
-                  / "seq"i / "ignore"i / "consider"i
+                  / "seq"i / "ignore"i / "consider"i)
+                 {return kind.toLowerCase()}
 
 attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
 {
