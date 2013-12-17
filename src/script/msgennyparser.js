@@ -2836,7 +2836,7 @@ define ([], function(){
               var j = 0;
               var lEntities = {};
               if (pEntities) {
-                  lEntities = pEntities;
+                  lEntities = pEntities; //JSON.parse(JSON.stringify(pEntities));
               } else {
                   lEntities.entities = [];
               }
@@ -2847,6 +2847,10 @@ define ([], function(){
                           if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
                               lEntities.entities[lEntities.entities.length] =
                                   initEntity(pArcLineList.arcs[i][j].from);
+                          }
+                          // if the arc kind is arcspanning recurse into its arcs
+                          if (pArcLineList.arcs[i][j].arcs){
+                              merge (lEntities, extractUndeclaredEntities (lEntities, pArcLineList.arcs[i][j]));
                           }
                           if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
                               lEntities.entities[lEntities.entities.length] =
