@@ -13,7 +13,7 @@ if ( typeof define !== 'function') {
 }
 
 define([], function() {
-    INDENT = "  ";
+    var INDENT = "  ";
     function _renderAST(pAST) {
         var lRetVal = "";
         if (pAST) {
