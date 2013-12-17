@@ -6,7 +6,7 @@ var fix = require("./astfixtures");
 describe('mscgenparser', function() {
     describe('#parse()', function() {
 
-        it('should render a simple AST, with two entities auto declared', function() {
+        it('should render a simple AST', function() {
             var lAST = parser.parse('msc { a,b; a => b [label="a simple script"];}');
             tst.assertequalJSON(lAST, fix.astSimple());
         });
@@ -20,19 +20,19 @@ describe('mscgenparser', function() {
             tst.assertequalJSON(lAST, fix.astNoEntities());
         });
         it("should produce lowercase for upper/ mixed case arc kinds", function() {
-            lAST = parser.parse('msc { a, b, c, d; a NoTE a, b BOX b, c aBox c, d rbOX d;}');
+            var lAST = parser.parse('msc { a, b, c, d; a NoTE a, b BOX b, c aBox c, d rbOX d;}');
             tst.assertequalJSON(lAST, fix.astBoxArcs());
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
+            var lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
             tst.assertequalJSON(lAST, fix.astOptions());
         });
         it("should produce lowercase for upper/ mixed case attributes", function() {
-            lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
+            var lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
             tst.assertequalJSON(lAST, fix.astMixedAttributes());
         });
         it("should translate *colour to *color", function() {
-            lAST = parser.parse('msc { a [textcolOUr="green", textBGColour="cyan", linecolour="#ABCDEF"];}');
+            var lAST = parser.parse('msc { a [textcolOUr="green", textBGColour="cyan", linecolour="#ABCDEF"];}');
             tst.assertequalJSON(lAST, fix.astColourColor());
         });
         it("should produce only 'true' or 'false' for all variants of wordwraparcs", function() {
