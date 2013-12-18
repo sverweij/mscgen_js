@@ -37,4 +37,42 @@ describe('ast2mscgen', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
     });
+    
+    describe('#renderAST() - xu compatible', function() {
+        it('alt only - render correct script', function() {
+            var lProgram = renderer.render(fix.astOneAlt());
+            var lExpectedProgram = 
+'msc {\n\
+  a,\n\
+  b,\n\
+  c;\n\
+\n\
+  a => b;\n\
+  b -- c;\n\
+    b => c;\n\
+    c >> b;\n\
+}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it('alt within loop - render correct script', function() {
+            var lProgram = renderer.render(fix.astAltWithinLoop());
+            var lExpectedProgram =
+'msc {\n\
+  a,\n\
+  b,\n\
+  c;\n\
+\n\
+  a => b;\n\
+  a -- c [label="label for loop"];\n\
+    b -- c [label="label for alt"];\n\
+      b -> c [label="-> within alt"];\n\
+      c >> b [label=">> within alt"];\n\
+    b >> a [label=">> within loop"];\n\
+  a =>> a [label="happy-the-peppy - outside"];\n\
+  ...;\n\
+}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+    });
+
 });
