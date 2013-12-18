@@ -39,13 +39,18 @@ define([], function() {
                         lArcRows[lRowCount] = pRowFunctionAry[lRowFuncCount](lArcRows[lRowCount], pEntities);
                     }
                 }
-                if (pFunctionAry) {
-                    for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
+
+                for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
+                    if (pFunctionAry) {
                         for ( lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
                             lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](lArcRows[lRowCount][lArcCount], pEntities, lArcRows[lRowCount]);
                         }
                     }
+                    if (lArcRows[lRowCount][lArcCount].arcs) {
+                        transformArcs(pEntities, lArcRows[lRowCount][lArcCount].arcs, pRowFunctionAry, pFunctionAry);
+                    }
                 }
+
             }
         }
         return lArcRows;
