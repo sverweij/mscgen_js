@@ -134,7 +134,25 @@ define(["./asttransform"], function(transform) {
         return transform.transform(pAST, [colorizeEntity], [colorizeArc]);
     }
 
+    function uncolorThing(pThing) {
+        var lThing = pThing;
+        delete lThing.linecolor;
+        delete lThing.textcolor;
+        delete lThing.textbgcolor;
+        delete lThing.arclinecolor;
+        delete lThing.arctextcolor;
+        delete lThing.arctextbgcolor;
+        return lThing;
+    }
+
+    function _uncolor(pAST) {
+        return transform.transform(pAST, [uncolorThing], [uncolorThing]);
+    }
+
     return {
+        uncolor : function(pAST) {
+            return _uncolor(pAST);
+        },
         colorize : function(pAST, pHardOverride, pEntityColorArray, pArcColorCombis) {
             return _colorize(pAST, pHardOverride, pEntityColorArray, pArcColorCombis);
         },
