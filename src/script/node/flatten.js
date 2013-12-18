@@ -86,7 +86,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     function calcNumberOfArcs(pArcRow) {
         var lRetval = pArcRow.arcs.length;
         for (var i = 0; i < pArcRow.arcs.length; i++) {
-            if ("arcspanning" === map.getAggregate(pArcRow.arcs[i][0].kind)){
+            if ("arcspanning" === map.getAggregate(pArcRow.arcs[i][0].kind)) {
                 lRetval += calcNumberOfArcs(pArcRow.arcs[i][0]);
             }
         }
@@ -149,6 +149,9 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         },
         flatten : function(pAST) {
             return transform.transform(_unwind(pAST), [nameAsLabel], [_swapRTLArc, overrideColors]);
+        },
+        dotFlatten : function(pAST) {
+            return transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]);
         }
     };
 });

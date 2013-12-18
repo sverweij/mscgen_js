@@ -14,25 +14,28 @@ if ( typeof define !== 'function') {
 define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) {
 
     var INDENT = "  ";
-
+    var gCounter = 0;
 
     function _renderAST(pAST) {
         var lRetVal = "graph {\n";
         lRetVal += INDENT + 'rankdir=LR\n';
         lRetVal += INDENT + 'splines=true\n';
         lRetVal += INDENT + 'ordering=out\n';
+        lRetVal += INDENT + 'fontname="Helvetica"\n';
+        lRetVal += INDENT + 'fontsize="9"\n';
         lRetVal += INDENT + 'node [style=filled, fillcolor=white fontname="Helvetica", fontsize="9" ]\n';
         lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n';
         lRetVal += "\n";
 
-        var lAST = flatten.flatten(pAST);
+        var lAST = flatten.dotFlatten(pAST);
 
         if (lAST) {
             if (lAST.entities) {
                 lRetVal += renderEntities(lAST.entities) + "\n";
             }
             if (lAST.arcs) {
-                lRetVal += renderArcLines(lAST.arcs);
+                gCounter = 0;
+                lRetVal += renderArcLines(lAST.arcs, "");
             }
         }
         return lRetVal += "}";
@@ -114,9 +117,10 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         return lArc;
     }
 
-    function renderArc(pArc, pCounter) {
+    function renderArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
         var lArc = pArc;
+        //JSON.parse(JSON.stringify(pArc));
         var lAttrs = [];
         var lAggregatedKind = map.getAggregate(pArc.kind);
 
@@ -127,7 +131,7 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
             pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
             pushAttribute(lAttrs, map.getShape(pArc.kind), "shape");
 
-            lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT;
+            lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
 
             lAttrs = [];
             pushAttribute(lAttrs, "dotted", "style");
@@ -158,26 +162,35 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
                     }
                     break;
             }
-            lRetVal += renderEntityName(lArc.from) + " ";
-            lRetVal += "--";
-            lRetVal += " " + renderEntityName(lArc.to);
-            lRetVal += renderAttributeBlock(lAttrs);
+            if (!pArc.arcs) {
+                lRetVal += renderEntityName(lArc.from) + " ";
+                lRetVal += "--";
+                lRetVal += " " + renderEntityName(lArc.to);
+                lRetVal += renderAttributeBlock(lAttrs);
+            }
         }
         return lRetVal;
     }
 
-    function renderArcLines(pArcs) {
+    function renderArcLines(pArcs, pIndent) {
         var lRetVal = "";
         var i = 0;
         var j = 0;
-        var lCounter = 0;
 
         if (pArcs.length > 0) {
             for ( i = 0; i < pArcs.length; i++) {
                 if (pArcs[i].length > 0) {
                     for ( j = 0; j < pArcs[i].length; j++) {
                         if (pArcs[i][j].from && pArcs[i][j].kind && pArcs[i][j].to) {
-                            lRetVal += INDENT + renderArc(pArcs[i][j], ++lCounter) + "\n";
+                            lRetVal += INDENT + pIndent + renderArc(pArcs[i][j], ++gCounter, pIndent) + "\n";
+                            if (pArcs[i][j].arcs) {
+                                lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
+                                if (pArcs[i][j].label) {
+                                   lRetVal += "\n" + INDENT + pIndent + ' label="' + pArcs[i][j].kind  + ": " + pArcs[i][j].label + '" labeljust="l" \n';
+                                }
+                                lRetVal += renderArcLines(pArcs[i][j].arcs, pIndent + INDENT);
+                                lRetVal += INDENT + pIndent + "}\n";
+                            }
                         }
                     }
                 }
