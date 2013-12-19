@@ -23,14 +23,15 @@ rest to a birth queue:
 
 ```mscgen
 msc {
-  a, b [label="change store"], c,
-  d [label="necro queue"], e [label="natalis queue"], f;
+  width=700, hscale=0.8;
+  a, b [label="change store"], c, d [label="necro queue"],
+  e [label="natalis queue"], f, g;
 
   a =>> b [label="get change list()"];
-  a alt f {
+  a alt g {
     b >> a [label="list of changes"];
     a =>> c [label="cull old stuff (list of changes)"];
-    b loop e {
+    b loop f {
       c =>> b [label="get change()"];
       b >> c [label="change"];
       c alt e {
