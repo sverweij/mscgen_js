@@ -3,6 +3,7 @@
 
 - Uses the [mscgen][1] mini language. 
 - Supports a [simplified subset of mscgen][5] for lazy bastards.
+- Supports a [superset of mscgen][29] for the feature hungry.
 - [Demo here][2]
 
 ## Sample
@@ -98,3 +99,4 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
 [26]: http://cs.brown.edu/~dap/
 [27]: https://npmjs.org/package/posix-getopt
 [28]: wikum/licenses/license.posix-getopt.md
+[29]: wikum/xu.md
