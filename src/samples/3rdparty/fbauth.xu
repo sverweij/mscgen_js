@@ -5,8 +5,7 @@ msc {
   browser [label=":WebBrowser"],
   app [label="Application"],
   fbauth [label="Facebook Authorization Server"],
-  fbcont [label="Facebook Content Server"],
-  actor;
+  fbcont [label="Facebook Content Server"];
 
   act => browser [label="get FB resource"];
   browser => app [label="request FB access"];
@@ -29,7 +28,9 @@ msc {
     --- [label="no permission"];
     browser => app [label="no authorization"];
     app >> browser [label="FB resource not available"];
-    app >> actor [label="FB resource not available"];
+    app >> act [label="FB resource not available"];
   } [label="permission granted"];
-  act ref browser;
+  act ref browser {
+     ...;
+  };
 }
