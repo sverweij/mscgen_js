@@ -292,7 +292,7 @@ module.exports = (function() {
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
-                    "numberofarcs" : "2"
+                    "numberofrows" : "2"
                 }], [{
                     "kind" : "=>",
                     "from" : "b",
@@ -372,13 +372,13 @@ module.exports = (function() {
                     "from" : "a",
                     "to" : "c",
                     "label" : "label for loop",
-                    "numberofarcs" : "4"
+                    "numberofrows" : "4"
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
-                    "numberofarcs" : "2"
+                    "numberofrows" : "2"
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -442,7 +442,7 @@ module.exports = (function() {
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for opt",
-                    "numberofarcs" : "1"
+                    "numberofrows" : "1"
                 }], [{
                     "kind" : "---",
                     "label" : "within opt",
