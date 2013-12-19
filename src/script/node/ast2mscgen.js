@@ -151,7 +151,7 @@ define(["./dotmap"], function(map) {
         return pKind;
     }
 
-    function renderArc(pArc, pIndent) {
+    function renderArc(pArc) {
         var lRetVal = "";
         if (pArc.from) {
             lRetVal += renderEntityName(pArc.from) + SP;
@@ -162,6 +162,7 @@ define(["./dotmap"], function(map) {
         if (pArc.to) {
             lRetVal += SP + renderEntityName(pArc.to);
         }
+        // different from xu: xu has the arc line rendering here
         lRetVal += renderAttributes(pArc);
 
         return lRetVal;
