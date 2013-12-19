@@ -292,7 +292,8 @@ module.exports = (function() {
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
-                    "numberofrows" : 2
+                    "numberofrows" : 2,
+                    "depth" : 0
                 }], [{
                     "kind" : "=>",
                     "from" : "b",
@@ -376,13 +377,15 @@ module.exports = (function() {
                     "from" : "a",
                     "to" : "c",
                     "label" : "label for loop",
-                    "numberofrows" : 5
+                    "numberofrows" : 5,
+                    "depth": 0
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
-                    "numberofrows" : 2
+                    "numberofrows" : 2,
+                    "depth": 1
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -454,7 +457,8 @@ module.exports = (function() {
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for opt",
-                    "numberofrows" : 1
+                    "numberofrows" : 1,
+                    "depth": 0
                 }], [{
                     "kind" : "---",
                     "label" : "within opt",

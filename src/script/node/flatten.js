@@ -93,7 +93,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return lRetval;
     }
 
-    function unwindArcRow(pArcRow, pAST, pFrom, pTo) {
+    function unwindArcRow(pArcRow, pAST, pFrom, pTo, pDepth) {
         var lArcCount;
         var lArcSpanningArc = {};
         if ("arcspanning" === map.getAggregate(pArcRow[0].kind)) {
@@ -102,10 +102,11 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
             if (lArcSpanningArc) {
                 if (lArcSpanningArc.arcs) {
                     lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
+                    lArcSpanningArc.depth = pDepth;
                     delete lArcSpanningArc.arcs;
                     pAST.arcs.push([lArcSpanningArc]);
                     for ( lArcCount = 0; lArcCount < pArcRow[0].arcs.length; lArcCount++) {
-                        unwindArcRow(pArcRow[0].arcs[lArcCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to);
+                        unwindArcRow(pArcRow[0].arcs[lArcCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to, ++pDepth);
                     }
                     pAST.arcs.push([{
                         kind : "|||",
@@ -140,7 +141,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
         if (pAST && pAST.arcs) {
             for ( lRowCount = 0; lRowCount < pAST.arcs.length; lRowCount++) {
-                unwindArcRow(pAST.arcs[lRowCount], lAST);
+                unwindArcRow(pAST.arcs[lRowCount], lAST, undefined, undefined, 0);
             }
         }
         return lAST;
