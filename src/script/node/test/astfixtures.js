@@ -292,7 +292,7 @@ module.exports = (function() {
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
-                    "numberofrows" : "2"
+                    "numberofrows" : 2
                 }], [{
                     "kind" : "=>",
                     "from" : "b",
@@ -301,6 +301,10 @@ module.exports = (function() {
                     "kind" : ">>",
                     "from" : "c",
                     "to" : "b"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "b",
+                    "to" : "c",
                 }]]
             };
         },
@@ -372,13 +376,13 @@ module.exports = (function() {
                     "from" : "a",
                     "to" : "c",
                     "label" : "label for loop",
-                    "numberofrows" : "4"
+                    "numberofrows" : 5
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
-                    "numberofrows" : "2"
+                    "numberofrows" : 2
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -390,10 +394,18 @@ module.exports = (function() {
                     "to" : "b",
                     "label" : ">> within alt"
                 }], [{
+                    "kind" : "|||",
+                    "from" : "b",
+                    "to" : "c",
+                }], [{
                     "kind" : ">>",
                     "from" : "b",
                     "to" : "a",
                     "label" : ">> within loop"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "c",
                 }], [{
                     "kind" : "=>>",
                     "from" : "a",
@@ -442,12 +454,16 @@ module.exports = (function() {
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for opt",
-                    "numberofrows" : "1"
+                    "numberofrows" : 1
                 }], [{
                     "kind" : "---",
                     "label" : "within opt",
                     "from" : "b",
                     "to" : "c"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "b",
+                    "to" : "c",
                 }], [{
                     "kind" : "---",
                     "label" : "outside opt"

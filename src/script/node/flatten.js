@@ -83,11 +83,11 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return lArc;
     }
 
-    function calcNumberOfArcs(pArcRow) {
+    function calcNumberOfRows(pArcRow) {
         var lRetval = pArcRow.arcs.length;
         for (var i = 0; i < pArcRow.arcs.length; i++) {
             if (pArcRow.arcs[i][0].arcs) {
-                lRetval += calcNumberOfArcs(pArcRow.arcs[i][0]);
+                lRetval += calcNumberOfRows(pArcRow.arcs[i][0]) + 1;
             }
         }
         return lRetval;
@@ -101,12 +101,18 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
             if (lArcSpanningArc) {
                 if (lArcSpanningArc.arcs) {
-                    lArcSpanningArc.numberofrows = calcNumberOfArcs(lArcSpanningArc).toString(10);
+                    lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
                     delete lArcSpanningArc.arcs;
                     pAST.arcs.push([lArcSpanningArc]);
                     for ( lArcCount = 0; lArcCount < pArcRow[0].arcs.length; lArcCount++) {
                         unwindArcRow(pArcRow[0].arcs[lArcCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to);
                     }
+                    pAST.arcs.push([{
+                        kind : "|||",
+                        from : lArcSpanningArc.from,
+                        to : lArcSpanningArc.to,
+                        // label : lArcSpanningArc.kind.toUpperCase() + " end"
+                    }]);
                 } else {
                     pAST.arcs.push([lArcSpanningArc]);
                 }
