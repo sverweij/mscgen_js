@@ -124,7 +124,7 @@ define([], function() {
         return _createPath(lPathString, pClass);
     }
 
-    function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
+    function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         var lText = gDocument.createElementNS(SVGNS, "text");
         var lTSpanLabel = gDocument.createElementNS(SVGNS, "tspan");
         var lTSpanID = gDocument.createElementNS(SVGNS, "tspan");
@@ -166,14 +166,6 @@ define([], function() {
             }
         }
         return lText;
-    }
-
-    function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        // var lSwitch = gDocument.createElementNS(SVGNS, "switch");
-        // lSwitch.appendChild(createTextForeign(pLabel, pX, pY, pClass, pURL, pIDURL));
-        // lSwitch.appendChild(createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL));
-        // return lSwitch;
-        return createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
     }
 
     function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
