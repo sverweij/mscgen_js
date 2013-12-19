@@ -1,6 +1,6 @@
 # Critical region
 # Source: Figure 14.9 
-# from the UML Sperstructure Specification, v2.4.1
+# from the UML Superstructure Specification, v2.4.1
 
 msc {
   Emergency,
