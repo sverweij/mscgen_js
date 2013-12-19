@@ -387,7 +387,6 @@ function unColorizeOnClick(pHardOverride){
         }
     } catch(e) {
         // do nothing
-        console.log(e.toString());
     }
 }
 
