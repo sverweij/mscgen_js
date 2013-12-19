@@ -198,7 +198,7 @@ spanarctoken    "arc spanning box"
                 = kind:("alt"i / "else"i/ "opt"i / "break"i /"par"i
                   / "seq"i / "strict"i / "neg"i / "critical"i 
                   / "ignore"i / "consider"i / "assert"i
-                  / "loop"i / "ref"i
+                  / "loop"i / "ref"i / "exc"i
                   )
                  {return kind.toLowerCase()}
 string          = quotedstring / unquotedstring

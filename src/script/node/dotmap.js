@@ -64,7 +64,8 @@ define([], function() {
         "consider" : "arcspanning",
         "assert" : "arcspanning",
         "loop" : "arcspanning",
-        "ref" : "arcspanning"
+        "ref" : "arcspanning",
+        "exc" : "arcspanning"
     };
     function _determineArcClass(pKind, pFrom, pTo) {
         var arc2class = {
