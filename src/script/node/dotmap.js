@@ -29,9 +29,9 @@ define([], function() {
         "rbox" : "rounded"
     };
     var KIND2AGGREGATE = {
-        "|||": "emptyarc",
-        "...": "emptyarc",
-        "---": "emptyarc",
+        "|||" : "emptyarc",
+        "..." : "emptyarc",
+        "---" : "emptyarc",
         "->" : "directional",
         "=>" : "directional",
         "=>>" : "directional",
@@ -52,17 +52,57 @@ define([], function() {
         ".." : "nondirectional",
         "::" : "nondirectional",
         "alt" : "arcspanning",
+        "else" : "arcspanning",
         "opt" : "arcspanning",
+        "break" : "arcspanning",
         "par" : "arcspanning",
-        "loop" : "arcspanning",
-        "critical" : "arcspanning",
-        "neg" : "arcspanning",
-        "assert" : "arcspanning",
-        "strict" : "arcspanning",
         "seq" : "arcspanning",
+        "strict" : "arcspanning",
+        "neg" : "arcspanning",
+        "critical" : "arcspanning",
         "ignore" : "arcspanning",
-        "consider" : "arcspanning"
+        "consider" : "arcspanning",
+        "assert" : "arcspanning",
+        "loop" : "arcspanning",
+        "ref" : "arcspanning"
     };
+    function _determineArcClass(pKind, pFrom, pTo) {
+        var arc2class = {
+            "->" : "signal",
+            "<->" : "signal-both",
+            "=>" : "method",
+            "<=>" : "method-both",
+            ">>" : "returnvalue",
+            "<<>>" : "returnvalue-both",
+            ".." : "dotted",
+            "=>>" : "callback",
+            "<<=>>" : "callback-both",
+            ":>" : "emphasised",
+            "<:>" : "emphasised-both",
+            "::" : "double",
+            "-x" : "lost"
+        };
+        var lRetval = "";
+        if (pKind && arc2class[pKind]) {
+            lRetval = arc2class[pKind];
+            if (pFrom && pTo) {
+                if (pFrom >= pTo) {
+                    if (lRetval === "signal") {
+                        lRetval = "signal-u";
+                    }
+                    if (lRetval === "signal-both") {
+                        if (pFrom === pTo) {
+                            lRetval = "signal-both-self";
+                        } else {
+                            lRetval = "signal-both-u";
+                        }
+                    }
+                }
+            }
+        }
+        return lRetval;
+    }
+
     return {
         getArrow : function(pKey) {
             return KIND2ARROW[pKey];
@@ -75,6 +115,9 @@ define([], function() {
         },
         getAggregate : function(pKey) {
             return KIND2AGGREGATE[pKey];
+        },
+        determineArcClass : function(pKind, pFrom, pTo) {
+            return _determineArcClass(pKind, pFrom, pTo);
         }
     };
 
