@@ -47,7 +47,7 @@ define([], function() {
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);
         }
-        
+
         return lRetval;
     }
 
@@ -211,10 +211,7 @@ define([], function() {
         }
     }
 
-    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
-    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
-    // </marker>
-    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
+    function kind2Attributes(pKind) {
         var lKind2Attrs = {
             "->" : {
                 pathEnd : "M 9 3 l -8 2",
@@ -281,18 +278,26 @@ define([], function() {
                 headclass : "arrow-style inherit"
             }
         };
-        var lDefaultAttrs = {
-            linestyle : "stroke: inherit;",
-            headclass : "arrow-style inherit"
-        };
+        var lAttrs = lKind2Attrs[pKind];
+        if (lAttrs === undefined) {
+            return {
+                linestyle : "stroke: inherit;",
+                headclass : "arrow-style inherit"
+            };
+        } else {
+            return lAttrs;
+        }
+    }
+
+    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
+    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
+    // </marker>
+    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
 
         var lLine = _createLine(pX1, pY1, pX2, pY2, undefined, pKind.indexOf(":") > -1);
-        var lAttrs = lKind2Attrs[pKind];
+        var lAttrs = kind2Attributes(pKind);
         var lArrowGroup = _createGroup(pId);
 
-        if (lAttrs === undefined) {
-            lAttrs = lDefaultAttrs;
-        }
         if (lAttrs.pathEnd) {
             if (lAttrs.headclass) {
                 lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, lAttrs.headclass));
