@@ -356,7 +356,7 @@ function renderArcs(pArcs, pEntities) {
                         });
                         break;
                     case("arcspanning"):
-                        lElement = renderArcSpanningArcLabel(lCurrentId + "_label", pArcs[i][j]); 
+                        lElement = renderArcSpanningArcLabel(lCurrentId + "_label", pArcs[i][j]);
                         lRowMemory.push({
                             id : lCurrentId + "_label",
                             layer : notelayer
