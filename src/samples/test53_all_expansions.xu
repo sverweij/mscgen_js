@@ -11,8 +11,7 @@ msc {
     b => f [label="do something nifty"];
     --- [label="ELSE: but using a simple 'comment' construct"];
     e neg i {
-       ||| [label="you shouldn't do this"];
-       g =>> *;
+       g =>> *[label="you shouldn't do this"];
     } [label="e neg i"];
     ---;
     b opt l {
