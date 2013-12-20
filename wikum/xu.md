@@ -52,10 +52,70 @@ msc {
 
 ![renedered](xusample.png)
 
+## Syntax
+As you can see, the syntax of the inline expressions is very similar to that
+of regular arcs, the only difference being that inline expressions have a (mandatory)
+section of arcs, enclosed by curly brackets.
+
+```peg
+spanarc         = 
+ _ from:identifier _ kind:spanarctoken _ to:identifier _ "{" _ arclist _ "}" _ ("[" attributelist "]")? _ ";"
+```
+
+To compare, this is how a regular arc looks:
+```peg
+regulararc      =
+_ from:identifier _ kind:arctoken      _ to:identifier _                       ("[" attributelist "]")? _ ";"
+```
+
+Some more examples
+```mscgen
+break {
+   a => b [label="Can you do this?"];
+   b >> a [label="Fatal error"];
+};
+```
+
+Arguments go into the label as free text. 
+```mscgen
+loop {
+  a => beach [label="get grain"];
+  a => progeny [label="add"];
+} [label="for each grain of sand on the beach"];
+```
+
+
+```mscgen
+alt {
+  john =>> shed [label="get(bike)"];
+  shed >> john [label="bike"];
+  john =>> bike [label="use"];
+  --- [label="else"];
+  ||| [label="john stays at home"];
+}[label="wheather is nice"];
+```
+
+To separate sections to execute in parallel you can use a comment line, like so:
+```mscgen
+par {
+  a => b;
+  b >> a;
+  ---;
+  a => c;
+  c => d;
+}
+
+## msgenny
+Also supports.
+
+## compatibility with mscgen
+```ast2mscgen``` handles by translating inline expressions to horizontal lines ("--") 
+
+
 ## Supported inline expressions
 
 <table>
-    <tr><th>feature</th><th>SDL 2.3 inline expression</th><th>UML 2 combined fragment</th><th>xù</th></tr>
+    <tr><th>feature</th><th>SDL-RT 2.3 inline expression</th><th>UML 2 combined fragment</th><th>xù</th></tr>
     <tr>
         <td>Alternatives - if with an optional else</td>
         <td>alt</td>
@@ -107,7 +167,7 @@ msc {
         <td><code>critical</code></td>
     </tr>
     <tr>
-        <td>Critical region - this is important, execute at once</td>
+        <td>Ignore/ consider</td>
         <td>_not available_</td>
         <td>ignore, consider</td>
         <td><code>consider</code><br>
