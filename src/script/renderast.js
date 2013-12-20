@@ -356,6 +356,11 @@ function renderArcs(pArcs, pEntities) {
                         });
                         break;
                     case("arcspanning"):
+                        lElement = renderArcSpanningArcLabel(lCurrentId + "_label", pArcs[i][j]); 
+                        lRowMemory.push({
+                            id : lCurrentId + "_label",
+                            layer : notelayer
+                        });
                         lArcSpannerMemory.push({
                             id : lCurrentId,
                             arc : pArcs[i][j],
@@ -428,6 +433,33 @@ function renderArcs(pArcs, pEntities) {
     } // if pArcs
 } // function
 
+function renderArcSpanningArcLabel (pId, pArc){
+    var lFrom = gEntity2X[pArc.from];
+    var lTo = gEntity2X[pArc.to];
+    if (lFrom > lTo){
+        var lTmp = lFrom; lFrom = lTo; lTo = lTmp;
+    }
+    var lMaxWidth = lTo - lFrom - 2*LINE_WIDTH;
+    
+    var lStart = (lFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
+    var lGroup = utl.createGroup(pId);
+    pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
+    var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth/2), ARCROW_HEIGHT/4, lMaxWidth, "anchor-start" /*, class */);
+    var lBBox = utl.getBBox(lTextGroup);
+    
+    var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT/2 - 2*LINE_WIDTH);
+    var lWidth = Math.min(lBBox.width + 2*LINE_WIDTH, lMaxWidth);
+    
+    var lBox = utl.createRect(lWidth, lHeight, "box", lStart, 0);
+    colorBox (lBox, pArc);
+    lGroup.appendChild(lBox);
+    lGroup.appendChild(lTextGroup);
+
+    return lGroup;
+
+    // return createBox(pId, gEntity2X[pArc.from], gEntity2X[pArc.from], pArc, DEFAULT_ENTITY_HEIGHT/2);
+}
+
 function renderArcSpanningArcs(pArcSpanningArcs){
     var defs = gDocument.getElementById("__defs");
     var arcspanlayer = gDocument.getElementById("__arcspanlayer");
@@ -435,7 +467,6 @@ function renderArcSpanningArcs(pArcSpanningArcs){
     for (var n = 0; n < pArcSpanningArcs.length; n++){
         defs.appendChild(renderArcSpanningArc(pArcSpanningArcs[n]));
         arcspanlayer.appendChild(utl.createUse(0,getRowInfo(pArcSpanningArcs[n].rownum).y, pArcSpanningArcs[n].id));
-        // arcspanlayer.appendChild(utl.createUse(0,getRowInfo(pArcSpanningArcs[n].rownum + pArcSpanningArcs[n].arc.numberofrows + 1).y, pArcSpanningArcs[n].id));
     }
 }
 
@@ -443,10 +474,8 @@ function renderArcSpanningArc(pArcMem) {
     var lFromY = getRowInfo(pArcMem.rownum).y;
     var lToY = getRowInfo(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
     var lHeight = lToY - lFromY;
-
-    pArcMem.arc.label = pArcMem.arc.kind.toUpperCase() + (pArcMem.arc.label ? ": " + pArcMem.arc.label : "");
-    // return createComment(pArcMem.id, pArcMem.arc);
-    // createBox (pId, pFrom, pTo, pArc) 
+    pArcMem.arc.label = "";
+    
     return createBox(pArcMem.id, gEntity2X[pArcMem.arc.from], gEntity2X[pArcMem.arc.to], pArcMem.arc, lHeight);
 }
 
@@ -590,6 +619,11 @@ function createArc (pId, pArc, pFrom, pTo) {
 
 function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
     var lGroup = utl.createGroup(pId);
+/* pArc:
+ *   label & id
+ *   url & idurl
+ *   kind (boxes get auto wrapped)
+ */
 
     if (pArc.label) {
         var lMiddle = pStartX + (pWidth/2);
@@ -601,7 +635,7 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         var lLines = pArc.label.split('\\n');
         var lMaxTextWidthInChars = txt.determineMaxTextWidth(pWidth);
         switch(pArc.kind){
-            case("box"): case("rbox"): case("abox"): case("note"): case ("alt"): case(undefined):
+            case("box"): case("rbox"): case("abox"): case("note"): case(undefined):
                 lLines = txt.wrap(pArc.label, lMaxTextWidthInChars);
                 break;
             default:
@@ -613,15 +647,13 @@ function createTextLabel (pId, pArc, pStartX, pStartY, pWidth, pClass) {
         pStartY = pStartY - (((lLines.length-1)*gTextHeight)/2) - ((lLines.length-1)/2);
         for (var i = 0; i < lLines.length; i++) {
             var lText = {};
-            var lBBox = {};
             if (i===0){
                 lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url, pArc.id, pArc.idurl);
-                lBBox = utl.getBBox(lText);
             } else {
                 pStartY += 1;
                 lText = utl.createText(lLines[i], lMiddle, pStartY + gTextHeight/4 + (i*gTextHeight), pClass, pArc.url);
-                lBBox = utl.getBBox(lText);
             }
+            var lBBox = utl.getBBox(lText);
             
             var lRect = utl.createRect(lBBox.width, lBBox.height, "textbg", lBBox.x, lBBox.y);
             colorText(lText, pArc);
