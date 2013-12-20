@@ -173,7 +173,7 @@ release: $(VERSIONEMBEDDABLESOURCES)
 	$(GIT) push --tags
 
 report:
-	$(PLATO) -r -d platoreports -x "jquery|parser|test" src/script/
+	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli" src/script/
 
 test:
 	# $(MOCHA) -R spec src/script/node/test/
