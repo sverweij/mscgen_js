@@ -1,0 +1,77 @@
+# test53 - all xu expansions
+msc {
+  hscale="0.4",
+  width="700",
+  wordwraparcs="true",
+  arcgradient="10";
+
+  a, b, c, d, e, f, g, h, i, j, k, l, m;
+
+  a alt m {
+    b => f [label="do something nifty"];
+    --- [label="ELSE: but using a simple 'comment' construct"];
+    e neg i {
+       g =>> *[label="you shouldn't do this"];
+    } [label="e neg i"];
+    ---;
+    b opt l {
+      b break d {
+        d >> b [label="story's over"];
+        b note d [label="nothing after this will get executed ..."];
+      } [label="b break d", linecolor="red", textcolor="red",
+         arclinecolor="red", arctextcolor="red"];
+      c par l {
+        d seq l {
+          e -> f;
+          f >> e, f ->h;
+          h -> k;
+          k -> f;
+          f -> f;
+        } [label="d seq l", textbgcolor="#AAAAFF", textcolor="white"];
+        --- [label="just a comment again"];
+        d strict l {
+          e ignore k {
+            |||;
+          } [label="outcomes between 1 and 100"];
+          e consider k {
+            e critical k {
+              g >> a [label="alarm"];
+            } [label="e critickal k - everything > 481"];
+          } [label="e consider k outcomes below 1 and above 100"];
+        } [label="d strict l", textbgcolor="black", textcolor="yellow"];
+        f assert j {
+          g loop i {
+            i ref g {
+              |||;
+            } [label="ref is not in UML, afaik, but in here anyway"];
+          } [label="g loop i - for every eventuality"];
+        } [label="f assert j"];
+      } [label="c par l", 
+          textbgcolor="#FFFFAA", textcolor="#FF7700",
+          linecolor="#777700",
+          arctextbgcolor="#FFAAAA", arctextcolor="#FF0000",
+          arclinecolor="#770000"
+          ];
+    } [label="b opt l"];
+  } [label="a alt m", textbgcolor="#DDFFDD"];
+  m else a {
+    ||| [label="else is in the specification, but a simple --- alsow works nicely"];
+  } [label="l else b", textbgcolor="#FFDDDD"];
+}
+
+/*
+    This file is part of mscgen_js.
+
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+*/
