@@ -441,7 +441,7 @@ function renderArcSpanningArcLabel (pId, pArc){
     }
     var lMaxWidth = lTo - lFrom - 2*LINE_WIDTH;
     
-    var lStart = (lFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
+    var lStart = (lFrom - ((INTER_ENTITY_SPACING - 3*LINE_WIDTH)/2));
     var lGroup = utl.createGroup(pId);
     pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
     var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth/2), ARCROW_HEIGHT/4, lMaxWidth, "anchor-start" /*, class */);
@@ -450,7 +450,7 @@ function renderArcSpanningArcLabel (pId, pArc){
     var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT/2 - 2*LINE_WIDTH);
     var lWidth = Math.min(lBBox.width + 2*LINE_WIDTH, lMaxWidth);
     
-    var lBox = utl.createRect(lWidth, lHeight, "box", lStart, 0);
+    var lBox = utl.createEdgeRemark(lWidth + 5, lHeight, "box", lStart, 0);
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
     lGroup.appendChild(lTextGroup);

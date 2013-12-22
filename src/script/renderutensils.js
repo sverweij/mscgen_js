@@ -123,6 +123,25 @@ define([], function() {
 
         return _createPath(lPathString, pClass);
     }
+    
+    function _createEdgeRemark(pWidth, pHeight, pClass, pX, pY) {
+        var lFoldSize = "7";
+        // M-28,0 l112.91796875,0 l0,l9,-9l-103.91796875,0 l0,17
+        // start: 
+        var lPathString = "M" + pX + "," + pY;
+        // top line:
+        lPathString += " l" + pWidth + ",0 ";
+        // down:
+        lPathString += " l0," + (pHeight - lFoldSize);
+        // fold:
+        lPathString += " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10);
+        // bottom line:
+        lPathString += " l-" + (pWidth - lFoldSize) + ",0 ";
+        // back to home:
+        lPathString += "H";
+
+        return _createPath(lPathString, pClass);
+    }
 
     function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         var lText = gDocument.createElementNS(SVGNS, "text");
@@ -401,6 +420,9 @@ define([], function() {
         },
         createNote : function(pWidth, pHeight, pClass, pX, pY) {
             return _createNote(pWidth, pHeight, pClass, pX, pY);
+        }, 
+        createEdgeRemark : function(pWidth, pHeight, pClass, pX, pY) {
+           return _createEdgeRemark(pWidth, pHeight, pClass, pX, pY);
         },
         createText : function(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
             return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
