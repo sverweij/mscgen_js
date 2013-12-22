@@ -47,7 +47,7 @@ define([], function() {
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);
         }
-        
+
         return lRetval;
     }
 
@@ -123,8 +123,27 @@ define([], function() {
 
         return _createPath(lPathString, pClass);
     }
+    
+    function _createEdgeRemark(pWidth, pHeight, pClass, pX, pY) {
+        var lFoldSize = "7";
+        // M-28,0 l112.91796875,0 l0,l9,-9l-103.91796875,0 l0,17
+        // start: 
+        var lPathString = "M" + pX + "," + pY;
+        // top line:
+        lPathString += " l" + pWidth + ",0 ";
+        // down:
+        lPathString += " l0," + (pHeight - lFoldSize);
+        // fold:
+        lPathString += " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10);
+        // bottom line:
+        lPathString += " l-" + (pWidth - lFoldSize) + ",0 ";
+        // back to home:
+        lPathString += "H";
 
-    function createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
+        return _createPath(lPathString, pClass);
+    }
+
+    function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         var lText = gDocument.createElementNS(SVGNS, "text");
         var lTSpanLabel = gDocument.createElementNS(SVGNS, "tspan");
         var lTSpanID = gDocument.createElementNS(SVGNS, "tspan");
@@ -166,14 +185,6 @@ define([], function() {
             }
         }
         return lText;
-    }
-
-    function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        // var lSwitch = gDocument.createElementNS(SVGNS, "switch");
-        // lSwitch.appendChild(createTextForeign(pLabel, pX, pY, pClass, pURL, pIDURL));
-        // lSwitch.appendChild(createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL));
-        // return lSwitch;
-        return createTextNative(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
     }
 
     function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
@@ -219,10 +230,7 @@ define([], function() {
         }
     }
 
-    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
-    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
-    // </marker>
-    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
+    function kind2Attributes(pKind) {
         var lKind2Attrs = {
             "->" : {
                 pathEnd : "M 9 3 l -8 2",
@@ -289,18 +297,26 @@ define([], function() {
                 headclass : "arrow-style inherit"
             }
         };
-        var lDefaultAttrs = {
-            linestyle : "stroke: inherit;",
-            headclass : "arrow-style inherit"
-        };
+        var lAttrs = lKind2Attrs[pKind];
+        if (lAttrs === undefined) {
+            return {
+                linestyle : "stroke: inherit;",
+                headclass : "arrow-style inherit"
+            };
+        } else {
+            return lAttrs;
+        }
+    }
+
+    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
+    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
+    // </marker>
+    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
 
         var lLine = _createLine(pX1, pY1, pX2, pY2, undefined, pKind.indexOf(":") > -1);
-        var lAttrs = lKind2Attrs[pKind];
+        var lAttrs = kind2Attributes(pKind);
         var lArrowGroup = _createGroup(pId);
 
-        if (lAttrs === undefined) {
-            lAttrs = lDefaultAttrs;
-        }
         if (lAttrs.pathEnd) {
             if (lAttrs.headclass) {
                 lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, lAttrs.headclass));
@@ -404,6 +420,9 @@ define([], function() {
         },
         createNote : function(pWidth, pHeight, pClass, pX, pY) {
             return _createNote(pWidth, pHeight, pClass, pX, pY);
+        }, 
+        createEdgeRemark : function(pWidth, pHeight, pClass, pX, pY) {
+           return _createEdgeRemark(pWidth, pHeight, pClass, pX, pY);
         },
         createText : function(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
             return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL);

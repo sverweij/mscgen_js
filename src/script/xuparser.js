@@ -1825,8 +1825,10 @@ define ([], function(){
       
       function parse_spanarctoken() {
         var result0;
+        var pos0;
         
         reportFailures++;
+        pos0 = pos;
         if (input.substr(pos, 3).toLowerCase() === "alt") {
           result0 = input.substr(pos, 3);
           pos += 3;
@@ -1837,83 +1839,83 @@ define ([], function(){
           }
         }
         if (result0 === null) {
-          if (input.substr(pos, 3).toLowerCase() === "opt") {
-            result0 = input.substr(pos, 3);
-            pos += 3;
+          if (input.substr(pos, 4).toLowerCase() === "else") {
+            result0 = input.substr(pos, 4);
+            pos += 4;
           } else {
             result0 = null;
             if (reportFailures === 0) {
-              matchFailed("\"opt\"");
+              matchFailed("\"else\"");
             }
           }
           if (result0 === null) {
-            if (input.substr(pos, 3).toLowerCase() === "par") {
+            if (input.substr(pos, 3).toLowerCase() === "opt") {
               result0 = input.substr(pos, 3);
               pos += 3;
             } else {
               result0 = null;
               if (reportFailures === 0) {
-                matchFailed("\"par\"");
+                matchFailed("\"opt\"");
               }
             }
             if (result0 === null) {
-              if (input.substr(pos, 4).toLowerCase() === "loop") {
-                result0 = input.substr(pos, 4);
-                pos += 4;
+              if (input.substr(pos, 5).toLowerCase() === "break") {
+                result0 = input.substr(pos, 5);
+                pos += 5;
               } else {
                 result0 = null;
                 if (reportFailures === 0) {
-                  matchFailed("\"loop\"");
+                  matchFailed("\"break\"");
                 }
               }
               if (result0 === null) {
-                if (input.substr(pos, 8).toLowerCase() === "critical") {
-                  result0 = input.substr(pos, 8);
-                  pos += 8;
+                if (input.substr(pos, 3).toLowerCase() === "par") {
+                  result0 = input.substr(pos, 3);
+                  pos += 3;
                 } else {
                   result0 = null;
                   if (reportFailures === 0) {
-                    matchFailed("\"critical\"");
+                    matchFailed("\"par\"");
                   }
                 }
                 if (result0 === null) {
-                  if (input.substr(pos, 3).toLowerCase() === "neg") {
+                  if (input.substr(pos, 3).toLowerCase() === "seq") {
                     result0 = input.substr(pos, 3);
                     pos += 3;
                   } else {
                     result0 = null;
                     if (reportFailures === 0) {
-                      matchFailed("\"neg\"");
+                      matchFailed("\"seq\"");
                     }
                   }
                   if (result0 === null) {
-                    if (input.substr(pos, 6).toLowerCase() === "assert") {
+                    if (input.substr(pos, 6).toLowerCase() === "strict") {
                       result0 = input.substr(pos, 6);
                       pos += 6;
                     } else {
                       result0 = null;
                       if (reportFailures === 0) {
-                        matchFailed("\"assert\"");
+                        matchFailed("\"strict\"");
                       }
                     }
                     if (result0 === null) {
-                      if (input.substr(pos, 6).toLowerCase() === "strict") {
-                        result0 = input.substr(pos, 6);
-                        pos += 6;
+                      if (input.substr(pos, 3).toLowerCase() === "neg") {
+                        result0 = input.substr(pos, 3);
+                        pos += 3;
                       } else {
                         result0 = null;
                         if (reportFailures === 0) {
-                          matchFailed("\"strict\"");
+                          matchFailed("\"neg\"");
                         }
                       }
                       if (result0 === null) {
-                        if (input.substr(pos, 3).toLowerCase() === "seq") {
-                          result0 = input.substr(pos, 3);
-                          pos += 3;
+                        if (input.substr(pos, 8).toLowerCase() === "critical") {
+                          result0 = input.substr(pos, 8);
+                          pos += 8;
                         } else {
                           result0 = null;
                           if (reportFailures === 0) {
-                            matchFailed("\"seq\"");
+                            matchFailed("\"critical\"");
                           }
                         }
                         if (result0 === null) {
@@ -1936,6 +1938,50 @@ define ([], function(){
                                 matchFailed("\"consider\"");
                               }
                             }
+                            if (result0 === null) {
+                              if (input.substr(pos, 6).toLowerCase() === "assert") {
+                                result0 = input.substr(pos, 6);
+                                pos += 6;
+                              } else {
+                                result0 = null;
+                                if (reportFailures === 0) {
+                                  matchFailed("\"assert\"");
+                                }
+                              }
+                              if (result0 === null) {
+                                if (input.substr(pos, 4).toLowerCase() === "loop") {
+                                  result0 = input.substr(pos, 4);
+                                  pos += 4;
+                                } else {
+                                  result0 = null;
+                                  if (reportFailures === 0) {
+                                    matchFailed("\"loop\"");
+                                  }
+                                }
+                                if (result0 === null) {
+                                  if (input.substr(pos, 3).toLowerCase() === "ref") {
+                                    result0 = input.substr(pos, 3);
+                                    pos += 3;
+                                  } else {
+                                    result0 = null;
+                                    if (reportFailures === 0) {
+                                      matchFailed("\"ref\"");
+                                    }
+                                  }
+                                  if (result0 === null) {
+                                    if (input.substr(pos, 3).toLowerCase() === "exc") {
+                                      result0 = input.substr(pos, 3);
+                                      pos += 3;
+                                    } else {
+                                      result0 = null;
+                                      if (reportFailures === 0) {
+                                        matchFailed("\"exc\"");
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
                           }
                         }
                       }
@@ -1945,6 +1991,12 @@ define ([], function(){
               }
             }
           }
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, kind) {return kind.toLowerCase()})(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
         }
         reportFailures--;
         if (reportFailures === 0 && result0 === null) {

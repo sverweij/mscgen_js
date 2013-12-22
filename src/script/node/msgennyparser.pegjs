@@ -195,9 +195,12 @@ bckarrowtoken   "right to left arrow"
 boxtoken        "box"
                 = "note"i / "abox"i / "rbox"i / "box"i
 spanarctoken    "arc spanning box"
-                = "alt"i / "opt"i / "par"i / "loop"i
-                  / "critical"i / "neg"i /"assert"i / "strict"i
-                  / "seq"i / "ignore"i / "consider"i
+                = kind:("alt"i / "else"i/ "opt"i / "break"i /"par"i
+                  / "seq"i / "strict"i / "neg"i / "critical"i 
+                  / "ignore"i / "consider"i / "assert"i
+                  / "loop"i / "ref"i / "exc"i
+                  )
+                 {return kind.toLowerCase()}
 string          = quotedstring / unquotedstring
 quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*

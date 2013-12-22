@@ -32,23 +32,7 @@ msc {
         a note a [label="silent exit"];
 
     }[label="changes found"];
-
 }
-
-/*
-alt
-opt
-par
-loop
-critical
-neg
-assert
-strict
-seq
-ignore
-consider
-*/
-
 /*
     This file is part of mscgen_js.
 

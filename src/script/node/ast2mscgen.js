@@ -44,7 +44,7 @@ define(["./dotmap"], function(map) {
                 lRetVal += renderEntities(pAST.entities) + EOL;
             }
             if (pAST.arcs) {
-                lRetVal += renderArcLines(pAST.arcs);
+                lRetVal += renderArcLines(pAST.arcs, INDENT);
             }
         }
         return lRetVal += "}";
@@ -140,10 +140,14 @@ define(["./dotmap"], function(map) {
 
     function renderKind(pKind) {
         if (true === gMinimal) {
-            if ("box" === map.getAggregate(pKind) ){
+            if ("box" === map.getAggregate(pKind)) {
                 return " " + pKind + " ";
             }
         }
+        if ("arcspanning" === map.getAggregate(pKind)) {// different from xu
+            return "--";// /*" + pKind + "*/";
+            // different from xu
+        }// different from xu
         return pKind;
     }
 
@@ -158,11 +162,13 @@ define(["./dotmap"], function(map) {
         if (pArc.to) {
             lRetVal += SP + renderEntityName(pArc.to);
         }
+        // different from xu: xu has the arc line rendering here
         lRetVal += renderAttributes(pArc);
+
         return lRetVal;
     }
 
-    function renderArcLines(pArcs) {
+    function renderArcLines(pArcs, pIndent) {
         var lRetVal = "";
         var i = 0;
         var j = 0;
@@ -171,9 +177,14 @@ define(["./dotmap"], function(map) {
             for ( i = 0; i < pArcs.length; i++) {
                 if (pArcs[i].length > 0) {
                     for ( j = 0; j < pArcs[i].length - 1; j++) {
-                        lRetVal += INDENT + renderArc(pArcs[i][j]) + "," + EOL;
+                        lRetVal += pIndent + renderArc(pArcs[i][j], pIndent) + "," + EOL;
                     }
-                    lRetVal += INDENT + renderArc(pArcs[i][pArcs[i].length - 1]) + ";" + EOL;
+                    lRetVal += pIndent + renderArc(pArcs[i][pArcs[i].length - 1], pIndent) + ";" + EOL;
+                    if (pArcs[i][pArcs[i].length - 1].arcs) {// different from xu: in xu this is in renderArc
+                        // lRetVal += ";\n"; // different from xu
+                        lRetVal += renderArcLines(pArcs[i][pArcs[i].length - 1].arcs, pIndent + INDENT); // different from xu - no extra indent
+                        // lRetVal += pIndent + "}"; // different from xu
+                    }
                 }
             }
         }

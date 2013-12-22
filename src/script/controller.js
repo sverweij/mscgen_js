@@ -135,14 +135,18 @@ function setupEvents () {
                     gaga.g('send', 'event', 'colorize', 'button');
                 }
     });
+    $("#__btn_uncolorize").bind({
+        click : function(e) {
+                    unColorizeOnClick(false);
+                    gaga.g('send', 'event', 'uncolorize', 'button');
+                }
+    });
     $("#__btn_colorize_hard").bind({
         click : function(e) {
                     colorizeOnClick(true);
                     gaga.g('send', 'event', 'colorize_hard', 'button');
                 }
     });
-
-
     $("#__btn_weigh").bind({
         click : function(e) {
                     weighOnClick();
@@ -364,20 +368,38 @@ function colorizeOnClick(pHardOverride){
     
         if (lAST !== {}){
             lAST = colorize.colorize(lAST, pHardOverride);
-            
-            if ("msgenny" === gLanguage){
-                gCodeMirror.setValue(tomsgenny.render(lAST));
-            } else if ("json" === gLanguage){
-                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
-            } else {
-                gCodeMirror.setValue(tomscgen.render(lAST));
-            }
+            reRenderSource(lAST);
         }
     } catch(e) {
         // do nothing
     }
-    
 }
+
+function unColorizeOnClick(pHardOverride){
+    var lAST = {};
+    
+    try {
+        lAST = getAST(gLanguage);
+    
+        if (lAST !== {}){
+            lAST = colorize.uncolor(lAST, pHardOverride);
+            reRenderSource(lAST);
+        }
+    } catch(e) {
+        // do nothing
+    }
+}
+
+function reRenderSource(pAST){
+    if ("msgenny" === gLanguage){
+        gCodeMirror.setValue(tomsgenny.render(pAST));
+    } else if ("json" === gLanguage){
+        gCodeMirror.setValue(JSON.stringify(pAST, null, "  "));
+    } else {
+        gCodeMirror.setValue(tomscgen.render(pAST));
+    }
+}
+
 function weighOnClick(pType){
       var lAST = {};
     
@@ -390,14 +412,7 @@ function weighOnClick(pType){
             } else {
                 lAST = statstrans.greyweigh(lAST);
             }
-            
-            if ("msgenny" === gLanguage){
-                gCodeMirror.setValue(tomsgenny.render(lAST));
-            } else if ("json" === gLanguage){
-                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
-            } else {
-                gCodeMirror.setValue(tomscgen.render(lAST));
-            }
+            reRenderSource(lAST);
         }
     } catch(e) {
         // do nothing
@@ -493,6 +508,7 @@ function showMsGennyState () {
         $("#__language_msgenny").attr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").hide();
+        $("#__btn_uncolorize").hide();
         $("#__btn_colorize_hard").hide();
         $("#__btn_weigh").hide();
         $("#__btn_ioweigh").hide();
@@ -501,6 +517,7 @@ function showMsGennyState () {
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").attr("checked", "msgennyOn");
         $("#__btn_colorize").show();
+        $("#__btn_uncolorize").show();
         $("#__btn_colorize_hard").show();
         $("#__btn_weigh").show();
         $("#__btn_ioweigh").show();
@@ -509,6 +526,7 @@ function showMsGennyState () {
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").show();
+        $("#__btn_uncolorize").show();
         $("#__btn_colorize_hard").show();
         $("#__btn_weigh").show();
         $("#__btn_ioweigh").show();

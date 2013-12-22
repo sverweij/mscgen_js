@@ -292,7 +292,8 @@ module.exports = (function() {
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
-                    "numberofarcs" : "2"
+                    "numberofrows" : 2,
+                    "depth" : 0
                 }], [{
                     "kind" : "=>",
                     "from" : "b",
@@ -301,6 +302,10 @@ module.exports = (function() {
                     "kind" : ">>",
                     "from" : "c",
                     "to" : "b"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "b",
+                    "to" : "c",
                 }]]
             };
         },
@@ -372,13 +377,15 @@ module.exports = (function() {
                     "from" : "a",
                     "to" : "c",
                     "label" : "label for loop",
-                    "numberofarcs" : "4"
+                    "numberofrows" : 5,
+                    "depth": 0
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
-                    "numberofarcs" : "2"
+                    "numberofrows" : 2,
+                    "depth": 1
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -390,10 +397,18 @@ module.exports = (function() {
                     "to" : "b",
                     "label" : ">> within alt"
                 }], [{
+                    "kind" : "|||",
+                    "from" : "b",
+                    "to" : "c",
+                }], [{
                     "kind" : ">>",
                     "from" : "b",
                     "to" : "a",
                     "label" : ">> within loop"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "c",
                 }], [{
                     "kind" : "=>>",
                     "from" : "a",
@@ -442,12 +457,17 @@ module.exports = (function() {
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for opt",
-                    "numberofarcs" : "1"
+                    "numberofrows" : 1,
+                    "depth": 0
                 }], [{
                     "kind" : "---",
                     "label" : "within opt",
                     "from" : "b",
                     "to" : "c"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "b",
+                    "to" : "c",
                 }], [{
                     "kind" : "---",
                     "label" : "outside opt"
