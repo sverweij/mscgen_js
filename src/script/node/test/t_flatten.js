@@ -20,8 +20,11 @@ describe('unwind', function() {
         it('should keep comments within arc spanning arc bounds', function() {
             utl.assertequalJSON(fix.astOptWithCommentUnWound(), flatten.unwind(fix.astOptWithComment()));
         });
-        it ('should distribute the arc* colors to underlying arcs', function(){
+        it ('should distribute the arc* colors to underlying arcs (one level)', function(){
             utl.assertequalJSON(fix.astInlineWithArcColorUnWound(), flatten.unwind(fix.astInlineWithArcColor()));
+        });
+        it ('should distribute the arc* colors to underlying arcs (one level, but not more)', function(){
+            utl.assertequalJSON(fix.astNestedInlinesWithArcColorUnWound(), flatten.unwind(fix.astNestedInlinesWithArcColor()));
         });
     });
 

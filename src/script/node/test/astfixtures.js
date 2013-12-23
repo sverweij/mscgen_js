@@ -552,6 +552,117 @@ module.exports = (function() {
                     "to" : "b"
                 }]]
             };
+        },
+        astNestedInlinesWithArcColor : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "b",
+                    "arcs" : [[{
+                        "kind" : "=>",
+                        "from" : "a",
+                        "to" : "b",
+                        "label" : "no colors"
+                    }], [{
+                        "kind" : ">>",
+                        "from" : "b",
+                        "to" : "a",
+                        "label" : "all colors",
+                        "linecolor" : "fuchsia",
+                        "textcolor" : "lime",
+                        "textbgcolor" : "cyan"
+                    }], [{
+                        "kind" : "opt",
+                        "from" : "a",
+                        "to" : "b",
+                        "arcs" : [[{
+                            "kind" : "->",
+                            "from" : "a",
+                            "to" : "b",
+                            "label" : "no colors"
+                        }], [{
+                            "kind" : "=>>",
+                            "from" : "b",
+                            "to" : "a",
+                            "label" : "all colors",
+                            "linecolor" : "fuchsia",
+                            "textcolor" : "lime",
+                            "textbgcolor" : "cyan"
+                        }]]
+                    }]],
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "blue"
+                }]]
+            };
+        },
+        astNestedInlinesWithArcColorUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "b",
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "blue",
+                    "numberofrows" : 6,
+                    "depth" : 0
+                }], [{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "no colors",
+                    "linecolor" : "red",
+                    "textcolor" : "green",
+                    "textbgcolor" : "blue"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "b",
+                    "to" : "a",
+                    "label" : "all colors",
+                    "linecolor" : "fuchsia",
+                    "textcolor" : "lime",
+                    "textbgcolor" : "cyan"
+                }], [{
+                    "kind" : "opt",
+                    "from" : "a",
+                    "to" : "b",
+                    "numberofrows" : 2,
+                    "depth" : 3
+                }], [{
+                    "kind" : "->",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "no colors"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "b",
+                    "to" : "a",
+                    "label" : "all colors",
+                    "linecolor" : "fuchsia",
+                    "textcolor" : "lime",
+                    "textbgcolor" : "cyan"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "b"
+                }]]
+            };
         }
     };
 })();
