@@ -2,6 +2,40 @@ var assert = require("assert");
 var parser = require("../msgennyparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
+var gCorrectOrderFixture = {
+    "entities" : [{
+        "name" : "A"
+    }, {
+        "name" : "a"
+    }, {
+        "name" : "c"
+    }, {
+        "name" : "d"
+    }, {
+        "name" : "b"
+    }, {
+        "name" : "B"
+    }],
+    "arcs" : [[{
+        "kind" : "loop",
+        "from" : "A",
+        "to" : "B",
+        "arcs" : [[{
+            "kind" : "alt",
+            "from" : "a",
+            "to" : "b",
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "c",
+                "to" : "d"
+            }], [{
+                "kind" : "=>",
+                "from" : "c",
+                "to" : "B"
+            }]]
+        }]]
+    }]]
+};
 
 describe('msgennyparser', function() {
 
@@ -54,15 +88,19 @@ describe('msgennyparser', function() {
     describe('#parse() - expansions', function() {
         it('should render a simple AST, with an alt', function() {
             var lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
-            tst.assertequalJSON(lAST, fix.astOneAlt());
+            tst.assertequalJSON(fix.astOneAlt(), lAST);
         });
         it('should render an AST, with an alt in it', function() {
             var lAST = parser.parse('a => b; a loop c { b alt c { b -> c: -> within alt; c >> b: >> within alt; }: label for alt; b >> a: >> within loop;}: label for loop; a =>> a: happy-the-peppy - outside;...;');
-            tst.assertequalJSON(lAST, fix.astAltWithinLoop());
+            tst.assertequalJSON(fix.astAltWithinLoop(), lAST);
         });
         it('should render an AST, with an alt in it', function() {
             var lAST = parser.parse('a alt b {  c -> d; };');
-            tst.assertequalJSON(lAST, fix.astDeclarationWithinArcspan());
+            tst.assertequalJSON(fix.astDeclarationWithinArcspan(), lAST);
+        });
+        it('automatically declares entities in the right order', function() {
+            var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
+            tst.assertequalJSON(gCorrectOrderFixture, lAST);
         });
     });
 });
