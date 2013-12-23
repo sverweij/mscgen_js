@@ -378,14 +378,14 @@ module.exports = (function() {
                     "to" : "c",
                     "label" : "label for loop",
                     "numberofrows" : 5,
-                    "depth": 0
+                    "depth" : 0
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
                     "numberofrows" : 2,
-                    "depth": 1
+                    "depth" : 1
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -458,7 +458,7 @@ module.exports = (function() {
                     "to" : "c",
                     "label" : "label for opt",
                     "numberofrows" : 1,
-                    "depth": 0
+                    "depth" : 0
                 }], [{
                     "kind" : "---",
                     "label" : "within opt",
@@ -494,6 +494,62 @@ module.exports = (function() {
                         "from" : "c",
                         "to" : "d"
                     }]]
+                }]]
+            };
+        },
+        astInlineWithArcColor : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "a",
+                    "to" : "b",
+                    "arcs" : [[{
+                        "kind" : "=>",
+                        "from" : "a",
+                        "to" : "b",
+                        "label" : "hasnocolors"
+                    }]],
+                    "label" : "hasarccolors",
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "cyan"
+                }]]
+            };
+        },
+        astInlineWithArcColorUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "hasarccolors",
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "cyan",
+                    "numberofrows" : 1,
+                    "depth" : 0
+                }], [{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "hasnocolors",
+                    "linecolor" : "red",
+                    "textcolor" : "green",
+                    "textbgcolor" : "cyan"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "b"
                 }]]
             };
         }

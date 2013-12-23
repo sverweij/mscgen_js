@@ -49,6 +49,21 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return lArc;
     }
 
+    function overrideColorsFromThing(pArc, pThing) {
+        var lArc = pArc;
+
+        if (!(lArc.linecolor) && pThing.arclinecolor) {
+            lArc.linecolor = pThing.arclinecolor;
+        }
+        if (!(lArc.textcolor) && pThing.arctextcolor) {
+            lArc.textcolor = pThing.arctextcolor;
+        }
+        if (!(lArc.textbgcolor) && pThing.arctextbgcolor) {
+            lArc.textbgcolor = pThing.arctextbgcolor;
+        }
+        return lArc;
+    }
+
     /*
      * assumes arc direction to be either LTR, both, or none
      * so arc.from exists.
@@ -69,15 +84,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         if (lArc && lArc.from) {
             var lEntityIndex = getEntityIndex(pEntities, lArc.from);
             if (lEntityIndex > -1) {
-                if (!(lArc.linecolor) && pEntities[lEntityIndex].arclinecolor) {
-                    lArc.linecolor = pEntities[lEntityIndex].arclinecolor;
-                }
-                if (!(lArc.textcolor) && pEntities[lEntityIndex].arctextcolor) {
-                    lArc.textcolor = pEntities[lEntityIndex].arctextcolor;
-                }
-                if (!(lArc.textbgcolor) && pEntities[lEntityIndex].arctextbgcolor) {
-                    lArc.textbgcolor = pEntities[lEntityIndex].arctextbgcolor;
-                }
+                lArc = overrideColorsFromThing(pArc, pEntities[lEntityIndex]);
             }
         }
         return lArc;
@@ -94,7 +101,6 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     }
 
     function unwindArcRow(pArcRow, pAST, pFrom, pTo, pDepth) {
-        var lArcCount;
         var lArcSpanningArc = {};
         if ("arcspanning" === map.getAggregate(pArcRow[0].kind)) {
             lArcSpanningArc = JSON.parse(JSON.stringify(pArcRow[0]));
@@ -105,8 +111,11 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
                     lArcSpanningArc.depth = pDepth;
                     delete lArcSpanningArc.arcs;
                     pAST.arcs.push([lArcSpanningArc]);
-                    for ( lArcCount = 0; lArcCount < pArcRow[0].arcs.length; lArcCount++) {
-                        unwindArcRow(pArcRow[0].arcs[lArcCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to, ++pDepth);
+                    for (var lArcRowCount = 0; lArcRowCount < pArcRow[0].arcs.length; lArcRowCount++) {
+                        unwindArcRow(pArcRow[0].arcs[lArcRowCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to, ++pDepth);
+                        for (var lArcCount = 0; lArcCount < pArcRow[0].arcs[lArcRowCount].length; lArcCount++) {
+                            overrideColorsFromThing(pArcRow[0].arcs[lArcRowCount][lArcCount], lArcSpanningArc);
+                        }
                     }
                     pAST.arcs.push([{
                         kind : "|||",
