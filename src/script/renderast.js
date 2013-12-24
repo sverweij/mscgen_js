@@ -436,10 +436,11 @@ function renderArcs(pArcs, pEntities) {
 function renderArcSpanningArcLabel (pId, pArc){
     var lFrom = gEntity2X[pArc.from];
     var lTo = gEntity2X[pArc.to];
+    var FOLD_SIZE = 7;
     if (lFrom > lTo){
         var lTmp = lFrom; lFrom = lTo; lTo = lTmp;
     }
-    var lMaxWidth = lTo - lFrom - 2*LINE_WIDTH;
+    var lMaxWidth = (lTo === lFrom) ? (INTER_ENTITY_SPACING - 2*LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH  : (lTo - lFrom - 2*LINE_WIDTH);
     
     var lStart = (lFrom - ((INTER_ENTITY_SPACING - 3*LINE_WIDTH)/2));
     var lGroup = utl.createGroup(pId);
@@ -450,7 +451,7 @@ function renderArcSpanningArcLabel (pId, pArc){
     var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT/2 - 2*LINE_WIDTH);
     var lWidth = Math.min(lBBox.width + 2*LINE_WIDTH, lMaxWidth);
     
-    var lBox = utl.createEdgeRemark(lWidth + 5, lHeight, "box", lStart, 0);
+    var lBox = utl.createEdgeRemark(lWidth - LINE_WIDTH + FOLD_SIZE, lHeight, "box", lStart, 0, FOLD_SIZE);
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
     lGroup.appendChild(lTextGroup);
@@ -731,6 +732,7 @@ function createBox (pId, pFrom, pTo, pArc, pHeight) {
         var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
     }
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
+    var NOTE_FOLD_SIZE = 9;
     
     var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
     var lGroup = utl.createGroup(pId);
@@ -751,7 +753,7 @@ function createBox (pId, pFrom, pTo, pArc, pHeight) {
             lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
             break;
         case ("note") :
-            lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
+            lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2), NOTE_FOLD_SIZE);
             break;
         default :
             lBox = utl.createRect(lWidth, lHeight, "box", lStart, 0);

@@ -106,15 +106,16 @@ define([], function() {
         return _createPath(lPathString, pClass);
     }
 
-    function _createNote(pWidth, pHeight, pClass, pX, pY) {
-        var lFoldSize = "9";
+    function _createNote(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
+        var lFoldSizeN = pFoldSize ? pFoldSize : 9;
+        var lFoldSize = lFoldSizeN.toString(10);
         var lPathString = "M" + pX + "," + pY;
         //((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
-        lPathString += "l" + (pWidth - lFoldSize) + ",0 ";
+        lPathString += "l" + (pWidth - lFoldSizeN) + ",0 ";
         // top line
         lPathString += "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " ";
         // fold
-        lPathString += "l0," + (pHeight - lFoldSize) + " ";
+        lPathString += "l0," + (pHeight - lFoldSizeN) + " ";
         //down
         lPathString += "l-" + pWidth + ",0 ";
         // bottom line
@@ -123,11 +124,11 @@ define([], function() {
 
         return _createPath(lPathString, pClass);
     }
-    
-    function _createEdgeRemark(pWidth, pHeight, pClass, pX, pY) {
-        var lFoldSize = "7";
+
+    function _createEdgeRemark(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
+        var lFoldSize = pFoldSize ? pFoldSize : 7;
         // M-28,0 l112.91796875,0 l0,l9,-9l-103.91796875,0 l0,17
-        // start: 
+        // start:
         var lPathString = "M" + pX + "," + pY;
         // top line:
         lPathString += " l" + pWidth + ",0 ";
@@ -418,11 +419,11 @@ define([], function() {
         createABox : function(pWidth, pHeight, pClass, pX, pY) {
             return _createABox(pWidth, pHeight, pClass, pX, pY);
         },
-        createNote : function(pWidth, pHeight, pClass, pX, pY) {
-            return _createNote(pWidth, pHeight, pClass, pX, pY);
-        }, 
-        createEdgeRemark : function(pWidth, pHeight, pClass, pX, pY) {
-           return _createEdgeRemark(pWidth, pHeight, pClass, pX, pY);
+        createNote : function(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
+            return _createNote(pWidth, pHeight, pClass, pX, pY, pFoldSize);
+        },
+        createEdgeRemark : function(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
+            return _createEdgeRemark(pWidth, pHeight, pClass, pX, pY, pFoldSize);
         },
         createText : function(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
             return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
