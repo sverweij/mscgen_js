@@ -1,0 +1,28 @@
+# test54 - nesting 
+msc {
+  a, c, e;
+
+  a opt e {
+    a opt e {
+      a opt e {
+        a opt e {
+          a opt e {
+            a opt e {
+              a opt e {
+                a opt e {
+                  a opt e {
+                    a alt e {
+                      a box a [label="Stop digging!", linecolor="green"];
+                      --- [label="the dwarves dug deeper and deeper"];
+                      e box e [label="a balrog!", linecolor="red"];
+                    } [label="1"];
+                  } [label="2"];
+                } [label="3"];
+              } [label="4"];
+            } [label="5"];
+          } [label="6"];
+        } [label="7"];
+      } [label="8"];
+    } [label="9"];
+  } [label="10"];
+}
