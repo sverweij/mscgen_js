@@ -104,6 +104,7 @@ par {
   a => c;
   c => d;
 }
+```
 
 ## msgenny
 Also supports.
