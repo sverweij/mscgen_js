@@ -306,7 +306,8 @@ module.exports = (function() {
                     "kind" : "|||",
                     "from" : "b",
                     "to" : "c",
-                }]]
+                }]],
+                depth : 1
             };
         },
         astAltWithinLoop : function() {
@@ -378,14 +379,14 @@ module.exports = (function() {
                     "to" : "c",
                     "label" : "label for loop",
                     "numberofrows" : 5,
-                    "depth" : 0
+                    "depth" : 1
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
                     "numberofrows" : 2,
-                    "depth" : 1
+                    "depth" : 0
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -416,7 +417,8 @@ module.exports = (function() {
                     "label" : "happy-the-peppy - outside"
                 }], [{
                     "kind" : "..."
-                }]]
+                }]],
+                depth : 2
             };
         },
         astOptWithComment : function() {
@@ -463,15 +465,17 @@ module.exports = (function() {
                     "kind" : "---",
                     "label" : "within opt",
                     "from" : "b",
-                    "to" : "c"
+                    "to" : "c",
+                    depth : 0
                 }], [{
                     "kind" : "|||",
                     "from" : "b",
-                    "to" : "c",
+                    "to" : "c"
                 }], [{
                     "kind" : "---",
                     "label" : "outside opt"
-                }]]
+                }]],
+                depth : 1
             };
         },
         astDeclarationWithinArcspan : function() {
@@ -550,7 +554,8 @@ module.exports = (function() {
                     "kind" : "|||",
                     "from" : "a",
                     "to" : "b"
-                }]]
+                }]],
+                depth : 1
             };
         },
         astNestedInlinesWithArcColor : function() {
@@ -617,7 +622,7 @@ module.exports = (function() {
                     "arctextcolor" : "green",
                     "arctextbgcolor" : "blue",
                     "numberofrows" : 6,
-                    "depth" : 0
+                    "depth" : 1
                 }], [{
                     "kind" : "=>",
                     "from" : "a",
@@ -639,7 +644,7 @@ module.exports = (function() {
                     "from" : "a",
                     "to" : "b",
                     "numberofrows" : 2,
-                    "depth" : 3
+                    "depth" : 0
                 }], [{
                     "kind" : "->",
                     "from" : "a",
@@ -661,7 +666,8 @@ module.exports = (function() {
                     "kind" : "|||",
                     "from" : "a",
                     "to" : "b"
-                }]]
+                }]],
+                depth : 2
             };
         }
     };
