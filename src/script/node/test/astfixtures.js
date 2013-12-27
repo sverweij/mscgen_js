@@ -306,7 +306,8 @@ module.exports = (function() {
                     "kind" : "|||",
                     "from" : "b",
                     "to" : "c",
-                }]]
+                }]],
+                depth : 1
             };
         },
         astAltWithinLoop : function() {
@@ -378,14 +379,14 @@ module.exports = (function() {
                     "to" : "c",
                     "label" : "label for loop",
                     "numberofrows" : 5,
-                    "depth": 0
+                    "depth" : 1
                 }], [{
                     "kind" : "alt",
                     "from" : "b",
                     "to" : "c",
                     "label" : "label for alt",
                     "numberofrows" : 2,
-                    "depth": 1
+                    "depth" : 0
                 }], [{
                     "kind" : "->",
                     "from" : "b",
@@ -416,7 +417,8 @@ module.exports = (function() {
                     "label" : "happy-the-peppy - outside"
                 }], [{
                     "kind" : "..."
-                }]]
+                }]],
+                depth : 2
             };
         },
         astOptWithComment : function() {
@@ -458,20 +460,22 @@ module.exports = (function() {
                     "to" : "c",
                     "label" : "label for opt",
                     "numberofrows" : 1,
-                    "depth": 0
+                    "depth" : 0
                 }], [{
                     "kind" : "---",
                     "label" : "within opt",
                     "from" : "b",
-                    "to" : "c"
+                    "to" : "c",
+                    depth : 0
                 }], [{
                     "kind" : "|||",
                     "from" : "b",
-                    "to" : "c",
+                    "to" : "c"
                 }], [{
                     "kind" : "---",
                     "label" : "outside opt"
-                }]]
+                }]],
+                depth : 1
             };
         },
         astDeclarationWithinArcspan : function() {
@@ -495,6 +499,175 @@ module.exports = (function() {
                         "to" : "d"
                     }]]
                 }]]
+            };
+        },
+        astInlineWithArcColor : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "a",
+                    "to" : "b",
+                    "arcs" : [[{
+                        "kind" : "=>",
+                        "from" : "a",
+                        "to" : "b",
+                        "label" : "hasnocolors"
+                    }]],
+                    "label" : "hasarccolors",
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "cyan"
+                }]]
+            };
+        },
+        astInlineWithArcColorUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "opt",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "hasarccolors",
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "cyan",
+                    "numberofrows" : 1,
+                    "depth" : 0
+                }], [{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "hasnocolors",
+                    "linecolor" : "red",
+                    "textcolor" : "green",
+                    "textbgcolor" : "cyan"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "b"
+                }]],
+                depth : 1
+            };
+        },
+        astNestedInlinesWithArcColor : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "b",
+                    "arcs" : [[{
+                        "kind" : "=>",
+                        "from" : "a",
+                        "to" : "b",
+                        "label" : "no colors"
+                    }], [{
+                        "kind" : ">>",
+                        "from" : "b",
+                        "to" : "a",
+                        "label" : "all colors",
+                        "linecolor" : "fuchsia",
+                        "textcolor" : "lime",
+                        "textbgcolor" : "cyan"
+                    }], [{
+                        "kind" : "opt",
+                        "from" : "a",
+                        "to" : "b",
+                        "arcs" : [[{
+                            "kind" : "->",
+                            "from" : "a",
+                            "to" : "b",
+                            "label" : "no colors"
+                        }], [{
+                            "kind" : "=>>",
+                            "from" : "b",
+                            "to" : "a",
+                            "label" : "all colors",
+                            "linecolor" : "fuchsia",
+                            "textcolor" : "lime",
+                            "textbgcolor" : "cyan"
+                        }]]
+                    }]],
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "blue"
+                }]]
+            };
+        },
+        astNestedInlinesWithArcColorUnWound : function() {
+            return {
+                "entities" : [{
+                    "name" : "a"
+                }, {
+                    "name" : "b"
+                }],
+                "arcs" : [[{
+                    "kind" : "loop",
+                    "from" : "a",
+                    "to" : "b",
+                    "arclinecolor" : "red",
+                    "arctextcolor" : "green",
+                    "arctextbgcolor" : "blue",
+                    "numberofrows" : 6,
+                    "depth" : 1
+                }], [{
+                    "kind" : "=>",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "no colors",
+                    "linecolor" : "red",
+                    "textcolor" : "green",
+                    "textbgcolor" : "blue"
+                }], [{
+                    "kind" : ">>",
+                    "from" : "b",
+                    "to" : "a",
+                    "label" : "all colors",
+                    "linecolor" : "fuchsia",
+                    "textcolor" : "lime",
+                    "textbgcolor" : "cyan"
+                }], [{
+                    "kind" : "opt",
+                    "from" : "a",
+                    "to" : "b",
+                    "numberofrows" : 2,
+                    "depth" : 0
+                }], [{
+                    "kind" : "->",
+                    "from" : "a",
+                    "to" : "b",
+                    "label" : "no colors"
+                }], [{
+                    "kind" : "=>>",
+                    "from" : "b",
+                    "to" : "a",
+                    "label" : "all colors",
+                    "linecolor" : "fuchsia",
+                    "textcolor" : "lime",
+                    "textbgcolor" : "cyan"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "b"
+                }], [{
+                    "kind" : "|||",
+                    "from" : "a",
+                    "to" : "b"
+                }]],
+                depth : 2
             };
         }
     };

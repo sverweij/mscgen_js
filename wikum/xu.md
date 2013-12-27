@@ -25,13 +25,13 @@ rest to a birth queue:
 msc {
   width=700, hscale=0.8;
   a, b [label="change store"], c, d [label="necro queue"],
-  e [label="natalis queue"], f, g;
+  e [label="natalis queue"];
 
   a =>> b [label="get change list()"];
-  a alt g {
+  a alt e {
     b >> a [label="list of changes"];
     a =>> c [label="cull old stuff (list of changes)"];
-    b loop f {
+    b loop e {
       c =>> b [label="get change()"];
       b >> c [label="change"];
       c alt e {
@@ -50,7 +50,7 @@ msc {
 }
 ```
 
-![renedered](xusample.png)
+![rendered](xusample.png)
 
 ## Syntax
 As you can see, the syntax of the inline expressions is very similar to that
@@ -104,6 +104,7 @@ par {
   a => c;
   c => d;
 }
+```
 
 ## msgenny
 Also supports.

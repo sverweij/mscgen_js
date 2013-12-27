@@ -38,7 +38,6 @@ if ( typeof define !== 'function') {
 define(["./renderutensils", "./node/textutensils", "./node/flatten", "./node/dotmap"], function(utl, txt, flatten, map) {
 
 var PAD_VERTICAL = 3;
-var PAD_HORIZONTAL = 3;
 var DEFAULT_INTER_ENTITY_SPACING = 160;
 var INTER_ENTITY_SPACING = DEFAULT_INTER_ENTITY_SPACING;
 var DEFAULT_ENTITY_WIDTH = 100;
@@ -208,18 +207,23 @@ function _renderAST (pAST, pSource, pParentElementId, pWindow) {
             WORDWRAPARCS = true;
         }
     }
+    
     pAST = flatten.flatten(pAST);
+    var lArcDepthCorrection = 0;
+    if (pAST.depth){
+        lArcDepthCorrection = 2*((pAST.depth)*2*LINE_WIDTH);
+    }
     renderEntities(pAST.entities);
     renderArcs(pAST.arcs, pAST.entities);
 
     var body = gDocument.getElementById("__body");
-    var lCanvasWidth = gEntityXHWM -  2*PAD_HORIZONTAL + INTER_ENTITY_SPACING/4;
+    var lCanvasWidth = (pAST.entities.length*INTER_ENTITY_SPACING) + lArcDepthCorrection;
     
     var lNoArcs = pAST.arcs ? pAST.arcs.length: 0;
     var lRowInfo = getRowInfo(lNoArcs - 1);
     
     var lCanvasHeight = lRowInfo.y + (lRowInfo.height/2) + 2*PAD_VERTICAL;
-    var lHorizontalTransform = (PAD_HORIZONTAL + (INTER_ENTITY_SPACING/4));
+    var lHorizontalTransform = (INTER_ENTITY_SPACING + lArcDepthCorrection - ENTITY_WIDTH)/2;
     var lVerticalTransform = PAD_VERTICAL;
     var lScale = 1;
     var lSvgElement = gDocument.getElementById("__svg_output");
@@ -254,7 +258,6 @@ function _renderAST (pAST, pSource, pParentElementId, pWindow) {
         " scale(" + lScale + "," + lScale + ")");
     lSvgElement.setAttribute("width", lCanvasWidth.toString());
     lSvgElement.setAttribute("height", lCanvasHeight.toString());
-
 }
 
 
@@ -436,12 +439,13 @@ function renderArcs(pArcs, pEntities) {
 function renderArcSpanningArcLabel (pId, pArc){
     var lFrom = gEntity2X[pArc.from];
     var lTo = gEntity2X[pArc.to];
+    var FOLD_SIZE = 7;
     if (lFrom > lTo){
         var lTmp = lFrom; lFrom = lTo; lTo = lTmp;
     }
-    var lMaxWidth = lTo - lFrom - 2*LINE_WIDTH;
+    var lMaxWidth = (lTo === lFrom) ? (INTER_ENTITY_SPACING - 2*LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH  : (lTo - lFrom - 2*LINE_WIDTH);
     
-    var lStart = (lFrom - ((INTER_ENTITY_SPACING - 3*LINE_WIDTH)/2));
+    var lStart = (lFrom - ((INTER_ENTITY_SPACING - 3*LINE_WIDTH)/2) - (pArc.depth + 1) *2*LINE_WIDTH);
     var lGroup = utl.createGroup(pId);
     pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
     var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth/2), ARCROW_HEIGHT/4, lMaxWidth, "anchor-start" /*, class */);
@@ -450,7 +454,7 @@ function renderArcSpanningArcLabel (pId, pArc){
     var lHeight = Math.max(lBBox.height + 2*LINE_WIDTH, ARCROW_HEIGHT/2 - 2*LINE_WIDTH);
     var lWidth = Math.min(lBBox.width + 2*LINE_WIDTH, lMaxWidth);
     
-    var lBox = utl.createEdgeRemark(lWidth + 5, lHeight, "box", lStart, 0);
+    var lBox = utl.createEdgeRemark(lWidth - LINE_WIDTH + FOLD_SIZE, lHeight, "box", lStart, 0, FOLD_SIZE);
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
     lGroup.appendChild(lTextGroup);
@@ -546,8 +550,6 @@ function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
 
     return lGroup;
 }
-
-
 
 function renderEmptyArc(pArc, pId) {
     var lElement;
@@ -691,9 +693,11 @@ function createComment (pId, pArc) {
     var lGroup = utl.createGroup(pId);
     
     if (pArc.from && pArc.to){
-        lStartX = gEntity2X[pArc.from] - (INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2;
-        lEndX = gEntity2X[pArc.to] + (INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2;
-        lClass = "";
+        var lArcDepthCorrection = (pArc.depth + 1)*2*LINE_WIDTH;
+
+        lStartX = (gEntity2X[pArc.from] - (INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2) - lArcDepthCorrection;
+        lEndX = (gEntity2X[pArc.to] + (INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2) + lArcDepthCorrection;
+        lClass = "striped";
     }
     var lLine = utl.createLine(lStartX, 0, lEndX, 0, lClass);
     
@@ -731,6 +735,8 @@ function createBox (pId, pFrom, pTo, pArc, pHeight) {
         var lTmp = pFrom; pFrom = pTo; pTo = lTmp;
     }
     var lWidth = ((pTo - pFrom) + INTER_ENTITY_SPACING - 2*LINE_WIDTH);
+    var NOTE_FOLD_SIZE = 9; // px
+    var RBOX_CORNER_RADIUS = 6; // px
     
     var lStart = (pFrom - ((INTER_ENTITY_SPACING - 2*LINE_WIDTH)/2));
     var lGroup = utl.createGroup(pId);
@@ -745,16 +751,17 @@ function createBox (pId, pFrom, pTo, pArc, pHeight) {
             lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2));
             break;
         case ("rbox") :
-            lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), 6, 6);
+            lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0-lHeight/2), RBOX_CORNER_RADIUS, RBOX_CORNER_RADIUS);
             break;
         case ("abox") :
             lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
             break;
         case ("note") :
-            lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2));
+            lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0-lHeight/2), NOTE_FOLD_SIZE);
             break;
         default :
-            lBox = utl.createRect(lWidth, lHeight, "box", lStart, 0);
+            var lArcDepthCorrection = (pArc.depth + 1)*2*LINE_WIDTH;
+            lBox = utl.createRect(lWidth + lArcDepthCorrection*2, lHeight, "box", lStart - lArcDepthCorrection, 0);
     }
     colorBox (lBox, pArc);
     lGroup.appendChild(lBox);
@@ -806,19 +813,22 @@ text.entity { \
 } \
 text.anchor-start { \
     text-anchor: start; \
-} \
-path { \
-    stroke : black; \
-    color : black; \
-    stroke-width : 2; \
-    fill : none; \
-} \
-.dotted { \
-    stroke-dasharray: 5,2; \
-} \
-.arrow-marker { \
-    overflow:visible; \
-} \
+}\
+path {\
+    stroke: black;\
+    color: black;\
+    stroke-width: 2;\
+    fill: none;\
+}\
+.dotted {\
+    stroke-dasharray: 5,2;\
+}\
+.striped {\
+    stroke-dasharray: 10,5;\
+}\
+.arrow-marker {\
+    overflow:visible;\
+}\
 .arrow-style { \
     stroke : black; \
     stroke-dasharray : 100,1; /* 'none' should work, but doesn't in webkit */ \
