@@ -604,12 +604,10 @@ function createArc (pId, pArc, pFrom, pTo) {
         );
     } else {
         var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
-        // var lLine = utl.createArrow(pId, pFrom, 0, pTo, lArcGradient, pArc.kind);
         if (pArc.linecolor) {
            lLine.setAttribute("style", "stroke:" + pArc.linecolor + "; fill: " + pArc.linecolor + ";" );
         }
         lGroup.appendChild (lLine);
-        // lGroup = lLine;
         lGroup.appendChild(
             createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom)
         );
@@ -881,7 +879,6 @@ path {\
 .returnvalue { \
     stroke-dasharray: 5,2; \
     marker-end : url(#callback); \
-    stroke : inherit ; \
 } \
 .returnvalue-both { \
     stroke-dasharray: 5,2; \
