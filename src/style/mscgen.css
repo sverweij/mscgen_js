@@ -429,20 +429,20 @@ button:hover, a.button:hover {
     color: #fff;
 }
 a {
-    color: blue;
+    color: inherit;
 }
 a:hover {
-    color: blue;
+    color: inherit;
 }
 a:visited {
-    color: blue;
+    color: inherit;
 }
 div.icon:hover {
     cursor: pointer;
 }
 .icon {
     display: inline-block;
-    width: 2.2em;
+    width: 3.6em;
     height: 2.2em;
     
     background-repeat: no-repeat;
@@ -450,23 +450,27 @@ div.icon:hover {
     background-size: contain;
     padding-left: 0.5em;
     padding-right: 0.5em;
+    text-align: center;
 }
 a.twitter {
     background-image: url('../images/twitter.svg');
+    text-decoration: none;
 }
 a.gplus {
     background-image: url('../images/gplus.svg');
+    text-decoration: none;
 }
 a.github {
     background-image: url('../images/github.svg');
+    text-decoration: none;
 }
 a.issuetracker {
     background-image: url('../images/issuetracker.svg');
+    text-decoration: none;
 }
 div.question {
-    width: 3em;
-    height: 3em;
     background-image: url('../images/question.svg');
+    text-decoration: none;
 }
 .herpes {
     float: right;
