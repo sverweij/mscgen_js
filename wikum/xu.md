@@ -150,7 +150,7 @@ Also supports.
         <td><code>seq</code></td>
     </tr>
     <tr>
-        <td>Strict sequencing - stuff within here can happen in any order across the instances</td>
+        <td>Strict sequencing - stuff within here can happen in only this order across the instances</td>
         <td>_not available_</td>
         <td>strict</td>
         <td><code>strict</td>
