@@ -1,11 +1,23 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"
- preserveAspectRatio="xMidYMid meet" style="background-color: #FFFFFF;">
-<g transform="translate(0,400) scale(0.1,-0.1)" fill="#000000" stroke="none">
+ preserveAspectRatio="xMidYMid meet">
+<defs>
+<filter id="dropshadow" height="120%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="100"/>
+  <feComponentTransfer>
+    <feFunca type="linear" slope="0.2"/>
+  </feComponentTransfer>
+  <feMerge>
+    <feMergeNode/>
+    <feMergeNode in="SourceGraphic"/>
+  </feMerge>
+</filter>
+</defs>
+<g transform="translate(0,400) scale(0.1,-0.1)" fill="#FFFFFF" stroke="none" filter="url(#dropshadow)">
 <path d="M1940 3630 l0 -140 -740 0 -740 0 0 -572 c0 -604 -11 -959 -36 -1196
 -40 -385 -135 -777 -254 -1054 -22 -50 -38 -93 -37 -94 1 -1 82 -51 180 -112
 l178 -111 36 57 c57 89 157 305 203 437 97 282 158 600 201 1045 6 63 13 370
 16 683 l5 567 1424 0 1424 0 0 175 0 175 -670 0 -670 0 0 140 0 140 -260 0
--260 0 0 -140z"/>
+-260 0 0 -140z" />
 <path d="M1130 2790 l0 -160 286 0 287 0 -24 -30 c-13 -16 -70 -78 -126 -138
 l-102 -108 222 -103 c122 -56 285 -133 362 -171 l140 -68 -567 -1 -568 -1 0
 -190 0 -190 520 0 521 0 -3 -380 -3 -379 -23 -23 c-22 -23 -26 -23 -308 -26
