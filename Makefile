@@ -162,7 +162,7 @@ checkout-gh-pages:
 
 deploy-gh-pages: checkout-gh-pages mostlyclean install
 	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	$(GIT) commit --all --message="build" --allow-empty
+	$(GIT) commit --all --message="build `cat VERSION`" --allow-empty
 	$(GIT) push
 	$(GIT) checkout master
 
