@@ -150,7 +150,7 @@ Also supports.
         <td><code>seq</code></td>
     </tr>
     <tr>
-        <td>Strict sequencing - stuff within here can happen in any order across the instances</td>
+        <td>Strict sequencing - stuff within here can happen in only this order across the instances</td>
         <td>_not available_</td>
         <td>strict</td>
         <td><code>strict</td>
@@ -183,13 +183,13 @@ Also supports.
     </tr>
     <tr>
         <td>Loop - repeat this</td>
-        <td>_not available_</td>
         <td>loop</td>
-        <td><code>assert</code></td>
+        <td>loop</td>
+        <td><code>loop</code></td>
     </tr>
     <tr>
         <td>Reference - it's not here, but there's a diagram somewhere else detailing this</td>
-        <td>_not available_</td>
+        <td>not available as an "inline expression" but as 'MSC reference'</td>
         <td>_not available_</td>
         <td><code>ref</code></td>
     </tr>
