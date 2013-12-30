@@ -47,6 +47,7 @@ LIB_SOURCES_WEB=src/lib/codemirror.js \
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/renderutensils.js \
     src/script/node/textutensils.js \
+    src/script/renderskeleton.js \
     src/script/renderast.js \
     src/script/controller.js \
 	src/script/gaga.js \

@@ -41,8 +41,13 @@ define([], function() {
             y : 2
         };
         if ( typeof (pElement.getBBox) === 'function') {
+            // TODO: assumes '__body' to exist in document - alternatives:
+            //       - make either the lBody or its id a parameter
+            //         (but this is actually the kind of stuff we'd like
+            //          to hide from the caller)
+            //       - create the lBody element on the fly
+            //         (performance impact)
             var lBody = gDocument.getElementById("__body");
-            // TODO: assumes '__body' to exist in element
             lBody.appendChild(pElement);
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);
@@ -451,7 +456,10 @@ define([], function() {
         },
         getBBox : function(pElement) {
             return _getBBox(pElement);
-        }
+        }, 
+        SVGNS : SVGNS,
+        XLINKNS : XLINKNS
+        
     };
 });
 /*
