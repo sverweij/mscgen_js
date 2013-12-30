@@ -6,7 +6,7 @@ describe('ast2msgenny', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax tree', function() {
 
         it('should, given a simple syntax tree, render a msgenny script', function() {
-            var lProgram = renderer.render(fix.astSimple());
+            var lProgram = renderer.render(fix.astSimple);
             var lExpectedProgram = "a, b;\n" + "\n" + "a => b : a simple script;\n";
             assert.equal(lProgram, lExpectedProgram);
         });
@@ -36,26 +36,26 @@ describe('ast2msgenny', function() {
         });
 
         it("should render options when they're in the syntax tree", function() {
-            var lProgram = renderer.render(fix.astOptions());
+            var lProgram = renderer.render(fix.astOptions);
             var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs="true";\n\na;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
         it("should ignore all attributes, except label and name", function() {
-            var lProgram = renderer.render(fix.astAllAttributes());
-            var lExpectedPorgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
-            assert.equal(lProgram, lExpectedPorgram);
+            var lProgram = renderer.render(fix.astAllAttributes);
+            var lExpectedProgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
+            assert.equal(lProgram, lExpectedProgram);
         });
 
     });
 
     describe('#renderAST() - xu compatible', function() {
         it('alt only - render correct script', function() {
-            var lProgram = renderer.render(fix.astOneAlt());
+            var lProgram = renderer.render(fix.astOneAlt);
             var lExpectedProgram = "a, b, c;\n\na => b;\nb alt c {\n  b => c;\n  c >> b;\n};\n";
             assert.equal(lProgram, lExpectedProgram);
         });
         it('alt within loop - render correct script', function() {
-            var lProgram = renderer.render(fix.astAltWithinLoop());
+            var lProgram = renderer.render(fix.astAltWithinLoop);
             var lExpectedProgram =
 "a, b, c;\n\
 \n\
