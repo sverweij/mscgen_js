@@ -44,7 +44,7 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
   the other nodejs dependencies as well)
 - nodejs
     - pegjs (mandatory)    
-    - r.js (mandatory for smashing together css sources. Optional for creating opti)
+    - r.js (mandatory for smashing together css sources. Mandatory for creating an minified version of the javascript (which in itself is optional))
     - jshint (optional: linting)
     - mocha (optional: unit testing)
     - plato (optional: code reporting)
