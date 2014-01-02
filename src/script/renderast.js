@@ -1,4 +1,5 @@
-/*
+/**
+ *
  * renders an abstract syntax tree of a sequence chart
  *
  * knows of:
@@ -21,8 +22,7 @@
  <line x1="50" y1="20" x2="210" y2="20" stroke-width="2" stroke="#ABCDEF" marker-end="url(#end)"/>
  </g>
  </svg>
-
- @author Sander Verweij
+ * @author [Sander Verweij]{@link https://github.com/sverweij}
  */
 
 /* jshint undef:true */
@@ -36,6 +36,12 @@ if ( typeof define !== 'function') {
 }
 
 define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/flatten", "./node/dotmap"], function(utl, skel, txt, flatten, map) {
+    /**
+     * Renders individual elements in sequence charts
+     * @exports renderutensils
+     * @license GPLv3
+     * @author {@link https://github.com/sverweij | Sander Verweij}
+     */
 
     var PAD_VERTICAL = 3;
     var DEFAULT_INTER_ENTITY_SPACING = 160;
@@ -61,25 +67,25 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
     var gDocument;
 
     /* ------------------ row memory ---------------------- */
-   
-   /*
-    * Functions to help determine the correct height and 
-    * y position of rows befor rendering them.
-    */
+
+    /**
+     * Functions to help determine the correct height and
+     * y position of rows befor rendering them.
+     */
     var gRowInfo = [];
 
-    /*
+    /**
      * clearRowInfo() - resets the helper array to an empty one
      */
     function clearRowInfo() {
         gRowInfo = [];
     }
 
-    /*
-     * getRowInfo() - returns the row info for a given pRowNumber. 
-     * If the row info was not set earlier with a setRowinfo call 
+    /**
+     * getRowInfo() - returns the row info for a given pRowNumber.
+     * If the row info was not set earlier with a setRowinfo call
      * the function returns a best guess, based on defaults
-     * 
+     *
      * @param <int> pRowNumber
      */
     function getRowInfo(pRowNumber) {
@@ -93,16 +99,16 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         }
     }
 
-    /*
+    /**
      * setRowInfo() - stores the pHeight and y position pY for the given pRowNumber
      * - If the caller does not provide pHeight, the function sets the height to
-     * the current default arc row height 
+     * the current default arc row height
      * - If the caller does not provide pY, the function calculates from the row height
-     * and the y position (and height) of the previous row 
-     * 
+     * and the y position (and height) of the previous row
+     *
      * @param <int> pRowNumber
      * @param <int> pHeight
-     * @param <int> pY 
+     * @param <int> pY
      */
     function setRowInfo(pRowNumber, pHeight, pY) {
         if (pHeight === undefined || pHeight < gArcRowHeight) {
@@ -124,14 +130,6 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
 
     /* ---------------end row memory ---------------------- */
 
-    /*
-     * _clean() - removes the element with id "__svg_output" from the DOM
-     * 
-     * @param - <dom element> pParentElementId - the element the element with
-     * the id mentioned above is supposed to be residing in
-     * @param - <window> pWindow - the browser window object
-     * 
-     */
     function _clean(pParentElementId, pWindow) {
         gDocument = skel.init(pWindow);
         var lChildElement = gDocument.getElementById("__svg_output");
@@ -141,18 +139,18 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         }
     }
 
-    /*
-     * preProcessOptions() - 
-     * - resets the global variables governing entity width and height, 
-     *   row height to their default values 
+    /**
+     * preProcessOptions() -
+     * - resets the global variables governing entity width and height,
+     *   row height to their default values
      * - modifies them if passed
      *   - hscale (influences the entity width and inter entity spacing defaults)
      *   - arcgradient (influences the arc row height, sets the global arc gradient)
      *   - wordwraparcs (sets the wordwraparcs global)
-     * 
-     * Note that width is not processed here as this can only be done 
+     *
+     * Note that width is not processed here as this can only be done
      * reliably after most rendering calculations have been executed.
-     * 
+     *
      * @param <object> - pOptions - the option part of the AST
      */
     function preProcessOptions(pOptions) {
@@ -178,15 +176,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         }
     }
 
-    /*
-     * _renderAST() - renders the given abstract syntax tree pAST as svg
-     * in the given pParentELementId in the window pWindow
-     * 
-     * @param <object> - pAST
-     * @param <string> - pSource - the source msc to embed in the svg
-     * @param <DOM element> - pParentElementId - the parent element in which
-     * to put the __svg_output element
-     * @param <window> - pWindow - the browser window to put the svg in 
+    /**
      */
     function _renderAST(pAST, pSource, pParentElementId, pWindow) {
 
@@ -253,15 +243,15 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         lSvgElement.setAttribute("height", lCanvasHeight.toString());
     }
 
-    /*
+    /**
      * getMaxEntityHeight() -
      * crude method for determining the max entity height; create all entities,
      * measure the max, and than re-render using the max thus gotten
-     * 
+     *
      * @param <object> - pEntities - the entities subtree of the AST
      * @return <int> - height - the height of the heighest entity
      */
- 
+
     function getMaxEntityHeight(pEntities) {
         var lHWM = gEntityHeight;
         var lEntityMemory = [];
@@ -277,10 +267,10 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         return lHWM;
     }
 
-    /*
-     * renderEntities() - renders the given pEntities (subtree of the AST) into 
+    /**
+     * renderEntities() - renders the given pEntities (subtree of the AST) into
      * the sequence layer
-     * 
+     *
      * @param <object> - pEntities - the entities to render
      */
     function renderEntities(pEntities) {
@@ -316,11 +306,11 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         gEntityXHWM = lEntityXPos;
     }
 
-    /* renderArcRows() - renders the arcrows from an AST
-     * 
+    /** renderArcRows() - renders the arcrows from an AST
+     *
      * @param <object> - pArcRows - the arc rows to render
      * @param <object> - pEntities - the entities to consider
-     */ 
+     */
     function renderArcRows(pArcRows, pEntities) {
         var defs = gDocument.getElementById("__defs");
         var lifelinelayer = gDocument.getElementById("__lifelinelayer");
@@ -442,10 +432,10 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         } // if pArcRows
     }// function
 
-    /*
-     * renderArcSpanningArcLabel() - renders the label of an inline expression 
+    /**
+     * renderArcSpanningArcLabel() - renders the label of an inline expression
      * (/ arc spanning arc)
-     * 
+     *
      * @param <string> pId - the id to use for the rendered Element
      * @param <object> pArc - the arc spanning arc
      */
@@ -611,7 +601,18 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         return lGroup;
     }
 
-    function splitLines(pLabel, pKind, pWidth) {
+    /**
+     * splitLabel () - splits the given pLabel into an array of strings
+     * - if the arc kind passed is a box the split occurs regardless
+     * - if the arc kind passed is something else, the split occurs
+     *   only if the _word wrap arcs_ option is true.
+     *
+     * @param <string> - pLabel
+     * @param <string> - pKind
+     * @param <number> - pWidth
+     * @return <array of strings> - lLines
+     */
+    function splitLabel(pLabel, pKind, pWidth) {
         var lLines = pLabel.split('\\n');
         var lMaxTextWidthInChars = txt.determineMaxTextWidth(pWidth);
         switch(pKind) {
@@ -630,13 +631,13 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         return lLines;
     }
 
-    function renderTextLabelLine(pGroup, pLine, pMiddle, pStart, pClass, pArc, pPosition) {
+    function renderTextLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
         var lGroup = pGroup;
         var lText = {};
         if (pPosition === 0) {
-            lText = utl.createText(pLine, pMiddle, pStart + gTextHeight / 4 + (pPosition * gTextHeight), pClass, pArc.url, pArc.id, pArc.idurl);
+            lText = utl.createText(pLine, pMiddle, pStartY + gTextHeight / 4 + (pPosition * gTextHeight), pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
-            lText = utl.createText(pLine, pMiddle, pStart + gTextHeight / 4 + (pPosition * gTextHeight), pClass, pArc.url);
+            lText = utl.createText(pLine, pMiddle, pStartY + gTextHeight / 4 + (pPosition * gTextHeight), pClass, pArc.url);
         }
         var lBBox = utl.getBBox(lText);
 
@@ -654,14 +655,14 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         return lGroup;
     }
 
-    /*
+    /**
      * createTextLabel() - renders the text (label, id, url) for a given pArc
      * with a bounding box starting at pStartX, pStartY and of a width of at
      * most pWidth (all in pixels)
-     * 
+     *
      * @param <string> - pId - the unique identification of the textlabe (group) within the svg
      * @param <objec> - pArc - the arc of which to render the text
-     * @param <number> - pStartX 
+     * @param <number> - pStartX
      * @param <number> - pStartY
      * @param <number> - pWidth
      * @param <string> - pClass - reference to a css class to influence text appearance
@@ -680,7 +681,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
             if (pArc.id) {
                 pArc.id = txt.unescapeString(pArc.id);
             }
-            var lLines = splitLines(pArc.label, pArc.kind, pWidth);
+            var lLines = splitLabel(pArc.label, pArc.kind, pWidth);
 
             var lStartY = pStartY - (((lLines.length - 1) * gTextHeight) / 2) - ((lLines.length - 1) / 2);
             for (var i = 0; i < lLines.length; i++) {
@@ -690,12 +691,13 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         }
         return lGroup;
     }
-    /*
+
+    /**
      * createLifeLinesText() - creates centered text for the current (most
      *     possibly empty) arc. If the arc has a from and a to, the function
-     *     centers between these, otherwise it does so from 0 to the width of 
+     *     centers between these, otherwise it does so from 0 to the width of
      *     the rendered chart
-     * 
+     *
      * @param <string> - pId - unique identification of the text in the svg
      * @param <object> - pArc - the arc to render
      */
@@ -711,12 +713,12 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         lGroup.appendChild(createTextLabel(pId, pArc, lArcStart, 0, lArcEnd));
         return lGroup;
     }
-    
-    /*
+
+    /**
      * createComment() - creates an element representing a comment ('---')
-     * 
+     *
      * @param <string> - pId - the unique identification of the comment within the svg
-     * @param <object> - pArc - the (comment) arc to render 
+     * @param <object> - pArc - the (comment) arc to render
      */
     function createComment(pId, pArc) {
         var lStartX = 0;
@@ -742,11 +744,11 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
 
         return lGroup;
     }
-    
-    /*
-     * Sets the fill color of the passed pElement to the textcolor of 
+
+    /**
+     * Sets the fill color of the passed pElement to the textcolor of
      * the given pArc
-     * 
+     *
      * @param <svgElement> pElement
      * @param <object> pArc
      */
@@ -757,12 +759,13 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
             pElement.setAttribute("style", lStyleString);
         }
     }
-    /*
-     * colorBox() - sets the fill and stroke color of the element to the 
+
+    /**
+     * colorBox() - sets the fill and stroke color of the element to the
      * textbgcolor and linecolor of the given arc
-     * 
+     *
      * @param <svg element> - pElemeent
-     * @param <object> - pArc 
+     * @param <object> - pArc
      */
     function colorBox(pElement, pArc) {
         var lStyleString = "";
@@ -774,16 +777,16 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         }
         pElement.setAttribute("style", lStyleString);
     }
-    
-    /* 
+
+    /**
      * creates an element representing a box (box, abox, rbox, note)
      * also (mis?) used for rendering inline expressions/ arc spanning arcs
-     * 
+     *
      * @param <string> - pId - the unique identification of the box within the svg
      * @param <number> - pFrom - the x coordinate to render the box from
      * @param <number> - pTo - the x coordinate to render te box to
      * @param <object> - pArc - the (box/ arc spanning) arc to render
-     * @param <number> - pHeight - the height of the box to render. If not passed 
+     * @param <number> - pHeight - the height of the box to render. If not passed
      * takes the bounding box of the (rendered) label of the arc, taking care not
      * to get smaller than the default arc row height
      */
@@ -832,9 +835,28 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
     }
 
     return {
+
+        /**
+         * removes the element with id "__svg_output" from the DOM
+         *
+         * @param - {string} pParentElementId - the element the element with
+         * the id mentioned above is supposed to be residing in
+         * @param - {window} pWindow - the browser window object
+         *
+         */
         clean : function(pParentElementId, pWindow) {
             _clean(pParentElementId, pWindow);
         },
+        /**
+         * renders the given abstract syntax tree pAST as svg
+         * in the element with id pParentELementId in the window pWindow
+         *
+         * @param {object} pAST - the abstrac syntax tree
+         * @param {string} pSource - the source msc to embed in the svg
+         * @param {string} pParentElementId - the id of the parent element in which
+         * to put the __svg_output element
+         * @param {window} pWindow - the browser window to put the svg in
+         */
         renderAST : function(pAST, pSource, pParentElementId, pWindow) {
             _renderAST(pAST, pSource, pParentElementId, pWindow);
         }
