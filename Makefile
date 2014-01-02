@@ -13,6 +13,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
+DOC=node node_modules/jsdoc/jsdoc.js --recurse
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
@@ -176,6 +177,8 @@ release: $(VERSIONEMBEDDABLESOURCES)
 report:
 	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli" src/script/
 
+doc:
+	$(DOC) src/script README.md
 test:
 	# $(MOCHA) -R spec src/script/node/test/
 	$(MOCHA) -R dot src/script/node/test/
@@ -189,6 +192,7 @@ slart: ibartfast $(FAVICONS)
     
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html
+	rm -rf out
 
 mostlyclean: somewhatclean
 	rm -rf $(GENERATED_SOURCES)
