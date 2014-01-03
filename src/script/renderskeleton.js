@@ -1,20 +1,3 @@
-/*
- * sets up a skeleton svg, with the skeleton for rendering an msc ready
- * 
- *  desc with id __msc_source - will contain the msc source
- *  defs
- *      a list of markers used as arrow heads (each with an own id)
- *      a stylesheet (without an id)
- *      __defs - placeholder to put the msc elements in 
- *  __body - a stack of layers, from bottom to top:
- *      __background    - 
- *      __arcspanlayer  - for inline expressions ("arc spanning arcs")
- *      __lifelinelayer - for the lifelines
- *      __sequencelayer - for arcs and associated text
- *      __notelayer     - for notes and boxes - the labels of arcspanning arcs
- *                        will go in here as well
- *  
- */ 
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint browser:true */
@@ -26,6 +9,26 @@ if ( typeof define !== 'function') {
 }
 
 define(["./renderutensils"], function(utl) {
+    /**
+     * sets up a skeleton svg, with the skeleton for rendering an msc ready
+     *
+     *  desc with id __msc_source - will contain the msc source
+     *  defs
+     *      a list of markers used as arrow heads (each with an own id)
+     *      a stylesheet (without an id)
+     *      __defs - placeholder to put the msc elements in
+     *  __body - a stack of layers, from bottom to top:
+     *      __background    -
+     *      __arcspanlayer  - for inline expressions ("arc spanning arcs")
+     *      __lifelinelayer - for the lifelines
+     *      __sequencelayer - for arcs and associated text
+     *      __notelayer     - for notes and boxes - the labels of arcspanning arcs
+     *                        will go in here as well
+     * @exports renderskeleton
+     * @license GPLv3
+     * @author {@link https://github.com/sverweij | Sander Verweij}
+     */
+
     var gDocument;
 
     function setupMarkers(pDefs) {
@@ -110,7 +113,8 @@ define(["./renderutensils"], function(utl) {
         lSkeletonSvg.appendChild(setupBody());
         lParent.appendChild(lSkeletonSvg);
     }
-var gSvgStyleElementString =
+
+    var gSvgStyleElementString =
 /*jshint multistr:true */
 "svg { \
     font-family: Helvetica, sans-serif; \
@@ -251,10 +255,27 @@ path {\
     fill : inherit; \
 }";
     return {
+        /**
+         * Sets up a skeleton svg document with id pSvgElementId in the dom element
+         * with id pParentElementId, both in window pWindow. See the module 
+         * documentation for details on the structur of the skeleton.
+         * 
+         * @param {string} pParentElementId
+         * @param {string} pSvgElementId
+         * @param {window} pWindow 
+         */
         bootstrap : function(pParentElementId, pSvgElementId, pWindow) {
             return _bootstrap(pParentElementId, pSvgElementId, pWindow);
         },
-        init : function(pWindow){
+        
+        /**
+         * Initializes the document to the document associated with the 
+         * given pWindow and returns it.
+         * 
+         * @param {window} pWindow
+         * @return {document}
+         */
+        init : function(pWindow) {
             return _init(pWindow);
         }
     };

@@ -1,30 +1,3 @@
-/**
- *
- * renders an abstract syntax tree of a sequence chart
- *
- * knows of:
- *  - the syntax tree
- *  - the target canvasf
- *
- * Defines default sizes and distances for all objects.
-
- issue #13
- To get markers to work in canvg and to color them the same color as
- the associate line, we'll need to do something like this:
-
- <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
- <g transform="translate(10,20)">
- <defs>
- <marker viewBox="0 0 10 10" id="end" refX="9" refY="3" markerUnits="strokeWidth" markerWidth="10" markerHeight="10" orient="auto">
- <path d="M 1 1 l 8 2 l -8 2 " fill="none" stroke="#ABCDEF" stroke-width="1"/>
- </marker>
- </defs>
- <line x1="50" y1="20" x2="210" y2="20" stroke-width="2" stroke="#ABCDEF" marker-end="url(#end)"/>
- </g>
- </svg>
- * @author [Sander Verweij]{@link https://github.com/sverweij}
- */
-
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint browser:true */
@@ -37,8 +10,30 @@ if ( typeof define !== 'function') {
 
 define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/flatten", "./node/dotmap"], function(utl, skel, txt, flatten, map) {
     /**
-     * Renders individual elements in sequence charts
-     * @exports renderutensils
+     *
+     * renders an abstract syntax tree of a sequence chart
+     *
+     * knows of:
+     *  - the syntax tree
+     *  - the target canvasf
+     *
+     * Defines default sizes and distances for all objects.
+
+     issue #13
+     To get markers to work in canvg and to color them the same color as
+     the associate line, we'll need to do something like this:
+
+     <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+     <g transform="translate(10,20)">
+     <defs>
+     <marker viewBox="0 0 10 10" id="end" refX="9" refY="3" markerUnits="strokeWidth" markerWidth="10" markerHeight="10" orient="auto">
+     <path d="M 1 1 l 8 2 l -8 2 " fill="none" stroke="#ABCDEF" stroke-width="1"/>
+     </marker>
+     </defs>
+     <line x1="50" y1="20" x2="210" y2="20" stroke-width="2" stroke="#ABCDEF" marker-end="url(#end)"/>
+     </g>
+     </svg>
+     * @exports renderast
      * @license GPLv3
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */

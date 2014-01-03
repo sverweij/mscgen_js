@@ -7,13 +7,16 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define([],
+/**
+ * A hodge podge of functions manipulating text
+ *
+ * @exports node/textutensils
+ * @license GPLv3
+ * @author {@link https://github.com/sverweij | Sander Verweij}
+ */
+function() {
 
-    /*
-     * Wraps text on the first space found before pMaxlength,
-     * or exactly pMaxLength when no space wos found.
-     * Classic "greedy" algorithm.
-     */
     function _wrap(pText, pMaxLength) {
         var lCharCount = 0;
         var lRetval = [];
@@ -50,16 +53,6 @@ define([], function() {
         return lRetval;
     }
 
-    /*
-     * Determine the number of that fits within pWidth amount
-     * of pixels.
-     *
-     * Uses heuristics that work for 9pt Helvetica in svg's.
-     * TODO: make more generic, or use an algorithm that
-     *       uses the real width of the text under discourse
-     *       (e.g. using it's BBox; although I fear this
-     *        might be expensive)
-     */
     function _determineMaxTextWidth(pWidth) {
         var lAbsWidth = Math.abs(pWidth);
         var lMagicFactor = lAbsWidth / 8;
@@ -74,10 +67,6 @@ define([], function() {
         return lMagicFactor;
     }
 
-    /*
-     * takes pString and replaces all escaped double quotes with
-     * regular double quotes
-     */
     function _unescapeString(pString) {
         var lLabel = pString.replace(/\\\"/g, '"');
         return lLabel;
@@ -106,15 +95,55 @@ define([], function() {
     }
 
     return {
+        /**
+         * Wraps text on the first space found before pMaxlength,
+         * or exactly pMaxLength when no space was found.
+         * Classic "greedy" algorithm.
+         * @param {string} pText
+         * @param {int} pMaxLength
+         * @return {string}
+         */
         wrap : function(pText, pMaxLength) {
             return _wrap(pText, pMaxLength);
         },
+
+        /**
+         * Determine the number characters of that fits within pWidth amount
+         * of pixels.
+         *
+         * Uses heuristics that work for 9pt Helvetica in svg's.
+         * TODO: make more generic, or use an algorithm that
+         *       uses the real width of the text under discourse
+         *       (e.g. using it's BBox; although I fear this
+         *        might be expensive)
+         * @param {string} pText
+         * @param {number} pMaxLength
+         * @return {array} - an array of strings
+         */
         determineMaxTextWidth : function(pWidth) {
             return _determineMaxTextWidth(pWidth);
         },
+
+        /**
+         * takes pString and replaces all escaped double quotes with
+         * regular double quotes
+         * @param {string} pString
+         * @return {string}
+         */
         unescapeString : function(pString) {
             return _unescapeString(pString);
         },
+
+        /**
+         * Given a filename in pString, returns what language is probably
+         * contained in that file, judging from the extension (the last dot
+         * in the string to end-of-string)
+         *
+         * When in doubt returns "mscgen"
+         *
+         * @param {string} pString
+         * @return  {string} - language. Possible values: "mscgen", "msgenny", "json".
+         */
         classifyExtension : function(pString) {
             return _classifyExtension(pString);
         }
