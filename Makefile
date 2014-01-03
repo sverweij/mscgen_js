@@ -13,7 +13,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-DOC=node node_modules/jsdoc/jsdoc.js --recurse
+DOC=node node_modules/jsdoc/jsdoc.js
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
@@ -178,7 +178,7 @@ report:
 	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli" src/script/
 
 doc:
-	$(DOC) src/script README.md
+	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
 test:
 	# $(MOCHA) -R spec src/script/node/test/
 	$(MOCHA) -R dot src/script/node/test/
