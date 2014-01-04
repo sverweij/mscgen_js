@@ -44,12 +44,14 @@ define([], function() {
             y : 2
         };
         if ( typeof (pElement.getBBox) === 'function') {
-            // TODO: assumes '__body' to exist in document - alternatives:
+            // TODO: assumes '__body' to exist in the svg document - alternatives:
             //       - make either the lBody or its id a parameter
             //         (but this is actually the kind of stuff we'd like
             //          to hide from the caller)
             //       - create the lBody element on the fly
             //         (performance impact)
+            // note: the element would not have to be the <group> designated as 
+            // "body" - it could also be something temporal
             var lBody = gDocument.getElementById("__body");
             lBody.appendChild(pElement);
             lRetval = pElement.getBBox();
@@ -502,7 +504,7 @@ define([], function() {
         /**
          * Creates a text node with the appropriate tspan & a elements on position
          * (pX, pY).
-         * 
+         *
          * @param {string} pLabel
          * @param {number} pX
          * @param {number} pY
@@ -528,16 +530,16 @@ define([], function() {
         createLine : function(pX1, pY1, pX2, pY2, pClass, pDouble) {
             return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
         },
-         /**
+        /**
          * Creates an arrow between to coordinates.
          * TODO: has knowledge of the "kind" - which should reside somewhere
-         * else as this module should be agnostic of stuff like that 
-         * 
+         * else as this module should be agnostic of stuff like that
+         *
          * @param {number} pX1
          * @param {number} pY1
          * @param {number} pX2
          * @param {number} pY2
-         * @param {string=} [pKind=undefined] - the kind of arrow to render. 
+         * @param {string=} [pKind=undefined] - the kind of arrow to render.
          * Takes mscgen arcs as input (e.g. ->, => <=>, ...). When not passed
          * the "arrow" will render without arrow heads (and closely resemble
          * a line).
@@ -547,9 +549,9 @@ define([], function() {
             return _createArrow(pId, pX1, pY1, pX2, pY2, pKind);
         },
         /**
-         * Creates a u-turn, departing on pStartX, pStarty and 
+         * Creates a u-turn, departing on pStartX, pStarty and
          * ending on pStartX, pEndY with a width of pWidth
-         * 
+         *
          * @param {number} pStartX
          * @param {number} pStartY
          * @param {number} pEndY
@@ -580,7 +582,7 @@ define([], function() {
         },
         /**
          * Create a marker consisting of a path as specified in pD
-         * 
+         *
          * @param {string} pId
          * @param {string} pClass - the css class to use for the marker
          * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
@@ -592,7 +594,7 @@ define([], function() {
         },
         /**
          * Create a marker consisting of a polygon as specified in pPoints
-         * 
+         *
          * @param {string} pId
          * @param {string} pClass - the css class to use for the marker
          * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
@@ -605,14 +607,14 @@ define([], function() {
         },
         /**
          * Returns the bounding box of the passed element.
-         * 
+         *
          * Note: to be able to calculate the actual bounding box of an element it has
-         * to be in a DOM tree first. Hence this function temporarily creates the element, 
+         * to be in a DOM tree first. Hence this function temporarily creates the element,
          * calculates the bounding box and removes the temporarily created element again.
-         * 
+         *
          * @param {SVGElement} pElement - the element to calculate the bounding box for
-         * @return {boundingbox} an object with properties height, width, x and y. If 
-         * the function cannot determine the bounding box  be determined, returns 15,15,2,2 
+         * @return {boundingbox} an object with properties height, width, x and y. If
+         * the function cannot determine the bounding box  be determined, returns 15,15,2,2
          * as "reasonable default"
          */
         getBBox : function(pElement) {
