@@ -4,7 +4,7 @@
 .settings/*
 node_modules
 platoreports
-out
+jsdoc
 src/favicon.ico
 src/*favicon-*.png
 src/*tmp*.html
