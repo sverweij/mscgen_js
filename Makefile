@@ -13,7 +13,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-DOC=node node_modules/jsdoc/jsdoc.js
+DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
@@ -192,7 +192,7 @@ slart: ibartfast $(FAVICONS)
     
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html
-	rm -rf out
+	rm -rf jsdoc
 
 mostlyclean: somewhatclean
 	rm -rf $(GENERATED_SOURCES)
