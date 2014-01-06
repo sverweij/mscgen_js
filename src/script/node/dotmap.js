@@ -5,7 +5,15 @@
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
+
 define([], function() {
+/**
+ * Defines several mappings of arckinds to agregations
+ *
+ * @exports node/dotmap
+ * @license GPLv3
+ * @author {@link https://github.com/sverweij | Sander Verweij}
+ */
     var KIND2ARROW = {
         "->" : "rvee",
         "<->" : "rvee",

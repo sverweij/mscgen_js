@@ -13,6 +13,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
+DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
@@ -47,6 +48,7 @@ LIB_SOURCES_WEB=src/lib/codemirror.js \
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/renderutensils.js \
     src/script/node/textutensils.js \
+    src/script/renderskeleton.js \
     src/script/renderast.js \
     src/script/controller.js \
 	src/script/gaga.js \
@@ -162,7 +164,7 @@ checkout-gh-pages:
 
 deploy-gh-pages: checkout-gh-pages mostlyclean install
 	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	$(GIT) commit --all --message="build" --allow-empty
+	$(GIT) commit --all --message="build `cat VERSION`" --allow-empty
 	$(GIT) push
 	$(GIT) checkout master
 
@@ -175,6 +177,8 @@ release: $(VERSIONEMBEDDABLESOURCES)
 report:
 	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli" src/script/
 
+doc:
+	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
 test:
 	# $(MOCHA) -R spec src/script/node/test/
 	$(MOCHA) -R dot src/script/node/test/
@@ -188,6 +192,7 @@ slart: ibartfast $(FAVICONS)
     
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html
+	rm -rf jsdoc
 
 mostlyclean: somewhatclean
 	rm -rf $(GENERATED_SOURCES)

@@ -4,7 +4,7 @@ var fix = require("./astfixtures");
 
 describe('metrics', function() {
     describe('#getStats(fix.astBroadcastCounting()) ', function() {
-        var lStats = stats.getStats(fix.astBroadcastCounting());
+        var lStats = stats.getStats(fix.astBroadcastCounting);
 
         it("should correctly count entities", function() {
             assert.equal(lStats.entityCount, 4);
@@ -56,7 +56,7 @@ describe('metrics', function() {
     });
 
     describe('#getStats(fix.astCountingTest()) ', function() {
-        var lStats = stats.getStats(fix.astCountingTest());
+        var lStats = stats.getStats(fix.astCountingTest);
 
         it("should correctly count entities", function() {
             assert.equal(lStats.entityCount, 6);

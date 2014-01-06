@@ -5,7 +5,15 @@
 /* global define */
 /* global ga */
 
-define([], function () {
+define([],
+    /**
+     * Wrapper for google analytics. Makes it more easy to implement "donottrack"
+     * 
+     * @exports gaga
+     * @license GPLv3
+     * @author {@link https://github.com/sverweij | Sander Verweij}
+     */ 
+    function () {
     var gTrack = true;
 
     function _gaSetup(pTrack) {
@@ -28,9 +36,21 @@ define([], function () {
     }
 
     return {
+        /**
+         * if pTrack === true, calls the google analytics setup code. 
+         * Does nothing otherwise
+         * 
+         * @param {boolean} pTrack
+         */
         gaSetup : function(pTrack) {
             return _gaSetup(pTrack);
         },
+        /**
+         * If analytics was setup using gaSetup, and tracking is on, sends
+         * a ga event. Parameters same as the analytics ga function 
+         * 
+         * 
+         */
         g : function(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
             return _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
         }

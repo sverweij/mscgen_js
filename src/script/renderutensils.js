@@ -1,6 +1,4 @@
-/*
- * renders individual elements in sequence charts
- *
+/**
  * knows of:
  *  gDocument
  *  linewidth (implicit
@@ -10,7 +8,6 @@
  *      slope offset on aboxes
  *      fold size on notes
  *      space to use between double lines
- *
  */
 
 /* jshint undef:true */
@@ -24,6 +21,12 @@ if ( typeof define !== 'function') {
 }
 
 define([], function() {
+    /**
+     * Renders individual elements in sequence charts
+     * @exports renderutensils
+     * @license GPLv3
+     * @author {@link https://github.com/sverweij | Sander Verweij}
+     */
 
     var SVGNS = "http://www.w3.org/2000/svg";
     var XLINKNS = "http://www.w3.org/1999/xlink";
@@ -41,8 +44,15 @@ define([], function() {
             y : 2
         };
         if ( typeof (pElement.getBBox) === 'function') {
+            // TODO: assumes '__body' to exist in the svg document - alternatives:
+            //       - make either the lBody or its id a parameter
+            //         (but this is actually the kind of stuff we'd like
+            //          to hide from the caller)
+            //       - create the lBody element on the fly
+            //         (performance impact)
+            // note: the element would not have to be the <group> designated as 
+            // "body" - it could also be something temporal
             var lBody = gDocument.getElementById("__body");
-            // TODO: assumes '__body' to exist in element
             lBody.appendChild(pElement);
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);
@@ -407,51 +417,220 @@ define([], function() {
     }
 
     return {
+        /**
+         * Function to set the document to use. Introduced to enable use of the
+         * rendering utilities under node.js (using the jsdom module)
+         *
+         * @param {document} pDocument
+         */
         init : function(pDocument) {
             gDocument = pDocument;
         },
+        /**
+         * Creates an svg path element given the path pD, with pClass applied
+         * (if provided)
+         * @param {string} pD - the path
+         * @param {string} pClass - reference to a css class
+         * @return {SVGElement}
+         */
         createPath : function(pD, pClass) {
             return _createPath(pD, pClass);
         },
+        /**
+         * Creates an svg rectangle of pWidth x pHeight, with the top left
+         * corner at coordinates (pX, pY). pRX and pRY define the amount of
+         * rounding the corners of the rectangle get; when they're left out
+         * the function will render the corners as straight.
+         *
+         * Unit: pixels
+         *
+         * @param {number} pWidth
+         * @param {number} pHeight
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {number} pX
+         * @param {number} pY
+         * @param {number=} pRX
+         * @param {number=} pRY
+         * @return {SVGElement}
+         */
         createRect : function(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
             return _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY);
         },
+        /**
+         * Creates an angled box of pWidth x pHeight, with the top left corner
+         * at coordinates (pX, pY)
+         * @param {number} pWidth
+         * @param {number} pHeight
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {number} pX
+         * @param {number} pY
+         * @return {SVGElement}
+         */
         createABox : function(pWidth, pHeight, pClass, pX, pY) {
             return _createABox(pWidth, pHeight, pClass, pX, pY);
         },
+        /**
+         * Creates a note of pWidth x pHeight, with the top left corner
+         * at coordinates (pX, pY). pFoldSize controls the size of the
+         * fold in the top right corner.
+         * @param {number} pWidth
+         * @param {number} pHeight
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {number} pX
+         * @param {number} pY
+         * @param {number=} [pFoldSize=9]
+         *
+         * @return {SVGElement}
+         */
         createNote : function(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
             return _createNote(pWidth, pHeight, pClass, pX, pY, pFoldSize);
         },
+        /**
+         * Creates an edge remark (for use in inline expressions) of pWidth x pHeight,
+         * with the top left corner at coordinates (pX, pY). pFoldSize controls the size of the
+         * fold bottom right corner.
+         * @param {number} pWidth
+         * @param {number} pHeight
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {number} pX
+         * @param {number} pY
+         * @param {number=} [pFoldSize=7]
+         *
+         * @return {SVGElement}
+         */
         createEdgeRemark : function(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
             return _createEdgeRemark(pWidth, pHeight, pClass, pX, pY, pFoldSize);
         },
+        /**
+         * Creates a text node with the appropriate tspan & a elements on position
+         * (pX, pY).
+         *
+         * @param {string} pLabel
+         * @param {number} pX
+         * @param {number} pY
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {string=} pURL - link to render
+         * @param {string=} pID - (small) id text to render
+         * @param {string=} pIDURL - link to render for the id text
+         * @return {SVGElement}
+         */
         createText : function(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
             return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
         },
+        /**
+         * Creates a line between to coordinates
+         * @param {number} pX1
+         * @param {number} pY1
+         * @param {number} pX2
+         * @param {number} pY2
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {boolean=} [pDouble=false] - render a double line
+         * @return {SVGElement}
+         */
         createLine : function(pX1, pY1, pX2, pY2, pClass, pDouble) {
             return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
         },
+        /**
+         * Creates an arrow between to coordinates.
+         * TODO: has knowledge of the "kind" - which should reside somewhere
+         * else as this module should be agnostic of stuff like that
+         *
+         * @param {number} pX1
+         * @param {number} pY1
+         * @param {number} pX2
+         * @param {number} pY2
+         * @param {string=} [pKind=undefined] - the kind of arrow to render.
+         * Takes mscgen arcs as input (e.g. ->, => <=>, ...). When not passed
+         * the "arrow" will render without arrow heads (and closely resemble
+         * a line).
+         * @return {SVGElement}
+         */
         createArrow : function(pId, pX1, pY1, pX2, pY2, pKind) {
             return _createArrow(pId, pX1, pY1, pX2, pY2, pKind);
         },
+        /**
+         * Creates a u-turn, departing on pStartX, pStarty and
+         * ending on pStartX, pEndY with a width of pWidth
+         *
+         * @param {number} pStartX
+         * @param {number} pStartY
+         * @param {number} pEndY
+         * @param {number} pWidth
+         * @param {string} pClass - reference to the css class to be applied
+         * @return {SVGElement}
+         */
         createUTurn : function(pStartX, pStartY, pEndY, pWidth, pClass) {
             return _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass);
         },
+        /**
+         * Creates an svg group, identifiable with id pId
+         * @param {string} pId
+         * @return {SVGElement}
+         */
         createGroup : function(pId) {
             return _createGroup(pId);
         },
+        /**
+         * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
+         * @param {number} pX
+         * @param {number} pY
+         * @param {number} pLink
+         * @return {SVGElement}
+         */
         createUse : function(pX, pY, pLink) {
             return _createUse(pX, pY, pLink);
         },
+        /**
+         * Create a marker consisting of a path as specified in pD
+         *
+         * @param {string} pId
+         * @param {string} pClass - the css class to use for the marker
+         * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
+         * @param {string} pD - a string containing the path
+         * @param {string} pPathClass - the css class to use for the path
+         */
         createMarkerPath : function(pId, pClass, pOrient, pD, pPathClass) {
             return _createMarkerPath(pId, pClass, pOrient, pD, pPathClass);
         },
+        /**
+         * Create a marker consisting of a polygon as specified in pPoints
+         *
+         * @param {string} pId
+         * @param {string} pClass - the css class to use for the marker
+         * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
+         * @param {string} pPoints - a string with the points of the polygon
+         * @param {string} pPathClass - the css class to use for the path
+         * @return {SVGElement}
+         */
         createMarkerPolygon : function(pId, pClass, pOrient, pPoints, pPathClass) {
             return _createMarkerPolygon(pId, pClass, pOrient, pPoints, pPathClass);
         },
+        /**
+         * Returns the bounding box of the passed element.
+         *
+         * Note: to be able to calculate the actual bounding box of an element it has
+         * to be in a DOM tree first. Hence this function temporarily creates the element,
+         * calculates the bounding box and removes the temporarily created element again.
+         *
+         * @param {SVGElement} pElement - the element to calculate the bounding box for
+         * @return {boundingbox} an object with properties height, width, x and y. If
+         * the function cannot determine the bounding box  be determined, returns 15,15,2,2
+         * as "reasonable default"
+         */
         getBBox : function(pElement) {
             return _getBBox(pElement);
-        }
+        },
+        /**
+         * @const
+         * @default
+         */
+        SVGNS : SVGNS,
+        /**
+         * @const
+         * @default
+         */
+        XLINKNS : XLINKNS
+
     };
 });
 /*

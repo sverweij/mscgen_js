@@ -1,12 +1,3 @@
-/*
- * Simplifies an AST:
- *    - entities without a label get one (the name of the label)
- *    - arc directions get unified to always go forward
- *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
- *    - explodes broadcast arcs (TODO)
- *    - distributes arc*color from the entities to the affected arcs
- */
-
 /* jshint node:true */
 /* jshint undef:true */
 /* jshint unused:strict */
@@ -16,7 +7,15 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./dotmap"], function(transform, map) {
+define(["./asttransform", "./dotmap"],
+/**
+ * Defines some functions to simplify a given abstract syntax tree.
+ *
+ * @exports node/flatten
+ * @license GPLv3
+ * @author {@link https://github.com/sverweij | Sander Verweij}
+ */
+function(transform, map) {
 
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;
@@ -163,15 +162,51 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     }
 
     return {
+        /**
+         * If the arc is "facing backwards" (right to left) this function sets the arc
+         * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
+         * resulting in an equivalent (b << a becomes a >> b).
+         *
+         * If the arc is facing forwards or is symetrical, it is left alone.
+         *
+         * @param {arc} pArc
+         * @return {arc}
+         */
         swapRTLArc : function(pArc) {
             return _swapRTLArc(pArc);
         },
+        /**
+         * Flattens any recursion in the arcs of the given abstract syntax tree to make it
+         * more easy to render.
+         * - TODO: document this stuff
+         *
+         * @param {ast} pAST
+         * @return {ast}
+         */
         unwind : function(pAST) {
             return _unwind(pAST);
         },
+        /**
+         * Simplifies an AST:
+         *    - entities without a label get one (the name of the label)
+         *    - arc directions get unified to always go forward
+         *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
+         *    - explodes broadcast arcs (TODO)
+         *    - flattens any recursion (see the {@linkcode unwind} function in
+         *      in this module)
+         *    - distributes arc*color from the entities to the affected arcs
+         * @param {ast} pAST
+         * @return {ast}
+         */
         flatten : function(pAST) {
             return transform.transform(_unwind(pAST), [nameAsLabel], [_swapRTLArc, overrideColors]);
         },
+        /**
+         * Simplifies an AST same as the @link {flatten} function, but without flattening the recursion
+         *
+         * @param {ast} pAST
+         * @return {ast}
+         */
         dotFlatten : function(pAST) {
             return transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]);
         }
