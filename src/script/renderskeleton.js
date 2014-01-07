@@ -66,8 +66,8 @@ define(["./renderutensils"], function(utl) {
          * to put "dynamic" definitions in
          */
         var lDefs = gDocument.createElementNS(utl.SVGNS, "defs");
-        lDefs = setupMarkers(lDefs);
         lDefs.appendChild(setupStyle(gDocument));
+        lDefs = setupMarkers(lDefs);
         lDefs.appendChild(utl.createGroup("__defs"));
         return lDefs;
     }
@@ -157,21 +157,21 @@ text.entity { \
 text.anchor-start { \
     text-anchor: start; \
 }\
-path {\
-    stroke: black;\
-    color: black;\
-    stroke-width: 2;\
-    fill: none;\
-}\
+path { \
+    stroke: black; \
+    color: black; \
+    stroke-width: 2; \
+    fill: none; \
+} \
 .dotted {\
-    stroke-dasharray: 5,2;\
-}\
-.striped {\
-    stroke-dasharray: 10,5;\
-}\
-.arrow-marker {\
-    overflow:visible;\
-}\
+    stroke-dasharray: 5,2; \
+} \
+.striped { \
+    stroke-dasharray: 10,5; \
+} \
+.arrow-marker { \
+    overflow:visible; \
+} \
 .arrow-style { \
     stroke : black; \
     stroke-dasharray : 100,1; /* 'none' should work, but doesn't in webkit */ \
