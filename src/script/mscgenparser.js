@@ -2853,13 +2853,26 @@ define ([], function(){
       }
       
       
-          function merge(obj1,obj2){
-              var obj3 = {};
-              for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-              for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-              return obj3;
+          /**
+           * merges the objects pObj1 and pObj2 and returns the result
+           */
+          function merge(pObj1,pObj2){
+              var lRetval = {};
+              for (var attrname in pObj1) { lRetval[attrname] = pObj1[attrname]; }
+              for (var attrname in pObj2) { lRetval[attrname] = pObj2[attrname]; }
+              return lRetval;
           }
           
+          /**
+           * Given one of the boolean representations possible in mscgen returns
+           * one practical presentation  
+           * 
+           * true, on, 1 => "true"
+           * everything else => "false"
+           * 
+           * @param {string} pBoolean
+           * @return {string}
+           */
           function flattenBoolean(pBoolean) {
               var lBoolean = "false";
               switch(pBoolean.toLowerCase()) {
@@ -2868,6 +2881,14 @@ define ([], function(){
               return lBoolean;
           }
       
+          /**
+           * Returns true if an entity with name pName occurs in the pEntities array
+           * Returns false in all other cases.
+           * 
+           * @param {array} pEntities
+           * @param {string} pString
+           * @return {boolean}
+           */
           function entityExists (pEntities, lName) {
               var i = 0;
               if (lName === undefined || lName === "*") {
@@ -2883,6 +2904,14 @@ define ([], function(){
               return false;
           }
       
+          /**
+           * Custom error message for undefined entities.
+           * 
+           * sets the message of the current parser object
+           * to divulge pEntityName in pArc is not defined and the 
+           * name to EntityNotDefinedError (which is how the parser 
+           * communicates error messages) 
+           */
           function EntityNotDefinedError (pEntityName, pArc) {
               this.message = "Entity '" + pEntityName + "' in arc ";
               this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
@@ -2890,6 +2919,12 @@ define ([], function(){
               this.name = "EntityNotDefinedError";
           }
       
+          /**
+           * runs through the passed list of arc lines (pArcLineList) 
+           * if an entity (name) used in one of the arcs does not exist it throws an 
+           * EntityNotDefinedError. 
+           * Returns the passed pEntities or the empty object if pEntities is empty
+           */
           function checkForUndeclaredEntities (pEntities, pArcLineList) {
               var i = 0;
               var j = 0;
