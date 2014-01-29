@@ -14,13 +14,19 @@ To create javascript from the .pegjs source usable in node and commonjs:
 pegjs mscgenparser.pegjs > mscgenparser_node.js
 ```
 
-To create a parser that is usable in require.js, replace, do a trivial replace
+To create a parser that is usable in require.js, the line 
+```module.exports = (function(){```needs to be replaced with ```define ([], function(){```. 
+The ```commonjs2amd.sh``` script in the utl directory does just that. Usage:
 ```
 commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
 ```
 
 ## The abstract syntax tree
-Consists of three parts: options, entities and arcs. Sample used in the explanation below:
+All parsers generate a JSON syntax tree adhering to the same structure. It is conceptually modeled
+after the three parts that make up mscgen programs: options, entities and arcs. We will discuss each
+in detail below.
+
+In the explanation we will use this mscgen program as a reference.
 ```mscgen
 msc {
   hscale="1.1",
@@ -38,7 +44,37 @@ msc {
   b >> a [label="done"];
 }
 ```
+
+### general conventions
+- Be liberal in what you receive and strict in what you send - 
+  although mscgen (, msgenny, xù) often support multiple spellings of attributes
+  and options and are case insensitive the parser outputs only one variant of them in
+  - lowercase (e.g. TEXTcolor, textColor and TeXtColOUR all translate to the
+    attribute "textcolor")
+  - American spelling (e.g. textcolor and textcolour both translate to the 
+    attribute "textcolor")
+  - "true" and "false" as values for booleans
+- If it's not in the input, it's not in the output - 
+  The parser does not generate "default values" for objects whose pendant
+  was not available in the input.
+- The order of attributes within objects is not guaranteed.
+- The order of objects outside of arrays is not guaranteed.
+- The order of objects within an array represents the order in which they are
+  present in the source program. 
+
+
 ### options
+```options``` is an object with the options that are possible in mscgen as attributes. 
+
+- If the input program does not have an option, the parser leaves the associated
+  attribute out of the syntax tree.
+- If the input program does not have any options at all, the parser leaves the options 
+  object out of the syntax tree altogether.
+- Note that in mscgen, msgenny and xù the boolean attribute ```wordwraparcs``` can have
+  the values true, 1, on, "true" and "on" for true and false, 0, off, "false" and "off" 
+  for off. The parser flattens this to "true" and "false" respectively so consumers working
+  with the syntax tree don't have to worry about 
+
 ```json
   "options": {
     "arcgradient": "10",
@@ -49,7 +85,23 @@ msc {
 ```
 
 ### entities 
-an array of entities
+```entities``` is an array of anonymous objects, each of which represents an entity. 
+Each of these objects is guaranteed to have a ```name``` attribute. To remain compatible
+with mscgen this name is /not necessarily unique/, however. 
+
+The list of possible attributes is equal to what is allowed for mscgen:
+
+"idurl", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+
+- Note that mscgen allows its color attributes to be written in either British or
+American spelling (colour, color). The mscgen, msgenny and xù parsers all map them 
+to the American variant for the ease of its consumers.
+- Shrewd readers will have noticed "arcskip" to be allowed too, while in the context of an entity it
+  is meaningless. The reason for its pressence is simply that the mscgen and xù parsers use the 
+  same list of attributes for entities as for arcs.
+  Consumers are advised to ignore the arcskip attribute for entities 
+  (the demo code certainly does :-)).
+
 ```json
 "entities": [
     {
@@ -72,7 +124,8 @@ an array of entities
   ]
 ```
 ### arcs 
-(really: arc rows) a two dimensional array of arcs 
+```arcs``` is a two dimensional array of arcs. The outer array 
+
 ```json
   "arcs": [
     [
