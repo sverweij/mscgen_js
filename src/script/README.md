@@ -5,8 +5,7 @@ mscgen_js
 # Parsing
 ## Introduction
 The parsers for ```mscgen```, ```msgenny``` and ```xù``` are all written in pegjs and
-deliver the abstract syntax tree as a javascript object, which can be read and 
-manipulated easily with javascript.
+deliver the abstract syntax tree as a javascript object.
 
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and commonjs:
@@ -52,7 +51,7 @@ msc {
 ```
 
 ### general conventions
-- /Be liberal in what you receive and strict in what you send/ - 
+- _Be liberal in what you receive and strict in what you send_ - 
   although mscgen (, msgenny, xù) often support multiple spellings of attributes
   and options and are case insensitive the parser outputs only one variant of them in
   - lowercase (e.g. TEXTcolor, textColor and TeXtColOUR all translate to the
@@ -60,13 +59,14 @@ msc {
   - American spelling (e.g. textcolor and textcolour both translate to the 
     attribute "textcolor")
   - "true" and "false" as values for booleans
-- /If it's not in the input, it's not in the output/ - 
+- _If it's not in the input, it's not in the output_ - 
   The parser does not generate "default values" for objects whose pendant
   was not available in the input.
 - The order of attributes within objects is not guaranteed.
 - The order of objects outside of arrays is not guaranteed.
 - The order of objects within an array represents the order in which they are
   present in the source program. 
+- TODO: describe escape mechanism
 
 
 ### options
@@ -97,12 +97,12 @@ with mscgen this name is /not necessarily unique/, however.
 
 The list of possible attributes is equal to what is allowed for mscgen:
 
-"idurl", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+"id", "url", "idurl", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"
 
 - Note that mscgen allows its color attributes to be written in either British or
 American spelling (colour, color). The mscgen, msgenny and xù parsers all map them 
 to the American variant for the ease of its consumers.
-- Shrewd readers will have noticed "arcskip" to be allowed too, while in the context of an entity it
+- Shrewd readers will have noticed the parser allows "arcskip" as well, while in the context of an entity it
   is meaningless. The reason for its pressence is simply that the mscgen and xù parsers use the 
   same list of attributes for entities as for arcs.
   Consumers are advised to ignore the arcskip attribute for entities 
@@ -129,8 +129,22 @@ to the American variant for the ease of its consumers.
     }
   ]
 ```
+
 ### arcs 
-```arcs``` is a two dimensional array of arcs. The outer array contains 
+```arcs``` is a two dimensional array of arcs. Each array in the outer array represents an 
+arc _row_ (so the name _arcs_ is kind of a misnomer - ah well). The inner array consists
+of anonymous objects each of which represents an arc. Each arc is guaranteed to have
+- kind
+- from (either referencing a specific entity or all of them with the special value "*"
+- to
+
+Other attributes are optional: "url", "id", "idurl", "linecolor", "textcolor", "textbgcolor", "arcskip"
+
+Actually, "arclinecolor", "arctextcolor" and "arctextbgcolor" are allowed too, but as they
+have no functional meaning in the context of an arc consumers are advised to ignore them for 
+arcs.
+
+todo: add recursive structure for xù.
 
 ```json
   "arcs": [
