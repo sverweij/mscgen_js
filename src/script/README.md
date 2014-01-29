@@ -24,7 +24,13 @@ commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
 ## The abstract syntax tree
 All parsers generate a JSON syntax tree adhering to the same structure. It is conceptually modeled
 after the three parts that make up mscgen programs: options, entities and arcs. We will discuss each
-in detail below.
+in detail below. 
+
+Hint: When you add the parameter debug with value true to the url of the demo (e.g. like so: http://sverweij.github.io/mscgen_js?debug=true) the interface gets an extra language
+called option called "AST". When - after entering a valid mscgen, msgenny or xù program - 
+you click it, the editor will show the abstract syntax tree the parser generated. 
+If you are brave and/ or have too much time on your hands you can even edit 
+the syntax tree directly from there.
 
 In the explanation we will use this mscgen program as a reference.
 ```mscgen
@@ -46,7 +52,7 @@ msc {
 ```
 
 ### general conventions
-- Be liberal in what you receive and strict in what you send - 
+- /Be liberal in what you receive and strict in what you send/ - 
   although mscgen (, msgenny, xù) often support multiple spellings of attributes
   and options and are case insensitive the parser outputs only one variant of them in
   - lowercase (e.g. TEXTcolor, textColor and TeXtColOUR all translate to the
@@ -54,7 +60,7 @@ msc {
   - American spelling (e.g. textcolor and textcolour both translate to the 
     attribute "textcolor")
   - "true" and "false" as values for booleans
-- If it's not in the input, it's not in the output - 
+- /If it's not in the input, it's not in the output/ - 
   The parser does not generate "default values" for objects whose pendant
   was not available in the input.
 - The order of attributes within objects is not guaranteed.
@@ -124,7 +130,7 @@ to the American variant for the ease of its consumers.
   ]
 ```
 ### arcs 
-```arcs``` is a two dimensional array of arcs. The outer array 
+```arcs``` is a two dimensional array of arcs. The outer array contains 
 
 ```json
   "arcs": [
