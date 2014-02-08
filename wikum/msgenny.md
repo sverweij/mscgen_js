@@ -10,7 +10,7 @@ fast. See below for a complete comparison chart.
 
 To have our cake and eat it too we made the [online demo][4] translate between
 the two with the flick of a switch. The demo also contains a complete [tutorial][5]
-on *ms genny*, which also serves as a 
+on *ms genny*. 
 
 ## Example
 ``` msgenny
