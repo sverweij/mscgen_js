@@ -443,7 +443,8 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
             lFrom = lTo;
             lTo = lTmp;
         }
-        var lMaxWidth = (lTo === lFrom) ? (gInterEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH : (lTo - lFrom - 2 * LINE_WIDTH);
+
+        var lMaxWidth = (lTo - lFrom) + (gInterEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
 
         var lStart = (lFrom - ((gInterEntitySpacing - 3 * LINE_WIDTH) / 2) - (pArc.depth + 1) * 2 * LINE_WIDTH);
         var lGroup = utl.createGroup(pId);
