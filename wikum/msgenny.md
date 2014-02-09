@@ -157,6 +157,11 @@ Note: obviously features not supported by *ms genny* get lost in translation.
         <td>supported</td>
         <td>not supported</td>
     </tr>
+    <tr>
+        <td>inline expressions (loop, alt, opt, neg, ...)</td>
+        <td>not supported</td>
+        <td>supported as it is in xù, </td>
+    </tr>
 </table>
 
 [1]: ../src/script/node/msgennyparser.pegjs
