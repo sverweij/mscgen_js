@@ -15,6 +15,9 @@ article {
     border-radius: 0.5em;
     overflow: hidden;
     counter-reset: chapter-counter;
+    /* shadow stuff: */
+    box-shadow: 0.0em 0.0em 1em -0.2em gray;
+    border-collapse: separate; /* apparently needed for IE */
 }
 section {
     counter-reset: paragraph-counter;
@@ -64,10 +67,7 @@ code {
 img {
     max-width: 100%;
 }
-.shadow {
-    box-shadow: 0.0em 0.0em 1em -0.2em gray;
-    border-collapse: separate; /* apparently needed for IE */
-}
+
 .info {
     border-left: 1px solid #AAAAFF;
     padding: 0.5em;
