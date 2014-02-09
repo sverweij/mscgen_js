@@ -84,15 +84,18 @@ loop {
 } [label="for each grain of sand on the beach"];
 ```
 
-
 ```mscgen
-alt {
-  john =>> shed [label="get(bike)"];
-  shed >> john [label="bike"];
-  john =>> bike [label="use"];
-  --- [label="else"];
-  ||| [label="john stays at home"];
-}[label="wheather is nice"];
+msc {
+  john, shed,  bike;
+
+  john alt bike {
+    john =>> shed [label="get(bike)"];
+    shed >> john [label="bike"];
+    john =>> bike [label="use"];
+    --- [label="else"];
+    ||| [label="john stays at home"];
+  } [label="wheather is nice"];
+}
 ```
 
 To separate sections to execute in parallel you can use a comment line, like so:
@@ -106,11 +109,24 @@ par {
 }
 ```
 
-## msgenny
-Also supports.
+## ms genny
+ms genny also has support for inline expressions, the if-then-else construct above
+would look something like this:
+
+```msgenny
+john, shed, bike;
+
+john alt bike {
+  john =>> shed : get(bike);
+  shed >> john : bike;
+  john =>> bike : use;
+  --- : else;
+  ||| : john stays at home;
+} : wheather is nice;
+```
 
 ## compatibility with mscgen
-```ast2mscgen``` handles by translating inline expressions to horizontal lines ("--") 
+```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---") 
 
 
 ## Supported inline expressions
