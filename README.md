@@ -1,10 +1,10 @@
 # mscgen_js
 *Turns text into sequence charts.*
 
+- Fully functional [demo here][2]
 - Uses the [mscgen][1] mini language. 
 - Supports a [simplified subset of mscgen][5] for lazy bastards.
 - Supports a [superset of mscgen][29] for the feature hungry.
-- [Demo here][2]
 
 ## Sample
 This sequence chart ...
