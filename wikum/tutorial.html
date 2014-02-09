@@ -28,7 +28,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="stylesheet" href="tutorial.css" type="text/css" media="screen">
 
 <body>
-<article id="msgenny" class="shadow">
+<article id="msgenny">
 <h1>Language tutorial</h1>
 <nav>
 <ul>
@@ -63,6 +63,13 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
                 <a href="#both-ways-no-way">both ways, no way</a>
             <li>
                 <a href="#box-rbox-abox">box, rbox, abox</a>
+        </ul>
+    <li>
+        <a href="#extended-stuff">Extended stuff</a>
+        <ul>
+            <li>
+                <a href="#inline-expressions">inline expressions</a>
+
         </ul>
 </ul>
 </nav>
@@ -235,8 +242,6 @@ a note b : "Text in notes, boxes (box, abox, rbox)
 
 </p>
 
-
-
 <h3 id="naming-entities-explicit-order">Explicit entity declarations: labeling entities, use your own order</h3>
 <p>To prevent you from having to enter long entity names in each line, you can explicitly 
 declare entity names at the start of your script and give them labels. </p>
@@ -310,9 +315,40 @@ c <mark>rbox</mark> d : rbox;
 </pre>
 <img id="tut20" src="tutorial/tut20.svg" alt="tut20">
 </section>
+<section>
+<h2 id="extended-stuff">Extended stuff - inline expressions</h2>
+<p>If you're a sequence diagram regular, you probably need to express alternatives 
+    and loops 'n stuff once in a while, like this:</p>
+
+<img id="tut36" src="tutorial/tut36.svg" alt="tut36">
+
+<p> There is no support for that in mscgen, which is why we created xù. All <em>inline
+    expression</em> keywords from xù also work in ms genny. To get the sample above you'd use:</p>
+<pre class="code msgenny">
+a,b,c,d;
+
+a =>> b;
+<mark>b loop d {</mark>
+   b =>> c: knock;
+   <mark>c alt d {</mark>
+      c =>> d: do stuff;
+      ---: not true;
+      c =>> d: do other stuff;
+   <mark>}: some condition;</mark>
+<mark>}: 3 times;</mark>
+</pre>
+<p class="warning">
+    If you rely on mscgen to do your rendering in doxygen (e.g.) you might
+    want to either steer clear of inline expressions or rewrite them to 
+    comment constructs.    
+    The <code>ast2mscgen</code> (node.js) script will help you do that:
+    <code style="display: block">node msgenny2ast.js &lt; yourscript.msgenny | node ast2mscgen.js > yourscript.mscgen</code> 
+</p>
+</section>
 </article>
 
-<article id="demo" class="shadow">
+
+<article id="demo">
 <h1>Using the on line demo</h1>
 <p>With the on line "demo" you can write mscgen programs and see the
     chart grow in real time.
@@ -333,7 +369,7 @@ c <mark>rbox</mark> d : rbox;
 <h3>Language</h3>
 <p>
     <ul>
-        <li>mscgen, msgenny, JSON/ AST</li>
+        <li>mscgen, xù, msgenny, JSON/ AST</li>
         <li>comment "wipe"</li>
         <li>feature "wipe"</li>
     </ul>
@@ -359,6 +395,9 @@ c <mark>rbox</mark> d : rbox;
     As msgenny does not support colors, the auto color function only works
     for mscgen (and in abstract syntax tree when in debug mode). 
 </p>
+<h3>Bleach</h3>
+<p>Removes all colors from the chart.</p>
+
 </section>
 <section>
 <h2>Output</h2>
@@ -399,15 +438,27 @@ c <mark>rbox</mark> d : rbox;
 </section>
 </article>
 
-<article id="mscgen" class="shadow">
+<article id="mscgen">
 <h1>Mscgen</h1>
-<p>For a complete <em>mscgen</em> reference visit
+<p>Why should I use mscgen, when I can bang out sequence diagrams with ms genny 
+    in a pinch? There are three good reasons for this</p>
+<ul>
+    <li><em>Compatibility</em> - mscgen has been around for quite a long time and
+        Michael, it's father, marketed it fairly well, so there is relatively wide
+        spread support. The mscgen command line runs on most platforms, is packaged
+        with some major linux distros and has an impressive list of supporting
+        applications, not the least of which are documentation generators like 
+        <em>doxygen</em> and <em>asciidoc</em>.
+        Heck, MscGen even has its own <a href="https://en.wikipedia.org/wiki/Mscgen" target="_blank">wikipedia</a> 
+        page.
+   <li><em>Features</em> - the simplicity of ms genny comes with a price: features.
+       mscgen a.o. supports coloring, skipping arcs and embedding hyperlinks. Ms genny does not. 
+   <li><em>ms genny => mscgen in one click</em> - you can bang out your sequence chart with 
+       ms genny and with one click in the online demo get its mscgen counterpart. 
+</ul>
+
+<p class="info">For a complete <em>mscgen</em> reference visit
 <a href="http://www.mcternan.me.uk/mscgen" target="_blank">the site of its creator</a>.</p>
-<p>Click!</p>
-<p>Why?</p>
-<p>- mscgen compatibility,</p>
-<p>- doxygen integration.</p>
-<p>- Features: coloring, arcskip, hyperlinks</p>
 
 <section>
 <h2 id="coloring">Coloring</h2>
