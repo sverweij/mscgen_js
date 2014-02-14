@@ -347,14 +347,14 @@ module.exports = (function() {
                 "to" : "c",
                 "label" : "label for loop",
                 "numberofrows" : 5,
-                "depth" : 1
+                "depth" : 0
             }], [{
                 "kind" : "alt",
                 "from" : "b",
                 "to" : "c",
                 "label" : "label for alt",
                 "numberofrows" : 2,
-                "depth" : 0
+                "depth" : 1
             }], [{
                 "kind" : "->",
                 "from" : "b",
@@ -430,7 +430,7 @@ module.exports = (function() {
                 "label" : "within opt",
                 "from" : "b",
                 "to" : "c",
-                depth : 0
+                depth : 1
             }], [{
                 "kind" : "|||",
                 "from" : "b",
@@ -576,7 +576,7 @@ module.exports = (function() {
                 "arctextcolor" : "green",
                 "arctextbgcolor" : "blue",
                 "numberofrows" : 6,
-                "depth" : 1
+                "depth" : 0
             }], [{
                 "kind" : "=>",
                 "from" : "a",
@@ -598,7 +598,7 @@ module.exports = (function() {
                 "from" : "a",
                 "to" : "b",
                 "numberofrows" : 2,
-                "depth" : 0
+                "depth" : 1
             }], [{
                 "kind" : "->",
                 "from" : "a",

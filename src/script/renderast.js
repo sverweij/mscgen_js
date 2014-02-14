@@ -52,6 +52,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
     var DEFAULT_ARC_GRADIENT = 0;
     var gArcGradient = DEFAULT_ARC_GRADIENT;
     var gWordWrapArcs = false;
+    var gMaxDepth = 0;
 
     var gEntityXHWM = 0;
     var gEntity2X = {};
@@ -190,8 +191,10 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
          * extra width needed into account
          */
         var lMscDepthCorrection = 0;
+        gMaxDepth = 0;
         if (pAST.depth) {
-            lMscDepthCorrection = 2 * ((pAST.depth) * 2 * LINE_WIDTH);
+            lMscDepthCorrection = 2 * ((pAST.depth + 1) * 2 * LINE_WIDTH);
+            gMaxDepth = pAST.depth;
         }
         var lCanvasWidth = (pAST.entities.length * gInterEntitySpacing) + lMscDepthCorrection;
 
@@ -446,7 +449,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
 
         var lMaxWidth = (lTo - lFrom) + (gInterEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
 
-        var lStart = (lFrom - ((gInterEntitySpacing - 3 * LINE_WIDTH) / 2) - (pArc.depth + 1) * 2 * LINE_WIDTH);
+        var lStart = (lFrom - ((gInterEntitySpacing - 3 * LINE_WIDTH) / 2) - (gMaxDepth - pArc.depth) * 2 * LINE_WIDTH);
         var lGroup = utl.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth / 2), gArcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
@@ -723,7 +726,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         var lGroup = utl.createGroup(pId);
 
         if (pArc.from && pArc.to) {
-            var lArcDepthCorrection = (pArc.depth + 1) * 2 * LINE_WIDTH;
+            var lArcDepthCorrection = (gMaxDepth - pArc.depth) * 2 * LINE_WIDTH;
 
             lStartX = (gEntity2X[pArc.from] - (gInterEntitySpacing - 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
             lEndX = (gEntity2X[pArc.to] + (gInterEntitySpacing - 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
@@ -820,7 +823,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
                 lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0 - lHeight / 2), NOTE_FOLD_SIZE);
                 break;
             default :
-                var lArcDepthCorrection = (pArc.depth + 1) * 2 * LINE_WIDTH;
+                var lArcDepthCorrection = (gMaxDepth - pArc.depth ) * 2 * LINE_WIDTH;
                 lBox = utl.createRect(lWidth + lArcDepthCorrection * 2, lHeight, "box", lStart - lArcDepthCorrection, 0);
         }
         colorBox(lBox, pArc);

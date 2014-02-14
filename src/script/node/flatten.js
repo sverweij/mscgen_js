@@ -17,6 +17,8 @@ define(["./asttransform", "./dotmap"],
  */
 function(transform, map) {
 
+    var gMaxDepth = 0;
+
     function nameAsLabel(pEntity) {
         var lEntity = pEntity;
 
@@ -110,17 +112,20 @@ function(transform, map) {
                     delete lArcSpanningArc.arcs;
                     pAST.arcs.push([lArcSpanningArc]);
                     for (var lArcRowCount = 0; lArcRowCount < pArcRow[0].arcs.length; lArcRowCount++) {
-                        unwindArcRow(pArcRow[0].arcs[lArcRowCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to, pDepth);
+                        unwindArcRow(pArcRow[0].arcs[lArcRowCount], pAST, lArcSpanningArc.from, lArcSpanningArc.to, pDepth + 1);
                         for (var lArcCount = 0; lArcCount < pArcRow[0].arcs[lArcRowCount].length; lArcCount++) {
                             overrideColorsFromThing(pArcRow[0].arcs[lArcRowCount][lArcCount], lArcSpanningArc);
                         }
                     }
-                    lArcSpanningArc.depth = pDepth.depth;
-                    pDepth.depth++;
+                    lArcSpanningArc.depth = pDepth;
+                    if (pDepth > gMaxDepth) {
+                        gMaxDepth = pDepth;
+                    }
                     pAST.arcs.push([{
                         kind : "|||",
                         from : lArcSpanningArc.from,
-                        to : lArcSpanningArc.to,
+                        to : lArcSpanningArc.to
+                        // label : lArcSpanningArc.depth.toString()
                         // label : lArcSpanningArc.kind.toUpperCase() + " end"
                     }]);
                 } else {
@@ -133,7 +138,7 @@ function(transform, map) {
                     if ("emptyarc" === map.getAggregate(pArcRow[i].kind)) {
                         pArcRow[i].from = pFrom;
                         pArcRow[i].to = pTo;
-                        pArcRow[i].depth = pDepth.depth;
+                        pArcRow[i].depth = pDepth;
                     }
                 }
             }
@@ -144,9 +149,7 @@ function(transform, map) {
     function _unwind(pAST) {
         var lRowCount;
         var lAST = {};
-        var lDepth = {
-            depth : 0
-        };
+        gMaxDepth = 0;
 
         lAST.options = pAST.options ? JSON.parse(JSON.stringify(pAST.options)) : undefined;
         lAST.entities = pAST.entities ? JSON.parse(JSON.stringify(pAST.entities)) : undefined;
@@ -154,10 +157,10 @@ function(transform, map) {
 
         if (pAST && pAST.arcs) {
             for ( lRowCount = 0; lRowCount < pAST.arcs.length; lRowCount++) {
-                unwindArcRow(pAST.arcs[lRowCount], lAST, undefined, undefined, lDepth);
+                unwindArcRow(pAST.arcs[lRowCount], lAST, undefined, undefined, 0);
             }
         }
-        lAST.depth = lDepth.depth;
+        lAST.depth = gMaxDepth + 1;
         return lAST;
     }
 
