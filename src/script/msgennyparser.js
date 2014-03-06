@@ -973,7 +973,7 @@ define ([], function(){
             pos = pos3;
           }
           if (result1 !== null) {
-            result1 = (function(offset, l) {return l})(pos2, result1[2]);
+            result1 = (function(offset, s) {return s})(pos2, result1[2]);
           }
           if (result1 === null) {
             pos = pos2;
@@ -990,9 +990,9 @@ define ([], function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, a, al) {
-          if (al) {
-            a["label"] = al;
+          result0 = (function(offset, a, label) {
+          if (label) {
+            a["label"] = label;
           }
           return a;
         })(pos0, result0[0], result0[1]);
@@ -1252,8 +1252,8 @@ define ([], function(){
       }
       
       function parse_spanarc() {
-        var result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12;
-        var pos0, pos1;
+        var result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13;
+        var pos0, pos1, pos2, pos3;
         
         pos0 = pos;
         pos1 = pos;
@@ -1271,35 +1271,82 @@ define ([], function(){
                   if (result5 !== null) {
                     result6 = parse__();
                     if (result6 !== null) {
-                      if (input.charCodeAt(pos) === 123) {
-                        result7 = "{";
+                      pos2 = pos;
+                      pos3 = pos;
+                      if (input.charCodeAt(pos) === 58) {
+                        result7 = ":";
                         pos++;
                       } else {
                         result7 = null;
                         if (reportFailures === 0) {
-                          matchFailed("\"{\"");
+                          matchFailed("\":\"");
                         }
                       }
                       if (result7 !== null) {
                         result8 = parse__();
                         if (result8 !== null) {
-                          result9 = parse_arclist();
+                          result9 = parse_string();
                           if (result9 !== null) {
                             result10 = parse__();
                             if (result10 !== null) {
-                              if (input.charCodeAt(pos) === 125) {
-                                result11 = "}";
-                                pos++;
-                              } else {
-                                result11 = null;
-                                if (reportFailures === 0) {
-                                  matchFailed("\"}\"");
-                                }
-                              }
+                              result7 = [result7, result8, result9, result10];
+                            } else {
+                              result7 = null;
+                              pos = pos3;
+                            }
+                          } else {
+                            result7 = null;
+                            pos = pos3;
+                          }
+                        } else {
+                          result7 = null;
+                          pos = pos3;
+                        }
+                      } else {
+                        result7 = null;
+                        pos = pos3;
+                      }
+                      if (result7 !== null) {
+                        result7 = (function(offset, s) {return s})(pos2, result7[2]);
+                      }
+                      if (result7 === null) {
+                        pos = pos2;
+                      }
+                      result7 = result7 !== null ? result7 : "";
+                      if (result7 !== null) {
+                        if (input.charCodeAt(pos) === 123) {
+                          result8 = "{";
+                          pos++;
+                        } else {
+                          result8 = null;
+                          if (reportFailures === 0) {
+                            matchFailed("\"{\"");
+                          }
+                        }
+                        if (result8 !== null) {
+                          result9 = parse__();
+                          if (result9 !== null) {
+                            result10 = parse_arclist();
+                            if (result10 !== null) {
+                              result11 = parse__();
                               if (result11 !== null) {
-                                result12 = parse__();
+                                if (input.charCodeAt(pos) === 125) {
+                                  result12 = "}";
+                                  pos++;
+                                } else {
+                                  result12 = null;
+                                  if (reportFailures === 0) {
+                                    matchFailed("\"}\"");
+                                  }
+                                }
                                 if (result12 !== null) {
-                                  result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12];
+                                  result13 = parse__();
+                                  if (result13 !== null) {
+                                    result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13];
+                                  } else {
+                                    result0 = null;
+                                    pos = pos1;
+                                  }
                                 } else {
                                   result0 = null;
                                   pos = pos1;
@@ -1353,7 +1400,13 @@ define ([], function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, from, kind, to, al) {return {kind: kind, from:from, to:to, arcs:al}})(pos0, result0[1], result0[3], result0[5], result0[9]);
+          result0 = (function(offset, from, kind, to, label, arcs) {
+            var retval = {kind: kind, from:from, to:to, arcs:arcs};
+            if (label) {
+              retval["label"] = label;
+            } 
+            return retval;
+          })(pos0, result0[1], result0[3], result0[5], result0[7], result0[10]);
         }
         if (result0 === null) {
           pos = pos0;

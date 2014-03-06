@@ -164,10 +164,10 @@ arc             = a:((a:singlearc {return a})
                 / (a:dualarc {return a})
                 / (a:commentarc {return a})
                 / (a:spanarc {return a}))
-                  al:(":" _ l:string _ {return l})?
+                  label:(":" _ s:string _ {return s})?
 {
-  if (al) {
-    a["label"] = al;
+  if (label) {
+    a["label"] = label;
   }
   return a;
 }
@@ -182,8 +182,14 @@ dualarc         =
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to: "*"}})
 spanarc         = 
- (_ from:identifier _ kind:spanarctoken _ to:identifier _ "{" _ al:arclist _ "}" _
-  {return {kind: kind, from:from, to:to, arcs:al}})
+ (_ from:identifier _ kind:spanarctoken _ to:identifier _ label:(":" _ s:string _ {return s})? "{" _ arcs:arclist _ "}" _
+  {
+    var retval = {kind: kind, from:from, to:to, arcs:arcs};
+    if (label) {
+      retval["label"] = label;
+    } 
+    return retval;
+  })
   
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
