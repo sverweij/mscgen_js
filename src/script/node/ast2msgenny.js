@@ -45,7 +45,7 @@ define([], function() {
 
     function renderMsGennyString(pString) {
         function isQuoatable(pString) {
-            var lMatchResult = pString.match(/[;,]/);
+            var lMatchResult = pString.match(/[;,{]/);
             if (lMatchResult) {
                 return lMatchResult.length === 1;
             } else {
@@ -113,12 +113,16 @@ define([], function() {
             lRetVal += " " + renderEntityName(pArc.to);
         }
         if (pArc.arcs) {
+            if (pArc.label) {
+                lRetVal += " : " + renderMsGennyString(pArc.label);
+            }            
             lRetVal += " {\n";
             lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
             lRetVal += pIndent + "}";
-        }
-        if (pArc.label) {
-            lRetVal += " : " + renderMsGennyString(pArc.label);
+        } else {
+            if (pArc.label) {
+                lRetVal += " : " + renderMsGennyString(pArc.label);
+            }
         }
         return lRetVal;
     }

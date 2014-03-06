@@ -60,13 +60,13 @@ describe('ast2msgenny', function() {
 "a, b, c;\n\
 \n\
 a => b;\n\
-a loop c {\n\
-  b alt c {\n\
+a loop c : label for loop {\n\
+  b alt c : label for alt {\n\
     b -> c : -> within alt;\n\
     c >> b : >> within alt;\n\
-  } : label for alt;\n\
+  };\n\
   b >> a : >> within loop;\n\
-} : label for loop;\n\
+};\n\
 a =>> a : happy-the-peppy - outside;\n\
 ...;\n";
             assert.equal(lProgram, lExpectedProgram);

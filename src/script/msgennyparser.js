@@ -47,6 +47,7 @@ define ([], function(){
         "arclist": parse_arclist,
         "arcline": parse_arcline,
         "arc": parse_arc,
+        "regulararc": parse_regulararc,
         "singlearc": parse_singlearc,
         "commentarc": parse_commentarc,
         "dualarc": parse_dualarc,
@@ -893,6 +894,16 @@ define ([], function(){
       }
       
       function parse_arc() {
+        var result0;
+        
+        result0 = parse_regulararc();
+        if (result0 === null) {
+          result0 = parse_spanarc();
+        }
+        return result0;
+      }
+      
+      function parse_regulararc() {
         var result0, result1, result2, result3, result4;
         var pos0, pos1, pos2, pos3;
         
@@ -901,7 +912,7 @@ define ([], function(){
         pos2 = pos;
         result0 = parse_singlearc();
         if (result0 !== null) {
-          result0 = (function(offset, a) {return a})(pos2, result0);
+          result0 = (function(offset, sa) {return sa})(pos2, result0);
         }
         if (result0 === null) {
           pos = pos2;
@@ -910,7 +921,7 @@ define ([], function(){
           pos2 = pos;
           result0 = parse_dualarc();
           if (result0 !== null) {
-            result0 = (function(offset, a) {return a})(pos2, result0);
+            result0 = (function(offset, da) {return da})(pos2, result0);
           }
           if (result0 === null) {
             pos = pos2;
@@ -919,20 +930,10 @@ define ([], function(){
             pos2 = pos;
             result0 = parse_commentarc();
             if (result0 !== null) {
-              result0 = (function(offset, a) {return a})(pos2, result0);
+              result0 = (function(offset, ca) {return ca})(pos2, result0);
             }
             if (result0 === null) {
               pos = pos2;
-            }
-            if (result0 === null) {
-              pos2 = pos;
-              result0 = parse_spanarc();
-              if (result0 !== null) {
-                result0 = (function(offset, a) {return a})(pos2, result0);
-              }
-              if (result0 === null) {
-                pos = pos2;
-              }
             }
           }
         }
@@ -990,11 +991,11 @@ define ([], function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, a, label) {
+          result0 = (function(offset, ra, label) {
           if (label) {
-            a["label"] = label;
+            ra["label"] = label;
           }
-          return a;
+          return ra;
         })(pos0, result0[0], result0[1]);
         }
         if (result0 === null) {
@@ -2200,6 +2201,17 @@ define ([], function(){
               matchFailed("\";\"");
             }
           }
+          if (result1 === null) {
+            if (input.charCodeAt(pos) === 123) {
+              result1 = "{";
+              pos++;
+            } else {
+              result1 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"{\"");
+              }
+            }
+          }
         }
         reportFailures--;
         if (result1 === null) {
@@ -2257,6 +2269,17 @@ define ([], function(){
               result1 = null;
               if (reportFailures === 0) {
                 matchFailed("\";\"");
+              }
+            }
+            if (result1 === null) {
+              if (input.charCodeAt(pos) === 123) {
+                result1 = "{";
+                pos++;
+              } else {
+                result1 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"{\"");
+                }
               }
             }
           }

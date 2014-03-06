@@ -160,16 +160,16 @@ arcline         = al:((a:arc "," {return a})* (a:arc {return [a]}))
 
    return al[0];
 }
-arc             = a:((a:singlearc {return a}) 
-                / (a:dualarc {return a})
-                / (a:commentarc {return a})
-                / (a:spanarc {return a}))
+arc             = regulararc/ spanarc
+regulararc      = ra:((sa:singlearc {return sa}) 
+                / (da:dualarc {return da})
+                / (ca:commentarc {return ca}))
                   label:(":" _ s:string _ {return s})?
 {
   if (label) {
-    a["label"] = label;
+    ra["label"] = label;
   }
-  return a;
+  return ra;
 }
 
 singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
@@ -220,7 +220,7 @@ string          = quotedstring / unquotedstring
 quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*
 unquotedstring  = s:nonsep {return s.join("")}
-nonsep          = (!(',' /';') c:(.) {return c})*
+nonsep          = (!(',' /';' /'{') c:(.) {return c})*
 
 identifier "identifier"
  = (letters:([A-Za-z_0-9])+ {return letters.join("")})
