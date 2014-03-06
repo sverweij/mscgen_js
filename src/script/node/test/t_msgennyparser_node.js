@@ -90,8 +90,12 @@ describe('msgennyparser', function() {
             var lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
             tst.assertequalJSON(fix.astOneAlt, lAST);
         });
-        it('should render an AST, with an alt in it', function() {
+        it('should render an AST, with alts, loops and labels', function() {
             var lAST = parser.parse('a => b; a loop c { b alt c { b -> c: -> within alt; c >> b: >> within alt; }: label for alt; b >> a: >> within loop;}: label for loop; a =>> a: happy-the-peppy - outside;...;');
+            tst.assertequalJSON(fix.astAltWithinLoop, lAST);
+        });
+        it('should render an AST, with alts, loops and labels (labels in front)', function() {
+            var lAST = parser.parse('a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;');
             tst.assertequalJSON(fix.astAltWithinLoop, lAST);
         });
         it('should render an AST, with an alt in it', function() {
