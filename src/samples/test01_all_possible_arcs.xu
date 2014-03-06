@@ -137,10 +137,10 @@ msc {
   0 -- a [label="inline\nexpressions"];
  
   b alt k {
-    b else k {
-      b opt k {
-        b break k {
-          b critical k {
+    c else j {
+      d opt i {
+        e break h {
+          f critical g {
             ---;
           } [label="b critical k"];
         } [label="b break k"];
@@ -148,26 +148,26 @@ msc {
     } [label="b else k"];
   } [label="b alt k"];
   b neg k {
-    b strict k {
-      b seq k {
-        b assert k {
-          b exc k {
+    b strict j {
+      b seq i {
+        b assert h {
+          b exc g {
             ---;
-          } [label="b exc k"];
-        } [label="b assert k"];
-      } [label="b seq k"];
-    } [label="b strict k"];
+          } [label="b exc g"];
+        } [label="b assert h"];
+      } [label="b seq i"];
+    } [label="b strict j"];
   } [label="b neg k"];
   b ref k {
-    b consider k {
-      b ignore k {
-        b loop k {
-          b par k {
+    c consider k {
+      d ignore k {
+        e loop k {
+          f par k {
             ---;
-          } [label="b par k"];
-        } [label="b loop al"];
-      } [label="b ignore k"];
-    } [label="b consider k"];
+          } [label="f par k"];
+        } [label="e loop al"];
+      } [label="d ignore k"];
+    } [label="c consider k"];
   } [label="b ref k"];
 
 
