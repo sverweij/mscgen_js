@@ -48,6 +48,7 @@ define ([], function(){
         "arclist": parse_arclist,
         "arcline": parse_arcline,
         "arc": parse_arc,
+        "regulararc": parse_regulararc,
         "singlearc": parse_singlearc,
         "commentarc": parse_commentarc,
         "dualarc": parse_dualarc,
@@ -979,6 +980,16 @@ define ([], function(){
       }
       
       function parse_arc() {
+        var result0;
+        
+        result0 = parse_regulararc();
+        if (result0 === null) {
+          result0 = parse_spanarc();
+        }
+        return result0;
+      }
+      
+      function parse_regulararc() {
         var result0, result1, result2, result3;
         var pos0, pos1, pos2, pos3;
         
@@ -1009,16 +1020,6 @@ define ([], function(){
             }
             if (result0 === null) {
               pos = pos2;
-            }
-            if (result0 === null) {
-              pos2 = pos;
-              result0 = parse_spanarc();
-              if (result0 !== null) {
-                result0 = (function(offset, a) {return a})(pos2, result0);
-              }
-              if (result0 === null) {
-                pos = pos2;
-              }
             }
           }
         }
@@ -1338,8 +1339,8 @@ define ([], function(){
       }
       
       function parse_spanarc() {
-        var result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12;
-        var pos0, pos1;
+        var result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13, result14;
+        var pos0, pos1, pos2, pos3;
         
         pos0 = pos;
         pos1 = pos;
@@ -1357,35 +1358,90 @@ define ([], function(){
                   if (result5 !== null) {
                     result6 = parse__();
                     if (result6 !== null) {
-                      if (input.charCodeAt(pos) === 123) {
-                        result7 = "{";
+                      pos2 = pos;
+                      pos3 = pos;
+                      if (input.charCodeAt(pos) === 91) {
+                        result7 = "[";
                         pos++;
                       } else {
                         result7 = null;
                         if (reportFailures === 0) {
-                          matchFailed("\"{\"");
+                          matchFailed("\"[\"");
                         }
                       }
                       if (result7 !== null) {
+                        result8 = parse_attributelist();
+                        if (result8 !== null) {
+                          if (input.charCodeAt(pos) === 93) {
+                            result9 = "]";
+                            pos++;
+                          } else {
+                            result9 = null;
+                            if (reportFailures === 0) {
+                              matchFailed("\"]\"");
+                            }
+                          }
+                          if (result9 !== null) {
+                            result7 = [result7, result8, result9];
+                          } else {
+                            result7 = null;
+                            pos = pos3;
+                          }
+                        } else {
+                          result7 = null;
+                          pos = pos3;
+                        }
+                      } else {
+                        result7 = null;
+                        pos = pos3;
+                      }
+                      if (result7 !== null) {
+                        result7 = (function(offset, al) {return al})(pos2, result7[1]);
+                      }
+                      if (result7 === null) {
+                        pos = pos2;
+                      }
+                      result7 = result7 !== null ? result7 : "";
+                      if (result7 !== null) {
                         result8 = parse__();
                         if (result8 !== null) {
-                          result9 = parse_arclist();
+                          if (input.charCodeAt(pos) === 123) {
+                            result9 = "{";
+                            pos++;
+                          } else {
+                            result9 = null;
+                            if (reportFailures === 0) {
+                              matchFailed("\"{\"");
+                            }
+                          }
                           if (result9 !== null) {
                             result10 = parse__();
                             if (result10 !== null) {
-                              if (input.charCodeAt(pos) === 125) {
-                                result11 = "}";
-                                pos++;
-                              } else {
-                                result11 = null;
-                                if (reportFailures === 0) {
-                                  matchFailed("\"}\"");
-                                }
-                              }
+                              result11 = parse_arclist();
                               if (result11 !== null) {
                                 result12 = parse__();
                                 if (result12 !== null) {
-                                  result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12];
+                                  if (input.charCodeAt(pos) === 125) {
+                                    result13 = "}";
+                                    pos++;
+                                  } else {
+                                    result13 = null;
+                                    if (reportFailures === 0) {
+                                      matchFailed("\"}\"");
+                                    }
+                                  }
+                                  if (result13 !== null) {
+                                    result14 = parse__();
+                                    if (result14 !== null) {
+                                      result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13, result14];
+                                    } else {
+                                      result0 = null;
+                                      pos = pos1;
+                                    }
+                                  } else {
+                                    result0 = null;
+                                    pos = pos1;
+                                  }
                                 } else {
                                   result0 = null;
                                   pos = pos1;
@@ -1439,7 +1495,11 @@ define ([], function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, from, kind, to, al) {return {kind: kind, from:from, to:to, arcs:al}})(pos0, result0[1], result0[3], result0[5], result0[9]);
+          result0 = (function(offset, from, kind, to, al, arclist) {
+            var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
+            lRetval = merge (lRetval, al);
+            return lRetval;
+          })(pos0, result0[1], result0[3], result0[5], result0[7], result0[11]);
         }
         if (result0 === null) {
           pos = pos0;
