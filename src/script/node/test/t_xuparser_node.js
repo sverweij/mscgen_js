@@ -65,7 +65,7 @@ describe('xuparser', function() {
         });
 
         it('should render an AST, with an alt in it', function() {
-            var lAST = parser.parse('msc { a,b,c; a => b; a loop c { b alt c { b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; } [label="label for alt"]; b >> a [label=">> within loop"];} [label="label for loop"]; a =>> a [label="happy-the-peppy - outside"];...;}');
+            var lAST = parser.parse('msc { a,b,c; a => b; a loop c [label="label for loop"] { b alt c [label="label for alt"]{ b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; }; b >> a [label=">> within loop"];}; a =>> a [label="happy-the-peppy - outside"];...;}');
             tst.assertequalJSON(lAST, fix.astAltWithinLoop);
         });
     });

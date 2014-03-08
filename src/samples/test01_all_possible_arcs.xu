@@ -136,39 +136,39 @@ msc {
   ---;
   0 -- a [label="inline\nexpressions"];
  
-  b alt k {
-    c else j {
-      d opt i {
-        e break h {
-          f critical g {
+  b alt k [label="b alt k"] {
+    c else j [label="c else j"] {
+      d opt i [label="d opt i"] {
+        e break h [label="e break k"] {
+          f critical g [label="f critical g"] {
             ---;
-          } [label="b critical k"];
-        } [label="b break k"];
-      } [label="b opt k"];
-    } [label="b else k"];
-  } [label="b alt k"];
-  b neg k {
-    b strict j {
-      b seq i {
-        b assert h {
-          b exc g {
+          };
+        };
+      };
+    };
+  };
+  b neg k [label="b neg k"] {
+    b strict j [label="b strict j"] {
+      b seq i [label="b seq i"] {
+        b assert h [label="b assert h"] {
+          b exc g [label="b exc g"] {
             ---;
-          } [label="b exc g"];
-        } [label="b assert h"];
-      } [label="b seq i"];
-    } [label="b strict j"];
-  } [label="b neg k"];
-  b ref k {
-    c consider k {
-      d ignore k {
-        e loop k {
-          f par k {
+          };
+        };
+      };
+    };
+  };
+  b ref k [label="b ref k"] {
+    c consider k [label="c consider k"] {
+      d ignore k [label="d ignore k"] {
+        e loop k  [label="e loop k"]{
+          f par k [label="f par k"] {
             ---;
-          } [label="f par k"];
-        } [label="e loop al"];
-      } [label="d ignore k"];
-    } [label="c consider k"];
-  } [label="b ref k"];
+          };
+        };
+      };
+    };
+  };
 
 
   ||| [label="options used: hscale=\"0.6\", arcgradient=\"18\""];
