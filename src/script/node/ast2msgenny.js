@@ -53,7 +53,7 @@ define([], function() {
             }
         }
 
-        return isQuoatable(pString) ? "\"" + pString + "\"" : pString;
+        return isQuoatable(pString) ? "\"" + pString + "\"" : pString.trim();
     }
 
     function pushAttribute(pArray, pAttr, pString) {

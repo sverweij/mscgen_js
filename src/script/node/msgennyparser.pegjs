@@ -219,7 +219,7 @@ spanarctoken    "arc spanning box"
 string          = quotedstring / unquotedstring
 quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*
-unquotedstring  = s:nonsep {return s.join("")}
+unquotedstring  = s:nonsep {return s.join("").trim()}
 nonsep          = (!(',' /';' /'{') c:(.) {return c})*
 
 identifier "identifier"
