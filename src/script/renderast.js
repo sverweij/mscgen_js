@@ -547,6 +547,15 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
 
     function renderEmptyArc(pArc, pId) {
         var lElement;
+
+        if (pArc.from && pArc.to) {
+            if (gEntity2X[pArc.from] > gEntity2X[pArc.to]) {
+                var lTmp = pArc.from;
+                pArc.from = pArc.to;
+                pArc.to = lTmp;
+            }
+        }
+
         switch(pArc.kind) {
             case ("..."):
             case ("|||"):
