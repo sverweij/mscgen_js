@@ -728,8 +728,9 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         if (pArc.from && pArc.to) {
             var lArcDepthCorrection = (gMaxDepth - pArc.depth) * 2 * LINE_WIDTH;
 
-            lStartX = (gEntity2X[pArc.from] - (gInterEntitySpacing - 2 * LINE_WIDTH) / 2) - lArcDepthCorrection - 2*LINE_WIDTH;
-            lEndX = (gEntity2X[pArc.to] + (gInterEntitySpacing - 2 * LINE_WIDTH) / 2) + lArcDepthCorrection + 2*LINE_WIDTH;
+            lStartX = (gEntity2X[pArc.from] - (gInterEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
+            lEndX = (gEntity2X[pArc.to] + (gInterEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
+            console.log(pArc.from + ":" + gEntity2X[pArc.from] + "=>" + lStartX.toString() + " " + pArc.to + ":" + gEntity2X[pArc.to] + "=>" + lEndX.toString() + pArc.label);
             lClass = "striped";
         }
         var lLine = utl.createLine(lStartX, 0, lEndX, 0, lClass);
