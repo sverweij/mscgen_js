@@ -28,25 +28,25 @@ msc {
   e [label="natalis queue"];
 
   a =>> b [label="get change list()"];
-  a alt e {
+  a alt e [label="changes found"] {
     b >> a [label="list of changes"];
     a =>> c [label="cull old stuff (list of changes)"];
-    b loop e {
+    b loop e [label="for each change"] {
       c =>> b [label="get change()"];
       b >> c [label="change"];
-      c alt e {
+      c alt e [label="change too old"] {
         c =>> d [label="queue(change)"];
         --- [label="change newer than latest run"];
         c =>> e [label="queue(change)"];
         --- [label="all other cases"];
         ||| [label="leave well alone"];
-      } [label="change too old"];
-    } [label="for each change"];
+      };
+    };
     c >> a [label="done processing"];
     --- [label="nothing found"];
     b >> a [label="nothing"];
     a note a [label="silent exit"];
-  } [label="changes found"];
+  };
 }
 ```
 
@@ -59,7 +59,7 @@ section of arcs, enclosed by curly brackets.
 
 ```peg
 spanarc         = 
- _ from:identifier _ kind:spanarctoken _ to:identifier _ "{" _ arclist _ "}" _ ("[" attributelist "]")? _ ";"
+ _ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _ ";"
 ```
 
 To compare, this is how a regular arc looks:
@@ -78,23 +78,23 @@ break {
 
 Arguments go into the label as free text. 
 ```mscgen
-loop {
+loop [label="for each grain of sand on the beach"] {
   a => beach [label="get grain"];
   a => progeny [label="add"];
-} [label="for each grain of sand on the beach"];
+};
 ```
 
 ```mscgen
 msc {
   john, shed,  bike;
 
-  john alt bike {
+  john alt bike [label="wheather is nice"] {
     john =>> shed [label="get(bike)"];
     shed >> john [label="bike"];
     john =>> bike [label="use"];
     --- [label="else"];
     ||| [label="john stays at home"];
-  } [label="wheather is nice"];
+  };
 }
 ```
 
@@ -116,13 +116,13 @@ would look something like this:
 ```msgenny
 john, shed, bike;
 
-john alt bike {
+john alt bike: wheather is nice {
   john =>> shed : get(bike);
   shed >> john : bike;
   john =>> bike : use;
   --- : else;
   ||| : john stays at home;
-} : wheather is nice;
+};
 ```
 
 ## compatibility with mscgen

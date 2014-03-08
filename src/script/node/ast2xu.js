@@ -159,11 +159,13 @@ define(["./dotmap"], function(map) {
             lRetVal += SP + renderEntityName(pArc.to);
         }
         if (pArc.arcs) {
+            lRetVal += renderAttributes(pArc);
             lRetVal += " {\n";
             lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
             lRetVal += pIndent + "}";
+        } else {
+            lRetVal += renderAttributes(pArc);
         }
-        lRetVal += renderAttributes(pArc);
         return lRetVal;
     }
 

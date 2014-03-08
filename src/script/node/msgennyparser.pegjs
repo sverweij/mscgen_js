@@ -160,16 +160,16 @@ arcline         = al:((a:arc "," {return a})* (a:arc {return [a]}))
 
    return al[0];
 }
-arc             = a:((a:singlearc {return a}) 
-                / (a:dualarc {return a})
-                / (a:commentarc {return a})
-                / (a:spanarc {return a}))
-                  al:(":" _ l:string _ {return l})?
+arc             = regulararc/ spanarc
+regulararc      = ra:((sa:singlearc {return sa}) 
+                / (da:dualarc {return da})
+                / (ca:commentarc {return ca}))
+                  label:(":" _ s:string _ {return s})?
 {
-  if (al) {
-    a["label"] = al;
+  if (label) {
+    ra["label"] = label;
   }
-  return a;
+  return ra;
 }
 
 singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
@@ -182,8 +182,14 @@ dualarc         =
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to: "*"}})
 spanarc         = 
- (_ from:identifier _ kind:spanarctoken _ to:identifier _ "{" _ al:arclist _ "}" _
-  {return {kind: kind, from:from, to:to, arcs:al}})
+ (_ from:identifier _ kind:spanarctoken _ to:identifier _ label:(":" _ s:string _ {return s})? "{" _ arcs:arclist _ "}" _
+  {
+    var retval = {kind: kind, from:from, to:to, arcs:arcs};
+    if (label) {
+      retval["label"] = label;
+    } 
+    return retval;
+  })
   
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"
@@ -214,7 +220,7 @@ string          = quotedstring / unquotedstring
 quotedstring    = '"' s:stringcontent '"' {return s.join("")}
 stringcontent   = (!'"' c:('\\"'/ .) {return c})*
 unquotedstring  = s:nonsep {return s.join("")}
-nonsep          = (!(',' /';') c:(.) {return c})*
+nonsep          = (!(',' /';' /'{') c:(.) {return c})*
 
 identifier "identifier"
  = (letters:([A-Za-z_0-9])+ {return letters.join("")})

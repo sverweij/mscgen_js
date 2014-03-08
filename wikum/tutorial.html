@@ -323,14 +323,14 @@ c <mark>rbox</mark> d : rbox;
 a,b,c,d;
 
 a =>> b;
-<mark>b loop d {</mark>
+<mark>b loop d: 3 times {</mark>
    b =>> c: knock;
-   <mark>c alt d {</mark>
+   <mark>c alt d: some condition {</mark>
       c =>> d: do stuff;
       ---: not true;
       c =>> d: do other stuff;
-   <mark>}: some condition;</mark>
-<mark>}: 3 times;</mark>
+   <mark>};</mark>
+<mark>};</mark>
 </pre>
 <p class="warning">
     If you rely on mscgen to do your rendering in doxygen (e.g.) you might

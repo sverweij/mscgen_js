@@ -24,21 +24,21 @@ msc {
     bo => dao [label="saveOrUpdate()"];
   };
   bo >> interceptor [label="void, RuntimeException or business exception"];
-  interceptor alt dao {
+  interceptor alt dao [label="no exception, exception handled inside, business exception"] {
     interceptor => transaction [label="commit()"];
     transaction => session [label="flush()"];
-    session alt transaction {
+    session alt transaction [label="constraint violation"] {
       session => transaction [label="rollback()"];
       transaction note transaction [label="JDBC rollback"];
       --- [label="no exceptions"];
       transaction note transaction [label="JDBC commit"];
-    } [label="constraint violation"];
+    };
     transaction >> interceptor;
     --- [label="RuntimeException"];
     interceptor => transaction [label="rollback()"];
     transaction note transaction [label="JDBC rollback"];
     transaction >> interceptor;
-  } [label="no exception, exception handled inside, business exception"];
+  };
   interceptor => session [label="close()"];
   interceptor >> dbjob [label="rethrow exception, if any"];
   dbjob >> c;

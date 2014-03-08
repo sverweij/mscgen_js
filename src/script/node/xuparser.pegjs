@@ -148,10 +148,10 @@ arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
 
    return al[0];
 }
-arc             = a:((a:singlearc {return a}) 
+arc             = regulararc / spanarc
+regulararc      = a:((a:singlearc {return a}) 
                    / (a:dualarc {return a})
-                   / (a:commentarc {return a})
-                   / (a:spanarc {return a}))
+                   / (a:commentarc {return a}))
                       al:("[" al:attributelist "]" {return al})?
 {
   a = merge (a, al);
@@ -168,8 +168,13 @@ dualarc         =
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to:"*"}})
 spanarc         = 
- (_ from:identifier _ kind:spanarctoken _ to:identifier _ "{" _ al:arclist _ "}" _
-  {return {kind: kind, from:from, to:to, arcs:al}})
+ (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _
+  {
+    var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
+    lRetval = merge (lRetval, al);
+    return lRetval;
+  }
+ )
 
 singlearctoken  = "|||" / "..." 
 commenttoken    = "---"

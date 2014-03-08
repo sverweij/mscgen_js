@@ -64,13 +64,13 @@ describe('ast2xu', function() {
   c;\n\
 \n\
   a => b;\n\
-  a loop c {\n\
-    b alt c {\n\
+  a loop c [label="label for loop"] {\n\
+    b alt c [label="label for alt"] {\n\
       b -> c [label="-> within alt"];\n\
       c >> b [label=">> within alt"];\n\
-    } [label="label for alt"];\n\
+    };\n\
     b >> a [label=">> within loop"];\n\
-  } [label="label for loop"];\n\
+  };\n\
   a =>> a [label="happy-the-peppy - outside"];\n\
   ...;\n\
 }';
