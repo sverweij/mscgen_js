@@ -2165,7 +2165,7 @@ define ([], function(){
         pos0 = pos;
         result0 = parse_nonsep();
         if (result0 !== null) {
-          result0 = (function(offset, s) {return s.join("")})(pos0, result0);
+          result0 = (function(offset, s) {return s.join("").trim()})(pos0, result0);
         }
         if (result0 === null) {
           pos = pos0;

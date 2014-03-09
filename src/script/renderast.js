@@ -547,6 +547,15 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
 
     function renderEmptyArc(pArc, pId) {
         var lElement;
+
+        if (pArc.from && pArc.to) {
+            if (gEntity2X[pArc.from] > gEntity2X[pArc.to]) {
+                var lTmp = pArc.from;
+                pArc.from = pArc.to;
+                pArc.to = lTmp;
+            }
+        }
+
         switch(pArc.kind) {
             case ("..."):
             case ("|||"):
@@ -728,8 +737,8 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         if (pArc.from && pArc.to) {
             var lArcDepthCorrection = (gMaxDepth - pArc.depth) * 2 * LINE_WIDTH;
 
-            lStartX = (gEntity2X[pArc.from] - (gInterEntitySpacing - 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
-            lEndX = (gEntity2X[pArc.to] + (gInterEntitySpacing - 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
+            lStartX = (gEntity2X[pArc.from] - (gInterEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
+            lEndX = (gEntity2X[pArc.to] + (gInterEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
             lClass = "striped";
         }
         var lLine = utl.createLine(lStartX, 0, lEndX, 0, lClass);
