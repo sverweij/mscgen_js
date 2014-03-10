@@ -20,7 +20,8 @@ GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/xuparser.js \
 	src/style/mscgen.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js \
-	src/script/node/msgennyparser_node.js
+	src/script/node/msgennyparser_node.js \
+	src/script/node/xuparser_node.js 
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
 SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/ast2xu.js \
