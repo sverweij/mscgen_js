@@ -29,6 +29,8 @@
   min-width: 20px;
   text-align: right;
   color: #999;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
 .CodeMirror div.CodeMirror-cursor {
   border-left: 1px solid black;
@@ -45,6 +47,10 @@
 }
 .CodeMirror div.CodeMirror-cursor.CodeMirror-overwrite {}
 .cm-tab { display: inline-block; }
+.CodeMirror-ruler {
+  border-left: 1px solid #ccc;
+  position: absolute;
+}
 .cm-s-default .cm-keyword {color: #708;}
 .cm-s-default .cm-atom {color: #219;}
 .cm-s-default .cm-number {color: #164;}
@@ -58,7 +64,6 @@
 .cm-s-default .cm-string {color: #a11;}
 .cm-s-default .cm-string-2 {color: #f50;}
 .cm-s-default .cm-meta {color: #555;}
-.cm-s-default .cm-error {color: #f00;}
 .cm-s-default .cm-qualifier {color: #555;}
 .cm-s-default .cm-builtin {color: #30a;}
 .cm-s-default .cm-bracket {color: #997;}
@@ -73,9 +78,11 @@
 .cm-header, .cm-strong {font-weight: bold;}
 .cm-em {font-style: italic;}
 .cm-link {text-decoration: underline;}
+.cm-s-default .cm-error {color: #f00;}
 .cm-invalidchar {color: #f00;}
 div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
 div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
+.CodeMirror-activeline-background {background: #e8f2ff;}
 .CodeMirror {
   line-height: 1;
   position: relative;
@@ -87,13 +94,18 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   
   
   margin-bottom: -30px; margin-right: -30px;
-  padding-bottom: 30px; padding-right: 30px;
+  padding-bottom: 30px;
   height: 100%;
   outline: none; 
   position: relative;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
 .CodeMirror-sizer {
   position: relative;
+  border-right: 30px solid transparent;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
 .CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
   position: absolute;
@@ -124,6 +136,8 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .CodeMirror-gutter {
   white-space: normal;
   height: 100%;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
   padding-bottom: 30px;
   margin-bottom: -32px;
   display: inline-block;
@@ -160,16 +174,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   white-space: pre-wrap;
   word-break: normal;
 }
-.CodeMirror-code pre {
-  border-right: 30px solid transparent;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.CodeMirror-wrap .CodeMirror-code pre {
-  border-right: none;
-  width: auto;
-}
 .CodeMirror-linebackground {
   position: absolute;
   left: 0; right: 0; top: 0; bottom: 0;
@@ -180,14 +184,14 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   z-index: 2;
   overflow: auto;
 }
-.CodeMirror-widget {
-}
+.CodeMirror-widget {}
 .CodeMirror-wrap .CodeMirror-scroll {
   overflow-x: hidden;
 }
 .CodeMirror-measure {
   position: absolute;
-  width: 100%; height: 0px;
+  width: 100%;
+  height: 0;
   overflow: hidden;
   visibility: hidden;
 }
@@ -214,9 +218,9 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
     visibility: hidden;
   }
 }
-.cm-s-midnight span.CodeMirror-matchhighlight { background: #494949 }
+.cm-s-midnight span.CodeMirror-matchhighlight { background: #494949; }
 .cm-s-midnight.CodeMirror-focused span.CodeMirror-matchhighlight { background: #314D67 !important; }
-.cm-s-midnight .activeline {background: #253540 !important;}
+.cm-s-midnight .CodeMirror-activeline-background {background: #253540 !important;}
 .cm-s-midnight.CodeMirror {
     background: #0F192A;
     color: #D1EDFF;
@@ -237,10 +241,10 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .cm-s-midnight span.cm-variable {color: #FFAA3E;}
 .cm-s-midnight span.cm-variable-2 {color: #FFAA3E;}
 .cm-s-midnight span.cm-def {color: #4DD;}
-.cm-s-midnight span.cm-error {background: #F92672; color: #F8F8F0;}
 .cm-s-midnight span.cm-bracket {color: #D1EDFF;}
-.cm-s-midnight span.cm-tag {color: #008;}
+.cm-s-midnight span.cm-tag {color: #449;}
 .cm-s-midnight span.cm-link {color: #AE81FF;}
+.cm-s-midnight span.cm-error {background: #F92672; color: #F8F8F0;}
 .cm-s-midnight .CodeMirror-matchingbracket {
   text-decoration: underline;
   color: white !important;
