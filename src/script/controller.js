@@ -505,7 +505,7 @@ function showAutorenderState () {
 function showMsGennyState () {
     if ("msgenny" === gLanguage) {
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
-        $("#__language_msgenny").attr("checked", "msgennyOn");
+        $("#__language_msgenny").prop("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").hide();
         $("#__btn_uncolorize").hide();
@@ -515,14 +515,14 @@ function showMsGennyState () {
     } else if ("json" === gLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
-        $("#__language_json").attr("checked", "msgennyOn");
+        $("#__language_json").prop("checked", "msgennyOn");
         $("#__btn_colorize").show();
         $("#__btn_uncolorize").show();
         $("#__btn_colorize_hard").show();
         $("#__btn_weigh").show();
         $("#__btn_ioweigh").show();
     } else {
-        $("#__language_mscgen").attr("checked", "msgennyOn");
+        $("#__language_mscgen").prop("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").show();
