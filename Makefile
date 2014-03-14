@@ -75,7 +75,7 @@ FAVICONS=favicon.ico \
 	favicon-228.png
 VERSIONEMBEDDABLESOURCES=index.html
 
-.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
+.PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
 
 help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean
@@ -163,9 +163,11 @@ checkout-gh-pages:
 	$(GIT) checkout gh-pages
 	$(GIT) merge master -m "merge for gh-pages build"
 
-deploy-gh-pages: checkout-gh-pages mostlyclean install
+build-gh-pages: checkout-gh-pages mostlyclean install
+
+deploy-gh-pages: build-gh-pages
 	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	$(GIT) commit --all --message="build `cat VERSION`" --allow-empty
+	$(GIT) commit --all --message="build `cat VERSION`"
 	$(GIT) push
 	$(GIT) checkout master
 
