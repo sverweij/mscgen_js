@@ -136,7 +136,7 @@ script/mscgen-main.js: $(SOURCES_WEB)
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha
+	$(NPM) install pegjs requirejs jshint plato mocha istanbul
 
 runtime-prerequisites-node:
 	# cd src/script/node
