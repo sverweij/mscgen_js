@@ -202,6 +202,7 @@ slart: ibartfast $(FAVICONS)
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html
 	rm -rf jsdoc
+	rm -rf coverage
 
 mostlyclean: somewhatclean
 	rm -rf $(GENERATED_SOURCES)
