@@ -24,7 +24,7 @@ describe('xuparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
+            var lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800,   WATERmark="not in mscgen, available in xù and msgenny" ;a;}');
             tst.assertequalJSON(lAST, fix.astOptions);
         });
         it("should produce lowercase for upper/ mixed case attributes", function() {

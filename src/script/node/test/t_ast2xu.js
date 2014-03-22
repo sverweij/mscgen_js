@@ -25,7 +25,7 @@ describe('ast2xu', function() {
     describe('#renderAST() - option only', function() {
         it('should render a "minified" mscgen script', function() {
             var lProgram = renderer.render(fix.astOptions, true);
-            var lExpectedProgram = 'msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs="true";a;}';
+            var lExpectedProgram = 'msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs="true",watermark="not in mscgen, available in xù and msgenny";a;}';
             assert.equal(lProgram, lExpectedProgram);
         });
     });

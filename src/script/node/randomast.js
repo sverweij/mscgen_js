@@ -33,7 +33,8 @@ define(["./randomutensils"], function(utl) {
             widthMax : 1481,
             arcgradientMin : 1,
             arcgradientMax : 32,
-            worwraparcsTrueRatio : 0.9
+            worwraparcsTrueRatio : 0.9,
+            watermarkMax : 4
         }
     };
 
@@ -73,6 +74,10 @@ define(["./randomutensils"], function(utl) {
         }
         if (utl.genRandomBool()) {
             lRetval.wordwraparcs = utl.genRandomBool(CONF.options.worwraparcsTrueRatio).toString();
+            delete lRetval.empty;
+        }
+        if (utl.genRandomBool()) {
+            lRetval.watermark = utl.genRandomSentence(CONF.options.watermarkMax);
             delete lRetval.empty;
         }
         return lRetval;

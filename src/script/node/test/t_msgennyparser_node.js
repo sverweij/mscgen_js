@@ -59,7 +59,7 @@ describe('msgennyparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;');
+            var lAST = parser.parse('ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800, watermark="not in mscgen, available in xù and msgenny";a;');
             tst.assertequalJSON(lAST, fix.astOptions);
         });
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {

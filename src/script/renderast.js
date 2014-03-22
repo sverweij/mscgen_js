@@ -224,6 +224,15 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         var lBgGroup = gDocument.getElementById("__background");
         var lBgRect = utl.createRect(lCanvasWidth, lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
         lBgGroup.appendChild(lBgRect);
+        
+        /* render a watermark */
+        if (pAST.options && pAST.options.watermark) {
+            var lWaterMarkLayer = gDocument.getElementById("__watermark");
+            var lWatermark = utl.createText(pAST.options.watermark, lCanvasWidth/2, lCanvasHeight/2, "watermark");
+            var lAngle = 0 - (Math.atan(lCanvasHeight/lCanvasWidth) * 360/(2*Math.PI));
+            lWatermark.setAttribute("transform", "rotate(" + lAngle.toString() + " " +  ((lCanvasWidth)/2).toString() + " " +  ((lCanvasHeight)/2).toString() +")");
+            lWaterMarkLayer.appendChild(lWatermark);
+        }
 
         /* options: post-processing */
         if (pAST.options && pAST.options.width) {
