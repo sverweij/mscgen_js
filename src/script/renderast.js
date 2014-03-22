@@ -183,10 +183,6 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
         preProcessOptions(pAST.options);
 
-        /* render entities and arcs */
-        renderEntities(pAST.entities);
-        renderArcRows(pAST.arcs, pAST.entities);
-
         /* if there's nesting, make sure the rendering routines take the
          * extra width needed into account
          */
@@ -196,6 +192,11 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
             lMscDepthCorrection = 2 * ((pAST.depth + 1) * 2 * LINE_WIDTH);
             gMaxDepth = pAST.depth;
         }
+                
+        /* render entities and arcs */
+        renderEntities(pAST.entities);
+        renderArcRows(pAST.arcs, pAST.entities);
+        
         var lCanvasWidth = (pAST.entities.length * gInterEntitySpacing) + lMscDepthCorrection;
 
         var lNoArcs = pAST.arcs ? pAST.arcs.length : 0;
