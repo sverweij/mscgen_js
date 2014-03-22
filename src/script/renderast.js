@@ -183,10 +183,6 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
         preProcessOptions(pAST.options);
 
-        /* render entities and arcs */
-        renderEntities(pAST.entities);
-        renderArcRows(pAST.arcs, pAST.entities);
-
         /* if there's nesting, make sure the rendering routines take the
          * extra width needed into account
          */
@@ -196,6 +192,11 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
             lMscDepthCorrection = 2 * ((pAST.depth + 1) * 2 * LINE_WIDTH);
             gMaxDepth = pAST.depth;
         }
+                
+        /* render entities and arcs */
+        renderEntities(pAST.entities);
+        renderArcRows(pAST.arcs, pAST.entities);
+        
         var lCanvasWidth = (pAST.entities.length * gInterEntitySpacing) + lMscDepthCorrection;
 
         var lNoArcs = pAST.arcs ? pAST.arcs.length : 0;
@@ -223,6 +224,15 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         var lBgGroup = gDocument.getElementById("__background");
         var lBgRect = utl.createRect(lCanvasWidth, lCanvasHeight, "bglayer", 0 - lHorizontalTransform, 0 - lVerticalTransform);
         lBgGroup.appendChild(lBgRect);
+        
+        /* render a watermark */
+        if (pAST.options && pAST.options.watermark) {
+            var lWaterMarkLayer = gDocument.getElementById("__watermark");
+            var lWatermark = utl.createText(pAST.options.watermark, lCanvasWidth/2, lCanvasHeight/2, "watermark");
+            var lAngle = 0 - (Math.atan(lCanvasHeight/lCanvasWidth) * 360/(2*Math.PI));
+            lWatermark.setAttribute("transform", "rotate(" + lAngle.toString() + " " +  ((lCanvasWidth)/2).toString() + " " +  ((lCanvasHeight)/2).toString() +")");
+            lWaterMarkLayer.appendChild(lWatermark);
+        }
 
         /* options: post-processing */
         if (pAST.options && pAST.options.width) {

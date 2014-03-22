@@ -83,10 +83,12 @@ define(["./dotmap"], function(map) {
         pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
         pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
 
-        for ( i = 0; i < lOpts.length - 1; i++) {
-            lRetVal += INDENT + lOpts[i] + "," + EOL;
+        if (lOpts.length > 0){
+            for ( i = 0; i < lOpts.length - 1; i++) {
+                lRetVal += INDENT + lOpts[i] + "," + EOL;
+            }
+            lRetVal += INDENT + lOpts[lOpts.length - 1] + ";" + EOL;
         }
-        lRetVal += INDENT + lOpts[lOpts.length - 1] + ";" + EOL;
         return lRetVal;
 
     }

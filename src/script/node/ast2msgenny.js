@@ -71,6 +71,7 @@ define([], function() {
         pushAttribute(lOpts, pOptions.width, "width");
         pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
         pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
+        pushAttribute(lOpts, pOptions.watermark, "watermark");
 
         for ( i = 0; i < lOpts.length - 1; i++) {
             lRetVal += lOpts[i] + ",\n";

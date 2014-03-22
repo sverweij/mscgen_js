@@ -25,7 +25,7 @@ describe('mscgenparser', function() {
         });
         it("should produce lowercase for upper/ mixed case options", function() {
             var lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
-            tst.assertequalJSON(lAST, fix.astOptions);
+            tst.assertequalJSON(lAST, fix.astOptionsMscgen);
         });
         it("should produce lowercase for upper/ mixed case attributes", function() {
             var lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');

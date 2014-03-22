@@ -128,7 +128,7 @@ option          = _ n:optionname _ "=" _
    return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
-                  /"wordwraparcs"i
+                  /"wordwraparcs"i / "watermark"i
 entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 {
   el[0].push(el[1]);

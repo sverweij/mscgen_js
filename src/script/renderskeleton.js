@@ -80,11 +80,13 @@ define(["./renderutensils"], function(utl) {
 
     function setupBody() {
         var lBody = utl.createGroup("__body");
+        
         lBody.appendChild(utl.createGroup("__background"));
         lBody.appendChild(utl.createGroup("__arcspanlayer"));
         lBody.appendChild(utl.createGroup("__lifelinelayer"));
         lBody.appendChild(utl.createGroup("__sequencelayer"));
         lBody.appendChild(utl.createGroup("__notelayer"));
+        lBody.appendChild(utl.createGroup("__watermark"));
         return lBody;
     }
 
@@ -253,7 +255,14 @@ path { \
 } \
 .inherit-fill { \
     fill : inherit; \
-}";
+} \
+.watermark { \
+    stroke: black; \
+    color : black; \
+    fill  : black; \
+    font-size: 48pt; \
+    font-weight: bold; \
+    opacity : 0.14;";
     return {
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element

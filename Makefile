@@ -3,8 +3,10 @@ SHELL=/bin/sh
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
-PLATO=plato
-MOCHA=mocha
+PLATO=node_modules/plato/bin/plato
+MOCHA=node_modules/mocha/bin/mocha
+MOCHA_FORK=node_modules/mocha/bin/_mocha
+COVER=node node_modules/istanbul/lib/cli.js
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CJS2AMD=utl/commonjs2amd.sh
@@ -75,7 +77,7 @@ FAVICONS=favicon.ico \
 	favicon-228.png
 VERSIONEMBEDDABLESOURCES=index.html
 
-.PHONY: help dev-build install checkout-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint prerequisites build-prerequisites-node report test
+.PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
 help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean
@@ -134,7 +136,7 @@ script/mscgen-main.js: $(SOURCES_WEB)
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha
+	$(NPM) install pegjs requirejs jshint plato mocha istanbul
 
 runtime-prerequisites-node:
 	# cd src/script/node
@@ -155,6 +157,9 @@ consolecheck:
 lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
+cover:
+	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
+
 install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
@@ -163,9 +168,11 @@ checkout-gh-pages:
 	$(GIT) checkout gh-pages
 	$(GIT) merge master -m "merge for gh-pages build"
 
-deploy-gh-pages: checkout-gh-pages mostlyclean install
+build-gh-pages: checkout-gh-pages mostlyclean install
+
+deploy-gh-pages: build-gh-pages
 	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	$(GIT) commit --all --message="build `cat VERSION`" --allow-empty
+	$(GIT) commit --all --message="build `cat VERSION`"
 	$(GIT) push
 	$(GIT) checkout master
 
@@ -180,6 +187,7 @@ report:
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
+
 test:
 	# $(MOCHA) -R spec src/script/node/test/
 	$(MOCHA) -R dot src/script/node/test/
@@ -194,6 +202,7 @@ slart: ibartfast $(FAVICONS)
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html
 	rm -rf jsdoc
+	rm -rf coverage
 
 mostlyclean: somewhatclean
 	rm -rf $(GENERATED_SOURCES)

@@ -17,12 +17,24 @@ module.exports = (function() {
                 "label" : "a simple script"
             }]]
         },
-        astOptions : {
+        astOptionsMscgen : {
             "options" : {
                 "arcgradient" : "17",
                 "wordwraparcs" : "true",
                 "hscale" : "1.2",
                 "width" : "800"
+            },
+            "entities" : [{
+                "name" : "a"
+            }]
+        },
+        astOptions : {
+            "options" : {
+                "arcgradient" : "17",
+                "wordwraparcs" : "true",
+                "hscale" : "1.2",
+                "width" : "800",
+                "watermark" : "not in mscgen, available in xù and msgenny"
             },
             "entities" : [{
                 "name" : "a"
