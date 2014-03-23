@@ -60,7 +60,7 @@ MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16]
 [requirejs][19], [jQuery][14], [amdefine][20]. 
 Icons courtesy of Dmitry Baranovskiy [license][18].
 
-It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
+It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
 
 ## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for 
@@ -98,4 +98,5 @@ It uses [mocha][21], [jshint][22] and [plato][23] to maintain some modicum of ve
 [25]: wikum/licenses/license.jsdom.md
 [26]: http://cs.brown.edu/~dap/
 [27]: https://npmjs.org/package/posix-getopt
+[28]: wikum/licenses/license.istanbul.md
 [29]: wikum/xu.md
