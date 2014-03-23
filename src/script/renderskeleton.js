@@ -262,7 +262,7 @@ path { \
     fill  : black; \
     font-size: 48pt; \
     font-weight: bold; \
-    opacity : 0.14;";
+    opacity : 0.14; }";
     return {
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element
