@@ -45,7 +45,7 @@ msc {
 /* global canvg */
 
 define(["jquery", "xuparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "node/ast2mscgen", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
         "node/paramslikker",
         "../lib/codemirror",
         // "../lib/codemirror/mode/mscgen/mscgen",
@@ -57,7 +57,7 @@ define(["jquery", "xuparser", "msgennyparser", "renderast",
         "../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, gaga, txt, colorize, statstrans,
+            tomsgenny, tomscgen, todot, tovanilla, gaga, txt, colorize, statstrans,
             params,
             codemirror,
             // cm_mscgen,
@@ -187,6 +187,12 @@ function setupEvents () {
         click : function(e) {
                     show_dotOnClick();
                     gaga.g('send', 'event', 'show_dot', 'button');
+                }
+    });
+    $("#__show_vanilla").bind({
+        click : function(e) {
+                    show_vanillaOnClick();
+                    gaga.g('send', 'event', 'show_vanilla', 'button');
                 }
     });
     $("#__show_url").bind({
@@ -473,6 +479,10 @@ function show_rasterOnClick (pType) {
 
 function show_dotOnClick(){
     var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gLanguage))));
+}
+
+function show_vanillaOnClick(){
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(tovanilla.render(getAST(gLanguage))));
 }
 
 function show_urlOnClick(){
