@@ -207,6 +207,13 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
                 target="_blank"
                 type="text/plain"
                 title="exports to vanilla mscgen">vanilla</a>
+            <!--
+            <a id="__show_communications_diagram"
+                class="debug button"
+                target="_blank"
+                type="text/plain"
+                title="shows the communcations diagram variant of the chart">dagre</a>
+            -->
             <a id="__show_url"
                 class="debug button"
                 target="_blank"
@@ -215,6 +222,35 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
         </div>
         <br>
         <span id="__svg"></span>
+        <span id="__communicationsdiagram" >
+<svg class="debug" width="640" height="480" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <g>
+        <defs>
+            <style>
+            svg {
+                overflow: hidden;
+                font-family: Helvetica, sans-serif;
+                font-size: 9pt;
+                /*background-color: #FFFFF0;*/
+            }
+            .node rect {
+                stroke: #333;
+                stroke-width: 1.5px;
+                fill: #fff;
+            }
+            .edgeLabel rect {
+                fill: #fff;
+            }
+            .edgePath {
+                stroke: #333;
+                stroke-width: 1.5px;
+                fill: none;
+            }
+</style>
+        </defs>
+    </g>
+</svg> 
+ </span>
         
         <canvas id="__pngcanvas"></canvas>
         <div id="__cheatsheet">
