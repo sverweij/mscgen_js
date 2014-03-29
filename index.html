@@ -72,18 +72,18 @@ If you're on G+, that is."
             </div>
 
             <div class="debug fadable" style="font-size: small">
-                <div><em>version:</em> 0.9.0</div>
-                <div><em>build-date:</em> 20140322 19:45</div>
-                <div><em>commit:</em> d2cb8b152e8e980e</div>
+                <div><em>version:</em> 0.9.1</div>
+                <div><em>build-date:</em> 20140329 12:47</div>
+                <div><em>commit:</em> e4b92ebedef97f53</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.0
-    build-date: 20140322 19:45
-    commit: d2cb8b152e8e980e" class="fadable">mscgen_js</h1>
+    version: 0.9.1
+    build-date: 20140329 12:47
+    commit: e4b92ebedef97f53" class="fadable">mscgen_js</h1>
             <span>turns text into sequence charts</span>
         </header>
         <div id="__input_and_controls">
@@ -202,6 +202,18 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
                 target="_blank"
                 type="text/dot"
                 title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
+            <a id="__show_vanilla"
+                class="debug button"
+                target="_blank"
+                type="text/plain"
+                title="exports to vanilla mscgen">vanilla</a>
+            <!--
+            <a id="__show_communications_diagram"
+                class="debug button"
+                target="_blank"
+                type="text/plain"
+                title="shows the communcations diagram variant of the chart">dagre</a>
+            -->
             <a id="__show_url"
                 class="debug button"
                 target="_blank"
@@ -210,6 +222,35 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
         </div>
         <br>
         <span id="__svg"></span>
+        <span id="__communicationsdiagram" >
+<svg class="debug" width="640" height="480" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <g>
+        <defs>
+            <style>
+            svg {
+                overflow: hidden;
+                font-family: Helvetica, sans-serif;
+                font-size: 9pt;
+                /*background-color: #FFFFF0;*/
+            }
+            .node rect {
+                stroke: #333;
+                stroke-width: 1.5px;
+                fill: #fff;
+            }
+            .edgeLabel rect {
+                fill: #fff;
+            }
+            .edgePath {
+                stroke: #333;
+                stroke-width: 1.5px;
+                fill: none;
+            }
+</style>
+        </defs>
+    </g>
+</svg> 
+ </span>
         
         <canvas id="__pngcanvas"></canvas>
         <div id="__cheatsheet">
