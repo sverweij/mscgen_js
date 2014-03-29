@@ -40,33 +40,35 @@ msc {
 /* jshint browser:true */
 /* jshint jquery:true */
 /* jshint nonstandard:true */
-/* global define */
-/* global CodeMirror */
-/* global canvg */
+/* global define, CodeMirror, canvg */
 
 define(["jquery", "xuparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "node/ast2mscgen", /*"node/ast2dagre",*/
+        "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
         "node/paramslikker",
         "../lib/codemirror",
-        // "../lib/codemirror/mode/mscgen/mscgen",
-        "../lib/codemirror/addon/edit/closebrackets",
-        "../lib/codemirror/addon/edit/matchbrackets",
+		"../lib/codemirror/addon/edit/closebrackets",
+		"../lib/codemirror/addon/edit/matchbrackets",
         "../lib/codemirror/addon/display/placeholder",
         "../lib/canvg/canvg",
         "../lib/canvg/StackBlur",
-        "../lib/canvg/rgbcolor"
+        "../lib/canvg/rgbcolor"/*,
+        "../lib/dagre/d3",
+        "../lib/dagre/dagred3"*/
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, gaga, txt, colorize, statstrans,
+            tomsgenny, tomscgen, todot, tovanilla, /*todagre,*/
+            gaga, txt, colorize, statstrans,
             params,
             codemirror,
-            // cm_mscgen,
             cm_closebrackets,
             cm_matchbrackets,
             cm_placeholder,
             cv,
             cv_stackblur,
-            cv_rgbcolor) {
+            cv_rgbcolor/*,
+            dthree,
+            dagred3*/) {
 
 var gAutoRender = true;
 var gLanguage = "mscgen";
@@ -79,7 +81,6 @@ var gCodeMirror =
         matchBrackets     : true,
         theme             : "midnight", 
         placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
-        // mode              : "mscgen",
         lineWrapping      : true
     });
 
@@ -187,6 +188,18 @@ function setupEvents () {
         click : function(e) {
                     show_dotOnClick();
                     gaga.g('send', 'event', 'show_dot', 'button');
+                }
+    });
+    $("#__show_vanilla").bind({
+        click : function(e) {
+                    show_vanillaOnClick();
+                    gaga.g('send', 'event', 'show_vanilla', 'button');
+                }
+    });
+    $("#__show_communications_diagram").bind({
+        click : function(e) {
+                    show_communications_diagramOnClick();
+                    gaga.g('send', 'event', 'show_communications_diagram', 'button');
                 }
     });
     $("#__show_url").bind({
@@ -307,7 +320,6 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
-
 function getAST(pLanguage) {
     var lAST = {};
     if ("msgenny" === pLanguage) {
@@ -319,7 +331,6 @@ function getAST(pLanguage) {
     }
     return lAST;
 }
-
 
 function switchLanguageOnClick (pValue) {
     var lPreviousLanguage = gLanguage;
@@ -473,6 +484,21 @@ function show_rasterOnClick (pType) {
 
 function show_dotOnClick(){
     var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gLanguage))));
+}
+
+function show_vanillaOnClick(){
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(tovanilla.render(getAST(gLanguage))));
+}
+
+function show_communications_diagramOnClick(){
+/*    
+    var lDiGraph = todagre.render(getAST(gLanguage));
+    var lRenderer = new dagreD3.Renderer();
+    var lLayout = dagreD3.layout().nodeSep(20).rankDir("LR");
+    msc_render.clean("__svg", window);
+
+    lRenderer.layout(lLayout).run(lDiGraph, d3.select("svg g"));
+*/
 }
 
 function show_urlOnClick(){

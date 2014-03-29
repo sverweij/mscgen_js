@@ -1,6 +1,6 @@
 /*
  * takes an abstract syntax tree for a message sequence chart and renders it
- * as an grapviz dot script.
+ * as an graphviz dot script.
  */
 
 /* jshint node:true */

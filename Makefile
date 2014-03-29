@@ -29,6 +29,7 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/ast2xu.js \
 	src/script/node/ast2msgenny.js \
 	src/script/node/ast2dot.js \
+	src/script/node/ast2dagre.js \
 	src/script/node/dotmap.js \
 	src/script/node/asttransform.js \
 	src/script/node/flatten.js \
@@ -127,12 +128,15 @@ style/mscgen.css: src/style/mscgen.css
 
 script/mscgen-main.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
-			paths.jquery="jquery" \
-			paths.codemirror="codemirror" \
-			paths.cm_closebrackets="codemirror/addon/edit/closebrackets" \
-			paths.cm_matchbrackets="codemirror/addon/edit/matchbrackets" \
 			name="mscgen-main" \
 			out="./script/mscgen-main.js"
+
+			# paths.jquery="jquery" \
+			# paths.codemirror="../lib/codemirror" \
+			# paths.cm_closebrackets="../lib/codemirror/addon/edit/closebrackets" \
+			# paths.cm_matchbrackets="../lib/codemirror/addon/edit/matchbrackets" \
+			# paths.dagred3="../lib/dagre/dagred3" \
+			# paths.d3="../lib/dagre/d3" \
 
 # "phony" targets
 build-prerequisites:
@@ -160,7 +164,8 @@ lint:
 cover:
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
-install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
+# install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
+install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
     

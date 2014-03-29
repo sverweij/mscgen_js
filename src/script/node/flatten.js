@@ -164,6 +164,40 @@ function(transform, map) {
         return lAST;
     }
 
+    function _explodeBroadcasts(pAST) {
+        if (pAST.entities && pAST.arcs) {
+            var lArcRowIndex = 0;
+            var lArcIndex = 0;
+            for (lArcRowIndex in pAST.arcs) {
+                for (lArcIndex in pAST.arcs[lArcRowIndex]) {
+                    /* assuming swap has been done already and "*" is in no 'from'  anymore */
+                    if (pAST.arcs[lArcRowIndex][lArcIndex].to === "*") {
+                        /* save a clone of the broadcast arc attributes
+                         * and remove the original bc arc
+                         */
+                        var lOriginalBroadcastArc = JSON.parse(JSON.stringify(pAST.arcs[lArcRowIndex][lArcIndex]));
+                        delete pAST.arcs[lArcRowIndex][lArcIndex];
+                        var lRatchet = true;
+                        var lEntityIndex = 0;
+                        for (lEntityIndex in pAST.entities) {
+                            if (lOriginalBroadcastArc.from !== pAST.entities[lEntityIndex].name) {
+                                lOriginalBroadcastArc.to = pAST.entities[lEntityIndex].name;
+                                if (lRatchet) {
+                                    lRatchet = false;
+                                    pAST.arcs[lArcRowIndex][lArcIndex] = JSON.parse(JSON.stringify(lOriginalBroadcastArc));
+                                } else {
+                                    pAST.arcs[lArcRowIndex].push(JSON.parse(JSON.stringify(lOriginalBroadcastArc)));
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        return pAST;
+    }
+
     return {
         /**
          * If the arc is "facing backwards" (right to left) this function sets the arc
@@ -190,6 +224,22 @@ function(transform, map) {
             return _unwind(pAST);
         },
         /**
+         * expands "broadcast" arcs to its individual counterparts
+         * Example in mscgen:
+         * msc{
+         *     a,b,c,d;
+         *     a -> *;
+         * }
+         * output:
+         * msc {
+         *     a,b,c,d;
+         *     a -> b, a -> c, a -> d;
+         * }
+         */
+        explodeBroadcasts : function(pAST) {
+            return _explodeBroadcasts(pAST);
+        },
+        /**
          * Simplifies an AST:
          *    - entities without a label get one (the name of the label)
          *    - arc directions get unified to always go forward
@@ -211,7 +261,7 @@ function(transform, map) {
          * @return {ast}
          */
         dotFlatten : function(pAST) {
-            return transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]);
+            return _explodeBroadcasts(transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]));
         }
     };
 });

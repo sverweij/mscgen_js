@@ -634,6 +634,186 @@ module.exports = (function() {
                 "to" : "b"
             }]],
             depth : 2
+        },
+        astSimpleBroadcast : {
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b"
+            }, {
+                "name" : "c"
+            }, {
+                "name" : "d"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "*"
+            }]]
+        },
+        astSimpleBroadcastExploded : {
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b"
+            }, {
+                "name" : "c"
+            }, {
+                "name" : "d"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "a"
+            }, {
+                "kind" : "->",
+                "from" : "b",
+                "to" : "c"
+            }, {
+                "kind" : "->",
+                "from" : "b",
+                "to" : "d"
+            }]]
+        },
+        astComplexerBroadcast : {
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b",
+                "label" : "The big Dr Bee!",
+                "arctextcolor" : "green"
+            }, {
+                "name" : "c"
+            }, {
+                "name" : "d"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "a",
+                "to" : "b",
+                "label" : "whoopdeedoo"
+            }], [{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "*",
+                "label" : "has a label, for instance",
+                "linecolor" : "blue",
+                "textbgcolor" : "yellow"
+            }], [{
+                "kind" : "->",
+                "from" : "a",
+                "to" : "*",
+                "label" : "whoa!"
+            }]]
+        },
+        astComplexerBroadcastExploded : {
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b",
+                "label" : "The big Dr Bee!",
+                "arctextcolor" : "green"
+            }, {
+                "name" : "c"
+            }, {
+                "name" : "d"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "a",
+                "to" : "b",
+                "label" : "whoopdeedoo"
+            }], [{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "a",
+                "label" : "has a label, for instance",
+                "linecolor" : "blue",
+                "textbgcolor" : "yellow"
+            }, {
+                "kind" : "->",
+                "from" : "b",
+                "to" : "c",
+                "label" : "has a label, for instance",
+                "linecolor" : "blue",
+                "textbgcolor" : "yellow"
+            }, {
+                "kind" : "->",
+                "from" : "b",
+                "to" : "d",
+                "label" : "has a label, for instance",
+                "linecolor" : "blue",
+                "textbgcolor" : "yellow"
+            }], [{
+                "kind" : "->",
+                "from" : "a",
+                "to" : "b",
+                "label" : "whoa!"
+            }, {
+                "kind" : "->",
+                "from" : "a",
+                "to" : "c",
+                "label" : "whoa!"
+            }, {
+                "kind" : "->",
+                "from" : "a",
+                "to" : "d",
+                "label" : "whoa!"
+            }]]
+        },
+        astSameArcRowBroadcast : {
+            "options" : {
+                "arcgradient" : "20"
+            },
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b"
+            }, {
+                "name" : "c"
+            }, {
+                "name" : "d"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "*"
+            }, {
+                "kind" : ":>",
+                "from" : "d",
+                "to" : "a"
+            }]]
+        },
+        astSameArcRowBroadcastExploded : {
+            "options" : {
+                "arcgradient" : "20"
+            },
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b"
+            }, {
+                "name" : "c"
+            }, {
+                "name" : "d"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "a"
+            }, {
+                "kind" : ":>",
+                "from" : "d",
+                "to" : "a"
+            }, {
+                "kind" : "->",
+                "from" : "b",
+                "to" : "c"
+            }, {
+                "kind" : "->",
+                "from" : "b",
+                "to" : "d"
+            }]]
         }
     };
 })();
