@@ -29,6 +29,7 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/ast2xu.js \
 	src/script/node/ast2msgenny.js \
 	src/script/node/ast2dot.js \
+	src/script/node/ast2dagre.js \
 	src/script/node/dotmap.js \
 	src/script/node/asttransform.js \
 	src/script/node/flatten.js \
