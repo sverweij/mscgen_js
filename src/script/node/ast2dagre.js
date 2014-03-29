@@ -6,13 +6,15 @@
 /* jshint node:true */
 /* jshint undef:true */
 /* jshint unused:strict */
+/* global dagreD3 */
 
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", "./textutensils", "./dotmap", "../../lib/dagre/dagred3"], function(flatten, txt, map, dagred3) {
-
+define(["./flatten", /* "./textutensils", */ "./dotmap", "../../lib/dagre/dagred3"], function(flatten, /*txt,*/ map, dagred3) {
+    // require("../../lib/dagre/dagred3");
+    
     var gCounter = 0;
     var gDiGraph;
 
@@ -35,6 +37,7 @@ define(["./flatten", "./textutensils", "./dotmap", "../../lib/dagre/dagred3"], f
 
     }
 
+    /*
     function renderString(pString) {
         var lStringAry = txt.wrap(pString.replace(/\"/g, "\\\""), 40);
         var lString = "";
@@ -45,28 +48,23 @@ define(["./flatten", "./textutensils", "./dotmap", "../../lib/dagre/dagred3"], f
         lString += lStringAry[lStringAry.length - 1];
         return lString;
     }
-
-    function renderEntityName(pString) {
-        return "\"" + pString + "\"";
-    }
-
+    
+    
     function pushAttribute(pArray, pAttr, pString) {
         if (pAttr) {
             pArray.push(pString + "=\"" + renderString(pAttr) + "\"");
         }
     }
-
+    
     function translateAttributes(pThing) {
         var lAttrs = [];
         pushAttribute(lAttrs, pThing.label, "label");
-        // pushAttribute(lAttrs, pThing.idurl, "idurl");
-        // pushAttribute(lAttrs, pThing.id, "id");
-        // pushAttribute(lAttrs, pThing.url, "url");
         pushAttribute(lAttrs, pThing.linecolor, "color");
         pushAttribute(lAttrs, pThing.textcolor, "fontcolor");
         pushAttribute(lAttrs, pThing.textbgcolor, "fillcolor");
         return lAttrs;
     }
+    */
 
     function renderEntities(pEntities) {
         var i = 0;
@@ -90,14 +88,12 @@ define(["./flatten", "./textutensils", "./dotmap", "../../lib/dagre/dagred3"], f
     }
 
     function renderArc(pArc, pCounter) {
-        var lRetVal = "";
         var lArc = pArc;
         //JSON.parse(JSON.stringify(pArc));
-        var lAttrs = [];
         var lAggregatedKind = map.getAggregate(pArc.kind);
 
         if (lAggregatedKind === "box") {
-            var lBoxName = "box" + pCounter.toString();
+            // var lBoxName = "box" + pCounter.toString();
             // TODO - nice things with boxes
         } else {
             lArc = counterizeArc(pArc, pCounter);
