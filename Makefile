@@ -171,19 +171,17 @@ install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/requir
     
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
-	$(GIT) merge master -m "merge for gh-pages build"
+	$(GIT) merge master -m "merge for gh-pages build `cat VERSION`"
 
 build-gh-pages: checkout-gh-pages mostlyclean install
 
 deploy-gh-pages: build-gh-pages
 	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	$(GIT) commit --all --message="build `cat VERSION`"
+	$(GIT) commit -m "build `cat VERSION`"
 	$(GIT) push
-	$(GIT) checkout master
+	$(GIT) status
 
-release: $(VERSIONEMBEDDABLESOURCES)
-	$(GIT) add $(VERSIONEMBEDDABLESOURCES)
-	$(GIT) commit -m "update version to `cat VERSION` in sources with embedded version numbers"
+tag: 
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
 	$(GIT) push --tags
 
