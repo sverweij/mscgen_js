@@ -130,7 +130,7 @@ Note: obviously features not supported by *ms genny* get lost in translation.
     <tr>
         <td>options</td>
         <td>hscale, arcgradient, width, wordwraparcs </td>
-        <td>same as mscgen</td>
+        <td>same as mscgen, plus "watermark" (which works as in xù)</td>
     </tr>
     <tr>
         <td>comments</td>
