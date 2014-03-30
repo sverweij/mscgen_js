@@ -166,10 +166,9 @@ function(transform, map) {
 
     function _explodeBroadcasts(pAST) {
         if (pAST.entities && pAST.arcs) {
-            var lArcRowIndex = 0;
-            var lArcIndex = 0;
-            for (lArcRowIndex in pAST.arcs) {
-                for (lArcIndex in pAST.arcs[lArcRowIndex]) {
+            var lArcRowIndex, lArcIndex;
+            for ( lArcRowIndex = 0; lArcRowIndex < pAST.arcs.length; lArcRowIndex++) {
+                for ( lArcIndex = 0; lArcIndex < pAST.arcs[lArcRowIndex].length; lArcIndex++) {
                     /* assuming swap has been done already and "*" is in no 'from'  anymore */
                     if (pAST.arcs[lArcRowIndex][lArcIndex].to === "*") {
                         /* save a clone of the broadcast arc attributes
@@ -179,7 +178,7 @@ function(transform, map) {
                         delete pAST.arcs[lArcRowIndex][lArcIndex];
                         var lRatchet = true;
                         var lEntityIndex = 0;
-                        for (lEntityIndex in pAST.entities) {
+                        for ( lEntityIndex = 0; lEntityIndex < pAST.entities.length; lEntityIndex++) {
                             if (lOriginalBroadcastArc.from !== pAST.entities[lEntityIndex].name) {
                                 lOriginalBroadcastArc.to = pAST.entities[lEntityIndex].name;
                                 if (lRatchet) {

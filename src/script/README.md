@@ -147,11 +147,10 @@ The list of possible attributes is equal to what is allowed for mscgen:
 ```arcs``` is a two dimensional array of arcs. Each array in the
 outer array represents an arc _row_ (so the name _arcs_ is kind of
 a misnomer - ah well). The inner array consists of anonymous objects
-each of which represents an arc. Each arc is guaranteed to have
-- kind
-- from (either referencing a specific entity or all of them
-  with the special value "*"
-- to
+each of which represents an arc. Each arc is guaranteed to have the
+_kind_ attribute. Most arcs also have a _from_ and a _to_. 
+_from_ and _to_ reference an entity by its _name_. The special value "*"
+denotes _all enttities_. 
 
 Other attributes are optional: "url", "id", "idurl", "linecolor", "textcolor", "textbgcolor", "arcskip"
 
