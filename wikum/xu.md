@@ -129,7 +129,7 @@ john alt bike: wheather is nice {
 ```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---") 
 
 ## watermark
-Just like msgenny, xù supports a "watermark" _option_.
+Just like msgenny, xù supports a "watermark" _option_: ```watermark="xù rocks!"```;
 
 
 ## Supported inline expressions
