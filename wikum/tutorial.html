@@ -65,7 +65,11 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
                 <a href="#box-rbox-abox">box, rbox, abox</a>
         </ul>
     <li>
-        <a href="#extended-stuff">Extended stuff - inline expressions</a>
+        <a href="#extended-stuff">Extended stuff</a>
+        <ul>
+            <li><a href="#inline-expressions">nesting: inline expressions</a></li>
+            <li><a href="#watermark">watermark</a></li>
+        </ul>
 </ul>
 </nav>
 
@@ -311,7 +315,15 @@ c <mark>rbox</mark> d : rbox;
 <img id="tut20" src="tutorial/tut20.svg" alt="tut20">
 </section>
 <section>
-<h2 id="extended-stuff">Extended stuff - inline expressions</h2>
+<h2 id="extended-stuff">Extended stuff</h2>
+<p>
+    The features described in this chapter are only supported in xù and msgenny,
+    not in mscgen. If you rely on mscgen to do your rendering in (e.g.) doxygen
+    you might want to steer clear of these, or rewrite them in a fashion that
+    kind of mimics the behavior in vanilla mscgen (tips below).
+</p>
+
+<h3 id="inline-expressions">Nesting: inline expressions</h3>
 <p>If you're a sequence diagram regular, you probably need to express alternatives 
     and loops 'n stuff once in a while, like this:</p>
 
@@ -332,12 +344,30 @@ a =>> b;
    <mark>};</mark>
 <mark>};</mark>
 </pre>
-<p class="warning">
-    If you rely on mscgen to do your rendering in doxygen (e.g.) you might
-    want to either steer clear of inline expressions or rewrite them to 
-    comment constructs.    
+<p class="info">
+    <b>Mimicing this in mscgen</b> A way to do nesting in mscgen is to
+    use arrowless arcs for the top and the bottom of the inline expression.
     The <code>ast2mscgen</code> (node.js) script will help you do that:
     <code style="display: block">node msgenny2ast.js &lt; yourscript.msgenny | node ast2mscgen.js > yourscript.mscgen</code> 
+</p>
+<h3 id="watermark">Watermark</h3>
+<p>
+    To put a watermark text through your chart, add a <em>watermark</em> option, like so:
+</p>
+<pre class="code msgenny">
+hscale="0.7", <mark>watermark="Watermark";</mark>
+
+Alice => Bob : do something funny;
+Bob => pocket : "fetch (nose flute)";
+Bob >> Alice : PHEEE!;
+Alice => Alice: hihihi;
+</pre>
+<img id="tut37" src="tutorial/tut37.svg" alt="tut37">
+<p class="info">
+    <b>Mimicing this in mscgen</b> There are several ways to get a similar
+    message accross in mscgen. The simplest one is to put the text in an 
+    empty row somewhere (<code>||| [label="Watermark", textcolor="gray"];</code>).
+    For now <code>ast2mscgen</code> ignores the watermark option.
 </p>
 </section>
 </article>
@@ -388,7 +418,7 @@ a =>> b;
             gets a white background and black text and line</li>
     </ul>
     As msgenny does not support colors, the auto color function only works
-    for mscgen (and in abstract syntax tree when in debug mode). 
+    for mscgen and xù (and in abstract syntax tree when in debug mode). 
 </p>
 <h3>Bleach</h3>
 <p>Removes all colors from the chart.</p>
@@ -399,7 +429,7 @@ a =>> b;
 <p>The demo supports several output formats.
 </p>
 <h3>Vector graphics: svg</h3>
-<p>clicking the <em>svg</em> button or
+<p>Clicking the <em>svg</em> button or
     double clicking the sequence chart opens the chart in a new window (or tab). 
     In most browsers it's super easy to save the image to your local file
     system from there.
@@ -407,7 +437,7 @@ a =>> b;
 
 <h3>Raster graphics: png and jpeg</h3>
 <p>Opens a new window/ tab with the "rasterized" version of the
-    chart in the lossless png.
+    chart in the lossless png or the lossy jpeg formats respectively. 
 </p>
 
 <h3>Graphviz dot</h3>
