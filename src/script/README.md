@@ -211,11 +211,11 @@ as they are in xù and msgenny.
 msc {
   a, b;
 
-  a loop b {
-    a opt b {
+  a loop b [label="for all things"] {
+    a opt b [label="thing is worth its while"]{
       a => b [label="thingify (thing)"];
-    } [label="thing is worth its while"];
-  } [label="for all things"];
+    };
+  };
 }
 ```
 
