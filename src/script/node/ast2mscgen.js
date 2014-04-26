@@ -146,7 +146,7 @@ define(["./dotmap"], function(map) {
                 return " " + pKind + " ";
             }
         }
-        if ("arcspanning" === map.getAggregate(pKind)) {// different from xu
+        if ("inline_expression" === map.getAggregate(pKind)) {// different from xu
             return "--";// /*" + pKind + "*/";
             // different from xu
         }// different from xu

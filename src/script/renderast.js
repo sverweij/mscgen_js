@@ -324,7 +324,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         var lifelinelayer = gDocument.getElementById("__lifelinelayer");
         var sequence = gDocument.getElementById("__sequencelayer");
         var notelayer = gDocument.getElementById("__notelayer");
-        var lArcSpannerMemory = [];
+        var lInlineExpressionMemory = [];
 
         var lLabel = "";
         var lArcEnd = gEntityXHWM - gInterEntitySpacing + gEntityWidth;
@@ -364,13 +364,13 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
                                 layer : notelayer
                             });
                             break;
-                        case("arcspanning"):
-                            lElement = renderArcSpanningArcLabel(lCurrentId + "_label", pArcRows[i][j]);
+                        case("inline_expression"):
+                            lElement = renderInlineExpressionLabel(lCurrentId + "_label", pArcRows[i][j]);
                             lRowMemory.push({
                                 id : lCurrentId + "_label",
                                 layer : notelayer
                             });
-                            lArcSpannerMemory.push({
+                            lInlineExpressionMemory.push({
                                 id : lCurrentId,
                                 arc : pArcRows[i][j],
                                 rownum : i
@@ -436,18 +436,18 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
                     lRowMemory[m].layer.appendChild(utl.createUse(0, getRowInfo(i).y, lRowMemory[m].id));
                 }
             }// for all rows
-            renderArcSpanningArcs(lArcSpannerMemory);
+            renderInlineExpressions(lInlineExpressionMemory);
         } // if pArcRows
     }// function
 
     /**
-     * renderArcSpanningArcLabel() - renders the label of an inline expression
+     * renderInlineExpressionLabel() - renders the label of an inline expression
      * (/ arc spanning arc)
      *
      * @param <string> pId - the id to use for the rendered Element
      * @param <object> pArc - the arc spanning arc
      */
-    function renderArcSpanningArcLabel(pId, pArc) {
+    function renderInlineExpressionLabel(pId, pArc) {
         var lFrom = gEntity2X[pArc.from];
         var lTo = gEntity2X[pArc.to];
         var FOLD_SIZE = 7;
@@ -476,17 +476,17 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         return lGroup;
     }
 
-    function renderArcSpanningArcs(pArcSpanningArcs) {
+    function renderInlineExpressions(pInlineExpressions) {
         var defs = gDocument.getElementById("__defs");
         var arcspanlayer = gDocument.getElementById("__arcspanlayer");
 
-        for (var n = 0; n < pArcSpanningArcs.length; n++) {
-            defs.appendChild(renderArcSpanningArc(pArcSpanningArcs[n]));
-            arcspanlayer.appendChild(utl.createUse(0, getRowInfo(pArcSpanningArcs[n].rownum).y, pArcSpanningArcs[n].id));
+        for (var n = 0; n < pInlineExpressions.length; n++) {
+            defs.appendChild(renderInlineExpression(pInlineExpressions[n]));
+            arcspanlayer.appendChild(utl.createUse(0, getRowInfo(pInlineExpressions[n].rownum).y, pInlineExpressions[n].id));
         }
     }
 
-    function renderArcSpanningArc(pArcMem) {
+    function renderInlineExpression(pArcMem) {
         var lFromY = getRowInfo(pArcMem.rownum).y;
         var lToY = getRowInfo(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
         var lHeight = lToY - lFromY;
