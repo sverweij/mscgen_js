@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+        This file is part of mscgen_js.
+
+        mscgen_js is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        mscgen_js is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+        -->
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="message sequence chart renderer">
+        <meta name="keywords" content="mscgen, msc, sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js">
+
+        <title>mscgen_js - turns text into sequence charts</title>
+
+        <style>
+            body {
+                margin-top: 0;
+                font-family: sans-serif;
+            }
+            header {
+                background-color: white;
+                color: black;
+                padding-bottom: 4.9em;
+                padding-top: 1em;
+            }
+            h1 {
+                padding: 0;
+                margin: 0;
+                font-size: 1.9em;
+                margin-bottom: 0;
+                margin-top: 0;
+            }
+            code {
+                white-space: pre;
+            }
+            .error {
+                color: red;
+                border: solid 1px red;
+            }
+        </style>
+        <script data-main="script/mscgen-inpage.js"
+        src="lib/require.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1 title="There's some good copy in tooltips.
+Likely nobody will read them, though.
+
+mscgen_js
+    version: ${version}
+    build-date: ${date}
+    commit: ${commit}" class="shadow">mscgen_js</h1>
+            <span class="shadow">turns text into sequence charts</span>
+        </header>
+        <section>
+            <h1>Want to embed mscgen in your html?</h1>
+            <p>
+                That's easy:
+                <ol>
+                    <li>
+                        Reference the mscgen-inpage script in your page head:
+                        <pre>&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" src="https://sverweij.github.io/mscgen_js/lib/require.js">&lt;/script></pre>
+                    </li>
+                    <li>
+                        put your mscgen (or msgenny or xù) script in the page, with
+                        <code>&lt;code></code> tags around it
+
+                   <pre>
+<mark>&lt;code class="mscgen_js"></mark>
+msc {
+    a [label="consumer"], b [label="shopfront"], c;
+    
+    a =>> b [label="buy (commestible)"];
+    b =>> c [label="lookup_price(commestible)"];
+    c >> b [label="price"];
+    b =>> a [label=""];
+    a =>> b [label="money"];
+    ...;
+}<mark>&lt;/code></mark>
+                </pre>                     
+                    </li>
+                </ol>
+            </p>
+            
+            <p>
+            The script replaces all elements in the page with the class <code>mscgen_js</code> by 
+            a rendered sequence chart. For the above mscgen this looks like so: 
+            </p>
+            <code class="mscgen_js">msc {
+                a [label="consumer"], b [label="shopfront"], c;
+
+                a =>> b [label="buy (commestible)"];
+                b =>> c [label="lookup_price(commestible)"];
+                c >> b [label="price"];
+                b =>> a [label=""];
+                a =>> b [label="money"];
+                ...;
+                }</code>
+        </section>
+        
+        <section>
+            <h1>Other sequence chart languages</h1>
+            <p>
+                Mscgen_js automatically assumes the language of the presented
+                script to be <em>mscgen</em>. If you use one of the other languages
+                supported by mscgen_js, ad a <code>data-lanaguage</code> 
+                attribute to the element with the target language
+                    <code>&lt;code class="mscgen_js" <mark>data-language="msgenny"</mark>></code>.
+            </p>
+            <p>
+                Three examples for <code>msgenny</code>, abstract syntax tree (<code>json</code>) and <code>xu</code>:
+            </p>
+        <code id="umpalumpa" class="mscgen_js" data-language="msgenny">
+            arcgradient=10, watermark="msgenny"; 
+            
+            Harry =>> Sally: "marry(Sally, Harry)?";
+            Sally >> Harry: YES, Sally -> mother: he's asked me to marry him!; 
+            mother -> *: "Stop that. Silly Sally.";
+        </code>
+        <code class="mscgen_js" data-language="json">{
+            "options":{
+            "watermark" : "JSON/ AST"
+            },
+            "entities": [
+            {
+            "name": "Alice",
+            "linecolor": "#008800",
+            "textbgcolor": "#CCFFCC",
+            "textcolor": "black",
+            "arctextcolor": "#008800",
+            "arclinecolor": "#008800"
+            },
+            {
+            "name": "Bob",
+            "linecolor": "#FF0000",
+            "textbgcolor": "#FFCCCC",
+            "textcolor": "black",
+            "arctextcolor": "#FF0000",
+            "arclinecolor": "#FF0000"
+            },
+            {
+            "name": "pocket",
+            "linecolor": "#0000FF",
+            "textbgcolor": "#CCCCFF",
+            "textcolor": "black",
+            "arctextcolor": "#0000FF",
+            "arclinecolor": "#0000FF"
+            }
+            ],
+            "arcs": [
+            [
+            {
+            "kind": "=>",
+            "from": "Alice",
+            "to": "Bob",
+            "label": "do something funny"
+            }
+            ],
+            [
+            {
+            "kind": "=>",
+            "from": "Bob",
+            "to": "pocket",
+            "label": "fetch (nose flute)"
+            }
+            ],
+            [
+            {
+            "kind": ">>",
+            "from": "Bob",
+            "to": "Alice",
+            "label": "PHEEE!"
+            }
+            ],
+            [
+            {
+            "kind": "=>",
+            "from": "Alice",
+            "to": "Alice",
+            "label": "hihihi"
+            }
+            ]
+            ]
+            }</code>
+        <code class="mscgen_js" data-language="xu">
+            msc{
+            watermark="xù: 序列圖 ";
+            a,b,c,d,e,f;
+            a => d;
+            b loop e [label="for each element with class='mscgen_js'"]{
+                b =>> d [label="get textContent of the element"];
+                d >> b [label="textContent"];
+                b =>> e [label="parse(textContent)"];
+                b alt e [label="happy day", textbgcolor="#f7fff7"] {
+                    e >> b [label="abstract syntax tree"];
+                    b -> d [label="clear inner HTML of the element"];
+                    b -> d [label="render (abstract syntax tree)"];
+                    ---[label="error", linecolor="red"];
+                    e >> b [label="error object", linecolor="red"];
+                    b -> d [label="add error message to innerHTML of the element", linecolor="red"];
+                };
+            };
+            ...;
+            }
+        </code>
+        </section>
+    </body>
+</html>

@@ -103,7 +103,7 @@ function(transform, map) {
 
     function unwindArcRow(pArcRow, pAST, pFrom, pTo, pDepth) {
         var lArcSpanningArc = {};
-        if ("arcspanning" === map.getAggregate(pArcRow[0].kind)) {
+        if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
             lArcSpanningArc = JSON.parse(JSON.stringify(pArcRow[0]));
 
             if (lArcSpanningArc) {

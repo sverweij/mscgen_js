@@ -43,16 +43,9 @@ define([], function() {
             x : 2,
             y : 2
         };
+
         if ( typeof (pElement.getBBox) === 'function') {
-            // TODO: assumes '__body' to exist in the svg document - alternatives:
-            //       - make either the lBody or its id a parameter
-            //         (but this is actually the kind of stuff we'd like
-            //          to hide from the caller)
-            //       - create the lBody element on the fly
-            //         (performance impact)
-            // note: the element would not have to be the <group> designated as 
-            // "body" - it could also be something temporal
-            var lBody = gDocument.getElementById("__body");
+            var lBody = document.getElementsByTagName("svg")[0];
             lBody.appendChild(pElement);
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);

@@ -1,4 +1,3 @@
-SHELL=/bin/sh
 .SUFFIXES:
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
@@ -58,6 +57,9 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/gaga.js \
     src/script/mscgen-main.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
+EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_NODE) \
+    src/script/controller-inpage.js \
+    src/script/mscgen-inpage.js
 FAVICONMASTER=src/images/xu.png
 FAVICONS=favicon.ico \
 	favicon-16.png \
@@ -76,7 +78,7 @@ FAVICONS=favicon.ico \
 	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
-VERSIONEMBEDDABLESOURCES=index.html
+VERSIONEMBEDDABLESOURCES=index.html embed.html
 
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
@@ -120,6 +122,9 @@ $(PRODDIRS):
 index.html: src/index.html
 	$(SEDVERSION) < $< > $@
 
+embed.html: src/embed.html
+	$(SEDVERSION) < $< > $@
+
 lib/require.js: src/lib/require.js
 	cp $< $@
 
@@ -138,6 +143,11 @@ script/mscgen-main.js: $(SOURCES_WEB)
 			# paths.dagred3="../lib/dagre/dagred3" \
 			# paths.d3="../lib/dagre/d3" \
 
+script/mscgen-inpage.js: $(EMBED_SOURCES_WEB) lib/require.js
+	$(RJS) -o baseUrl="./src/script" \
+			name="mscgen-inpage" \
+			out="./script/mscgen-inpage.js"
+
 # "phony" targets
 build-prerequisites:
 	$(NPM) install pegjs requirejs jshint plato mocha istanbul
@@ -148,7 +158,7 @@ runtime-prerequisites-node:
 
 prerequisites: build-prerequisites runtime-prerequisites-node
 
-dev-build: $(SOURCES_WEB) $(SOURCES_NODE)
+dev-build: $(SOURCES_WEB) $(EMBED_SOURCES_WEB) $(SOURCES_NODE)
 
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
@@ -165,25 +175,23 @@ cover:
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
 # install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
+install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html script/mscgen-inpage.js lib/require.js style/mscgen.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
     
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
-	$(GIT) merge master -m "merge for gh-pages build"
+	$(GIT) merge master -m "merge for gh-pages build `cat VERSION`"
 
 build-gh-pages: checkout-gh-pages mostlyclean install
 
 deploy-gh-pages: build-gh-pages
 	$(GIT) add $(PRODDIRS) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-	$(GIT) commit --all --message="build `cat VERSION`"
+	$(GIT) commit -m "build `cat VERSION`"
 	$(GIT) push
-	$(GIT) checkout master
+	$(GIT) status
 
-release: $(VERSIONEMBEDDABLESOURCES)
-	$(GIT) add $(VERSIONEMBEDDABLESOURCES)
-	$(GIT) commit -m "update version to `cat VERSION` in sources with embedded version numbers"
+tag: 
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
 	$(GIT) push --tags
 
@@ -205,7 +213,7 @@ ibartfast:
 slart: ibartfast $(FAVICONS)
     
 somewhatclean:
-	rm -rf $(PRODDIRS) index.html
+	rm -rf $(PRODDIRS) index.html embed.html
 	rm -rf jsdoc
 	rm -rf coverage
 
