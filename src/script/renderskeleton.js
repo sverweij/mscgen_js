@@ -30,6 +30,7 @@ define(["./renderutensils"], function(utl) {
      */
 
     var gDocument;
+    var gInnerElementId = "mscgen_js$svg$";
 
     function setupMarkers(pDefs) {
         var lDefs = pDefs;
@@ -68,25 +69,25 @@ define(["./renderutensils"], function(utl) {
         var lDefs = gDocument.createElementNS(utl.SVGNS, "defs");
         lDefs.appendChild(setupStyle(gDocument));
         lDefs = setupMarkers(lDefs);
-        lDefs.appendChild(utl.createGroup("__defs"));
+        lDefs.appendChild(utl.createGroup(gInnerElementId + "__defs"));
         return lDefs;
     }
 
     function setupDesc() {
         var lDesc = gDocument.createElementNS(utl.SVGNS, "desc");
-        lDesc.setAttribute("id", "__msc_source");
+        lDesc.setAttribute("id", gInnerElementId + "__msc_source");
         return lDesc;
     }
 
     function setupBody() {
-        var lBody = utl.createGroup("__body");
+        var lBody = utl.createGroup(gInnerElementId + "__body");
         
-        lBody.appendChild(utl.createGroup("__background"));
-        lBody.appendChild(utl.createGroup("__arcspanlayer"));
-        lBody.appendChild(utl.createGroup("__lifelinelayer"));
-        lBody.appendChild(utl.createGroup("__sequencelayer"));
-        lBody.appendChild(utl.createGroup("__notelayer"));
-        lBody.appendChild(utl.createGroup("__watermark"));
+        lBody.appendChild(utl.createGroup(gInnerElementId + "__background"));
+        lBody.appendChild(utl.createGroup(gInnerElementId + "__arcspanlayer"));
+        lBody.appendChild(utl.createGroup(gInnerElementId + "__lifelinelayer"));
+        lBody.appendChild(utl.createGroup(gInnerElementId + "__sequencelayer"));
+        lBody.appendChild(utl.createGroup(gInnerElementId + "__notelayer"));
+        lBody.appendChild(utl.createGroup(gInnerElementId + "__watermark"));
         return lBody;
     }
 
@@ -104,6 +105,7 @@ define(["./renderutensils"], function(utl) {
     function _bootstrap(pParentElementId, pSvgElementId, pWindow) {
 
         gDocument = _init(pWindow);
+        gInnerElementId = pSvgElementId;
 
         var lParent = gDocument.getElementById(pParentElementId);
         if (lParent === null) {
