@@ -3,6 +3,7 @@
 
 - Fully functional on line [demo here][2]
 - Uses the [mscgen][1] mini language. 
+- [Embeddable][30] in your html.
 - Supports a [simplified subset of mscgen][5] for lazy bastards.
 - Supports a [superset of mscgen][29] for the feature hungry.
 
@@ -100,3 +101,4 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 [27]: https://npmjs.org/package/posix-getopt
 [28]: wikum/licenses/license.istanbul.md
 [29]: wikum/xu.md
+[30]: http://sverweij.github.io/mscgen_js/embed.html
