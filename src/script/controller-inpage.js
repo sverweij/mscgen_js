@@ -16,10 +16,10 @@ define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennypa
                 lMscGenElements[i].id = PARENTELEMENTPREFIX + i.toString();
             }
             lAST = getAST(lMscGenElements[i].textContent, lMscGenElements[i].dataset.language);
-            if (lAST.name !== "SyntaxError") {
+            if (lAST.entities) {
                 render(lAST, lMscGenElements[i].id, lMscGenElements[i].textContent);
             } else {
-                lMscGenElements[i].innerHTML += "<div class='error'>line " + lAST.line + ", column " + lAST.column + ": " + lAST.message + "</div>";
+                lMscGenElements[i].innerHTML += "<div style='color: red'>ERROR: line " + lAST.line + ", column " + lAST.column + ": " + lAST.message + "</div>";
             }
         }
     }

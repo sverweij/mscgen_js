@@ -97,7 +97,7 @@ $(document).ready(function(){
         
     $("#__pngcanvas").hide();
     showAutorenderState ();
-    showMsGennyState ();
+    showLanguageState ();
     render();
     if (undefined === lParams.msc) {
         samplesOnChange();
@@ -240,7 +240,7 @@ function setupEvents () {
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
                         gLanguage = txt.classifyExtension(pEvent.dataTransfer.files[0].name);
-                        showMsGennyState ();
+                        showLanguageState ();
                         gCodeMirror.setValue("");
                         gaga.g('send', 'event', 'drop', gLanguage);    
                     } 
@@ -320,14 +320,14 @@ function autorenderOnClick () {
     showAutorenderState ();
 }
 
-function getAST(pLanguage) {
+function getAST(pInput, pLanguage) {
     var lAST = {};
     if ("msgenny" === pLanguage) {
-        lAST = msgennyparser.parse(gCodeMirror.getValue());
+        lAST = msgennyparser.parse(pInput);
     } else if ("json" === pLanguage) {
-        lAST = JSON.parse(gCodeMirror.getValue());
+        lAST = JSON.parse(pInput);
     } else {
-        lAST = mscparser.parse(gCodeMirror.getValue());
+        lAST = mscparser.parse(pInput);
     }
     return lAST;
 }
@@ -337,7 +337,7 @@ function switchLanguageOnClick (pValue) {
     var lAST = {};
     
     try {
-        lAST = getAST(lPreviousLanguage);
+        lAST = getAST(gCodeMirror.getValue(), lPreviousLanguage);
     
         if (lAST !== {}){
             if ("msgenny" === pValue){
@@ -356,9 +356,8 @@ function switchLanguageOnClick (pValue) {
     }
     
     gLanguage = pValue;
-    showMsGennyState ();
+    showLanguageState ();
 }
-
 
 function clearOnClick(){
     if ("msgenny" === gLanguage){
@@ -375,7 +374,7 @@ function colorizeOnClick(pHardOverride){
     var lAST = {};
     
     try {
-        lAST = getAST(gLanguage);
+        lAST = getAST(gCodeMirror.getValue(), gLanguage);
     
         if (lAST !== {}){
             lAST = colorize.colorize(lAST, pHardOverride);
@@ -390,7 +389,7 @@ function unColorizeOnClick(pHardOverride){
     var lAST = {};
     
     try {
-        lAST = getAST(gLanguage);
+        lAST = getAST(gCodeMirror.getValue(), gLanguage);
     
         if (lAST !== {}){
             lAST = colorize.uncolor(lAST, pHardOverride);
@@ -415,7 +414,7 @@ function weighOnClick(pType){
       var lAST = {};
     
     try {
-        lAST = getAST(gLanguage);
+        lAST = getAST(gCodeMirror.getValue(), gLanguage);
     
         if (lAST !== {}){
             if ("io" === pType){
@@ -440,7 +439,7 @@ function samplesOnChange() {
                 if ($("#__samples").val()) {
                     gLanguage = txt.classifyExtension($("#__samples").val());
                 }
-                showMsGennyState ();
+                showLanguageState ();
                 gCodeMirror.setValue(pData);
             },
             error : function (a,b,error){ 
@@ -460,6 +459,7 @@ function webkitNamespaceBugWorkaround(pText){
     lText = lText.replace(/\ href=/g, " xlink:href=", "g");
     return lText;
 }
+
 function helpmeOnClick () { 
     $("#__cheatsheet").toggle();
 }
@@ -468,6 +468,7 @@ function toVectorURI (pSourceElementId) {
     var lb64 = btoa(unescape(encodeURIComponent(webkitNamespaceBugWorkaround($(pSourceElementId).html()))));
     return "data:image/svg+xml;base64,"+lb64;
 }
+
 function show_svgOnClick () {
     var lWindow = window.open(toVectorURI("#__svg"), "_blank");
 }
@@ -483,16 +484,16 @@ function show_rasterOnClick (pType) {
 }
 
 function show_dotOnClick(){
-    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gLanguage))));
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gCodeMirror.getValue(), gLanguage))));
 }
 
 function show_vanillaOnClick(){
-    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(tovanilla.render(getAST(gLanguage))));
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(tovanilla.render(getAST(gCodeMirror.getValue(), gLanguage))));
 }
 
 function show_communications_diagramOnClick(){
 /*    
-    var lDiGraph = todagre.render(getAST(gLanguage));
+    var lDiGraph = todagre.render(getAST(gCodeMirror.getValue(), gLanguage));
     var lRenderer = new dagreD3.Renderer();
     var lLayout = dagreD3.layout().nodeSep(20).rankDir("LR");
     msc_render.clean("__svg", window);
@@ -528,7 +529,7 @@ function showAutorenderState () {
     }
 }
 
-function showMsGennyState () {
+function showLanguageState () {
     if ("msgenny" === gLanguage) {
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").prop("checked", "msgennyOn");
@@ -566,7 +567,7 @@ function render() {
     try {
         hideError();
         msc_render.clean("__svg", window);
-        msc_render.renderAST(getAST(gLanguage), gCodeMirror.getValue(), "__svg", window);
+        msc_render.renderAST(getAST(gCodeMirror.getValue(), gLanguage), gCodeMirror.getValue(), "__svg", window);
         /* the next three lines are too slow for (auto) rendering 
          *   - canvg is called twice for doing exactly the same (svg => canvas)
          *   - it inserts relatively big amounts of data in the DOM tree 
@@ -614,7 +615,6 @@ function displayError (pString) {
     $("#__error_output").show();
     $("#__error_output").text(pString);
 }
-
 
 }); // define
 /*
