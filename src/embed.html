@@ -16,6 +16,11 @@
 
         You should have received a copy of the GNU General Public License
         along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+        
+         mscgen_js
+            version: ${version}
+            build-date: ${date}
+            commit: ${commit}
         -->
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -23,62 +28,29 @@
         <meta name="keywords" content="mscgen, msc, sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js">
 
         <title>mscgen_js - turns text into sequence charts</title>
-
-        <style>
-            body {
-                margin-top: 0;
-                font-family: sans-serif;
-            }
-            header {
-                background-color: white;
-                color: black;
-                padding-bottom: 4.9em;
-                padding-top: 1em;
-            }
-            h1 {
-                padding: 0;
-                margin: 0;
-                font-size: 1.9em;
-                margin-bottom: 0;
-                margin-top: 0;
-            }
-            code {
-                white-space: pre;
-            }
-            .error {
-                color: red;
-                border: solid 1px red;
-            }
-        </style>
+        <link rel="stylesheet" href="wikum/tutorial.css" type="text/css" media="screen">
         <script data-main="script/mscgen-inpage.js"
         src="lib/require.js"></script>
     </head>
     <body>
-        <header>
-            <h1 title="There's some good copy in tooltips.
-Likely nobody will read them, though.
+        <article>
+        <h1>Want to embed mscgen in your html?</h1>
+        <p>
+            That's easy:
+            <ol>
+                <li>
+                    Reference the mscgen-inpage script in your page head:
+                    <pre>&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" 
+        src="https://sverweij.github.io/mscgen_js/lib/require.js">
+&lt;/script></pre>
+                </li>
+                <li>
+                    put your mscgen (or msgenny or xù) script in the page, with
+                    tags around it with <code>mscgen_js</code> as a <code>class</code> attribute.
+                    The element type does not matter for mscgen_js (although it might matter to you ...)
 
-mscgen_js
-    version: ${version}
-    build-date: ${date}
-    commit: ${commit}" class="shadow">mscgen_js</h1>
-            <span class="shadow">turns text into sequence charts</span>
-        </header>
-        <section>
-            <h1>Want to embed mscgen in your html?</h1>
-            <p>
-                That's easy:
-                <ol>
-                    <li>
-                        Reference the mscgen-inpage script in your page head:
-                        <pre>&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" src="https://sverweij.github.io/mscgen_js/lib/require.js">&lt;/script></pre>
-                    </li>
-                    <li>
-                        put your mscgen (or msgenny or xù) script in the page, with
-                        <code>&lt;code></code> tags around it
-
-                   <pre>
-<mark>&lt;code class="mscgen_js"></mark>
+               <pre>
+<mark>&lt;pre class="mscgen_js"></mark>
 msc {
     a [label="consumer"], b [label="shopfront"], c;
     
@@ -88,48 +60,73 @@ msc {
     b =>> a [label=""];
     a =>> b [label="money"];
     ...;
-}<mark>&lt;/code></mark>
-                </pre>                     
-                    </li>
-                </ol>
-            </p>
-            
-            <p>
-            The script replaces all elements in the page with the class <code>mscgen_js</code> by 
-            a rendered sequence chart. For the above mscgen this looks like so: 
-            </p>
-            <code class="mscgen_js">msc {
-                a [label="consumer"], b [label="shopfront"], c;
-
-                a =>> b [label="buy (commestible)"];
-                b =>> c [label="lookup_price(commestible)"];
-                c >> b [label="price"];
-                b =>> a [label=""];
-                a =>> b [label="money"];
-                ...;
-                }</code>
-        </section>
+}<mark>&lt;/pre></mark>
+            </pre>                     
+                </li>
+            </ol>
+        </p>
         
-        <section>
-            <h1>Other sequence chart languages</h1>
-            <p>
-                Mscgen_js automatically assumes the language of the presented
-                script to be <em>mscgen</em>. If you use one of the other languages
-                supported by mscgen_js, ad a <code>data-lanaguage</code> 
-                attribute to the element with the target language
-                    <code>&lt;code class="mscgen_js" <mark>data-language="msgenny"</mark>></code>.
-            </p>
-            <p>
-                Three examples for <code>msgenny</code>, abstract syntax tree (<code>json</code>) and <code>xu</code>:
-            </p>
-        <code id="umpalumpa" class="mscgen_js" data-language="msgenny">
+        <p>
+        The script replaces all elements in the page with the class <code>mscgen_js</code> by 
+        a rendered sequence chart. For the above mscgen this looks like so: 
+        </p>
+        <pre class="mscgen_js">msc {
+            a [label="consumer"], b [label="shopfront"], c;
+
+            a =>> b [label="buy (commestible)"];
+            b =>> c [label="lookup_price(commestible)"];
+            c >> b [label="price"];
+            b =>> a [label=""];
+            a =>> b [label="money"];
+            ...;
+            }</pre>
+
+        <h1>Want to use mscgen_js in Atlassian Confluence?</h1>
+        <p>If your Confluence admin has enabled the confluence HTML macro, getting
+            mscgen in your page is as simple as adding a HTML "macro" to the page 
+            and put the <code>script</code> tag in there. Sample snippet:
+        </p>
+<pre class="shadow">
+&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" src="https://sverweij.github.io/mscgen_js/lib/require.js"></script>
+
+&lt;code class="mscgen_js">
+msc {
+    a [label="Entity A"], b [label="Entity B"];
+    
+    a <<=>> b [label="testing (confluence)"];
+    b note b [label="mscgen embedded in a confluence page!"];
+}
+&lt;/code>
+</pre>
+        <h1>Error handling</h1>
+        <p>If your mscgen code contains an error, the script will attach the associated 
+            message:</p>
+        <pre class="mscgen_js shadow">msc {
+  a, b; 
+  a -> b[noexistingattribute="something"];
+}</pre>
+
+        <h1>Other sequence chart languages</h1>
+        <p>
+            Mscgen_js automatically assumes the language of the presented
+            script to be <em>mscgen</em>. If you use one of the other languages
+            supported by mscgen_js, add a <code>
+                data-lanaguage</code>
+            attribute to the element with the target language:
+            <code>&lt;code class="mscgen_js"<mark> data-language="msgenny"</mark>></code>.
+        </p>
+        <p>
+            Three examples for <code>msgenny</code>, abstract syntax tree (<code>json</code>) 
+            and <code>xu</code>:
+        </p>
+        <pre id="umpalumpa" class="mscgen_js" data-language="msgenny">
             arcgradient=10, watermark="msgenny"; 
             
             Harry =>> Sally: "marry(Sally, Harry)?";
             Sally >> Harry: YES, Sally -> mother: he's asked me to marry him!; 
             mother -> *: "Stop that. Silly Sally.";
-        </code>
-        <code class="mscgen_js" data-language="json">{
+        </pre>
+        <pre class="mscgen_js" data-language="json">{
             "options":{
             "watermark" : "JSON/ AST"
             },
@@ -193,11 +190,11 @@ msc {
             }
             ]
             ]
-            }</code>
-        <code class="mscgen_js" data-language="xu">
+            }</pre>
+        <pre class="mscgen_js shadow" data-language="xu">
             msc{
-            watermark="xù: 序列圖 ";
-            a,b,c,d,e,f;
+            watermark="xù: 序列圖", wordwraparcs="true";
+            a,b,d,e;
             a => d;
             b loop e [label="for each element with class='mscgen_js'"]{
                 b =>> d [label="get textContent of the element"];
@@ -214,7 +211,7 @@ msc {
             };
             ...;
             }
-        </code>
-        </section>
+        </pre>
+        </article>
     </body>
 </html>
