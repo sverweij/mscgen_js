@@ -10,12 +10,17 @@ define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennypa
         // !("yes" === navigator.doNotTrack)
         var lMscGenElements = document.getElementsByClassName("mscgen_js");
         var lAST;
+        var lLanguage;
 
         for (var i = 0; i < lMscGenElements.length; i++) {
+            lLanguage = "mscgen";
             if ("" === lMscGenElements[i].id || null === lMscGenElements[i].id || undefined === lMscGenElements[i].id) {
                 lMscGenElements[i].id = PARENTELEMENTPREFIX + i.toString();
             }
-            lAST = getAST(lMscGenElements[i].textContent, lMscGenElements[i].dataset.language);
+            if (lMscGenElements[i].dataset && lMscGenElements[i].dataset.language) {
+                lLanguage = lMscGenElements[i].dataset.language;
+            }
+            lAST = getAST(lMscGenElements[i].textContent, lLanguage);
             if (lAST.entities) {
                 render(lAST, lMscGenElements[i].id, lMscGenElements[i].textContent);
             } else {
