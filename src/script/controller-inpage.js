@@ -3,9 +3,10 @@
 
 define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennyparser, msc_render) {
     var PARENTELEMENTPREFIX = "mscgen_js$parent_";
-    
+    var DEFAULT_LANGUAGE = "mscgen";
+
     start();
-    
+
     function start() {
         // !("yes" === navigator.doNotTrack)
         var lMscGenElements = document.getElementsByClassName("mscgen_js");
@@ -13,12 +14,13 @@ define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennypa
         var lLanguage;
 
         for (var i = 0; i < lMscGenElements.length; i++) {
-            lLanguage = "mscgen";
             if ("" === lMscGenElements[i].id || null === lMscGenElements[i].id || undefined === lMscGenElements[i].id) {
                 lMscGenElements[i].id = PARENTELEMENTPREFIX + i.toString();
             }
-            if (lMscGenElements[i].dataset && lMscGenElements[i].dataset.language) {
-                lLanguage = lMscGenElements[i].dataset.language;
+            /* the way to do it, but doesn't work in IE: lLanguage = lMscGenElements[i].dataset.language; */
+            lLanguage = lMscGenElements[i].getAttribute('data-language');
+            if (undefined === lLanguage || null === lLanguage) {
+                lLanguage = DEFAULT_LANGUAGE;
             }
             lAST = getAST(lMscGenElements[i].textContent, lLanguage);
             if (lAST.entities) {
