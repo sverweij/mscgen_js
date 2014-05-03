@@ -42,7 +42,8 @@
                     Reference the mscgen-inpage script in your page head:
                     <pre>&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" 
         src="https://sverweij.github.io/mscgen_js/lib/require.js">
-&lt;/script></pre>
+&lt;/script>
+</pre>
                 </li>
                 <li>
                     put your mscgen (or msgenny or xù) script in the page, with
@@ -50,7 +51,7 @@
                     The element type does not matter for mscgen_js (although it might matter to you ...)
 
                <pre>
-<mark>&lt;pre class="mscgen_js"></mark>
+<mark>&lt;pre class="mscgen_js"&gt;</mark>
 msc {
     a [label="consumer"], b [label="shopfront"], c;
     
@@ -60,8 +61,9 @@ msc {
     b =>> a [label=""];
     a =>> b [label="money"];
     ...;
-}<mark>&lt;/pre></mark>
-            </pre>                     
+}
+<mark>&lt;/pre></mark>
+</pre>                     
                 </li>
             </ol>
         </p>
@@ -99,8 +101,8 @@ msc {
 &lt;/code>
 </pre>
         <h1>Error handling</h1>
-        <p>If your mscgen code contains an error, the script will attach the associated 
-            message:</p>
+        <p>If your mscgen code contains an error, instead of the sequence chart, the script will 
+            output your mscgen code with an error message attached:</p>
         <pre class="mscgen_js shadow">msc {
   a, b; 
   a -> b[noexistingattribute="something"];
@@ -111,7 +113,7 @@ msc {
             Mscgen_js automatically assumes the language of the presented
             script to be <em>mscgen</em>. If you use one of the other languages
             supported by mscgen_js, add a <code>
-                data-lanaguage</code>
+                data-language</code>
             attribute to the element with the target language:
             <code>&lt;code class="mscgen_js"<mark> data-language="msgenny"</mark>></code>.
         </p>
