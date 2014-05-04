@@ -134,8 +134,8 @@ script/mscgen-main.js: $(SOURCES_WEB)
 
 			# paths.jquery="jquery" \
 			# paths.codemirror="../lib/codemirror" \
-			# paths.cm_closebrackets="../lib/codemirror/addon/edit/closebrackets" \
-			# paths.cm_matchbrackets="../lib/codemirror/addon/edit/matchbrackets" \
+			# paths.cm_closebrackets="../lib/codemirror/edit/closebrackets" \
+			# paths.cm_matchbrackets="../lib/codemirror/edit/matchbrackets" \
 			# paths.dagred3="../lib/dagre/dagred3" \
 			# paths.d3="../lib/dagre/d3" \
 
