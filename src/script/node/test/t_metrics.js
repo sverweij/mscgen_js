@@ -1,5 +1,5 @@
 var assert = require("assert");
-var stats = require("../metrics");
+var stats = require("../attic/metrics");
 var fix = require("./astfixtures");
 
 describe('metrics', function() {
