@@ -75,7 +75,7 @@ var gLanguage = "mscgen";
 var gGaKeyCount = 0;
 var ESC_KEY   = 27; 
 var gCodeMirror =
-    CodeMirror.fromTextArea(document.getElementById("__msc_input"), {
+    codemirror.fromTextArea(document.getElementById("__msc_input"), {
         lineNumbers       : true,
         autoCloseBrackets : true,
         matchBrackets     : true,
