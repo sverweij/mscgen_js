@@ -24,7 +24,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./metrics"], function(transform, metrics) {
+define(["../asttransform", "./metrics"], function(transform, metrics) {
     var gEntityCounts = {};
     var gSmallest = 0;
     var gLargest = 0;

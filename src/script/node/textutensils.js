@@ -79,6 +79,7 @@ function() {
             "mscgen" : "mscgen",
             "msc" : "mscgen",
             "mscin" : "mscgen",
+            "xu" : "xu",
             "json" : "json",
             "ast" : "json"
         };

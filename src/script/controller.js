@@ -44,7 +44,7 @@ msc {
 
 define(["jquery", "xuparser", "msgennyparser", "renderast",
         "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "node/ast2mscgen", /*"node/ast2dagre",*/
-        "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "gaga", "node/textutensils", "node/colorize",
         "node/paramslikker",
         "../lib/codemirror",
 		"../lib/codemirror/addon/edit/closebrackets",
@@ -58,7 +58,7 @@ define(["jquery", "xuparser", "msgennyparser", "renderast",
         ],
         function($, mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, tovanilla, /*todagre,*/
-            gaga, txt, colorize, statstrans,
+            gaga, txt, colorize,
             params,
             codemirror,
             cm_closebrackets,
@@ -148,18 +148,6 @@ function setupEvents () {
                     gaga.g('send', 'event', 'colorize_hard', 'button');
                 }
     });
-    $("#__btn_weigh").bind({
-        click : function(e) {
-                    weighOnClick();
-                    gaga.g('send', 'event', 'weigh', 'button');
-                }
-    });
-    $("#__btn_ioweigh").bind({
-        click : function(e) {
-                    weighOnClick("io");
-                    gaga.g('send', 'event', 'ioweigh', 'button');
-                }
-    });
     $("#__svg").bind({
         dblclick : function(e) {
                     show_svgOnClick();
@@ -182,6 +170,12 @@ function setupEvents () {
         click : function(e) {
                     show_rasterOnClick("image/jpeg");
                     gaga.g('send', 'event', 'show_jpeg_base64', 'button');
+                }
+    });
+    $("#__show_html").bind({
+        click : function(e) {
+                    show_htmlOnClick();
+                    gaga.g('send', 'event', 'show_html', 'button');
                 }
     });
     $("#__show_dot").bind({
@@ -326,6 +320,8 @@ function getAST(pInput, pLanguage) {
         lAST = msgennyparser.parse(pInput);
     } else if ("json" === pLanguage) {
         lAST = JSON.parse(pInput);
+    } else if ("xu" === pLanguage) {
+        lAST = mscparser.parse(pInput);
     } else {
         lAST = mscparser.parse(pInput);
     }
@@ -342,13 +338,12 @@ function switchLanguageOnClick (pValue) {
         if (lAST !== {}){
             if ("msgenny" === pValue){
                 gCodeMirror.setValue(tomsgenny.render(lAST));
-                // gCodeMirror.setOption("mode", "msgenny");
             } else if ("json" === pValue){
                 gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
-                // gCodeMirror.setOption("mode", "json");
+            } else if ("xu" === pValue){
+                gCodeMirror.setValue(tomscgen.render(lAST));
             } else {
                 gCodeMirror.setValue(tomscgen.render(lAST));
-                // gCodeMirror.setOption("mode", "mscgen");
             }
         }
     } catch(e) {
@@ -363,8 +358,8 @@ function clearOnClick(){
     if ("msgenny" === gLanguage){
         gCodeMirror.setValue("");
     } else if ("json" === gLanguage){
-        gCodeMirror.setValue("");        
-    } else {
+        gCodeMirror.setValue("");   
+    } else /* "mscgen" === gLanguage || "xu" === gLanguage */{
         gCodeMirror.setValue("msc{\n  \n}");
         gCodeMirror.setCursor(1,3);
     }
@@ -405,29 +400,13 @@ function reRenderSource(pAST){
         gCodeMirror.setValue(tomsgenny.render(pAST));
     } else if ("json" === gLanguage){
         gCodeMirror.setValue(JSON.stringify(pAST, null, "  "));
+    } else if ("xu" === gLanguage){
+        gCodeMirror.setValue(tomscgen.render(pAST));
     } else {
         gCodeMirror.setValue(tomscgen.render(pAST));
     }
 }
 
-function weighOnClick(pType){
-      var lAST = {};
-    
-    try {
-        lAST = getAST(gCodeMirror.getValue(), gLanguage);
-    
-        if (lAST !== {}){
-            if ("io" === pType){
-                lAST = statstrans.inoutweigh(lAST);
-            } else {
-                lAST = statstrans.greyweigh(lAST);
-            }
-            reRenderSource(lAST);
-        }
-    } catch(e) {
-        // do nothing
-    }  
-}
 
 function samplesOnChange() {
     if ("none" === $("#__samples").val()) {
@@ -483,6 +462,10 @@ function show_rasterOnClick (pType) {
     var lWindow = window.open(toRasterURI("#__svg", pType), "_blank");
 }
 
+function show_htmlOnClick(){
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent("<!DOCTYPE html>\n<html>\n<head>\n<script data-main='https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js' src='https://sverweij.github.io/mscgen_js/lib/require.js'></script>\n<head>\n<body>\n<pre class='code " + gLanguage + " mscgen_js' data-language='" + gLanguage +"'>\n" + gCodeMirror.getValue() + "\n</pre>\n</body>\n</html>"));
+}
+
 function show_dotOnClick(){
     var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gCodeMirror.getValue(), gLanguage))));
 }
@@ -503,7 +486,6 @@ function show_communications_diagramOnClick(){
 }
 
 function show_urlOnClick(){
-    // window.location = 
     var lWindow = window.open('data:text/plain;charset=utf-8,'+
         encodeURIComponent(
             window.location.protocol + '//' +
@@ -548,7 +530,7 @@ function showLanguageState () {
         $("#__btn_colorize_hard").show();
         $("#__btn_weigh").show();
         $("#__btn_ioweigh").show();
-    } else {
+    } else /* "mscgen" === gLanguage || "xu" === gLanguage */{
         $("#__language_mscgen").prop("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");

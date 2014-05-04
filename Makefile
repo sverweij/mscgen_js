@@ -33,10 +33,6 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2mscgen.js \
 	src/script/node/asttransform.js \
 	src/script/node/flatten.js \
 	src/script/node/colorize.js \
-	src/script/node/statstransforms.js \
-	src/script/node/metrics.js \
-	src/script/node/randomast.js \
-	src/script/node/randomutensils.js \
 	src/script/node/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
@@ -196,7 +192,7 @@ tag:
 	$(GIT) push --tags
 
 report:
-	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli" src/script/
+	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli|attic" src/script/
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
