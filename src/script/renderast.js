@@ -189,6 +189,8 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
         gInnerElementId = INNERELEMENTPREFIX + pParentElementId;
         
         skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
+        gDocument = skel.init(pWindow);
+
         gTextHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
         preProcessOptions(pAST.options);
 
