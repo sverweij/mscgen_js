@@ -1,3 +1,3 @@
-rast = require('../randomast');
+rast = require('../attic/randomast');
 
 process.stdout.write(JSON.stringify(rast.run(), null, " "));

@@ -44,7 +44,7 @@ msc {
 
 define(["jquery", "xuparser", "msgennyparser", "renderast",
         "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "node/ast2mscgen", /*"node/ast2dagre",*/
-        "gaga", "node/textutensils", "node/colorize", "node/statstransforms",
+        "gaga", "node/textutensils", "node/colorize",
         "node/paramslikker",
         "../lib/codemirror",
 		"../lib/codemirror/addon/edit/closebrackets",
@@ -58,7 +58,7 @@ define(["jquery", "xuparser", "msgennyparser", "renderast",
         ],
         function($, mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, tovanilla, /*todagre,*/
-            gaga, txt, colorize, statstrans,
+            gaga, txt, colorize,
             params,
             codemirror,
             cm_closebrackets,
@@ -146,18 +146,6 @@ function setupEvents () {
         click : function(e) {
                     colorizeOnClick(true);
                     gaga.g('send', 'event', 'colorize_hard', 'button');
-                }
-    });
-    $("#__btn_weigh").bind({
-        click : function(e) {
-                    weighOnClick();
-                    gaga.g('send', 'event', 'weigh', 'button');
-                }
-    });
-    $("#__btn_ioweigh").bind({
-        click : function(e) {
-                    weighOnClick("io");
-                    gaga.g('send', 'event', 'ioweigh', 'button');
                 }
     });
     $("#__svg").bind({
@@ -419,24 +407,6 @@ function reRenderSource(pAST){
     }
 }
 
-function weighOnClick(pType){
-      var lAST = {};
-    
-    try {
-        lAST = getAST(gCodeMirror.getValue(), gLanguage);
-    
-        if (lAST !== {}){
-            if ("io" === pType){
-                lAST = statstrans.inoutweigh(lAST);
-            } else {
-                lAST = statstrans.greyweigh(lAST);
-            }
-            reRenderSource(lAST);
-        }
-    } catch(e) {
-        // do nothing
-    }  
-}
 
 function samplesOnChange() {
     if ("none" === $("#__samples").val()) {
