@@ -193,7 +193,7 @@ tag:
 	$(GIT) push --tags
 
 report:
-	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli" src/script/
+	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli|attic" src/script/
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
