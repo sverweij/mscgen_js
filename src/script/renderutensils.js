@@ -30,6 +30,7 @@ define([], function() {
 
     var SVGNS = "http://www.w3.org/2000/svg";
     var XLINKNS = "http://www.w3.org/1999/xlink";
+    var INSANELYBIG = 100000;
     var gDocument;
 
     /* superscript style could also be super or a number (1em) or a % (100%) */
@@ -49,6 +50,27 @@ define([], function() {
             lBody.appendChild(pElement);
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);
+           
+           /*
+            * workaround for Opera browser quirk: if the dimensions
+            * of an element are 0x0, Opera's getBBox() implementation
+            * returns -Infinity (which is a kind of impractical value
+            * to actually render, even for Opera)
+            * To counter this, manually set the return value to 0x0
+            * if height or width has a wacky value:
+            */
+            if (   lRetval.height > INSANELYBIG
+                || lRetval.width > INSANELYBIG
+                || lRetval.height < 0-INSANELYBIG                
+                || lRetval.width < 0-INSANELYBIG) {
+                lRetval = {
+                    height: 0,
+                    width: 0,
+                    x: 0,
+                    y: 0
+                };
+            }
+            /* end workaround */
         }
 
         return lRetval;
