@@ -341,7 +341,7 @@ to {
     float: left;
     max-width: 100%;
     max-height: 100%;
-    width: 32em;
+    width: 32em; 
     padding-bottom: 1em;
     margin-right: 1em;
 }
@@ -477,6 +477,10 @@ a.issuetracker {
     background-image: url('../images/issuetracker.svg');
     text-decoration: none;
 }
+a.embed {
+    background-image: url('../images/embed.svg');
+    text-decoration: none;
+}
 div.question {
     background-image: url('../images/question.svg');
     text-decoration: none;
@@ -487,6 +491,11 @@ div.question {
 }
 .debug {
     display: none;
+}
+@media screen and (max-width: 1024px) {
+    #__input_and_controls {
+        width: 28em;
+    }
 }
 @media screen and (max-width: 480px) {
     #__cheatsheet > .popup {
