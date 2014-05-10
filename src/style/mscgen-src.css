@@ -7,20 +7,22 @@ body {
     margin-top: 0;
 }
 .code {
-    font-family: Monaco, Consolas, 'Andale Mono', monospace;
+    font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
     font-size: 0.7em;
     background-color: #555;
     color: #fff;
-    margin-top: 1em;
+    /*margin-top: 1em;*/
 }
-textarea {
+#__embedsnippet {
     border: solid 0px;
+    white-space: pre;
+    text-overflow:ellipsis;
+    overflow-x: scroll;
 }
 h1 {
     font-size: 1.9em;
     margin-bottom: 0;
     margin-top: 0;
-    color: white;
 }
 header {
     padding-bottom: 0.9em;
@@ -114,14 +116,18 @@ to {
     position: absolute;
     float: left;
 }
-#__cheatsheet {
+.popupsheet {
     z-index: 1;
     position: absolute;
     top: 4.5em;
     right: 0em;
     background-color: transparent;
     width: 100%;
-    /*opacity: 97%;*/
+}
+#__cheatsheet {
+    display: none;
+}
+#__embedsheet {
     display: none;
 }
 .popup {
@@ -154,7 +160,7 @@ to {
     display: block
 }
 
-#__cheatsheet > .popup {
+.popupsheet > .popup {
     float: right;
     margin-right: 1em;
     max-width: 25em;
@@ -227,6 +233,10 @@ a.issuetracker {
     background-image: url('../images/issuetracker.svg');
     text-decoration: none;
 }
+div.embed {
+    background-image: url('../images/embed.svg');
+    text-decoration: none;
+}
 div.question {
     background-image: url('../images/question.svg');
     text-decoration: none;
@@ -239,9 +249,15 @@ div.question {
     display: none;
 }
 
+@media screen and (max-width: 1024px) {
+    #__input_and_controls {
+        width: 28em;
+    }
+}
+
 @media screen and (max-width: 480px) {
 
-    #__cheatsheet > .popup {
+    .popupsheet > .popup {
         width: 100%;
         max-width: 100%;
         float: left;
@@ -261,7 +277,7 @@ div.question {
     }
 }
 @media screen and (max-width: 800px) {
-    #__cheatsheet {
+    .popupsheet {
         z-index: 3;
     }
 }

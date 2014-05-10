@@ -208,6 +208,12 @@ function setupEvents () {
                     gaga.g('send', 'event', 'close_source_lightbox', 'button');
                 }
     });
+    $("#__close_embedsheet").bind({
+        click : function(e) {
+                    close_embedsheetOnClick();
+                    gaga.g('send', 'event', 'close_embedsheet', 'button');
+                }
+    });
     $("#__btn_render").bind({
         click : function(e) {
                     renderOnClick();
@@ -256,6 +262,12 @@ function setupEvents () {
                     gaga.g('send', 'event', 'link', "helpme");
                 }
     });
+    $("#__embedme").bind ({
+        click : function(e) {
+                    embedmeOnClick();
+                    gaga.g('send', 'event', 'link', "embedme");
+                }
+    });
 
     $("body").bind({
         keydown : function (e) {
@@ -264,7 +276,7 @@ function setupEvents () {
                                  
            switch(lKey) {                      
                case (ESC_KEY) : {
-                   closeLightbox();
+                   closeAllLightBoxes();
                     // gaga.g('send', 'event', 'close_source_lightbox', 'ESC_KEY');
                } 
                break;
@@ -439,7 +451,14 @@ function webkitNamespaceBugWorkaround(pText){
     return lText;
 }
 
+function embedmeOnClick () {
+    $("#__cheatsheet").hide();
+    $("#__embedsnippet").text(getHTMLSnippet());
+    $("#__embedsheet").toggle();
+}
+
 function helpmeOnClick () { 
+    $("#__embedsheet").hide();
     $("#__cheatsheet").toggle();
 }
 
@@ -461,9 +480,11 @@ function toRasterURI(pSourceElementId, pType){
 function show_rasterOnClick (pType) {
     var lWindow = window.open(toRasterURI("#__svg", pType), "_blank");
 }
-
+function getHTMLSnippet() {
+    return "<!DOCTYPE html>\n<html>\n  <head>\n    <script data-main='https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js' src='https://sverweij.github.io/mscgen_js/lib/require.js'></script>\n  <head>\n  <body>\n    <pre class='code " + gLanguage + " mscgen_js' data-language='" + gLanguage +"'>\n" + gCodeMirror.getValue() + "\n    </pre>\n  </body>\n</html>";
+}
 function show_htmlOnClick(){
-    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent("<!DOCTYPE html>\n<html>\n<head>\n<script data-main='https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js' src='https://sverweij.github.io/mscgen_js/lib/require.js'></script>\n<head>\n<body>\n<pre class='code " + gLanguage + " mscgen_js' data-language='" + gLanguage +"'>\n" + gCodeMirror.getValue() + "\n</pre>\n</body>\n</html>"));
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(getHTMLSnippet()));
 }
 
 function show_dotOnClick(){
@@ -498,7 +519,11 @@ function show_urlOnClick(){
 }
 
 function close_lightboxOnClick(){
-    closeLightbox();
+    $("#__cheatsheet").hide();
+}
+
+function close_embedsheetOnClick(){
+    $("#__embedsheet").hide();
 }
 
 function showAutorenderState () {
@@ -584,11 +609,10 @@ function render() {
         // gCodeMirror.setCursor (e.line, e.column);
     }
 }
-
-function closeLightbox () {
+function closeAllLightBoxes() {
     $("#__cheatsheet").hide();
+    $("#__embedsheet").hide();
 }
-
 function hideError () {
     $("#__error_output").hide();
 }
