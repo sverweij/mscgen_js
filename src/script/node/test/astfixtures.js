@@ -814,6 +814,78 @@ module.exports = (function() {
                 "from" : "b",
                 "to" : "d"
             }]]
+        },
+        astCheatSheet : {
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "a",
+                "to" : "b",
+                "label" : "a -> b  (signal)"
+            }], [{
+                "kind" : "=>",
+                "from" : "a",
+                "to" : "b",
+                "label" : "a => b  (method)"
+            }], [{
+                "kind" : ">>",
+                "from" : "b",
+                "to" : "a",
+                "label" : "b >> a  (return value)"
+            }], [{
+                "kind" : "=>>",
+                "from" : "a",
+                "to" : "b",
+                "label" : "a =>> b (callback)"
+            }], [{
+                "kind" : "-x",
+                "from" : "a",
+                "to" : "b",
+                "label" : "a -x b  (lost)"
+            }], [{
+                "kind" : ":>",
+                "from" : "a",
+                "to" : "b",
+                "label" : "a :> b  (emphasis)"
+            }], [{
+                "kind" : "..",
+                "from" : "a",
+                "to" : "b",
+                "label" : "a .. b  (dotted)"
+            }], [{
+                "kind" : "note",
+                "from" : "a",
+                "to" : "a",
+                "label" : "a note a"
+            }, {
+                "kind" : "box",
+                "from" : "b",
+                "to" : "b",
+                "label" : "b box b"
+            }], [{
+                "kind" : "rbox",
+                "from" : "a",
+                "to" : "a",
+                "label" : "a rbox a"
+            }, {
+                "kind" : "abox",
+                "from" : "b",
+                "to" : "b",
+                "label" : "b abox b"
+            }], [{
+                "kind" : "|||",
+                "label" : "||| (empty row)"
+            }], [{
+                "kind" : "...",
+                "label" : "... (omitted row)"
+            }], [{
+                "kind" : "---",
+                "label" : "--- (comment)"
+            }]]
         }
     };
 })();

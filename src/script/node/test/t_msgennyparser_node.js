@@ -83,6 +83,10 @@ describe('msgennyparser', function() {
             }
 
         });
+        it("should parse all types of arcs supported by mscgen", function() {
+            var lAST = parser.parse('a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);');
+            tst.assertequalJSON(lAST, fix.astCheatSheet);
+        });
     });
 
     describe('#parse() - expansions', function() {
