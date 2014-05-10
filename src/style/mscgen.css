@@ -261,20 +261,22 @@ body {
     margin-top: 0;
 }
 .code {
-    font-family: Monaco, Consolas, 'Andale Mono', monospace;
+    font-family: monospace; 
     font-size: 0.7em;
     background-color: #555;
     color: #fff;
-    margin-top: 1em;
+    
 }
-textarea {
+#__embedsnippet {
     border: solid 0px;
+    white-space: pre;
+    text-overflow:ellipsis;
+    overflow-x: scroll;
 }
 h1 {
     font-size: 1.9em;
     margin-bottom: 0;
     margin-top: 0;
-    color: white;
 }
 header {
     padding-bottom: 0.9em;
@@ -341,7 +343,7 @@ to {
     float: left;
     max-width: 100%;
     max-height: 100%;
-    width: 32em; 
+    width: 32em;
     padding-bottom: 1em;
     margin-right: 1em;
 }
@@ -365,14 +367,18 @@ to {
     position: absolute;
     float: left;
 }
-#__cheatsheet {
+.popupsheet {
     z-index: 1;
     position: absolute;
     top: 4.5em;
     right: 0em;
     background-color: transparent;
     width: 100%;
-    
+}
+#__cheatsheet {
+    display: none;
+}
+#__embedsheet {
     display: none;
 }
 .popup {
@@ -404,7 +410,7 @@ to {
     margin: 0em;
     display: block
 }
-#__cheatsheet > .popup {
+.popupsheet > .popup {
     float: right;
     margin-right: 1em;
     max-width: 25em;
@@ -477,7 +483,7 @@ a.issuetracker {
     background-image: url('../images/issuetracker.svg');
     text-decoration: none;
 }
-a.embed {
+div.embed {
     background-image: url('../images/embed.svg');
     text-decoration: none;
 }
@@ -498,7 +504,7 @@ div.question {
     }
 }
 @media screen and (max-width: 480px) {
-    #__cheatsheet > .popup {
+    .popupsheet > .popup {
         width: 100%;
         max-width: 100%;
         float: left;
@@ -517,7 +523,7 @@ div.question {
     }
 }
 @media screen and (max-width: 800px) {
-    #__cheatsheet {
+    .popupsheet {
         z-index: 3;
     }
 }

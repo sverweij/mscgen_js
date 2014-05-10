@@ -62,10 +62,9 @@ If you're on G+, that is."
                 class="github icon hideonmobile fadable"
                 title="fork me on github"
                 target="_blank"><br><br>fork</a>
-                <a href="https://sverweij.github.io/mscgen_js/embed.html"
-                class="embed icon hideonmobile fadable"
-                title="embedding mscgen in your html"
-                target="_blank"><br><br>embed</a>
+                <div id="__embedme"
+                class="embed icon"
+                title="embed mscgen in your html"><br><br>embed</div>
                 <div id="__helpme"
                 class="question icon"
                 title="Show cheat sheet"><br><br>ask</div>
@@ -190,7 +189,7 @@ Note: the url bar will contain the base64 encoded version of the png">png</a>
                 type="image/jpeg"
                 title="Shows the chart in a separate window (jpeg).
 
-Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
+Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
             <a id="__show_html"
                 class="debug button"
                 target="_blank"
@@ -252,12 +251,20 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpeg</a>
  </span>
         
         <canvas id="__pngcanvas"></canvas>
-        <div id="__cheatsheet">
+        <div id="__embedsheet" class="popupsheet">
             <div class="popup">
-                <h1 class="fadable">Cheat sheet</h1>
-                <button id="__close_lightbox" class="close">
-                    X
-                </button>
+                <h1>Embed MscGen in your html</h1>
+                <button id="__close_embedsheet" class="close">X</button>
+             <p>
+                Sample html for the current chart (<a href="./embed.html" target="_blank">learn more</a>):<br><br>
+                <textarea wrap="off" readonly="true" cols="58" rows="20" id="__embedsnippet" class="code html"></textarea>
+            </p>    
+            </div>
+        </div>
+        <div id="__cheatsheet" class="popupsheet">
+            <div class="popup">
+                <h1>Cheat sheet</h1>
+                <button id="__close_lightbox" class="close">X</button>
                 <p>
                     <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
                 </p>
