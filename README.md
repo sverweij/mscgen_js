@@ -3,8 +3,7 @@
 
 - Implementation of [mscgen][1] in javascript. 
 - [Embeddable][30] in your html.
-- Try it in the [interactive interpreter][2]
-
+- Try it in the [interactive interpreter][2].
 - Also 
   - talks a [simplified subset of mscgen][5] for lazy bastards.
   - Speaks a [superset of mscgen][29] for the feature hungry.
