@@ -4,9 +4,9 @@
 - Implementation of [mscgen][1] in javascript. 
 - [Embeddable][30] in your html.
 - Try it in the [interactive interpreter][2]
-- Supports a [simplified subset of mscgen][5] for lazy bastards.
-- Supports a [superset of mscgen][29] for the feature hungry.
-- runs in all modern browsers (as well as in _node_)
+- Also talks a [simplified subset of mscgen][5] for lazy bastards.
+- Speaks a [superset of mscgen][29] for the feature hungry.
+- Runs in all modern browsers (as well as in _node_)
 
 ## Sample
 This sequence chart ...
