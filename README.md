@@ -4,7 +4,7 @@
 - Implementation of [mscgen][1] in javascript. 
 - [Embeddable][30] in your html.
 - Fully functional on line [demo here][2]
-- Also talks [simplified subset of mscgen][5] for lazy bastards.
+- Also talks a [simplified subset of mscgen][5] for lazy bastards.
 - Speaks a [superset of mscgen][29] for the feature hungry.
 
 ## Sample
