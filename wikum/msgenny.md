@@ -8,8 +8,8 @@ mscgen's more fancy features in favor of low effort labeling
 and automatic entity declarations. This enables you to set up a sequence chart *very*
 fast. See below for a complete comparison chart.
 
-To have our cake and eat it too we made the [online demo][4] translate between
-the two with the flick of a switch. The demo also contains a complete [tutorial][5]
+To have our cake and eat it too we made the mscgen_js [online interpreter][4] translate between
+the two with the flick of a switch. The interpreter also contains a complete [tutorial][5]
 on *ms genny*. 
 
 ## Example
@@ -48,7 +48,7 @@ msc {
 
 ## Usage scenarios
 We often find ourselves starting a sequence chart in *ms genny*, and, when
-we're done, converting it to *mscgen* (one click in the on line demo). After
+we're done, converting it to *mscgen* (one click in the on line interpreter). After
 that we either finish it with coloring or directly save the source to
 the documentation.
 
@@ -73,7 +73,7 @@ The formal syntax is described in a [parsing expression grammar][1]. This gramma
 is used to generate the ms genny parser as well.
 
 ## Feature comparison
-As mentioned above the [online demo][4] converts between *mscgen* and *ms genny*.
+As mentioned above the [online interpreter][4] converts between *mscgen* and *ms genny*.
 Moreover, the source code tree contains two node.js scripts which can perform 
 these translations from the command line: [genny2msc.js][2] and [msc2genny.js][3] . 
 
