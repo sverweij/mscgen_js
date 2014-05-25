@@ -87,11 +87,19 @@
 
 }
 
-program         = _ x:starttoken _  "{" _ d:declarationlist _ "}" _ 
+program         = pre:pc starttoken _  "{" _ d:declarationlist _ "}" _
 { 
     d[1] = checkForUndeclaredEntities(d[1], d[2]);
-
-  return merge (d[0], merge (d[1], d[2])) 
+    var lRetval = merge (d[0], merge (d[1], d[2]));
+    if (pre.length > 0) {
+        lRetval = merge({precomment: pre}, lRetval);
+    }
+/*
+    if (post.length > 0) {
+        lRetval = merge(lRetval, {postcomment:post});
+    }
+*/
+    return lRetval;
 }
 
 starttoken      = "msc"i
@@ -241,13 +249,28 @@ identifier "identifier"
   / string
 
 whitespace "whitespace"
-                = [ \t]
+                = [ \t] {return ""}
 lineend "lineend"
-                = [\r\n]
+                = [\r\n] {return {}}
+mlcomstart      = "/*"
+mlcomend        = "*/"
+mlcomtok        = !"*/" c:. {return c}
+mlcomment       = start:mlcomstart com:(mlcomtok)* end:mlcomend 
+{
+  return start + com.join("") + end
+}
+slcomstart      = "//" / "#"
+slcomtok        = [^\r\n]
+slcomment       = start:(slcomstart) com:(slcomtok)*
+{
+  return start + com.join("")
+}
 comment "comment"
-                =   ("//" / "#" ) ([^\r\n])*
-                  / "/*" (!"*/" .)* "*/"
-_               = ((whitespace)+ / (lineend)+ / (comment)+)*
+                =   slcomment
+                  / mlcomment
+_               = ((whitespace)+ / (lineend)+/ comment)* 
+whitespaces     = ((whitespace)+ / (lineend)+)* 
+pc              = (whitespaces c:(comment) whitespaces {return c})*
 
 number = real / integer
 integer "integer"

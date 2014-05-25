@@ -99,11 +99,20 @@
     }
 }
 
-program         =  _ d:declarationlist _ 
+program         =  pre:pc d:declarationlist _
 {
     d[1] = extractUndeclaredEntities(d[1], d[2]);
-
-    return merge (d[0], merge (d[1], d[2]))
+    
+    var lRetval = merge (d[0], merge (d[1], d[2]));
+    if (pre.length > 0) {
+        lRetval = merge({precomment: pre}, lRetval);
+    }
+/*
+    if (post.length > 0) {
+        lRetval = merge(lRetval, {postcomment:post});
+    }
+*/
+    return lRetval;
 }
 
 declarationlist = (o:optionlist {return {options:o}})? 
@@ -227,13 +236,28 @@ identifier "identifier"
   / quotedstring 
 
 whitespace "whitespace"
-                = [ \t]
+                = [ \t] {return ""}
 lineend "lineend"
-                = [\r\n]
+                = [\r\n] {return {}}
+mlcomstart      = "/*"
+mlcomend        = "*/"
+mlcomtok        = !"*/" c:. {return c}
+mlcomment       = start:mlcomstart com:(mlcomtok)* end:mlcomend 
+{
+  return start + com.join("") + end
+}
+slcomstart      = "//" / "#"
+slcomtok        = [^\r\n]
+slcomment       = start:(slcomstart) com:(slcomtok)*
+{
+  return start + com.join("")
+}
 comment "comment"
-                =   ("//" / "#" ) ([^\r\n])*
-                  / "/*" (!"*/" .)* "*/"
-_               = ((whitespace)+ / (lineend)+ / (comment)+)*
+                =   slcomment
+                  / mlcomment
+_               = ((whitespace)+ / (lineend)+/ comment)* 
+whitespaces     = ((whitespace)+ / (lineend)+)* 
+pc              = (whitespaces c:(comment) whitespaces {return c})*
 
 number = real / integer
 integer "integer"
@@ -261,6 +285,3 @@ boolean "boolean"
     You should have received a copy of the GNU General Public License
     along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-
-

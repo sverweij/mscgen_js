@@ -1,18 +1,44 @@
 var assert = require("assert");
 var renderer = require("../../renderast");
 var fix = require("./astfixtures");
+var tst = require ("./testutensils");
 var jsdom = require('jsdom');
+var fs = require('fs');
 
 
 function ast2svg(pAST, pWindow) {
     // make a deep copy first, as renderAST actively modifies its input
     var lFixtureString = JSON.stringify(pAST, null, " ");
     var lFixture = JSON.parse(lFixtureString);
+    renderer.clean("__svg", pWindow);
     renderer.renderAST(lFixture, lFixtureString, "__svg", pWindow);
     return pWindow.document.body.innerHTML;
 }
 
 describe('renderast', function() {
+    describe('#renderAST() - xu everyting', function() {
+        it('should render all the stuff', function() {
+            jsdom.env("<html><body></body></html>", function(err, window) {
+                fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs.json', function(pErr, pTextFromFile) {
+                    if (pErr)
+                        throw pErr;
+                    var lSvg = ast2svg(JSON.parse(pTextFromFile), window);
+                    tst.assertequalToFile('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', lSvg);
+                });
+            });
+        });
+        it('should render colors', function() {
+            jsdom.env("<html><body></body></html>", function(err, window) {
+                fs.readFile('./src/script/node/test/fixtures/rainbow.json', function(pErr, pTextFromFile) {
+                    if (pErr)
+                        throw pErr;
+                    var lSvg = ast2svg(JSON.parse(pTextFromFile), window);
+                    tst.assertequalToFile('./src/script/node/test/fixtures/rainbow.svg', lSvg);
+                });
+            });
+        });
+    });
+    
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
 
         it('should, given a simple syntax tree, render an svg', function() {

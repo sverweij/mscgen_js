@@ -37,6 +37,10 @@ define(["./dotmap"], function(map) {
         init(pMinimal);
         var lRetVal = "msc" + SP + "{" + EOL;
         if (pAST) {
+            if (pAST.precomment) {
+                lRetVal = renderComments(pAST.precomment);
+                lRetVal += "msc" + SP + "{" + EOL;
+            }
             if (pAST.options) {
                 lRetVal += renderOptions(pAST.options) + EOL;
             }
@@ -46,10 +50,24 @@ define(["./dotmap"], function(map) {
             if (pAST.arcs) {
                 lRetVal += renderArcLines(pAST.arcs, INDENT);
             }
+            if (pAST.postcomment) {
+                lRetVal += "}" + EOL;
+                lRetVal += renderComments(pAST.postcomment);
+            } else {
+                lRetVal += "}";
+            }
         }
-        return lRetVal += "}";
+        return lRetVal;
     }
-
+    
+    function renderComments(pArray){
+        var lRetval = "";
+        for (var i = 0; i < pArray.length; i++){
+            lRetval += pArray[i] + "\n"; /* no use of EOL here */
+        }
+        return lRetval;
+    }
+    
     function renderString(pString) {
         return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
     }

@@ -886,6 +886,19 @@ module.exports = (function() {
                 "kind" : "---",
                 "label" : "--- (comment)"
             }]]
+        },        
+        astWithPreComment : {
+            "precomment" : ["# pre comment", "/* pre\n * multiline\n * comment\n */"],
+            "entities" : [{
+            "name" : "a"
+            }, {
+            "name" : "b"
+            }],
+            "arcs" :[[{
+                "kind" : "->",
+                "from" : "a",
+                "to" : "b"
+            }]]
         }
     };
 })();

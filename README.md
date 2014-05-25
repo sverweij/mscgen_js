@@ -1,11 +1,13 @@
 # mscgen_js
 *Turns text into sequence charts.*
 
-- Fully functional on line [demo here][2]
-- Uses the [mscgen][1] mini language. 
+- Implementation of [mscgen][1] in javascript. 
 - [Embeddable][30] in your html.
-- Supports a [simplified subset of mscgen][5] for lazy bastards.
-- Supports a [superset of mscgen][29] for the feature hungry.
+- Try it in the [interactive interpreter][2].
+- Also 
+  - talks a [simplified subset of mscgen][5] for lazy bastards.
+  - speaks a [superset of mscgen][29] for the feature hungry.
+  - runs in all modern browsers (and in _node.js_)
 
 ## Sample
 This sequence chart ...
@@ -52,13 +54,16 @@ If you find proof to the contrary on any of this [tell us][6].
 
 See [build.md][7]
 
-## License
+## Licenses and dependencies
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
 it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
-MIT style). In order of significance: [pegjs][12], [codemirror][13], [canvg][16], [jsdom][25], 
-[requirejs][19], [jQuery][14], [amdefine][20]. 
+MIT style):
+- The bare (embedding only) mscgen_js depends on [requirejs][19]; it's parser was generated with [pegjs][12].
+- The on line interpreter additionally uses [codemirror][13], [canvg][16] and [jQuery][14]. 
+- To run in node, mscgen_js uses [jsdom][25] and [amdefine][20].
+
 Icons courtesy of Dmitry Baranovskiy [license][18].
 
 It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 

@@ -2,6 +2,7 @@ var assert = require("assert");
 var parser = require("../xuparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
+var fs = require("fs");
 
 describe('xuparser', function() {
     describe('#parse()', function() {
@@ -56,6 +57,24 @@ describe('xuparser', function() {
             }
 
         });
+        it("should parse all possible arcs", function() {
+            fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs.xu', function(pErr, pTextFromFile) {
+                if (pErr) {
+                    throw pErr;
+                }
+                var lAST = parser.parse(pTextFromFile.toString());
+                tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs.json', lAST);
+            });
+        });
+        it("should parse stuff with colors", function() {
+            fs.readFile('./src/script/node/test/fixtures/rainbow.mscin', function(pErr, pTextFromFile) {
+                if (pErr) {
+                    throw pErr;
+                }
+                var lAST = parser.parse(pTextFromFile.toString());
+                tst.assertequalJSONFile('./src/script/node/test/fixtures/rainbow.json', lAST);
+            });
+        });
     });
 
     describe('#parse() - xu specific extensions', function() {
@@ -64,7 +83,7 @@ describe('xuparser', function() {
             tst.assertequalJSON(lAST, fix.astOneAlt);
         });
 
-        it('should render an AST, with an alt in it', function() {
+        it('should render an AST, with a loop and an alt in it', function() {
             var lAST = parser.parse('msc { a,b,c; a => b; a loop c [label="label for loop"] { b alt c [label="label for alt"]{ b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; }; b >> a [label=">> within loop"];}; a =>> a [label="happy-the-peppy - outside"];...;}');
             tst.assertequalJSON(lAST, fix.astAltWithinLoop);
         });
