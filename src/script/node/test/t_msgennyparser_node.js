@@ -3,6 +3,7 @@ var parser = require("../msgennyparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
 var gCorrectOrderFixture = {
+    "precomment":["# A,a, c, d, b, B;"],
     "entities" : [{
         "name" : "A"
     }, {

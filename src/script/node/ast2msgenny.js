@@ -17,6 +17,9 @@ define([], function() {
     function _renderAST(pAST) {
         var lRetVal = "";
         if (pAST) {
+            if (pAST.precomment) {
+                lRetVal += renderComments(pAST.precomment);
+            }
             if (pAST.options) {
                 lRetVal += renderOptions(pAST.options) + "\n";
             }
@@ -26,10 +29,21 @@ define([], function() {
             if (pAST.arcs) {
                 lRetVal += renderArcLines(pAST.arcs, "");
             }
+            if (pAST.postcomment) {
+                lRetVal += renderComments(pAST.postcomment);
+            }
         }
         return lRetVal;
     }
-
+    
+    function renderComments(pArray){
+        var lRetval = "";
+        for (var i = 0; i < pArray.length; i++){
+            lRetval += pArray[i] + "\n";
+        }
+        return lRetval;
+    }
+    
     function renderEntityName(pString) {
         function isQuoatable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
@@ -116,7 +130,7 @@ define([], function() {
         if (pArc.arcs) {
             if (pArc.label) {
                 lRetVal += " : " + renderMsGennyString(pArc.label);
-            }            
+            }
             lRetVal += " {\n";
             lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
             lRetVal += pIndent + "}";

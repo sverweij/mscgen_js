@@ -20,6 +20,11 @@ describe('ast2mscgen', function() {
             var lExpectedProgram = 'msc{a,b;a=>b[label="a simple script"];}';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("should preserve the comments at the start of the ast", function() {
+            var lProgram = renderer.render(fix.astWithPreComment);
+            var lExpectedProgram = "# pre comment\n/* pre\n * multiline\n * comment\n */\nmsc {\n  a,\n  b;\n\n  a -> b;\n}";
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
     
     describe('#renderAST() - option only', function() {

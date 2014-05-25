@@ -3,7 +3,7 @@ var renderer = require("../ast2msgenny");
 var fix = require("./astfixtures");
 
 describe('ast2msgenny', function() {
-    describe('#renderAST() - mscgen classic compatible - simple syntax tree', function() {
+    describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
 
         it('should, given a simple syntax tree, render a msgenny script', function() {
             var lProgram = renderer.render(fix.astSimple);
@@ -43,6 +43,11 @@ describe('ast2msgenny', function() {
         it("should ignore all attributes, except label and name", function() {
             var lProgram = renderer.render(fix.astAllAttributes);
             var lExpectedProgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it("should preserve the comments at the start of the ast", function() {
+            var lProgram = renderer.render(fix.astWithPreComment);
+            var lExpectedProgram = "# pre comment\n/* pre\n * multiline\n * comment\n */\na, b;\n\na -> b;\n";
             assert.equal(lProgram, lExpectedProgram);
         });
 
