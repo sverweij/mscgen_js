@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap"], function(map) {
+define(["./dotmap", "./astconvutls"], function(map, utl) {
 
     var INDENT = "  ";
     var SP = " ";
@@ -38,7 +38,7 @@ define(["./dotmap"], function(map) {
         var lRetVal = "msc" + SP + "{" + EOL;
         if (pAST) {
             if (pAST.precomment) {
-                lRetVal = renderComments(pAST.precomment);
+                lRetVal = utl.renderComments(pAST.precomment);
                 lRetVal += "msc" + SP + "{" + EOL;
             }
             if (pAST.options) {
@@ -52,43 +52,12 @@ define(["./dotmap"], function(map) {
             }
             if (pAST.postcomment) {
                 lRetVal += "}" + EOL;
-                lRetVal += renderComments(pAST.postcomment);
+                lRetVal += utl.renderComments(pAST.postcomment);
             } else {
                 lRetVal += "}";
             }
         }
         return lRetVal;
-    }
-    
-    function renderComments(pArray){
-        var lRetval = "";
-        for (var i = 0; i < pArray.length; i++){
-            lRetval += pArray[i] + "\n"; /* no use of EOL here */
-        }
-        return lRetval;
-    }
-
-    function renderString(pString) {
-        return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
-    }
-
-    function renderEntityName(pString) {
-        function isQuoatable(pString) {
-            var lMatchResult = pString.match(/[a-z0-9]+/gi);
-            if (lMatchResult && lMatchResult !== null) {
-                return lMatchResult.length != 1;
-            } else {
-                return true;
-            }
-        }
-
-        return isQuoatable(pString) ? "\"" + pString + "\"" : pString;
-    }
-
-    function pushAttribute(pArray, pAttr, pString) {
-        if (pAttr) {
-            pArray.push(pString + "=\"" + renderString(pAttr) + "\"");
-        }
     }
 
     function renderOptions(pOptions) {
@@ -96,11 +65,11 @@ define(["./dotmap"], function(map) {
         var lRetVal = "";
         var i = 0;
 
-        pushAttribute(lOpts, pOptions.hscale, "hscale");
-        pushAttribute(lOpts, pOptions.width, "width");
-        pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
-        pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
-        pushAttribute(lOpts, pOptions.watermark, "watermark");
+        utl.pushAttribute(lOpts, pOptions.hscale, "hscale");
+        utl.pushAttribute(lOpts, pOptions.width, "width");
+        utl.pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
+        utl.pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
+        utl.pushAttribute(lOpts, pOptions.watermark, "watermark");
 
         for ( i = 0; i < lOpts.length - 1; i++) {
             lRetVal += INDENT + lOpts[i] + "," + EOL;
@@ -113,17 +82,17 @@ define(["./dotmap"], function(map) {
     function renderAttributes(pThing) {
         var lAttrs = [];
         var lRetVal = "";
-        pushAttribute(lAttrs, pThing.label, "label");
-        pushAttribute(lAttrs, pThing.idurl, "idurl");
-        pushAttribute(lAttrs, pThing.id, "id");
-        pushAttribute(lAttrs, pThing.url, "url");
-        pushAttribute(lAttrs, pThing.linecolor, "linecolor");
-        pushAttribute(lAttrs, pThing.textcolor, "textcolor");
-        pushAttribute(lAttrs, pThing.textbgcolor, "textbgcolor");
-        pushAttribute(lAttrs, pThing.arclinecolor, "arclinecolor");
-        pushAttribute(lAttrs, pThing.arctextcolor, "arctextcolor");
-        pushAttribute(lAttrs, pThing.arctextbgcolor, "arctextbgcolor");
-        pushAttribute(lAttrs, pThing.arcskip, "arcskip");
+        utl.pushAttribute(lAttrs, pThing.label, "label");
+        utl.pushAttribute(lAttrs, pThing.idurl, "idurl");
+        utl.pushAttribute(lAttrs, pThing.id, "id");
+        utl.pushAttribute(lAttrs, pThing.url, "url");
+        utl.pushAttribute(lAttrs, pThing.linecolor, "linecolor");
+        utl.pushAttribute(lAttrs, pThing.textcolor, "textcolor");
+        utl.pushAttribute(lAttrs, pThing.textbgcolor, "textbgcolor");
+        utl.pushAttribute(lAttrs, pThing.arclinecolor, "arclinecolor");
+        utl.pushAttribute(lAttrs, pThing.arctextcolor, "arctextcolor");
+        utl.pushAttribute(lAttrs, pThing.arctextbgcolor, "arctextbgcolor");
+        utl.pushAttribute(lAttrs, pThing.arcskip, "arcskip");
 
         if (lAttrs.length > 0) {
             var i = 0;
@@ -140,7 +109,7 @@ define(["./dotmap"], function(map) {
 
     function renderEntity(pEntity) {
         var lRetVal = "";
-        lRetVal += renderEntityName(pEntity.name);
+        lRetVal += utl.renderEntityName(pEntity.name);
         lRetVal += renderAttributes(pEntity);
         return lRetVal;
     }
@@ -169,13 +138,13 @@ define(["./dotmap"], function(map) {
     function renderArc(pArc, pIndent) {
         var lRetVal = "";
         if (pArc.from) {
-            lRetVal += renderEntityName(pArc.from) + SP;
+            lRetVal += utl.renderEntityName(pArc.from) + SP;
         }
         if (pArc.kind) {
             lRetVal += renderKind(pArc.kind);
         }
         if (pArc.to) {
-            lRetVal += SP + renderEntityName(pArc.to);
+            lRetVal += SP + utl.renderEntityName(pArc.to);
         }
         if (pArc.arcs) {
             lRetVal += renderAttributes(pArc);
@@ -206,13 +175,11 @@ define(["./dotmap"], function(map) {
         return lRetVal;
     }
 
-    var result = {
+    return {
         render : function(pAST, pMinimal) {
             return _renderAST(pAST, pMinimal);
         }
     };
-
-    return result;
 });
 /*
  This file is part of mscgen_js.

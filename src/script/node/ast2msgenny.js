@@ -12,13 +12,13 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(['./astconvutls'], function(utl) {
     var INDENT = "  ";
     function _renderAST(pAST) {
         var lRetVal = "";
         if (pAST) {
             if (pAST.precomment) {
-                lRetVal += renderComments(pAST.precomment);
+                lRetVal += utl.renderComments(pAST.precomment);
             }
             if (pAST.options) {
                 lRetVal += renderOptions(pAST.options) + "\n";
@@ -30,31 +30,10 @@ define([], function() {
                 lRetVal += renderArcLines(pAST.arcs, "");
             }
             if (pAST.postcomment) {
-                lRetVal += renderComments(pAST.postcomment);
+                lRetVal += utl.renderComments(pAST.postcomment);
             }
         }
         return lRetVal;
-    }
-    
-    function renderComments(pArray){
-        var lRetval = "";
-        for (var i = 0; i < pArray.length; i++){
-            lRetval += pArray[i] + "\n";
-        }
-        return lRetval;
-    }
-    
-    function renderEntityName(pString) {
-        function isQuoatable(pString) {
-            var lMatchResult = pString.match(/[a-z0-9]+/gi);
-            if (lMatchResult) {
-                return lMatchResult.length != 1;
-            } else {
-                return true;
-            }
-        }
-
-        return isQuoatable(pString) ? "\"" + pString + "\"" : pString;
     }
 
     function renderMsGennyString(pString) {
@@ -70,22 +49,16 @@ define([], function() {
         return isQuoatable(pString) ? "\"" + pString + "\"" : pString.trim();
     }
 
-    function pushAttribute(pArray, pAttr, pString) {
-        if (pAttr) {
-            pArray.push(pString + "=\"" + pAttr + "\"");
-        }
-    }
-
     function renderOptions(pOptions) {
         var lOpts = [];
         var lRetVal = "";
         var i = 0;
 
-        pushAttribute(lOpts, pOptions.hscale, "hscale");
-        pushAttribute(lOpts, pOptions.width, "width");
-        pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
-        pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
-        pushAttribute(lOpts, pOptions.watermark, "watermark");
+        utl.pushAttribute(lOpts, pOptions.hscale, "hscale");
+        utl.pushAttribute(lOpts, pOptions.width, "width");
+        utl.pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
+        utl.pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
+        utl.pushAttribute(lOpts, pOptions.watermark, "watermark");
 
         for ( i = 0; i < lOpts.length - 1; i++) {
             lRetVal += lOpts[i] + ",\n";
@@ -97,7 +70,7 @@ define([], function() {
 
     function renderEntity(pEntity) {
         var lRetVal = "";
-        lRetVal += renderEntityName(pEntity.name);
+        lRetVal += utl.renderEntityName(pEntity.name);
         if (pEntity.label) {
             lRetVal += " : " + renderMsGennyString(pEntity.label);
         }
@@ -119,13 +92,13 @@ define([], function() {
     function renderArc(pArc, pIndent) {
         var lRetVal = "";
         if (pArc.from) {
-            lRetVal += renderEntityName(pArc.from) + " ";
+            lRetVal += utl.renderEntityName(pArc.from) + " ";
         }
         if (pArc.kind) {
             lRetVal += pArc.kind;
         }
         if (pArc.to) {
-            lRetVal += " " + renderEntityName(pArc.to);
+            lRetVal += " " + utl.renderEntityName(pArc.to);
         }
         if (pArc.arcs) {
             if (pArc.label) {
@@ -160,13 +133,11 @@ define([], function() {
         return lRetVal;
     }
 
-    var result = {
+    return {
         render : function(pAST) {
             return _renderAST(pAST);
         }
     };
-
-    return result;
 });
 /*
  This file is part of mscgen_js.
