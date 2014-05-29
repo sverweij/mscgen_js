@@ -1,12 +1,5 @@
 /*! jQuery v2.1.1 | (c) 2005, 2014 jQuery Foundation, Inc. | jquery.org/license */
 
-/**
-     * Renders individual elements in sequence charts
-     * @exports renderutensils
-     * @license GPLv3
-     * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
-
 /*
  This file is part of mscgen_js.
 
@@ -23,111 +16,6 @@
  You should have received a copy of the GNU General Public License
  along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/**
-     * sets up a skeleton svg, with the skeleton for rendering an msc ready
-     *
-     *  desc with id __msc_source - will contain the msc source
-     *  defs
-     *      a list of markers used as arrow heads (each with an own id)
-     *      a stylesheet (without an id)
-     *      __defs - placeholder to put the msc elements in
-     *  __body - a stack of layers, from bottom to top:
-     *      __background    -
-     *      __arcspanlayer  - for inline expressions ("arc spanning arcs")
-     *      __lifelinelayer - for the lifelines
-     *      __sequencelayer - for arcs and associated text
-     *      __notelayer     - for notes and boxes - the labels of arcspanning arcs
-     *                        will go in here as well
-     * @exports renderskeleton
-     * @license GPLv3
-     * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
-
-/**
- * A hodge podge of functions manipulating text
- *
- * @exports node/textutensils
- * @license GPLv3
- * @author {@link https://github.com/sverweij | Sander Verweij}
- */
-
-/**
-     *
-     * @exports node/asttransform
-     * @license GPLv3
-     * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
-
-/**
- * Defines several mappings of arckinds to agregations
- *
- * @exports node/dotmap
- * @license GPLv3
- * @author {@link https://github.com/sverweij | Sander Verweij}
- */
-
-/**
- * Defines some functions to simplify a given abstract syntax tree.
- *
- * @exports node/flatten
- * @license GPLv3
- * @author {@link https://github.com/sverweij | Sander Verweij}
- */
-
-/**
-     *
-     * renders an abstract syntax tree of a sequence chart
-     *
-     * knows of:
-     *  - the syntax tree
-     *  - the target canvasf
-     *
-     * Defines default sizes and distances for all objects.
-
-     issue #13
-     To get markers to work in canvg and to color them the same color as
-     the associate line, we'll need to do something like this:
-
-     <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-     <g transform="translate(10,20)">
-     <defs>
-     <marker viewBox="0 0 10 10" id="end" refX="9" refY="3" markerUnits="strokeWidth" markerWidth="10" markerHeight="10" orient="auto">
-     <path d="M 1 1 l 8 2 l -8 2 " fill="none" stroke="#ABCDEF" stroke-width="1"/>
-     </marker>
-     </defs>
-     <line x1="50" y1="20" x2="210" y2="20" stroke-width="2" stroke="#ABCDEF" marker-end="url(#end)"/>
-     </g>
-     </svg>
-     * @exports renderast
-     * @license GPLv3
-     * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
-
-/**
-     * Wrapper for google analytics. Makes it more easy to implement "donottrack"
-     * 
-     * @exports gaga
-     * @license GPLv3
-     * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
-
-/*
-    This file is part of mscgen_js.
-
-    mscgen_js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    mscgen_js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 /*
 
