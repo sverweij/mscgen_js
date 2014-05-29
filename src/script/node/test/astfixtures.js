@@ -886,18 +886,90 @@ module.exports = (function() {
                 "kind" : "---",
                 "label" : "--- (comment)"
             }]]
-        },        
+        },
         astWithPreComment : {
             "precomment" : ["# pre comment", "/* pre\n * multiline\n * comment\n */"],
             "entities" : [{
-            "name" : "a"
+                "name" : "a"
             }, {
-            "name" : "b"
+                "name" : "b"
             }],
-            "arcs" :[[{
+            "arcs" : [[{
                 "kind" : "->",
                 "from" : "a",
                 "to" : "b"
+            }]]
+        },
+        astSimpleParallel : {
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b"
+            }, {
+                "name" : "c"
+            }],
+            "arcs" : [[{
+                "kind" : "->",
+                "from" : "b",
+                "to" : "a",
+                "label" : "{paral"
+            }, {
+                "kind" : "=>>",
+                "from" : "b",
+                "to" : "c",
+                "label" : "lel}"
+            }]]
+        },
+        astAttributes : {
+            "entities" : [{
+                "name" : "Alice",
+                "linecolor" : "#008800",
+                "textbgcolor" : "#CCFFCC",
+                "textcolor" : "black",
+                "arctextcolor" : "#008800",
+                "arclinecolor" : "#008800"
+            }, {
+                "name" : "Bob",
+                "linecolor" : "#FF0000",
+                "textbgcolor" : "#FFCCCC",
+                "textcolor" : "black",
+                "arctextcolor" : "#FF0000",
+                "arclinecolor" : "#FF0000"
+            }, {
+                "name" : "pocket",
+                "linecolor" : "#0000FF",
+                "textbgcolor" : "#CCCCFF",
+                "textcolor" : "black",
+                "arctextcolor" : "#0000FF",
+                "arclinecolor" : "#0000FF"
+            }],
+            "arcs" : [[{
+                "kind" : "=>",
+                "from" : "Alice",
+                "to" : "Bob",
+                "label" : "do something funny"
+            }], [{
+                "kind" : "=>",
+                "from" : "Bob",
+                "to" : "pocket",
+                "label" : "fetch (nose flute)",
+                "textcolor" : "yellow",
+                "textbgcolor" : "green",
+                "arcskip" : "0.5"
+            }], [{
+                "kind" : ">>",
+                "from" : "Bob",
+                "to" : "Alice",
+                "label" : "PHEEE!",
+                "arcskip" : "0.3",
+                "textcolor" : "green",
+                "textbgcolor" : "yellow"
+            }], [{
+                "kind" : "=>",
+                "from" : "Alice",
+                "to" : "Alice",
+                "label" : "hihihi",
+                "linecolor" : "#654321"
             }]]
         }
     };

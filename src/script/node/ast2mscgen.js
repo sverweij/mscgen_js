@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap", "./astconvutls"], function(map, utl) {
+define(["./dotmap", "./astconvutls", "./ast2thing"], function(map, utl, thing) {
 
     var INDENT = "  ";
     var SP = " ";
@@ -33,158 +33,58 @@ define(["./dotmap", "./astconvutls"], function(map, utl) {
         }
     }
 
-    function _renderAST(pAST, pMinimal) {
-        init(pMinimal);
-        var lRetVal = "msc" + SP + "{" + EOL;
-        if (pAST) {
-            if (pAST.precomment) {
-                lRetVal = utl.renderComments(pAST.precomment);
-                lRetVal += "msc" + SP + "{" + EOL;
-            }
-            if (pAST.options) {
-                lRetVal += renderOptions(pAST.options) + EOL;
-            }
-            if (pAST.entities) {
-                lRetVal += renderEntities(pAST.entities) + EOL;
-            }
-            if (pAST.arcs) {
-                lRetVal += renderArcLines(pAST.arcs, INDENT);
-            }
-            if (pAST.postcomment) {
-                lRetVal += "}" + EOL;
-                lRetVal += utl.renderComments(pAST.postcomment);
-            } else {
-                lRetVal += "}";
-            }
-        }
-        return lRetVal;
-    }
-
-    function renderOptions(pOptions) {
-        var lOpts = [];
-        var lRetVal = "";
-        var i = 0;
-
-        utl.pushAttribute(lOpts, pOptions.hscale, "hscale");
-        utl.pushAttribute(lOpts, pOptions.width, "width");
-        utl.pushAttribute(lOpts, pOptions.arcgradient, "arcgradient");
-        utl.pushAttribute(lOpts, pOptions.wordwraparcs, "wordwraparcs");
-
-        if (lOpts.length > 0) {
-            for ( i = 0; i < lOpts.length - 1; i++) {
-                lRetVal += INDENT + lOpts[i] + "," + EOL;
-            }
-            lRetVal += INDENT + lOpts[lOpts.length - 1] + ";" + EOL;
-        }
-        return lRetVal;
-
-    }
-
-    function renderAttributes(pThing) {
-        var lAttrs = [];
-        var lRetVal = "";
-        utl.pushAttribute(lAttrs, pThing.label, "label");
-        utl.pushAttribute(lAttrs, pThing.idurl, "idurl");
-        utl.pushAttribute(lAttrs, pThing.id, "id");
-        utl.pushAttribute(lAttrs, pThing.url, "url");
-        utl.pushAttribute(lAttrs, pThing.linecolor, "linecolor");
-        utl.pushAttribute(lAttrs, pThing.textcolor, "textcolor");
-        utl.pushAttribute(lAttrs, pThing.textbgcolor, "textbgcolor");
-        utl.pushAttribute(lAttrs, pThing.arclinecolor, "arclinecolor");
-        utl.pushAttribute(lAttrs, pThing.arctextcolor, "arctextcolor");
-        utl.pushAttribute(lAttrs, pThing.arctextbgcolor, "arctextbgcolor");
-        utl.pushAttribute(lAttrs, pThing.arcskip, "arcskip");
-
-        if (lAttrs.length > 0) {
-            var i = 0;
-            lRetVal = SP + "[";
-            for ( i = 0; i < lAttrs.length - 1; i++) {
-                lRetVal += lAttrs[i] + "," + SP;
-            }
-            lRetVal += lAttrs[lAttrs.length - 1];
-            lRetVal += "]";
-        }
-
-        return lRetVal;
-    }
-
-    function renderEntity(pEntity) {
-        var lRetVal = "";
-        lRetVal += utl.renderEntityName(pEntity.name);
-        lRetVal += renderAttributes(pEntity);
-        return lRetVal;
-    }
-
-    function renderEntities(pEntities) {
-        var lRetVal = "";
-        var i = 0;
-        if (pEntities.length > 0) {
-            for ( i = 0; i < pEntities.length - 1; i++) {
-                lRetVal += INDENT + renderEntity(pEntities[i]) + "," + EOL;
-            }
-            lRetVal += INDENT + renderEntity(pEntities[pEntities.length - 1]) + ";" + EOL;
-        }
-        return lRetVal;
-    }
-
     function renderKind(pKind) {
-        if (true === gMinimal) {
-            if ("box" === map.getAggregate(pKind)) {
-                return " " + pKind + " ";
-            }
-        }
-        if ("inline_expression" === map.getAggregate(pKind)) {// different from xu
+        if ("inline_expression" === map.getAggregate(pKind)) {
             return "--";
-            // /*" + pKind + "*/";
-            // different from xu
-        }// different from xu
+        }
         return pKind;
     }
 
-    function renderArc(pArc) {
+    function renderAttribute(pAttribute) {
         var lRetVal = "";
-        if (pArc.from) {
-            lRetVal += utl.renderEntityName(pArc.from) + SP;
-        }
-        if (pArc.kind) {
-            lRetVal += renderKind(pArc.kind);
-        }
-        if (pArc.to) {
-            lRetVal += SP + utl.renderEntityName(pArc.to);
-        }
-        // different from xu: xu has the arc line rendering here
-        lRetVal += renderAttributes(pArc);
-
-        return lRetVal;
-    }
-
-    function renderArcLines(pArcs, pIndent) {
-        var lRetVal = "";
-        var i = 0;
-        var j = 0;
-
-        if (pArcs.length > 0) {
-            for ( i = 0; i < pArcs.length; i++) {
-                if (pArcs[i].length > 0) {
-                    for ( j = 0; j < pArcs[i].length - 1; j++) {
-                        lRetVal += pIndent + renderArc(pArcs[i][j], pIndent) + "," + EOL;
-                    }
-                    lRetVal += pIndent + renderArc(pArcs[i][pArcs[i].length - 1], pIndent) + ";" + EOL;
-                    if (pArcs[i][pArcs[i].length - 1].arcs) {// different from xu: in xu this is in renderArc
-                        // lRetVal += ";\n"; // different from xu
-                        lRetVal += renderArcLines(pArcs[i][pArcs[i].length - 1].arcs, pIndent + INDENT);
-                        // different from xu - no extra indent
-                        // lRetVal += pIndent + "}"; // different from xu
-                    }
-                }
-            }
+        if (pAttribute.name && pAttribute.value) {
+            lRetVal += pAttribute.name + "=\"" + utl.renderString(pAttribute.value) + "\"";
         }
         return lRetVal;
     }
 
     return {
         render : function(pAST, pMinimal) {
-            return _renderAST(pAST, pMinimal);
+            init(pMinimal);
+            return thing.render(pAST, {
+                "renderAttributefn" : renderAttribute,
+                "renderKindfn" : renderKind,
+                "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs"],
+                "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "program" : {
+                    "opener" : "msc" + SP + "{" + EOL + INDENT,
+                    "closer" : "}"
+                },
+                "option" : {
+                    "separator" : "," + EOL,
+                    "closer" : ";" + EOL + EOL
+                },
+                "entity" : {
+                    "separator" : "," + EOL + INDENT,
+                    "closer" : ";" + EOL + EOL
+                },
+                "attribute" : {
+                    "opener" : SP + "[",
+                    "separator" : "," + SP,
+                    "closer" : "]",
+
+                },
+                "arcline" : {
+                    "opener" : INDENT,
+                    "separator" : "," + EOL,
+                    "closer" : ";" + EOL
+                },
+                "inline" : {
+                    "opener" : ";" + EOL,
+                    "closer" : "#"
+                },
+            });
         }
     };
 });

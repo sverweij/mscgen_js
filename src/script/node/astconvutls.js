@@ -1,8 +1,3 @@
-/*
- * takes an abstract syntax tree for a message sequence chart and renders it
- * as an mscgen program.
- */
-
 /* jshint node:true */
 /* jshint undef:true */
 /* jshint unused:strict */
@@ -30,20 +25,13 @@ define([], function() {
     function _renderComments(pArray) {
         var lRetval = "";
         for (var i = 0; i < pArray.length; i++) {
-            lRetval += pArray[i] + "\n";
-            /* no use of EOL here */
+            lRetval += pArray[i] + "\n"; // not using EOL constant here is intentional
         }
         return lRetval;
     }
 
     function renderString(pString) {
         return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
-    }
-
-    function _pushAttribute(pArray, pAttr, pString) {
-        if (pAttr) {
-            pArray.push(pString + "=\"" + renderString(pAttr) + "\"");
-        }
     }
 
     return {
@@ -53,8 +41,8 @@ define([], function() {
         renderComments : function(pArray) {
             return _renderComments(pArray);
         },
-        pushAttribute : function(pArray, pAttr, pString) {
-            return _pushAttribute(pArray, pAttr, pString);
+        renderString : function(pString) {
+            return renderString(pString);
         }
     };
 });

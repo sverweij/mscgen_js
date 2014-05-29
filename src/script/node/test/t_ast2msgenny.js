@@ -50,6 +50,11 @@ describe('ast2msgenny', function() {
             var lExpectedProgram = "# pre comment\n/* pre\n * multiline\n * comment\n */\na, b;\n\na -> b;\n";
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("should correctly render parallel calls", function() {
+            var lProgram = renderer.render(fix.astSimpleParallel);
+            var lExpectedProgram = 'a, b, c;\n\nb -> a : "{paral",\nb =>> c : lel};\n';
+            assert.equal(lProgram, lExpectedProgram);
+        });
 
     });
 
