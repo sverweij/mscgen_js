@@ -34,7 +34,6 @@ describe('ast2xu', function() {
             assert.equal(lProgram, lExpectedProgram);
         });        
         
-        
     });
     
     describe('#renderAST() - minification', function() {

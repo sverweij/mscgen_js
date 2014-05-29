@@ -114,27 +114,27 @@ module.exports = (function() {
             "entities" : [{
                 "name" : "a",
                 "label" : "Label for A",
+                "idurl" : "http://localhost/idurl",
+                "id" : "Just and id",
+                "url" : "http://localhost/url",
+                "linecolor" : "#ABCDEF",
                 "textcolor" : "green",
                 "textbgcolor" : "cyan",
-                "linecolor" : "#ABCDEF",
                 "arclinecolor" : "violet",
                 "arctextcolor" : "pink",
-                "arctextbgcolor" : "brown",
-                "id" : "Just and id",
-                "idurl" : "http://localhost/idurl",
-                "url" : "http://localhost/url"
+                "arctextbgcolor" : "brown"
             }],
             "arcs" : [[{
                 "kind" : "<<=>>",
                 "from" : "a",
                 "to" : "a",
                 "label" : "Label for a <<=>> a",
-                "textcolor" : "green",
-                "textbgcolor" : "cyan",
-                "linecolor" : "#ABCDEF",
-                "id" : "Just and id",
                 "idurl" : "http://localhost/idurl",
-                "url" : "http://localhost/url"
+                "id" : "Just and id",
+                "url" : "http://localhost/url",
+                "linecolor" : "#ABCDEF",
+                "textcolor" : "green",
+                "textbgcolor" : "cyan"
             }]]
         },
         astBroadcastCounting : {
