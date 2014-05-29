@@ -1,7 +1,9 @@
 # test01: all possible arcs
+/*
+ * should create the smallest AST of the three
+ */
 msc {
-  hscale="0.6", arcgradient="18", wordwraparcs="false", 
-  watermark="This humongous fictive chart contains all arcs possible in xù. It can be used for spot checks, but also for performance checks.";
+  hscale="0.6", arcgradient="18", wordwraparcs="false";
   
 
   0 [arclinecolor="white", arctextcolor="grey", linecolor="white", textcolor="white"],
@@ -131,46 +133,8 @@ msc {
   * <: c      [label="* <: c"];
   b <:> "*"   [label="b <:> *"];
 
-# not supported by mscgen (and not by xù either):
+# not supported by mscgen:  
 #  "*" <-> b, "*" <=> e, "*" <<>> g, "*" <<=>> i, "*" <:> b
-#
-  ---;
-  0 -- a [label="inline\nexpressions"];
- 
-  b alt k [label="b alt k"] {
-    c else j [label="c else j"] {
-      d opt i [label="d opt i"] {
-        e break h [label="e break k"] {
-          f critical g [label="f critical g"] {
-            ---;
-          };
-        };
-      };
-    };
-  };
-  b neg k [label="b neg k"] {
-    b strict j [label="b strict j"] {
-      b seq i [label="b seq i"] {
-        b assert h [label="b assert h"] {
-          b exc g [label="b exc g"] {
-            ---;
-          };
-        };
-      };
-    };
-  };
-  b ref k [label="b ref k"] {
-    c consider k [label="c consider k"] {
-      k ignore d [label="k ignore d"] {
-        e loop k  [label="e loop k"]{
-          k par f [label="k par f"] {
-            ---;
-          };
-        };
-      };
-    };
-  };
-
 
   ||| [label="options used: hscale=\"0.6\", arcgradient=\"18\""];
 }
@@ -178,7 +142,7 @@ msc {
 /*
     This file is part of mscgen_js.
 
-    mscgen_js is free software: you can redistribute ift and/or
+    mscgen_js is free software: you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
     published by the Free Software Foundation, either version 3 of
     the License, or (at your option) any later version.

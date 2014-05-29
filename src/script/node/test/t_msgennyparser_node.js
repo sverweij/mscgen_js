@@ -2,6 +2,8 @@ var assert = require("assert");
 var parser = require("../msgennyparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
+var fs = require("fs");
+
 var gCorrectOrderFixture = {
     "precomment":["# A,a, c, d, b, B;"],
     "entities" : [{
@@ -95,10 +97,6 @@ describe('msgennyparser', function() {
             var lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
             tst.assertequalJSON(fix.astOneAlt, lAST);
         });
-        // it('should render an AST, with alts, loops and labels (labels at the tail)', function() {
-            // var lAST = parser.parse('a => b; a loop c { b alt c { b -> c: -> within alt; c >> b: >> within alt; }: label for alt; b >> a: >> within loop;}: label for loop; a =>> a: happy-the-peppy - outside;...;');
-            // tst.assertequalJSON(fix.astAltWithinLoop, lAST);
-        // });
         it('should render an AST, with alts, loops and labels (labels in front)', function() {
             var lAST = parser.parse('a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;');
             tst.assertequalJSON(fix.astAltWithinLoop, lAST);
@@ -110,6 +108,17 @@ describe('msgennyparser', function() {
         it('automatically declares entities in the right order', function() {
             var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             tst.assertequalJSON(gCorrectOrderFixture, lAST);
+        });
+    });
+    describe('#parse() - file based tests', function(){
+        it("should parse all possible arcs", function() {
+            fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', function(pErr, pTextFromFile) {
+                if (pErr) {
+                    throw pErr;
+                }
+                var lAST = parser.parse(pTextFromFile.toString());
+                tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
+            });
         });
     });
 });

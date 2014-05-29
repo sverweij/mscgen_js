@@ -127,13 +127,11 @@ define(["./flatten", /* "./textutensils", */ "./dotmap", "../../lib/dagre/dagred
         }
     }
 
-    var result = {
+    return {
         render : function(pAST) {
             return _renderAST(pAST);
         }
     };
-
-    return result;
 });
 /*
  This file is part of mscgen_js.

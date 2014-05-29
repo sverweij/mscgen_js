@@ -60,11 +60,11 @@ it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style):
-- The bare (embedding only) mscgen_js depends on [requirejs][19]; it's parser was generated with [pegjs][12].
+- The bare (embedding only) mscgen_js depends on [requirejs][19]; its parser was generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13], [canvg][16] and [jQuery][14]. 
 - To run in node, mscgen_js uses [jsdom][25] and [amdefine][20].
 
-Icons courtesy of Dmitry Baranovskiy [license][18].
+Icons courtesy of Dmitry Baranovskiy [license][15].
 
 It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
 

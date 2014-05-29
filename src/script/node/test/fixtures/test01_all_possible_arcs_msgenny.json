@@ -1,18 +1,14 @@
 {
-    "precomment": ["# test01: all possible arcs"],
+    "precomment": ["# test01: all possible arcs", "/* \n * All arcs possible in msgenny\n */"],
     "options": {
         "hscale": "0.6",
         "arcgradient": "18",
         "wordwraparcs": "false",
-        "watermark": "This humongous fictive chart contains all arcs possible in xù. It can be used for spot checks, but also for performance checks."
+        "watermark": "This humongous fictive chart contains all arcs possible in msgenny. It can be used for spot checks, but also for performance checks. 序列圖!"
     },
     "entities": [
         {
-            "name": "0",
-            "arclinecolor": "white",
-            "arctextcolor": "grey",
-            "linecolor": "white",
-            "textcolor": "white"
+            "name": "0"
         }, {
             "name": "a"
         }, {
@@ -43,72 +39,52 @@
                 "kind": "--",
                 "from": "a",
                 "to": "b",
-                "label": "left to right",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "left to right"
             }, {
                 "kind": "--",
                 "from": "b",
                 "to": "c",
-                "label": "right to left",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "right to left"
             }, {
                 "kind": "--",
                 "from": "c",
                 "to": "d",
-                "label": "left to right\\nbi-directional\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "left to right\\nbi-directional\\n\\n"
             }, {
                 "kind": "--",
                 "from": "d",
                 "to": "e",
-                "label": "right to left\\nbi-directional\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "right to left\\nbi-directional\\n\\n"
             }, {
                 "kind": "--",
                 "from": "e",
                 "to": "f",
-                "label": "left to right\\nnon-directional\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "left to right\\nnon-directional\\n\\n"
             }, {
                 "kind": "--",
                 "from": "f",
                 "to": "g",
-                "label": "left to right\\nnon-directional\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "left to right\\nnon-directional\\n\\n"
             }, {
                 "kind": "--",
                 "from": "g",
                 "to": "h",
-                "label": "left to right\\nself reference\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "left to right\\nself reference\\n\\n"
             }, {
                 "kind": "--",
                 "from": "h",
                 "to": "i",
-                "label": "right to left\\nself reference\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "right to left\\nself reference\\n\\n"
             }, {
                 "kind": "--",
                 "from": "i",
                 "to": "j",
-                "label": "bi-directional\\nself reference\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "bi-directional\\nself reference\\n\\n"
             }, {
                 "kind": "--",
                 "from": "j",
                 "to": "k",
-                "label": "non-directional\\nself reference\\n\\n",
-                "linecolor": "white",
-                "textcolor": "grey"
+                "label": "non-directional\\nself reference\\n\\n"
             }
         ],
         [
@@ -325,7 +301,7 @@
                 "kind": "<<=>>",
                 "from": "i",
                 "to": "i",
-                "label": "i <<=>>i "
+                "label": "i <<=>>i"
             }
         ],
         [

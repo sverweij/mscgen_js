@@ -161,9 +161,9 @@ msc {
   };
   b ref k [label="b ref k"] {
     c consider k [label="c consider k"] {
-      d ignore k [label="d ignore k"] {
+      k ignore d [label="k ignore d"] {
         e loop k  [label="e loop k"]{
-          f par k [label="f par k"] {
+          k par f [label="k par f"] {
             ---;
           };
         };

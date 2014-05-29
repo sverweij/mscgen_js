@@ -186,7 +186,7 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
                             if (pArcs[i][j].arcs) {
                                 lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
                                 if (pArcs[i][j].label) {
-                                   lRetVal += "\n" + INDENT + pIndent + ' label="' + pArcs[i][j].kind  + ": " + pArcs[i][j].label + '" labeljust="l" \n';
+                                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArcs[i][j].kind + ": " + pArcs[i][j].label + '" labeljust="l" \n';
                                 }
                                 lRetVal += renderArcLines(pArcs[i][j].arcs, pIndent + INDENT);
                                 lRetVal += INDENT + pIndent + "}\n";
@@ -199,13 +199,11 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         return lRetVal;
     }
 
-    var result = {
+    return {
         render : function(pAST) {
             return _renderAST(pAST);
         }
     };
-
-    return result;
 });
 /*
  This file is part of mscgen_js.
