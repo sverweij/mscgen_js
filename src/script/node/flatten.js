@@ -12,7 +12,6 @@ define(["./asttransform", "./dotmap"],
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
- * @license GPLv3
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 function(transform, map) {
