@@ -34,7 +34,6 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
      </g>
      </svg>
      * @exports renderast
-     * @license GPLv3
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
 

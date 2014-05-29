@@ -12,7 +12,6 @@ define([],
  * A hodge podge of functions manipulating text
  *
  * @exports node/textutensils
- * @license GPLv3
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 function() {

@@ -16,11 +16,9 @@ define([], function() {
     /**
      *
      * @exports node/asttransform
-     * @license GPLv3
      * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
-    "use strict";
-        
+     */"use strict";
+
     function transformEntities(pEntities, pFunctionAry) {
         var i, j;
         var lEntities = pEntities;
@@ -75,7 +73,7 @@ define([], function() {
         /**
          * Generic function for performing manipulations on abstract syntax trees. It takes a
          * series of functions as arguments and applies them to the entities, arcs and arc
-         * rows in the syntax tree respectively. 
+         * rows in the syntax tree respectively.
          *
          * @param {ast} pAST - the syntax tree to transform
          * @param {Array} pEntityTransforms - an array of functions. Each function shall take

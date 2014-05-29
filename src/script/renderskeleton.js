@@ -25,7 +25,6 @@ define(["./renderutensils"], function(utl) {
      *      __notelayer     - for notes and boxes - the labels of arcspanning arcs
      *                        will go in here as well
      * @exports renderskeleton
-     * @license GPLv3
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
 

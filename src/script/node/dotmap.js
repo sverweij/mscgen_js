@@ -11,7 +11,6 @@ define([], function() {
  * Defines several mappings of arckinds to agregations
  *
  * @exports node/dotmap
- * @license GPLv3
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
     var KIND2ARROW = {

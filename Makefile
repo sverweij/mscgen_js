@@ -38,25 +38,25 @@ SCRIPT_SOURCES_NODE=src/script/node/astconvutls.js \
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
 LIB_SOURCES_WEB=src/lib/codemirror.js \
-    src/lib/codemirror/addon/edit/closebrackets.js \
-    src/lib/codemirror/addon/edit/matchbrackets.js \
-    src/lib/codemirror/addon/display/placeholder.js \
-    src/lib/canvg/canvg.js \
-    src/lib/canvg/StackBlur.js \
-    src/lib/canvg/rgbcolor.js \
-    src/script/jquery.js
+	src/lib/codemirror/addon/edit/closebrackets.js \
+	src/lib/codemirror/addon/edit/matchbrackets.js \
+	src/lib/codemirror/addon/display/placeholder.js \
+	src/lib/canvg/canvg.js \
+	src/lib/canvg/StackBlur.js \
+	src/lib/canvg/rgbcolor.js \
+	src/script/jquery.js
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/renderutensils.js \
-    src/script/node/textutensils.js \
-    src/script/renderskeleton.js \
-    src/script/renderast.js \
-    src/script/controller.js \
+	src/script/node/textutensils.js \
+	src/script/renderskeleton.js \
+	src/script/renderast.js \
+	src/script/controller.js \
 	src/script/gaga.js \
-    src/script/mscgen-main.js 
+	src/script/mscgen-main.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_NODE) \
-    src/script/controller-inpage.js \
-    src/script/mscgen-inpage.js
+EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \
+	src/script/controller-inpage.js \
+	src/script/mscgen-inpage.js
 FAVICONMASTER=src/images/xu.png
 FAVICONS=favicon.ico \
 	favicon-16.png \
@@ -143,7 +143,7 @@ script/mscgen-main.js: $(SOURCES_WEB)
 script/mscgen-inpage.js: $(EMBED_SOURCES_WEB) lib/require.js
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-inpage" \
-			out="./script/mscgen-inpage.js"
+			out="./script/mscgen-inpage.js" \
 
 # "phony" targets
 build-prerequisites:
@@ -175,7 +175,7 @@ cover:
 install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html script/mscgen-inpage.js lib/require.js style/mscgen.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
-    
+	
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
 	$(GIT) merge master -m "merge for gh-pages build `cat VERSION`"
@@ -208,7 +208,7 @@ ibartfast:
 	rm -rf *.png *.ico
 
 slart: ibartfast $(FAVICONS)
-    
+	
 somewhatclean:
 	rm -rf $(PRODDIRS) index.html embed.html
 	rm -rf jsdoc
