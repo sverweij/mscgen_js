@@ -76,6 +76,13 @@ define([], function() {
         return lRetval;
     }
 
+    /**
+     * Creates an svg path element given the path pD, with pClass applied
+     * (if provided)
+     * @param {string} pD - the path
+     * @param {string} pClass - reference to a css class
+     * @return {SVGElement}
+     */
     function _createPath(pD, pClass) {
         var lPath = gDocument.createElementNS(SVGNS, "path");
         lPath.setAttribute("d", pD);
@@ -256,118 +263,6 @@ define([], function() {
         }
     }
 
-    function kind2Attributes(pKind) {
-        var lKind2Attrs = {
-            "->" : {
-                pathEnd : "M 9 3 l -8 2",
-                linestyle : "stroke: inherit",
-                headclass : "arrow-style inherit"
-            },
-            "<->" : {
-                pathEnd : "M 9 3 l -8 2",
-                pathStart : "M 9 3 l 8 2",
-                linestyle : "stroke: inherit",
-                headclass : "arrow-style inherit"
-            },
-            "=>" : {
-                pathEnd : "M 1,1 9,3 1,5 z",
-                linestyle : "stroke: inherit",
-                headclass : "filled arrow-style inherit inherit-fill"
-            },
-            "<=>" : {
-                pathEnd : "M 1,1 9,3 1,5 z",
-                pathStart : "M 17,1 9,3 17,5 z",
-                linestyle : "stroke: inherit",
-                headclass : "filled arrow-style inherit inherit-fill"
-            },
-            "=>>" : {
-                pathEnd : "M 1 1 l 8 2 l -8 2",
-                linestyle : "stroke: inherit",
-                headclass : "arrow-style inherit"
-            },
-            "<<=>>" : {
-                pathEnd : "M 1 1 l 8 2 l -8 2",
-                pathStart : "M 17 1 l -8 2 l 8 2",
-                linestyle : "stroke: inherit;",
-                headclass : "arrow-style inherit"
-            },
-            ">>" : {
-                pathEnd : "M 1 1 l 8 2 l -8 2",
-                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
-                headclass : "arrow-style inherit"
-            },
-            "<<>>" : {
-                pathEnd : "M 1 1 l 8 2 l -8 2",
-                pathStart : "M 17 1 l -8 2 l 8 2",
-                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
-                headclass : "arrow-style inherit"
-            },
-            ".." : {
-                linestyle : "stroke-dasharray: 5,2; stroke: inherit;",
-                headclass : "arrow-style inherit"
-            },
-            ":>" : {
-                pathEnd : "M 1,1 9,3 1,5 z",
-                linestyle : "stroke: inherit",
-                headclass : "filled arrow-style inherit inherit-fill"
-            },
-            "<:>" : {
-                pathEnd : "M 1,1 9,3 1,5 z",
-                pathStart : "M 17,1 9,3 17,5 z",
-                linestyle : "stroke: inherit",
-                headclass : "filled arrow-style inherit inherit-fill"
-            },
-            "-x" : {
-                pathEnd : "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5",
-                linestyle : "stroke: inherit",
-                headclass : "arrow-style inherit"
-            }
-        };
-        var lAttrs = lKind2Attrs[pKind];
-        if (lAttrs === undefined) {
-            return {
-                linestyle : "stroke: inherit;",
-                headclass : "arrow-style inherit"
-            };
-        } else {
-            return lAttrs;
-        }
-    }
-
-    // <marker id="lijntje_a_end" class="arrow-marker" orient="auto">
-    //   <path class="arrow-style" d="M0,0 l-8,2 M0,0 l-8,-2"></path>
-    // </marker>
-    function _createArrow(pId, pX1, pY1, pX2, pY2, pKind) {
-
-        var lLine = _createLine(pX1, pY1, pX2, pY2, undefined, pKind.indexOf(":") > -1);
-        var lAttrs = kind2Attributes(pKind);
-        var lArrowGroup = _createGroup(pId);
-
-        if (lAttrs.pathEnd) {
-            if (lAttrs.headclass) {
-                lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, lAttrs.headclass));
-            } else {
-                lArrowGroup.appendChild(_createMarkerPath(pId + "_end", "arrow-marker", "auto", lAttrs.pathEnd, "arrow-style"));
-            }
-            lLine.setAttribute("marker-end", "url(#" + pId + "_end" + ")");
-        }
-        if (lAttrs.pathStart) {
-            if (lAttrs.headclass) {
-                lArrowGroup.appendChild(_createMarkerPath(pId + "_start", "arrow-marker", "auto", lAttrs.pathStart, lAttrs.headclass));
-            } else {
-                lArrowGroup.appendChild(_createMarkerPath(pId + "_start", "arrow-marker", "auto", lAttrs.pathStart, "arrow-style"));
-            }
-            lLine.setAttribute("marker-start", "url(#" + pId + "_start" + ")");
-        }
-        if (lAttrs.linestyle) {
-            lLine.setAttribute("style", lAttrs.linestyle);
-        }
-        lArrowGroup.appendChild(lLine);
-
-        return lArrowGroup;
-
-    }
-
     function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass) {
         var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
         lPathString += " l" + pWidth.toString() + ",0";
@@ -440,16 +335,6 @@ define([], function() {
          */
         init : function(pDocument) {
             gDocument = pDocument;
-        },
-        /**
-         * Creates an svg path element given the path pD, with pClass applied
-         * (if provided)
-         * @param {string} pD - the path
-         * @param {string} pClass - reference to a css class
-         * @return {SVGElement}
-         */
-        createPath : function(pD, pClass) {
-            return _createPath(pD, pClass);
         },
         /**
          * Creates an svg rectangle of pWidth x pHeight, with the top left
@@ -544,24 +429,6 @@ define([], function() {
          */
         createLine : function(pX1, pY1, pX2, pY2, pClass, pDouble) {
             return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
-        },
-        /**
-         * Creates an arrow between to coordinates.
-         * TODO: has knowledge of the "kind" - which should reside somewhere
-         * else as this module should be agnostic of stuff like that
-         *
-         * @param {number} pX1
-         * @param {number} pY1
-         * @param {number} pX2
-         * @param {number} pY2
-         * @param {string=} [pKind=undefined] - the kind of arrow to render.
-         * Takes mscgen arcs as input (e.g. ->, => <=>, ...). When not passed
-         * the "arrow" will render without arrow heads (and closely resemble
-         * a line).
-         * @return {SVGElement}
-         */
-        createArrow : function(pId, pX1, pY1, pX2, pY2, pKind) {
-            return _createArrow(pId, pX1, pY1, pX2, pY2, pKind);
         },
         /**
          * Creates a u-turn, departing on pStartX, pStarty and
