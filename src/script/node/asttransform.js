@@ -17,7 +17,8 @@ define([], function() {
      *
      * @exports node/asttransform
      * @author {@link https://github.com/sverweij | Sander Verweij}
-     */"use strict";
+     */
+    "use strict";
 
     function transformEntities(pEntities, pFunctionAry) {
         var i, j;
