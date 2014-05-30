@@ -99,24 +99,3 @@ describe('xuparser', function() {
         });
     });
 });
-
-/*
-
- msc {
- a,
- b,
- c;
-
- a => b;
- a loop c {
- b alt c {
- b -> c [label="blahs(i)"];
- c >> b [label="thing"];
- } [label="hunky dory"];
- b >> a;
- } [label="for each blah"];
-
- a =>> a [label="happy-the-peppy"];
- ...;
- }
- */
