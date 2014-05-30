@@ -34,6 +34,7 @@ define(['./astconvutls'], function(utl) {
             "closer" : ";" + EOL + EOL
         },
         "entity" : {
+            "opener" : "",
             "separator" : "," + SP,
             "closer" : ";" + EOL + EOL
         },
@@ -136,6 +137,7 @@ define(['./astconvutls'], function(utl) {
         var lRetVal = "";
         var i = 0;
         if (pEntities.length > 0) {
+            lRetVal = gConfig.entity.opener;
             for ( i = 0; i < pEntities.length - 1; i++) {
                 lRetVal += renderEntity(pEntities[i]) + gConfig.entity.separator;
             }

@@ -58,7 +58,7 @@ define(["./dotmap", "./astconvutls", "./ast2thing"], function(map, utl, thing) {
                 "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "program" : {
-                    "opener" : "msc" + SP + "{" + EOL + INDENT,
+                    "opener" : "msc" + SP + "{" + EOL,
                     "closer" : "}"
                 },
                 "option" : {
@@ -66,6 +66,7 @@ define(["./dotmap", "./astconvutls", "./ast2thing"], function(map, utl, thing) {
                     "closer" : ";" + EOL + EOL
                 },
                 "entity" : {
+                    "opener": INDENT,
                     "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL + EOL
                 },
