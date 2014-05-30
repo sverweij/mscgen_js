@@ -13,8 +13,6 @@ if ( typeof define !== 'function') {
 }
 
 define(['./ast2thing'], function(thing) {
-    var SP = " ";
-    var EOL = "\n";
 
     function renderMsGennyString(pString) {
         function isQuoatable(pString) {
@@ -40,36 +38,7 @@ define(['./ast2thing'], function(thing) {
     return {
         render : function(pAST) {
             return thing.render(pAST, {
-                "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
-                "supportedEntityAttributes" : ["label"],
-                "supportedArcAttributes" : ["label"],
-                "renderAttributefn" : renderAttribute,
-                "program" : {
-                    "opener" : "",
-                    "closer" : ""
-                },
-                "option" : {
-                    "separator" : "," + EOL,
-                    "closer" : ";" + EOL + EOL
-                },
-                "entity" : {
-                    "separator" : "," + SP,
-                    "closer" : ";" + EOL + EOL
-                },
-                "arcline" : {
-                    "opener" : "",
-                    "separator" : "," + EOL,
-                    "closer" : ";" + EOL
-                },
-                "inline" : {
-                    "opener" : " {" + EOL,
-                    "closer" : "}"
-                },
-                "attribute" : {
-                    "opener" : "",
-                    "separator" : "",
-                    "closer" : ""
-                }
+                "renderAttributefn" : renderAttribute
             });
         }
     };
