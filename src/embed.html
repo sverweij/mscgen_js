@@ -204,25 +204,25 @@ msc {
             ]
             }</pre>
         <pre class="mscgen_js shadow" data-language="xu">
-            msc{
-            watermark="xù: 序列圖", wordwraparcs="true";
-            a,b,d,e;
-            a => d;
-            b loop e [label="for each element with class='mscgen_js'"]{
-                b =>> d [label="get textContent of the element"];
-                d >> b [label="textContent"];
-                b =>> e [label="parse(textContent)"];
-                b alt e [label="happy day", textbgcolor="#f7fff7"] {
-                    e >> b [label="abstract syntax tree"];
-                    b -> d [label="clear inner HTML of the element"];
-                    b -> d [label="render (abstract syntax tree)"];
-                    ---[label="error", linecolor="red"];
-                    e >> b [label="error object", linecolor="red"];
-                    b -> d [label="add error message to innerHTML of the element", linecolor="red"];
-                };
-            };
-            ...;
-            }
+msc{
+    watermark="xù: 序列圖", wordwraparcs="true";
+    a,b,d,e;
+    a => d;
+    b loop e [label="for each element with class='mscgen_js'"]{
+        b =>> d [label="get textContent of the element"];
+        d >> b [label="textContent"];
+        b =>> e [label="parse(textContent)"];
+        b alt e [label="happy day", textbgcolor="#f7fff7"] {
+            e >> b [label="abstract syntax tree"];
+            b -> d [label="clear inner HTML of the element"];
+            b -> d [label="render (abstract syntax tree)"];
+            ---[label="error", linecolor="red"];
+            e >> b [label="error object", linecolor="red"];
+            b -> d [label="add error message to innerHTML of the element", linecolor="red"];
+        };
+    };
+    ...;
+}
         </pre>
         </article>
     </body>
