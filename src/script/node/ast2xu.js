@@ -63,7 +63,6 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
                     "opener" : SP + "[",
                     "separator" : "," + SP,
                     "closer" : "]",
-
                 },
                 "arcline" : {
                     "opener" : INDENT,
@@ -73,7 +72,7 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
                 "inline" : {
                     "opener" : SP + "{" + EOL,
                     "closer" : INDENT + "}"
-                },
+                }
             });
         }
     };

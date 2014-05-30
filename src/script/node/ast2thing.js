@@ -20,6 +20,7 @@ define(['./astconvutls'], function(utl) {
     var CONFIG = {
         "renderCommentfn" : utl.renderComments,
         "renderOptionfn" : renderOption,
+        "renderEntityNamefn": utl.renderEntityName,
         "renderKindfn" : renderKind,
         "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
         "supportedEntityAttributes" : ["label"],
@@ -128,7 +129,7 @@ define(['./astconvutls'], function(utl) {
     }
 
     function renderEntity(pEntity) {
-        var lRetVal = utl.renderEntityName(pEntity.name);
+        var lRetVal = gConfig.renderEntityNamefn (pEntity.name);
         lRetVal += renderAttributes(pEntity, gConfig.supportedEntityAttributes);
         return lRetVal;
     }
@@ -166,13 +167,13 @@ define(['./astconvutls'], function(utl) {
     function renderArc(pArc, pIndent) {
         var lRetVal = "";
         if (pArc.from) {
-            lRetVal += utl.renderEntityName(pArc.from) + " ";
+            lRetVal += gConfig.renderEntityNamefn (pArc.from) + " ";
         }
         if (pArc.kind) {
             lRetVal += gConfig.renderKindfn(pArc.kind);
         }
         if (pArc.to) {
-            lRetVal += " " + utl.renderEntityName(pArc.to);
+            lRetVal += " " + gConfig.renderEntityNamefn (pArc.to);
         }
         lRetVal += renderAttributes(pArc, gConfig.supportedArcAttributes);
         if (pArc.arcs) {
