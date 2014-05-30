@@ -25,7 +25,7 @@ define([], function() {
     function _renderComments(pArray) {
         var lRetval = "";
         for (var i = 0; i < pArray.length; i++) {
-            lRetval += pArray[i] + "\n"; // not using EOL constant here is intentional
+            lRetval += pArray[i]; // not using EOL constant here is intentional
         }
         return lRetval;
     }

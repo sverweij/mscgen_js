@@ -1,5 +1,5 @@
 {
-    "precomment": ["# test01: all possible arcs", "/* \n * All arcs possible in msgenny\n */"],
+    "precomment": ["# test01: all possible arcs", "\n", "/* \n * All arcs possible in msgenny\n */", "\n"],
     "options": {
         "hscale": "0.6",
         "arcgradient": "18",

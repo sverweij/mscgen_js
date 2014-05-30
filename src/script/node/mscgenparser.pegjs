@@ -84,10 +84,9 @@
         }
         return lEntities;
     }
-
 }
 
-program         = pre:pc starttoken _  "{" _ d:declarationlist _ "}" _
+program         = pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
 { 
     d[1] = checkForUndeclaredEntities(d[1], d[2]);
     var lRetval = merge (d[0], merge (d[1], d[2]));
@@ -231,9 +230,9 @@ identifier "identifier"
   / string
 
 whitespace "whitespace"
-                = [ \t] {return ""}
+                = c:[ \t] {return c}
 lineend "lineend"
-                = [\r\n] {return {}}
+                = c:[\r\n] {return c}
 mlcomstart      = "/*"
 mlcomend        = "*/"
 mlcomtok        = !"*/" c:. {return c}
@@ -250,9 +249,7 @@ slcomment       = start:(slcomstart) com:(slcomtok)*
 comment "comment"
                 =   slcomment
                   / mlcomment
-_               = ((whitespace)+ / (lineend)+/ comment)* 
-whitespaces     = ((whitespace)+ / (lineend)+)* 
-pc              = (whitespaces c:(comment) whitespaces {return c})*
+_               = (whitespace / lineend/ comment)* 
 
 number = real / integer
 integer "integer"

@@ -5,7 +5,7 @@ var fix = require("./astfixtures");
 var fs = require("fs");
 
 var gCorrectOrderFixture = {
-    "precomment":["# A,a, c, d, b, B;"],
+    "precomment":["# A,a, c, d, b, B;", "\n"],
     "entities" : [{
         "name" : "A"
     }, {

@@ -67,15 +67,15 @@ describe('mscgenparser', function() {
         });
     });
     describe('#parse() - file based tests', function(){
-        it("should parse all possible arcs", function() {
-            fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.mscin', function(pErr, pTextFromFile) {
-                if (pErr) {
-                    throw pErr;
-                }
-                var lAST = parser.parse(pTextFromFile.toString());
-                tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
-            });
-        });
+        // it("should parse all possible arcs", function() {
+            // fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.mscin', function(pErr, pTextFromFile) {
+                // if (pErr) {
+                    // throw pErr;
+                // }
+                // var lAST = parser.parse(pTextFromFile.toString());
+                // tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
+            // });
+        // });
         it("should parse stuff with colors", function() {
             fs.readFile('./src/script/node/test/fixtures/rainbow.mscin', function(pErr, pTextFromFile) {
                 if (pErr) {
