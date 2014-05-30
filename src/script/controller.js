@@ -40,7 +40,7 @@ msc {
 /* jshint browser:true */
 /* jshint jquery:true */
 /* jshint nonstandard:true */
-/* global define, CodeMirror, canvg */
+/* global define, canvg */
 
 define(["jquery", "xuparser", "msgennyparser", "renderast",
         "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "node/ast2mscgen", /*"node/ast2dagre",*/

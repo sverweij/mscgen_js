@@ -17,16 +17,13 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
     var INDENT = "  ";
     var SP = " ";
     var EOL = "\n";
-    var gMinimal = false;
 
     function init(pMinimal) {
         if (true === pMinimal) {
-            gMinimal = true;
             INDENT = "";
             SP = "";
             EOL = "";
         } else {
-            gMinimal = false;
             INDENT = "  ";
             SP = " ";
             EOL = "\n";
@@ -50,14 +47,15 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
                 "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "program" : {
-                    "opener" : "msc" + SP + "{" + EOL + INDENT,
+                    "opener" : "msc" + SP + "{" + EOL,
                     "closer" : "}"
                 },
                 "option" : {
-                    "separator" : "," + EOL,
+                    "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL + EOL
                 },
                 "entity" : {
+                    "opener" : INDENT,
                     "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL + EOL
                 },
@@ -69,7 +67,7 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
                 },
                 "arcline" : {
                     "opener" : INDENT,
-                    "separator" : "," + EOL,
+                    "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL
                 },
                 "inline" : {

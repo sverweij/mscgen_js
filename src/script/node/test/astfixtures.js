@@ -888,7 +888,7 @@ module.exports = (function() {
             }]]
         },
         astWithPreComment : {
-            "precomment" : ["# pre comment", "/* pre\n * multiline\n * comment\n */"],
+            "precomment" : ["# pre comment", "\n", "/* pre\n * multiline\n * comment\n */", "\n"],
             "entities" : [{
                 "name" : "a"
             }, {

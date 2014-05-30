@@ -1,5 +1,5 @@
 {
-    "precomment": ["# test01: all possible arcs", "/*\n * should create the smallest AST of the three\n */"],
+    "precomment": ["# test01: all possible arcs", "\n", "/*\n * should create the smallest AST of the three\n */", "\n"],
     "options": {
         "hscale": "0.6",
         "arcgradient": "18",

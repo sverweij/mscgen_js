@@ -99,7 +99,7 @@
     }
 }
 
-program         =  pre:pc d:declarationlist _
+program         =  pre:_ d:declarationlist _
 {
     d[1] = extractUndeclaredEntities(d[1], d[2]);
     
@@ -236,9 +236,9 @@ identifier "identifier"
   / quotedstring 
 
 whitespace "whitespace"
-                = [ \t] {return ""}
+                = c:[ \t] {return c}
 lineend "lineend"
-                = [\r\n] {return {}}
+                = c:[\r\n] {return c}
 mlcomstart      = "/*"
 mlcomend        = "*/"
 mlcomtok        = !"*/" c:. {return c}
@@ -255,9 +255,7 @@ slcomment       = start:(slcomstart) com:(slcomtok)*
 comment "comment"
                 =   slcomment
                   / mlcomment
-_               = ((whitespace)+ / (lineend)+/ comment)* 
-whitespaces     = ((whitespace)+ / (lineend)+)* 
-pc              = (whitespaces c:(comment) whitespaces {return c})*
+_               = (whitespace / lineend/ comment)* 
 
 number = real / integer
 integer "integer"
