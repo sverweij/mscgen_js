@@ -72,19 +72,19 @@ module.exports = (function() {
             "arcs" : [[{
                 "kind" : "note",
                 "from" : "a",
-                "to" : "a",
+                "to" : "a"
             }, {
                 "kind" : "box",
                 "from" : "b",
-                "to" : "b",
+                "to" : "b"
             }, {
                 "kind" : "abox",
                 "from" : "c",
-                "to" : "c",
+                "to" : "c"
             }, {
                 "kind" : "rbox",
                 "from" : "d",
-                "to" : "d",
+                "to" : "d"
             }]]
         },
         astMixedAttributes : {
