@@ -6,7 +6,7 @@ describe('ast2dot', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
 
         it('should, given a simple syntax tree, render a dot script', function() {
-            var lProgram = renderer.render(JSON.parse(JSON.stringify(fix.astSimple)));
+            var lProgram = renderer.render(fix.astSimple);
             var lExpectedProgram = 
 'graph {\n\
   rankdir=LR\n\
@@ -25,7 +25,7 @@ describe('ast2dot', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
         it('should, given a syntax tree with boxes, render a dot script', function() {
-            var lProgram = renderer.render(JSON.parse(JSON.stringify(fix.astBoxArcs)));
+            var lProgram = renderer.render(fix.astBoxArcs);
             var lExpectedProgram = 
 'graph {\n\
   rankdir=LR\n\
@@ -57,7 +57,7 @@ describe('ast2dot', function() {
 
     describe('#renderAST() - xu compatible', function() {
         it('alt only - render correct script', function() {
-            var lProgram = renderer.render(JSON.parse(JSON.stringify(fix.astOneAlt)));
+            var lProgram = renderer.render(fix.astOneAlt);
             var lExpectedProgram = 
 'graph {\n\
   rankdir=LR\n\
@@ -83,7 +83,7 @@ describe('ast2dot', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
         it('alt within loop - render correct script', function() {
-            var lProgram = renderer.render(JSON.parse(JSON.stringify(fix.astAltWithinLoop)));
+            var lProgram = renderer.render(fix.astAltWithinLoop);
             var lExpectedProgram =
 'graph {\n\
   rankdir=LR\n\
