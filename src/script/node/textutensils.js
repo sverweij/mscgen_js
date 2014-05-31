@@ -67,9 +67,11 @@ function() {
     }
 
     function _unescapeString(pString) {
-        var lLabel = pString.replace(/\\\"/g, '"');
-        return lLabel;
-        //.replace(/\\n/g, " ");
+        return pString.replace(/\\\"/g, '"');
+    }
+    
+    function _escapeString(pString) {
+        return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
     }
 
     function _classifyExtension(pString) {
@@ -132,6 +134,16 @@ function() {
          */
         unescapeString : function(pString) {
             return _unescapeString(pString);
+        },
+        
+        /**
+         * takes pString and replaces all double quotes with
+         * escaped double quotes
+         * @param {string} pString
+         * @return {string}
+         */
+        escapeString : function(pString) {
+            return _escapeString(pString);
         },
 
         /**

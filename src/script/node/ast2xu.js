@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./astconvutls", "./ast2thing"], function(utl, thing) {
+define(["./textutensils", "./ast2thing"], function(utl, thing) {
 
     var INDENT = "  ";
     var SP = " ";
@@ -33,7 +33,7 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
     function renderAttribute(pAttribute) {
         var lRetVal = "";
         if (pAttribute.name && pAttribute.value) {
-            lRetVal += pAttribute.name + "=\"" + utl.renderString(pAttribute.value) + "\"";
+            lRetVal += pAttribute.name + "=\"" + utl.escapeString(pAttribute.value) + "\"";
         }
         return lRetVal;
     }
@@ -43,7 +43,6 @@ define(["./astconvutls", "./ast2thing"], function(utl, thing) {
             init(pMinimal);
             return thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
-                // "renderKindfn" : renderKind,
                 "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "program" : {
