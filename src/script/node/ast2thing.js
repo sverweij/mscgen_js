@@ -12,14 +12,15 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(['./astconvutls'], function(utl) {
+define(["./textutensils"], function(utl) {
     var INDENT = "  ";
     var SP = " ";
     var EOL = "\n";
 
     var CONFIG = {
-        "renderCommentfn" : utl.renderComments,
+        "renderCommentfn" : renderComments,
         "renderOptionfn" : renderOption,
+        "renderEntityNamefn" : renderEntityName,
         "renderKindfn" : renderKind,
         "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
         "supportedEntityAttributes" : ["label"],
@@ -107,12 +108,30 @@ define(['./astconvutls'], function(utl) {
         return lRetvalAry;
     }
 
-    function renderString(pString) {
-        return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
+    function renderComments(pArray) {
+        var lRetval = "";
+        for (var i = 0; i < pArray.length; i++) {
+            lRetval += pArray[i];
+            // not using EOL constant here is intentional
+        }
+        return lRetval;
+    }
+
+    function renderEntityName(pString) {
+        function isQuoatable(pString) {
+            var lMatchResult = pString.match(/[a-z0-9]+/gi);
+            if (lMatchResult && lMatchResult !== null) {
+                return lMatchResult.length != 1;
+            } else {
+                return true;
+            }
+        }
+
+        return isQuoatable(pString) ? "\"" + pString + "\"" : pString;
     }
 
     function renderOption(pOption) {
-        return pOption.name + "=\"" + renderString(pOption.value) + "\"";
+        return pOption.name + "=\"" + utl.escapeString(pOption.value) + "\"";
     }
 
     function renderOptions(pOptions) {
@@ -128,7 +147,7 @@ define(['./astconvutls'], function(utl) {
     }
 
     function renderEntity(pEntity) {
-        var lRetVal = utl.renderEntityName(pEntity.name);
+        var lRetVal = gConfig.renderEntityNamefn(pEntity.name);
         lRetVal += renderAttributes(pEntity, gConfig.supportedEntityAttributes);
         return lRetVal;
     }
@@ -166,13 +185,13 @@ define(['./astconvutls'], function(utl) {
     function renderArc(pArc, pIndent) {
         var lRetVal = "";
         if (pArc.from) {
-            lRetVal += utl.renderEntityName(pArc.from) + " ";
+            lRetVal += gConfig.renderEntityNamefn(pArc.from) + " ";
         }
         if (pArc.kind) {
             lRetVal += gConfig.renderKindfn(pArc.kind);
         }
         if (pArc.to) {
-            lRetVal += " " + utl.renderEntityName(pArc.to);
+            lRetVal += " " + gConfig.renderEntityNamefn(pArc.to);
         }
         lRetVal += renderAttributes(pArc, gConfig.supportedArcAttributes);
         if (pArc.arcs) {

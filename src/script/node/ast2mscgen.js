@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap", "./astconvutls", "./ast2thing"], function(map, utl, thing) {
+define(["./dotmap", "./textutensils", "./ast2thing"], function(map, utl, thing) {
 
     var INDENT = "  ";
     var SP = " ";
@@ -43,7 +43,7 @@ define(["./dotmap", "./astconvutls", "./ast2thing"], function(map, utl, thing) {
     function renderAttribute(pAttribute) {
         var lRetVal = "";
         if (pAttribute.name && pAttribute.value) {
-            lRetVal += pAttribute.name + "=\"" + utl.renderString(pAttribute.value) + "\"";
+            lRetVal += pAttribute.name + "=\"" + utl.escapeString(pAttribute.value) + "\"";
         }
         return lRetVal;
     }
