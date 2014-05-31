@@ -27,20 +27,19 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         lRetVal += INDENT + 'edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n';
         lRetVal += "\n";
 
-        var lAST = flatten.dotFlatten(pAST);
-
-        if (lAST) {
-            if (lAST.entities) {
-                lRetVal += renderEntities(lAST.entities) + "\n";
+        if (pAST) {
+            if (pAST.entities) {
+                lRetVal += renderEntities(pAST.entities) + "\n";
             }
-            if (lAST.arcs) {
+            if (pAST.arcs) {
                 gCounter = 0;
-                lRetVal += renderArcLines(lAST.arcs, "");
+                lRetVal += renderArcLines(pAST.arcs, "");
             }
         }
         return lRetVal += "}";
     }
 
+    /* Attribute handling */
     function renderString(pString) {
         var lStringAry = txt.wrap(pString.replace(/\"/g, "\\\""), 40);
         var lString = "";
@@ -52,10 +51,6 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         return lString;
     }
 
-    function renderEntityName(pString) {
-        return "\"" + pString + "\"";
-    }
-
     function pushAttribute(pArray, pAttr, pString) {
         if (pAttr) {
             pArray.push(pString + "=\"" + renderString(pAttr) + "\"");
@@ -64,22 +59,18 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
 
     function translateAttributes(pThing) {
         var lAttrs = [];
-        pushAttribute(lAttrs, pThing.label, "label");
-        // pushAttribute(lAttrs, pThing.idurl, "idurl");
-        // pushAttribute(lAttrs, pThing.id, "id");
-        // pushAttribute(lAttrs, pThing.url, "url");
-        pushAttribute(lAttrs, pThing.linecolor, "color");
-        pushAttribute(lAttrs, pThing.textcolor, "fontcolor");
-        pushAttribute(lAttrs, pThing.textbgcolor, "fillcolor");
+        var lSupportedAttrs = ["label", "color", "fontcolor", "fillcolor"];
+        for (var i = 0; i < lSupportedAttrs.length; i++) {
+            pushAttribute(lAttrs, pThing[lSupportedAttrs[i]], lSupportedAttrs[i]);
+        }
         return lAttrs;
     }
 
     function renderAttributeBlock(pAttrs) {
-        var lRetVal = [];
+        var lRetVal = "";
         if (pAttrs.length > 0) {
-            var i = 0;
             lRetVal = " [";
-            for ( i = 0; i < pAttrs.length - 1; i++) {
+            for (var i = 0; i < pAttrs.length - 1; i++) {
                 lRetVal += pAttrs[i] + ", ";
             }
             lRetVal += pAttrs[pAttrs.length - 1];
@@ -87,6 +78,11 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         }
 
         return lRetVal;
+    }
+
+    /* Entity handling */
+    function renderEntityName(pString) {
+        return "\"" + pString + "\"";
     }
 
     function renderEntity(pEntity) {
@@ -107,93 +103,105 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         return lRetVal;
     }
 
+    /* ArcLine handling */
     function counterizeArc(pArc, pCounter) {
-        var lArc = pArc;
-        if (lArc.label) {
-            lArc.label = "(" + pCounter + ") " + lArc.label;
+        if (pArc.label) {
+            pArc.label = "(" + pCounter + ") " + pArc.label;
         } else {
-            lArc.label = "(" + pCounter + ")";
+            pArc.label = "(" + pCounter + ")";
         }
-        return lArc;
     }
 
-    function renderArc(pArc, pCounter, pIndent) {
+    function renderBoxArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
-        var lArc = pArc;
-        //JSON.parse(JSON.stringify(pArc));
-        var lAttrs = [];
-        var lAggregatedKind = map.getAggregate(pArc.kind);
+        var lBoxName = "box" + pCounter.toString();
+        lRetVal += lBoxName;
+        var lAttrs = translateAttributes(pArc);
+        pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
+        pushAttribute(lAttrs, map.getShape(pArc.kind), "shape");
 
-        if (lAggregatedKind === "box") {
-            var lBoxName = "box" + pCounter.toString();
-            lRetVal += lBoxName;
-            lAttrs = translateAttributes(lArc);
-            pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
-            pushAttribute(lAttrs, map.getShape(pArc.kind), "shape");
+        lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
 
-            lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
+        lAttrs = [];
+        pushAttribute(lAttrs, "dotted", "style");
+        pushAttribute(lAttrs, "none", "dir");
 
-            lAttrs = [];
-            pushAttribute(lAttrs, "dotted", "style");
-            pushAttribute(lAttrs, "none", "dir");
+        lRetVal += lBoxName + " -- {" + renderEntityName(pArc.from) + "," + renderEntityName(pArc.to) + "}";
+        lRetVal += renderAttributeBlock(lAttrs);
 
-            lRetVal += lBoxName + " -- {" + renderEntityName(lArc.from) + "," + renderEntityName(lArc.to) + "}";
+        return lRetVal;
+    }
+
+    function renderRegularArc(pArc, pAggregatedKind, pCounter) {
+        var lRetVal = "";
+        counterizeArc(pArc, pCounter);
+        var lAttrs = translateAttributes(pArc);
+
+        pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
+        switch(pAggregatedKind) {
+            case ("directional") :
+                {
+                    pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+                }
+                break;
+            case("bidirectional"):
+                {
+                    pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+                    pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
+                    pushAttribute(lAttrs, "both", "dir");
+                }
+                break;
+            case ("nondirectional"):
+                {
+                    pushAttribute(lAttrs, "none", "dir");
+                }
+                break;
+        }
+        if (!pArc.arcs) {
+            lRetVal += renderEntityName(pArc.from) + " ";
+            lRetVal += "--";
+            lRetVal += " " + renderEntityName(pArc.to);
             lRetVal += renderAttributeBlock(lAttrs);
-        } else {
-            lArc = counterizeArc(pArc, pCounter);
-            lAttrs = translateAttributes(lArc);
-            pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
-            switch(lAggregatedKind) {
-                case ("directional") :
-                    {
-                        pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
-                    }
-                    break;
-                case("bidirectional"):
-                    {
-                        pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
-                        pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
-                        pushAttribute(lAttrs, "both", "dir");
-                    }
-                    break;
-                case ("nondirectional"):
-                    {
-                        pushAttribute(lAttrs, "none", "dir");
-                    }
-                    break;
-            }
-            if (!pArc.arcs) {
-                lRetVal += renderEntityName(lArc.from) + " ";
-                lRetVal += "--";
-                lRetVal += " " + renderEntityName(lArc.to);
-                lRetVal += renderAttributeBlock(lAttrs);
-            }
         }
         return lRetVal;
     }
 
-    function renderArcLines(pArcs, pIndent) {
+    function renderArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
-        var i = 0;
-        var j = 0;
+        var lAggregatedKind = map.getAggregate(pArc.kind);
 
-        if (pArcs.length > 0) {
-            for ( i = 0; i < pArcs.length; i++) {
-                if (pArcs[i].length > 0) {
-                    for ( j = 0; j < pArcs[i].length; j++) {
-                        if (pArcs[i][j].from && pArcs[i][j].kind && pArcs[i][j].to) {
-                            lRetVal += INDENT + pIndent + renderArc(pArcs[i][j], ++gCounter, pIndent) + "\n";
-                            if (pArcs[i][j].arcs) {
-                                lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
-                                if (pArcs[i][j].label) {
-                                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArcs[i][j].kind + ": " + pArcs[i][j].label + '" labeljust="l" \n';
-                                }
-                                lRetVal += renderArcLines(pArcs[i][j].arcs, pIndent + INDENT);
-                                lRetVal += INDENT + pIndent + "}\n";
-                            }
-                        }
-                    }
+        if (lAggregatedKind === "box") {
+            lRetVal += renderBoxArc(pArc, pCounter, pIndent);
+        } else {
+            lRetVal += renderRegularArc(pArc, lAggregatedKind, pCounter);
+        }
+        return lRetVal;
+    }
+
+    function renderArcLine(pArcLine, pIndent) {
+        var lRetVal = "";
+
+        if (pArcLine.from && pArcLine.kind && pArcLine.to) {
+            lRetVal += INDENT + pIndent + renderArc(pArcLine, ++gCounter, pIndent) + "\n";
+            if (pArcLine.arcs) {
+                lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
+                if (pArcLine.label) {
+                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArcLine.kind + ": " + pArcLine.label + '" labeljust="l" \n';
                 }
+                lRetVal += renderArcLines(pArcLine.arcs, pIndent + INDENT);
+                lRetVal += INDENT + pIndent + "}\n";
+            }
+        }
+        return lRetVal;
+
+    }
+
+    function renderArcLines(pArcLines, pIndent) {
+        var lRetVal = "";
+
+        for (var i = 0; i < pArcLines.length; i++) {
+            for (var j = 0; j < pArcLines[i].length; j++) {
+                lRetVal += renderArcLine(pArcLines[i][j], pIndent);
             }
         }
         return lRetVal;
@@ -201,7 +209,7 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
 
     return {
         render : function(pAST) {
-            return _renderAST(pAST);
+            return _renderAST(flatten.dotFlatten(JSON.parse(JSON.stringify(pAST))));
         }
     };
 });
