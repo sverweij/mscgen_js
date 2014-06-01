@@ -20,54 +20,56 @@ define([], function() {
      */
     "use strict";
 
-    function transformEntities(pEntities, pFunctionAry) {
-        var i, j;
-        var lEntities = pEntities;
 
-        if (lEntities && pFunctionAry) {
-            for ( i = 0; i < lEntities.length; i++) {
-                for ( j = 0; j < pFunctionAry.length; j++) {
-                    lEntities[i] = pFunctionAry[j](lEntities[i]);
-                }
-            }
+    function transformEntity(pEntity, pFunctionAry) {
+        for (var i = 0; i < pFunctionAry.length; i++) {
+            pEntity = pFunctionAry[i](pEntity);
         }
-        return lEntities;
     }
 
-    function transformArcs(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
-        var lRowCount, lArcCount, lRowFuncCount, lFuncCount;
-        var lArcRows = pArcRows;
-
-        if (pEntities && lArcRows && (pRowFunctionAry || pFunctionAry)) {
-            for ( lRowCount = 0; lRowCount < lArcRows.length; lRowCount++) {
-                if (pRowFunctionAry) {
-                    for ( lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
-                        lArcRows[lRowCount] = pRowFunctionAry[lRowFuncCount](lArcRows[lRowCount], pEntities);
-                    }
-                }
-
-                for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
-                    if (pFunctionAry) {
-                        for ( lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
-                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](lArcRows[lRowCount][lArcCount], pEntities, lArcRows[lRowCount]);
-                        }
-                    }
-                    if (lArcRows[lRowCount][lArcCount].arcs) {
-                        transformArcs(pEntities, lArcRows[lRowCount][lArcCount].arcs, pRowFunctionAry, pFunctionAry);
-                    }
-                }
-
+    function transformEntities(pEntities, pFunctionAry) {
+        if (pEntities && pFunctionAry) {
+            for ( var i = 0; i < pEntities.length; i++) {
+                transformEntity(pEntities[i], pFunctionAry);
             }
         }
-        return lArcRows;
+    }
+    
+    function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
+        if (pFunctionAry) {
+            for (var lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
+                pArc = pFunctionAry[lFuncCount](pArc, pEntities, pArcRow);
+            }
+        }
+    }
+    
+    function transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry) {
+        if (pRowFunctionAry) {
+            for (var lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
+                pArcRow = pRowFunctionAry[lRowFuncCount](pArcRow, pEntities);
+            }
+        }
+
+        for (var lArcCount = 0; lArcCount < pArcRow.length; lArcCount++) {
+            transformArc(pEntities, pArcRow, pArcRow[lArcCount], pFunctionAry);
+            if (pArcRow[lArcCount].arcs) {
+                transformArcRows(pEntities, pArcRow[lArcCount].arcs, pRowFunctionAry, pFunctionAry);
+            }
+        }
+    }
+
+    function transformArcRows(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
+        if (pEntities && pArcRows && (pRowFunctionAry || pFunctionAry)) {
+            for ( var lRowCount = 0; lRowCount < pArcRows.length; lRowCount++) {
+                transformArcRow(pEntities, pArcRows[lRowCount], pRowFunctionAry, pFunctionAry);
+            }
+        }
     }
 
     function _transform(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms) {
-        var lAST = pAST;
-        lAST.entities = transformEntities(lAST.entities, pEnityTransforms);
-
-        lAST.arcs = transformArcs(pAST.entities, pAST.arcs, pArcRowTransforms, pArcTransforms);
-        return lAST;
+        transformEntities(pAST.entities, pEnityTransforms);
+        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms, pArcTransforms);
+        return pAST;
     }
 
     return {

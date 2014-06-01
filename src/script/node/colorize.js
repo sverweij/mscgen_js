@@ -71,16 +71,15 @@ define(["./asttransform"], function(transform) {
     }];
 
     function colorizeArc(pArc) {
-        var lArc = pArc;
-        if (!hasColors(lArc) || gHardOverride) {
+        if (!hasColors(pArc) || gHardOverride) {
             var lColorCombi = gArcColorCombis[pArc.kind];
             if (lColorCombi) {
-                lArc.linecolor = lColorCombi.linecolor;
-                lArc.textcolor = lColorCombi.linecolor;
-                lArc.textbgcolor = lColorCombi.textbgcolor;
+                pArc.linecolor = lColorCombi.linecolor;
+                pArc.textcolor = lColorCombi.linecolor;
+                pArc.textbgcolor = lColorCombi.textbgcolor;
             }
         }
-        return lArc;
+        return pArc;
     }
 
     function getNextColorCombi() {
@@ -105,16 +104,15 @@ define(["./asttransform"], function(transform) {
     }
 
     function colorizeEntity(pEntity) {
-        var lEntity = pEntity;
         if (!hasColors(pEntity) || gHardOverride) {
             var lNextColorCombi = getNextColorCombi();
-            lEntity.linecolor = lNextColorCombi.linecolor;
-            lEntity.textbgcolor = lNextColorCombi.textbgcolor;
-            lEntity.textcolor = "black";
-            lEntity.arctextcolor = lNextColorCombi.linecolor;
-            lEntity.arclinecolor = lNextColorCombi.linecolor;
+            pEntity.linecolor = lNextColorCombi.linecolor;
+            pEntity.textbgcolor = lNextColorCombi.textbgcolor;
+            pEntity.textcolor = "black";
+            pEntity.arctextcolor = lNextColorCombi.linecolor;
+            pEntity.arclinecolor = lNextColorCombi.linecolor;
         }
-        return lEntity;
+        return pEntity;
     }
 
     function _colorize(pAST, pHardOverride, pEntityColorArray, pArcColorCombis) {
@@ -135,14 +133,13 @@ define(["./asttransform"], function(transform) {
     }
 
     function uncolorThing(pThing) {
-        var lThing = pThing;
-        delete lThing.linecolor;
-        delete lThing.textcolor;
-        delete lThing.textbgcolor;
-        delete lThing.arclinecolor;
-        delete lThing.arctextcolor;
-        delete lThing.arctextbgcolor;
-        return lThing;
+        delete pThing.linecolor;
+        delete pThing.textcolor;
+        delete pThing.textbgcolor;
+        delete pThing.arclinecolor;
+        delete pThing.arctextcolor;
+        delete pThing.arctextbgcolor;
+        return pThing;
     }
 
     function _uncolor(pAST) {

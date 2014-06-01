@@ -19,12 +19,9 @@ function(transform, map) {
     var gMaxDepth = 0;
 
     function nameAsLabel(pEntity) {
-        var lEntity = pEntity;
-
-        if (lEntity.label === undefined) {
-            lEntity.label = lEntity.name;
+        if (pEntity.label === undefined) {
+            pEntity.label = pEntity.name;
         }
-        return lEntity;
     }
 
     function _swapRTLArc(pArc) {
@@ -36,32 +33,28 @@ function(transform, map) {
             "<:" : ":>",
             "x-" : "-x"
         };
-        var lArc = pArc;
 
-        if (lArc.kind && lRTLkinds[lArc.kind]) {
-            lArc.kind = lRTLkinds[lArc.kind];
+        if (pArc.kind && lRTLkinds[pArc.kind]) {
+            pArc.kind = lRTLkinds[pArc.kind];
 
-            var lTmp = lArc.from;
-            lArc.from = lArc.to;
-            lArc.to = lTmp;
+            var lTmp = pArc.from;
+            pArc.from = pArc.to;
+            pArc.to = lTmp;
         }
-
-        return lArc;
+        return pArc;
     }
 
     function overrideColorsFromThing(pArc, pThing) {
-        var lArc = pArc;
-
-        if (!(lArc.linecolor) && pThing.arclinecolor) {
-            lArc.linecolor = pThing.arclinecolor;
+        if (!(pArc.linecolor) && pThing.arclinecolor) {
+            pArc.linecolor = pThing.arclinecolor;
         }
-        if (!(lArc.textcolor) && pThing.arctextcolor) {
-            lArc.textcolor = pThing.arctextcolor;
+        if (!(pArc.textcolor) && pThing.arctextcolor) {
+            pArc.textcolor = pThing.arctextcolor;
         }
-        if (!(lArc.textbgcolor) && pThing.arctextbgcolor) {
-            lArc.textbgcolor = pThing.arctextbgcolor;
+        if (!(pArc.textbgcolor) && pThing.arctextbgcolor) {
+            pArc.textbgcolor = pThing.arctextbgcolor;
         }
-        return lArc;
+        return pArc;
     }
 
     /*
@@ -80,14 +73,13 @@ function(transform, map) {
             return -1;
         }
 
-        var lArc = pArc;
-        if (lArc && lArc.from) {
-            var lEntityIndex = getEntityIndex(pEntities, lArc.from);
+        if (pArc && pArc.from) {
+            var lEntityIndex = getEntityIndex(pEntities, pArc.from);
             if (lEntityIndex > -1) {
-                lArc = overrideColorsFromThing(pArc, pEntities[lEntityIndex]);
+                pArc = overrideColorsFromThing(pArc, pEntities[lEntityIndex]);
             }
         }
-        return lArc;
+        return pArc;
     }
 
     function calcNumberOfRows(pArcRow) {
@@ -163,32 +155,33 @@ function(transform, map) {
         return lAST;
     }
 
+    function explodeBroadcastArc(pEntities, pArc) {
+        var lRetVal = [];
+        for (var lEntityIndex = 0; lEntityIndex < pEntities.length; lEntityIndex++) {
+            if (pArc.from !== pEntities[lEntityIndex].name) {
+                pArc.to = pEntities[lEntityIndex].name;
+                lRetVal.push(JSON.parse(JSON.stringify(pArc)));
+            }
+        }
+        return lRetVal;
+    }
+
     function _explodeBroadcasts(pAST) {
         if (pAST.entities && pAST.arcs) {
-            var lArcRowIndex, lArcIndex;
-            for ( lArcRowIndex = 0; lArcRowIndex < pAST.arcs.length; lArcRowIndex++) {
-                for ( lArcIndex = 0; lArcIndex < pAST.arcs[lArcRowIndex].length; lArcIndex++) {
+            var lExplodedArcsAry = [];
+            var lOriginalBroadcastArc = {};
+            for (var lArcRowIndex = 0; lArcRowIndex < pAST.arcs.length; lArcRowIndex++) {
+                for (var lArcIndex = 0; lArcIndex < pAST.arcs[lArcRowIndex].length; lArcIndex++) {
                     /* assuming swap has been done already and "*" is in no 'from'  anymore */
                     if (pAST.arcs[lArcRowIndex][lArcIndex].to === "*") {
                         /* save a clone of the broadcast arc attributes
                          * and remove the original bc arc
                          */
-                        var lOriginalBroadcastArc = JSON.parse(JSON.stringify(pAST.arcs[lArcRowIndex][lArcIndex]));
+                        lOriginalBroadcastArc = JSON.parse(JSON.stringify(pAST.arcs[lArcRowIndex][lArcIndex]));
                         delete pAST.arcs[lArcRowIndex][lArcIndex];
-                        var lRatchet = true;
-                        var lEntityIndex = 0;
-                        for ( lEntityIndex = 0; lEntityIndex < pAST.entities.length; lEntityIndex++) {
-                            if (lOriginalBroadcastArc.from !== pAST.entities[lEntityIndex].name) {
-                                lOriginalBroadcastArc.to = pAST.entities[lEntityIndex].name;
-                                if (lRatchet) {
-                                    lRatchet = false;
-                                    pAST.arcs[lArcRowIndex][lArcIndex] = JSON.parse(JSON.stringify(lOriginalBroadcastArc));
-                                } else {
-                                    pAST.arcs[lArcRowIndex].push(JSON.parse(JSON.stringify(lOriginalBroadcastArc)));
-                                }
-                            }
-                        }
-
+                        lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
+                        pAST.arcs[lArcRowIndex][lArcIndex] = lExplodedArcsAry.shift();
+                        pAST.arcs[lArcRowIndex] = pAST.arcs[lArcRowIndex].concat(lExplodedArcsAry);
                     }
                 }
             }
