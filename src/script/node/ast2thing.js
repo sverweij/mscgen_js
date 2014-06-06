@@ -100,25 +100,22 @@ define(["./textutensils"], function(utl) {
 
     function extractSupportedOptions(pOptions, pSupportedOptions) {
         var lRetvalAry = [];
-        var lOption = "";
-        for (var i = 0; i < pSupportedOptions.length; i++) {
-            lOption = pSupportedOptions[i];
-            pushAttribute(lRetvalAry, lOption, pOptions[lOption]);
-        }
+        pSupportedOptions.forEach(function(pSupportedOption) {
+            pushAttribute(lRetvalAry, pSupportedOption, pOptions[pSupportedOption]);
+        }); 
         return lRetvalAry;
     }
 
     function renderComments(pArray) {
         var lRetval = "";
-        for (var i = 0; i < pArray.length; i++) {
-            lRetval += pArray[i];
-            // not using EOL constant here is intentional
-        }
+        pArray.forEach(function(pElement){
+            lRetval += pElement;
+        });
         return lRetval;
     }
 
     function renderEntityName(pString) {
-        function isQuoatable(pString) {
+        function isQuotable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
             if (lMatchResult && lMatchResult !== null) {
                 return lMatchResult.length != 1;
@@ -127,7 +124,7 @@ define(["./textutensils"], function(utl) {
             }
         }
 
-        return isQuoatable(pString) ? "\"" + pString + "\"" : pString;
+        return isQuotable(pString) ? "\"" + pString + "\"" : pString;
     }
 
     function renderOption(pOption) {
@@ -216,11 +213,9 @@ define(["./textutensils"], function(utl) {
 
     function renderArcLines(pArcLines, pIndent) {
         var lRetVal = "";
-        if (pArcLines.length > 0) {
-            for (var i = 0; i < pArcLines.length; i++) {
-                lRetVal += renderArcLine(pArcLines[i], pIndent);
-            }
-        }
+        pArcLines.forEach(function(pArcLine) {
+            lRetVal += renderArcLine(pArcLine, pIndent);
+        });
         return lRetVal;
     }
 

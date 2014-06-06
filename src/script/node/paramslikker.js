@@ -23,18 +23,14 @@ define([], function() {
     function _getParams(pSearchString) {
         var lRetval = {};
         if (pSearchString) {
+            var lKeyValAry;
             //  search string always starts with a "?" - skip this
-            var lSearchString = pSearchString.slice(1);
-            var lKeyVals = lSearchString.split("&");
-            var lKeyVal;
-
-            for (var i = 0; i < lKeyVals.length; i++) {
-                lKeyVal = lKeyVals[i].split("=");
-
-                if (2 === lKeyVal.length) {
-                    lRetval[lKeyVal[0]] = unescape(lKeyVal[1]);
+            pSearchString.slice(1).split("&").forEach(function(pKeyVal){
+                lKeyValAry = pKeyVal.split("=");
+                if (2 === lKeyValAry.length) {
+                    lRetval[lKeyValAry[0]] = unescape(lKeyValAry[1]);
                 }
-            }
+            });
         }
         return lRetval;
     }

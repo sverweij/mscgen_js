@@ -21,53 +21,49 @@ define([], function() {
     "use strict";
 
     function transformEntities(pEntities, pFunctionAry) {
-        var i, j;
-        var lEntities = pEntities;
-
-        if (lEntities && pFunctionAry) {
-            for ( i = 0; i < lEntities.length; i++) {
-                for ( j = 0; j < pFunctionAry.length; j++) {
-                    lEntities[i] = pFunctionAry[j](lEntities[i]);
-                }
-            }
+        if (pEntities && pFunctionAry) {
+            pEntities.forEach(function(pEntity) {
+                pFunctionAry.forEach(function(pFunction) {
+                    pFunction(pEntity);
+                });
+            });
         }
-        return lEntities;
     }
 
-    function transformArcs(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
-        var lRowCount, lArcCount, lRowFuncCount, lFuncCount;
-        var lArcRows = pArcRows;
-
-        if (pEntities && lArcRows && (pRowFunctionAry || pFunctionAry)) {
-            for ( lRowCount = 0; lRowCount < lArcRows.length; lRowCount++) {
-                if (pRowFunctionAry) {
-                    for ( lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
-                        lArcRows[lRowCount] = pRowFunctionAry[lRowFuncCount](lArcRows[lRowCount], pEntities);
-                    }
-                }
-
-                for ( lArcCount = 0; lArcCount < lArcRows[lRowCount].length; lArcCount++) {
-                    if (pFunctionAry) {
-                        for ( lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
-                            lArcRows[lRowCount][lArcCount] = pFunctionAry[lFuncCount](lArcRows[lRowCount][lArcCount], pEntities, lArcRows[lRowCount]);
-                        }
-                    }
-                    if (lArcRows[lRowCount][lArcCount].arcs) {
-                        transformArcs(pEntities, lArcRows[lRowCount][lArcCount].arcs, pRowFunctionAry, pFunctionAry);
-                    }
-                }
-
-            }
+    function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
+        if (pFunctionAry) {
+            pFunctionAry.forEach(function(pFunction) {
+                pFunction(pArc, pEntities, pArcRow);
+            });
         }
-        return lArcRows;
+    }
+    
+    function transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry) {
+        if (pRowFunctionAry) {
+            pRowFunctionAry.forEach(function(pRowFunction){
+                pRowFunction(pArcRow, pEntities);
+            });
+        }
+        pArcRow.forEach(function(pArc){
+            transformArc(pEntities, pArcRow, pArc, pFunctionAry);
+            if (pArc.arcs) {
+                transformArcRows(pEntities, pArc.arcs, pRowFunctionAry, pFunctionAry);
+            }            
+        });
+    }
+
+    function transformArcRows(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
+        if (pEntities && pArcRows && (pRowFunctionAry || pFunctionAry)) {
+            pArcRows.forEach(function(pArcRow) {
+                transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry);
+            });
+        }
     }
 
     function _transform(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms) {
-        var lAST = pAST;
-        lAST.entities = transformEntities(lAST.entities, pEnityTransforms);
-
-        lAST.arcs = transformArcs(pAST.entities, pAST.arcs, pArcRowTransforms, pArcTransforms);
-        return lAST;
+        transformEntities(pAST.entities, pEnityTransforms);
+        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms, pArcTransforms);
+        return pAST;
     }
 
     return {

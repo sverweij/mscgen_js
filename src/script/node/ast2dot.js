@@ -59,10 +59,9 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
 
     function translateAttributes(pThing) {
         var lAttrs = [];
-        var lSupportedAttrs = ["label", "color", "fontcolor", "fillcolor"];
-        for (var i = 0; i < lSupportedAttrs.length; i++) {
-            pushAttribute(lAttrs, pThing[lSupportedAttrs[i]], lSupportedAttrs[i]);
-        }
+        ["label", "color", "fontcolor", "fillcolor"].forEach(function(pSupportedAttr) {
+            pushAttribute(lAttrs, pThing[pSupportedAttr], pSupportedAttr);
+        });
         return lAttrs;
     }
 
@@ -94,12 +93,9 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
 
     function renderEntities(pEntities) {
         var lRetVal = "";
-        var i = 0;
-        if (pEntities.length > 0) {
-            for ( i = 0; i < pEntities.length; i++) {
-                lRetVal += INDENT + renderEntity(pEntities[i]) + ";\n";
-            }
-        }
+        pEntities.forEach(function(pEntity) {
+            lRetVal += INDENT + renderEntity(pEntity) + ";\n";
+        });
         return lRetVal;
     }
 
@@ -166,7 +162,7 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         return lRetVal;
     }
 
-    function renderArc(pArc, pCounter, pIndent) {
+    function renderSingleArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
         var lAggregatedKind = map.getAggregate(pArc.kind);
 
@@ -178,17 +174,17 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
         return lRetVal;
     }
 
-    function renderArcLine(pArcLine, pIndent) {
+    function renderArc(pArc, pIndent) {
         var lRetVal = "";
 
-        if (pArcLine.from && pArcLine.kind && pArcLine.to) {
-            lRetVal += INDENT + pIndent + renderArc(pArcLine, ++gCounter, pIndent) + "\n";
-            if (pArcLine.arcs) {
+        if (pArc.from && pArc.kind && pArc.to) {
+            lRetVal += INDENT + pIndent + renderSingleArc(pArc, ++gCounter, pIndent) + "\n";
+            if (pArc.arcs) {
                 lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
-                if (pArcLine.label) {
-                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArcLine.kind + ": " + pArcLine.label + '" labeljust="l" \n';
+                if (pArc.label) {
+                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArc.kind + ": " + pArc.label + '" labeljust="l" \n';
                 }
-                lRetVal += renderArcLines(pArcLine.arcs, pIndent + INDENT);
+                lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
                 lRetVal += INDENT + pIndent + "}\n";
             }
         }
@@ -198,12 +194,11 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
 
     function renderArcLines(pArcLines, pIndent) {
         var lRetVal = "";
-
-        for (var i = 0; i < pArcLines.length; i++) {
-            for (var j = 0; j < pArcLines[i].length; j++) {
-                lRetVal += renderArcLine(pArcLines[i][j], pIndent);
-            }
-        }
+        pArcLines.forEach(function(pArcLine){
+            pArcLine.forEach(function(pArc){
+                lRetVal += renderArc(pArc, pIndent);
+            });
+        });
         return lRetVal;
     }
 

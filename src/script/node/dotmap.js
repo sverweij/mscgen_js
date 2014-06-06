@@ -7,12 +7,12 @@ if ( typeof define !== 'function') {
 }
 
 define([], function() {
-/**
- * Defines several mappings of arckinds to agregations
- *
- * @exports node/dotmap
- * @author {@link https://github.com/sverweij | Sander Verweij}
- */
+    /**
+     * Defines several mappings of arckinds to agregations
+     *
+     * @exports node/dotmap
+     * @author {@link https://github.com/sverweij | Sander Verweij}
+     */
     var KIND2ARROW = {
         "->" : "rvee",
         "<->" : "rvee",
@@ -74,36 +74,34 @@ define([], function() {
         "ref" : "inline_expression",
         "exc" : "inline_expression"
     };
+    var arc2class = {
+        "->" : "signal",
+        "<->" : "signal-both",
+        "=>" : "method",
+        "<=>" : "method-both",
+        ">>" : "returnvalue",
+        "<<>>" : "returnvalue-both",
+        ".." : "dotted",
+        "=>>" : "callback",
+        "<<=>>" : "callback-both",
+        ":>" : "emphasised",
+        "<:>" : "emphasised-both",
+        "::" : "double",
+        "-x" : "lost"
+    };
     function _determineArcClass(pKind, pFrom, pTo) {
-        var arc2class = {
-            "->" : "signal",
-            "<->" : "signal-both",
-            "=>" : "method",
-            "<=>" : "method-both",
-            ">>" : "returnvalue",
-            "<<>>" : "returnvalue-both",
-            ".." : "dotted",
-            "=>>" : "callback",
-            "<<=>>" : "callback-both",
-            ":>" : "emphasised",
-            "<:>" : "emphasised-both",
-            "::" : "double",
-            "-x" : "lost"
-        };
         var lRetval = "";
         if (pKind && arc2class[pKind]) {
             lRetval = arc2class[pKind];
-            if (pFrom && pTo) {
-                if (pFrom >= pTo) {
-                    if (lRetval === "signal") {
-                        lRetval = "signal-u";
-                    }
-                    if (lRetval === "signal-both") {
-                        if (pFrom === pTo) {
-                            lRetval = "signal-both-self";
-                        } else {
-                            lRetval = "signal-both-u";
-                        }
+            if (pFrom && pTo && (pFrom >= pTo)) {
+                if (lRetval === "signal") {
+                    lRetval = "signal-u";
+                }
+                if (lRetval === "signal-both") {
+                    if (pFrom === pTo) {
+                        lRetval = "signal-both-self";
+                    } else {
+                        lRetval = "signal-both-u";
                     }
                 }
             }
