@@ -338,7 +338,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
             gEntityHeight = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
-                lEntityXPos += gInterEntitySpacing;                
+                lEntityXPos += gInterEntitySpacing;
             });
         }
         gEntityXHWM = lEntityXPos;
@@ -418,7 +418,7 @@ define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/f
                                                 id : lCurrentId + "bc" + pEntityNumber,
                                                 layer : sequence
                                             });
-                                        }                                        
+                                        }
                                     });
                                     pArc.label = lLabel;
 
