@@ -10,25 +10,38 @@ define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennypa
     function start() {
         // !("yes" === navigator.doNotTrack)
         var lMscGenElements = document.getElementsByClassName("mscgen_js");
-        var lAST;
-        var lLanguage;
+
 
         for (var i = 0; i < lMscGenElements.length; i++) {
-            if ("" === lMscGenElements[i].id || null === lMscGenElements[i].id || undefined === lMscGenElements[i].id) {
-                lMscGenElements[i].id = PARENTELEMENTPREFIX + i.toString();
-            }
-            /* the way to do it, but doesn't work in IE: lLanguage = lMscGenElements[i].dataset.language; */
-            lLanguage = lMscGenElements[i].getAttribute('data-language');
-            if (undefined === lLanguage || null === lLanguage) {
-                lLanguage = DEFAULT_LANGUAGE;
-            }
-            lAST = getAST(lMscGenElements[i].textContent, lLanguage);
-            if (lAST.entities) {
-                render(lAST, lMscGenElements[i].id, lMscGenElements[i].textContent);
-            } else {
-                lMscGenElements[i].innerHTML += "<div style='color: red'>ERROR: line " + lAST.line + ", column " + lAST.column + ": " + lAST.message + "</div>";
-            }
+            renderElement(lMscGenElements[i], i);
         }
+    }
+
+    function renderElement(pElement, pIndex) {
+        var lLanguage = getLanguage (pElement);
+        var lAST = getAST(pElement.textContent, lLanguage);
+        setElementId(pElement, pIndex);
+        
+        if (lAST.entities) {
+            render(lAST, pElement.id, pElement.textContent);
+        } else {
+            pElement.innerHTML += "<div style='color: red'>ERROR: line " + lAST.line + ", column " + lAST.column + ": " + lAST.message + "</div>";
+        }
+    }
+
+    function setElementId(pElement, pIndex) {
+        if ("" === pElement.id || null === pElement.id || undefined === pElement.id) {
+            pElement.id = PARENTELEMENTPREFIX + pIndex.toString();
+        }
+    }
+
+    function getLanguage(pElement) {
+        /* the way to do it, but doesn't work in IE: lLanguage = lMscGenElements[i].dataset.language; */
+        var lLanguage = pElement.getAttribute('data-language');
+        if (undefined === lLanguage || null === lLanguage) {
+            lLanguage = DEFAULT_LANGUAGE;
+        }
+        return lLanguage;
     }
 
     function getAST(pText, pLanguage) {

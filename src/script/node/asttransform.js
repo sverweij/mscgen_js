@@ -20,49 +20,43 @@ define([], function() {
      */
     "use strict";
 
-
-    function transformEntity(pEntity, pFunctionAry) {
-        for (var i = 0; i < pFunctionAry.length; i++) {
-            pEntity = pFunctionAry[i](pEntity);
-        }
-    }
-
     function transformEntities(pEntities, pFunctionAry) {
         if (pEntities && pFunctionAry) {
-            for ( var i = 0; i < pEntities.length; i++) {
-                transformEntity(pEntities[i], pFunctionAry);
-            }
+            pEntities.forEach(function(pEntity) {
+                pFunctionAry.forEach(function(pFunction) {
+                    pFunction(pEntity);
+                });
+            });
         }
     }
-    
+
     function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
         if (pFunctionAry) {
-            for (var lFuncCount = 0; lFuncCount < pFunctionAry.length; lFuncCount++) {
-                pArc = pFunctionAry[lFuncCount](pArc, pEntities, pArcRow);
-            }
+            pFunctionAry.forEach(function(pFunction) {
+                pFunction(pArc, pEntities, pArcRow);
+            });
         }
     }
     
     function transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry) {
         if (pRowFunctionAry) {
-            for (var lRowFuncCount = 0; lRowFuncCount < pRowFunctionAry.length; lRowFuncCount++) {
-                pArcRow = pRowFunctionAry[lRowFuncCount](pArcRow, pEntities);
-            }
+            pRowFunctionAry.forEach(function(pRowFunction){
+                pRowFunction(pArcRow, pEntities);
+            });
         }
-
-        for (var lArcCount = 0; lArcCount < pArcRow.length; lArcCount++) {
-            transformArc(pEntities, pArcRow, pArcRow[lArcCount], pFunctionAry);
-            if (pArcRow[lArcCount].arcs) {
-                transformArcRows(pEntities, pArcRow[lArcCount].arcs, pRowFunctionAry, pFunctionAry);
-            }
-        }
+        pArcRow.forEach(function(pArc){
+            transformArc(pEntities, pArcRow, pArc, pFunctionAry);
+            if (pArc.arcs) {
+                transformArcRows(pEntities, pArc.arcs, pRowFunctionAry, pFunctionAry);
+            }            
+        });
     }
 
     function transformArcRows(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
         if (pEntities && pArcRows && (pRowFunctionAry || pFunctionAry)) {
-            for ( var lRowCount = 0; lRowCount < pArcRows.length; lRowCount++) {
-                transformArcRow(pEntities, pArcRows[lRowCount], pRowFunctionAry, pFunctionAry);
-            }
+            pArcRows.forEach(function(pArcRow) {
+                transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry);
+            });
         }
     }
 
