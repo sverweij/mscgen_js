@@ -7,7 +7,7 @@ describe('ast2msgenny', function() {
 
         it('should, given a simple syntax tree, render a msgenny script', function() {
             var lProgram = renderer.render(fix.astSimple);
-            var lExpectedProgram = "a, b;\n" + "\n" + "a => b : a simple script;\n";
+            var lExpectedProgram = 'a, "b space";\n\na => "b space" : a simple script;\n';
             assert.equal(lProgram, lExpectedProgram);
         });
 

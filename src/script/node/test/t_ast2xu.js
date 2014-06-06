@@ -6,19 +6,19 @@ describe('ast2xu', function() {
     describe('#renderAST() - simple syntax tree', function() {
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple);
-            var lExpectedProgram = 'msc {\n  a,\n  b;\n' + '\n' + '  a => b [label="a simple script"];\n}';
+            var lExpectedProgram = 'msc {\n  a,\n  "b space";\n\n  a => "b space" [label="a simple script"];\n}';
             assert.equal(lProgram, lExpectedProgram);
         });
         
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple, false);
-            var lExpectedProgram = 'msc {\n  a,\n  b;\n' + '\n' + '  a => b [label="a simple script"];\n}';
+            var lExpectedProgram = 'msc {\n  a,\n  "b space";\n\n  a => "b space" [label="a simple script"];\n}';
             assert.equal(lProgram, lExpectedProgram);
         });
 
         it('should, given a simple syntax tree, render a "minified" mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple, true);
-            var lExpectedProgram = 'msc{a,b;a => b[label="a simple script"];}';
+            var lExpectedProgram = 'msc{a,"b space";a => "b space"[label="a simple script"];}';
             assert.equal(lProgram, lExpectedProgram);
         });
         

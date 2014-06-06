@@ -8,12 +8,12 @@ module.exports = (function() {
             "entities" : [{
                 "name" : "a"
             }, {
-                "name" : "b"
+                "name" : "b space"
             }],
             "arcs" : [[{
                 "kind" : "=>",
                 "from" : "a",
-                "to" : "b",
+                "to" : "b space",
                 "label" : "a simple script"
             }]]
         },

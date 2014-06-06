@@ -45,7 +45,7 @@ describe('msgennyparser', function() {
     describe('#parse()', function() {
 
         it('should render a simple AST, with two entities auto declared', function() {
-            var lAST = parser.parse('a => b: a simple script;');
+            var lAST = parser.parse('a => "b space": a simple script;');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
 

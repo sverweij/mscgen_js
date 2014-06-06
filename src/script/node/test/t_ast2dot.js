@@ -18,9 +18,9 @@ describe('ast2dot', function() {
   edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n\
 \n\
   "a" [label="a"];\n\
-  "b" [label="b"];\n\
+  "b space" [label="b space"];\n\
 \n\
-  "a" -- "b" [label="(1) a simple script", arrowhead="normal"]\n\
+  "a" -- "b space" [label="(1) a simple script", arrowhead="normal"]\n\
 }';
             assert.equal(lProgram, lExpectedProgram);
         });

@@ -8,7 +8,7 @@ describe('mscgenparser', function() {
     describe('#parse()', function() {
 
         it('should render a simple AST', function() {
-            var lAST = parser.parse('msc { a,b; a => b [label="a simple script"];}');
+            var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
 
