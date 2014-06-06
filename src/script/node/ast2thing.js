@@ -117,11 +117,7 @@ define(["./textutensils"], function(utl) {
     function renderEntityName(pString) {
         function isQuotable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
-            if (lMatchResult && lMatchResult !== null) {
-                return lMatchResult.length != 1;
-            } else {
-                return true;
-            }
+            return lMatchResult && lMatchResult !== null && lMatchResult.length != 1;
         }
 
         return isQuotable(pString) ? "\"" + pString + "\"" : pString;
