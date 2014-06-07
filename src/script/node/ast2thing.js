@@ -130,11 +130,12 @@ define(["./textutensils"], function(utl) {
     function renderOptions(pOptions) {
         var lRetVal = "";
         var lOptions = extractSupportedOptions(pOptions, gConfig.supportedOptions);
+        var lLastOption = lOptions.pop();
 
-        for (var i = 0; i < lOptions.length - 1; i++) {
-            lRetVal += gConfig.renderOptionfn(lOptions[i]) + gConfig.option.separator;
-        }
-        lRetVal += gConfig.renderOptionfn(lOptions[lOptions.length - 1]) + gConfig.option.closer;
+        lOptions.forEach(function(pOption) {
+            lRetVal += gConfig.renderOptionfn(pOption) + gConfig.option.separator;
+        });
+        lRetVal += gConfig.renderOptionfn(lLastOption) + gConfig.option.closer;
         return lRetVal;
 
     }
@@ -163,10 +164,11 @@ define(["./textutensils"], function(utl) {
         var lAttributes = extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
         if (lAttributes.length > 0) {
             lRetVal = gConfig.attribute.opener;
-            for (var i = 0; i < lAttributes.length - 1; i++) {
-                lRetVal += gConfig.renderAttributefn(lAttributes[i]) + gConfig.attribute.separator;
-            }
-            lRetVal += gConfig.renderAttributefn(lAttributes[lAttributes.length - 1]) + gConfig.attribute.closer;
+            var lLastAtribute = lAttributes.pop();
+            lAttributes.forEach(function(pAttribute){
+                lRetVal += gConfig.renderAttributefn(pAttribute) + gConfig.attribute.separator;
+            });
+            lRetVal += gConfig.renderAttributefn(lLastAtribute) + gConfig.attribute.closer;
         }
         return lRetVal;
     }
