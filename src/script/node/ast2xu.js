@@ -50,6 +50,7 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
                     "closer" : "}"
                 },
                 "option" : {
+                    "opener" : INDENT,
                     "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL + EOL
                 },
