@@ -95,12 +95,9 @@ define(["./asttransform"], function(transform) {
 
     function hasColors(pArcOrEntity) {
         var lColorAttrAry = ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"];
-        for (var i = 0; i < lColorAttrAry.length; i++) {
-            if (pArcOrEntity[lColorAttrAry[i]] !== undefined) {
-                return true;
-            }
-        }
-        return false;
+        return lColorAttrAry.some(function(pColorAttr) {
+            return pArcOrEntity[pColorAttr] !== undefined;
+        });
     }
 
     function colorizeEntity(pEntity) {
