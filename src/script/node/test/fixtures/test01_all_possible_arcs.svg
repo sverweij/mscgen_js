@@ -15,10 +15,10 @@
  "entities": [
   {
    "name": "0",
-   "arclinecolor": "white",
-   "arctextcolor": "grey",
    "linecolor": "white",
-   "textcolor": "white"
+   "textcolor": "white",
+   "arclinecolor": "white",
+   "arctextcolor": "grey"
   },
   {
    "name": "a"
