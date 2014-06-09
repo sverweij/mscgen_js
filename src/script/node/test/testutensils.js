@@ -3,7 +3,7 @@ var fs = require('fs');
 
 module.exports = (function() {
     function _assertequalJSON(pExpected, pFound) {
-        assert.equal(JSON.stringify(pFound), JSON.stringify(pExpected));
+        assert.equal(JSON.stringify(pExpected), JSON.stringify(pFound));
     }
 
     function _assertequalJSONFile(pExpectedFileName, pFound) {
