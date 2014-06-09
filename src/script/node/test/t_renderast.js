@@ -19,22 +19,16 @@ describe('renderast', function() {
     describe('#renderAST() - xu everyting', function() {
         it('should render all the stuff', function() {
             jsdom.env("<html><body></body></html>", function(err, window) {
-                fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs.json', function(pErr, pTextFromFile) {
-                    if (pErr)
-                        throw pErr;
-                    var lSvg = ast2svg(JSON.parse(pTextFromFile), window);
-                    tst.assertequalToFile('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', lSvg);
-                });
+                var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/test01_all_possible_arcs.json', {"encoding":"utf8"});
+                var lSvg = ast2svg(JSON.parse(lTextFromFile), window); 
+                tst.assertequalToFile('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', lSvg);
             });
         });
         it('should render colors', function() {
             jsdom.env("<html><body></body></html>", function(err, window) {
-                fs.readFile('./src/script/node/test/fixtures/rainbow.json', function(pErr, pTextFromFile) {
-                    if (pErr)
-                        throw pErr;
-                    var lSvg = ast2svg(JSON.parse(pTextFromFile), window);
-                    tst.assertequalToFile('./src/script/node/test/fixtures/rainbow.svg', lSvg);
-                });
+                var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/rainbow.json', {"encoding":"utf8"});
+                var lSvg = ast2svg(JSON.parse(lTextFromFile), window); 
+                tst.assertequalToFile('./src/script/node/test/fixtures/rainbow.svg', lSvg);
             });
         });
     });
