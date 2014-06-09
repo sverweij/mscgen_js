@@ -1,6 +1,9 @@
 var assert = require("assert");
 var renderer = require("../ast2xu");
 var fix = require("./astfixtures");
+var fs = require("fs");
+var parser = require("../xuparser_node");
+var utl = require("./testutensils");
 
 describe('ast2xu', function() {
     describe('#renderAST() - simple syntax tree', function() {
@@ -89,4 +92,19 @@ describe('ast2xu', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
     });
+    
+    describe('#renderAST() - file based tests', function() {
+        it('should render all arcs', function() {
+            var lASTString = fs.readFileSync("./src/script/node/test/fixtures/test01_all_possible_arcs.json", {
+                "encoding" : "utf8"
+            });
+            var lAST = JSON.parse(lASTString);
+            var lExpectedProgram = fs.readFileSync("./src/script/node/test/fixtures/test01_all_possible_arcs.xu", {
+                "encoding" : "utf8"
+            });
+            var lProgram = renderer.render(lAST);
+            utl.assertequalJSON(parser.parse(lProgram), lAST);
+        });
+    }); 
+
 });
