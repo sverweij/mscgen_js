@@ -62,6 +62,7 @@ define(["./dotmap", "./textutensils", "./ast2thing"], function(map, utl, thing) 
                     "closer" : "}"
                 },
                 "option" : {
+                    "opener" : INDENT,
                     "separator" : "," + EOL,
                     "closer" : ";" + EOL + EOL
                 },

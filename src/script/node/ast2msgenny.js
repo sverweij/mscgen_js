@@ -15,7 +15,7 @@ if ( typeof define !== 'function') {
 define(['./ast2thing'], function(thing) {
 
     function renderMsGennyString(pString) {
-        function isQuoatable(pString) {
+        function isQuotable(pString) {
             var lMatchResult = pString.match(/[;,{]/);
             if (lMatchResult) {
                 return lMatchResult.length === 1;
@@ -24,7 +24,7 @@ define(['./ast2thing'], function(thing) {
             }
         }
 
-        return isQuoatable(pString) ? "\"" + pString + "\"" : pString.trim();
+        return isQuotable(pString) ? "\"" + pString + "\"" : pString.trim();
     }
 
     function renderAttribute(pAttribute) {

@@ -45,7 +45,7 @@ describe('msgennyparser', function() {
     describe('#parse()', function() {
 
         it('should render a simple AST, with two entities auto declared', function() {
-            var lAST = parser.parse('a => b: a simple script;');
+            var lAST = parser.parse('a => "b space": a simple script;');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
 
@@ -62,7 +62,7 @@ describe('msgennyparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800, watermark="not in mscgen, available in xù and msgenny";a;');
+            var lAST = parser.parse('HSCAle="1.2", widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
             tst.assertequalJSON(lAST, fix.astOptions);
         });
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
@@ -112,13 +112,9 @@ describe('msgennyparser', function() {
     });
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
-            fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', function(pErr, pTextFromFile) {
-                if (pErr) {
-                    throw pErr;
-                }
-                var lAST = parser.parse(pTextFromFile.toString());
-                tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
-            });
+            var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', {"encoding":"utf8"});
+            var lAST = parser.parse(lTextFromFile.toString());
+            tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
         });
     });
 });

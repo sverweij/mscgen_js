@@ -92,11 +92,9 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
     }
 
     function renderEntities(pEntities) {
-        var lRetVal = "";
-        pEntities.forEach(function(pEntity) {
-            lRetVal += INDENT + renderEntity(pEntity) + ";\n";
-        });
-        return lRetVal;
+        return pEntities.reduce(function(pPrev, pEntity) {
+            return pPrev + INDENT + renderEntity(pEntity) + ";\n";
+        }, "");
     }
 
     /* ArcLine handling */

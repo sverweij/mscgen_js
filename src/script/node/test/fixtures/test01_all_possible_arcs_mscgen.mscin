@@ -6,7 +6,7 @@ msc {
   hscale="0.6", arcgradient="18", wordwraparcs="false";
   
 
-  0 [arclinecolor="white", arctextcolor="grey", linecolor="white", textcolor="white"],
+  0 [linecolor="white", textcolor="white", arclinecolor="white", arctextcolor="grey"],
   a, b, c, d, e, f, g, h, i, j, k;
 
   a -- b [label="left to right", linecolor="white", textcolor="grey"],

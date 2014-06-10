@@ -38,15 +38,14 @@
     }
 
     function entityExists (pEntities, pName, pEntityNamesToIgnore) {
-        var i = 0;
         if (pName === undefined || pName === "*") {
             return true;
         }
         if (pEntities && pEntities.entities && pName) {
-            for (i=0;i<pEntities.entities.length;i++) {
-                if (pEntities.entities[i].name === pName) {
-                    return true;
-                }
+            if (pEntities.entities.some(function(pEntity){
+                return pEntity.name === pName;
+            })){
+                return true; 
             }
         }
         if (pEntityNamesToIgnore) {
@@ -62,13 +61,9 @@
     }
 
     function extractUndeclaredEntities (pEntities, pArcLineList, pEntityNamesToIgnore) {
-        var i = 0;
-        var j = 0;
-        var lEntities = {};
-        if (pEntities) {
-            lEntities = pEntities; //JSON.parse(JSON.stringify(pEntities));
-        } else {
-            lEntities.entities = [];
+        if (!pEntities) {
+            pEntities = {};
+            pEntities.entities = [];
         }
         
         if (!pEntityNamesToIgnore){
@@ -76,26 +71,26 @@
         }
 
         if (pArcLineList && pArcLineList.arcs) {
-            for (i=0;i<pArcLineList.arcs.length;i++) {
-                for (j=0;j<pArcLineList.arcs[i].length;j++) {
-                    if (!entityExists (lEntities, pArcLineList.arcs[i][j].from, pEntityNamesToIgnore)) {
-                        lEntities.entities[lEntities.entities.length] =
-                            initEntity(pArcLineList.arcs[i][j].from);
+            pArcLineList.arcs.forEach(function(pArcLine){
+                pArcLine.forEach(function(pArc){
+                    if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
+                        pEntities.entities[pEntities.entities.length] =
+                            initEntity(pArc.from);
                     }
                     // if the arc kind is arcspanning recurse into its arcs
-                    if (pArcLineList.arcs[i][j].arcs){
-                        pEntityNamesToIgnore[pArcLineList.arcs[i][j].to] = true;
-                        merge (lEntities, extractUndeclaredEntities (lEntities, pArcLineList.arcs[i][j], pEntityNamesToIgnore));
-                        delete pEntityNamesToIgnore[pArcLineList.arcs[i][j].to];
+                    if (pArc.arcs){
+                        pEntityNamesToIgnore[pArc.to] = true;
+                        merge (pEntities, extractUndeclaredEntities (pEntities, pArc, pEntityNamesToIgnore));
+                        delete pEntityNamesToIgnore[pArc.to];
                     }
-                    if (!entityExists (lEntities, pArcLineList.arcs[i][j].to, pEntityNamesToIgnore)) {
-                        lEntities.entities[lEntities.entities.length] =
-                            initEntity(pArcLineList.arcs[i][j].to);
+                    if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
+                        pEntities.entities[pEntities.entities.length] =
+                            initEntity(pArc.to);
                     }
-                }
-            }
+                });
+            });
         }
-        return lEntities;
+        return pEntities;
     }
 }
 

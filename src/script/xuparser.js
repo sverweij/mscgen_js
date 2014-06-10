@@ -3123,17 +3123,15 @@ define ([], function() {
             return lBoolean;
         }
 
-        function entityExists (pEntities, lName) {
-            var i = 0;
-            if (lName === undefined || lName === "*") {
+        function entityExists (pEntities, pName) {
+            if (pName === undefined || pName === "*") {
                 return true;
             }
-            if (pEntities && pEntities.entities && lName) {
-                for (i=0;i<pEntities.entities.length;i++) {
-                    if (pEntities.entities[i].name === lName) {
-                        return true;
-                    }
-                }
+
+            if (pEntities && pEntities.entities && pName) {
+                return pEntities.entities.some(function(pEntity){
+                    return pEntity.name === pName;
+                });
             }
             return false;
         }
@@ -3146,32 +3144,25 @@ define ([], function() {
         }
 
         function checkForUndeclaredEntities (pEntities, pArcLineList) {
-            var i = 0;
-            var j = 0;
-            var lEntities = {};
-            if (pEntities) {
-                lEntities = pEntities;
-            } else {
-                lEntities.entities = [];
+            if (!pEntities) {
+                pEntities = {};
+                pEntities.entities = [];
             }
 
             if (pArcLineList && pArcLineList.arcs) {
-                for (i=0;i<pArcLineList.arcs.length;i++) {
-                    for (j=0;j<pArcLineList.arcs[i].length;j++) {
-                        if (!entityExists (lEntities, pArcLineList.arcs[i][j].from)) {
-                            throw new EntityNotDefinedError(pArcLineList.arcs[i][j].from,
-                                        pArcLineList.arcs[i][j]);
+                pArcLineList.arcs.forEach(function(pArcLine) {
+                    pArcLine.forEach(function(pArc) {
+                        if (!entityExists (pEntities, pArc.from)) {
+                            throw new EntityNotDefinedError(pArc.from, pArc);
                         }
-                        if (!entityExists (lEntities, pArcLineList.arcs[i][j].to)) {
-                            throw new EntityNotDefinedError(pArcLineList.arcs[i][j].to,
-                                        pArcLineList.arcs[i][j]);
+                        if (!entityExists (pEntities, pArc.to)) {
+                            throw new EntityNotDefinedError(pArc.to, pArc);
                         }
-                    }
-                }
+                    });
+                });
             }
-            return lEntities;
+            return pEntities;
         }
-
 
 
     peg$result = peg$startRuleFunction();

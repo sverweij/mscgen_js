@@ -31,6 +31,7 @@ define(["./textutensils"], function(utl) {
             "closer" : ""
         },
         "option" : {
+            "opener" : "",
             "separator" : "," + EOL,
             "closer" : ";" + EOL + EOL
         },
@@ -107,11 +108,9 @@ define(["./textutensils"], function(utl) {
     }
 
     function renderComments(pArray) {
-        var lRetval = "";
-        pArray.forEach(function(pElement){
-            lRetval += pElement;
-        });
-        return lRetval;
+        return pArray.reduce(function(pPrevComment, pCurComment) {
+            return pPrevComment + pCurComment;
+        }, "");
     }
 
     function renderEntityName(pString) {
@@ -132,15 +131,13 @@ define(["./textutensils"], function(utl) {
     }
 
     function renderOptions(pOptions) {
-        var lRetVal = "";
         var lOptions = extractSupportedOptions(pOptions, gConfig.supportedOptions);
-
-        for (var i = 0; i < lOptions.length - 1; i++) {
-            lRetVal += gConfig.renderOptionfn(lOptions[i]) + gConfig.option.separator;
-        }
-        lRetVal += gConfig.renderOptionfn(lOptions[lOptions.length - 1]) + gConfig.option.closer;
+        var lLastOption = lOptions.pop();
+        var lRetVal = lOptions.reduce(function(pPrevOption, pCurOption) {
+            return pPrevOption + gConfig.renderOptionfn(pCurOption) + gConfig.option.separator;
+        }, gConfig.option.opener);
+        lRetVal += gConfig.renderOptionfn(lLastOption) + gConfig.option.closer;
         return lRetVal;
-
     }
 
     function renderEntity(pEntity) {
@@ -151,10 +148,9 @@ define(["./textutensils"], function(utl) {
 
     function renderEntities(pEntities) {
         var lRetVal = "";
-        var i = 0;
         if (pEntities.length > 0) {
             lRetVal = gConfig.entity.opener;
-            for ( i = 0; i < pEntities.length - 1; i++) {
+            for ( var i = 0; i < pEntities.length - 1; i++) {
                 lRetVal += renderEntity(pEntities[i]) + gConfig.entity.separator;
             }
             lRetVal += renderEntity(pEntities[pEntities.length - 1]) + gConfig.entity.closer;
@@ -166,11 +162,11 @@ define(["./textutensils"], function(utl) {
         var lRetVal = "";
         var lAttributes = extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
         if (lAttributes.length > 0) {
-            lRetVal = gConfig.attribute.opener;
-            for (var i = 0; i < lAttributes.length - 1; i++) {
-                lRetVal += gConfig.renderAttributefn(lAttributes[i]) + gConfig.attribute.separator;
-            }
-            lRetVal += gConfig.renderAttributefn(lAttributes[lAttributes.length - 1]) + gConfig.attribute.closer;
+            var lLastAtribute = lAttributes.pop();
+            lRetVal += lAttributes.reduce(function(pPreviousAttribute, pCurrentAttribute) {
+                return pPreviousAttribute + gConfig.renderAttributefn(pCurrentAttribute) + gConfig.attribute.separator;
+            }, gConfig.attribute.opener);
+            lRetVal += gConfig.renderAttributefn(lLastAtribute) + gConfig.attribute.closer;
         }
         return lRetVal;
     }
@@ -203,8 +199,8 @@ define(["./textutensils"], function(utl) {
         var lRetVal = "";
         if (pArcLine.length > 0) {
             lRetVal = gConfig.arcline.opener;
-            for (var j = 0; j < pArcLine.length - 1; j++) {
-                lRetVal += pIndent + renderArc(pArcLine[j], pIndent) + gConfig.arcline.separator;
+            for (var i = 0; i < pArcLine.length - 1; i++) {
+                lRetVal += pIndent + renderArc(pArcLine[i], pIndent) + gConfig.arcline.separator;
             }
             lRetVal += pIndent + renderArc(pArcLine[pArcLine.length - 1], pIndent) + gConfig.arcline.closer;
         }
@@ -212,11 +208,9 @@ define(["./textutensils"], function(utl) {
     }
 
     function renderArcLines(pArcLines, pIndent) {
-        var lRetVal = "";
-        pArcLines.forEach(function(pArcLine) {
-            lRetVal += renderArcLine(pArcLine, pIndent);
-        });
-        return lRetVal;
+        return pArcLines.reduce(function(pPrev, pArcLine){
+            return pPrev + renderArcLine(pArcLine, pIndent);
+        }, "");
     }
 
     return {

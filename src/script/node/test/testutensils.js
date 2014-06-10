@@ -3,24 +3,16 @@ var fs = require('fs');
 
 module.exports = (function() {
     function _assertequalJSON(pExpected, pFound) {
-        assert.equal(JSON.stringify(pFound), JSON.stringify(pExpected));
+        assert.equal(JSON.stringify(pExpected), JSON.stringify(pFound));
     }
 
     function _assertequalJSONFile(pExpectedFileName, pFound) {
-        fs.readFile(pExpectedFileName, function(pErr, pJSONFromFile) {
-            if (pErr) {
-                throw pErr;
-            }
-            assert.equal(JSON.stringify(pFound), JSON.stringify(JSON.parse(pJSONFromFile)));
-        });
+        var lJSONFromFile = fs.readFileSync(pExpectedFileName, {"encoding": "utf8"});
+        assert.equal(JSON.stringify(pFound), JSON.stringify(JSON.parse(lJSONFromFile)));
     }
 
     function _assertequalToFile(pExpectedFileName, pFound) {
-        fs.readFile(pExpectedFileName, function(pErr, pTextFromFile) {
-            if (pErr)
-                throw pErr;
-            assert.equal(pFound, pTextFromFile);
-        });
+        assert.equal(pFound, fs.readFileSync(pExpectedFileName, {"encoding": "utf8"}));
     }
 
     return {

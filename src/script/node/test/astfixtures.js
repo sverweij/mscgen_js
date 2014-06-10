@@ -8,21 +8,21 @@ module.exports = (function() {
             "entities" : [{
                 "name" : "a"
             }, {
-                "name" : "b"
+                "name" : "b space"
             }],
             "arcs" : [[{
                 "kind" : "=>",
                 "from" : "a",
-                "to" : "b",
+                "to" : "b space",
                 "label" : "a simple script"
             }]]
         },
         astOptionsMscgen : {
             "options" : {
-                "arcgradient" : "17",
-                "wordwraparcs" : "true",
                 "hscale" : "1.2",
-                "width" : "800"
+                "width" : "800",
+                "arcgradient" : "17",
+                "wordwraparcs" : "true"
             },
             "entities" : [{
                 "name" : "a"
@@ -30,10 +30,10 @@ module.exports = (function() {
         },
         astOptions : {
             "options" : {
-                "arcgradient" : "17",
-                "wordwraparcs" : "true",
                 "hscale" : "1.2",
                 "width" : "800",
+                "arcgradient" : "17",
+                "wordwraparcs" : "true",
                 "watermark" : "not in mscgen, available in xù and msgenny"
             },
             "entities" : [{
@@ -924,24 +924,24 @@ module.exports = (function() {
             "entities" : [{
                 "name" : "Alice",
                 "linecolor" : "#008800",
-                "textbgcolor" : "#CCFFCC",
                 "textcolor" : "black",
-                "arctextcolor" : "#008800",
-                "arclinecolor" : "#008800"
+                "textbgcolor" : "#CCFFCC",
+                "arclinecolor" : "#008800",
+                "arctextcolor" : "#008800"
             }, {
                 "name" : "Bob",
                 "linecolor" : "#FF0000",
-                "textbgcolor" : "#FFCCCC",
                 "textcolor" : "black",
-                "arctextcolor" : "#FF0000",
-                "arclinecolor" : "#FF0000"
+                "textbgcolor" : "#FFCCCC",
+                "arclinecolor" : "#FF0000",
+                "arctextcolor" : "#FF0000"
             }, {
                 "name" : "pocket",
                 "linecolor" : "#0000FF",
-                "textbgcolor" : "#CCCCFF",
                 "textcolor" : "black",
-                "arctextcolor" : "#0000FF",
-                "arclinecolor" : "#0000FF"
+                "textbgcolor" : "#CCCCFF",
+                "arclinecolor" : "#0000FF",
+                "arctextcolor" : "#0000FF"
             }],
             "arcs" : [[{
                 "kind" : "=>",
@@ -961,9 +961,9 @@ module.exports = (function() {
                 "from" : "Bob",
                 "to" : "Alice",
                 "label" : "PHEEE!",
-                "arcskip" : "0.3",
                 "textcolor" : "green",
-                "textbgcolor" : "yellow"
+                "textbgcolor" : "yellow",
+                "arcskip" : "0.3"
             }], [{
                 "kind" : "=>",
                 "from" : "Alice",

@@ -8,7 +8,7 @@ describe('mscgenparser', function() {
     describe('#parse()', function() {
 
         it('should render a simple AST', function() {
-            var lAST = parser.parse('msc { a,b; a => b [label="a simple script"];}');
+            var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
 
@@ -25,7 +25,7 @@ describe('mscgenparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('msc{ARCGRADIENT="17",woRDwrAParcS="oN", HSCAle="1.2", widtH=800;a;}');
+            var lAST = parser.parse('msc{HSCAle="1.2", widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN";a;}');
             tst.assertequalJSON(lAST, fix.astOptionsMscgen);
         });
         it("should produce lowercase for upper/ mixed case attributes", function() {
@@ -66,25 +66,23 @@ describe('mscgenparser', function() {
 
         });
     });
-    describe('#parse() - file based tests', function(){
+
+    describe('#parse() - file based tests', function() {
         it("should parse all possible arcs", function() {
-            fs.readFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.mscin', function(pErr, pTextFromFile) {
-                if (pErr) {
-                    throw pErr;
-                }
-                var lAST = parser.parse(pTextFromFile.toString());
-                tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
+            var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.mscin', {
+                "encoding" : "utf8"
             });
+            var lAST = parser.parse(lTextFromFile.toString());
+            tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
         });
         it("should parse stuff with colors", function() {
-            fs.readFile('./src/script/node/test/fixtures/rainbow.mscin', function(pErr, pTextFromFile) {
-                if (pErr) {
-                    throw pErr;
-                }
-                var lAST = parser.parse(pTextFromFile.toString());
-                tst.assertequalJSONFile('./src/script/node/test/fixtures/rainbow.json', lAST);
+            var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/rainbow.mscin', {
+                "encoding" : "utf8"
             });
+            var lAST = parser.parse(lTextFromFile.toString());
+            tst.assertequalJSONFile('./src/script/node/test/fixtures/rainbow.json', lAST);
         });
-    });
+    }); 
+
 });
 
