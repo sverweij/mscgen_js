@@ -15,22 +15,26 @@ function ast2svg(pAST, pWindow) {
     return pWindow.document.body.innerHTML;
 }
 
+function processAndCompare(pExpectedFile, pInputFile) {
+    jsdom.env("<html><body></body></html>", function(err, window) {
+        tst.assertequalProcessing(pExpectedFile, pInputFile, function(pInput) {
+            return ast2svg(JSON.parse(pInput), window);
+        });
+    });
+};
+
 describe('renderast', function() {
     describe('#renderAST() - xu everyting', function() {
+
         it('should render all the stuff', function() {
-            jsdom.env("<html><body></body></html>", function(err, window) {
-                var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/test01_all_possible_arcs.json', {"encoding":"utf8"});
-                var lSvg = ast2svg(JSON.parse(lTextFromFile), window); 
-                tst.assertequalToFile('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', lSvg);
-            });
+            processAndCompare('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', //
+            './src/script/node/test/fixtures/test01_all_possible_arcs.json');
         });
+
         it('should render colors', function() {
-            jsdom.env("<html><body></body></html>", function(err, window) {
-                var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/rainbow.json', {"encoding":"utf8"});
-                var lSvg = ast2svg(JSON.parse(lTextFromFile), window); 
-                tst.assertequalToFile('./src/script/node/test/fixtures/rainbow.svg', lSvg);
-            });
-        });
+            processAndCompare('./src/script/node/test/fixtures/rainbow.svg', //
+            './src/script/node/test/fixtures/rainbow.json');
+        }); 
     });
     
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {

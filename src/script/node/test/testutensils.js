@@ -14,6 +14,12 @@ module.exports = (function() {
     function _assertequalToFile(pExpectedFileName, pFound) {
         assert.equal(pFound, fs.readFileSync(pExpectedFileName, {"encoding": "utf8"}));
     }
+    
+    function _assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn, pCompareFn){
+        var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
+        var lInputContents = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});
+        assert.equal(lExpectedContents, pProcessingFn(lInputContents));
+    }
 
     return {
         assertequalJSON : function(pExpected, pFound) {
@@ -25,5 +31,8 @@ module.exports = (function() {
         assertequalToFile : function(pExpectedFileName, pFound) {
             return _assertequalToFile(pExpectedFileName, pFound);
         },
+        assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn) {
+            return _assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn);
+        }
     };
 })();
