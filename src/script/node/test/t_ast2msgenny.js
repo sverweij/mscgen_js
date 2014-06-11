@@ -2,7 +2,7 @@ var assert = require("assert");
 var renderer = require("../ast2msgenny");
 var parser = require("../msgennyparser_node");
 var fix = require("./astfixtures");
-// var utl = require("./testutensils");
+var utl = require("./testutensils");
 var fs = require("fs");
 
 describe('ast2msgenny', function() {
@@ -84,15 +84,13 @@ a =>> a : happy-the-peppy - outside;\n\
             assert.equal(lProgram, lExpectedProgram);
         });
     });
-    
-    describe('#renderAST() - file based tests', function(){
-       it('should render all arcs', function(){
-          var lASTString = fs.readFileSync("./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json", {"encoding":"utf8"});
-          var lAST = JSON.parse(lASTString);
-          var lExpectedProgram = fs.readFileSync("./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny", {"encoding":"utf8"});
-          var lProgram = renderer.render(lAST);
-          assert.equal(lProgram,lExpectedProgram); 
-          // utl.assertequalJSON(parser.parse(lProgram), lAST);
-       });
-    });
+
+    describe('#renderAST() - file based tests', function() {
+        it('should render all arcs', function() {
+            utl.assertequalProcessing("./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny", "./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json", function(pFileContent) {
+                return renderer.render(JSON.parse(pFileContent));
+            });
+        });
+    }); 
+
 });
