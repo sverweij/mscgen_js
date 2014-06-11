@@ -15,7 +15,7 @@ module.exports = (function() {
         assert.equal(pFound, fs.readFileSync(pExpectedFileName, {"encoding": "utf8"}));
     }
     
-    function _assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn, pCompareFn){
+    function _assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn){
         var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
         var lInputContents = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});
         assert.equal(lExpectedContents, pProcessingFn(lInputContents));
