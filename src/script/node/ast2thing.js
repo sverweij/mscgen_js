@@ -86,6 +86,9 @@ define(["./textutensils"], function(utl) {
                 lRetVal += renderArcLines(pAST.arcs, "");
             }
             lRetVal += gConfig.program.closer;
+            if (pAST.postcomment) {
+                lRetVal += gConfig.renderCommentfn(pAST.postcomment);
+            }           
         }
         return lRetVal;
     }
