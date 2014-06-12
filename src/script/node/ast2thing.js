@@ -152,10 +152,9 @@ define(["./textutensils"], function(utl) {
     function renderEntities(pEntities) {
         var lRetVal = "";
         if (pEntities.length > 0) {
-            lRetVal = gConfig.entity.opener;
-            for ( var i = 0; i < pEntities.length - 1; i++) {
-                lRetVal += renderEntity(pEntities[i]) + gConfig.entity.separator;
-            }
+            lRetVal = pEntities.slice(0, -1).reduce(function(pPrev, pEntity){
+                return pPrev + renderEntity(pEntity) + gConfig.entity.separator;
+            }, gConfig.entity.opener);
             lRetVal += renderEntity(pEntities[pEntities.length - 1]) + gConfig.entity.closer;
         }
         return lRetVal;
@@ -201,10 +200,9 @@ define(["./textutensils"], function(utl) {
     function renderArcLine(pArcLine, pIndent) {
         var lRetVal = "";
         if (pArcLine.length > 0) {
-            lRetVal = gConfig.arcline.opener;
-            for (var i = 0; i < pArcLine.length - 1; i++) {
-                lRetVal += pIndent + renderArc(pArcLine[i], pIndent) + gConfig.arcline.separator;
-            }
+            lRetVal = pArcLine.slice(0, -1).reduce(function(pPrev, pArc) {
+                return pPrev + pIndent + renderArc(pArc, pIndent) + gConfig.arcline.separator;
+            }, gConfig.arcline.opener);
             lRetVal += pIndent + renderArc(pArcLine[pArcLine.length - 1], pIndent) + gConfig.arcline.closer;
         }
         return lRetVal;
