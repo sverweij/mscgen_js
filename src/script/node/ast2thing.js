@@ -165,7 +165,7 @@ define(["./textutensils"], function(utl) {
         var lAttributes = extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
         if (lAttributes.length > 0) {
             var lLastAtribute = lAttributes.pop();
-            lRetVal += lAttributes.reduce(function(pPreviousAttribute, pCurrentAttribute) {
+            lRetVal = lAttributes.reduce(function(pPreviousAttribute, pCurrentAttribute) {
                 return pPreviousAttribute + gConfig.renderAttributefn(pCurrentAttribute) + gConfig.attribute.separator;
             }, gConfig.attribute.opener);
             lRetVal += gConfig.renderAttributefn(lLastAtribute) + gConfig.attribute.closer;
