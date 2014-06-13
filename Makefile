@@ -36,7 +36,7 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2thing.js \
 	src/script/node/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib images samples style script
-LIB_SOURCES_WEB=src/lib/codemirror.js \
+LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/addon/edit/closebrackets.js \
 	src/lib/codemirror/addon/edit/matchbrackets.js \
 	src/lib/codemirror/addon/display/placeholder.js \
