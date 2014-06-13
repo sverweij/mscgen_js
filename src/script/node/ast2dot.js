@@ -42,12 +42,10 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
     /* Attribute handling */
     function renderString(pString) {
         var lStringAry = txt.wrap(pString.replace(/\"/g, "\\\""), 40);
-        var lString = "";
-
-        for (var i = 0; i < lStringAry.length - 1; i++) {
-            lString += lStringAry[i] + "\n";
-        }
-        lString += lStringAry[lStringAry.length - 1];
+        var lString = lStringAry.slice(0,-1).reduce(function(pPrev, pString){
+            return pPrev + pString + "\n";
+        }, "");
+        lString += lStringAry.slice(-1);
         return lString;
     }
 
@@ -68,14 +66,11 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
     function renderAttributeBlock(pAttrs) {
         var lRetVal = "";
         if (pAttrs.length > 0) {
-            lRetVal = " [";
-            for (var i = 0; i < pAttrs.length - 1; i++) {
-                lRetVal += pAttrs[i] + ", ";
-            }
-            lRetVal += pAttrs[pAttrs.length - 1];
-            lRetVal += "]";
+            lRetVal = pAttrs.slice(0,-1).reduce(function (pPrev, pAttr){
+                return pPrev + pAttr + ", ";
+            }, " [");
+            lRetVal += pAttrs.slice(-1) + "]";
         }
-
         return lRetVal;
     }
 

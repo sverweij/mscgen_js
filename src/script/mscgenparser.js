@@ -2792,10 +2792,10 @@ define ([], function() {
             if (pArcLineList && pArcLineList.arcs) {
                 pArcLineList.arcs.forEach(function(pArcLine) {
                     pArcLine.forEach(function(pArc) {
-                        if (!entityExists (pEntities, pArc.from)) {
+                        if (pArc.from && !entityExists (pEntities, pArc.from)) {
                             throw new EntityNotDefinedError(pArc.from, pArc);
                         }
-                        if (!entityExists (pEntities, pArc.to)) {
+                        if (pArc.to && !entityExists (pEntities, pArc.to)) {
                             throw new EntityNotDefinedError(pArc.to, pArc);
                         }
                     });
