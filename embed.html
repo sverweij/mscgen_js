@@ -18,9 +18,9 @@
         along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         
          mscgen_js
-            version: 0.9.17
-            build-date: 20140611 21:49
-            commit: a615a4f390aebee1
+            version: 0.9.18
+            build-date: 20140613 22:11
+            commit: 81c1a8c63f92b3bf
         -->
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -29,16 +29,6 @@
 
         <title>mscgen_js - turns text into sequence charts</title>
         <link rel="stylesheet" href="wikum/tutorial.css" type="text/css" media="screen"> 
-<!--
-<script>
-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-42701906-1', 'sverweij.github.io');
-    ga('send', 'pageview');    
-</script>
--->
         <script data-main="script/mscgen-inpage.js" src="lib/require.js"></script>
     </head>
     <body>
@@ -93,14 +83,15 @@ msc {
             ...;
             }</pre>
 
-        <h1>Want to use mscgen_js in Atlassian Confluence?</h1>
+        <h1>Want to use mscgen in Atlassian Confluence?</h1>
         <p>If your Confluence admin has enabled the confluence HTML macro, getting
             mscgen in your page is as simple as adding a HTML "macro" to the page 
             and put the <code>script</code> tag in there. Sample snippet:
         </p>
 <pre class="shadow">
-&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" src="https://sverweij.github.io/mscgen_js/lib/require.js"></script>
-
+&lt;script data-main="https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js" 
+              src="https://sverweij.github.io/mscgen_js/lib/require.js"></script>
+              
 &lt;code class="mscgen_js">
 msc {
     a [label="Entity A"], b [label="Entity B"];
