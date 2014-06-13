@@ -63,7 +63,30 @@ describe('mscgenparser', function() {
             } catch(e) {
                 assert.equal(e.name, "SyntaxError");
             }
-
+        });
+        it ("should complain about an undeclared entity in a from", function(){
+            try {
+                var lAST = parser.parse ("msc{a,b,c;d=>a;}");
+                                    var lStillRan = false;
+                if (lAST) {
+                    lStillRan = true;
+                }
+                assert.equal(lStillRan, false);
+            } catch(e){
+                assert.equal(e.name, "EntityNotDefinedError");
+            }
+        });
+        it ("should complain about an undeclared entity in a to", function(){
+            try {
+                var lAST = parser.parse ("msc{a,b,c;b=>f;}");
+                                    var lStillRan = false;
+                if (lAST) {
+                    lStillRan = true;
+                }
+                assert.equal(lStillRan, false);
+            } catch(e){
+                assert.equal(e.name, "EntityNotDefinedError");
+            }
         });
     });
 
@@ -81,6 +104,11 @@ describe('mscgenparser', function() {
             });
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalJSONFile('./src/script/node/test/fixtures/rainbow.json', lAST);
+        });
+        it("strings, ids and urls", function() {
+            var lTextFromFile = fs.readFileSync('./src/samples/test10_stringsandurls.mscin', {"encoding":"utf8"});
+            var lAST = parser.parse(lTextFromFile.toString());
+            tst.assertequalJSONFile('./src/samples/test10_stringsandurls.json', lAST);
         });
     }); 
 
