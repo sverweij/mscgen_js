@@ -119,151 +119,154 @@ define(["./renderutensils"], function(utl) {
 
     var gSvgStyleElementString =
 /*jshint multistr:true */
-"svg { \
-    font-family: Helvetica, sans-serif; \
-    font-size: 9pt; \
-    background-color: white; \
-    stroke : black; \
-    color  : black; \
-} \
-rect { \
-    fill: none; \
-    stroke: black; \
-    stroke-width: 2; \
-} \
-.bglayer { \
-    fill:white; \
-    stroke: white; \
-    stroke-width: 0; \
-} \
-rect.textbg { \
-    fill:white; \
-    stroke:white; \
-    stroke-width:0; \
-    opacity: 0.9; \
-} \
-line { \
-    stroke: black; \
-    stroke-width: 2; \
-} \
-.arcrowomit { \
-    stroke-dasharray: 2,2; \
-} \
-text { \
-    color: inherit; \
-    stroke: none; \
-    text-anchor: middle; \
-} \
-text.entity { \
-    text-decoration : underline; \
-} \
-text.anchor-start { \
-    text-anchor: start; \
+"svg{\
+  font-family:Helvetica,sans-serif;\
+  font-size:9pt;\
+  font-weight:normal;\
+  font-style:normal;\
+  text-decoration:none;\
+  background-color:white;\
+  stroke:black;\
+  color:black;\
 }\
-path { \
-    stroke: black; \
-    color: black; \
-    stroke-width: 2; \
-    fill: none; \
-} \
-.dotted {\
-    stroke-dasharray: 5,2; \
-} \
-.striped { \
-    stroke-dasharray: 10,5; \
-} \
-.arrow-marker { \
-    overflow:visible; \
-} \
-.arrow-style { \
-    stroke : black; \
-    stroke-dasharray : 100,1; /* 'none' should work, but doesn't in webkit */ \
-    stroke-width : 1; \
-} \
-.filled { \
-    stroke:inherit; \
-    fill:black; /* no-inherit */ \
-} \
-.arcrowomit { \
-    stroke-dasharray: 2,2; \
-} \
-.box { \
-    /* fill: #ffc;  no-inherit */ \
-    fill : white; \
-    opacity: 0.9; \
-} \
-.boxtext, .arctext { \
-    font-size: 0.8em; \
-    text-anchor: middle; \
-} \
-.comment { \
-    stroke-dasharray: 5,2; \
-} \
-.signal { \
-    marker-end : url(#signal); \
-} \
-.signal-u { \
-    marker-end : url(#signal-u); \
-} \
-.signal-both { \
-    marker-end : url(#signal); \
-    marker-start : url(#signal-l); \
-} \
-.signal-both-u { \
-    marker-end : url(#signal-u); \
-    marker-start : url(#signal-lu); \
-} \
-.signal-both-self { \
-    marker-end : url(#signal-u); \
-    marker-start : url(#signal-l); \
-} \
-.method { \
-    marker-end : url(#method); \
-} \
-.method-both { \
-    marker-end : url(#method); \
-    marker-start : url(#method-l); \
-} \
-.returnvalue { \
-    stroke-dasharray: 5,2; \
-    marker-end : url(#callback); \
-} \
-.returnvalue-both { \
-    stroke-dasharray: 5,2; \
-    marker-end : url(#callback); \
-    marker-start : url(#callback-l); \
-} \
-.callback { \
-    marker-end : url(#callback); \
-} \
-.callback-both { \
-    marker-end : url(#callback); \
-    marker-start : url(#callback-l); \
-} \
-.emphasised { \
-    marker-end : url(#method); \
-} \
-.emphasised-both { \
-    marker-end : url(#method); \
-    marker-start : url(#method-l); \
-} \
-.lost { \
-    marker-end : url(#lost); \
-} \
-.inherit { \
-    stroke : inherit; \
-    color : inherit; \
-} \
-.inherit-fill { \
-    fill : inherit; \
-} \
-.watermark { \
-    stroke: black; \
-    color : black; \
-    fill  : black; \
-    font-size: 48pt; \
-    font-weight: bold; \
-    opacity : 0.14; }";
+rect{\
+  fill:none;\
+  stroke:black;\
+  stroke-width: 2;\
+}\
+.bglayer{\
+  fill:white;\
+  stroke:white;\
+  stroke-width:0;\
+}\
+rect.textbg{\
+  fill:white;\
+  stroke:white;\
+  stroke-width:0;\
+  opacity:0.9;\
+}\
+line{\
+  stroke:black;\
+  stroke-width:2;\
+}\
+.arcrowomit{\
+  stroke-dasharray:2,2;\
+}\
+text{\
+  color:inherit;\
+  stroke:none;\
+  text-anchor:middle;\
+}\
+text.entity{\
+  text-decoration:underline;\
+}\
+text.anchor-start{\
+  text-anchor:start;\
+}\
+path{\
+  stroke:black;\
+  color:black;\
+  stroke-width:2;\
+  fill:none;\
+}\
+.dotted{\
+  stroke-dasharray:5,2;\
+}\
+.striped{\
+  stroke-dasharray:10,5;\
+}\
+.arrow-marker{\
+  overflow:visible;\
+}\
+.arrow-style{\
+  stroke:black;\
+  stroke-dasharray:100,1; /* 'none' should work, but doesn't in webkit */\
+  stroke-width:1;\
+}\
+.filled{\
+  stroke:inherit;\
+  fill:black; /* no-inherit */\
+}\
+.arcrowomit{\
+  stroke-dasharray:2,2;\
+}\
+.box{\
+  /* fill: #ffc;  no-inherit */\
+  fill:white;\
+  opacity:0.9;\
+}\
+.boxtext, .arctext{\
+  font-size:0.8em;\
+  text-anchor:middle;\
+}\
+.comment{\
+  stroke-dasharray:5,2;\
+}\
+.signal{\
+  marker-end:url(#signal);\
+}\
+.signal-u{\
+  marker-end:url(#signal-u);\
+}\
+.signal-both{\
+  marker-end:url(#signal);\
+  marker-start:url(#signal-l);\
+}\
+.signal-both-u{\
+  marker-end:url(#signal-u);\
+  marker-start:url(#signal-lu);\
+}\
+.signal-both-self{\
+  marker-end:url(#signal-u);\
+  marker-start:url(#signal-l);\
+}\
+.method{\
+  marker-end:url(#method);\
+}\
+.method-both{\
+  marker-end:url(#method);\
+  marker-start:url(#method-l);\
+}\
+.returnvalue{\
+  stroke-dasharray:5,2;\
+  marker-end:url(#callback);\
+}\
+.returnvalue-both{\
+  stroke-dasharray:5,2;\
+  marker-end:url(#callback);\
+  marker-start:url(#callback-l);\
+}\
+.callback{\
+  marker-end:url(#callback);\
+}\
+.callback-both{\
+  marker-end:url(#callback);\
+  marker-start:url(#callback-l);\
+}\
+.emphasised{\
+  marker-end:url(#method);\
+}\
+.emphasised-both{\
+  marker-end:url(#method);\
+  marker-start:url(#method-l);\
+}\
+.lost{\
+  marker-end:url(#lost);\
+}\
+.inherit{\
+  stroke:inherit;\
+  color:inherit;\
+}\
+.inherit-fill{\
+  fill:inherit;\
+}\
+.watermark{\
+  stroke:black;\
+  color:black;\
+  fill:black;\
+  font-size: 48pt;\
+  font-weight:bold;\
+  opacity:0.14;}";
     return {
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element
