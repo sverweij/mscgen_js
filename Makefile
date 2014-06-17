@@ -79,7 +79,7 @@ VERSIONEMBEDDABLESOURCES=index.html embed.html
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
 help:
-	@echo possible targets:	dev-build install deploy-gh-pages clean
+	@echo possible targets:	dev-build install deploy-gh-pages clean check
 
 # file targets
 favicon.ico: $(FAVICONMASTER)
