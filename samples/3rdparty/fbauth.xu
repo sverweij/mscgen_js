@@ -1,0 +1,36 @@
+# facebook authentication 
+# source : http://www.uml-diagrams.org/sequence-diagrams-examples.html#facebook-authentication
+msc {
+  act [label="Actor"],
+  browser [label=":WebBrowser"],
+  app [label="Application"],
+  fbauth [label="Facebook Authorization Server"],
+  fbcont [label="Facebook Content Server"];
+
+  act => browser [label="get FB resource"];
+  browser => app [label="request FB access"];
+  app >> browser [label="<<http redirect>>"];
+  browser => fbauth [label="authorize"];
+  fbauth >> browser [label="permission form"];
+  browser >> act [label="permission form"];
+  
+  act => browser [label="user permission"];
+  browser => fbauth [label="process permission"];
+  fbauth >> browser [label="<<http redirect>>"];
+  act alt fbcont [label="permission granted"] {
+    browser => app [label="FB authorization code"];
+    app => fbauth [label="FB authorization code"];
+    fbauth >> app [label="access token"];
+    app => fbcont [label="access FB user protected resource"];
+    fbcont >> app [label="protected resource"];
+    app >> browser [label="protected resource"];
+    browser >> act [label="protected resource"];
+    --- [label="no permission"];
+    browser => app [label="no authorization"];
+    app >> browser [label="FB resource not available"];
+    app >> act [label="FB resource not available"];
+  };
+  act ref browser {
+     ...;
+  };
+}

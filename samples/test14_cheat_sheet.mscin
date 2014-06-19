@@ -1,0 +1,19 @@
+# test14: cheat sheet
+msc {
+  a, b;
+
+  a -> b   [ label="a -> b  (signal)" ];
+  a => b   [ label="a => b  (method)" ];
+  b >> a   [ label="b >> a  (return value)" ];
+  a =>> b  [ label="a =>> b (callback)" ];
+  a -x b   [ label="a -x b  (lost)" ];
+  a :> b   [ label="a :> b  (emphasis)" ];
+  a .. b   [ label="a .. b  (dotted)" ];
+  a note a [ label="a note a" ],
+  b box b  [ label="b box b" ];
+  a rbox a [ label="a rbox a" ],
+  b abox b [ label="b abox b" ];
+  |||      [ label="||| (empty row)" ];
+  ...      [ label="... (omitted row)" ];
+  ---      [ label="--- (comment)" ];
+}

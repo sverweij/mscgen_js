@@ -1,0 +1,14 @@
+# entities
+UAS, UAC;
+
+# arcs
+UAS -> UAC : INVITE;
+UAS <- UAC : 100 Trying;
+UAS <- UAC : 180 Ringing;
+--- : the client plays ringing;
+UAS <- UAC : 200 Ok;
+UAS -> UAC : ACK;
+...;
+--- : the client hangs up;
+UAS <- UAC : BYE;
+UAS <- UAC : 200 Ok;
