@@ -25,8 +25,7 @@ function processAndCompare(pExpectedFile, pInputFile) {
 
 describe('renderast', function() {
     describe('#renderAST() - xu everyting', function() {
-
-        it ('shou,d given given a simple syntax tree, render an svg', function() {
+        it ('should given given a simple syntax tree, render an svg', function() {
             processAndCompare('./src/script/node/test/fixtures/astsimple.svg', //
             './src/script/node/test/fixtures/astsimple.json');
         });
@@ -34,7 +33,6 @@ describe('renderast', function() {
             processAndCompare('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', //
             './src/script/node/test/fixtures/test01_all_possible_arcs.json');
         });
-
         it('should render colors', function() {
             processAndCompare('./src/script/node/test/fixtures/rainbow.svg', //
             './src/script/node/test/fixtures/rainbow.json');
