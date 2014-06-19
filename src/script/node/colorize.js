@@ -19,26 +19,29 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform"], function(transform) {
+define(["./asttransform", "./dotmap"], function(transform, map) {
     var gColorCombiCount = 0;
     var gHardOverride = false;
+
+    var gAggregateColorCombis = {
+        "inline_expression" : {
+            "linecolor" : "grey",
+            "textbgcolor" : "white"
+        },
+        "box" : {
+            "linecolor" : "black",
+            "textbgcolor" : "white"
+        }
+    };
     var gArcColorCombis = {
         "note" : {
             "linecolor" : "black",
             "textbgcolor" : "#FFFFCC"
         },
-        "box" : {
-            "linecolor" : "black",
+        "---" : {
+            "linecolor" : "grey",
             "textbgcolor" : "white"
-        },
-        "rbox" : {
-            "linecolor" : "black",
-            "textbgcolor" : "white"
-        },
-        "abox" : {
-            "linecolor" : "black",
-            "textbgcolor" : "white"
-        },
+        }
     };
 
     var gEntityColorArray = [{
@@ -70,12 +73,24 @@ define(["./asttransform"], function(transform) {
         "textbgcolor" : "white"
     }];
 
+    function getArcColorCombis(pKind) {
+        var lArcCombi = gArcColorCombis[pKind];
+        if (lArcCombi) {
+            return lArcCombi;
+        } else {
+            return gAggregateColorCombis[map.getAggregate(pKind)];
+            ;
+        }
+    }
+
     function colorizeArc(pArc) {
         if (!hasColors(pArc) || gHardOverride) {
-            var lColorCombi = gArcColorCombis[pArc.kind];
+            var lColorCombi = getArcColorCombis(pArc.kind);
             if (lColorCombi) {
                 pArc.linecolor = lColorCombi.linecolor;
-                pArc.textcolor = lColorCombi.linecolor;
+                if (lColorCombi.textcolor) {
+                    pArc.textcolor = lColorCombi.textcolor;
+                }
                 pArc.textbgcolor = lColorCombi.textbgcolor;
             }
         }
@@ -105,8 +120,10 @@ define(["./asttransform"], function(transform) {
             var lNextColorCombi = getNextColorCombi();
             pEntity.linecolor = lNextColorCombi.linecolor;
             pEntity.textbgcolor = lNextColorCombi.textbgcolor;
-            pEntity.textcolor = "black";
-            pEntity.arctextcolor = lNextColorCombi.linecolor;
+            if (lNextColorCombi.textcolor) {
+                pEntity.textcolor = lNextColorCombi.textcolor;
+                pEntity.arctextcolor = lNextColorCombi.textcolor;
+            }
             pEntity.arclinecolor = lNextColorCombi.linecolor;
         }
         return pEntity;
