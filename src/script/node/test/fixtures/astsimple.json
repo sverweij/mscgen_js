@@ -1,0 +1,18 @@
+{
+    "entities": [
+        {
+            "name": "a"
+        }, {
+            "name": "b space"
+        }
+    ],
+    "arcs": [[
+            {
+                "kind": "=>",
+                "from": "a",
+                "to": "b space",
+                "label": "a simple script"
+            }
+        ]
+    ]
+}
