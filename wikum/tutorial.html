@@ -22,11 +22,26 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <meta name="description" content="message sequence chart renderer">
 <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" sizes="16x16 32x32 64x64" href="../favicon.ico">
+<link rel="icon" sizes="228x228" href="../favicon-228.png">
+<link rel="icon" sizes="195x195" href="../favicon-195.png">
+<link rel="icon" sizes="152x152" href="../favicon-152.png">
+<link rel="icon" sizes="144x144" href="../favicon-144.png">
+<link rel="icon" sizes="128x128" href="../favicon-128.png">
 
-<!-- <meta http-equiv="refresh" content="3"> -->
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="../iosfavicon-152.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../iosfavicon-144.png">
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="../iosfavicon-120.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../iosfavicon-114.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../iosfavicon-72.png">
+<link rel="apple-touch-icon-precomposed" href="../iosfavicon-57.png">
+<link rel="shortcut icon" href="../favicon.ico">
+
 <title>mscgen_js - tutorial</title>
 <link rel="stylesheet" href="tutorial.css" type="text/css" media="screen">
-
+<script data-main='../script/mscgen-inpage.js' src='../lib/require.js'>
+</script>
+</head>
 <body>
 <article id="msgenny">
 <h1>Language tutorial</h1>
@@ -81,7 +96,9 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <pre class="code msgenny">
 a -> b;
 </pre>
-<img alt="tut01" src="tutorial/tut01.svg">
+<span class="mscgen_js" data-language="msgenny">
+a -> b;
+</span>
 <p>As you can see this creates two entities (a and b), both with a lifeline, and an arrow from the first to the second lifeline.</p>
             
 
@@ -91,9 +108,9 @@ a -> b;
 a -> b<mark>: "ping"</mark>;
 </pre>            
 
-
-<img id="tut02" src="tutorial/tut02.svg" alt="tut02">
-
+<span class="mscgen_js" data-language="msgenny">
+a -> b: ping;
+</span>
 <p class="info">Note: when your description doesn't contain a <code>,</code> or a <code>;</code>
 it is possible to leave the quotes out of the label, so in this case 
 <code class="msgenny">a -> b: ping;</code> would have achieved exactly the same effect.</p>
@@ -104,7 +121,10 @@ it is possible to leave the quotes out of the label, so in this case
 a -> b: ping;
 <mark>b >> a: heard ya!;</mark>
 </pre>                        
-<img id="tut03" src="tutorial/tut03.svg" alt="tut03">
+<span class="mscgen_js" data-language="msgenny">
+a -> b: ping;
+b >> a: heard ya!;
+</span>
 <p>There is a plethora of arcs (arrows, lines) at your disposal. We've thrown
 a small cheat sheet together that sums up the basic ones 
 (<a href="tutorial/test14_cheat_sheet.svg" target="_blank">svg</a>, 
@@ -121,7 +141,13 @@ a -> b: ping;
 b >> a: heard ya!;
 <mark>a note a: we're not done yet ...;</mark>
 </pre>                        
-<img id="tut04" src="tutorial/tut04.svg" alt="tut04">
+<span class="mscgen_js" data-language="msgenny">
+hscale=1.1;
+a -> b: ping;
+b >> a: heard ya!;
+a note a: we're not done yet...;
+</span>
+
 
 <h3 id="multiline-text">Multiline text</h3>
 <p>The demo automatically breaks long lines into multiple lines. However, 
@@ -132,7 +158,10 @@ you can break a long label in pieces manually by putting the (c-style) escape co
 a note b: This is a note consisting of<mark>\n</mark>two lines of text;
 b => c  : Breaking text in two<mark>\n</mark>also works for arcs;
 </pre>                        
-<img id="tut05" src="tutorial/tut05.svg" alt="tut05">
+<span class="mscgen_js" data-language="msgenny">
+a note b: This is a note consisting of\ntwo lines of text;
+b => c  : Breaking text in two\nalso works for arcs;
+</span>
 
 <h3 id="empty-rows-omitted-rows-comments">Empty rows, omitted rows, comments</h3>
 <p>Sometimes your chart needs some more space between arcs, e.g. to emphasise grouping.</p>
@@ -143,7 +172,14 @@ b >>  a: done;
 a => c : "b is done doing something;\ngo bother him";
 c -> b : bother;
 </pre>                        
-<img id="tut06" src="tutorial/tut06.svg" alt="tut06">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.8;
+a =>> b: do something for me;
+b >>  a: done;
+|||;
+a => c : "b is done doing something;\ngo bother him";
+c -> b : bother;
+</span>
 
 <p>To indicate you deliberately left out stuff of your chart, you can use ellipses, like this:</p>
  <pre class="code msgenny">
@@ -153,7 +189,14 @@ c -x b : Whaaat?;
 <mark>...    : magic happens here;</mark>
 b >> a : Magic answer;
 </pre>
-<img id="tut07" src="tutorial/tut07.svg" alt="tut07">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.8;
+a =>> b: Do the voodoo;
+b => c : Iberian dance task;
+c -x b : Whaaat?;
+<mark>...    : magic happens here;</mark>
+b >> a : Magic answer;
+</span>
 
 <p>To demarcate more strongly and/ or to comment on a part, use <em>comment</em> (---), like so:</p>
  <pre class="code msgenny">
@@ -163,7 +206,14 @@ b => "text to\nspeach": getAudio (line);
 "text to\nspeach" >> b: lAudioStream;
 b -> speaker: play(lAudioStream);
 </pre>
-<img id="tut08" src="tutorial/tut08.svg" alt="tut08">
+<span class="mscgen_js" data-language="msgenny">
+hscale="0.75";
+a =>> b: readOutLoud\n(message);
+---    : for each line in the message:;
+b => "text to\nspeach": getAudio (line);
+"text to\nspeach" >> b: lAudioStream;
+b -> speaker: play(lAudioStream);
+</span>
 
 <h3 id="ignore-this">Ignore this</h3>
 <p>In your program lines starting with <code>#</code> or <code>//</code> 
@@ -173,8 +223,13 @@ b -> speaker: play(lAudioStream);
 a =>> b: what's happening here? ; <mark>/* don't know */</mark>
 <mark>// ignored line</mark>
 </pre>                        
-<img id="tut09" src="tutorial/tut09.svg" alt="tut09">
-<p class="warning">Caveat: on translating to mscgen all ignorable text gets lost.</p>
+<span class="mscgen_js" data-language="msgenny">
+# This line is ignored
+a =>> b: what's happening here? ; /* don't know */
+// ignored line
+</span>
+<p class="warning">Caveat: on translating to mscgen all ignorable text (except comments on top of the
+source) gets lost.</p>
 </section>
 
 <section>
@@ -189,7 +244,13 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>                        
-<img id="tut10" src="tutorial/tut10.svg" alt="tut10">
+<span class="mscgen_js" data-language="msgenny">
+arcgradient="10";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+</span>
 
 <p><em>hscale</em> horizontally scales the chart a bit. Numbers bigger than 1 enlarge 
 it; smaller than 1 shrink it.</p>
@@ -200,7 +261,13 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<img id="tut11" src="tutorial/tut11.svg" alt="tut11">
+<span class="mscgen_js" data-language="msgenny">
+arcgradient="10", hscale="0.6";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+</span>
 
 <p>... and <em>width</em> scales the whole chart so it fits in exactly the amount of pixels width.</p>
 <pre class="code msgenny">
@@ -210,7 +277,14 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<img id="tut12" src="tutorial/tut12.svg" alt="tut12">
+<span class="mscgen_js" data-language="msgenny">
+arcgradient="10", width="240";
+
+client => server : SYN;
+server => client : SYN + ACK;
+client => server : ACK;
+</span>
+
 
 <p>The default behaviour for regular (= not note, box, abox or rbox) arcs is that 
 text does <em>not</em> get wrapped automatically. To override this you can use the
@@ -227,7 +301,14 @@ a note b : "Text in notes, boxes (box, abox, rbox)
             The wordwraparcs option does not influence
             that behavior.";
 </pre>
-<img id="tut13a" src="tutorial/tut13a.svg" alt="tut13a">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.8, wordwraparcs=false; # default behaviour
+a =>   b : This will get wrapped when wordwraparcs=true;
+a note b : "Text in notes, boxes (box, abox, rbox) 
+            and entities gets wrapped automatically.
+            The wordwraparcs option does not influence
+            that behavior.";
+</span>
 
 <pre class="code msgenny">
 <mark>wordwraparcs=true</mark>; # override default behaviour
@@ -237,7 +318,14 @@ a note b : "Text in notes, boxes (box, abox, rbox)
             The wordwraparcs option does not influence
             that behavior.";
 </pre>
-<img id="tut13b" src="tutorial/tut13b.svg" alt="tut13b">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.8, wordwraparcs=true; # default behaviour
+a =>   b : This will get wrapped when wordwraparcs=true;
+a note b : "Text in notes, boxes (box, abox, rbox) 
+            and entities gets wrapped automatically.
+            The wordwraparcs option does not influence
+            that behavior.";
+</span>
 
 </p>
 
@@ -252,14 +340,26 @@ fe => be: "getToken\n(id, secret)";
 fe &lt;&lt; be: [OK] token;
 A &lt;&lt; fe: Whoop!;
 </pre>
-<img id="tut14" src="tutorial/tut14.svg" alt="tut14">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.8;
+A: Actor, fe:Front end, be: Back end;
+
+A =>> fe: "log me in\n(id, secret)";
+fe => be: "getToken\n(id, secret)";
+fe << be: [OK] token;
+A << fe: Whoop!;
+</span>
 
 <p>The msgenny parser puts the entities in the order they occur in your script, e.g. </p>
 <pre class="code msgenny">
 1 =>> 4;
 3 >> 2;
 </pre>
-<img id="tut15" src="tutorial/tut15.svg" alt="tut15">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.6;
+1 =>> 4;
+3 >> 2;
+</span>
 
 <p>If that's not what you want, declare them in the order you want them to appear:</p>
 <pre class="code msgenny">
@@ -268,7 +368,12 @@ A &lt;&lt; fe: Whoop!;
 1 =>> 4;
 3 >> 2;
 </pre>
-<img id="tut16" src="tutorial/tut16.svg" alt="tut16">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.6;
+1,2,3,4;
+1 =>> 4;
+3 >> 2;
+</span>
 
 <h3 id="broadcasts-parallel-calls">broadcasts, parallel calls</h3>
 <p>When an entity has to send a message to all entities at once (broadcast) use <code>*</code> as entity name. 
@@ -278,7 +383,11 @@ arcgradient="14";
 a, b, c, d;
 b =>> <mark>*</mark>;
 </pre>                        
-<img id="tut17" src="tutorial/tut17.svg" alt="tut17">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.6, arcgradient="14";
+a, b, c, d;
+b =>> *;
+</span>
 
 <p>In situations where you want to epress two calls being executed in parallel (or for some
 other reason want to see two arcs on one row), seperat them with a <code>,</code> in stead
@@ -289,7 +398,13 @@ a => b: parallel\nwith c => b<mark>,</mark>
 c => b: parallel\nwith a => b<mark>,</mark>
 n note n: a note on\nthe same line;
 </pre>
-<img id="tut18" src="tutorial/tut18.svg" alt="tut18">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.6;
+a, b, c, n;
+a => b: parallel\nwith c => b,
+c => b: parallel\nwith a => b,
+n note n: a note on\nthe same line;
+</span>
 
 <h3 id="both-ways-no-way">Both ways, no way</h3>
 <p>For almost every arc type (<code>-></code>, <code>=></code>, <code>=>></code>, 
@@ -301,7 +416,13 @@ a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
 a :: b, b &lt;:> c ;
 </pre>
-<img id="tut19" src="tutorial/tut19.svg" alt="tut19">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.6;
+a <-> b, b <=> c;
+a <<=>> b, b <<>> c;
+a -- b, b .. c;
+a :: b, b <:> c ;
+</span>
 
 <h3 id="box-rbox-abox">box, rbox, abox</h3>
 <p>Boxes expressing <em>action</em> (box), <em>states</em> or <em>conditions</em> (abox) and 
@@ -312,7 +433,12 @@ a  <mark>box</mark> b :  box (action);
 b <mark>abox</mark> c : abox (state/ condition);
 c <mark>rbox</mark> d : rbox (MSC reference);
 </pre>
-<img id="tut20" src="tutorial/tut20.svg" alt="tut20">
+<span class="mscgen_js" data-language="msgenny">
+hscale="0.6";
+a  box b :  box (action);
+b abox c : abox (state/ condition);
+c rbox d : rbox (MSC reference);
+</span>
 </section>
 <section>
 <h2 id="extended-stuff">Extended stuff</h2>
@@ -327,7 +453,20 @@ c <mark>rbox</mark> d : rbox (MSC reference);
 <p>If you're a sequence diagram regular, you probably need to express alternatives 
     and loops 'n stuff once in a while, like this:</p>
 
-<img id="tut36" src="tutorial/tut36.svg" alt="tut36">
+<span class="mscgen_js" data-language="msgenny">
+hscale=0.8;
+a,b,c,d;
+
+a =>> b;
+b loop d: 3 times {
+   b =>> c: knock;
+   c alt d: some condition {
+      c =>> d: do stuff;
+      ---: not true;
+      c =>> d: do other stuff;
+   };
+};
+</span>
 
 <p> There is no support for that in mscgen, which is why we created xù. All <em>inline
     expression</em> keywords from xù also work in ms genny. To get the sample above you'd use:</p>
@@ -362,7 +501,14 @@ Bob => pocket : "fetch (nose flute)";
 Bob >> Alice : PHEEE!;
 Alice => Alice: hihihi;
 </pre>
-<img id="tut37" src="tutorial/tut37.svg" alt="tut37">
+<span class="mscgen_js" data-language="msgenny">
+hscale="0.7", watermark="Watermark";
+
+Alice => Bob : do something funny;
+Bob => pocket : "fetch (nose flute)";
+Bob >> Alice : PHEEE!;
+Alice => Alice: hihihi;
+</span>
 <p class="info">
     <b>Mimicing this in mscgen</b> There are several ways to get a similar
     message accross in mscgen. The simplest one is to put the text in an 
@@ -371,7 +517,6 @@ Alice => Alice: hihihi;
 </p>
 </section>
 </article>
-
 
 <article id="demo">
 <h1>Using the on line demo</h1>
@@ -420,7 +565,7 @@ Alice => Alice: hihihi;
     As msgenny does not support colors, the auto color function only works
     for mscgen and xù (and in abstract syntax tree when in debug mode). 
 </p>
-<h3>Bleach</h3>
+<h3>B&amp;W</h3>
 <p>Removes all colors from the chart.</p>
 
 </section>
@@ -493,27 +638,51 @@ msc {
 hscale="0.9";
     
 a [label="linecolor=\n\"orange\"", 
-   <mark>linecolor="orange"</mark>,
+   <mark>linecolor="orange"</mark>],
 b [label="textbgcolor=\n\"yellow\"", 
-   <mark>textbgcolor="yellow"</mark>;
+   <mark>textbgcolor="yellow"</mark>];
 
 a =>> b  [label="linecolor=\"blue\"", 
-          <mark>linecolor="blue"</mark>;
+          <mark>linecolor="blue"</mark>];
 b >> a   [label="textcolor=\"green\"",
-          <mark>textcolor="green"</mark>;
+          <mark>textcolor="green"</mark>];
 a => b   [label="textbgcolor=\"lime\"",
-          <mark>textbgcolor="lime"</mark>;
+          <mark>textbgcolor="lime"</mark>];
 a note a [label="color bonanza",
-          <mark>linecolor="violet"</mark>
-          <mark>textbgcolor="pink"</mark>
-          <mark>textcolor="red"</mark>,
+          <mark>linecolor="violet"</mark>,
+          <mark>textbgcolor="pink"</mark>,
+          <mark>textcolor="red"</mark>],
 b note b  [label="color\nbonanza",
-          <mark>linecolor="#7777FF"</mark>
-          <mark>textbgcolor="cyan"</mark>
-          <mark>textcolor="blue"</mark>;
+          <mark>linecolor="#7777FF"</mark>,
+          <mark>textbgcolor="cyan"</mark>,
+          <mark>textcolor="blue"</mark>];
 }
 </pre>
-<img id="tut32" src="tutorial/tut32.svg" alt="tut32">
+<span class="mscgen_js">
+msc {
+hscale="0.9";
+    
+a [label="linecolor=\n\"orange\"", 
+   linecolor="orange"],
+b [label="textbgcolor=\n\"yellow\"", 
+   textbgcolor="yellow"];
+
+a =>> b  [label="linecolor=\"blue\"", 
+          linecolor="blue"];
+b >> a   [label="textcolor=\"green\"",
+          textcolor="green"];
+a => b   [label="textbgcolor=\"lime\"",
+          textbgcolor="lime"];
+a note a [label="color bonanza",
+          linecolor="violet",
+          textbgcolor="pink",
+          textcolor="red"],
+b note b  [label="color\nbonanza",
+          linecolor="#7777FF",
+          textbgcolor="cyan",
+          textcolor="blue"];
+}
+</span>
 </section>
 
 <section>
@@ -546,7 +715,34 @@ hscale="0.6";
   ui =>> ui [label="render"];
 }
 </pre>
-<img id="tut33" src="tutorial/tut33.svg" alt="tut33">
+<span class="mscgen_js">
+msc {
+hscale="0.65";
+
+  cust [label="customer"],
+  ui [label="UI"],
+  c [label="Controler", 
+     linecolor="red", textbgcolor="yellow",
+     arclinecolor="red", arctextcolor="red",
+     arctextbgcolor="yellow"],
+  a [label="Customer\nstore"],
+  m [label="Model"],
+  e [label="Event\nlogger"];
+
+  cust =>> ui [label="Account\n(id, secret)?"];
+  ui =>> c [label="Get account\ninfo"];
+  c -> e [label="log(id, 'getAccount', 'start')"];
+  c => a [label="identify\n(id, secret)"];
+  a >> c [label="token"];
+  c => m [label="getAccount(id)"];
+  m >> c [label="Account data"];
+  c =>> c [label="mangle(Account Data)"];
+  c -> e [label="log(id, 'getAccount', 'OK')"];
+  
+  ui << c [label="Account data"];
+  ui =>> ui [label="render"];
+}
+</span>
 </section>
 <section>
 <h2 id="arcskip"><code>arcskip</code></h2>
@@ -559,7 +755,15 @@ msc {
     a =>> b [label="without arcskip"];
 }
 </pre>
-<img id="tut34" src="tutorial/tut34.svg" alt="tut34">
+<span class="mscgen_js">
+msc {
+    a, b;
+    
+    a =>> b [label="with arcskip", arcskip="1"];
+    |||;
+    a =>> b [label="without arcskip"];
+}   
+</span>
 </section>
 <section>
 <h2 id="url-id-idurl">url, id, idurl</h2>
@@ -577,7 +781,20 @@ msc {
               <mark>idurl="about:blank"</mark>];
 }
 </pre>
-<img id="tut35" src="tutorial/tut35.svg" alt="tut35">
+<span class="mscgen_js">
+msc {
+    a [id="this is the idof entity a"],
+    b [label="link to\ngithub page", 
+       url="http://www.github.com/sverweij/mscgen_js"];
+    
+    a => b [label="link to mscgen\nissues on github",
+            url="https://github.com/sverweij/mscgen_js/issues?state=open"];
+            
+    a note b [label="works in entities, arcs, notes and boxes",
+              id="id links to about:blank",
+              idurl="about:blank"];
+}
+</span>
 </section>
 </article>
 <footer>

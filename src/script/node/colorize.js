@@ -79,7 +79,6 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
             return lArcCombi;
         } else {
             return gAggregateColorCombis[map.getAggregate(pKind)];
-            ;
         }
     }
 
