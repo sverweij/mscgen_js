@@ -1,138 +1,138 @@
 body {
-    color: black;
-    font-family: sans-serif;
-    font-size: 10pt;
-    background-color: #F8F8F8;
+  color: black;
+  font-family: sans-serif;
+  font-size: 10pt;
+  background-color: #F8F8F8;
 }
 
 article {
-    margin-left: 10%;
-    margin-right: 10%;
-    max-width: 65em;
-    margin-top: 0.25em;
-    padding: 3em;
-    background-color: white;
-    border-radius: 0.5em;
-    overflow: hidden;
-    counter-reset: chapter-counter;
-    /* shadow stuff: */
-    box-shadow: 0.0em 0.0em 1em -0.2em gray;
-    border-collapse: separate; /* apparently needed for IE */
+  margin-left: 10%;
+  margin-right: 10%;
+  max-width: 65em;
+  margin-top: 0.25em;
+  padding: 3em;
+  background-color: white;
+  border-radius: 0.5em;
+  overflow: hidden;
+  counter-reset: chapter-counter;
+  /* shadow stuff: */
+  box-shadow: 0.0em 0.0em 1em -0.2em gray;
+  border-collapse: separate; /* apparently needed for IE */
 }
 section {
-    counter-reset: paragraph-counter;
+  counter-reset: paragraph-counter;
 }
 h1, h2, h3, h4 {
 }
 p, pre {
-    margin-left: 1em;
-    margin-right: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
 }
 code, pre {
-    font-family: Consolas, "Liberation Mono", Courier, monospace;
-    font-size: 1em;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-size: 1em;
 }
 h2:before {
-    counter-increment: chapter-counter;
-    content: /*counter(article-counter) "." */counter(chapter-counter) " ";
+  counter-increment: chapter-counter;
+  content: /*counter(article-counter) "." */counter(chapter-counter) " ";
 }
 h3:before {
-    counter-increment: paragraph-counter;
-    content: /*counter(article-counter) "." */counter(chapter-counter) "." counter(paragraph-counter) " ";
+  counter-increment: paragraph-counter;
+  content: /*counter(article-counter) "." */counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
 h1, h2 {
-    padding-bottom: 0.5em;
-    border-bottom: 1px solid #F8F8F8;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #F8F8F8;
 }
 a {
-    color: blue;
+  color: blue;
 }
 a:visited {
-    color: blue;
+  color: blue;
 }
 code {
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
-    border-radius: 3px;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  border-radius: 3px;
 }
 .code {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    overflow: auto;
-    padding: 6px 10px;
-    border-radius: 3px;
-    display: inline-block;
-    vertical-align: top;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+  display: inline-block;
+  vertical-align: top;
 }
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 .info {
-    border-left: 1px solid #AAAAFF;
-    padding: 0.5em;
+  border-left: 1px solid #AAAAFF;
+  padding: 0.5em;
 }
 .info:before {
-    content: "(i) ";
-    color: blue;
-    font-weight: bold;
+  content: "(i) ";
+  color: blue;
+  font-weight: bold;
 }
 .warning {
-    border-left: 1px solid orange;
-    padding: 0.5em;
+  border-left: 1px solid orange;
+  padding: 0.5em;
 }
 .warning:before {
-    content: " /!\\ ";
-    color: orange;
-    font-weight: bold;
+  content: " /!\\ ";
+  color: orange;
+  font-weight: bold;
 }
 .shadow {
-    box-shadow: 0.0em 0.0em 1em -0.2em gray;
-    border-collapse: separate; /* apparently needed for IE */   
+  box-shadow: 0.0em 0.0em 1em -0.2em gray;
+  border-collapse: separate; /* apparently needed for IE */   
 }
 mark {
-    background-color: #FFFFAA;
+  background-color: #FFFFAA;
 }
 
 @media screen and (max-width: 640px) {
-    body {
-        margin: 0em;
-    }
-    article {
-        margin: 0em;
-        border: 0em;
-        padding-left: 1em;
-        padding-right: 1em;
-        border-radius: 0em;
-    }
-    .code {
-        display: block;
-        overflow: auto;
-    }
-    .hideonmobile {
-        display: none;
-    }
+  body {
+    margin: 0em;
+  }
+  article {
+    margin: 0em;
+    border: 0em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 0em;
+  }
+  .code {
+    display: block;
+    overflow: auto;
+  }
+  .hideonmobile {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 641px) and (max-width: 768px) {
-    body {
-        margin: 0em;
-    }
-    article {
-        margin: 0em;
-        border: 0em;
-        padding: 1em;
-        border-radius: 0em;
-    }
+  body {
+    margin: 0em;
+  }
+  article {
+    margin: 0em;
+    border: 0em;
+    padding: 1em;
+    border-radius: 0em;
+  }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
 }
 
 @media screen and (min-width: 1025px) {
-    /*article {
-        margin-left: 20%;
-        margin-right: 20%;
-    }*/
+  /*article {
+    margin-left: 20%;
+    margin-right: 20%;
+  }*/
 }
 /*
  This file is part of mscgen_js.
