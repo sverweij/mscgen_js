@@ -9,10 +9,10 @@ msc {
   a -x b   [ label="a -x b  (lost)" ];
   a :> b   [ label="a :> b  (emphasis)" ];
   a .. b   [ label="a .. b  (dotted)" ];
-  a note a [ label="a note a" ],
-  b box b  [ label="b box b" ];
-  a rbox a [ label="a rbox a" ],
-  b abox b [ label="b abox b" ];
+  a note a [ label="a note a\n(note)" ],
+  b box b  [ label="b box b\n(action)" ];
+  a rbox a [ label="a rbox a\n(reference)" ],
+  b abox b [ label="b abox b\n(state/ condition)" ];
   |||      [ label="||| (empty row)" ];
   ...      [ label="... (omitted row)" ];
   ---      [ label="--- (comment)" ];
