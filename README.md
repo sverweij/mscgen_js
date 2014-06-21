@@ -60,7 +60,8 @@ it as part of other free software, but _not_ as part of non free software.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style):
-- The bare (embedding only) mscgen_js depends on [requirejs][19]; its parser was generated with [pegjs][12].
+- [requirejs][19] is used for modularization.
+- The bare (embedding only) mscgen_js uses [almond][31]; its parser was generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13], [canvg][16] and [jQuery][14]. 
 - To run in node, mscgen_js uses [jsdom][25] and [amdefine][20].
 
@@ -107,3 +108,4 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 [28]: wikum/licenses/license.istanbul.md
 [29]: wikum/xu.md
 [30]: http://sverweij.github.io/mscgen_js/embed.html
+[31]: https://github.com/jrburke/almond
