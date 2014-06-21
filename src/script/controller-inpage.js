@@ -1,22 +1,32 @@
 /* jshint browser:true */
 /* global define */
 
-define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennyparser, msc_render) {
+define(["xuparser", "msgennyparser", "renderast", "node/textutensils"], function(mscparser, msgennyparser, msc_render, utl) {
     var PARENTELEMENTPREFIX = "mscgen_js$parent_";
     var DEFAULT_LANGUAGE = "mscgen";
 
     start();
 
     function start() {
-        // !("yes" === navigator.doNotTrack)
         var lMscGenElements = document.getElementsByClassName("mscgen_js");
-
 
         for (var i = 0; i < lMscGenElements.length; i++) {
             renderElement(lMscGenElements[i], i);
         }
     }
-
+    function formatLine(pLine, pLineNo){
+        return utl.formatNumber(pLineNo, 3) + " " + pLine; 
+    }
+    
+    function underlineCol(pLine, pCol){
+        return pLine.split("").reduce(function(pPrev, pChar, pIndex){
+            if (pIndex === pCol) {
+                return pPrev + "<span style='text-decoration:underline'>" + pChar + "</span>";
+            }
+            return pPrev + pChar;
+        }, "");
+    }
+    
     function renderElement(pElement, pIndex) {
         var lLanguage = getLanguage (pElement);
         var lAST = getAST(pElement.textContent, lLanguage);
@@ -25,7 +35,13 @@ define(["xuparser", "msgennyparser", "renderast"], function(mscparser, msgennypa
         if (lAST.entities) {
             render(lAST, pElement.id, pElement.textContent);
         } else {
-            pElement.innerHTML += "<div style='color: red'>ERROR: line " + lAST.line + ", column " + lAST.column + ": " + lAST.message + "</div>";
+            pElement.innerHTML = pElement.textContent.split('\n').reduce(function(pPrev, pLine, pIndex){
+                if (pIndex === (lAST.line - 1)){
+                    return pPrev + 
+                    "<mark>" + formatLine (underlineCol(pLine, lAST.column -1), pIndex + 1) + '\n' + "</mark>"; 
+                }
+                return pPrev + formatLine (pLine, pIndex + 1) + '\n';
+            }, "<pre><div style='color: red'># ERROR on line " + lAST.line + ", column " + lAST.column + " - " + lAST.message + "</div>") + "</pre>";
         }
     }
 

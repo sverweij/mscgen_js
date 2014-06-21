@@ -69,7 +69,7 @@ function() {
     function _unescapeString(pString) {
         return pString.replace(/\\\"/g, '"');
     }
-    
+
     function _escapeString(pString) {
         return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
     }
@@ -135,7 +135,7 @@ function() {
         unescapeString : function(pString) {
             return _unescapeString(pString);
         },
-        
+
         /**
          * takes pString and replaces all double quotes with
          * escaped double quotes
@@ -158,6 +158,24 @@ function() {
          */
         classifyExtension : function(pString) {
             return _classifyExtension(pString);
+        },
+
+        /**
+         * Given a Number, emits a String with that number in, left padded so the
+         * string is pMaxWidth long. If the number doesn't fit within pMaxWidth 
+         * characters, just returns a String with that number in it
+         *
+         * @param {number} pNumber
+         * @param {number} pMaxWidth
+         * @return {string} - the formatted number
+         */
+        formatNumber : function(pNumber, pMaxWidth) {
+            var lRetval = pNumber.toString();
+            var lPosLeft = pMaxWidth - lRetval.length;
+            for (var i = 0; i < lPosLeft; i++) {
+                lRetval = " " + lRetval;
+            }
+            return lRetval;
         }
     };
 });
