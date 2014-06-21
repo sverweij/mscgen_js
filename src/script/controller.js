@@ -481,7 +481,7 @@ function show_rasterOnClick (pType) {
     var lWindow = window.open(toRasterURI("#__svg", pType), "_blank");
 }
 function getHTMLSnippet() {
-    return "<!DOCTYPE html>\n<html>\n  <head>\n    <script data-main='https://sverweij.github.io/mscgen_js/script/mscgen-inpage.js' src='https://sverweij.github.io/mscgen_js/lib/require.js'>\n    </script>\n  <head>\n  <body>\n    <pre class='code " + gLanguage + " mscgen_js' data-language='" + gLanguage +"'>\n" + gCodeMirror.getValue() + "\n    </pre>\n  </body>\n</html>";
+    return "<!DOCTYPE html>\n<html>\n  <head>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js'>\n    </script>\n  <head>\n  <body>\n    <pre class='code " + gLanguage + " mscgen_js' data-language='" + gLanguage +"'>\n" + gCodeMirror.getValue() + "\n    </pre>\n  </body>\n</html>";
 }
 function show_htmlOnClick(){
     var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(getHTMLSnippet()));

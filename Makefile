@@ -130,7 +130,7 @@ style/mscgen.css: src/style/mscgen.css
 script/mscgen-main.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-main" \
-			out="./script/mscgen-main.js"
+			out=$@ \
 
 			# paths.jquery="jquery" \
 			# paths.codemirror="../lib/codemirror" \
@@ -139,10 +139,20 @@ script/mscgen-main.js: $(SOURCES_WEB)
 			# paths.dagred3="../lib/dagre/dagred3" \
 			# paths.d3="../lib/dagre/d3" \
 
-script/mscgen-inpage.js: $(EMBED_SOURCES_WEB) lib/require.js
-	$(RJS) -o baseUrl="./src/script" \
-			name="mscgen-inpage" \
-			out="./script/mscgen-inpage.js" \
+# script/mscgen-inpage.js: $(EMBED_SOURCES_WEB) lib/require.js
+	# $(RJS) -o baseUrl="./src/script" \
+			# name="mscgen-inpage" \
+			# out="./script/mscgen-inpage.js" \
+
+mscgen-inpage.js: $(EMBED_SOURCES_WEB)
+	$(RJS) -o baseUrl=./src/script \
+			name=../lib/almond \
+			include=mscgen-inpage \
+			out=$@ \
+			wrap=true
+
+script/mscgen-inpage.js: mscgen-inpage.js
+	cp $< $@
 
 # "phony" targets
 build-prerequisites:
@@ -171,7 +181,7 @@ cover:
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
 # install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html script/mscgen-inpage.js lib/require.js style/mscgen.css $(FAVICONS)
+install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html mscgen-inpage.js script/mscgen-inpage.js lib/require.js style/mscgen.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
 	
@@ -209,7 +219,7 @@ ibartfast:
 slart: ibartfast $(FAVICONS)
 	
 somewhatclean:
-	rm -rf $(PRODDIRS) index.html embed.html
+	rm -rf $(PRODDIRS) index.html embed.html mscgen-inpage.js
 	rm -rf jsdoc
 	rm -rf coverage
 
