@@ -100,11 +100,12 @@ msc {
 &lt;/code>
 </pre>
         <h1>Error handling</h1>
-        <p>If your mscgen code contains an error, instead of the sequence chart, the script will 
-            output your mscgen code with an error message attached:</p>
+        <p>If your mscgen code contains an error, instead of a sequence chart, you will see
+             your mscgen code with the offending line highlighted, thusly:</p>
         <pre class="mscgen_js shadow">msc {
   a, b; 
-  a -> b[noexistingattribute="something"];
+  a -> b[nonexistingattribute="something"];
+  b >> a[label="done dee done"];
 }</pre>
 
         <h1>Other sequence chart languages</h1>

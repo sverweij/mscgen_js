@@ -30,7 +30,7 @@ describe('textutensils', function() {
         it('should have "schapen." as the last line', function() {
             assert.equal(lWrapSpacelessAry[lWrapSpacelessAry.length - 1], "n.");
         });
-        
+
     });
 
     describe('#wrap(x, 10) - empty string', function() {
@@ -44,7 +44,7 @@ describe('textutensils', function() {
             assert.equal(lEmptyStringAry[0], "");
         });
     });
-    
+
     describe('#wrap(x, 100) - string with spaces', function() {
         var lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
         var lWrapAry = txt.wrap(lWrapThis, 100);
@@ -75,9 +75,26 @@ describe('textutensils', function() {
             assert.equal(txt.classifyExtension('aap.noot/mies.'), "mscgen");
         });
 
-
         it('should classify as ast/json ', function() {
             assert.equal(txt.classifyExtension('test01_all_arcs.json'), "json");
+        });
+    });
+
+    describe('#formatNumber() - ', function() {
+        it('puts two spaces in front of a single digit on max width 3', function() {
+            assert.equal(txt.formatNumber(7, 3), "  7");
+        });
+        it('puts no spaces in front of a single digit on max width 1', function() {
+            assert.equal(txt.formatNumber(7, 1), "7");
+        });
+        it('puts no spaces in front of a single digit on max width 0', function() {
+            assert.equal(txt.formatNumber(7, 0), "7");
+        });
+        it('puts no spaces in front of a single digit on max width < 0', function() {
+            assert.equal(txt.formatNumber(7, -8), "7");
+        });
+        it('puts no spaces in front of a three digit number on max width 3', function() {
+            assert.equal(txt.formatNumber(481, 3), "481");
         });
     });
 
