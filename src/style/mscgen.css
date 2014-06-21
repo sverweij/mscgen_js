@@ -354,7 +354,7 @@ to {
   width: 98%;
   height: 40em;
 }
-#__input_and_controls > #__error_output {
+#__input_and_controls > #__error {
   color: orange;
   padding: 1em 0em 1em 0em;
   border: solid 1px orange;
