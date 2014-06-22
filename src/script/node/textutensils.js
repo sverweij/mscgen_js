@@ -66,14 +66,6 @@ function() {
         return lMagicFactor;
     }
 
-    function _unescapeString(pString) {
-        return pString.replace(/\\\"/g, '"');
-    }
-
-    function _escapeString(pString) {
-        return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
-    }
-
     function _classifyExtension(pString) {
         var lExtMap = {
             "msgenny" : "msgenny",
@@ -133,7 +125,7 @@ function() {
          * @return {string}
          */
         unescapeString : function(pString) {
-            return _unescapeString(pString);
+            return pString.replace(/\\\"/g, '"');
         },
 
         /**
@@ -143,7 +135,7 @@ function() {
          * @return {string}
          */
         escapeString : function(pString) {
-            return _escapeString(pString);
+            return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
         },
 
         /**

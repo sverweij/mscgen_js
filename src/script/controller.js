@@ -600,7 +600,8 @@ function render() {
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
             displayError(
-             "Line " + e.line + ", column " + e.column + ": " + e.message);
+             "Line " + e.line + ", column " + e.column + ": " + e.message,
+              ">>> " + gCodeMirror.getValue().split('\n')[e.line - 1] + " <<<");
         } else {
             displayError(e.message);
         }
@@ -614,12 +615,13 @@ function closeAllLightBoxes() {
     $("#__embedsheet").hide();
 }
 function hideError () {
-    $("#__error_output").hide();
+    $("#__error").hide();
+    $("#__error_context").text("");
 }
-
-function displayError (pString) {
-    $("#__error_output").show();
-    $("#__error_output").text(pString);
+function displayError (pError, pContext) {
+    $("#__error").show();
+    $("#__error_output").text(pError);
+    $("#__error_context").text(pContext);
 }
 
 }); // define
