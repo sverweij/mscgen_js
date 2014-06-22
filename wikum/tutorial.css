@@ -64,7 +64,7 @@ code {
   display: inline-block;
   vertical-align: top;
 }
-img {
+img, svg, .mscgen_js {
   max-width: 100%;
 }
 .info {
@@ -93,7 +93,7 @@ mark {
   background-color: #FFFFAA;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 639px) {
   body {
     margin: 0em;
   }
@@ -113,7 +113,7 @@ mark {
   }
 }
 
-@media screen and (min-width: 641px) and (max-width: 768px) {
+@media screen and (min-width: 640px) and (max-width: 767px) {
   body {
     margin: 0em;
   }
@@ -125,10 +125,10 @@ mark {
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1023px) {
 }
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1024px) {
   /*article {
     margin-left: 20%;
     margin-right: 20%;
