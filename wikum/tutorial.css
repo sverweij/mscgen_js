@@ -67,6 +67,10 @@ code {
 img, svg, .mscgen_js {
   max-width: 100%;
 }
+.mscgen_js {
+  overflow: auto;
+  display: inline-block;
+}
 .info {
   border-left: 1px solid #AAAAFF;
   padding: 0.5em;
