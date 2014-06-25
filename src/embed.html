@@ -44,7 +44,7 @@
 
         <title>mscgen_js - turns text into sequence charts</title>
         <link rel="stylesheet" href="wikum/tutorial.css" type="text/css" media="screen"> 
-        <script src="mscgen-inpage.js"></script>
+        <script src="mscgen-inpage.js" defer></script>
     </head>
     <body>
         <article>
@@ -54,7 +54,7 @@
             <ol>
                 <li>
                     Reference the mscgen-inpage script in your page head:
-                    <pre class="code">&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js">
+                    <pre class="code">&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer>
 &lt;/script>
 </pre>
                 </li>
@@ -64,7 +64,8 @@
                     <code>class</code> attributes.
                     
                     The element type does not matter to mscgen_js (although it might matter to you ...)
-               <pre class="code">
+
+<pre class="code">
 <mark>&lt;pre class="mscgen_js"&gt;</mark>
 msc {
     a [label="consumer"], b [label="shopfront"], c;
