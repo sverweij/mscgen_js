@@ -1,28 +1,26 @@
-body {
-  color: black;
-  font-family: sans-serif;
+footer {
+  border-top: solid lightgray 1px;
+  padding-top: 0.9em;
   font-size: 10pt;
-  background-color: #F8F8F8;
+  background-color: white;
 }
-
 article {
-  margin-left: 10%;
-  margin-right: 10%;
+  /*margin-left: 10%;*/
+  /*margin-right: 10%;*/
   max-width: 65em;
   margin-top: 0.25em;
-  padding: 3em;
+  padding: 2em;
   background-color: white;
-  border-radius: 0.5em;
+  /*border-radius: 0.5em;*/
   overflow: hidden;
   counter-reset: chapter-counter;
-  /* shadow stuff: */
-  box-shadow: 0.0em 0.0em 1em -0.2em gray;
+  /*box-shadow: 0.0em 0.0em 1em -0.2em lightgrey;*/
   border-collapse: separate; /* apparently needed for IE */
 }
 section {
   counter-reset: paragraph-counter;
 }
-h1, h2, h3, h4 {
+article > h1, h2, h3, h4 {
 }
 p, pre {
   margin-left: 1em;
@@ -32,22 +30,22 @@ code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 1em;
 }
-h2:before {
+article h2:before {
   counter-increment: chapter-counter;
   content: /*counter(article-counter) "." */counter(chapter-counter) " ";
 }
-h3:before {
+article h3:before {
   counter-increment: paragraph-counter;
   content: /*counter(article-counter) "." */counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
-h1, h2 {
+article h1, h2 {
   padding-bottom: 0.5em;
   border-bottom: 1px solid #F8F8F8;
 }
-a {
+article a {
   color: blue;
 }
-a:visited {
+article a:visited {
   color: blue;
 }
 code {
@@ -128,29 +126,3 @@ mark {
     border-radius: 0em;
   }
 }
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-}
-
-@media screen and (min-width: 1024px) {
-  /*article {
-    margin-left: 20%;
-    margin-right: 20%;
-  }*/
-}
-/*
- This file is part of mscgen_js.
-
- mscgen_js is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- mscgen_js is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
- */

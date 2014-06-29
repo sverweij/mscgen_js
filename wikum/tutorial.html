@@ -38,12 +38,65 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="../favicon.ico">
 
 <title>mscgen_js - tutorial</title>
-<link rel="stylesheet" href="tutorial.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../style/doc.css" type="text/css" media="screen">
 <script src='../mscgen-inpage.js' defer></script>
 </head>
 <body>
+<header>
+    <div>
+        <a href="https://twitter.com/SanderSpeaks"
+        data-dnt="true"
+        class="twitter icon hideonmobile fadable"
+        title="Your praise goes here"
+        target="_blank"><br><br>praise</a>
+        <a href="https://github.com/sverweij/mscgen_js"
+        class="github icon hideonmobile fadable"
+        title="fork me on github"
+        target="_blank"><br><br>fork</a>
+        <a href="../index.html"
+        class="interpreter icon fadable"
+        title="Go to the interpreter"><br><br>interpret</a>     
+        <a href="../embed.html"
+        class="embed icon"
+        title="embed mscgen in your html"><br><br>embed</a>
+    </div>
+    <a href="../index.html">
+    <h1>mscgen_js <em>tutorial</em></h1>
+    <span>turns text into sequence charts</span>
+    </a>
+</header>
+<article id="introduction">
+    <h1>Introduction</h1>
+    <p>
+        This is a short (but complete) tutorial for creating sequence charts in plain text.
+        It starts with the <a href="#mscgen">MsGenny</a> language, but also covers <a href="#mscgen">MscGen</a> and the <a href="#interpreter">on line interpreter</a>.
+    </p>
+    <p>
+        If you're completely new to writing sequence charts in plain text, you can best start
+        with MsGenny (whose concepts apply to MscGen as well). The samples in this tutorial are ready
+        to be used 1:1 in the <a href="../?lang=msgenny" target="_blank">interpreter</a>. 
+    </p>
+    <p>
+        If you just occasionally write sequence charts with either language, you might benefit
+        from the <a href="tutorial/test14_cheat_sheet.svg">cheat sheet</a> (also available 
+        as <a href="tutorial/test14_cheat_sheet.png">png</a>) which is also easily accessible from the
+        interpreter.
+    </p>
+    
+    <nav>
+        <h1>Contents</h1>
+        <ul>
+            <li>
+                <a href="#msgenny">MsGenny language tutorial</a>
+            <li>
+                <a href="#interpreter">Using the on line interpreter</a>
+            <li>
+                <a href="#mscgen">MscGen</a>
+        </ul>
+    </nav>
+</article>
 <article id="msgenny">
-<h1>Language tutorial</h1>
+<h1>MsGenny language tutorial</h1>
 <nav>
 <ul>
     <li>
@@ -520,8 +573,8 @@ Alice => Alice: hihihi;
 
 <article id="interpreter">
 <h1>Using the on line interpreter</h1>
-<p>With the on line interpreter you can write mscgen programs and see the
-    chart grow in real time.
+<p>With the on line interpreter you can write MsGenny and MscGen scripts and see the
+    resulting chart grow in real time.
     </p>
 <section>
 <h2>Input</h2>
@@ -647,26 +700,28 @@ and the commit hash.
 </article>
 
 <article id="mscgen">
-<h1>Mscgen</h1>
-<p>Why should I use mscgen, when I can bang out sequence diagrams with ms genny 
-    in a pinch? There are three good reasons for this</p>
+<h1>MscGen</h1>
+<p>MscGen is the sequence chart language created by Michael McTernan in 2006. It's a 
+    bit more elaborate than MsGenny, so why should you use it? You can bang out 
+    sequence diagrams with MsGenny in a pinch, right? There are three good reasons 
+    to use MscGen:</p>
 <ul>
-    <li><em>Compatibility</em> - mscgen has been around for quite a long time and
-        Michael, it's father, marketed it fairly well, so there is relatively wide
-        spread support. The mscgen command line runs on most platforms, is packaged
+    <li><em>Compatibility</em> - MscGen has been around for quite a long time.
+        Michael has marketed it effectively, so it is widely supported. The MscGen command 
+        line runs on most platforms, is packaged
         with some major linux distros and has an impressive list of supporting
         applications, not the least of which are documentation generators like 
         <em>doxygen</em> and <em>asciidoc</em>.
         Heck, MscGen even has its own <a href="https://en.wikipedia.org/wiki/Mscgen" target="_blank">wikipedia</a> 
         page.
-   <li><em>Features</em> - the simplicity of ms genny comes with a price: features.
-       mscgen a.o. supports coloring, skipping arcs and embedding hyperlinks. Ms genny does not. 
-   <li><em>ms genny => mscgen in one click</em> - you can bang out your sequence chart with 
-       ms genny and with one click in the online interpreter get its mscgen counterpart. 
+   <li><em>Features</em> - the simplicity of MsGenny comes with a price: features.
+       MscGen a.o. supports coloring, skipping arcs and embedding hyperlinks. MsGenny doesn't. 
+   <li><em>Free lunch in one click</em> - you can bang out your sequence chart with 
+       MsGenny and with one click in the online interpreter get its MscGen counterpart. 
 </ul>
 
-<p class="info">For a complete <em>mscgen</em> reference visit
-<a href="http://www.mcternan.me.uk/mscgen" target="_blank">the site of its creator</a>.</p>
+<p class="info">For a complete <em>MscGen</em> reference visit
+<a href="http://www.mcternan.me.uk/mscgen" target="_blank">Michaels site</a>.</p>
 
 <section>
 <h2 id="coloring">Coloring</h2>
@@ -836,7 +891,7 @@ msc {
 </section>
 </article>
 <footer>
-    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="tutorial/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 </footer>
 </body>
 </html>

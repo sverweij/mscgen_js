@@ -1,0 +1,57 @@
+header {
+  padding-bottom: 0.9em;
+  padding-top: 1em;
+  border-bottom: solid lightgray 1px;
+  margin-bottom: 0.4em;
+  background-image: url('../../images/bg.png');
+  background-repeat: no-repeat;
+  /*background-size: cover;*/
+  background-position: 25%;
+}
+header > div {
+  float: right;
+}
+header h1 {
+  font-size: 1.9em;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+header em {
+  color: black;
+}
+header a {
+  text-decoration: none;
+  color: lightgrey;
+}
+header div.icon:hover {
+  cursor: pointer;
+}
+header .icon {
+  display: inline-block;
+  width: 3.6em;
+  height: 2.2em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  text-align: center;
+}
+header .twitter {
+  background-image: url('../../images/twitter.svg');
+}
+header .github {
+  background-image: url('../../images/github.svg');
+}
+header .tutorial {
+  background-image: url('../../images/tutorial.svg');
+}
+header .embed {
+  background-image: url('../../images/embed.svg');
+}
+header .question {
+  background-image: url('../../images/question.svg');
+}
+header .interpreter {
+  background-image: url('../../images/interpreter.svg');
+}
