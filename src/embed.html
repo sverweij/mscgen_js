@@ -42,15 +42,42 @@
         <link rel="apple-touch-icon-precomposed" href="./iosfavicon-57.png">
         <link rel="shortcut icon" href="./favicon.ico">
 
-        <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="wikum/tutorial.css" type="text/css" media="screen"> 
+        <title>mscgen_js - embedding</title>
+        <link rel="stylesheet" href="./style/doc.css" type="text/css" media="screen"> 
         <script src="mscgen-inpage.js" defer></script>
     </head>
     <body>
+<header>
+    <nav>
+        <a href="https://twitter.com/SanderSpeaks"
+        data-dnt="true"
+        class="twitter icon hideonmobile fadable"
+        title="Your praise goes here"
+        target="_blank"><br><br>praise</a>
+        <a href="https://github.com/sverweij/mscgen_js"
+        class="github icon hideonmobile fadable"
+        title="fork me on github"
+        target="_blank"><br><br>fork</a>
+        <a href="./index.html"
+        class="interpreter icon fadable"
+        title="Go to the interpreter"><br><br>interpret</a>     
+        <a href="./wikum/tutorial.html"
+        class="question icon fadable"
+        title="Open the tutorial"><br><br>learn</a>
+    </nav>
+    <div class="debug fadable">
+        <div><em>version:</em> ${version}</div>
+        <div><em>build-date:</em> ${date}</div>
+        <div><em>commit:</em> ${commit}</div>
+    </div>
+    <a href="./index.html">
+    <div class="h1">mscgen_js <em>embedding</em></div>
+    <span>turns text into sequence charts</span>
+    </a>
+</header>
         <article>
-        <h1>Want to embed mscgen in your html?</h1>
+        <h1>Embedding MscGen in your html is easy:</h1>
         <p>
-            That's easy:
             <ol>
                 <li>
                     Reference the mscgen-inpage script in your page head:
@@ -59,12 +86,9 @@
 </pre>
                 </li>
                 <li>
-                    put your mscgen script in the page, with
+                    Put your mscgen script in the page, with
                     a tag around it that has <code>mscgen_js</code> as one of its
-                    <code>class</code> attributes.
-                    
-                    The element type does not matter to mscgen_js (although it might matter to you ...)
-
+                    <code>class</code> attributes.<br>
 <pre class="code">
 <mark>&lt;pre class="mscgen_js"&gt;</mark>
 msc {
@@ -78,7 +102,8 @@ msc {
     ...;
 }
 <mark>&lt;/pre></mark>
-</pre>                     
+</pre>             
+                    <br>The element type does not matter to mscgen_js (although it might matter to you ...)        
                 </li>
             </ol>
         </p>
@@ -98,13 +123,13 @@ msc {
             ...;
             }</pre>
 
-        <h1>Want to use mscgen in Atlassian Confluence?</h1>
+        <h1>Embedding MscGen in Atlassian Confluence:</h1>
         <p>If your Confluence admin has enabled the confluence HTML macro, getting
             mscgen in your page is as simple as adding a HTML "macro" to the page 
             and put the <code>script</code> tag in there. Sample snippet:
         </p>
 <pre class="code">
-&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js"></script>
+&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer></script>
               
 &lt;code class="mscgen_js">
 msc {
@@ -231,5 +256,8 @@ msc{
 }
         </pre>
         </article>
+<footer>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="wikum/tutorial/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+</footer>
     </body>
 </html>

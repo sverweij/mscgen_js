@@ -1,0 +1,69 @@
+.popupsheet {
+  z-index: 1;
+  position: absolute;
+  top: 4.5em;
+  right: 0;
+  background-color: transparent;
+  width: 100%;
+  display: none;
+}
+.popupsheet .popup {
+  float: right;
+  margin-right: 1em;
+  max-width: 25em;
+  max-height: 80%;
+  box-shadow: .4em .4em 1em -.2em gray;
+  border-collapse: separate; /* apparently needed for IE */
+  background-color: white;
+  overflow: auto;
+  border-radius: 1em;
+  opacity: .97;
+}
+.popup header {
+  padding-bottom: .4em;
+  padding-top: .5em;
+}
+.popup a {
+  text-decoration:underline;
+}
+.popup a:hover {
+  text-decoration:underline;
+}
+.popup .h1 {
+  font-size: 1.3em;
+  padding-left: .5em;
+}
+.popup span {
+  padding-left: .5em;
+}
+.popup button.close {
+  color: white;
+  border-radius: 1em;
+  margin-right: .5em;
+  /*margin-top:-.0em;*/
+  float: right;
+}
+.popup p {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin: 0;
+  display: block
+}
+@media screen and (max-width: 480px) {
+  .popupsheet .popup {
+    width: 100%;
+    max-width: 100%;
+    float: left;
+  }
+  .popup button.close {
+    margin-right: 1em;
+  }
+  .popup img {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .popupsheet {
+    z-index: 3;
+  }
+}

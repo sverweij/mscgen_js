@@ -8,6 +8,7 @@ MOCHA_FORK=node_modules/mocha/bin/_mocha
 COVER=node node_modules/istanbul/lib/cli.js
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
+CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
 RESIZE=utl/resize.sh
@@ -19,7 +20,8 @@ DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
 	src/script/xuparser.js \
-	src/style/mscgen.css
+	src/style/interp.css \
+	src/style/doc.css
 GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js \
 	src/script/node/msgennyparser_node.js \
 	src/script/node/xuparser_node.js 
@@ -109,14 +111,22 @@ src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
 src/script/node/xuparser_node.js: src/script/node/xuparser.pegjs
 	$(PEGJS) $< $@
 
-src/style/mscgen.css: src/style/mscgen-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css
-	$(RJS) -o cssIn=src/style/mscgen-src.css out=$@
+src/style/interp.css: src/style/interp-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css src/style/snippets/interpreter.css src/style/snippets/header.css src/style/snippets/generics.css src/style/snippets/popup.css
+	$(RJS) -o cssIn=src/style/interp-src.css out=$@
+
+src/style/doc.css: src/style/doc-src.css src/style/snippets/header.css src/style/snippets/documentation.css src/style/snippets/generics.css
+	$(RJS) -o cssIn=src/style/doc-src.css out=$@
+
 
 $(PRODDIRS):
 	mkdir $@
 
+src/index.html: src/style/interp.css
+
 index.html: src/index.html
 	$(SEDVERSION) < $< > $@
+
+src/embed.html: src/style/doc.css
 
 embed.html: src/embed.html
 	$(SEDVERSION) < $< > $@
@@ -124,7 +134,10 @@ embed.html: src/embed.html
 lib/require.js: src/lib/require.js
 	cp $< $@
 
-style/mscgen.css: src/style/mscgen.css
+style/interp.css: src/style/interp.css
+	cp $< $@
+
+style/doc.css: src/style/doc.css
 	cp $< $@
 
 script/mscgen-main.js: $(SOURCES_WEB)  
@@ -156,7 +169,7 @@ script/mscgen-inpage.js: mscgen-inpage.js
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha istanbul
+	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint
 
 runtime-prerequisites-node:
 	# cd src/script/node
@@ -174,14 +187,17 @@ noconsolestatements:
 consolecheck:
 	grep -r console src/script/*
 
+csslint:
+	$(CSSLINT) src/style/snippets/*.css
+
 lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
 cover:
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
-# install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/mscgen.css $(FAVICONS)
-install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html mscgen-inpage.js script/mscgen-inpage.js lib/require.js style/mscgen.css $(FAVICONS)
+# install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/interp.css $(FAVICONS)
+install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html mscgen-inpage.js script/mscgen-inpage.js lib/require.js style/interp.css style/doc.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
 	

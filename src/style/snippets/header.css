@@ -1,0 +1,65 @@
+header {
+  padding-bottom: 0.9em;
+  padding-top: 1em;
+  border-bottom: solid lightgray 1px;
+  margin-bottom: .4em;
+  background-image: url('../../images/bg.png');
+  background-repeat: no-repeat;
+  background-position: 25%;
+}
+header > nav {
+  float: right;
+}
+header .debug {
+  float: right;
+  font-size: small;
+}
+header .h1 {
+  font-size: 1.9em;
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+header em {
+  color: black;
+}
+header a {
+  text-decoration: none;
+  color: lightgray;
+}
+header a.icon:hover {
+  color:black;
+}
+header div.icon:hover {
+  cursor: pointer;
+  color:black;
+}
+header .icon {
+  display: inline-block;
+  width: 3.6em;
+  height: 2.2em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  text-align: center;
+}
+header .twitter {
+  background-image: url('../../images/twitter.svg');
+}
+header .github {
+  background-image: url('../../images/github.svg');
+}
+header .tutorial {
+  background-image: url('../../images/tutorial.svg');
+}
+header .embed {
+  background-image: url('../../images/embed.svg');
+}
+header .question {
+  background-image: url('../../images/question.svg');
+}
+header .interpreter {
+  background-image: url('../../images/interpreter.svg');
+}
