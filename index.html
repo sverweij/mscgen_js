@@ -38,14 +38,14 @@
         <link rel="shortcut icon" href="./favicon.ico">
         
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/mscgen.css"
+        <link rel="stylesheet" href="style/interp.css"
         type="text/css" media="screen">
         <script data-main="script/mscgen-main.js"
         src="lib/require.js"></script>
     </head>
     <body>
         <header class="fadable">
-            <div>
+            <nav>
                 <a href="https://twitter.com/SanderSpeaks"
                 data-dnt="true"
                 class="twitter icon hideonmobile fadable"
@@ -58,24 +58,28 @@
                 <div id="__embedme"
                 class="embed icon"
                 title="embed mscgen in your html"><br><br>embed</div>
+                <!-- <div id="__learn" 
+                class="tutorial icon fadable"
+                title="Opens the tutorial in a new window"
+                target="_blank"><br><br>learn</div> -->
                 <div id="__helpme"
                 class="question icon"
-                title="Show cheat sheet"><br><br>ask</div>
+                title="Show cheat sheet"><br><br>learn</div>
+            </nav>
+
+            <div class="debug fadable">
+                <div><em>version:</em> 0.9.24</div>
+                <div><em>build-date:</em> 20140629 20:45</div>
+                <div><em>commit:</em> 9ed3b07afe0f383a</div>
             </div>
 
-            <div class="debug fadable" style="font-size: small">
-                <div><em>version:</em> 0.9.23</div>
-                <div><em>build-date:</em> 20140625 23:52</div>
-                <div><em>commit:</em> c96725448f03e2ec</div>
-            </div>
-
-            <h1 title="There's some good copy in tooltips.
+            <div class="h1" title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.23
-    build-date: 20140625 23:52
-    commit: c96725448f03e2ec" class="fadable">mscgen_js</h1>
+    version: 0.9.24
+    build-date: 20140629 20:45
+    commit: 9ed3b07afe0f383a" class="fadable">mscgen_js</div>
             <span>turns text into sequence charts</span>
         </header>
         <div id="__input_and_controls">
@@ -155,7 +159,7 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
                     render &gt;
                 </button>
             </div>
-            <div id="__error" class="code">
+            <div id="__error" class="code error">
                 <div id="__error_output"></div><br> 
                 <div id="__error_context"></div>
             </div>
@@ -221,8 +225,11 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
         <canvas id="__pngcanvas"></canvas>
         <div id="__embedsheet" class="popupsheet">
             <div class="popup">
-                <h1>Embed MscGen in your html</h1>
-                <button id="__close_embedsheet" class="close">X</button>
+                <header>
+                    <button id="__close_embedsheet" class="close">X</button>
+                    <div class="h1">Embed MscGen</div>
+                    <span>in your own html</span>
+                </header>
              <p>
                 Sample html for the current chart (<a href="./embed.html" target="_blank">learn more</a>):<br><br>
                 <textarea wrap="off" readonly="true" cols="58" rows="20" id="__embedsnippet" class="code html"></textarea>
@@ -231,17 +238,23 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
         </div>
         <div id="__cheatsheet" class="popupsheet">
             <div class="popup">
-                <h1>Cheat sheet</h1>
-                <button id="__close_lightbox" class="close">X</button>
-                <p>
-                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
-                </p>
-                <p>
-                    Tutorial <a href="wikum/tutorial.html" target="_blank">here</a>.
-                    <a href="wikum/tutorial.html#msgenny" target="_blank">genny</a>
-                    <a href="wikum/tutorial.html#interpreter" target="_blank">online interpreter</a>
-                    <a href="wikum/tutorial.html#mscgen" target="_blank">mscgen</a>
-                </p>
+                <header>
+                    <button id="__close_lightbox" class="close">X</button>
+                    <div class="h1">Cheat sheet</div>
+                    <span>and links to the tutorial</span>
+                </header>
+                <table style="width: 100%; border-bottom: 1px solid lightgray;">
+                    <tr>
+                        <td style="vertical-align: top;"><a href="wikum/tutorial.html" target="_blank">Tutorial</a>:</td>
+                        <td style="vertical-align: top;">
+                            <div>The <a href="wikum/tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
+                            <div>Online <a href="wikum/tutorial.html#interpreter" target="_blank">interpreter</a></div>
+                            <div>The <a href="wikum/tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
+                            </td>
+                    </tr>
+                </table>
+                <!-- <em style="padding-left: 0.5em">Cheat sheet</em> -->
+                <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
             </div>
         </div>
     </body>
