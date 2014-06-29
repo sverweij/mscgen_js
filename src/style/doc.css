@@ -4,66 +4,12 @@ body {
   font-size: 12pt;
   margin-top: 0;
 }
-header {
-  padding-bottom: 0.9em;
-  padding-top: 1em;
-  border-bottom: solid lightgray 1px;
-  margin-bottom: 0.4em;
-  background-image: url(../images/bg.png);
-  background-repeat: no-repeat;
-  
-  background-position: 25%;
-}
-header > div {
-  float: right;
-}
-header h1 {
-  font-size: 1.9em;
-  margin-bottom: 0;
-  margin-top: 0;
-}
-header em {
-  color: black;
-}
-header a {
-  text-decoration: none;
-  color: lightgrey;
-}
-header div.icon:hover {
-  cursor: pointer;
-}
-header .icon {
-  display: inline-block;
-  width: 3.6em;
-  height: 2.2em;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  text-align: center;
-}
-header .twitter {
-  background-image: url(../images/twitter.svg);
-}
-header .github {
-  background-image: url(../images/github.svg);
-}
-header .tutorial {
-  background-image: url(../images/tutorial.svg);
-}
-header .embed {
-  background-image: url(../images/embed.svg);
-}
-header .question {
-  background-image: url(../images/question.svg);
-}
-header .interpreter {
-  background-image: url(../images/interpreter.svg);
+.debug {
+  display: none;
 }
 footer {
   border-top: solid lightgray 1px;
-  padding-top: 0.9em;
+  padding-top: .9em;
   font-size: 10pt;
   background-color: white;
 }
@@ -71,7 +17,7 @@ article {
   
   
   max-width: 65em;
-  margin-top: 0.25em;
+  margin-top: .25em;
   padding: 2em;
   background-color: white;
   
@@ -83,8 +29,6 @@ article {
 section {
   counter-reset: paragraph-counter;
 }
-article > h1, h2, h3, h4 {
-}
 p, pre {
   margin-left: 1em;
   margin-right: 1em;
@@ -93,15 +37,15 @@ code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 1em;
 }
-article h2:before {
+h2:before {
   counter-increment: chapter-counter;
   content: counter(chapter-counter) " ";
 }
-article h3:before {
+h3:before {
   counter-increment: paragraph-counter;
   content: counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
-article h1, h2 {
+h1, h2 {
   padding-bottom: 0.5em;
   border-bottom: 1px solid #F8F8F8;
 }
@@ -146,12 +90,13 @@ img, svg, .mscgen_js {
   padding: 0.5em;
 }
 .warning:before {
-  content: " /!\\ ";
+  content: "\0026A0\0000A0";
+  font-size: x-large;
   color: orange;
   font-weight: bold;
 }
 .shadow {
-  box-shadow: 0.0em 0.0em 1em -0.2em gray;
+  box-shadow: 0.0 0.0 1em -0.2em gray;
   border-collapse: separate;    
 }
 mark {
@@ -159,14 +104,14 @@ mark {
 }
 @media screen and (max-width: 639px) {
   body {
-    margin: 0em;
+    margin: 0;
   }
   article {
-    margin: 0em;
-    border: 0em;
+    margin: 0;
+    border: 0;
     padding-left: 1em;
     padding-right: 1em;
-    border-radius: 0em;
+    border-radius: 0;
   }
   .code {
     display: block;
@@ -178,14 +123,79 @@ mark {
 }
 @media screen and (min-width: 640px) and (max-width: 767px) {
   body {
-    margin: 0em;
+    margin: 0;
   }
   article {
-    margin: 0em;
-    border: 0em;
+    margin: 0;
+    border: 0;
     padding: 1em;
-    border-radius: 0em;
+    border-radius: 0;
   }
+}
+header {
+  padding-bottom: 0.9em;
+  padding-top: 1em;
+  border-bottom: solid lightgray 1px;
+  margin-bottom: .4em;
+  background-image: url(../images/bg.png);
+  background-repeat: no-repeat;
+  background-position: 25%;
+}
+header > nav {
+  float: right;
+}
+header .debug {
+  float: right;
+  font-size: small;
+}
+header .h1 {
+  font-size: 1.9em;
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+header em {
+  color: black;
+}
+header a {
+  text-decoration: none;
+  color: lightgray;
+}
+header a.icon:hover {
+  color:black;
+}
+header div.icon:hover {
+  cursor: pointer;
+  color:black;
+}
+header .icon {
+  display: inline-block;
+  width: 3.6em;
+  height: 2.2em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  text-align: center;
+}
+header .twitter {
+  background-image: url(../images/twitter.svg);
+}
+header .github {
+  background-image: url(../images/github.svg);
+}
+header .tutorial {
+  background-image: url(../images/tutorial.svg);
+}
+header .embed {
+  background-image: url(../images/embed.svg);
+}
+header .question {
+  background-image: url(../images/question.svg);
+}
+header .interpreter {
+  background-image: url(../images/interpreter.svg);
 }
 /*
  This file is part of mscgen_js.

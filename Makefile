@@ -8,6 +8,7 @@ MOCHA_FORK=node_modules/mocha/bin/_mocha
 COVER=node node_modules/istanbul/lib/cli.js
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
+CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
 RESIZE=utl/resize.sh
@@ -110,7 +111,7 @@ src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
 src/script/node/xuparser_node.js: src/script/node/xuparser.pegjs
 	$(PEGJS) $< $@
 
-src/style/interp.css: src/style/interp-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css src/style/snippets/interpreter.css src/style/snippets/header.css src/style/snippets/generics.css
+src/style/interp.css: src/style/interp-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css src/style/snippets/interpreter.css src/style/snippets/header.css src/style/snippets/generics.css src/style/snippets/popup.css
 	$(RJS) -o cssIn=src/style/interp-src.css out=$@
 
 src/style/doc.css: src/style/doc-src.css src/style/snippets/header.css src/style/snippets/documentation.css src/style/snippets/generics.css
@@ -133,7 +134,7 @@ embed.html: src/embed.html
 lib/require.js: src/lib/require.js
 	cp $< $@
 
-style/interp.css: src/style/mscgen.css
+style/interp.css: src/style/interp.css
 	cp $< $@
 
 style/doc.css: src/style/doc.css
@@ -168,7 +169,7 @@ script/mscgen-inpage.js: mscgen-inpage.js
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha istanbul
+	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint
 
 runtime-prerequisites-node:
 	# cd src/script/node
@@ -185,6 +186,9 @@ noconsolestatements:
 
 consolecheck:
 	grep -r console src/script/*
+
+csslint:
+	$(CSSLINT) src/style/snippets/*.css
 
 lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)

@@ -4,3 +4,6 @@ body {
   font-size: 12pt;
   margin-top: 0;
 }
+.debug {
+  display: none;
+}

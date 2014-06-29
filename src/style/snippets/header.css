@@ -2,17 +2,21 @@ header {
   padding-bottom: 0.9em;
   padding-top: 1em;
   border-bottom: solid lightgray 1px;
-  margin-bottom: 0.4em;
+  margin-bottom: .4em;
   background-image: url('../../images/bg.png');
   background-repeat: no-repeat;
-  /*background-size: cover;*/
   background-position: 25%;
 }
-header > div {
+header > nav {
   float: right;
 }
-header h1 {
+header .debug {
+  float: right;
+  font-size: small;
+}
+header .h1 {
   font-size: 1.9em;
+  font-weight: bold;
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -21,10 +25,14 @@ header em {
 }
 header a {
   text-decoration: none;
-  color: lightgrey;
+  color: lightgray;
+}
+header a.icon:hover {
+  color:black;
 }
 header div.icon:hover {
   cursor: pointer;
+  color:black;
 }
 header .icon {
   display: inline-block;
