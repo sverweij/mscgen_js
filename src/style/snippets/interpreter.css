@@ -110,11 +110,3 @@ a:visited {
     width: 28em;
   }
 }
-@media screen and (max-width: 480px) {
-  .hideonmobile {
-    display: none;
-  }
-  a.hideonmobile {
-    display: none;
-  }
-}

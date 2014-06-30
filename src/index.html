@@ -38,10 +38,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
         
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css"
+        <link rel="stylesheet" href="style/interp.css?${commit}"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-main.js"
-        src="lib/require.js"></script>
+        <script data-main="script/mscgen-main.js?${commit}"
+        src="lib/require.js?${commit}"></script>
     </head>
     <body>
         <header class="fadable">
@@ -73,14 +73,15 @@
                 <div><em>commit:</em> ${commit}</div>
             </div>
 
-            <div class="h1" title="There's some good copy in tooltips.
+            <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
     version: ${version}
     build-date: ${date}
-    commit: ${commit}" class="fadable">mscgen_js</div>
-            <span>turns text into sequence charts</span>
+    commit: ${commit}" class="fadable">mscgen_js</h1>
+            <span class="hideonmobile">turns text into sequence charts</span>
+            <span class="showonmobile">text =&gt; MSCs</span>
         </header>
         <div id="__input_and_controls">
             <div>
@@ -225,35 +226,28 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
         <canvas id="__pngcanvas"></canvas>
         <div id="__embedsheet" class="popupsheet">
             <div class="popup">
-                <header>
-                    <button id="__close_embedsheet" class="close">X</button>
-                    <div class="h1">Embed MscGen</div>
-                    <span>in your own html</span>
-                </header>
-             <p>
-                Sample html for the current chart (<a href="./embed.html" target="_blank">learn more</a>):<br><br>
-                <textarea wrap="off" readonly="true" cols="58" rows="20" id="__embedsnippet" class="code html"></textarea>
-            </p>    
+                <div class="header">
+                     <button id="__close_embedsheet" class="close">X</button>
+                    Sample for embedding the current chart in html (<a href="./embed.html" target="_blank">learn more</a>):<br><br>
+                </div>
+            <textarea wrap="off" readonly="true" cols="58" rows="20" id="__embedsnippet" class="code html"></textarea>
             </div>
         </div>
         <div id="__cheatsheet" class="popupsheet">
             <div class="popup">
-                <header>
+                <div class="header">
                     <button id="__close_lightbox" class="close">X</button>
-                    <div class="h1">Cheat sheet</div>
-                    <span>and links to the tutorial</span>
-                </header>
-                <table style="width: 100%; border-bottom: 1px solid lightgray;">
-                    <tr>
-                        <td style="vertical-align: top;"><a href="wikum/tutorial.html" target="_blank">Tutorial</a>:</td>
-                        <td style="vertical-align: top;">
-                            <div>The <a href="wikum/tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
-                            <div>Online <a href="wikum/tutorial.html#interpreter" target="_blank">interpreter</a></div>
-                            <div>The <a href="wikum/tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
-                            </td>
-                    </tr>
-                </table>
-                <!-- <em style="padding-left: 0.5em">Cheat sheet</em> -->
+                    <table style="width: 80%">
+                        <tr>
+                            <td style="vertical-align: top;"><a href="wikum/tutorial.html" target="_blank">Tutorial</a>:</td>
+                            <td style="vertical-align: top;">
+                                <div>The <a href="wikum/tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
+                                <div>Online <a href="wikum/tutorial.html#interpreter" target="_blank">interpreter</a></div>
+                                <div>The <a href="wikum/tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
+                                </td>
+                        </tr>
+                    </table>
+                </div>
                 <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
             </div>
         </div>

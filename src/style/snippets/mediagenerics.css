@@ -1,0 +1,13 @@
+@media screen and (max-width: 480px) {
+  .hideonmobile {
+    display: none;
+  }
+  a.hideonmobile {
+    display: none;
+  }
+}
+@media screen and (max-width: 480px) {
+  .showonmobile {
+    display: block;
+  }
+}
