@@ -18,10 +18,13 @@
   overflow: auto;
   border-radius: 1em;
   opacity: .97;
+  padding: .4em;
 }
-.popup header {
-  padding-bottom: .4em;
+.popup .header {
+  width: 100%;
+  border-bottom: solid lightgray 1px;
   padding-top: .5em;
+  padding-right: .5em;
 }
 .popup a {
   text-decoration:underline;
@@ -39,8 +42,8 @@
 .popup button.close {
   color: white;
   border-radius: 1em;
-  margin-right: .5em;
-  /*margin-top:-.0em;*/
+  margin-right: .1em;
+  margin-top: -.4em;
   float: right;
 }
 .popup p {

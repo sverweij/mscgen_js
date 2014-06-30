@@ -7,6 +7,9 @@ body {
 .debug {
   display: none;
 }
+.showonmobile {
+  display: none;
+}
 footer {
   border-top: solid lightgray 1px;
   padding-top: .9em;
@@ -37,15 +40,15 @@ code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 1em;
 }
-h2:before {
+article h2:before {
   counter-increment: chapter-counter;
   content: counter(chapter-counter) " ";
 }
-h3:before {
+article h3:before {
   counter-increment: paragraph-counter;
   content: counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
-h1, h2 {
+article h1, h2 {
   padding-bottom: 0.5em;
   border-bottom: 1px solid #F8F8F8;
 }
@@ -90,8 +93,7 @@ img, svg, .mscgen_js {
   padding: 0.5em;
 }
 .warning:before {
-  content: "\0026A0\0000A0";
-  font-size: x-large;
+  content: "/!\\ "; 
   color: orange;
   font-weight: bold;
 }
@@ -148,9 +150,8 @@ header .debug {
   float: right;
   font-size: small;
 }
-header .h1 {
+header h1 {
   font-size: 1.9em;
-  font-weight: bold;
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -196,6 +197,19 @@ header .question {
 }
 header .interpreter {
   background-image: url(../images/interpreter.svg);
+}
+@media screen and (max-width: 480px) {
+  .hideonmobile {
+    display: none;
+  }
+  a.hideonmobile {
+    display: none;
+  }
+}
+@media screen and (max-width: 480px) {
+  .showonmobile {
+    display: block;
+  }
 }
 /*
  This file is part of mscgen_js.

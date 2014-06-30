@@ -111,10 +111,10 @@ src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
 src/script/node/xuparser_node.js: src/script/node/xuparser.pegjs
 	$(PEGJS) $< $@
 
-src/style/interp.css: src/style/interp-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css src/style/snippets/interpreter.css src/style/snippets/header.css src/style/snippets/generics.css src/style/snippets/popup.css
+src/style/interp.css: src/style/interp-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css src/style/snippets/interpreter.css src/style/snippets/header.css src/style/snippets/generics.css src/style/snippets/popup.css src/style/snippets/mediagenerics.css
 	$(RJS) -o cssIn=src/style/interp-src.css out=$@
 
-src/style/doc.css: src/style/doc-src.css src/style/snippets/header.css src/style/snippets/documentation.css src/style/snippets/generics.css
+src/style/doc.css: src/style/doc-src.css src/style/snippets/header.css src/style/snippets/documentation.css src/style/snippets/generics.css src/style/snippets/mediagenerics.css
 	$(RJS) -o cssIn=src/style/doc-src.css out=$@
 
 
