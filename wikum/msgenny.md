@@ -168,4 +168,4 @@ Note: obviously features not supported by *ms genny* get lost in translation.
 [2]: ../src/script/node/genny2msc.js
 [3]: ../src/script/node/msc2genny.js
 [4]: http://sverweij.github.io/mscgen_js/
-[5]: http://sverweij.github.io/mscgen_js/wikum/tutorial.html
+[5]: http://sverweij.github.io/mscgen_js/tutorial.html

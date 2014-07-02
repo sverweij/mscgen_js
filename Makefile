@@ -76,7 +76,7 @@ FAVICONS=favicon.ico \
 	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
-VERSIONEMBEDDABLESOURCES=index.html embed.html
+VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
 
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
@@ -128,7 +128,12 @@ index.html: src/index.html
 
 src/embed.html: src/style/doc.css
 
+src/tutorial.html: src/style/doc.css
+
 embed.html: src/embed.html
+	$(SEDVERSION) < $< > $@
+
+tutorial.html: src/tutorial.html
 	$(SEDVERSION) < $< > $@
 
 lib/require.js: src/lib/require.js
@@ -197,7 +202,7 @@ cover:
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
 # install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/interp.css $(FAVICONS)
-install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html mscgen-inpage.js script/mscgen-inpage.js lib/require.js style/interp.css style/doc.css $(FAVICONS)
+install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html tutorial.html mscgen-inpage.js script/mscgen-inpage.js lib/require.js style/interp.css style/doc.css $(FAVICONS)
 	cp -R src/images .
 	cp -R src/samples .
 	
@@ -235,7 +240,7 @@ ibartfast:
 slart: ibartfast $(FAVICONS)
 	
 somewhatclean:
-	rm -rf $(PRODDIRS) index.html embed.html mscgen-inpage.js
+	rm -rf $(PRODDIRS) index.html embed.html tutorial.html mscgen-inpage.js
 	rm -rf jsdoc
 	rm -rf coverage
 
