@@ -725,8 +725,78 @@ and the commit hash.
 <a href="http://www.mcternan.me.uk/mscgen" target="_blank">Michaels site</a>.</p>
 
 <section>
+<h2 id="mscgenbasics">Basics</h2>
+<p>MscGen scripts are surrounded by an opening and closing statements:</p> 
+<pre class="code mscgen">
+msc {    
+}
+</pre>
+<p>In between go, in this order:
+    <ul>
+        <li>options - these are optional. MscGen uses the same options as MsGenny 
+            (see <a href="#options-arcgradient-hscale-width">above</a>), taking
+            <em>exactly</em> the same syntax (no wonder as MsGenny shamelessly
+            copied it from MscGen).</li>
+        <li>entities - mandatory. Note that you have to define entities before 
+            you can use them within arcs. Just like in MsGenny you can use 
+            labels on them. The syntax, however, is slightly different. To define
+            an entity mike and have it show up in the chart as Michael McTernan,
+            looks like this <code>mike [label="Michael McTernan"]</code></li>
+        <li>arcs - MscGen supports the same arc types as MsGenny does. 
+            To label them, you can use the same sytax as used for labeling, e.g.
+            <code>a -> b [label="async call"]</code></li>
+    </ul>
+    
+    Putting this together (larded with some <code># comments</code>):
+</p>
+<pre class="code mscgen">
+/* By the way: c-style single line (//) 
+ * and multi-line comments are 
+ * supported, as are shell-style 
+ * single line comments (starting with #) 
+ */
+msc {
+    # options
+    hscale="0.8";
+    
+    # entities
+    mike [label="Michael McTernan"], 
+    kbd [label="keyboard"],
+    pc [label="computing unit"],
+    scr [label="screen"];
+    
+    # arcs
+    mike =>> kbd [label="push button"]; 
+    kbd =>> pc [label="electrical current"];
+    pc => pc [label="do stuff"];
+    pc => scr [label="electrical current"];
+    scr >> mike [label="photons"];
+}
+</pre>
+
+<span class="mscgen_js">
+msc {
+    hscale="0.8";
+    mike [label="Michael McTernan"], 
+    kbd [label="keyboard"],
+    pc [label="computing unit"],
+    scr [label="screen"];
+    
+    mike =>> kbd [label="push button"]; 
+    kbd =>> pc [label="electrical current"];
+    pc => pc [label="do stuff"];
+    pc => scr [label="electrical current"];
+    scr >> mike [label="photons"];
+}
+</span>
+    
+    
+</section>
+<section>
 <h2 id="coloring">Coloring</h2>
-<p>textcolor, textbgcolor, linecolor</p>
+<p>MscGen has three basic attributes to influence the color of both entities and
+    attributes: <code>textcolor</code>, <code>textbgcolor</code>, <code>linecolor</code>, 
+    which do exactly what they promise. As an example:</p>
 <pre class="code mscgen">
 msc {
 hscale="0.9";
@@ -781,6 +851,11 @@ b note b  [label="color\nbonanza",
 
 <section>
 <h2 id="coloring-everything-departing-from-a-lifeline">Coloring everyting departing from a lifeline</h2>
+<p>If you want to color lifelines and every arc departing it, you don't have to 
+    manually color each and every one, instead use the <code>arc*</code> variants of 
+    coloring attributes described in the previous paragraph on the 
+    entity. <code>arclinecolor</code>, <code>arctextcolor</code> and 
+    <code>arctextbgcolor</code>:</p>
 <pre class="code mscgen">
 msc {
 hscale="0.6";
@@ -840,6 +915,10 @@ hscale="0.65";
 </section>
 <section>
 <h2 id="arcskip"><code>arcskip</code></h2>
+<p>
+   To express that one specific call takes time you can make it "skip" some
+   lines: 
+</p>
 <pre class="code mscgen">
 msc {
     a, b;
@@ -860,10 +939,24 @@ msc {
 </span>
 </section>
 <section>
-<h2 id="url-id-idurl">url, id, idurl</h2>
+<h2 id="url-id-idurl">Links'n stuff: url, id, idurl</h2>
+<p>
+   It is possible to define actual <em>links</em>. The original mscgen 
+   command line version processed them by generating an <em>image map</em>. 
+   mscgen_js instead embeds the links directly within the 
+   vector graphics it creates. The attribute name for this magic is 
+   <code>url</code>. 
+</p>
+<p>
+    Besides, mscgen enables you to attach an <code>id</code> to entities
+    and arcs. And actually define links on these as well. 
+</p>
+<p>
+    Putting this together:
+</p>
 <pre class="code mscgen">
 msc {
-    a [<mark>id="this is the idof entity a"</mark>],
+    a [<mark>id="this is the id of entity a"</mark>],
     b [label="link to\ngithub page", 
        <mark>url="http://www.github.com/sverweij/mscgen_js"</mark>];
     
@@ -877,7 +970,8 @@ msc {
 </pre>
 <span class="mscgen_js">
 msc {
-    a [id="this is the idof entity a"],
+    hscale=1.2;
+    a [id="this is the id of entity a"],
     b [label="link to\ngithub page", 
        url="http://www.github.com/sverweij/mscgen_js"];
     
