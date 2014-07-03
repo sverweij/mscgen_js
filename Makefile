@@ -135,6 +135,8 @@ src/tutorial.html: src/style/doc.css
 # file targets prod
 index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-main.js images/ samples/ $(FAVICONS)
 
+LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
+
 embed.html: $(LIVE_DOC_DEPS) src/embed.html
 
 tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
@@ -145,7 +147,6 @@ images/: src/images
 samples/: src/samples
 	cp -R $< .
 
-LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
 
 lib/require.js: src/lib/require.js
 	cp $< $@
@@ -191,7 +192,7 @@ csslint:
 lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
-cover:
+cover: dev-build
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
 install: index.html embed.html tutorial.html
