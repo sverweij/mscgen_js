@@ -37,7 +37,7 @@ SCRIPT_SOURCES_NODE=src/script/node/ast2thing.js \
 	src/script/node/colorize.js \
 	src/script/node/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
-PRODDIRS=lib images samples style script
+PRODDIRS=lib style script
 LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/addon/edit/closebrackets.js \
 	src/lib/codemirror/addon/edit/matchbrackets.js \
@@ -76,14 +76,26 @@ FAVICONS=favicon.ico \
 	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
-VERSIONEMBEDDABLESOURCES=index.html embed.html
+VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
 
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
 help:
 	@echo possible targets:	dev-build install deploy-gh-pages clean check
 
-# file targets
+# production rules
+src/script/%parser.js: src/script/node/%parser_node.js
+	$(CJS2AMD) < $< > $@
+
+src/script/node/%parser_node.js: src/script/node/%parser.pegjs 
+	$(PEGJS) $< $@
+
+%.html: src/%.html
+	$(SEDVERSION) < $< > $@
+
+style/%.css: src/style/%.css
+	cp $< $@
+
 favicon.ico: $(FAVICONMASTER)
 	$(PNG2FAVICO) $< $@
 
@@ -93,69 +105,56 @@ favicon-%.png: $(FAVICONMASTER)
 iosfavicon-%.png: $(FAVICONMASTER)
 	$(IOSRESIZE) $< $@ 
 
-src/script/mscgenparser.js: src/script/node/mscgenparser_node.js
-	$(CJS2AMD) < $< > $@
-
-src/script/msgennyparser.js: src/script/node/msgennyparser_node.js
-	$(CJS2AMD) < $< > $@
-
-src/script/xuparser.js: src/script/node/xuparser_node.js
-	$(CJS2AMD) < $< > $@
-
-src/script/node/mscgenparser_node.js: src/script/node/mscgenparser.pegjs 
-	$(PEGJS) $< $@
-
-src/script/node/msgennyparser_node.js: src/script/node/msgennyparser.pegjs
-	$(PEGJS) $< $@
-
-src/script/node/xuparser_node.js: src/script/node/xuparser.pegjs
-	$(PEGJS) $< $@
-
-src/style/interp.css: src/style/interp-src.css src/lib/codemirror/codemirror.css src/lib/codemirror/theme/midnight.css src/style/snippets/interpreter.css src/style/snippets/header.css src/style/snippets/generics.css src/style/snippets/popup.css src/style/snippets/mediagenerics.css
-	$(RJS) -o cssIn=src/style/interp-src.css out=$@
-
-src/style/doc.css: src/style/doc-src.css src/style/snippets/header.css src/style/snippets/documentation.css src/style/snippets/generics.css src/style/snippets/mediagenerics.css
-	$(RJS) -o cssIn=src/style/doc-src.css out=$@
-
-
 $(PRODDIRS):
 	mkdir $@
 
-src/index.html: src/style/interp.css
+# file targets dev
+src/style/interp.css: src/style/interp-src.css \
+	src/lib/codemirror/codemirror.css \
+	src/lib/codemirror/theme/midnight.css \
+	src/style/snippets/interpreter.css \
+	src/style/snippets/header.css \
+	src/style/snippets/generics.css \
+	src/style/snippets/popup.css \
+	src/style/snippets/mediagenerics.css
+	$(RJS) -o cssIn=src/style/interp-src.css out=$@
 
-index.html: src/index.html
-	$(SEDVERSION) < $< > $@
+src/style/doc.css: src/style/doc-src.css \
+	src/style/snippets/header.css \
+	src/style/snippets/documentation.css \
+	src/style/snippets/generics.css \
+	src/style/snippets/mediagenerics.css
+	$(RJS) -o cssIn=src/style/doc-src.css out=$@
+
+src/index.html: src/style/interp.css $(SOURCES_WEB)
 
 src/embed.html: src/style/doc.css
 
-embed.html: src/embed.html
-	$(SEDVERSION) < $< > $@
+src/tutorial.html: src/style/doc.css
+
+# file targets prod
+index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-main.js images/ samples/ $(FAVICONS)
+
+LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
+
+embed.html: $(LIVE_DOC_DEPS) src/embed.html
+
+tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
+
+images/: src/images
+	cp -R $< .
+
+samples/: src/samples
+	cp -R $< .
+
 
 lib/require.js: src/lib/require.js
-	cp $< $@
-
-style/interp.css: src/style/interp.css
-	cp $< $@
-
-style/doc.css: src/style/doc.css
 	cp $< $@
 
 script/mscgen-main.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-main" \
 			out=$@ \
-
-			# paths.jquery="jquery" \
-			# paths.codemirror="../lib/codemirror" \
-			# paths.cm_closebrackets="../lib/codemirror/edit/closebrackets" \
-			# paths.cm_matchbrackets="../lib/codemirror/edit/matchbrackets" \
-			# paths.dagred3="../lib/dagre/dagred3" \
-			# paths.d3="../lib/dagre/d3" \
-
-# script/mscgen-inpage.js: $(EMBED_SOURCES_WEB) lib/require.js
-	# $(RJS) -o baseUrl="./src/script" \
-			# name="mscgen-inpage" \
-			# out="./script/mscgen-inpage.js" \
 
 mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
@@ -177,7 +176,7 @@ runtime-prerequisites-node:
 
 prerequisites: build-prerequisites runtime-prerequisites-node
 
-dev-build: $(SOURCES_WEB) $(EMBED_SOURCES_WEB) $(SOURCES_NODE)
+dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
 
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
@@ -193,13 +192,10 @@ csslint:
 lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
-cover:
+cover: dev-build
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
-# install: noconsolestatements $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js lib/require.js style/interp.css $(FAVICONS)
-install: $(PRODDIRS) $(SOURCES_NODE) index.html script/mscgen-main.js embed.html mscgen-inpage.js script/mscgen-inpage.js lib/require.js style/interp.css style/doc.css $(FAVICONS)
-	cp -R src/images .
-	cp -R src/samples .
+install: index.html embed.html tutorial.html
 	
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
@@ -217,13 +213,13 @@ tag:
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
 	$(GIT) push --tags
 
-report:
+report: dev-build
 	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli|attic" src/script/
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
 
-test:
+test: dev-build
 	# $(MOCHA) -R spec src/script/node/test/
 	$(MOCHA) -R dot src/script/node/test/
 
@@ -235,7 +231,7 @@ ibartfast:
 slart: ibartfast $(FAVICONS)
 	
 somewhatclean:
-	rm -rf $(PRODDIRS) index.html embed.html mscgen-inpage.js
+	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
 	rm -rf jsdoc
 	rm -rf coverage
 
