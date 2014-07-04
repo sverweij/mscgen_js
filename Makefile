@@ -6,6 +6,7 @@ PLATO=node_modules/plato/bin/plato
 MOCHA=node_modules/mocha/bin/mocha
 MOCHA_FORK=node_modules/mocha/bin/_mocha
 COVER=node node_modules/istanbul/lib/cli.js
+COVER2REPORT=genhtml --no-source --branch-coverage --no-sort --rc genhtml_med_limit=50 --rc genhtml_hi_limit=80 --quiet --output-directory 
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
@@ -16,6 +17,7 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
+
 
 GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
 	src/script/msgennyparser.js \
@@ -195,13 +197,22 @@ lint:
 cover: dev-build
 	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
 
+coverage/lcov.info: cover
+
+testcoverage-report/index.html: coverage/lcov.info
+	$(COVER2REPORT) testcoverage-report $<
+
+cover-report: testcoverage-report/index.html
+
 install: index.html embed.html tutorial.html
+
+publish: install cover-report
 	
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
 	$(GIT) merge master -m "merge for gh-pages build `cat VERSION`"
 
-build-gh-pages: checkout-gh-pages mostlyclean install
+build-gh-pages: checkout-gh-pages mostlyclean publish
 
 deploy-gh-pages: build-gh-pages
 	$(GIT) add .
@@ -234,6 +245,7 @@ somewhatclean:
 	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
 	rm -rf jsdoc
 	rm -rf coverage
+	rm -rf testcoverage-report
 
 mostlyclean: somewhatclean
 	rm -rf $(GENERATED_SOURCES)

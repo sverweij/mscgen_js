@@ -67,7 +67,7 @@ MIT style):
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
-It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
+It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
 
 ## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for 
@@ -79,7 +79,7 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 - [Elijah Insua][24] for [jsdom][25], which makes it possible to render vector graphics in node.js.
 
 [1]: http://www.mcternan.me.uk/mscgen
-[2]: http://sverweij.github.io/mscgen_js
+[2]: https://sverweij.github.io/mscgen_js
 [3]: wikum/licenses/license.mscgen_js.md
 [5]: wikum/msgenny.md
 [6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
@@ -107,5 +107,6 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 [27]: https://npmjs.org/package/posix-getopt
 [28]: wikum/licenses/license.istanbul.md
 [29]: wikum/xu.md
-[30]: http://sverweij.github.io/mscgen_js/embed.html
+[30]: https://sverweij.github.io/mscgen_js/embed.html
 [31]: https://github.com/jrburke/almond
+[32]: wikum/licenses/license.lcovgenhtml.md
