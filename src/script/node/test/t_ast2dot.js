@@ -1,6 +1,7 @@
 var assert = require("assert");
 var renderer = require("../ast2dot");
 var fix = require("./astfixtures");
+var fs = require("fs");
 
 describe('ast2dot', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
@@ -114,5 +115,15 @@ describe('ast2dot', function() {
 }';
             assert.equal(lProgram, lExpectedProgram);
         });
+    });
+    
+    describe('#renderAST() - file based tests', function(){
+       it('should render all arcs', function(){
+          var lASTString = fs.readFileSync("./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
+          var lAST = JSON.parse(lASTString);
+          var lExpectedProgram = fs.readFileSync("./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.dot", {"encoding":"utf8"});
+          var lProgram = renderer.render(lAST);
+          assert.equal(lProgram,lExpectedProgram); 
+       });
     });
 });
