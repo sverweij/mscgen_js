@@ -10,6 +10,9 @@ body {
 .showonmobile {
   display: none;
 }
+body {
+    counter-reset: article-counter;
+}
 footer {
   border-top: solid lightgray 1px;
   padding-top: .9em;
@@ -17,16 +20,12 @@ footer {
   background-color: white;
 }
 article {
-  
-  
   max-width: 65em;
   margin-top: .25em;
   padding: 2em;
   background-color: white;
-  
   overflow: hidden;
   counter-reset: chapter-counter;
-  
   border-collapse: separate; 
   page-break-before: always;
 }
@@ -44,13 +43,19 @@ code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 1em;
 }
+article > h1 {
+  counter-increment: article-counter;
+}
+article > h1:before {
+  content: counter(article-counter) " ";
+}
 article h2:before {
   counter-increment: chapter-counter;
-  content: counter(chapter-counter) " ";
+  content: counter(article-counter) "." counter(chapter-counter) " ";
 }
 article h3:before {
   counter-increment: paragraph-counter;
-  content: counter(chapter-counter) "." counter(paragraph-counter) " ";
+  content: counter(article-counter) "." counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
 article h1, h2 {
   padding-bottom: 0.5em;
@@ -139,9 +144,12 @@ mark {
   }
 }
 @media print {
-    .hideonprint {
-        display: none;
-    }
+  .hideonprint {
+      display: none;
+  }
+  body {
+    font-size: 10pt;
+  }
 }
 header {
   padding-bottom: 0.9em;
