@@ -38,12 +38,12 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - tutorial</title>
-<link rel="stylesheet" href="style/doc.css?${commit}" type="text/css" media="screen">
+<link rel="stylesheet" href="style/doc.css?${commit}" type="text/css" media="screen, print">
 <script src='mscgen-inpage.js?${commit}' defer></script>
 </head>
 <body>
 <header>
-    <nav>
+    <nav class="hideonprint">
         <a href="https://twitter.com/SanderSpeaks"
         data-dnt="true"
         class="twitter icon hideonmobile fadable"
@@ -74,25 +74,30 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
     </p>
     <p>
         If you're completely new to writing sequence charts in plain text, you can best start
-        with MsGenny (whose concepts apply to MscGen as well). The samples in this tutorial are ready
-        to be used 1:1 in the <a href="index.html?lang=msgenny" target="_blank">interpreter</a>. 
-    </p>
+        with MsGenny. It is the simplest of the two languages and most concepts used in MsGenny apply 
+        to MscGen as well. 
+        <!-- The samples in this tutorial are ready to be used 1:1 in the 
+        <a href="index.html?lang=msgenny" target="_blank">interpreter</a>.  -->    </p>
     <p>
         If you just occasionally write sequence charts with either language, you might benefit
         from the <a href="images/test14_cheat_sheet.svg">cheat sheet</a> (also available 
         as <a href="images/test14_cheat_sheet.png">png</a>) which is also easily accessible from the
         interpreter.
     </p>
+    <p class="info">
+        The charts you see on this page are rendered on the fly. If you want to use this 
+        in your own pages as well check out the <a href="embed.html">embedding</a> page.
+    </p>
     
     <nav>
         <h1>Contents</h1>
         <ul>
             <li>
-                <a href="#msgenny">MsGenny language tutorial</a>
+                <a href="#msgenny">The MsGenny language</a>
             <li>
                 <a href="#interpreter">Using the on line interpreter</a>
             <li>
-                <a href="#mscgen">MscGen</a>
+                <a href="#mscgen">The MscGen language</a>
         </ul>
     </nav>
 </article>
@@ -341,7 +346,7 @@ client => server : ACK;
 
 
 <p>The default behaviour for regular (= not note, box, abox or rbox) arcs is that 
-text does <em>not</em> get wrapped automatically. To override this you can use the
+text does <em>not</em> get wrapped. To override this you can use the
 boolean <em>wordwraparcs</em> option. Just like the other options, this one was
 copied from <em>mscgen</em>. <em>mscgen</em> not only accepts <code>true</code> and
 <code>false</code>, but also <code>on</code> and <code>off</code> and <code>1</code>
@@ -351,7 +356,7 @@ and <code>0</code> all with or without quotes.
 <mark>wordwraparcs=false</mark>; # default behaviour
 a =>   b : This will get wrapped when wordwraparcs=true;
 a note b : "Text in notes, boxes (box, abox, rbox) 
-            and entities gets wrapped automatically.
+            and entities always gets wrapped.
             The wordwraparcs option does not influence
             that behavior.";
 </pre>
@@ -359,7 +364,7 @@ a note b : "Text in notes, boxes (box, abox, rbox)
 hscale=0.8, wordwraparcs=false; # default behaviour
 a =>   b : This will get wrapped when wordwraparcs=true;
 a note b : "Text in notes, boxes (box, abox, rbox) 
-            and entities gets wrapped automatically.
+            and entities always gets wrapped.
             The wordwraparcs option does not influence
             that behavior.";
 </span>
@@ -368,7 +373,7 @@ a note b : "Text in notes, boxes (box, abox, rbox)
 <mark>wordwraparcs=true</mark>; # override default behaviour
 a =>   b : This will get wrapped when wordwraparcs=true;
 a note b : "Text in notes, boxes (box, abox, rbox) 
-            and entities gets wrapped automatically.
+            and entities always gets wrapped.
             The wordwraparcs option does not influence
             that behavior.";
 </pre>
@@ -376,7 +381,7 @@ a note b : "Text in notes, boxes (box, abox, rbox)
 hscale=0.8, wordwraparcs=true; # default behaviour
 a =>   b : This will get wrapped when wordwraparcs=true;
 a note b : "Text in notes, boxes (box, abox, rbox) 
-            and entities gets wrapped automatically.
+            and entities always gets wrapped.
             The wordwraparcs option does not influence
             that behavior.";
 </span>
@@ -586,8 +591,9 @@ Alice => Alice: hihihi;
 <img class="shadow" src="images/demo - screenshot - autofaded.png" alt="a screenshot of the interpreter">
 <p>
 <h3>Auto render</h3>
-<p>By default the interpreter automatically renders the chart.
-However, if you're on
+<p>
+    By default the interpreter renders the chart as you type.
+    However, if you're on
     a <em>very</em> slow machine, you can switch off this behavior.
     The interpreter will offer you a <em>Render</em> button that renders
     the chart only when you click it.
@@ -601,7 +607,7 @@ tree, which is in JSON format.
 </p>
 <p>
 When you switch between the languages, you'll see the program in the
-editor is automatically translated to the new language. 
+editor is translated to the new language. 
 </p>
 <p class="warning">
 When switching between languages the interpreter preserves comments
@@ -613,7 +619,8 @@ When your program uses features not available in a target language,
 these will get lost in the translation.
 </p>
 <h3>Color</h3>
-<p>Automatically colors the sequence chart using the following rules:
+<p>Whe you hit the <em>color</em> button the interpreter colors 
+    your sequence chart by applying these rules:
     <ul>
         <li>If an entity does not have a color yet, it gets colors 
             from a carefully selected scheme, affecting:
@@ -678,9 +685,9 @@ you'll notice the interpreter grows some extra buttons:
     <li>Vanilla - flattens extended features (inline expressions,
     watermark) to "vanilla" mscgen.
     </li>
-    <li>url - Generates a URL which will automatically (re-)load the 
+    <li>url - Generates a URL which will (re-)load the 
     program currently in the editor e.g.
-    <code>https://sverweij.github.io/index.html?debug=true&lang=mscgen&msc=msc%7B%0A%20%20a%2Cb%3B%0A%20%20a%3D%3E%20b%3B%0A%7D</code>. Note that 
+    <code>https://sverweij.github.io/mscgen_js/index.html?debug=true&lang=mscgen&msc=msc%7B%0A%20%20a%2Cb%3B%0A%20%20a%3D%3E%20b%3B%0A%7D</code>. Note that 
     this sometimes works as desired, but sometimes summons demons from
     other dimensions instead.
     </li>
@@ -693,35 +700,33 @@ and the commit hash.
 
 </p>
 </section>
-<section>
-<h2>Help us improve this</h2>
-<p></p>
-
-</section>
 </article>
 
 <article id="mscgen">
-<h1>MscGen</h1>
-<p>MscGen is the sequence chart language created by Michael McTernan in 2006. It's a 
-    bit more elaborate than MsGenny, so why should you use it? You can bang out 
-    sequence diagrams with MsGenny in a pinch, right? There are three good reasons 
-    to use MscGen:</p>
+<h1>The MscGen language</h1>
+<p>MscGen is a sequence chart language created by Michael McTernan in 2006. It's a 
+    bit more elaborate than MsGenny. There are three good reasons 
+    to use MscGen in stead of (or beside) MsGenny:</p>
 <ul>
-    <li><em>Compatibility</em> - MscGen has been around for quite a long time.
-        Michael has marketed it effectively, so it is widely supported. The MscGen command 
-        line runs on most platforms, is packaged
-        with some major linux distros and has an impressive list of supporting
-        applications, not the least of which are documentation generators like 
-        <em>doxygen</em> and <em>asciidoc</em>.
-        Heck, MscGen even has its own <a href="https://en.wikipedia.org/wiki/Mscgen" target="_blank">wikipedia</a> 
-        page.
-   <li><em>Features</em> - the simplicity of MsGenny comes with a price: features.
-       MscGen a.o. supports coloring, skipping arcs and embedding hyperlinks. MsGenny doesn't. 
-   <li><em>Free lunch in one click</em> - you can bang out your sequence chart with 
-       MsGenny and with one click in the online interpreter get its MscGen counterpart. 
+    <li><em>Compatibility and super wide support</em>
+        <p>MscGen has been around for quite a long time.
+            Michael has marketed it effectively, so it is widely supported. The MscGen command 
+            line runs on most platforms, is packaged
+            with some major linux distros and has an impressive list of supporting
+            applications, not the least of which are documentation generators like 
+            <em>doxygen</em> and <em>asciidoc</em>.
+            Heck, MscGen even has its own <a href="https://en.wikipedia.org/wiki/Mscgen" target="_blank">wikipedia</a> 
+            page.</p>
+   <li><em>Features</em>
+        <p>the simplicity of MsGenny comes with a price: features.
+               MscGen a.o. supports coloring, skipping arcs and embedding hyperlinks. MsGenny doesn't. 
+        </p>   
+    <li><em>Free lunch in one click</em>
+        <p>you can bang out your sequence chart with 
+           MsGenny and with one click in the online interpreter get its MscGen counterpart.</p> 
 </ul>
 
-<p class="info">For a complete <em>MscGen</em> reference visit
+<p class="info">For the original <em>MscGen</em> reference visit
 <a href="http://www.mcternan.me.uk/mscgen" target="_blank">Michaels site</a>.</p>
 
 <section>
@@ -729,25 +734,29 @@ and the commit hash.
 <p>MscGen scripts are surrounded by an opening and closing statements:</p> 
 <pre class="code mscgen">
 msc {    
+    
 }
 </pre>
 <p>In between go, in this order:
     <ul>
-        <li>options - these are optional. MscGen uses the same options as MsGenny 
-            (see <a href="#options-arcgradient-hscale-width">above</a>), taking
-            <em>exactly</em> the same syntax (no wonder as MsGenny shamelessly
-            copied it from MscGen).</li>
-        <li>entities - mandatory. Note that you have to define entities before 
-            you can use them within arcs. Just like in MsGenny you can use 
-            labels on them. The syntax, however, is slightly different. To define
-            an entity mike and have it show up in the chart as Michael McTernan,
-            looks like this <code>mike [label="Michael McTernan"]</code></li>
-        <li>arcs - MscGen supports the same arc types as MsGenny does. 
-            To label them, you can use the same sytax as used for labeling, e.g.
-            <code>a -> b [label="async call"]</code></li>
+        <li><em>options</em> 
+            <p>these are optional. MscGen uses the same options as MsGenny 
+                    (see <a href="#options-arcgradient-hscale-width">above</a>), taking
+                    <em>exactly</em> the same syntax (no wonder as MsGenny shamelessly
+                    copied it from MscGen).</p></li>
+        <li><em>entities</em>
+            <p>mandatory. Note that you <em>must</em> define entities before 
+                    you can use them within arcs. Just like in MsGenny you can use 
+                    labels on them. The syntax, however, is slightly different. To define
+                    an entity mike and have it show up in the chart as Michael McTernan,
+                    looks like this <code>mike [label="Michael McTernan"]</code></p></li>
+        <li><em>arcs</em>
+            <p>MscGen supports the same arc types as MsGenny does. 
+                    To label them, you can use the same sytax as used for labeling, e.g.
+                    <code>a -> b [label="async call"]</code></p></li>
     </ul>
     
-    Putting this together (larded with some <code># comments</code>):
+    Putting these together (larded with some <code># comments</code>):
 </p>
 <pre class="code mscgen">
 /* By the way: c-style single line (//) 
@@ -790,13 +799,12 @@ msc {
 }
 </span>
     
-    
 </section>
 <section>
 <h2 id="coloring">Coloring</h2>
 <p>MscGen has three basic attributes to influence the color of both entities and
-    attributes: <code>textcolor</code>, <code>textbgcolor</code>, <code>linecolor</code>, 
-    which do exactly what they promise. As an example:</p>
+    attributes: <code>textcolor</code>, <code>textbgcolor</code> and 
+    <code>linecolor</code>, which do exactly what they promise. As an example:</p>
 <pre class="code mscgen">
 msc {
 hscale="0.9";
@@ -858,17 +866,17 @@ b note b  [label="color\nbonanza",
     <code>arctextbgcolor</code>:</p>
 <pre class="code mscgen">
 msc {
-hscale="0.6";
+  hscale="0.6";
 
   cust [label="customer"],
   ui [label="UI"],
-  c [label="Controler", 
+  c [label="Glue module", 
      linecolor="red", textbgcolor="yellow",
      <mark>arclinecolor="red", arctextcolor="red",</mark>
      <mark>arctextbgcolor="yellow"],</mark>
-  a [label="Customer\nstore"],
+  a [label="Customer store"],
   m [label="Model"],
-  e [label="Event\nlogger"];
+  e [label="Event logger"];
 
   cust =>> ui [label="Account\n(id, secret)?"];
   ui =>> c [label="Get account\ninfo"];
@@ -886,17 +894,17 @@ hscale="0.6";
 </pre>
 <span class="mscgen_js">
 msc {
-hscale="0.65";
+  hscale="0.6", width="500";
 
   cust [label="customer"],
   ui [label="UI"],
-  c [label="Controler", 
+  c [label="Glue module", 
      linecolor="red", textbgcolor="yellow",
      arclinecolor="red", arctextcolor="red",
      arctextbgcolor="yellow"],
-  a [label="Customer\nstore"],
+  a [label="Customer store"],
   m [label="Model"],
-  e [label="Event\nlogger"];
+  e [label="Event logger"];
 
   cust =>> ui [label="Account\n(id, secret)?"];
   ui =>> c [label="Get account\ninfo"];

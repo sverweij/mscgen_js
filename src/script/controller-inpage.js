@@ -26,22 +26,24 @@ define(["xuparser", "msgennyparser", "renderast", "node/textutensils"], function
             return pPrev + pChar;
         }, "");
     }
-    
+
     function renderElement(pElement, pIndex) {
-        var lLanguage = getLanguage (pElement);
-        var lAST = getAST(pElement.textContent, lLanguage);
-        setElementId(pElement, pIndex);
-        
-        if (lAST.entities) {
-            render(lAST, pElement.id, pElement.textContent);
-        } else {
-            pElement.innerHTML = pElement.textContent.split('\n').reduce(function(pPrev, pLine, pIndex){
-                if (pIndex === (lAST.line - 1)){
-                    return pPrev + 
-                    "<mark>" + formatLine (underlineCol(pLine, lAST.column -1), pIndex + 1) + '\n' + "</mark>"; 
-                }
-                return pPrev + formatLine (pLine, pIndex + 1) + '\n';
-            }, "<pre><div style='color: red'># ERROR on line " + lAST.line + ", column " + lAST.column + " - " + lAST.message + "</div>") + "</pre>";
+        if (!pElement.hasAttribute('data-renderedby')) {
+            var lLanguage = getLanguage(pElement);
+            var lAST = getAST(pElement.textContent, lLanguage);
+            setElementId(pElement, pIndex);
+            pElement.setAttribute("data-renderedby", "mscgen_js");
+
+            if (lAST.entities) {
+                render(lAST, pElement.id, pElement.textContent);
+            } else {
+                pElement.innerHTML = pElement.textContent.split('\n').reduce(function(pPrev, pLine, pIndex) {
+                    if (pIndex === (lAST.line - 1)) {
+                        return pPrev + "<mark>" + formatLine(underlineCol(pLine, lAST.column - 1), pIndex + 1) + '\n' + "</mark>";
+                    }
+                    return pPrev + formatLine(pLine, pIndex + 1) + '\n';
+                }, "<pre><div style='color: red'># ERROR on line " + lAST.line + ", column " + lAST.column + " - " + lAST.message + "</div>") + "</pre>";
+            }
         }
     }
 
@@ -52,7 +54,7 @@ define(["xuparser", "msgennyparser", "renderast", "node/textutensils"], function
     }
 
     function getLanguage(pElement) {
-        /* the way to do it, but doesn't work in IE: lLanguage = lMscGenElements[i].dataset.language; */
+        /* the way to do it, but doesn't work in IE: lLanguage = pElement.dataset.language; */
         var lLanguage = pElement.getAttribute('data-language');
         if (undefined === lLanguage || null === lLanguage) {
             lLanguage = DEFAULT_LANGUAGE;
