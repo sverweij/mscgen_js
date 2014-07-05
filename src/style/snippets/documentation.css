@@ -16,6 +16,10 @@ article {
   counter-reset: chapter-counter;
   /*box-shadow: 0.0 0.0 1em -0.2em lightgrey;*/
   border-collapse: separate; /* apparently needed for IE */
+  page-break-before: always;
+}
+article:first-of-type{
+  page-break-before: auto;
 }
 section {
   counter-reset: paragraph-counter;
@@ -121,4 +125,10 @@ mark {
     padding: 1em;
     border-radius: 0;
   }
+}
+
+@media print {
+    .hideonprint {
+        display: none;
+    }
 }
