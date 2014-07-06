@@ -44,6 +44,7 @@ LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/addon/edit/closebrackets.js \
 	src/lib/codemirror/addon/edit/matchbrackets.js \
 	src/lib/codemirror/addon/display/placeholder.js \
+	src/lib/codemirror/mode/mscgen/mscgen.js \
 	src/lib/canvg/canvg.js \
 	src/lib/canvg/StackBlur.js \
 	src/lib/canvg/rgbcolor.js \
