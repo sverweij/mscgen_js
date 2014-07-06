@@ -50,6 +50,9 @@ define(["jquery", "xuparser", "msgennyparser", "renderast",
 		"../lib/codemirror/addon/edit/closebrackets",
 		"../lib/codemirror/addon/edit/matchbrackets",
         "../lib/codemirror/addon/display/placeholder",
+        // "../lib/codemirror/mode/mscgen/mscgen",
+        "../lib/codemirror/mode/msgenny/msgenny",
+        "../lib/codemirror/mode/xu/xu",
         "../lib/canvg/canvg",
         "../lib/canvg/StackBlur",
         "../lib/canvg/rgbcolor"/*,
@@ -64,6 +67,8 @@ define(["jquery", "xuparser", "msgennyparser", "renderast",
             cm_closebrackets,
             cm_matchbrackets,
             cm_placeholder,
+            // cm_mscgen, 
+            cm_msgenny, cm_xu,
             cv,
             cv_stackblur,
             cv_rgbcolor/*,
@@ -80,6 +85,7 @@ var gCodeMirror =
         autoCloseBrackets : true,
         matchBrackets     : true,
         theme             : "midnight", 
+        mode              : "xu",
         placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
         lineWrapping      : true
     });
@@ -239,7 +245,7 @@ function setupEvents () {
                      * otherwise do default handling for drop events (whatever it is)
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
-                        gLanguage = txt.classifyExtension(pEvent.dataTransfer.files[0].name);
+                        setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
                         showLanguageState ();
                         gCodeMirror.setValue("");
                         gaga.g('send', 'event', 'drop', gLanguage);    
@@ -300,7 +306,7 @@ function processParams(pParams){
         gaga.g('send', 'event', 'params.msc');
     }
     if (pParams.lang){
-        gLanguage = pParams.lang;
+        setLanguage(pParams.lang);
         gaga.g('send', 'event', 'params.lang', pParams.lang);
     }
     if (pParams.outputformat){
@@ -348,21 +354,13 @@ function switchLanguageOnClick (pValue) {
         lAST = getAST(gCodeMirror.getValue(), lPreviousLanguage);
     
         if (lAST !== {}){
-            if ("msgenny" === pValue){
-                gCodeMirror.setValue(tomsgenny.render(lAST));
-            } else if ("json" === pValue){
-                gCodeMirror.setValue(JSON.stringify(lAST, null, "  "));
-            } else if ("xu" === pValue){
-                gCodeMirror.setValue(tomscgen.render(lAST));
-            } else {
-                gCodeMirror.setValue(tomscgen.render(lAST));
-            }
+            reRenderSource(lAST, pValue);
         }
     } catch(e) {
         // do nothing
     }
     
-    gLanguage = pValue;
+    setLanguage(pValue);
     showLanguageState ();
 }
 
@@ -385,7 +383,7 @@ function colorizeOnClick(pHardOverride){
     
         if (lAST !== {}){
             lAST = colorize.colorize(lAST, pHardOverride);
-            reRenderSource(lAST);
+            reRenderSource(lAST, gLanguage);
         }
     } catch(e) {
         // do nothing
@@ -400,25 +398,33 @@ function unColorizeOnClick(pHardOverride){
     
         if (lAST !== {}){
             lAST = colorize.uncolor(lAST, pHardOverride);
-            reRenderSource(lAST);
+            reRenderSource(lAST, gLanguage);
         }
     } catch(e) {
         // do nothing
     }
 }
 
-function reRenderSource(pAST){
-    if ("msgenny" === gLanguage){
+function reRenderSource(pAST, pLanguage){
+    if ("msgenny" === pLanguage){
         gCodeMirror.setValue(tomsgenny.render(pAST));
-    } else if ("json" === gLanguage){
+    } else if ("json" === pLanguage){
         gCodeMirror.setValue(JSON.stringify(pAST, null, "  "));
-    } else if ("xu" === gLanguage){
+    } else if ("xu" === pLanguage){
         gCodeMirror.setValue(tomscgen.render(pAST));
     } else {
         gCodeMirror.setValue(tomscgen.render(pAST));
     }
 }
 
+function setLanguage (pLanguage){
+    gLanguage = pLanguage;
+    if ("mscgen" === pLanguage){
+        gCodeMirror.setOption("mode", "xu");
+    } else {
+        gCodeMirror.setOption("mode", pLanguage);
+    }
+}
 
 function samplesOnChange() {
     if ("none" === $("#__samples").val()) {
@@ -428,7 +434,7 @@ function samplesOnChange() {
             url : $("#__samples").val(),
             success : function(pData) {
                 if ($("#__samples").val()) {
-                    gLanguage = txt.classifyExtension($("#__samples").val());
+                    setLanguage(txt.classifyExtension($("#__samples").val()));
                 }
                 showLanguageState ();
                 gCodeMirror.setValue(pData);

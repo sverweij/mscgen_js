@@ -3,23 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>CodeMirror: mscgen mode</title>
-    <link rel="stylesheet" href="../../../../style/codemirror/codemirror.css">
-    <script src="../../../codemirror.js"></script>
+    <link rel="stylesheet" href="../../codemirror.css">
+    <script src="../../lib/codemirror.js"></script>
     <script src="mscgen.js"></script>
-    <link rel="stylesheet" href="../../doc/docs.css">
     <style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
   </head>
   <body>
     <h1>CodeMirror: mscgen mode</h1>
 
-<div><textarea id="code" name="code">
+<div><textarea id="code">
 # Sample mscgen program
+# See http://www.mcternan.me.uk/mscgen or 
+# https://sverweij.github.io/mscgen_js for more samples
+
 msc {
+  # options
   hscale="1.2";
+
+  # entities/ lifelines
   a [label="Entity A"],
   b [label="Entity B", linecolor="red", arclinecolor="red", textbgcolor="pink"],
   c [label="Entity C"];
 
+  # arcs/ messages
   a => c [label="doSomething(args)"];
   b => c [label="doSomething(args)"];
   c >> * [label="everyone asked me", arcskip="1"];
