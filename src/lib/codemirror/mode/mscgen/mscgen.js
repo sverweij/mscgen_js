@@ -11,6 +11,15 @@
         return new RegExp("^((" + words.join(")|(") + "))", "i");
     }
 
+    function produceStartStateFunction() {
+        return function() {
+            return {
+                inComment : false,
+                inString : false
+            };
+        };
+    }
+
     function produceTokenFunction(pConfig) {
         return function(stream, state) {
             if (pConfig.keywords !== null && stream.match(wordRegexp(pConfig.keywords), true, true)) {
@@ -28,8 +37,29 @@
             if (stream.match(wordRegexp(pConfig.attributes), true, true)) {
                 return "attribute";
             }
-            if (stream.match(/\"[^\"]*\"/, true, true)) {
+            if (!state.inString && stream.match(/\"[^\"]*/, true, true)) {
+                state.inString = true;
                 return "string";
+            }
+            if (state.inString) {
+                if (stream.match(/[^\"]*\"/, true, true)) {
+                    state.inString = false;
+                } else {
+                    stream.skipToEnd();
+                }
+                return "string";
+            }
+            if (!state.inComment && stream.match(/\/\*[^\*\/]*/, true, true)) {
+                state.inComment = true;
+                return "comment";
+            }
+            if (state.inComment) {
+                if (stream.match(/[^\*\/]*\*\//, true, true)) {
+                    state.inComment = false;
+                } else {
+                    stream.skipToEnd();
+                }
+                return "comment";
             }
             if (stream.match(wordRegexp(pConfig.singlecomment), true, true)) {
                 stream.skipToEnd();
@@ -46,6 +76,7 @@
 
     CodeMirror.defineMode("mscgen", function(config, parserConfig) {
         return {
+            startState : produceStartStateFunction(),
             token : produceTokenFunction({
                 "keywords" : ["msc"],
                 "options" : ["hscale", "width", "arcgradient", "wordwraparcs"],
@@ -61,6 +92,7 @@
 
     CodeMirror.defineMode("xu", function(config, parserConfig) {
         return {
+            startState : produceStartStateFunction(),
             token : produceTokenFunction({
                 "keywords" : ["msc"],
                 "options" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
@@ -76,8 +108,7 @@
 
     CodeMirror.defineMode("msgenny", function(config, parserConfig) {
         return {
-            startState : function() {
-            },
+            startState : produceStartStateFunction(),
             token : produceTokenFunction({
                 "keywords" : null,
                 "options" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],

@@ -15,6 +15,7 @@
 # test50 - expansions to mscgen to support inline expressions
 #          for now in a separate language: xù
 msc {
+
   hscale="0.8",
   width="700";
 
@@ -26,10 +27,14 @@ msc {
   f;
 
   a =>> b [label="get change list()"];
-  a alt f [label="changes found"] {
+  a alt f [label="changes found"] { /* alt is a xu specific keyword*/
     b >> a [label="list of changes"];
     a =>> c [label="cull old stuff (list of changes)"];
-    b loop e [label="for each change"] {
+    b loop e [label="for each change"] { // loop is xu specific as well...
+      /*
+       * Here the interesting stuff happens.
+       * TBD
+       */
       c =>> b [label="get change()"];
       b >> c [label="change"];
       c alt e [label="change too old"] {
@@ -40,12 +45,18 @@ msc {
         ||| [label="leave well alone"];
       };
     };
-    c >> a [label="done processing"];
+    
+    
+    c >> a [label="done
+    processing"];
+    
+    /* shucks! nothing found ...*/
     --- [label="nothing found"];
     b >> a [label="nothing"];
     a note a [label="silent exit"];
   };
 }
+
 /*
     This file is part of mscgen_js.
 
