@@ -112,7 +112,8 @@ msc {
         The script replaces all elements in the page with the class <code>mscgen_js</code> by 
         a rendered sequence chart. For the above mscgen this looks like so: 
         </p>
-        <pre class="mscgen_js">msc {
+        <pre class="mscgen_js">
+        msc {
             a [label="consumer"], b [label="shopfront"], c;
 
             a =>> b [label="buy (commestible)"];
@@ -121,7 +122,7 @@ msc {
             b =>> a [label=""];
             a =>> b [label="money"];
             ...;
-            }</pre>
+        }</pre>
 
         <h2>Embedding MscGen in Atlassian Confluence:</h2>
         <p>If your Confluence admin has enabled the confluence HTML macro, getting
@@ -158,102 +159,180 @@ msc {
             <code>&lt;code class="mscgen_js"<mark> data-language="msgenny"</mark>></code>.
         </p>
         <p>
-            Three examples for <code>msgenny</code>, abstract syntax tree (<code>json</code>) 
-            and <code>xu</code>:
+            Three examples for <code>msgenny</code>, <code>xù</code> and the 
+            abstract syntax tree the syntax tree as produced by the parsers
+            (<code>json</code>):
         </p>
-        <pre id="umpalumpa" class="mscgen_js" data-language="msgenny">
+        <pre class="code">
+&lt;pre id="yourownidsgetpreserved" class="mscgen_js" <mark>data-language="msgenny"</mark>>
+    arcgradient=10, watermark="msgenny"; 
+    
+    Harry =>> Sally: "marry(Sally, Harry)?";
+    Sally >> Harry: YES, Sally -> mother: he's asked me to marry him!; 
+    mother -> *: "Stop that. Silly Sally.";
+&lt/pre></pre>
+        <pre id="yourownidsgetpreserved" 
+             class="mscgen_js" 
+             data-language="msgenny">
             arcgradient=10, watermark="msgenny"; 
             
             Harry =>> Sally: "marry(Sally, Harry)?";
-            Sally >> Harry: YES, Sally -> mother: he's asked me to marry him!; 
+            Sally >> Harry: YES, 
+            Sally -> mother: he's asked me to marry him!; 
             mother -> *: "Stop that. Silly Sally.";
         </pre>
-        <pre class="mscgen_js" data-language="json">{
-            "options":{
-            "watermark" : "JSON/ AST"
-            },
-            "entities": [
-            {
-            "name": "Alice",
-            "linecolor": "#008800",
-            "textbgcolor": "#CCFFCC",
-            "textcolor": "black",
-            "arctextcolor": "#008800",
-            "arclinecolor": "#008800"
-            },
-            {
-            "name": "Bob",
-            "linecolor": "#FF0000",
-            "textbgcolor": "#FFCCCC",
-            "textcolor": "black",
-            "arctextcolor": "#FF0000",
-            "arclinecolor": "#FF0000"
-            },
-            {
-            "name": "pocket",
-            "linecolor": "#0000FF",
-            "textbgcolor": "#CCCCFF",
-            "textcolor": "black",
-            "arctextcolor": "#0000FF",
-            "arclinecolor": "#0000FF"
-            }
-            ],
-            "arcs": [
-            [
-            {
-            "kind": "=>",
-            "from": "Alice",
-            "to": "Bob",
-            "label": "do something funny"
-            }
-            ],
-            [
-            {
-            "kind": "=>",
-            "from": "Bob",
-            "to": "pocket",
-            "label": "fetch (nose flute)"
-            }
-            ],
-            [
-            {
-            "kind": ">>",
-            "from": "Bob",
-            "to": "Alice",
-            "label": "PHEEE!"
-            }
-            ],
-            [
-            {
-            "kind": "=>",
-            "from": "Alice",
-            "to": "Alice",
-            "label": "hihihi"
-            }
-            ]
-            ]
-            }</pre>
-        <pre class="mscgen_js shadow" data-language="xu">
+            <pre class="code">
+&lt;pre class="mscgen_js" <mark>data-language="xu"</mark>>
 msc{
     watermark="xù: 序列圖", wordwraparcs="true";
     a,b,d,e;
     a => d;
     b loop e [label="for each element with class='mscgen_js'"]{
         b =>> d [label="get textContent of the element"];
-        d >> b [label="textContent"];
+        d >> b  [label="textContent"];
         b =>> e [label="parse(textContent)"];
         b alt e [label="happy day", textbgcolor="#f7fff7"] {
             e >> b [label="abstract syntax tree"];
             b -> d [label="clear inner HTML of the element"];
             b -> d [label="render (abstract syntax tree)"];
-            ---[label="error", linecolor="red"];
+            --- [label="error", linecolor="red"];
             e >> b [label="error object", linecolor="red"];
-            b -> d [label="add error message to innerHTML of the element", linecolor="red"];
+            b -> d [label="add error message to innerHTML of the element", 
+                    linecolor="red"];
+        };
+    };
+    ...;
+}
+&lt;/pre></pre>
+        <pre class="mscgen_js" data-language="xu">
+msc{
+    watermark="xù: 序列圖", wordwraparcs="true";
+    a,b,d,e;
+    a => d;
+    b loop e [label="for each element with class='mscgen_js'"]{
+        b =>> d [label="get textContent of the element"];
+        d >> b  [label="textContent"];
+        b =>> e [label="parse(textContent)"];
+        b alt e [label="happy day", textbgcolor="#f7fff7"] {
+            e >> b [label="abstract syntax tree"];
+            b -> d [label="clear inner HTML of the element"];
+            b -> d [label="render (abstract syntax tree)"];
+            --- [label="error", linecolor="red"];
+            e >> b [label="error object", linecolor="red"];
+            b -> d [label="add error message to innerHTML of the element", 
+                    linecolor="red"];
         };
     };
     ...;
 }
         </pre>
+<pre class="code">&lt;pre class="mscgen_js" <mark>data-language="json"</mark>>
+{
+    "options":{
+    "watermark" : "JSON/ AST"
+    },
+    "entities": [
+    {
+    "name": "Alice",
+    "linecolor": "#008800",
+    "textbgcolor": "#CCFFCC",
+    "textcolor": "black",
+    "arctextcolor": "#008800",
+    "arclinecolor": "#008800"
+    },
+    {
+    "name": "Bob",
+    "linecolor": "#FF0000",
+    "textbgcolor": "#FFCCCC",
+    "textcolor": "black",
+    "arctextcolor": "#FF0000",
+    "arclinecolor": "#FF0000"
+    },
+    {
+    "name": "pocket",
+    "linecolor": "#0000FF",
+    "textbgcolor": "#CCCCFF",
+    "textcolor": "black",
+    "arctextcolor": "#0000FF",
+    "arclinecolor": "#0000FF"
+    }
+    ],
+    "arcs":[[{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Bob",
+        "label" : "do something funny"
+    }], [{
+        "kind" : "=>",
+        "from" : "Bob",
+        "to" : "pocket",
+        "label" : "fetch (nose flute)"
+    }], [{
+        "kind" : ">>",
+        "from" : "Bob",
+        "to" : "Alice",
+        "label" : "PHEEE!"
+    }], [{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Alice",
+        "label" : "hihihi"
+    }]]
+}
+&lt;/pre></pre>
+        <pre class="mscgen_js" data-language="json">
+{
+    "options":{
+    "watermark" : "JSON/ AST"
+    },
+    "entities": [
+    {
+    "name": "Alice",
+    "linecolor": "#008800",
+    "textbgcolor": "#CCFFCC",
+    "textcolor": "black",
+    "arctextcolor": "#008800",
+    "arclinecolor": "#008800"
+    },
+    {
+    "name": "Bob",
+    "linecolor": "#FF0000",
+    "textbgcolor": "#FFCCCC",
+    "textcolor": "black",
+    "arctextcolor": "#FF0000",
+    "arclinecolor": "#FF0000"
+    },
+    {
+    "name": "pocket",
+    "linecolor": "#0000FF",
+    "textbgcolor": "#CCCCFF",
+    "textcolor": "black",
+    "arctextcolor": "#0000FF",
+    "arclinecolor": "#0000FF"
+    }
+    ],
+    "arcs":[[{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Bob",
+        "label" : "do something funny"
+    }], [{
+        "kind" : "=>",
+        "from" : "Bob",
+        "to" : "pocket",
+        "label" : "fetch (nose flute)"
+    }], [{
+        "kind" : ">>",
+        "from" : "Bob",
+        "to" : "Alice",
+        "label" : "PHEEE!"
+    }], [{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Alice",
+        "label" : "hihihi"
+    }]]
+}</pre>
         </article>
 <footer>
     <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
