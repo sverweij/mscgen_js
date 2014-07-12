@@ -5,25 +5,98 @@
         define(["../../lib/codemirror"], mod);
     else// Plain browser env
         mod(CodeMirror);
-})(function(CodeMirror) {
+})(function(CodeMirror) {//
+    "use strict";
+
+    CodeMirror.defineMode("mscgen", function(config, parserConfig) {
+        return {
+            startState : produceStartStateFunction(),
+            token : produceTokenFunction({
+                "keywords" : ["msc"],
+                "options" : ["hscale", "width", "arcgradient", "wordwraparcs"],
+                "attributes" : ["label", "idurl", "id", "url", "linecolor", "linecolour", "textcolor", "textcolour", "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour", "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour", "arcskip"],
+                "brackets" : [/*"\\[", "\\]", */"\\{", "\\}"],
+                "arcs" : ["\\|\\|\\|", "\\.\\.\\.", "---", "--", "<->", "==", "<<=>>", "<=>", "\\.\\.", "<<>>", "::", "<:>", "->", "=>>", "=>", ">>", ":>", "-x", "<-", "<<=", "<=", "<<", "<:", "-x", "note", "abox", "rbox", "box"],
+                "singlecomment" : ["//", "#"],
+                "operators" : ["="]
+            }),
+            lineComment : "#",
+            blockCommentStart : "/*",
+            blockCommentEnd : "*/"
+        };
+    });
+    CodeMirror.defineMIME("text/mscgen", "mscgen");
+
+    CodeMirror.defineMode("xu", function(config, parserConfig) {
+        return {
+            startState : produceStartStateFunction(),
+            token : produceTokenFunction({
+                "keywords" : ["msc"],
+                "options" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
+                "attributes" : ["label", "idurl", "id", "url", "linecolor", "linecolour", "textcolor", "textcolour", "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour", "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour", "arcskip"],
+                "brackets" : [/*"\\[", "\\]", */"\\{", "\\}"],
+                "arcs" : ["\\|\\|\\|", "\\.\\.\\.", "---", "--", "<->", "==", "<<=>>", "<=>", "\\.\\.", "<<>>", "::", "<:>", "->", "=>>", "=>", ">>", ":>", "-x", "<-", "<<=", "<=", "<<", "<:", "-x", "note", "abox", "rbox", "box", "alt", "else", "opt", "break", "par", "seq", "strict", "neg", "critical", "ignore", "consider", "assert", "loop", "ref", "exc"],
+                "singlecomment" : ["//", "#"],
+                "operators" : ["="]
+            }),
+            lineComment : "#",
+            blockCommentStart : "/*",
+            blockCommentEnd : "*/"
+        };
+    });
+    CodeMirror.defineMIME("text/xu", "xu");
+
+    CodeMirror.defineMode("msgenny", function(config, parserConfig) {
+        return {
+            startState : produceStartStateFunction(),
+            token : produceTokenFunction({
+                "keywords" : null,
+                "options" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
+                "attributes" : null,
+                "brackets" : ["\\{", "\\}"],
+                "arcs" : ["\\|\\|\\|", "\\.\\.\\.", "---", "--", "<->", "==", "<<=>>", "<=>", "\\.\\.", "<<>>", "::", "<:>", "->", "=>>", "=>", ">>", ":>", "-x", "<-", "<<=", "<=", "<<", "<:", "-x", "note", "abox", "rbox", "box", "alt", "else", "opt", "break", "par", "seq", "strict", "neg", "critical", "ignore", "consider", "assert", "loop", "ref", "exc"],
+                "singlecomment" : ["//", "#"],
+                "operators" : ["="]
+            }),
+            lineComment : "#",
+            blockCommentStart : "/*",
+            blockCommentEnd : "*/"
+
+        };
+    });
+    CodeMirror.defineMIME("text/msgenny", "msgenny");
 
     function wordRegexp(words) {
-        return new RegExp("^((" + words.join(")|(") + "))", "i");
+        return new RegExp("((" + words.join(")|(") + "))", "i");
     }
 
     function produceStartStateFunction() {
         return function() {
             return {
                 inComment : false,
-                inString : false
+                inString : false,
+                inAttributeList : false,
+                inScript : false
             };
         };
     }
 
     function produceTokenFunction(pConfig) {
+
         return function(stream, state) {
-            if (pConfig.keywords !== null && stream.match(wordRegexp(pConfig.keywords), true, true)) {
-                return "keyword";
+            // if (!pConfig.inScript) {
+            // if (pConfig.keywords !== null && stream.match(wordRegexp(pConfig.keywords), true, true)) {
+            // return "keyword";
+            // }
+            // if (stream.match(/{/, true, true)) {
+            // pConfig.inScript = true;
+            // return "bracket";
+            // }
+            // }
+            // if (pConfig.inScript) {
+            if (stream.match(/}/, true, true)) {
+                pConfig.inScript = false;
+                return "bracket";
             }
             if (stream.match(wordRegexp(pConfig.brackets), true, true)) {
                 return "bracket";
@@ -34,9 +107,24 @@
             if (stream.match(wordRegexp(pConfig.arcs), true, true)) {
                 return "keyword";
             }
-            if (stream.match(wordRegexp(pConfig.attributes), true, true)) {
-                return "attribute";
+            if (pConfig.operators !== null && stream.match(wordRegexp(pConfig.operators), true, true)) {
+                return "operator";
             }
+            /* attribute lists */
+            if (!pConfig.inAttributeList && stream.match(/\[/, true, true)) {
+                pConfig.inAttributeList = true;
+                return "bracket";
+            }
+            if (pConfig.inAttributeList) {
+                if (pConfig.attributes !== null && stream.match(wordRegexp(pConfig.attributes), true, true)) {
+                    return "attribute";
+                }
+                if (stream.match(/]/, true, true)) {
+                    pConfig.inAttributeList = false;
+                    return "bracket";
+                }
+            }
+            /* strings */
             if (!state.inString && stream.match(/\"[^\"]*/, true, true)) {
                 state.inString = true;
                 return "string";
@@ -49,9 +137,17 @@
                 }
                 return "string";
             }
-            if (!state.inComment && stream.match(/\/\*[^\*\/]*/, true, true)) {
-                state.inComment = true;
-                return "comment";
+            // }
+            /* comments */
+            if (!state.inComment) {
+                if (stream.match(/\/\*[^\*\/]*/, true, true)) {
+                    state.inComment = true;
+                    return "comment";
+                }
+                if (stream.match(wordRegexp(pConfig.singlecomment), true, true)) {
+                    stream.skipToEnd();
+                    return "comment";
+                }
             }
             if (state.inComment) {
                 if (stream.match(/[^\*\/]*\*\//, true, true)) {
@@ -61,66 +157,11 @@
                 }
                 return "comment";
             }
-            if (stream.match(wordRegexp(pConfig.singlecomment), true, true)) {
-                stream.skipToEnd();
-                return "comment";
-            }
-            if (pConfig.operators !== null && stream.match(wordRegexp(pConfig.operators), true, true)) {
-                return "operator";
-            }
             var ch = stream.next();
             return "base";
         };
     }
 
-
-    CodeMirror.defineMode("mscgen", function(config, parserConfig) {
-        return {
-            startState : produceStartStateFunction(),
-            token : produceTokenFunction({
-                "keywords" : ["msc"],
-                "options" : ["hscale", "width", "arcgradient", "wordwraparcs"],
-                "attributes" : ["label", "idurl", "id", "url", "linecolor", "linecolour", "textcolor", "textcolour", "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour", "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour", "arcskip"],
-                "brackets" : ["\\[", "\\]", "\\{", "\\}"],
-                "arcs" : ["\\|\\|\\|", "\\.\\.\\.", "---", "--", "<->", "==", "<<=>>", "<=>", "\\.\\.", "<<>>", "::", "<:>", "->", "=>>", "=>", ">>", ":>", "-x", "<-", "<<=", "<=", "<<", "<:", "-x", "note", "abox", "rbox", "box"],
-                "singlecomment" : ["//", "#"],
-                "operators" : ["="]
-            })
-        };
-    });
-    CodeMirror.defineMIME("text/mscgen", "text");
-
-    CodeMirror.defineMode("xu", function(config, parserConfig) {
-        return {
-            startState : produceStartStateFunction(),
-            token : produceTokenFunction({
-                "keywords" : ["msc"],
-                "options" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
-                "attributes" : ["label", "idurl", "id", "url", "linecolor", "linecolour", "textcolor", "textcolour", "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour", "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour", "arcskip"],
-                "brackets" : ["\\[", "\\]", "\\{", "\\}"],
-                "arcs" : ["\\|\\|\\|", "\\.\\.\\.", "---", "--", "<->", "==", "<<=>>", "<=>", "\\.\\.", "<<>>", "::", "<:>", "->", "=>>", "=>", ">>", ":>", "-x", "<-", "<<=", "<=", "<<", "<:", "-x", "note", "abox", "rbox", "box", "alt", "else", "opt", "break", "par", "seq", "strict", "neg", "critical", "ignore", "consider", "assert", "loop", "ref", "exc"],
-                "singlecomment" : ["//", "#"],
-                "operators" : ["="]
-            })
-        };
-    });
-    CodeMirror.defineMIME("text/xu", "text");
-
-    CodeMirror.defineMode("msgenny", function(config, parserConfig) {
-        return {
-            startState : produceStartStateFunction(),
-            token : produceTokenFunction({
-                "keywords" : null,
-                "options" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
-                "attributes" : ["label", "idurl", "id", "url", "linecolor", "linecolour", "textcolor", "textcolour", "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour", "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour", "arcskip"],
-                "brackets" : ["\\{", "\\}"],
-                "arcs" : ["\\|\\|\\|", "\\.\\.\\.", "---", "--", "<->", "==", "<<=>>", "<=>", "\\.\\.", "<<>>", "::", "<:>", "->", "=>>", "=>", ">>", ":>", "-x", "<-", "<<=", "<=", "<<", "<:", "-x", "note", "abox", "rbox", "box", "alt", "else", "opt", "break", "par", "seq", "strict", "neg", "critical", "ignore", "consider", "assert", "loop", "ref", "exc"],
-                "singlecomment" : ["//", "#"],
-                "operators" : ["="]
-            })
-        };
-    });
-    CodeMirror.defineMIME("text/msgenny", "text");
 });
 
 /* DEFAULT THEME
