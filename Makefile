@@ -84,7 +84,35 @@ VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
 help:
-	@echo possible targets:	dev-build install deploy-gh-pages clean check
+	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo \| Just downloaded the mscgen_js sources? \ \|
+	@echo \| \ First run \'make prerequisites\'  \ \ \ \ \ \ \ \ \|
+	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo
+	@echo Most important build targets:
+	@echo
+	@echo dev-build
+	@echo \ \(re\)enerates stuff needed to develop \(pegjs \-\> js, css smashing etc\)
+	@echo
+	@echo check
+	@echo \ runs the linter and executes all unit tests
+	@echo 
+	@echo install
+	@echo \ creates the production version \(minified js, images, html\)
+	@echo \ \-\> this is probably the target you want when hosting mscgen_js
+	@echo 
+	@echo clean
+	@echo \ removes everything created by either install or dev-build
+	@echo
+	@echo deploy-gh-pages
+	@echo \ runs merges main to gh-pages, runs an install and pushes it to origin
+	@echo
+	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo \|\ More information and other targets: see wikum\\build.md \|
+	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo
+
+
 
 # production rules
 src/script/%parser.js: src/script/node/%parser_node.js
