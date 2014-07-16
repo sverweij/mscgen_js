@@ -3,21 +3,30 @@ msc {
   hscale="0.6", arcgradient="18", wordwraparcs="false";
   
 
-  0 [arclinecolor="white", arctextcolor="grey", linecolor="white", textcolor="white"],
+  0 [arclinecolor="white", arctextcolor="grey",
+     linecolor="white", textcolor="white"],
   a, b, c, d, e, f, g, h, i, j, k;
 
   a -- b [label="left to right", linecolor="white", textcolor="grey"],
   b -- c [label="right to left", linecolor="white", textcolor="grey"],
-  c -- d [label="left to right\nbi-directional\n\n", linecolor="white", textcolor="grey"],
-  d -- e [label="right to left\nbi-directional\n\n", linecolor="white", textcolor="grey"],
-  e -- f [label="left to right\nnon-directional\n\n", linecolor="white", textcolor="grey"],
-  f -- g [label="left to right\nnon-directional\n\n", linecolor="white", textcolor="grey"],
+  c -- d [label="left to right\nbi-directional\n\n",
+          linecolor="white", textcolor="grey"],
+  d -- e [label="right to left\nbi-directional\n\n",
+          linecolor="white", textcolor="grey"],
+  e -- f [label="left to right\nnon-directional\n\n",
+          linecolor="white", textcolor="grey"],
+  f -- g [label="left to right\nnon-directional\n\n",
+          linecolor="white", textcolor="grey"],
 
-  g -- h [label="left to right\nself reference\n\n", linecolor="white", textcolor="grey"],
-  h -- i [label="right to left\nself reference\n\n", linecolor="white", textcolor="grey"],
-  i -- j [label="bi-directional\nself reference\n\n", linecolor="white", textcolor="grey"],
+  g -- h [label="left to right\nself reference\n\n",
+          linecolor="white", textcolor="grey"],
+  h -- i [label="right to left\nself reference\n\n",
+          linecolor="white", textcolor="grey"],
+  i -- j [label="bi-directional\nself reference\n\n",
+          linecolor="white", textcolor="grey"],
 
-  j -- k [label="non-directional\nself reference\n\n", linecolor="white", textcolor="grey"];
+  j -- k [label="non-directional\nself reference\n\n",
+          linecolor="white", textcolor="grey"];
   
   0 -- a [label="signal"],
   a -> b [label="a -> b"],

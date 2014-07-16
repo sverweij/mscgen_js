@@ -4,7 +4,7 @@ msc {
 
   Alice, Bob;
 
-  ---[label="public key authentication"];
+  --- [label="public key authentication"];
   Alice => Alice [label="sign message with own private key"];
   Alice => Bob [label="signed message"];
   Bob   => Alice [label="get Alice her public key"];
@@ -12,7 +12,7 @@ msc {
   Bob   => Bob [label="verify message with\nAlices' public key\n\n"];
 
   |||;
-  ---[label="public key encryption"];
+  --- [label="public key encryption"];
   Alice => Bob [label="get Bobs' public key"];
   Bob   >> Alice [label="Bobs' public key"];
   Alice => Alice [label="encrypt message with Bob's public key"];
