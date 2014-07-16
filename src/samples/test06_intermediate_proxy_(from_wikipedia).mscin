@@ -1,3 +1,4 @@
+# SIP protocol with an intermediate proxy (source: wikipedia)
 msc {
   Alice, P1, P2, Bob;
 
@@ -12,6 +13,7 @@ msc {
   Alice<-P1 [label="180 Ringing"];
   ---       [label="Alice's client plays ringing"];
   ...;
+  
   ---       [label="Bob answers"];
   P2<-Bob   [label="200 Ok"];
   P1<-P2    [label="200 Ok"];
@@ -21,6 +23,7 @@ msc {
   P2->Bob   [label="ACK"];
   ---       [label="two way media"];
   ...;
+  
   ---       [label="Bob hangs up"];
   P2<-Bob   [label="BYE"];
   P2->Bob   [label="200 Ok"];

@@ -6,7 +6,8 @@ msc {
 
   # entities
   c [label="Client"],
-  s [label="Server", arclinecolor="green", arctextcolor="green", linecolor="green"];
+  s [label="Server", arclinecolor="green", arctextcolor="green",
+     linecolor="green"];
 
   # arcs
   s -> c [label="220 smtp.example.com ESMTP Postfix"];
@@ -20,6 +21,7 @@ msc {
   s >> c [label="354 End data with <CR><LF>.<CR><LF>"];
   c -> s [label="(mail message)"];
   ... [label="(more message body)"];
+  
   |||;
   s >> c [label="250 Ok: queued as 12345"];
   c -> s [label="QUIT"];
