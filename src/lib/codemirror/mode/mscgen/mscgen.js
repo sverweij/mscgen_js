@@ -73,7 +73,7 @@
 	CodeMirror.defineMIME("text/msgenny", "msgenny");
 
 	function wordRegexpBoundary(words) {
-		return new RegExp("[^a-z0-9]((" + words.join(")|(") + "))\\b", "i");
+		return new RegExp("[^a-z0-9]{0,1}((" + words.join(")|(") + "))\\b", "i");
 	}
 
 	function wordRegexp(words) {
@@ -172,7 +172,7 @@
 				return "bracket";
 			}
 			if (pConfig.inAttributeList) {
-				if (pConfig.attributes !== null && stream.match(wordRegexp(pConfig.attributes), true, true)) {
+				if (pConfig.attributes !== null && stream.match(wordRegexpBoundary(pConfig.attributes), true, true)) {
 					return "attribute";
 				}
 				if (stream.match(/]/, true, true)) {
