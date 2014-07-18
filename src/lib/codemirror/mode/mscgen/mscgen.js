@@ -154,7 +154,7 @@
 				}
 				return "string";
 			}
-			if (stream.match(wordRegexp(pConfig.options), true, true)) {
+			if (stream.match(wordRegexpBoundary(pConfig.options), true, true)) {
 				return "keyword";
 			}
 			if (stream.match(wordRegexpBoundary(pConfig.arcsWords), true, true)) {
