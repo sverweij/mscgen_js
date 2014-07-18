@@ -391,6 +391,10 @@ to {
   display: none;
   width: 100%;
 }
+#__error_context:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
 #__svg {
   z-index: 0;
   vertical-align: top;
