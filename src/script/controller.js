@@ -87,6 +87,11 @@ var gCodeMirror =
         lineWrapping      : true
     });
 
+var gErrorCoordinates = {
+		line : 0,
+		column : 0
+	}; 
+
 $(document).ready(function(){
 
     var lParams = params.getParams (window.location.search); 
@@ -271,6 +276,12 @@ function setupEvents () {
                     gaga.g('send', 'event', 'link', "embedme");
                 }
     });
+    $("#__error").bind ({
+        click : function(e) {
+                    errorOnClick();
+                    gaga.g('send', 'event', 'link', "error");
+                }
+    });
 
     $("body").bind({
         keydown : function (e) {
@@ -400,6 +411,12 @@ function unColorizeOnClick(pHardOverride){
     } catch(e) {
         // do nothing
     }
+}
+
+function errorOnClick(){
+	gCodeMirror.setCursor(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
+	gCodeMirror.focus();
+	
 }
 
 function reRenderSource(pAST, pLanguage){
@@ -602,10 +619,15 @@ function render() {
 
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
+            gErrorCoordinates.line = e.line;
+            gErrorCoordinates.column = e.column;
             displayError(
              "Line " + e.line + ", column " + e.column + ": " + e.message,
               ">>> " + gCodeMirror.getValue().split('\n')[e.line - 1] + " <<<");
+
         } else {
+        	gErrorCoordinates.line = 0;
+            gErrorCoordinates.column = 0;
             displayError(e.message);
         }
         // TODO: doesn't work that well when the error is not 
