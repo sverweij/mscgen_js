@@ -8,6 +8,5 @@ sed  -E s/"([^\$])([\$]{version})"/"\1$VERSION"/g |\
     sed  -E s/"([^\$])([\$]{commit})"/"\1$COMMIT"/g |\
     sed  -E s/"([^\$])([\$]{date})"/"\1$DATE"/g |\
     sed  -E s/"([^\$])([\$]{host})"/"\1$HOST"/g |\
-    sed  -E s/"([^\$])([\$]{host})"/"\1$HOST"/g |\
     sed  -E s/"([^\$])([\$]{trackingid})"/"\1$TRACKINGID"/g |\
     sed s/"\$\${"/"\${"/g
