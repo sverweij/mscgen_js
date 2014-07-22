@@ -79,7 +79,7 @@ FAVICONS=favicon.ico \
 	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
-VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
+VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html gagatest.html
 
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
@@ -163,6 +163,8 @@ src/embed.html: src/style/doc.css
 
 src/tutorial.html: src/style/doc.css
 
+src/gagatest.html: src/style/doc.css
+
 # file targets prod
 index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-main.js images/ samples/ $(FAVICONS)
 
@@ -171,6 +173,9 @@ LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
 embed.html: $(LIVE_DOC_DEPS) src/embed.html
 
 tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
+
+gagatest.html: $(LIVE_DOC_DEPS) src/gagatest.html
+
 
 images/: src/images
 	cp -R $< .
@@ -271,7 +276,7 @@ ibartfast:
 slart: ibartfast $(FAVICONS)
 	
 somewhatclean:
-	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
+	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js gagatest.html
 	rm -rf jsdoc
 	rm -rf coverage
 	rm -rf testcoverage-report
