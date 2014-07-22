@@ -238,7 +238,7 @@ testcoverage-report/index.html: coverage/lcov.info
 
 cover-report: testcoverage-report/index.html
 
-install: index.html embed.html tutorial.html
+install: index.html embed.html tutorial.html gagatest.html
 
 publish: install cover-report
 	
