@@ -1,5 +1,5 @@
 var assert = require("assert");
-var parser = require("../mscgenparser_node");
+var parser = require("../parse/mscgenparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
 var fs = require("fs");
@@ -92,18 +92,18 @@ describe('mscgenparser', function() {
 
     describe('#parse() - file based tests', function() {
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.mscin', {
+            var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/test01_all_possible_arcs_mscgen.mscin', {
                 "encoding" : "utf8"
             });
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
+            tst.assertequalJSONFile('./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
         });
         it("should parse stuff with colors", function() {
-            var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/rainbow.mscin', {
+            var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/rainbow.mscin', {
                 "encoding" : "utf8"
             });
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/script/node/test/fixtures/rainbow.json', lAST);
+            tst.assertequalJSONFile('./src/script/test/fixtures/rainbow.json', lAST);
         });
         it("strings, ids and urls", function() {
             var lTextFromFile = fs.readFileSync('./src/samples/test10_stringsandurls.mscin', {"encoding":"utf8"});

@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils", "./renderskeleton", "./node/textutensils", "./node/flatten", "./node/dotmap"], function(utl, skel, txt, flatten, map) {
+define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap"], function(utl, skel, txt, flatten, map) {
     /**
      *
      * renders an abstract syntax tree of a chart.layer.sequence chart

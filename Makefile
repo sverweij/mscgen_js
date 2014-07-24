@@ -19,25 +19,25 @@ NPM=npm
 DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 
 
-GENERATED_SOURCES_WEB=src/script/mscgenparser.js \
-	src/script/msgennyparser.js \
-	src/script/xuparser.js \
+GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
+	src/script/parse/msgennyparser.js \
+	src/script/parse/xuparser.js \
 	src/style/interp.css \
 	src/style/doc.css
-GENERATED_SOURCES_NODE=src/script/node/mscgenparser_node.js \
-	src/script/node/msgennyparser_node.js \
-	src/script/node/xuparser_node.js 
+GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
+	src/script/parse/msgennyparser_node.js \
+	src/script/parse/xuparser_node.js 
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
-SCRIPT_SOURCES_NODE=src/script/node/ast2thing.js \
-	src/script/node/ast2mscgen.js \
-	src/script/node/ast2xu.js \
-	src/script/node/ast2msgenny.js \
-	src/script/node/ast2dot.js \
-	src/script/node/dotmap.js \
-	src/script/node/asttransform.js \
-	src/script/node/flatten.js \
-	src/script/node/colorize.js \
-	src/script/node/paramslikker.js
+SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
+	src/script/render/text/ast2mscgen.js \
+	src/script/render/text/ast2xu.js \
+	src/script/render/text/ast2msgenny.js \
+	src/script/render/text/ast2dot.js \
+	src/script/render/text/dotmap.js \
+	src/script/render/text/asttransform.js \
+	src/script/render/text/flatten.js \
+	src/script/render/text/colorize.js \
+	src/script/utl/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib style script
 LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
@@ -50,16 +50,16 @@ LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/canvg/rgbcolor.js \
 	src/script/jquery.js
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
-	src/script/renderutensils.js \
-	src/script/node/textutensils.js \
-	src/script/renderskeleton.js \
-	src/script/renderast.js \
-	src/script/controller.js \
-	src/script/gaga.js \
-	src/script/mscgen-main.js 
+	src/script/render/graphics/renderutensils.js \
+	src/script/render/text/textutensils.js \
+	src/script/render/graphics/renderskeleton.js \
+	src/script/render/graphics/renderast.js \
+	src/script/ui-control/controller-interpreter.js \
+	src/script/utl/gaga.js \
+	src/script/mscgen-interpreter.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \
-	src/script/controller-inpage.js \
+	src/script/ui-control/controller-inpage.js \
 	src/script/mscgen-inpage.js
 FAVICONMASTER=src/images/xu.png
 FAVICONS=favicon.ico \
@@ -115,10 +115,10 @@ help:
 
 
 # production rules
-src/script/%parser.js: src/script/node/%parser_node.js
+src/script/parse/%parser.js: src/script/parse/%parser_node.js
 	$(CJS2AMD) < $< > $@
 
-src/script/node/%parser_node.js: src/script/node/%parser.pegjs 
+src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs 
 	$(PEGJS) $< $@
 
 %.html: src/%.html
@@ -229,7 +229,7 @@ lint:
 	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 
 cover: dev-build
-	$(COVER) cover $(MOCHA_FORK) src/script/node/test/
+	$(COVER) cover $(MOCHA_FORK) src/script/test/
 
 coverage/lcov.info: cover
 
@@ -265,8 +265,8 @@ doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
 
 test: dev-build
-	# $(MOCHA) -R spec src/script/node/test/
-	$(MOCHA) -R dot src/script/node/test/
+	# $(MOCHA) -R spec src/script/test/
+	$(MOCHA) -R dot src/script/test/
 
 check: noconsolestatements lint test
 

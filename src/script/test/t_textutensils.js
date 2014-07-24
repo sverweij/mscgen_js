@@ -1,5 +1,5 @@
 var assert = require("assert");
-var txt = require("../textutensils");
+var txt = require("../render/text/textutensils");
 
 describe('textutensils', function() {
     describe('#wrap(x, 10) - string with spaces', function() {

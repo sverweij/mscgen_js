@@ -1,5 +1,5 @@
 var assert = require("assert");
-var par = require("../paramslikker");
+var par = require("../utl/paramslikker");
 var utl = require("./testutensils");
 
 describe('textutensils', function() {

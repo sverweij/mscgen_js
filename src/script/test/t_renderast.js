@@ -1,5 +1,5 @@
 var assert = require("assert");
-var renderer = require("../../renderast");
+var renderer = require("../render/graphics/renderast");
 var fix = require("./astfixtures");
 var tst = require ("./testutensils");
 var jsdom = require('jsdom');
@@ -26,16 +26,16 @@ function processAndCompare(pExpectedFile, pInputFile) {
 describe('renderast', function() {
     describe('#renderAST() - xu everyting', function() {
         it ('should given given a simple syntax tree, render an svg', function() {
-            processAndCompare('./src/script/node/test/fixtures/astsimple.svg', //
-            './src/script/node/test/fixtures/astsimple.json');
+            processAndCompare('./src/script/test/fixtures/astsimple.svg', //
+            './src/script/test/fixtures/astsimple.json');
         });
         it('should render all the stuff', function() {
-            processAndCompare('./src/script/node/test/fixtures/test01_all_possible_arcs.svg', //
-            './src/script/node/test/fixtures/test01_all_possible_arcs.json');
+            processAndCompare('./src/script/test/fixtures/test01_all_possible_arcs.svg', //
+            './src/script/test/fixtures/test01_all_possible_arcs.json');
         });
         it('should render colors', function() {
-            processAndCompare('./src/script/node/test/fixtures/rainbow.svg', //
-            './src/script/node/test/fixtures/rainbow.json');
+            processAndCompare('./src/script/test/fixtures/rainbow.svg', //
+            './src/script/test/fixtures/rainbow.json');
         }); 
     });
 });

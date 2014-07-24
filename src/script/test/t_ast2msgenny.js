@@ -1,6 +1,6 @@
 var assert = require("assert");
-var renderer = require("../ast2msgenny");
-var parser = require("../msgennyparser_node");
+var renderer = require("../render/text/ast2msgenny");
+var parser = require("../parse/msgennyparser_node");
 var fix = require("./astfixtures");
 var utl = require("./testutensils");
 var fs = require("fs");
@@ -87,7 +87,7 @@ a =>> a : happy-the-peppy - outside;\n\
 
     describe('#renderAST() - file based tests', function() {
         it('should render all arcs', function() {
-            utl.assertequalProcessing("./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny", "./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json", function(pFileContent) {
+            utl.assertequalProcessing("./src/script/test/fixtures/test01_all_possible_arcs_msgenny.msgenny", "./src/script/test/fixtures/test01_all_possible_arcs_msgenny.json", function(pFileContent) {
                 return renderer.render(JSON.parse(pFileContent));
             });
         });

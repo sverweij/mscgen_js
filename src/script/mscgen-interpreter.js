@@ -1,6 +1,6 @@
 /* global require */
 /* jshint unused:false */
-require(["controller"], function(controller) {
+require(["ui-control/controller-interpreter"], function(controller) {
 });
 /*
  This file is part of mscgen_js.

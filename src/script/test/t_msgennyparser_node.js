@@ -1,5 +1,5 @@
 var assert = require("assert");
-var parser = require("../msgennyparser_node");
+var parser = require("../parse/msgennyparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
 var fs = require("fs");
@@ -112,9 +112,9 @@ describe('msgennyparser', function() {
     });
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/script/node/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
+            tst.assertequalJSONFile('./src/script/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
         });
     });
 });

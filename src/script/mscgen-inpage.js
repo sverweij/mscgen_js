@@ -1,6 +1,6 @@
 /* global require */
 /* jshint unused:false */
-require(["controller-inpage"], function(controller) {
+require(["ui-control/controller-inpage"], function(controller) {
 });
 /*
  This file is part of mscgen_js.

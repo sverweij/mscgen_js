@@ -42,20 +42,20 @@ msc {
 /* jshint nonstandard:true */
 /* global define, canvg */
 
-define(["jquery", "xuparser", "msgennyparser", "renderast",
-        "node/ast2msgenny", "node/ast2xu", "node/ast2dot", "node/ast2mscgen", /*"node/ast2dagre",*/
-        "gaga", "node/textutensils", "node/colorize",
-        "node/paramslikker",
-        "../lib/codemirror/lib/codemirror",
-		"../lib/codemirror/addon/edit/closebrackets",
-		"../lib/codemirror/addon/edit/matchbrackets",
-        "../lib/codemirror/addon/display/placeholder",
-        "../lib/codemirror/mode/mscgen/mscgen",
-        "../lib/canvg/canvg",
-        "../lib/canvg/StackBlur",
-        "../lib/canvg/rgbcolor"/*,
-        "../lib/dagre/d3",
-        "../lib/dagre/dagred3"*/
+define(["../jquery", "../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
+        "../render/text/ast2msgenny", "../render/text/ast2xu", "../render/text/ast2dot", "../render/text/ast2mscgen", /*"node/ast2dagre",*/
+        "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
+        "../utl/paramslikker",
+        "../../lib/codemirror/lib/codemirror",
+		"../../lib/codemirror/addon/edit/closebrackets",
+		"../../lib/codemirror/addon/edit/matchbrackets",
+        "../../lib/codemirror/addon/display/placeholder",
+        "../../lib/codemirror/mode/mscgen/mscgen",
+        "../../lib/canvg/canvg",
+        "../../lib/canvg/StackBlur",
+        "../../lib/canvg/rgbcolor"/*,
+        "../../lib/dagre/d3",
+        "../../lib/dagre/dagred3"*/
         ],
         function($, mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, tovanilla, /*todagre,*/

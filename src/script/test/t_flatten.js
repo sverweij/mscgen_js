@@ -1,5 +1,5 @@
 var assert = require("assert");
-var flatten = require("../flatten");
+var flatten = require("../render/text/flatten");
 var fix = require("./astfixtures");
 var utl = require("./testutensils");
 
