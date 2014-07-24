@@ -8,7 +8,7 @@
  */
 
 var jsdom = require('jsdom');
-var renderast = require('../../renderast');
+var renderast = require('../render/graphics/renderast');
 
 jsdom.env("<html><body></body></html>", function(err, window) {
     var gInput = "";

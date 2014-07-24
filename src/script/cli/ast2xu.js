@@ -1,11 +1,10 @@
 /*
  * takes a simplified message sequence chart program and translates
- * to an mscgen program
+ * to a xù program
  */
 /* jshint indent:4 */
 /* jshint node:true */
-
-var parser = require ("../msgennyparser_node");
+var ast2xu = require ("../render/text/ast2xu");
 
 var gInput = "";
 
@@ -17,18 +16,11 @@ process.stdin.on('data', function(chunk) {
 });
 
 process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    process.stdout.write(JSON.stringify(lAST));
+    var lAST = JSON.parse(gInput);
+    process.stdout.write(ast2xu.render (lAST));
     process.stdin.pause();
 });
 
-
-/*
-fs.readFile('input.msc', function (err, data) {
-    if (err) throw err;
-        process.stdout.write(data);
-});
-*/
 /*
     This file is part of mscgen_js.
 

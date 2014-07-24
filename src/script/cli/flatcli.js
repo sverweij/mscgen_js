@@ -1,12 +1,11 @@
-/* 
- * reads a mscgen program from input, parses it and (standardly
- * formatted) outputs it again
- */
+var x = require("../flatten");
+var g = require("../statstransforms");
+
+var parser = require("../parse/mscgenparser_node");
+var ast2mscgen = require("../render/text/ast2mscgen");
+
 /* jshint indent:4 */
 /* jshint node:true */
-
-var parser = require ("../mscgenparser_node");
-var ast2mscgen = require ("../ast2mscgen");
 
 var gInput = "";
 
@@ -19,9 +18,12 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
     var lAST = parser.parse(gInput);
+    // lAST = x.flatten(lAST);
+    lAST = g.inoutweigh(lAST);
     process.stdout.write(ast2mscgen.render (lAST));
     process.stdin.pause();
 });
+
 
 /*
     This file is part of mscgen_js.

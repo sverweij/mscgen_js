@@ -4,7 +4,8 @@
  */
 /* jshint indent:4 */
 /* jshint node:true */
-var ast2genny = require ("../ast2dot");
+var parser = require ("../parse/mscgenparser_node");
+var ast2dot = require ("../render/text/ast2dot");
 
 var gInput = "";
 
@@ -16,8 +17,8 @@ process.stdin.on('data', function(chunk) {
 });
 
 process.stdin.on('end', function() {
-    var lAST = JSON.parse(gInput);
-    process.stdout.write(ast2genny.render (lAST));
+    var lAST = parser.parse(gInput);
+    process.stdout.write(ast2dot.render (lAST));
     process.stdin.pause();
 });
 

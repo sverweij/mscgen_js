@@ -5,7 +5,7 @@
 /* jshint indent:4 */
 /* jshint node:true */
 
-var parser = require ("../xuparser_node");
+var parser = require ("../parse/msgennyparser_node");
 
 var gInput = "";
 
@@ -22,6 +22,13 @@ process.stdin.on('end', function() {
     process.stdin.pause();
 });
 
+
+/*
+fs.readFile('input.msc', function (err, data) {
+    if (err) throw err;
+        process.stdout.write(data);
+});
+*/
 /*
     This file is part of mscgen_js.
 
