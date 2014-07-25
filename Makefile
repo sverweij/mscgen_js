@@ -257,7 +257,7 @@ checkout-gh-pages:
 build-gh-pages: checkout-gh-pages mostlyclean publish
 
 deploy-gh-pages: build-gh-pages
-	$(GIT) add .
+	$(GIT) add --all .
 	$(GIT) commit -m "build `cat VERSION`"
 	$(GIT) push
 	$(GIT) status
