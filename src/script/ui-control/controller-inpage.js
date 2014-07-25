@@ -1,7 +1,7 @@
 /* jshint browser:true */
 /* global define */
 
-define(["../parse/xuparser", "../parse/msgennyparser", "../renderast", "../render/text/textutensils"], function(mscparser, msgennyparser, msc_render, utl) {
+define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast", "../render/text/textutensils"], function(mscparser, msgennyparser, msc_render, utl) {
     var PARENTELEMENTPREFIX = "mscgen_js$parent_";
     var DEFAULT_LANGUAGE = "mscgen";
 
