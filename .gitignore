@@ -9,3 +9,4 @@ coverage
 src/favicon.ico
 src/*favicon-*.png
 src/*tmp*.html
+tracking.*
