@@ -121,7 +121,7 @@ src/script/parse/%parser.js: src/script/parse/%parser_node.js
 src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs 
 	$(PEGJS) $< $@
 
-%.html: src/%.html
+%.html: src/%.html tracking.id tracking.host VERSION
 	$(SEDVERSION) < $< > $@
 
 style/%.css: src/style/%.css
@@ -166,7 +166,7 @@ src/tutorial.html: src/style/doc.css
 src/gagatest.html: src/style/doc.css
 
 # file targets prod
-index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-main.js images/ samples/ $(FAVICONS)
+index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-interpreter.js images/ samples/ $(FAVICONS)
 
 LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
 
@@ -176,6 +176,14 @@ tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
 
 gagatest.html: $(LIVE_DOC_DEPS) src/gagatest.html
 
+tracking.id:
+	@echo yourtrackingidhere > $@
+
+tracking.host:
+	@echo auto > $@
+
+VERSION:
+	@echo 0.0.0 > $@
 
 images/: src/images
 	cp -R $< .
@@ -187,9 +195,9 @@ samples/: src/samples
 lib/require.js: src/lib/require.js
 	cp $< $@
 
-script/mscgen-main.js: $(SOURCES_WEB)  
+script/mscgen-interpreter.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
-			name="mscgen-main" \
+			name="mscgen-interpreter" \
 			out=$@ \
 
 mscgen-inpage.js: $(EMBED_SOURCES_WEB)
