@@ -626,7 +626,7 @@ function render() {
               ">>> " + gCodeMirror.getValue().split('\n')[e.line - 1] + " <<<");
 
         } else {
-        	gErrorCoordinates.line = 0;
+            gErrorCoordinates.line = 0;
             gErrorCoordinates.column = 0;
             displayError(e.message);
         }
