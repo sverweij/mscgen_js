@@ -32,6 +32,8 @@
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
+.CodeMirror-guttermarker { color: black; }
+.CodeMirror-guttermarker-subtle { color: #999; }
 .CodeMirror div.CodeMirror-cursor {
   border-left: 1px solid black;
 }
@@ -42,6 +44,28 @@
   width: auto;
   border: 0;
   background: #7e7;
+}
+.cm-animate-fat-cursor {
+  width: auto;
+  border: 0;
+  -webkit-animation: blink 1.06s steps(1) infinite;
+  -moz-animation: blink 1.06s steps(1) infinite;
+  animation: blink 1.06s steps(1) infinite;
+}
+@-moz-keyframes blink {
+  0% { background: #7e7; }
+  50% { background: none; }
+  100% { background: #7e7; }
+}
+@-webkit-keyframes blink {
+  0% { background: #7e7; }
+  50% { background: none; }
+  100% { background: #7e7; }
+}
+@keyframes blink {
+  0% { background: #7e7; }
+  50% { background: none; }
+  100% { background: #7e7; }
 }
 div.CodeMirror-overwrite div.CodeMirror-cursor {}
 .cm-tab { display: inline-block; }
@@ -81,6 +105,7 @@ div.CodeMirror-overwrite div.CodeMirror-cursor {}
 .cm-invalidchar {color: #f00;}
 div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
 div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
+.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
 .CodeMirror-activeline-background {background: #e8f2ff;}
 .CodeMirror {
   line-height: 1;
@@ -233,6 +258,8 @@ div.CodeMirror-cursors {
 .cm-s-midnight.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
 .cm-s-midnight div.CodeMirror-selected {background: #314D67 !important;}
 .cm-s-midnight .CodeMirror-gutters {background: #0F192A; border-right: 1px solid;}
+.cm-s-midnight .CodeMirror-guttermarker { color: white; }
+.cm-s-midnight .CodeMirror-guttermarker-subtle { color: #d0d0d0; }
 .cm-s-midnight .CodeMirror-linenumber {color: #D0D0D0;}
 .cm-s-midnight .CodeMirror-cursor {
     border-left: 1px solid #F8F8F0 !important;
