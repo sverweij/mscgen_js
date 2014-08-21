@@ -22,6 +22,18 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <meta name="description" content="message sequence chart renderer">
 <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Article",
+  "name" : "mscgen_js tutorial",
+  "author" : {
+    "@type" : "Person",
+    "name" : "Sander Verweij"
+  },
+  "image" : "http://sverweij.github.io/mscgen_js/images/demo%20-%20screenshot%20-%20autofaded.png"
+}
+</script>
 <link rel="icon" sizes="16x16 32x32 64x64" href="./favicon.ico">
 <link rel="icon" sizes="228x228" href="./favicon-228.png">
 <link rel="icon" sizes="195x195" href="./favicon-195.png">
@@ -38,8 +50,8 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - tutorial</title>
-<link rel="stylesheet" href="style/doc.css?a9886a73c981548c" type="text/css" media="screen, print">
-<script src='mscgen-inpage.js?a9886a73c981548c' defer></script>
+<link rel="stylesheet" href="style/doc.css?4c65a19dab018c74" type="text/css" media="screen, print">
+<script src='mscgen-inpage.js?4c65a19dab018c74' defer></script>
 <script>
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -76,10 +88,11 @@ ga ('send', 'pageview');
         title="embed mscgen in your html"><br><br>embed</a>
     </nav>
     <a href="index.html">
-    <h1>mscgen_js <em>tutorial</em></h1>
+    <h1 itemprop="name">mscgen_js <em>tutorial</em></h1>
     <span class="hideonmobile">turns text into sequence charts</span>
     </a>
 </header>
+
 <article id="introduction">
     <h1>Introduction</h1>
     <p>
@@ -116,8 +129,8 @@ ga ('send', 'pageview');
         </ul>
     </nav>
 </article>
-<article id="msgenny">
-<h1>MsGenny language tutorial</h1>
+<article itemscope itemtype="http://schema.org/Article" id="msgenny">
+<h1 itemprop="name">MsGenny language tutorial</h1>
 <nav>
 <ul>
     <li>
@@ -200,8 +213,8 @@ b >> a: heard ya!;
 </span>
 <p>There is a plethora of arcs (arrows, lines) at your disposal. We've thrown
 a small cheat sheet together that sums up the basic ones 
-(<a href="tutorial/test14_cheat_sheet.svg" target="_blank">svg</a>, 
-<a href="tutorial/test14_cheat_sheet.png" target="_blank">png</a>). As we've 
+(<a href="images/test14_cheat_sheet.svg" target="_blank">svg</a>, 
+<a href="images/test14_cheat_sheet.png" target="_blank">png</a>). As we've 
 been using it quite a lot, we've put it behind the (?) button in the online
 interpreter as well.</p>
 
@@ -592,8 +605,8 @@ Alice => Alice: hihihi;
 </section>
 </article>
 
-<article id="interpreter">
-<h1>Using the on line interpreter</h1>
+<article itemscope itemtype="http://schema.org/Article" id="interpreter">
+<h1 itemprop="name">Using the on line interpreter</h1>
 <p>With the on line interpreter you can write MsGenny and MscGen scripts and see the
     resulting chart grow in real time.
     </p>
@@ -603,7 +616,7 @@ Alice => Alice: hihihi;
     undo history and automatic bracket matching, just like you would 
     expect of an off line code editor. You can even drop files directly from
     your desktop.</p>
-<img class="shadow" src="images/demo - screenshot - autofaded.png" alt="a screenshot of the interpreter">
+<img itemprop="image" class="shadow" src="images/demo - screenshot - autofaded.png" alt="a screenshot of the interpreter">
 <p>
 <h3>Auto render</h3>
 <p>
@@ -717,8 +730,8 @@ and the commit hash.
 </section>
 </article>
 
-<article id="mscgen">
-<h1>The MscGen language</h1>
+<article itemscope itemtype="http://schema.org/Article" id="mscgen">
+<h1 itemprop="name">The MscGen language</h1>
 <p>MscGen is a sequence chart language created by Michael McTernan in 2006. It's a 
     bit more elaborate than MsGenny. There are three good reasons 
     to use MscGen in stead of (or beside) the simpler MsGenny:</p>
@@ -1009,7 +1022,7 @@ msc {
 </section>
 </article>
 <footer>
-    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL" itemprop="author">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 </footer>
 </body>
 </html>
