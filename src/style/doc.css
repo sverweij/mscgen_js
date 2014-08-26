@@ -10,6 +10,17 @@ body {
 .showonmobile {
   display: none;
 }
+.browsehappy {
+    margin: 0.2em 0;
+    background: yellow;
+    color: black;
+    padding: 0.2em 0;
+}
+html {
+    font-size: 100%; 
+    -ms-text-size-adjust: 100%; 
+    -webkit-text-size-adjust: 100%; 
+}
 body {
     counter-reset: article-counter;
 }

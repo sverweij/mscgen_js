@@ -10,3 +10,20 @@ body {
 .showonmobile {
   display: none;
 }
+.browsehappy {
+    margin: 0.2em 0;
+    background: yellow;
+    color: black;
+    padding: 0.2em 0;
+}
+/**
+ * 1. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+    font-size: 100%; /* 1 */
+    -ms-text-size-adjust: 100%; /* 2 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+}
