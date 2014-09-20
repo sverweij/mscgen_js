@@ -1,0 +1,14 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
+  <url>
+    <loc>https://sverweij.github.io/index.html</loc> 
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sverweij.github.io/tutorial.html</loc> 
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://sverweij.github.io/embed.html</loc> 
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>
