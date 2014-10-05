@@ -284,27 +284,27 @@ msc {
 ## Scalable vector graphics
 As the default output format for the pictures we have chosen scalable
 vector graphics (svg):
-- For line drawings vector graphics are an obvious choice for
-  diagramming 
+- Vector graphics are an obvious choice for diagramming output
+  as it contains mostly lines.
 - SVG works out of the box from most modern browsers
 - Converting (/ downgrading) vector graphics to raster graphic
   formats (like png, jpeg etc) is always possible. 
 
 ## The scalable vector graphics skeleton
 =>> code in ```render/graphics/renderskeleton.js```
+
 We use the following structure for the svg
 
-desc (contains the source code that was used to generate the svg.
-Practical not only for debugging, but also to regenerate it when
-the source got lost)
-- ```defs```
+- ```desc```- contains the source code that was used to generate the svg.
+   This is practical not only for debugging, but also to reconstruct the
+   original program.
+- ```defs``` - "definitions"
     - ```style``` - which contains the css defining default colors, fonts, 
       line widths etc.
     - a list of ```marker```s - one for each of the arrow heads possible
       in sequence charts.
     - a ```g```roup containing all elements to be rendered: entities, 
       arcs, inline expressions
-
 - The body ```g```roup. This consists of 5 groups, each of which
   represents a layer. The layers themselves contain nothing else than
   a reference (```use``` s) to the groups defined in ```defs/g```,
