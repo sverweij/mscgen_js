@@ -1,12 +1,30 @@
 # Introduction
-mscgen_js 
+The description below is meant to make the job of maintaining the 
+code base more easy. It attempts to describe what the program does
+and 
 
+The main steps to getting a textual description to a picture are 
+- _lexical analysis and parsing_, which results in an abstract syntax
+  tree
+  We're using PEG.js, which smashes these two tasks together
+- _rendering_ that abstract syntax tree into a picture.
+- Besides these two steps it is useful to have some of 
+  _controler_ program that handles interaction with the user. 
+  There are two of these in the package:
+  - for _embedding_ textual descriptions in html
+  - for the interactive _interpreter_
+
+
+The chapters and paragraphs below describe most (if not all) things
+you need to about each of these steps
 
 # Parsing
 ## Introduction
 The parsers for ```mscgen```, ```msgenny``` and ```xù``` are all
 written in pegjs and deliver the abstract syntax tree as a javascript
 object.
+
+=>> code in ```parse/peg/```
 
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and
@@ -264,11 +282,80 @@ msc {
 
 # Rendering
 ## Scalable vector graphics
+As the default output format for the pictures we have chosen scalable
+vector graphics (svg):
+- For line drawings vector graphics are an obvious choice for
+  diagramming 
+- SVG works out of the box from most modern browsers
+- Converting (/ downgrading) vector graphics to raster graphic
+  formats (like png, jpeg etc) is always possible. 
+
+## The scalable vector graphics skeleton
+=>> code in ```render/graphics/renderskeleton.js```
+We use the following structure for the svg
+
+desc (contains the source code that was used to generate the svg.
+Practical not only for debugging, but also to regenerate it when
+the source got lost)
+- ```defs```
+    - ```style``` - which contains the css defining default colors, fonts, 
+      line widths etc.
+    - a list of ```marker```s - one for each of the arrow heads possible
+      in sequence charts.
+    - a ```g```roup containing all elements to be rendered: entities, 
+      arcs, inline expressions
+
+- The body ```g```roup. This consists of 5 groups, each of which
+  represents a layer. The layers themselves contain nothing else than
+  a reference (```use``` s) to the groups defined in ```defs/g```,
+  unless noted differently. The body also contains the translation
+  of the ```hscale``` and ```width``` options by way of a ```transform```
+  attribute
+    - background (a white rectangle the size of the diagram. Put in
+      directly, not by reference)
+    - arcspan (if there are any inline expressions they get rendered here)
+    - lifeline (the vertical lines)
+    - sequence (contains the entities, all arcs that are not boxes and 
+      accompanying text)
+    - note (contains all arcs that are boxes (box, abox, rbox and _note_)
+    - watermark (contra-intuitively, the easiest way to render a
+      watermark in an svg is to put it on top. The watermark is put
+      in this layer directly and not by reference)
+    
+
 TODO. Subjects to be covered:
-- renderast/ utensiles
-- skeleton / structure of the svg
-- flattening
-- text wrapping & BBox
+- renderast/ utensiles (=>> code in ```render/graphics/renderast.js``` and ```render/graphics/renderutensils.js```)
+- flattening (=>> code in ```render/text/flatten.js```)
+- text wrapping (html vs text/tspans) (=>> code in ```textutensils.js```)
+  & BBox (in ```render/graphics/renderutensils.js`` iircc)
 
 ## Other script languages
+=>> code in ```render\text\```
+Besides to render pictures from an abstract syntax tree, the code contains
+programs that render the asbtract syntax tree to text. 
+
+- Explain the ast2thing thing
+- Mapping 
 TODO mscgen, msgenny, xu, dot
+
+## Colorize
+=>> code in  ```render\text\colorize.js```
+
+# The controllers
+## embedding
+=>> code in ```ui-control/controller-inpage.js```
+TODO
+- building the thing (almond to get everything in one .js)
+- explain how it works (rather trivial: run through all elements, 
+  filter those with the mscgen_js class out and attempt to parse & 
+  render what is in between the tags)
+- explain the ```defer``` thing (if you don't defer loading, the js
+  will start to run before the browser has completed the dom tree -
+  especially visible with large html like the tutorial)
+
+## interactive interpreter
+=>> code in ```ui-control/controller-interpreter.js```
+- code mirror stuff
+- rendering in real time: the straight on approach just works ...
+- rendering raster graphics: canvas & canvg
+
