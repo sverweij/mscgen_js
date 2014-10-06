@@ -372,8 +372,8 @@ As you can see mscgen_js keeps its functionality in separate amd modules
 and uses r.js to smash em together in one ball of javascript, which
 is loaded with require.js. The script tag would then look something like this:
 ```html
-<script data-main="https://sverweij.github.io/mscgen_js/mscgen-inpage.js'"
-        src="https://sverweij.github.io/mscgen_js/lib/require.js" defer>
+<script data-main='https://sverweij.github.io/mscgen_js/mscgen-inpage.js'
+        src='https://sverweij.github.io/mscgen_js/lib/require.js' defer>
 </script>
 ```
 
