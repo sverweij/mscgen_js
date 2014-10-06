@@ -24,6 +24,8 @@ define(["./renderutensils"], function(utl) {
      *      __sequencelayer - for arcs and associated text
      *      __notelayer     - for notes and boxes - the labels of arcspanning arcs
      *                        will go in here as well
+     *      __watermark     - the watermark. Contra-intuitively this one 
+     *                        goes on top. 
      * @exports renderskeleton
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
