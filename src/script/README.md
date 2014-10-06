@@ -347,9 +347,11 @@ TODO mscgen, msgenny, xu, dot
 :page_with_curl: code in [ui-control/controller-inpage.js](gui-control/controller-inpage.js)
 
 The embedding controller uses the obvious approach: 
-- run through all elements in the DOM tree and filter out those that have the mscgen_js class
+- Run through all elements in the DOM tree and filter out those that have the mscgen_js class.
 - For each element thus found attempt to parse and render its content as mscgen (or one of
-  the three other supported languages)
+  the three other supported languages).
+- If the parsing doesn't work out, display the text of the element with the 
+  error the parser found highlighted.
 
 ### defer: prevent execution before DOM tree has loaded
 When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html), we found that 
@@ -370,12 +372,14 @@ As you can see mscgen_js keeps its functionality in separate amd modules
 and uses r.js to smash em together in one ball of javascript, which
 is loaded with require.js. The script tag would then look something like this:
 ```html
-<script data-main="https://sverweij.github.io/mscgen_js/mscgen-inpage.js'" src="https://sverweij.github.io/mscgen_js/lib/require.js" defer></script>
+<script data-main="https://sverweij.github.io/mscgen_js/mscgen-inpage.js'"
+        src="https://sverweij.github.io/mscgen_js/lib/require.js" defer>
+</script>
 ```
 
 For embedding this has two drawbacks:
-- the user will have to load two piece of javascript (slower)
-- it's overly verbose
+- The user will have to load two piece of javascript (slower).
+- It's verbose.
 
 
 James Burke wrote almond to circumvent exactly that. More information on the [almond github page](https://github.com/jrburke/almond).
