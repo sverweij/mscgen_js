@@ -20,22 +20,22 @@ you need to about each of these steps
 
 # Parsing
 ## Introduction
-The parsers for ```mscgen```, ```msgenny``` and ```xù``` are all
+The parsers for `mscgen`, `msgenny` and `xù` are all
 written in pegjs and deliver the abstract syntax tree as a javascript
 object.
 
-=>> code in ```parse/peg/```
+:page_with_curl: code in [parse/peg](parse/peg)
 
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and
 commonjs:
-```
+```sh
 pegjs mscgenparser.pegjs > mscgenparser_node.js
 ```
 
 To create a parser that is usable in require.js, the line
-```module.exports = (function(){```needs to be replaced with ```define
-([], function(){```.  The ```commonjs2amd.sh``` script in the utl
+`module.exports = (function(){` needs to be replaced with 
+`define ([], function(){`.  The `commonjs2amd.sh` script in the utl
 directory does just that. Usage:
 ```
 commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
@@ -291,25 +291,25 @@ vector graphics (svg):
   formats (like png, jpeg etc) is always possible. 
 
 ## The scalable vector graphics skeleton
-=>> code in ```render/graphics/renderskeleton.js```
+:page_with_curl: code in [render/graphics/renderskeleton.js](render/graphics/renderskeleton.js)
 
 We use the following structure for the svg
 
-- ```desc```- contains the source code that was used to generate the svg.
+- `desc```- contains the source code that was used to generate the svg.
    This is practical not only for debugging, but also to reconstruct the
    original program.
-- ```defs``` - "definitions"
-    - ```style``` - which contains the css defining default colors, fonts, 
+- `defs` - "definitions"
+    - `style` - which contains the css defining default colors, fonts, 
       line widths etc.
-    - a list of ```marker```s - one for each of the arrow heads possible
+    - a list of `marker`s - one for each of the arrow heads possible
       in sequence charts.
-    - a ```g```roup containing all elements to be rendered: entities, 
+    - a `g`roup containing all elements to be rendered: entities, 
       arcs, inline expressions
-- The body ```g```roup. This consists of 5 groups, each of which
+- The body `g`roup. This consists of 5 groups, each of which
   represents a layer. The layers themselves contain nothing else than
-  a reference (```use``` s) to the groups defined in ```defs/g```,
+  a reference (`use` s) to the groups defined in `defs/g`,
   unless noted differently. The body also contains the translation
-  of the ```hscale``` and ```width``` options by way of a ```transform```
+  of the `hscale` and `width` options by way of a `transform`
   attribute
     - background (a white rectangle the size of the diagram. Put in
       directly, not by reference)
@@ -324,13 +324,13 @@ We use the following structure for the svg
     
 
 TODO. Subjects to be covered:
-- renderast/ utensiles (=>> code in ```render/graphics/renderast.js``` and ```render/graphics/renderutensils.js```)
-- flattening (=>> code in ```render/text/flatten.js```)
-- text wrapping (html vs text/tspans) (=>> code in ```textutensils.js```)
-  & BBox (in ```render/graphics/renderutensils.js`` iircc)
+- renderast/ utensiles (:page_with_curl: code in [render/graphics/renderast.js](render/graphics/renderast.js) and [render/graphics/renderutensils.js](render/graphics/renderutensils.js) )
+- flattening (:page_with_curl: code in [render/text/flatten.js](render/text/flatten.js))
+- text wrapping (html vs text/tspans) (:page_with_curl: code in [render/text/textutensils.js](render/text/textutensils.js))
+  & BBox (in [render/graphics/renderutensils.js](render/graphics/renderutensils.js) iircc)
 
 ## Other script languages
-=>> code in ```render\text\```
+:page_with_curl: code in [render\text\](render\text\)
 Besides to render pictures from an abstract syntax tree, the code contains
 programs that render the asbtract syntax tree to text. 
 
@@ -339,11 +339,11 @@ programs that render the asbtract syntax tree to text.
 TODO mscgen, msgenny, xu, dot
 
 ## Colorize
-=>> code in  ```render\text\colorize.js```
+:page_with_curl: code in [render\text\colorize.js](render\text\colorize.js)
 
 # The controllers
 ## embedding
-=>> code in ```ui-control/controller-inpage.js```
+:page_with_curl: code in [ui-control/controller-inpage.js](gui-control/controller-inpage.js)
 TODO
 - building the thing (almond to get everything in one .js)
 - explain how it works (rather trivial: run through all elements, 
@@ -354,7 +354,7 @@ TODO
   especially visible with large html like the tutorial)
 
 ## interactive interpreter
-=>> code in ```ui-control/controller-interpreter.js```
+:page_with_curl: code in [ui-control/controller-interpreter.js](ui-control/controller-interpreter.js)
 - code mirror stuff
 - rendering in real time: the straight on approach just works ...
 - rendering raster graphics: canvas & canvg
