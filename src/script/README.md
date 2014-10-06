@@ -31,7 +31,7 @@ object.
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and
 commonjs:
-```sh
+```shell
 pegjs mscgenparser.pegjs > mscgenparser_node.js
 ```
 
@@ -39,7 +39,7 @@ To create a parser that is usable in require.js, the line
 `module.exports = (function(){` needs to be replaced with 
 `define ([], function(){`.  The `commonjs2amd.sh` script in the utl
 directory does just that. Usage:
-```
+```shell
 commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
 ```
 
