@@ -19,12 +19,14 @@ The chapters and paragraphs below describe most (if not all) things
 you need to about each of these steps
 
 # Parsing
+:page_with_curl: code in [parse/peg](parse/peg)
+
 ## Introduction
 The parsers for `mscgen`, `msgenny` and `xù` are all
 written in pegjs and deliver the abstract syntax tree as a javascript
 object.
 
-:page_with_curl: code in [parse/peg](parse/peg)
+
 
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and
@@ -48,7 +50,7 @@ make up mscgen programs: options, entities and arcs. We will discuss
 each in detail below.
 
 Hint: When you add the parameter debug with value true to the url
-of the demo (e.g. like so: http://sverweij.github.io/mscgen_js?debug=true)
+of the demo (e.g. like so: https://sverweij.github.io/mscgen_js?debug=true)
 the interface gets an extra language called option called "AST".
 When - after entering a valid mscgen, msgenny or xù program - you
 click it, the editor will show the abstract syntax tree the parser
@@ -96,7 +98,7 @@ of objects within an array represents the order in which they are
 
 
 ### options
-```options``` is an object with the options that are possible in
+`options` is an object with the options that are possible in
 mscgen as attributes.
 
 - If the input program does not have an option, the parser leaves
@@ -104,7 +106,7 @@ mscgen as attributes.
 - If the input program does not have any options at all, the parser
   leaves the options object out of the syntax tree altogether.
 - Note that in mscgen, msgenny and xù the boolean attribute
-```wordwraparcs``` can have
+`wordwraparcs` can have
   the values true, 1, on, "true" and "on" for true and false, 0,
   off, "false" and "off" for off. The parser flattens this to "true"
   and "false" respectively so consumers working with the syntax
@@ -120,9 +122,9 @@ mscgen as attributes.
 ```
 
 ### entities 
-```entities``` is an array of anonymous objects, each of which
+`entities` is an array of anonymous objects, each of which
 represents an entity.  Each of these objects is guaranteed to have
-a ```name``` attribute. To remain compatible with mscgen this name
+a `name` attribute. To remain compatible with mscgen this name
 is /not necessarily unique/, however.
 
 The list of possible attributes is equal to what is allowed for mscgen:
@@ -162,7 +164,7 @@ The list of possible attributes is equal to what is allowed for mscgen:
 ```
 
 ### arcs 
-```arcs``` is a two dimensional array of arcs. Each array in the
+`arcs` is a two dimensional array of arcs. Each array in the
 outer array represents an arc _row_ (so the name _arcs_ is kind of
 a misnomer - ah well). The inner array consists of anonymous objects
 each of which represents an arc. Each arc is guaranteed to have the
@@ -194,8 +196,8 @@ todo: add recursive structure for xù.
     ...
 ```
 
-In the sample mscgen ```b``` communicates to ```a``` that it is working on
-something, while _at the same time_ instructing ```c``` to do something. 
+In the sample mscgen `b` communicates to `a` that it is working on
+something, while _at the same time_ instructing `c` to do something. 
 The part of the syntax tree representing that looks like this:
 
 ```json
@@ -283,19 +285,18 @@ msc {
 # Rendering
 ## Scalable vector graphics
 As the default output format for the pictures we have chosen scalable
-vector graphics (svg):
-- Vector graphics are an obvious choice for diagramming output
-  as it contains mostly lines.
-- SVG works out of the box from most modern browsers
+vector graphics (SVG):
+- Vector graphics are an obvious choice for drawing sequence charts - it's mostly lines
+- SVG works out of the box in most modern browsers
 - Converting (/ downgrading) vector graphics to raster graphic
-  formats (like png, jpeg etc) is always possible. 
+  formats (like png, jpeg etc) is possible. 
 
 ## The scalable vector graphics skeleton
 :page_with_curl: code in [render/graphics/renderskeleton.js](render/graphics/renderskeleton.js)
 
 We use the following structure for the svg
 
-- `desc```- contains the source code that was used to generate the svg.
+- `desc` - contains the source code that was used to generate the svg.
    This is practical not only for debugging, but also to reconstruct the
    original program.
 - `defs` - "definitions"
@@ -330,7 +331,7 @@ TODO. Subjects to be covered:
   & BBox (in [render/graphics/renderutensils.js](render/graphics/renderutensils.js) iircc)
 
 ## Other script languages
-:page_with_curl: code in [render\text\](render\text\)
+:page_with_curl: code in [render/text/](render/text)
 Besides to render pictures from an abstract syntax tree, the code contains
 programs that render the asbtract syntax tree to text. 
 
@@ -339,19 +340,46 @@ programs that render the asbtract syntax tree to text.
 TODO mscgen, msgenny, xu, dot
 
 ## Colorize
-:page_with_curl: code in [render\text\colorize.js](render\text\colorize.js)
+:page_with_curl: code in [render/text/colorize.js](render/text/colorize.js)
 
 # The controllers
 ## embedding
 :page_with_curl: code in [ui-control/controller-inpage.js](gui-control/controller-inpage.js)
-TODO
-- building the thing (almond to get everything in one .js)
-- explain how it works (rather trivial: run through all elements, 
-  filter those with the mscgen_js class out and attempt to parse & 
-  render what is in between the tags)
-- explain the ```defer``` thing (if you don't defer loading, the js
-  will start to run before the browser has completed the dom tree -
-  especially visible with large html like the tutorial)
+
+The embedding controller uses the obvious approach: 
+- run through all elements in the DOM tree and filter out those that have the mscgen_js class
+- For each element thus found attempt to parse and render its content as mscgen (or one of
+  the three other supported languages)
+
+### defer: prevent execution before DOM tree has loaded
+When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html), we found that 
+sometimes the codewould start running before the browser completed loading the DOM tree. 
+Libraries like jquery have tricks up their sleeves to prevent this from happening.
+However, we wanted to prevent using more libraries than strictly necessary. 
+Less code == less to download == faster load times.
+
+The solution we're using now is to use the `defer` attribute in the script
+element. With this attribute in place most modern browsers (firefox, chrome, safari)
+wait with loading and executing the script until the complete DOM tree is loaded
+```html
+<script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer></script>
+```
+
+### One javascript file: requirejs and almond
+As you can see mscgen_js keeps its functionality in separate amd modules
+and uses r.js to smash em together in one ball of javascript, which
+is loaded with require.js. The script tag would then look something like this:
+```html
+<script data-main="https://sverweij.github.io/mscgen_js/mscgen-inpage.js'" src="https://sverweij.github.io/mscgen_js/lib/require.js" defer></script>
+```
+
+For embedding this has two drawbacks:
+- the user will have to load two piece of javascript (slower)
+- it's overly verbose
+
+
+James Burke wrote almond to circumvent exactly that. More information on the [almond github page](https://github.com/jrburke/almond).
+
 
 ## interactive interpreter
 :page_with_curl: code in [ui-control/controller-interpreter.js](ui-control/controller-interpreter.js)
