@@ -31,7 +31,7 @@ object.
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and
 commonjs:
-```shell
+```shellscript
 pegjs mscgenparser.pegjs > mscgenparser_node.js
 ```
 
@@ -330,14 +330,16 @@ TODO. Subjects to be covered:
 - text wrapping (html vs text/tspans) (:page_with_curl: code in [render/text/textutensils.js](render/text/textutensils.js))
   & BBox (in [render/graphics/renderutensils.js](render/graphics/renderutensils.js) iircc)
 
-## Other script languages
+## Rendering text: other script languages
 :page_with_curl: code in [render/text/](render/text)
-Besides to render pictures from an abstract syntax tree, the code contains
-programs that render the asbtract syntax tree to text. 
 
+To be able to switch between the languages mscgen_js supports, the code contains
+functions to convert abstract syntax trees back to text. 
+
+TODO:
 - Explain the ast2thing thing
 - Mapping 
-TODO mscgen, msgenny, xu, dot
+- mscgen, msgenny, xu, dot (, ...)
 
 ## Colorize
 :page_with_curl: code in [render/text/colorize.js](render/text/colorize.js)
