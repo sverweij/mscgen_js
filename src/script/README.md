@@ -356,10 +356,10 @@ The embedding controller uses the obvious approach:
   error the parser found highlighted.
 
 ### defer: prevent execution before DOM tree has loaded
-When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html), we found that 
+When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html)), we found that 
 sometimes the codewould start running before the browser completed loading the DOM tree. 
 Libraries like jquery have tricks up their sleeves to prevent this from happening.
-However, we wanted to prevent using more libraries than strictly necessary. 
+However, we don't want to use more libraries than strictly necessary. 
 Less code == less to download == faster load times.
 
 The solution we're using now is to use the `defer` attribute in the script
@@ -390,6 +390,6 @@ James Burke wrote almond to circumvent exactly that. More information on the [al
 ## interactive interpreter
 :page_with_curl: code in [ui-control/controller-interpreter.js](ui-control/controller-interpreter.js)
 - code mirror stuff
-- rendering in real time: the straight on approach just works ...
+- rendering in real time: the straight on approach just works.
 - rendering raster graphics: canvas & canvg
 
