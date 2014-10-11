@@ -12,40 +12,42 @@ a picture are:
 - Besides these two steps it is useful to have some of 
   [_controler_](#the-controllers) program that handles interaction with the user. 
   There are two of these in the package:
-  - for _embedding_ textual descriptions in html
-  - for the interactive _interpreter_
+  - for [_embedding_](#embedding) textual descriptions in html
+  - for the interactive [_interpreter_](#the-interpreter)
 
 
-The chapters and paragraphs below describe most (if not all) things
-you need to about each of these steps
+The sections below describe most (if not all) things
+you need to about each of these steps.
 
 # Parsing
 :page_with_curl: code in [parse/peg](parse/peg)
 
 ## Introduction
-The parsers for `mscgen`, `msgenny` and `xù` are all
-written in pegjs and deliver the abstract syntax tree as a javascript
-object.
-
+The parsers for `mscgen`, `msgenny` and `xù` are written in
+pegjs and deliver the abstract syntax tree as a javascript
+object. In this section we describe 
+* [how to generate the parsers from pegjs](#generating-the-parsers)
+* [the structure of and principles behind the abstract syntax trees](#the-abstract-syntax-tree)
 
 
 ## Generating the parsers
 To create javascript from the .pegjs source usable in node and
 commonjs:
-```shellscript
+```bash
 pegjs mscgenparser.pegjs > mscgenparser_node.js
 ```
 
 To create a parser that is usable in require.js, the line
-`module.exports = (function(){` needs to be replaced with 
-`define ([], function(){`.  The `commonjs2amd.sh` script in the utl
-directory does just that. Usage:
-```shell
+`module.exports = (function(){` in the generated parser 
+needs to be replaced with  `define ([], function(){`.  The
+`commonjs2amd.sh` script in the utl directory does just that. 
+Usage:
+```bash
 commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
 ```
 
 ## The abstract syntax tree
-All parsers generate a JSON syntax tree adhering to the same
+All parsers generate a JSON syntax tree that adheres to the same
 structure. It is conceptually modeled after the three parts that
 make up mscgen programs: options, entities and arcs. We will discuss
 each in detail below.
