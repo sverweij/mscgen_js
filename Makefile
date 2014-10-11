@@ -105,7 +105,7 @@ help:
 	@echo \ removes everything created by either install or dev-build
 	@echo
 	@echo deploy-gh-pages
-	@echo \ runs merges main to gh-pages, runs an install and pushes it to origin
+	@echo \ merges main to gh-pages, runs an install and pushes it to origin
 	@echo
 	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
 	@echo \|\ More information and other targets: see wikum\\build.md \|
