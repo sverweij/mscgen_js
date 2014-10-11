@@ -1,15 +1,16 @@
 # Introduction
 The description below is meant to make the job of maintaining the 
 code base more easy. It attempts to describe what the program does
-and 
+and how.
 
-The main steps to getting a textual description to a picture are 
-- _lexical analysis and parsing_, which results in an abstract syntax
+The main steps mscgen_js takes to get from a textual description to
+a picture are:
+- [_lexical analysis and parsing_](#parsing), which results in an abstract syntax
   tree
   We're using PEG.js, which smashes these two tasks together
-- _rendering_ that abstract syntax tree into a picture.
+- [_rendering_](#rendering) that abstract syntax tree into a picture.
 - Besides these two steps it is useful to have some of 
-  _controler_ program that handles interaction with the user. 
+  [_controler_](#the-controllers) program that handles interaction with the user. 
   There are two of these in the package:
   - for _embedding_ textual descriptions in html
   - for the interactive _interpreter_
