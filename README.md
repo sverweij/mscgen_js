@@ -52,7 +52,8 @@ If you find proof to the contrary on any of this [tell us][6].
 
 ## Building mscgen_js yourself
 
-See [build.md][7]
+See [build.md][7]. If you want to understand how mscgen_js' innards work: 
+we try to explain that [here][33].
 
 ## Licenses and dependencies
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
@@ -110,3 +111,4 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 [30]: https://sverweij.github.io/mscgen_js/embed.html
 [31]: https://github.com/jrburke/almond
 [32]: wikum/licenses/license.lcovgenhtml.md
+[33]: src/script
