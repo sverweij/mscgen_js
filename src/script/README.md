@@ -13,7 +13,7 @@ a picture are:
   [_controler_](#the-controllers) program that handles interaction with the user. 
   There are two of these in the package:
   - for [_embedding_](#embedding) textual descriptions in html
-  - for the interactive [_interpreter_](#the-interpreter)
+  - for the interactive [_interpreter_](#interactive-interpreter)
 
 
 The sections below describe most (if not all) things
@@ -286,6 +286,16 @@ msc {
 ```
 
 # Rendering
+## Introduction
+In this section we motivate our choice for 
+[scalable vector graphics](#scalable-vector-graphics), desribe how
+our template or [skeleton](#the-scalable-vector-graphics-skeleton) looks and
+explain 
+
+Mscgen_js not only renders to graphics, but also to other languages.
+We describe how this works in 
+[Rendering text: other script languages](#rendering-text-other-script-languages).
+
 ## Scalable vector graphics
 As the default output format for the pictures we have chosen scalable
 vector graphics (SVG):
@@ -360,7 +370,10 @@ The embedding controller uses the obvious approach:
 
 ### defer: prevent execution before DOM tree has loaded
 When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html)), we found that 
-sometimes the codewould start running before the browser completed loading the DOM tree. 
+sometimes the code would start executing before the browser completed loading 
+the DOM tree. The result of this was that the only part of the embedded
+mscgen would be rendered. 
+
 Libraries like jquery have tricks up their sleeves to prevent this from happening.
 However, we don't want to use more libraries than strictly necessary. 
 Less code == less to download == faster load times.
