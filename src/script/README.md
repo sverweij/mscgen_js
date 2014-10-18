@@ -1,7 +1,7 @@
 # Introduction
 The description below is meant to make the job of maintaining the 
-code base more easy. It attempts to describe what the program does
-and how.
+code base more easy. It attempts to describe how the program does
+what it does and it tries to explain some of the choices we've made.
 
 The main steps mscgen_js takes to get from a textual description to
 a picture are:
