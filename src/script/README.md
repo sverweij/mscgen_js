@@ -290,7 +290,7 @@ msc {
 In this section we motivate our choice for 
 [scalable vector graphics](#scalable-vector-graphics), desribe how
 our template or [skeleton](#the-scalable-vector-graphics-skeleton) looks and
-explain 
+explain how the rendering functions fill it.
 
 Mscgen_js not only renders to graphics, but also to other languages.
 We describe how this works in 
