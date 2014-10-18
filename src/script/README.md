@@ -324,7 +324,7 @@ We use the following structure for the svg
   a reference (`use` s) to the groups defined in `defs/g`,
   unless noted differently. The body also contains the translation
   of the `hscale` and `width` options by way of a `transform`
-  attribute
+  attribute. The layers from bottom to top:
     - background (a white rectangle the size of the diagram. Put in
       directly, not by reference)
     - arcspan (if there are any inline expressions they get rendered here)
