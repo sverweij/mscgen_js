@@ -91,6 +91,7 @@ var gErrorCoordinates = {
 		line : 0,
 		column : 0
 	}; 
+var gDebug = false;
 
 $(document).ready(function(){
 
@@ -305,6 +306,7 @@ function setupEvents () {
 
 function processParams(pParams){
     if ("true" === pParams.debug) {
+        gDebug = true;
         $(".debug").show();
         gaga.g('send', 'event', 'debug', 'true');
     }
@@ -441,7 +443,8 @@ function setLanguage (pLanguage){
 }
 
 function samplesOnChange() {
-    if ("none" === $("#__samples").val()) {
+    var lSelectedSample = $("#__samples").val();
+    if ("none" === lSelectedSample || null === lSelectedSample || undefined === lSelectedSample){
         clearOnClick();
     } else {
         $.ajax({

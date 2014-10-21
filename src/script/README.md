@@ -1,7 +1,7 @@
 # Introduction
 The description below is meant to make the job of maintaining the 
-code base more easy. It attempts to describe what the program does
-and how.
+code base more easy. It attempts to describe how the program does
+what it does and it tries to explain some of the choices we've made.
 
 The main steps mscgen_js takes to get from a textual description to
 a picture are:
@@ -290,7 +290,7 @@ msc {
 In this section we motivate our choice for 
 [scalable vector graphics](#scalable-vector-graphics), desribe how
 our template or [skeleton](#the-scalable-vector-graphics-skeleton) looks and
-explain 
+explain how the rendering functions fill it.
 
 Mscgen_js not only renders to graphics, but also to other languages.
 We describe how this works in 
@@ -324,7 +324,7 @@ We use the following structure for the svg
   a reference (`use` s) to the groups defined in `defs/g`,
   unless noted differently. The body also contains the translation
   of the `hscale` and `width` options by way of a `transform`
-  attribute
+  attribute. The layers from bottom to top:
     - background (a white rectangle the size of the diagram. Put in
       directly, not by reference)
     - arcspan (if there are any inline expressions they get rendered here)
