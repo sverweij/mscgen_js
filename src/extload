@@ -1,0 +1,21 @@
+
+
+/* stuff
+    $("#__samples").empty();
+    $.getJSON('./samples/samples.json', function(pData){
+        try {
+            $("#__samples").fadeIn("slow");
+            pData.samples.forEach(function(pSample){
+                if ((true === pSample.debug && gDebug)||(!pSample.debug)) {
+                    $("#__samples").append("<option value=\"" + pSample.url + "\">"
+                    + pSample.name + "</option>");
+                }
+
+            });
+        } catch (e) {
+            $("#__samples").hide();
+        }   
+
+    });
+/* stuff */
+
