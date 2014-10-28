@@ -19,13 +19,13 @@ msc {
   --- [label="[hunky dory]", linecolor="green"];
   ui << msc [label="AST"];
   ui => render [label="renderAST(AST, text)"];
-  render => utls [label="low level helpers"];  
+  render => utls [label="low level helpers"];
   utls => doc [label="all kinds of dom manipulation"];
   render => doc [label="all kinds of dom manipulation"];
   render note render [label="move dom manipulation down?"];
 
   --- [label="[parse error]", linecolor="red"];
-  ui << msc [label="exception"];    
+  ui << msc [label="exception"];
   ui =>> ui [label="show error"];
 
   ui =>> html [label="show error"];
@@ -43,22 +43,20 @@ msc {
 /* global define, canvg */
 
 define(["../jquery", "../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
-        "../render/text/ast2msgenny", "../render/text/ast2xu", "../render/text/ast2dot", "../render/text/ast2mscgen", /*"node/ast2dagre",*/
+        "../render/text/ast2msgenny", "../render/text/ast2xu", "../render/text/ast2dot", "../render/text/ast2mscgen",
         "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
         "../utl/paramslikker",
         "../../lib/codemirror/lib/codemirror",
-		"../../lib/codemirror/addon/edit/closebrackets",
-		"../../lib/codemirror/addon/edit/matchbrackets",
+        "../../lib/codemirror/addon/edit/closebrackets",
+        "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
         "../../lib/codemirror/mode/mscgen/mscgen",
         "../../lib/canvg/canvg",
         "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor"/*,
-        "../../lib/dagre/d3",
-        "../../lib/dagre/dagred3"*/
+        "../../lib/canvg/rgbcolor"
         ],
         function($, mscparser, msgennyparser, msc_render,
-            tomsgenny, tomscgen, todot, tovanilla, /*todagre,*/
+            tomsgenny, tomscgen, todot, tovanilla,
             gaga, txt, colorize,
             params,
             codemirror,
@@ -68,92 +66,110 @@ define(["../jquery", "../parse/xuparser", "../parse/msgennyparser", "../render/g
             cm_mscgen,
             cv,
             cv_stackblur,
-            cv_rgbcolor/*,
-            dthree,
-            dagred3*/) {
+            cv_rgbcolor
+        ) {
 
 var gAutoRender = true;
 var gLanguage = "mscgen";
 var gGaKeyCount = 0;
-var ESC_KEY   = 27; 
+var ESC_KEY   = 27;
 var gCodeMirror =
     codemirror.fromTextArea(document.getElementById("__msc_input"), {
         lineNumbers       : true,
         autoCloseBrackets : true,
         matchBrackets     : true,
-        theme             : "midnight", 
+        theme             : "midnight",
         mode              : "xu",
         placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
         lineWrapping      : true
     });
 
 var gErrorCoordinates = {
-		line : 0,
-		column : 0
-	}; 
+    line : 0,
+    column : 0
+  };
 var gDebug = false;
 
 $(document).ready(function(){
 
-    var lParams = params.getParams (window.location.search); 
-    
+    var lParams = params.getParams (window.location.search);
+
     gaga.gaSetup("false" === lParams.donottrack || undefined === lParams.donottrack );
     gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
     gaga.g('send', 'pageview');
-    
+
     setupEvents();
     processParams(lParams);
-        
+
+/* stuff
+    $("#__samples").empty();
+    $.getJSON('./samples/samples.json', function(pData){
+        try {
+            $("#__samples").fadeIn("slow");
+            pData.samples.forEach(function(pSample){
+                if ((true === pSample.debug && gDebug)||(!pSample.debug)) {
+                    $("#__samples").append("<option value=\"" + pSample.url + "\">"
+                    + pSample.name + "</option>");
+                }
+
+            });
+        } catch (e) {
+            $("#__samples").hide();
+        }
+
+    });
+/* stuff */
+
     $("#__pngcanvas").hide();
     showAutorenderState ();
-    showLanguageState ();
-    render();
+    showLanguageState (gCodeMirror.getValue(), gLanguage);
+    render(gCodeMirror.getValue(), gLanguage);
     if (undefined === lParams.msc) {
         samplesOnChange();
     }
-    
+
 }); // document ready
 
 function setupEvents () {
     $("#__autorender").bind({
         click : function(e) {
-                    autorenderOnClick();
+                    autorenderOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
                 }
     });
     $("#__language_msgenny").bind ({
         click : function(e) {
-                    switchLanguageOnClick("msgenny");
+                    switchLanguageOnClick(gCodeMirror.getValue(), "msgenny");
                     gaga.g('send', 'event', 'toggle_ms_genny', 'msgenny');
-                }     
+                }
     });
     $("#__language_mscgen").bind ({
         click : function(e) {
-                    switchLanguageOnClick("mscgen");
+                    switchLanguageOnClick(gCodeMirror.getValue(), "mscgen");
                     gaga.g('send', 'event', 'toggle_ms_genny', 'mscgen');
-                }     
+                }
     });
     $("#__language_json").bind ({
         click : function(e) {
-                    switchLanguageOnClick("json");
+                    switchLanguageOnClick(gCodeMirror.getValue(), "json");
                     gaga.g('send', 'event', 'toggle_ms_genny', 'json');
-                }     
+                }
     });
     $("#__btn_colorize").bind({
         click : function(e) {
-                    colorizeOnClick(false);
+                    colorizeOnClick(gCodeMirror.getValue(), gLanguage, false);
                     gaga.g('send', 'event', 'colorize', 'button');
                 }
     });
     $("#__btn_uncolorize").bind({
         click : function(e) {
-                    unColorizeOnClick(false);
+                    unColorizeOnClick(gCodeMirror.getValue(), gLanguage, false);
                     gaga.g('send', 'event', 'uncolorize', 'button');
                 }
     });
     $("#__btn_colorize_hard").bind({
         click : function(e) {
-                    colorizeOnClick(true);
+                    colorizeOnClick(gCodeMirror.getValue(), gLanguage, true);
                     gaga.g('send', 'event', 'colorize_hard', 'button');
                 }
     });
@@ -183,31 +199,25 @@ function setupEvents () {
     });
     $("#__show_html").bind({
         click : function(e) {
-                    show_htmlOnClick();
+                    show_htmlOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'show_html', 'button');
                 }
     });
     $("#__show_dot").bind({
         click : function(e) {
-                    show_dotOnClick();
+                    show_dotOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'show_dot', 'button');
                 }
     });
     $("#__show_vanilla").bind({
         click : function(e) {
-                    show_vanillaOnClick();
+                    show_vanillaOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'show_vanilla', 'button');
-                }
-    });
-    $("#__show_communications_diagram").bind({
-        click : function(e) {
-                    show_communications_diagramOnClick();
-                    gaga.g('send', 'event', 'show_communications_diagram', 'button');
                 }
     });
     $("#__show_url").bind({
         click : function(e) {
-                    show_urlOnClick();
+                    show_urlOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'show_url', 'button');
                 }
     });
@@ -225,7 +235,7 @@ function setupEvents () {
     });
     $("#__btn_render").bind({
         click : function(e) {
-                    renderOnClick();
+                    renderOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'render', 'button');
                 }
     });
@@ -235,7 +245,7 @@ function setupEvents () {
     });
 
     gCodeMirror.on ("change", function() {
-                    msc_inputKeyup();
+                    msc_inputKeyup(gCodeMirror.getValue(), gLanguage);
                     if (gGaKeyCount > 17) {
                         gGaKeyCount = 0;
                         gaga.g('send', 'event', '17 characters typed', gLanguage);
@@ -244,24 +254,24 @@ function setupEvents () {
                     }
     });
     gCodeMirror.on ("drop", function(pThing, pEvent) {
-                    /* if there is a file in the drop event clear the textarea, 
+                    /* if there is a file in the drop event clear the textarea,
                      * otherwise do default handling for drop events (whatever it is)
                      */
                     if (pEvent.dataTransfer.files.length > 0) {
                         setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
-                        showLanguageState ();
+                        showLanguageState (gCodeMirror.getValue(), gLanguage);
                         gCodeMirror.setValue("");
-                        gaga.g('send', 'event', 'drop', gLanguage);    
-                    } 
+                        gaga.g('send', 'event', 'drop', gLanguage);
+                    }
     });
     $("a[href]").bind({
         click : function(e) {
             var lTarget = "unknown";
-            
+
             if (e.currentTarget && e.currentTarget.href){
                 lTarget = e.currentTarget.href;
             }
-            
+
             gaga.g('send', 'event', 'link', lTarget);
         }
     });
@@ -273,7 +283,7 @@ function setupEvents () {
     });
     $("#__embedme").bind ({
         click : function(e) {
-                    embedmeOnClick();
+                    embedmeOnClick(gCodeMirror.getValue(), gLanguage);
                     gaga.g('send', 'event', 'link', "embedme");
                 }
     });
@@ -286,14 +296,13 @@ function setupEvents () {
 
     $("body").bind({
         keydown : function (e) {
-           var lKey = e.keyCode;               
-           var lTarget = $(e.currentTarget);   
-                                 
-           switch(lKey) {                      
+           var lKey = e.keyCode;
+           var lTarget = $(e.currentTarget);
+
+           switch(lKey) {
                case (ESC_KEY) : {
                    closeAllLightBoxes();
-                    // gaga.g('send', 'event', 'close_source_lightbox', 'ESC_KEY');
-               } 
+               }
                break;
                default: {
                    break;
@@ -301,7 +310,7 @@ function setupEvents () {
            }
         }
     });
-    
+
 }
 
 function processParams(pParams){
@@ -310,7 +319,7 @@ function processParams(pParams){
         $(".debug").show();
         gaga.g('send', 'event', 'debug', 'true');
     }
-    
+
     if (pParams.msc) {
         gCodeMirror.setValue(pParams.msc);
         gaga.g('send', 'event', 'params.msc');
@@ -324,20 +333,20 @@ function processParams(pParams){
     }
 }
 
-function msc_inputKeyup () {
+function msc_inputKeyup (pSource, pLanguage) {
     if (gAutoRender) {
-        render();
+        render(pSource, pLanguage);
     }
 }
 
-function renderOnClick () {
-    render();
+function renderOnClick (pSource, pLanguage) {
+    render(pSource, pLanguage);
 }
 
-function autorenderOnClick () {
+function autorenderOnClick (pSource, pLanguage) {
     gAutoRender = !gAutoRender;
     if (gAutoRender) {
-        render ();
+        render (pSource, pLanguage);
     }
     showAutorenderState ();
 }
@@ -356,59 +365,58 @@ function getAST(pInput, pLanguage) {
     return lAST;
 }
 
-function switchLanguageOnClick (pValue) {
+function switchLanguageOnClick (pSource, pLanguage) {
     var lPreviousLanguage = gLanguage;
     var lAST = {};
-    
+    var lTargetSource = "";
     try {
-        lAST = getAST(gCodeMirror.getValue(), lPreviousLanguage);
-    
+        lAST = getAST(pSource, lPreviousLanguage);
         if (lAST !== {}){
-            reRenderSource(lAST, pValue);
+            lTargetSource = renderSource(lAST, pLanguage);
+            gCodeMirror.setValue(lTargetSource);
         }
     } catch(e) {
         // do nothing
     }
-    
-    setLanguage(pValue);
-    showLanguageState ();
+    setLanguage(pLanguage);
+    showLanguageState (lTargetSource, pLanguage);
 }
 
 function clearOnClick(){
     if ("msgenny" === gLanguage){
         gCodeMirror.setValue("");
     } else if ("json" === gLanguage){
-        gCodeMirror.setValue("");   
+        gCodeMirror.setValue("");
     } else /* "mscgen" === gLanguage || "xu" === gLanguage */{
         gCodeMirror.setValue("msc{\n  \n}");
         gCodeMirror.setCursor(1,3);
     }
 }
 
-function colorizeOnClick(pHardOverride){
+function colorizeOnClick(pSource, pLanguage, pHardOverride){
     var lAST = {};
-    
+
     try {
-        lAST = getAST(gCodeMirror.getValue(), gLanguage);
-    
+        lAST = getAST(pSource, pLanguage);
+
         if (lAST !== {}){
             lAST = colorize.colorize(lAST, pHardOverride);
-            reRenderSource(lAST, gLanguage);
+            gCodeMirror.setValue(renderSource(lAST, pLanguage));
         }
     } catch(e) {
         // do nothing
     }
 }
 
-function unColorizeOnClick(pHardOverride){
+function unColorizeOnClick(pSource, pLanguage, pHardOverride){
     var lAST = {};
-    
+
     try {
-        lAST = getAST(gCodeMirror.getValue(), gLanguage);
-    
+        lAST = getAST(pSource, pLanguage);
+
         if (lAST !== {}){
             lAST = colorize.uncolor(lAST, pHardOverride);
-            reRenderSource(lAST, gLanguage);
+            gCodeMirror.setValue(renderSource(lAST, pLanguage));
         }
     } catch(e) {
         // do nothing
@@ -416,21 +424,23 @@ function unColorizeOnClick(pHardOverride){
 }
 
 function errorOnClick(){
-	gCodeMirror.setCursor(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
-	gCodeMirror.focus();
-	
+    gCodeMirror.setCursor(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
+    gCodeMirror.focus();
 }
 
-function reRenderSource(pAST, pLanguage){
+function renderSource(pAST, pLanguage){
+    var lTargetSource = "";
+
     if ("msgenny" === pLanguage){
-        gCodeMirror.setValue(tomsgenny.render(pAST));
+        lTargetSource = tomsgenny.render(pAST);
     } else if ("json" === pLanguage){
-        gCodeMirror.setValue(JSON.stringify(pAST, null, "  "));
+        lTargetSource = JSON.stringify(pAST, null, "  ");
     } else if ("xu" === pLanguage){
-        gCodeMirror.setValue(tomscgen.render(pAST));
+        lTargetSource = tomscgen.render(pAST);
     } else {
-        gCodeMirror.setValue(tomscgen.render(pAST));
+        lTargetSource = tomscgen.render(pAST);
     }
+    return lTargetSource;
 }
 
 function setLanguage (pLanguage){
@@ -453,10 +463,10 @@ function samplesOnChange() {
                 if ($("#__samples").val()) {
                     setLanguage(txt.classifyExtension($("#__samples").val()));
                 }
-                showLanguageState ();
+                showLanguageState (gCodeMirror.getValue(), gLanguage);
                 gCodeMirror.setValue(pData);
             },
-            error : function (a,b,error){ 
+            error : function (a,b,error){
             },
             dataType : "text"
         });
@@ -465,7 +475,7 @@ function samplesOnChange() {
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
-// namespace prefixes in front of xlink and all hrefs respectively. 
+// namespace prefixes in front of xlink and all hrefs respectively.
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
 function webkitNamespaceBugWorkaround(pText){
@@ -474,13 +484,13 @@ function webkitNamespaceBugWorkaround(pText){
     return lText;
 }
 
-function embedmeOnClick () {
+function embedmeOnClick (pSource, pLanguage) {
     $("#__cheatsheet").hide();
-    $("#__embedsnippet").text(getHTMLSnippet());
+    $("#__embedsnippet").text(getHTMLSnippet(pSource, pLanguage));
     $("#__embedsheet").toggle();
 }
 
-function helpmeOnClick () { 
+function helpmeOnClick () {
     $("#__embedsheet").hide();
     $("#__cheatsheet").toggle();
 }
@@ -503,40 +513,29 @@ function toRasterURI(pSourceElementId, pType){
 function show_rasterOnClick (pType) {
     var lWindow = window.open(toRasterURI("#__svg", pType), "_blank");
 }
-function getHTMLSnippet() {
-    return "<!DOCTYPE html>\n<html>\n  <head>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + gLanguage + " mscgen_js' data-language='" + gLanguage +"'>\n" + gCodeMirror.getValue() + "\n    </pre>\n  </body>\n</html>";
+function getHTMLSnippet(pSource, pLanguage) {
+    return "<!DOCTYPE html>\n<html>\n  <head>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + pLanguage + " mscgen_js' data-language='" + pLanguage +"'>\n" + pSource + "\n    </pre>\n  </body>\n</html>";
 }
-function show_htmlOnClick(){
-    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(getHTMLSnippet()));
-}
-
-function show_dotOnClick(){
-    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(gCodeMirror.getValue(), gLanguage))));
+function show_htmlOnClick(pSource, pLanguage){
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(getHTMLSnippet(pSource, pLanguage)));
 }
 
-function show_vanillaOnClick(){
-    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(tovanilla.render(getAST(gCodeMirror.getValue(), gLanguage))));
+function show_dotOnClick(pSource, pLanguage){
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(pSource, pLanguage))));
 }
 
-function show_communications_diagramOnClick(){
-/*    
-    var lDiGraph = todagre.render(getAST(gCodeMirror.getValue(), gLanguage));
-    var lRenderer = new dagreD3.Renderer();
-    var lLayout = dagreD3.layout().nodeSep(20).rankDir("LR");
-    msc_render.clean("__svg", window);
-
-    lRenderer.layout(lLayout).run(lDiGraph, d3.select("svg g"));
-*/
+function show_vanillaOnClick(pSource, pLanguage){
+    var lWindow = window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(tovanilla.render(getAST(pSource, pLanguage))));
 }
 
-function show_urlOnClick(){
+function show_urlOnClick(pSource, pLanguage){
     var lWindow = window.open('data:text/plain;charset=utf-8,'+
         encodeURIComponent(
             window.location.protocol + '//' +
-            window.location.host + 
-            window.location.pathname + 
-            '?donottrack=true&debug=true&lang=' + gLanguage + 
-            '&msc=' +  escape(gCodeMirror.getValue())
+            window.location.host +
+            window.location.pathname +
+            '?donottrack=true&debug=true&lang=' + pLanguage +
+            '&msc=' +  escape(pSource)
         )
     );
 }
@@ -559,93 +558,64 @@ function showAutorenderState () {
     }
 }
 
-function showLanguageState () {
-    if ("msgenny" === gLanguage) {
+function showLanguageState (pSource, pLanguage) {
+    if ("msgenny" === pLanguage) {
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").prop("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").hide();
         $("#__btn_uncolorize").hide();
         $("#__btn_colorize_hard").hide();
-        $("#__btn_weigh").hide();
-        $("#__btn_ioweigh").hide();
-    } else if ("json" === gLanguage){
+    } else if ("json" === pLanguage){
         $("#__language_mscgen").removeAttr("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").prop("checked", "msgennyOn");
         $("#__btn_colorize").show();
         $("#__btn_uncolorize").show();
         $("#__btn_colorize_hard").show();
-        $("#__btn_weigh").show();
-        $("#__btn_ioweigh").show();
-    } else /* "mscgen" === gLanguage || "xu" === gLanguage */{
+    } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
         $("#__language_mscgen").prop("checked", "msgennyOn");
         $("#__language_msgenny").removeAttr("checked", "msgennyOn");
         $("#__language_json").removeAttr("checked", "msgennyOn");
         $("#__btn_colorize").show();
         $("#__btn_uncolorize").show();
         $("#__btn_colorize_hard").show();
-        $("#__btn_weigh").show();
-        $("#__btn_ioweigh").show();
     }
     if (gAutoRender) {
-        render ();
+        render (pSource, pLanguage);
     }
 }
 
-function render() {
+function render(pSource, pLanguage) {
     try {
         hideError();
         msc_render.clean("__svg", window);
-        msc_render.renderAST(getAST(gCodeMirror.getValue(), gLanguage), gCodeMirror.getValue(), "__svg", window);
-        /* the next three lines are too slow for (auto) rendering 
-         *   - canvg is called twice for doing exactly the same (svg => canvas)
-         *   - it inserts relatively big amounts of data in the DOM tree 
-         *     (typically 20k for svg, 60k for png, somewhat more for jpeg,
-         *     not even corrected for the base64 penalty)
-         *   - for bigger sources (e.g. test01_all_possible_arcs.mscin) 
-         *     auto rendering is unbearably slow, which stands to reason as 
-         *     the source tree has to be updated with  
-         *     1.3 * (~250k (png) + ~250k (jpeg) + ~80k (svg)) = ~750k 
-         *     on each keystroke  
-         *     How slow? 4-5 seconds for each keystroke for test01 
-         *     on a 2.53 GHz Intel Core 2 Duo running OS X 10.8.4 in 
-         *     FF 23/ Safari 6.0.5
-         *  
-         * Switched back to rendering on the onclick event.
-         * Only generating the svg to base64 encoding is doable in regular 
-         * cases, but is noticeable in test01, 
-         */
-        // $("#show_svg").attr('href', toVectorURI("#__svg")); 
-        // $("#show_png").attr('href', toRasterURI("#__svg", "image/png"));
-        // $("#show_jpeg").attr('href', toRasterURI("#__svg", "image/jpeg"));
-
+        msc_render.renderAST(getAST(pSource, pLanguage), pSource, "__svg", window);
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
             gErrorCoordinates.line = e.line;
             gErrorCoordinates.column = e.column;
             displayError(
              "Line " + e.line + ", column " + e.column + ": " + e.message,
-              ">>> " + gCodeMirror.getValue().split('\n')[e.line - 1] + " <<<");
-
+              ">>> " + pSource.split('\n')[e.line - 1] + " <<<");
         } else {
             gErrorCoordinates.line = 0;
             gErrorCoordinates.column = 0;
             displayError(e.message);
         }
-        // TODO: doesn't work that well when the error is not 
-        // on the position you were typing...
-        // gCodeMirror.setCursor (e.line, e.column);
     }
 }
+
 function closeAllLightBoxes() {
     $("#__cheatsheet").hide();
     $("#__embedsheet").hide();
 }
+
 function hideError () {
     $("#__error").hide();
     $("#__error_context").text("");
 }
+
 function displayError (pError, pContext) {
     $("#__error").show();
     $("#__error_output").text(pError);
