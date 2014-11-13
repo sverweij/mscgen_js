@@ -150,6 +150,23 @@ msc {
             ...;
         }</pre>
 
+        <h2>Embedding MscGen in Atlassian Confluence:</h2>
+        <p>If your Confluence admin has enabled the confluence HTML macro, getting
+            mscgen in your page is as simple as adding a HTML "macro" to the page 
+            and put the <code>script</code> tag in there. Sample snippet:
+        </p>
+<pre class="code">
+&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer></script>
+              
+&lt;code class="mscgen_js">
+msc {
+    a [label="Entity A"], b [label="Entity B"];
+    
+    a <<=>> b [label="testing (confluence)"];
+    b note b [label="mscgen embedded in a confluence page!"];
+}
+&lt;/code>
+</pre>
         <h2>Wikimedia style tags</h2>
         <p>
         From version 0.9.37 mscgen_js supports wikimedia style
@@ -180,23 +197,6 @@ msc {
 }
 </mscgen>
 
-        <h2>Embedding MscGen in Atlassian Confluence:</h2>
-        <p>If your Confluence admin has enabled the confluence HTML macro, getting
-            mscgen in your page is as simple as adding a HTML "macro" to the page 
-            and put the <code>script</code> tag in there. Sample snippet:
-        </p>
-<pre class="code">
-&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer></script>
-              
-&lt;code class="mscgen_js">
-msc {
-    a [label="Entity A"], b [label="Entity B"];
-    
-    a <<=>> b [label="testing (confluence)"];
-    b note b [label="mscgen embedded in a confluence page!"];
-}
-&lt;/code>
-</pre>
         <h2>Error handling</h2>
         <p>If your mscgen code contains an error, instead of a sequence chart, you will see
              your mscgen code with the offending line highlighted, thusly:</p>
@@ -228,17 +228,20 @@ msc {
             (<code>json</code>):
         </p>
         <pre class="code">
-&lt;pre id="yourownidsgetpreserved" class="mscgen_js" <mark>data-language="msgenny"</mark>>
-    arcgradient=10, watermark="msgenny"; 
+&lt;pre id="yourownidsgetpreserved"
+     class="mscgen_js"
+     <mark>data-language="msgenny"</mark>>
+  arcgradient=10, watermark="msgenny"; 
     
-    Harry =>> Sally: "marry(Sally, Harry)?";
-    Sally >> Harry: YES, Sally -> mother: he's asked me to marry him!; 
-    mother -> *: "Stop that. Silly Sally.";
+  Harry =>> Sally: "marry(Sally, Harry)?";
+  Sally >> Harry: YES,
+  Sally -> mother: he's asked me to marry him!; 
+  mother -> *: "Stop that. Silly Sally.";
 &lt/pre></pre>
         <pre id="yourownidsgetpreserved" 
              class="mscgen_js" 
              data-language="msgenny">
-            arcgradient=10, watermark="msgenny"; 
+            hscale=0.9, arcgradient=10, watermark="msgenny"; 
             
             Harry =>> Sally: "marry(Sally, Harry)?";
             Sally >> Harry: YES, 
@@ -399,7 +402,7 @@ msc{
 }</pre>
         </article>
 <footer>
-    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://sverweij.github.io/mscgen_js" property="cc:attributionName" rel="cc:attributionURL" itemprop="author">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://sverweij.github.io" property="cc:attributionName" rel="cc:attributionURL" itemprop="author">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 </footer>
     </body>
 </html>
