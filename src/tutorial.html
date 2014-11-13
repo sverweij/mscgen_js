@@ -737,21 +737,24 @@ and the commit hash.
     to use MscGen in stead of (or beside) the simpler MsGenny:</p>
 <ul>
     <li><em>Compatibility + super wide support</em>
-        <p>MscGen has been around for quite a long time.
-            Michael has marketed it effectively, so it is widely supported. The MscGen command 
-            line runs on most platforms, is packaged
-            with some major linux distros and has an impressive list of supporting
-            applications, not the least of which are documentation generators like 
-            <em>doxygen</em> and <em>asciidoc</em>.
-            Heck, MscGen even has its own <a href="https://en.wikipedia.org/wiki/Mscgen" target="_blank">wikipedia</a> 
-            page.</p>
+  <p>MscGen has been around for quite a long time.
+      Michael has marketed it effectively, so it is widely
+      supported. The MscGen command line runs on most platforms,
+      is packaged with some major linux distros and has an
+      impressive list of supporting applications, not the
+      least of which are documentation generators like
+      <em>doxygen</em> and <em>asciidoc</em>.  Heck, MscGen
+      even has its own <a href="https://en.wikipedia.org/wiki/Mscgen"
+      target="_blank">wikipedia</a> page.</p>
    <li><em>Features</em>
-        <p>the simplicity of MsGenny comes with a price: features.
-               MscGen a.o. supports coloring, skipping arcs and embedding hyperlinks. MsGenny doesn't. 
-        </p>   
+  <p>The simplicity of MsGenny comes with a price: features.
+       MscGen additionally supports coloring, skipping arcs and
+       embedding hyperlinks.
+  </p>
     <li><em>Free lunch in one click</em>
-        <p>you can bang out your sequence chart with 
-           MsGenny and with one click in the online interpreter get its MscGen counterpart.</p> 
+  <p>You can bang out your sequence chart with
+     MsGenny and with one click in the online interpreter get
+     its MscGen counterpart.</p>
 </ul>
 
 <p class="info">For the original <em>MscGen</em> reference visit
@@ -768,19 +771,24 @@ msc {
 <p>In between go, in this order:
     <ul>
         <li><em>options</em> 
-            <p>these are optional. MscGen uses the same options as MsGenny 
-                    (see <a href="#options-arcgradient-hscale-width">above</a>), taking
-                    <em>exactly</em> the same syntax (no wonder as MsGenny shamelessly
-                    copied it from MscGen).</p></li>
-        <li><em>entities</em>
-            <p>mandatory. Note that you <em>must</em> define entities before 
-                    you can use them within arcs. Just like in MsGenny you can use 
-                    labels on them. The syntax, however, is slightly different. To define
-                    an entity mike and have it show up in the chart as Michael McTernan,
-                    looks like this <code>mike [label="Michael McTernan"]</code></p></li>
+      <p>these are optional. MscGen uses the same options as
+      MsGenny
+      (see <a href="#options-arcgradient-hscale-width">above</a>),
+        taking <em>exactly</em> the same syntax (no
+        wonder as MsGenny shamelessly copied it from
+        MscGen).</p></li>
+      <li><em>entities</em>
+	    <p>mandatory. Note that you <em>must</em> define entities
+	    before
+		you can use them within arcs. Just like in MsGenny
+		you can use labels on them. The syntax, however,
+		is slightly different. To define an entity <em>mike</em>
+		and have it show up in the chart as <em>Michael
+		McTernan</em>, you'd use this: <code>mike [label="Michael
+		McTernan"]</code></p>.</li>
         <li><em>arcs</em>
             <p>MscGen supports the same arc types as MsGenny does. 
-                    To label them, you can use the same sytax as used for labeling, e.g.
+                    To label them, you can use the same sytax as used for labeling entities, e.g.
                     <code>a -> b [label="async call"]</code></p></li>
     </ul>
     
