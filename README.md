@@ -63,7 +63,7 @@ mscgen_js is built on various libraries, each of which have their own license (i
 MIT style):
 - [requirejs][19] is used for modularization.
 - The bare (embedding only) mscgen_js uses [almond][31]; its parser was generated with [pegjs][12].
-- The on line interpreter additionally uses [codemirror][13], [canvg][16] and [jQuery][14]. 
+- The on line interpreter additionally uses [codemirror][13] and [canvg][16].
 - To run in node, mscgen_js uses [jsdom][25] and [amdefine][20].
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
@@ -91,7 +91,6 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 [11]: http://codemirror.net
 [12]: wikum/licenses/license.pegjs.md
 [13]: wikum/licenses/license.codemirror.md
-[14]: wikum/licenses/license.jquery.md
 [15]: wikum/licenses/license.icons.md
 [16]: wikum/licenses/license.canvg.md
 [17]: http://code.google.com/p/canvg/
