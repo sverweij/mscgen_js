@@ -47,8 +47,7 @@ LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/mode/mscgen/mscgen.js \
 	src/lib/canvg/canvg.js \
 	src/lib/canvg/StackBlur.js \
-	src/lib/canvg/rgbcolor.js \
-	src/script/jquery.js
+	src/lib/canvg/rgbcolor.js 
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/graphics/renderutensils.js \
 	src/script/render/text/textutensils.js \
@@ -56,6 +55,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/graphics/renderast.js \
 	src/script/ui-control/controller-interpreter.js \
 	src/script/utl/gaga.js \
+	src/script/utl/domquery.js \
 	src/script/mscgen-interpreter.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \

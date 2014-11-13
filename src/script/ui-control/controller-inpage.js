@@ -13,6 +13,13 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         for (var i = 0; i < lMscGenElements.length; i++) {
             renderElement(lMscGenElements[i], i);
         }
+
+        lMscGenElements = document.getElementsByTagName("mscgen");
+
+        for (var j = 0; j < lMscGenElements.length; j++) {
+            renderElement(lMscGenElements[j], j + i);
+        }
+
     }
     function formatLine(pLine, pLineNo){
         return utl.formatNumber(pLineNo, 3) + " " + pLine; 

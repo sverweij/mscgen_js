@@ -5,7 +5,7 @@
   right: 0;
   background-color: transparent;
   width: 100%;
-  display: none;
+  /* display: none; */
 }
 .popupsheet .popup {
   float: right;

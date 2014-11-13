@@ -56,7 +56,7 @@ to {
   padding-top: 1em;  /*0 1em 0;*/
   padding-bottom: 1em;
   border: solid 1px orange;
-  display: none;
+  /* display: none; */
   width: 100%;
 }
 #__error_context:hover {
