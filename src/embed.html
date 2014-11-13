@@ -91,7 +91,7 @@
         class="question icon fadable"
         title="Open the tutorial"><br><br>learn</a>
     </nav>
-    <div class="debug fadable">
+    <div class="debug fadable" style="display:none">
         <div><em>version:</em> ${version}</div>
         <div><em>build-date:</em> ${date}</div>
         <div><em>commit:</em> ${commit}</div>
@@ -149,6 +149,36 @@ msc {
             a =>> b [label="money"];
             ...;
         }</pre>
+
+        <h2>Wikimedia style tags</h2>
+        <p>
+        From version 0.9.37 mscgen_js supports wikimedia style
+        <code>mscgen</code> tags, so something like this will
+        work too:
+        </p>
+<pre class="code">
+<mark>&lt;mscgen></mark>
+msc {
+   Co, Mo, Dolores;
+   Co =>> Mo
+       [label="Hello"];
+   Dolores =>> co
+       [label="Is it me you're looking for?"];
+   Mo =>> Dolores
+       [label="I see it in your eyes"];
+}
+<mark>&lt;/mscgen></mark>
+</pre>
+
+<mscgen>
+msc {
+   Co, Mo, Dolores;
+   Co =>> Mo [label="Hello"];
+   Dolores =>> Co
+       [label="Is it me you're looking for?"];
+   Mo =>> Dolores [label="I see it in your eyes"];
+}
+</mscgen>
 
         <h2>Embedding MscGen in Atlassian Confluence:</h2>
         <p>If your Confluence admin has enabled the confluence HTML macro, getting
