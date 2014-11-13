@@ -1,16 +1,16 @@
 # Introduction
-The description below is meant to make the job of maintaining the 
+The description below is meant to make the job of maintaining the
 code base more easy. It attempts to describe how the program does
 what it does and it tries to explain some of the choices we've made.
 
 The main steps mscgen_js takes to get from a textual description to
 a picture are:
 - [_lexical analysis and parsing_](#parsing), which results in an abstract syntax
-  tree. 
+  tree.
   We're using PEG.js, which smashes these two tasks together.
 - [_rendering_](#rendering) that abstract syntax tree into a picture.
-- Besides these two steps it is useful to have some of 
-  [_controler_](#the-controllers) program that handles interaction with the user. 
+- Besides these two steps it is useful to have some of
+  [_controler_](#the-controllers) program that handles interaction with the user.
   There are two of these in the package:
   - for [_embedding_](#embedding) textual descriptions in html
   - for the interactive [_interpreter_](#interactive-interpreter)
@@ -25,7 +25,7 @@ you need to about each of these steps.
 ## Introduction
 The parsers for `mscgen`, `msgenny` and `xù` are written in
 pegjs and deliver the abstract syntax tree as a javascript
-object. In this section we describe 
+object. In this section we describe
 * [how to generate the parsers from pegjs](#generating-the-parsers)
 * [the structure of and principles behind the abstract syntax trees](#the-abstract-syntax-tree)
 
@@ -38,9 +38,9 @@ pegjs mscgenparser.pegjs > mscgenparser_node.js
 ```
 
 To create a parser that is usable in require.js, the line
-`module.exports = (function(){` in the generated parser 
+`module.exports = (function(){` in the generated parser
 needs to be replaced with  `define ([], function(){`.  The
-`commonjs2amd.sh` script in the utl directory does just that. 
+`commonjs2amd.sh` script in the utl directory does just that.
 Usage:
 ```bash
 commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
@@ -124,7 +124,7 @@ mscgen as attributes.
   }
 ```
 
-### entities 
+### entities
 `entities` is an array of anonymous objects, each of which
 represents an entity.  Each of these objects is guaranteed to have
 a `name` attribute. To remain compatible with mscgen this name
@@ -166,14 +166,14 @@ The list of possible attributes is equal to what is allowed for mscgen:
   ]
 ```
 
-### arcs 
+### arcs
 `arcs` is a two dimensional array of arcs. Each array in the
 outer array represents an arc _row_ (so the name _arcs_ is kind of
 a misnomer - ah well). The inner array consists of anonymous objects
 each of which represents an arc. Each arc is guaranteed to have the
-_kind_ attribute. Most arcs also have a _from_ and a _to_. 
+_kind_ attribute. Most arcs also have a _from_ and a _to_.
 _from_ and _to_ reference an entity by its _name_. The special value "*"
-denotes _all enttities_. 
+denotes _all enttities_.
 
 Other attributes are optional: "url", "id", "idurl", "linecolor", "textcolor", "textbgcolor", "arcskip"
 
@@ -200,7 +200,7 @@ todo: add recursive structure for xù.
 ```
 
 In the sample mscgen `b` communicates to `a` that it is working on
-something, while _at the same time_ instructing `c` to do something. 
+something, while _at the same time_ instructing `c` to do something.
 The part of the syntax tree representing that looks like this:
 
 ```json
@@ -225,10 +225,10 @@ The part of the syntax tree representing that looks like this:
 ### recursive arcs in xù and msgenny
 xù and msgenny both support "inline expressions". An important attribute
 of inline expressions is that they can contain other arcs and inline
-expressions. 
+expressions.
 
-In the abstract syntax tree an inline expression is an "arc", just 
-as they are in xù and msgenny. 
+In the abstract syntax tree an inline expression is an "arc", just
+as they are in xù and msgenny.
 
 ```mscgen
 msc {
@@ -282,18 +282,18 @@ msc {
       }
     ]
   ]
-} 
+}
 ```
 
 # Rendering
 ## Introduction
-In this section we motivate our choice for 
+In this section we motivate our choice for
 [scalable vector graphics](#scalable-vector-graphics), desribe how
 our template or [skeleton](#the-scalable-vector-graphics-skeleton) looks and
 explain how the rendering functions fill it.
 
 Mscgen_js not only renders to graphics, but also to other languages.
-We describe how this works in 
+We describe how this works in
 [Rendering text: other script languages](#rendering-text-other-script-languages).
 
 ## Scalable vector graphics
@@ -302,7 +302,7 @@ vector graphics (SVG):
 - Vector graphics are an obvious choice for drawing sequence charts - it's mostly lines
 - SVG works out of the box in most modern browsers
 - Converting (/ downgrading) vector graphics to raster graphic
-  formats (like png, jpeg etc) is possible. 
+  formats (like png, jpeg etc) is possible.
 
 ## The scalable vector graphics skeleton
 :page_with_curl: code in [render/graphics/renderskeleton.js](render/graphics/renderskeleton.js)
@@ -313,11 +313,11 @@ We use the following structure for the svg
    This is practical not only for debugging, but also to reconstruct the
    original program.
 - `defs` - "definitions"
-    - `style` - which contains the css defining default colors, fonts, 
+    - `style` - which contains the css defining default colors, fonts,
       line widths etc.
     - a list of `marker`s - one for each of the arrow heads possible
       in sequence charts.
-    - a `g`roup containing all elements to be rendered: entities, 
+    - a `g`roup containing all elements to be rendered: entities,
       arcs, inline expressions
 - The body `g`roup. This consists of 5 groups, each of which
   represents a layer. The layers themselves contain nothing else than
@@ -329,13 +329,13 @@ We use the following structure for the svg
       directly, not by reference)
     - arcspan (if there are any inline expressions they get rendered here)
     - lifeline (the vertical lines)
-    - sequence (contains the entities, all arcs that are not boxes and 
+    - sequence (contains the entities, all arcs that are not boxes and
       accompanying text)
     - note (contains all arcs that are boxes (box, abox, rbox and _note_)
     - watermark (contra-intuitively, the easiest way to render a
       watermark in an svg is to put it on top. The watermark is put
       in this layer directly and not by reference)
-    
+
 
 TODO. Subjects to be covered:
 - renderast/ utensiles (:page_with_curl: code in [render/graphics/renderast.js](render/graphics/renderast.js) and [render/graphics/renderutensils.js](render/graphics/renderutensils.js) )
@@ -347,11 +347,11 @@ TODO. Subjects to be covered:
 :page_with_curl: code in [render/text/](render/text)
 
 To be able to switch between the languages mscgen_js supports, the code contains
-functions to convert abstract syntax trees back to text. 
+functions to convert abstract syntax trees back to text.
 
 TODO:
 - Explain the ast2thing thing
-- Mapping 
+- Mapping
 - mscgen, msgenny, xu, dot (, ...)
 
 ## Colorize
@@ -361,21 +361,21 @@ TODO:
 ## embedding
 :page_with_curl: code in [ui-control/controller-inpage.js](gui-control/controller-inpage.js)
 
-The embedding controller uses the obvious approach: 
+The embedding controller uses the obvious approach:
 - Run through all elements in the DOM tree and filter out those that have the mscgen_js class.
 - For each element thus found attempt to parse and render its content as mscgen (or one of
   the three other supported languages).
-- If the parsing doesn't work out, display the text of the element with the 
+- If the parsing doesn't work out, display the text of the element with the
   error the parser found highlighted.
 
 ### defer: prevent execution before DOM tree has loaded
-When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html)), we found that 
-sometimes the code would start executing before the browser completed loading 
+When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html)), we found that
+sometimes the code would start executing before the browser completed loading
 the DOM tree. The result of this was that the only part of the embedded
-mscgen would be rendered. 
+mscgen would be rendered.
 
 Libraries like jquery have tricks up their sleeves to prevent this from happening.
-However, we don't want to use more libraries than strictly necessary. 
+However, we don't want to use more libraries than strictly necessary.
 Less code == less to download == faster load times.
 
 The solution we're using now is to use the `defer` attribute in the script
@@ -405,7 +405,39 @@ James Burke wrote almond to circumvent exactly that. More information on the [al
 
 ## interactive interpreter
 :page_with_curl: code in [ui-control/controller-interpreter.js](ui-control/controller-interpreter.js)
-- code mirror stuff
-- rendering in real time: the straight on approach just works.
-- rendering raster graphics: canvas & canvg
 
+### Rendering in real time
+When we built the first version of the on line interpreter we parsed and
+rendered the chart at each key-up. It turned out the javascript
+was more than fast enough to keep up, so we kept this approach.
+
+In our enthousiasm we also started pre-rendering the raster graphics
+versions, but that turned out to be too slow (data below), so
+these are now generated when you actually click the button.
+
+- rendering base64 encoded strings on each keystroke is too slow:
+  - canvg is called twice for doing exactly the same (svg => canvas)
+  - it inserts relatively big amounts of data in the DOM tree
+    (typically 20k for svg, 60k for png, somewhat more for jpeg,
+    not even corrected for the base64 penalty)
+  - for bigger sources (e.g. test01_all_possible_arcs.mscin)
+     auto rendering is unbearably slow, which stands to reason as
+     the source tree has to be updated with  
+     1.3 * (~250k (png) + ~250k (jpeg) + ~80k (svg)) = ~750k
+     on each keystroke  
+     How slow? 4-5 seconds for each keystroke for test01
+     on a 2.53 GHz Intel Core 2 Duo running OS X 10.8.4 in
+     FF 23/ Safari 6.0.5
+  -  Only generating the svg to base64 encoding is doable in regular
+     cases, but is noticeable in test01.
+
+### Raster graphics - png and jpeg
+For rendering raster graphics we use the `canvg` library, which takes
+a piece of svg and renders it on a canvas. When that has happened, a
+call to the canvas's `toDataURL` function suffices to return the base64
+encoded
+
+### The editor: code mirror
+- choosing code mirror
+- plugins used
+- syntax highlighting for mscgen, xù and msgenny
