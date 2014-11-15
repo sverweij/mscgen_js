@@ -39,10 +39,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
         
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?ba9a1c2bfb7493d5"
+        <link rel="stylesheet" href="style/interp.css?80a4a30f442d27b3"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?ba9a1c2bfb7493d5"
-        src="lib/require.js?ba9a1c2bfb7493d5" defer></script>
+        <script data-main="script/mscgen-interpreter.js?80a4a30f442d27b3"
+        src="lib/require.js?80a4a30f442d27b3" defer></script>
     </head>
     <body>
 		<!--[if lt IE 17]>
@@ -76,22 +76,23 @@
             </nav>
 
             <div class="debug fadable" style="display: none">
-                <div><em>version:</em> 0.9.38</div>
-                <div><em>build-date:</em> 20141114 11:53</div>
-                <div><em>commit:</em> ba9a1c2bfb7493d5</div>
+                <div><em>version:</em> 0.9.39</div>
+                <div><em>build-date:</em> 20141115 21:04</div>
+                <div><em>commit:</em> 80a4a30f442d27b3</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.38
-    build-date: 20141114 11:53
-    commit: ba9a1c2bfb7493d5" class="fadable">mscgen_js</h1>
+    version: 0.9.39
+    build-date: 20141115 21:04
+    commit: 80a4a30f442d27b3" class="fadable">mscgen_js</h1>
             <span class="hideonmobile">turns text into sequence charts</span>
             <span class="showonmobile">text =&gt; MSCs</span>
         </header>
-        <div id="__input_and_controls">
+        <article>
+        <section id="__input_and_controls">
             <div>
                 <h3 class="fadable"><span class="intronumber">1</span> <span class="hideonmobile">your</span> text <span class="hideonmobile">goes here </span> &#x0261f;</h3>
 
@@ -163,18 +164,14 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
                 <span class="debug" style="display: none">                    
                 <button id="__btn_colorize_hard" title="Auto color; overrides existing colors"><span style="font-size: xx-small">hard color override</span></button>
                 </span>
-                <button id="__btn_render"
+                <button id="__btn_render" class="btn-primary"
                 title="Click to render. Only shows up when 'autorender' is off">
-                    render &gt;
+                    render
                 </button>
             </div>
-            <div id="__error" class="code error" style="display:none">
-                <div id="__error_output"></div><br> 
-                <div id="__error_context"></div>
-            </div>
-        </div>
+        </section>
 
-        <div style="display:inline-block;">
+        <section style="display:inline-block;">
             <h3 class="fadable"
                 style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideonmobile">your</span> chart <span class="hideonmobile">shows up here</span> &#x0261f;</h3>
             <a id="__show_svg"
@@ -214,37 +211,45 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                 target="_blank"
                 type="text/plain"
                 title="exports to vanilla mscgen">vanilla</a>
-            <!--
-            <a id="__show_communications_diagram"
-                class="debug button" style="display: none"
-                target="_blank"
-                type="text/plain"
-                title="shows the communcations diagram variant of the chart">dagre</a>
-            -->
             <a id="__show_url"
                 class="debug button" style="display: none"
                 target="_blank"
                 type="text/plain"
                 title="dont use">url</a>
-        </div>
-        <br>
-        <span id="__svg"></span>
-        <span id="__communicationsdiagram"></span>
+            <div id="__error" class="error" style="display:none">
+                <div class="header">Parse error</div>
+                <div class="content">
+                    <div id="__error_output"></div>
+                    <br>
+                    <div id="__error_context"></div>
+                </div>
+            </div>
+            <br><span id="__svg"></span>
+        </section>
         
+        <section>
         <canvas id="__pngcanvas" style="display:none"></canvas>
         <div id="__embedsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">
-                     <button id="__close_embedsheet" class="close">X</button>
-                    Sample for embedding the current chart in html (<a href="./embed.html" target="_blank">learn more</a>):<br><br>
+                     <button id="__close_embedsheet" class="close">x</button>
+                     Sample for embedding the current chart in html<br>(<a href="./embed.html" target="_blank">learn more</a>):<br><br>
                 </div>
-            <textarea wrap="off" readonly="true" cols="58" rows="20" id="__embedsnippet" class="code html"></textarea>
+                <div class="content">
+                    <textarea wrap="off"
+                        readonly="true"
+                        cols="56"
+                        rows="20"
+                        id="__embedsnippet"
+                        class="code html">
+                    </textarea>
+                </div>
             </div>
         </div>
         <div id="__cheatsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">
-                    <button id="__close_lightbox" class="close">X</button>
+                    <button id="__close_lightbox" class="close">x</button>
                     <table style="width: 80%">
                         <tr>
                             <td style="vertical-align: top;"><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
@@ -256,8 +261,12 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                         </tr>
                     </table>
                 </div>
-                <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                <div class="content">
+                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                </div>
             </div>
         </div>
+        </section>
+        </article>
     </body>
 </html>

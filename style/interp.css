@@ -290,7 +290,10 @@ body {
   color: black;
   font-family: sans-serif;
   font-size: 12pt;
-  margin-top: 0;
+  margin:0;
+}
+article {
+    padding: 0.5em 0.5em 0 0.5em;
 }
 .debug {
   
@@ -310,13 +313,13 @@ html {
     -webkit-text-size-adjust: 100%; 
 }
 header {
-  padding-bottom: 0.9em;
-  padding-top: 1em;
+  padding: 1em 0.5em 0.5em 0.5em;
   border-bottom: solid lightgray 1px;
   margin-bottom: .4em;
   background-image: url(../images/bg.png);
   background-repeat: no-repeat;
   background-position: 25%;
+  box-shadow: 0.0em .1em 0.4em -.2em gray;
 }
 header > nav {
   float: right;
@@ -376,8 +379,9 @@ header .interpreter {
 .code {
   font-family: monospace; 
   font-size: .7em;
-  background-color: #555;
+  background-color: rgba(15, 25, 43, 1.0);
   color: #fff;
+  color: rgba(203, 232, 255, 1.0);
   
 }
 #__embedsnippet {
@@ -393,9 +397,9 @@ h3 {
   display: inline-block;
 }
 .intronumber {
-  padding: .2em .5em .1em .5em;
-  color: white;
-  background-color: lightgray;
+  padding: .2em .5em .2em .5em;
+  color: lightgrey;
+  border: solid lightgrey 1px;
   border-radius: 1em;
 }
 .fadable {
@@ -426,13 +430,34 @@ to {
   width: 98%;
   height: 40;
 }
+.warning {
+  border: 1px solid #FAEBCC;
+}
+.warning .header {
+  padding: 0.5em 0.5em 0.5em 1em;
+  background-color: #FCF8E3;
+  color: #8A6D3B;
+  border-bottom: 1px solid #FAEBCC;
+}
+.warning .content {
+  padding: 0.5em 0.5em 0.5em 1em;
+}
 .error {
-  color: orange;
-  padding-top: 1em;  
-  padding-bottom: 1em;
-  border: solid 1px orange;
-  
-  width: 100%;
+  border: 1px solid #EBCCD1;
+  border-radius: 2px;
+  margin: 0;
+  font-size: 0.9em;
+  max-width: 32em;
+  cursor: pointer;
+}
+.error .header {
+  padding: 0.5em 0.5em 0.5em 1em;
+  background-color: #F2DEDE;
+  color: #A94442;
+  border-bottom: 1px solid #EBCCD1;
+}
+.error .content {
+  padding: 0.5em 0.5em 0.5em 1em;
 }
 #__error_context:hover {
 	text-decoration: underline;
@@ -449,26 +474,46 @@ fieldset {
   border: 1px solid lightgray;
   border-top: none;
   border-bottom: none;
-  padding-bottom: .3em;
-  padding-top: .1em;
+  padding: .1em .4em .3em .4em;
 }
 legend {
   font-size: .7em;
 }
 button, a.button {
-  cursor: default;
+  color: rgba(0, 0, 0, 0.84);
+  background-color: #eee;
+  cursor: pointer;
+  border-radius: 2px;
   padding: .3em .5em .3em .5em;
-  background-color: lightgray;
-  color: #000;
   border: none;
-  border-radius: .1em;
   font-size: 1em;
   text-decoration: none;
-}
-button:hover, a.button:hover {
   text-align: center;
-  background-color: #555;
-  color: #fff;
+}  
+button:hover, a.button:hover {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+              0px 3px 6px rgba(0, 0, 0, 0.23);
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+}
+button:active, a.button:active {
+  background-color: #ddd;
+  transition:opacity .15s ease-in 0s,
+              transform .5s cubic-bezier(0.4,0,.2,1) .1s;
+  -webkit-transition:opacity .15s ease-in 0s,
+              -webkit-transform .5s cubic-bezier(0.4,0,.2,1) .1s;
+  opacity:1;
+}
+.btn-primary {
+  background-color: rgba(66, 133, 244, 1.00);
+  color: rgba(255, 255, 255, 0.84);
+}
+.btn-primary:hover {
+  color: rgba(255, 255, 255, 1.00);
+}
+.btn-primary:active {
+  background-color: rgba(66, 133, 244, 0.84);
+  color: rgba(255, 255, 255, 1.00);
 }
 a {
   color: inherit;
@@ -491,7 +536,7 @@ a:visited {
 .popupsheet {
   z-index: 1;
   position: absolute;
-  top: 4.5em;
+  top: 5.3em;
   right: 0;
   background-color: transparent;
   width: 100%;
@@ -499,22 +544,22 @@ a:visited {
 }
 .popupsheet .popup {
   float: right;
-  margin-right: 1em;
-  max-width: 25em;
+  
   max-height: 80%;
-  box-shadow: .4em .4em 1em -.2em gray;
   border-collapse: separate; 
   background-color: white;
   overflow: auto;
-  border-radius: 1em;
+  border-radius: 2px;
   opacity: .97;
-  padding: .4em;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.23);
+  margin: 0 1em 0 0;
+  border: 0;
+  padding: 0;
 }
 .popup .header {
   width: 100%;
+  padding: .7em .5em 0 .5em;
   border-bottom: solid lightgray 1px;
-  padding-top: .5em;
-  padding-right: .5em;
 }
 .popup a {
   text-decoration:underline;
@@ -522,19 +567,26 @@ a:visited {
 .popup a:hover {
   text-decoration:underline;
 }
-.popup .h1 {
-  font-size: 1.3em;
-  padding-left: .5em;
+.popup .content {
+  width: 100%;
+  padding: .4em .5em .5em .5em;
+  border: none;
 }
 .popup span {
   padding-left: .5em;
 }
 .popup button.close {
-  color: white;
-  border-radius: 1em;
-  margin-right: .1em;
+  background-color: transparent;
+  font-weight: bold;
+  color: lightgrey;
+  margin-right: .7em;
   margin-top: -.4em;
   float: right;
+}
+.popup button.close:hover {
+  color: grey;
+  box-shadow: none;
+  transition: none;
 }
 .popup p {
   padding-top: 1em;
