@@ -1,8 +1,9 @@
 .code {
   font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
   font-size: .7em;
-  background-color: #555;
+  background-color: rgba(15, 25, 43, 1.0);
   color: #fff;
+  color: rgba(203, 232, 255, 1.0);
   /*margin-top: 1em;*/
 }
 #__embedsnippet {
@@ -18,9 +19,9 @@ h3 {
   display: inline-block;
 }
 .intronumber {
-  padding: .2em .5em .1em .5em;
-  color: white;
-  background-color: lightgray;
+  padding: .2em .5em .2em .5em;
+  color: lightgrey;
+  border: solid lightgrey 1px;
   border-radius: 1em;
 }
 .fadable {
@@ -51,13 +52,34 @@ to {
   width: 98%;
   height: 40;
 }
+.warning {
+  border: 1px solid #FAEBCC;
+}
+.warning .header {
+  padding: 0.5em 0.5em 0.5em 1em;
+  background-color: #FCF8E3;
+  color: #8A6D3B;
+  border-bottom: 1px solid #FAEBCC;
+}
+.warning .content {
+  padding: 0.5em 0.5em 0.5em 1em;
+}
 .error {
-  color: orange;
-  padding-top: 1em;  /*0 1em 0;*/
-  padding-bottom: 1em;
-  border: solid 1px orange;
-  /* display: none; */
-  width: 100%;
+  border: 1px solid #EBCCD1;
+  border-radius: 2px;
+  margin: 0;
+  font-size: 0.9em;
+  max-width: 32em;
+  cursor: pointer;
+}
+.error .header {
+  padding: 0.5em 0.5em 0.5em 1em;
+  background-color: #F2DEDE;
+  color: #A94442;
+  border-bottom: 1px solid #EBCCD1;
+}
+.error .content {
+  padding: 0.5em 0.5em 0.5em 1em;
 }
 #__error_context:hover {
 	text-decoration: underline;
@@ -69,32 +91,51 @@ to {
   position: absolute;
   float: left;
 }
-
 fieldset {
   display: inline;
   border: 1px solid lightgray;
   border-top: none;
   border-bottom: none;
-  padding-bottom: .3em;
-  padding-top: .1em;
+  padding: .1em .4em .3em .4em;
 }
 legend {
   font-size: .7em;
 }
 button, a.button {
-  cursor: default;
+  color: rgba(0, 0, 0, 0.84);
+  background-color: #eee;
+  cursor: pointer;
+  border-radius: 2px;
   padding: .3em .5em .3em .5em;
-  background-color: lightgray;
-  color: #000;
   border: none;
-  border-radius: .1em;
   font-size: 1em;
   text-decoration: none;
-}
-button:hover, a.button:hover {
   text-align: center;
-  background-color: #555;
-  color: #fff;
+}  
+button:hover, a.button:hover {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+              0px 3px 6px rgba(0, 0, 0, 0.23);
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+}
+button:active, a.button:active {
+  background-color: #ddd;
+  transition:opacity .15s ease-in 0s,
+              transform .5s cubic-bezier(0.4,0,.2,1) .1s;
+  -webkit-transition:opacity .15s ease-in 0s,
+              -webkit-transform .5s cubic-bezier(0.4,0,.2,1) .1s;
+  opacity:1;
+}
+.btn-primary {
+  background-color: rgba(66, 133, 244, 1.00);
+  color: rgba(255, 255, 255, 0.84);
+}
+.btn-primary:hover {
+  color: rgba(255, 255, 255, 1.00);
+}
+.btn-primary:active {
+  background-color: rgba(66, 133, 244, 0.84);
+  color: rgba(255, 255, 255, 1.00);
 }
 a {
   color: inherit;

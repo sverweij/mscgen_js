@@ -2,7 +2,10 @@ body {
   color: black;
   font-family: sans-serif;
   font-size: 12pt;
-  margin-top: 0;
+  margin:0;
+}
+article {
+    padding: 0.5em 0.5em 0 0.5em;
 }
 .debug {
   
@@ -163,13 +166,13 @@ mark {
   }
 }
 header {
-  padding-bottom: 0.9em;
-  padding-top: 1em;
+  padding: 1em 0.5em 0.5em 0.5em;
   border-bottom: solid lightgray 1px;
   margin-bottom: .4em;
   background-image: url(../images/bg.png);
   background-repeat: no-repeat;
   background-position: 25%;
+  box-shadow: 0.0em .1em 0.4em -.2em gray;
 }
 header > nav {
   float: right;
