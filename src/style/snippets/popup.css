@@ -1,7 +1,7 @@
 .popupsheet {
   z-index: 1;
   position: absolute;
-  top: 4.5em;
+  top: 5.3em;
   right: 0;
   background-color: transparent;
   width: 100%;
@@ -9,22 +9,24 @@
 }
 .popupsheet .popup {
   float: right;
-  margin-right: 1em;
+  /*
   max-width: 25em;
+  */
   max-height: 80%;
-  box-shadow: .4em .4em 1em -.2em gray;
   border-collapse: separate; /* apparently needed for IE */
   background-color: white;
   overflow: auto;
-  border-radius: 1em;
+  border-radius: 2px;
   opacity: .97;
-  padding: .4em;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.23);
+  margin: 0 1em 0 0;
+  border: 0;
+  padding: 0;
 }
 .popup .header {
   width: 100%;
+  padding: .7em .5em 0 .5em;
   border-bottom: solid lightgray 1px;
-  padding-top: .5em;
-  padding-right: .5em;
 }
 .popup a {
   text-decoration:underline;
@@ -32,19 +34,26 @@
 .popup a:hover {
   text-decoration:underline;
 }
-.popup .h1 {
-  font-size: 1.3em;
-  padding-left: .5em;
+.popup .content {
+  width: 100%;
+  padding: .4em .5em .5em .5em;
+  border: none;
 }
 .popup span {
   padding-left: .5em;
 }
 .popup button.close {
-  color: white;
-  border-radius: 1em;
-  margin-right: .1em;
+  background-color: transparent;
+  font-weight: bold;
+  color: lightgrey;
+  margin-right: .7em;
   margin-top: -.4em;
   float: right;
+}
+.popup button.close:hover {
+  color: grey;
+  box-shadow: none;
+  transition: none;
 }
 .popup p {
   padding-top: 1em;
