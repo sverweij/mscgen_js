@@ -54,22 +54,13 @@
 		<![endif]-->
         <header class="fadable">
             <nav>
-                <a href="https://twitter.com/SanderSpeaks"
-                data-dnt="true"
-                class="twitter icon hideonmobile fadable"
-                title="Your praise goes here"
-                target="_blank"><br><br>praise</a>
-                <a href="https://github.com/sverweij/mscgen_js"
-                class="github icon hideonmobile fadable"
-                title="fork me on github"
-                target="_blank"><br><br>fork</a>
+                <div id="__about"
+                class="about icon"
+                title="">
+                <br><br>about</div>
                 <div id="__embedme"
-                class="embed icon"
+                class="embed icon hideonmobile"
                 title="embed mscgen in your html"><br><br>embed</div>
-                <!-- <div id="__learn" 
-                class="tutorial icon fadable"
-                title="Opens the tutorial in a new window"
-                target="_blank"><br><br>learn</div> -->
                 <div id="__helpme"
                 class="question icon"
                 title="Show cheat sheet"><br><br>learn</div>
@@ -252,17 +243,77 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                     <button id="__close_lightbox" class="close">x</button>
                     <table style="width: 80%">
                         <tr>
-                            <td style="vertical-align: top;"><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
-                            <td style="vertical-align: top;">
+                            <td><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
+                            <td>
                                 <div>The <a href="tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
                                 <div>Online <a href="tutorial.html#interpreter" target="_blank">interpreter</a></div>
                                 <div>The <a href="tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
-                                </td>
+                            </td>
                         </tr>
                     </table>
                 </div>
                 <div class="content">
                     <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                </div>
+            </div>
+        </div>
+        <div id="__aboutsheet" class="popupsheet" style="display:none">
+            <div class="popup">
+                <div class="header">
+                    <button id="__close_aboutsheet" class="close">x</button>
+                    <h1 style="margin: 0.5em 0 0.5em 0;">About mscgen_js</h1>
+                </div>
+                <div class="content">
+                    <table style="width: 99%">
+                        <tr>
+                            <td>
+                                <img style="height: 3em" src="images/xu.png" title="The informal logo of mscgen_js.
+                                
+It's the Chinese letter 序 (xù). According to Google it means 'sequence'. According to Chinese people it's more akin to the 'introd' in 'introduction'."></img>
+                            </td>
+                            <td>
+<p>
+mscgen_js is a javascript library that transforms textual
+descriptions into sequence charts. It supports descriptions in
+<a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
+<a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a>,
+<a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> and json. 
+</p>
+<p>
+The library is also used in a script that makes
+<a href="embed.html" target="_blank">embedding sequence charts</a>
+in html easy as eating bananas.
+</p>
+<p>mscgen_js is open source (GPLv3). The source
+is hosted at GitHub, so you can
+<a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    view, clone or fork it</a> and <a href="https://github.com/sverweij/mscgen_js/issues" target="_blank">report any issues</a> easily.</p>
+                           </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img style="height: 3em;border-radius: 3em;" src="images/mugshot.png" title="The reflection of Sander in a scrutinously polished chromatic harmonica"></img>
+                            </td>
+                            <td>
+<b>Sander Verweij - author</b>
+<p>
+Sander first got in touch with
+<a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>
+at the end of 2012. 
+Annoyed he couldn't use it just everywhere,
+he spent his 2013 spring holiday correcting that.
+</p>
+<p>
+Sander lives in The Netherlands and brews a wicked tea.
+</p>
+<p>
+<a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
+<a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
+<a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
+</p>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

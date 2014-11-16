@@ -103,10 +103,12 @@ var gDebug = false;
     setupEvents();
     processParams(lParams);
 
+    /*
     dq.SS(window.__pngcanvas).hide();
     dq.SS(window.__embedsheet).hide();
     dq.SS(window.__cheatsheet).hide();
     dq.SS(window.__error).hide();
+    */
     showAutorenderState ();
     showLanguageState (gCodeMirror.getValue(), gLanguage);
     render(gCodeMirror.getValue(), gLanguage);
@@ -236,6 +238,13 @@ function setupEvents () {
         },
         false
     );
+    window.__close_aboutsheet.addEventListener("click",
+        function(e) {
+            dq.SS(window.__aboutsheet).hide();
+            gaga.g('send', 'event', 'close_aboutsheet', 'button');
+        },
+        false
+    );
     window.__btn_render.addEventListener("click",
         function(e) {
             renderOnClick(gCodeMirror.getValue(), gLanguage);
@@ -294,6 +303,13 @@ function setupEvents () {
         function(e) {
             embedmeOnClick(gCodeMirror.getValue(), gLanguage);
             gaga.g('send', 'event', 'link', "embedme");
+        },
+        false
+    );
+    window.__about.addEventListener("click",
+        function(e) {
+            aboutOnClick();
+            gaga.g('send', 'event', 'link', "about");
         },
         false
     );
@@ -473,11 +489,19 @@ function embedmeOnClick (pSource, pLanguage) {
     dq.SS(window.__cheatsheet).hide();
     window.__embedsnippet.textContent = getHTMLSnippet(pSource, pLanguage);
     dq.SS(window.__embedsheet).toggle();
+    dq.SS(window.__aboutsheet).hide();
 }
 
 function helpmeOnClick () {
     dq.SS(window.__embedsheet).hide();
     dq.SS(window.__cheatsheet).toggle();
+    dq.SS(window.__aboutsheet).hide();
+}
+
+function aboutOnClick () {
+    dq.SS(window.__embedsheet).hide();
+    dq.SS(window.__cheatsheet).hide();
+    dq.SS(window.__aboutsheet).toggle();
 }
 
 function toVectorURI (pSourceElementId) {
