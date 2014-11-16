@@ -172,7 +172,7 @@ header {
   background-image: url(../images/bg.png);
   background-repeat: no-repeat;
   background-position: 25%;
-  box-shadow: 0.0em .1em 0.4em -.2em gray;
+  box-shadow: 0 .1em 0.4em -.2em gray;
 }
 header > nav {
   float: right;
@@ -211,15 +211,6 @@ header .icon {
   padding-right: 0.5em;
   text-align: center;
 }
-header .twitter {
-  background-image: url(../images/twitter.svg);
-}
-header .github {
-  background-image: url(../images/github.svg);
-}
-header .tutorial {
-  background-image: url(../images/tutorial.svg);
-}
 header .embed {
   background-image: url(../images/embed.svg);
 }
@@ -229,11 +220,22 @@ header .question {
 header .interpreter {
   background-image: url(../images/interpreter.svg);
 }
+header .about {
+  background-image: url(../images/about.svg);
+}
+@media screen and (max-width: 480px) {
+    header {
+        background-image: none;
+    }
+}
 @media screen and (max-width: 480px) {
   .hideonmobile {
     display: none;
   }
   a.hideonmobile {
+    display: none;
+  }
+  div.hideonmobile {
     display: none;
   }
 }
