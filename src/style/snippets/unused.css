@@ -1,0 +1,12 @@
+.warning {
+  border: 1px solid #FAEBCC;
+}
+.warning .header {
+  padding: 0.5em 0.5em 0.5em 1em;
+  background-color: #FCF8E3;
+  color: #8A6D3B;
+  border-bottom: 1px solid #FAEBCC;
+}
+.warning .content {
+  padding: 0.5em 0.5em 0.5em 1em;
+}

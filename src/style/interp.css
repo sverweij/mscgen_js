@@ -319,7 +319,7 @@ header {
   background-image: url(../images/bg.png);
   background-repeat: no-repeat;
   background-position: 25%;
-  box-shadow: 0.0em .1em 0.4em -.2em gray;
+  box-shadow: 0 .1em 0.4em -.2em gray;
 }
 header > nav {
   float: right;
@@ -358,15 +358,6 @@ header .icon {
   padding-right: 0.5em;
   text-align: center;
 }
-header .twitter {
-  background-image: url(../images/twitter.svg);
-}
-header .github {
-  background-image: url(../images/github.svg);
-}
-header .tutorial {
-  background-image: url(../images/tutorial.svg);
-}
 header .embed {
   background-image: url(../images/embed.svg);
 }
@@ -375,6 +366,14 @@ header .question {
 }
 header .interpreter {
   background-image: url(../images/interpreter.svg);
+}
+header .about {
+  background-image: url(../images/about.svg);
+}
+@media screen and (max-width: 480px) {
+    header {
+        background-image: none;
+    }
 }
 .code {
   font-family: monospace; 
@@ -430,18 +429,6 @@ to {
   width: 98%;
   height: 40;
 }
-.warning {
-  border: 1px solid #FAEBCC;
-}
-.warning .header {
-  padding: 0.5em 0.5em 0.5em 1em;
-  background-color: #FCF8E3;
-  color: #8A6D3B;
-  border-bottom: 1px solid #FAEBCC;
-}
-.warning .content {
-  padding: 0.5em 0.5em 0.5em 1em;
-}
 .error {
   border: 1px solid #EBCCD1;
   border-radius: 2px;
@@ -491,8 +478,8 @@ button, a.button {
   text-align: center;
 }  
 button:hover, a.button:hover {
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
-              0px 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+              0 3px 6px rgba(0, 0, 0, 0.23);
   transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
   -webkit-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
@@ -540,24 +527,24 @@ a:visited {
   right: 0;
   background-color: transparent;
   width: 100%;
+  padding-right: 1em;
   
 }
 .popupsheet .popup {
   float: right;
-  
+  max-width: 30em;
   max-height: 80%;
   border-collapse: separate; 
   background-color: white;
   overflow: auto;
   border-radius: 2px;
   opacity: .97;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.23);
-  margin: 0 1em 0 0;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+  margin: 0 0 0 0;
   border: 0;
   padding: 0;
 }
 .popup .header {
-  width: 100%;
   padding: .7em .5em 0 .5em;
   border-bottom: solid lightgray 1px;
 }
@@ -568,9 +555,11 @@ a:visited {
   text-decoration:underline;
 }
 .popup .content {
-  width: 100%;
   padding: .4em .5em .5em .5em;
   border: none;
+}
+.content textarea {
+    max-width: 98%;
 }
 .popup span {
   padding-left: .5em;
@@ -579,7 +568,7 @@ a:visited {
   background-color: transparent;
   font-weight: bold;
   color: lightgrey;
-  margin-right: .7em;
+  margin-right: 0;
   margin-top: -.4em;
   float: right;
 }
@@ -588,13 +577,20 @@ a:visited {
   box-shadow: none;
   transition: none;
 }
-.popup p {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin: 0;
-  display: block
+.popup td {
+  vertical-align: top;
+}
+.popup td:first-child {
+  width: 3.5em;
+}
+.popup p:first-child {
+  margin-top: 0;
+  padding: 0;
 }
 @media screen and (max-width: 480px) {
+  .popupsheet {
+    padding-right: 0;
+  }
   .popupsheet .popup {
     width: 100%;
     max-width: 100%;
@@ -617,6 +613,9 @@ a:visited {
     display: none;
   }
   a.hideonmobile {
+    display: none;
+  }
+  div.hideonmobile {
     display: none;
   }
 }
