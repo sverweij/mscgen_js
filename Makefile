@@ -79,7 +79,7 @@ FAVICONS=favicon.ico \
 	iosfavicon-152.png \
 	favicon-195.png \
 	favicon-228.png
-VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html gagatest.html
+VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
 
 .PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
 
@@ -163,8 +163,6 @@ src/embed.html: src/style/doc.css
 
 src/tutorial.html: src/style/doc.css
 
-src/gagatest.html: src/style/doc.css
-
 # file targets prod
 index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-interpreter.js images/ samples/ $(FAVICONS)
 
@@ -174,7 +172,6 @@ embed.html: $(LIVE_DOC_DEPS) src/embed.html
 
 tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
 
-gagatest.html: $(LIVE_DOC_DEPS) src/gagatest.html
 
 tracking.id:
 	@echo yourtrackingidhere > $@
@@ -246,7 +243,7 @@ testcoverage-report/index.html: coverage/lcov.info
 
 cover-report: testcoverage-report/index.html
 
-install: index.html embed.html tutorial.html gagatest.html
+install: index.html embed.html tutorial.html
 
 publish: install cover-report
 	
@@ -284,7 +281,7 @@ ibartfast:
 slart: ibartfast $(FAVICONS)
 	
 somewhatclean:
-	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js gagatest.html
+	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
 	rm -rf jsdoc
 	rm -rf coverage
 	rm -rf testcoverage-report
