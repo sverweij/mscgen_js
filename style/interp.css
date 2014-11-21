@@ -532,7 +532,7 @@ a:visited {
 }
 .popupsheet .popup {
   float: right;
-  max-width: 30em;
+  max-width: 28em;
   max-height: 80%;
   border-collapse: separate; 
   background-color: white;
@@ -583,9 +583,15 @@ a:visited {
 .popup td:first-child {
   width: 3.5em;
 }
+.popup p {
+  margin-right: 1.5em;
+  margin-left: 1.0em;
+}
 .popup p:first-child {
   margin-top: 0;
-  padding: 0;
+}
+.popup img.aboutpic {
+  width: 4em;
 }
 @media screen and (max-width: 480px) {
   .popupsheet {
