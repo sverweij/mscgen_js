@@ -307,6 +307,33 @@ article {
     color: black;
     padding: 0.2em 0;
 }
+.fadable {
+  animation: fadeout 20s;
+  -webkit-animation: fadeout 20s;
+  color: black;
+  opacity: 0.2;
+}
+.fadable-hint {
+  animation: fadeout 20s;
+  -webkit-animation: fadeout 20s;
+  opacity: 0.2;
+}
+@-webkit-keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
 html {
     font-size: 100%; 
     -ms-text-size-adjust: 100%; 
@@ -332,6 +359,9 @@ header h1 {
   font-size: 1.9em;
   margin-bottom: 0;
   margin-top: 0;
+  width: intrinsic;
+  width: -moz-max-content;
+  width: -webkit-max-content; 
 }
 header em {
   color: black;
@@ -341,11 +371,15 @@ header a {
   color: lightgray;
 }
 header a.icon:hover {
-  color:black;
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 header div.icon:hover {
   cursor: pointer;
-  color:black;
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 header .icon {
   display: inline-block;
@@ -397,22 +431,8 @@ h3 {
 }
 .intronumber {
   padding: .2em .5em .2em .5em;
-  color: lightgrey;
-  border: solid lightgrey 1px;
+  border: solid 1px;
   border-radius: 1em;
-}
-.fadable {
-  animation-duration: 60s;
-  animation-name: fadeout;
-  color: lightgray;
-}
-@keyframes fadeout {
-from {
-  color: black;
-}
-to {
-  color: lightgray;
-}
 }
 #__input_and_controls {
   z-index: 2;
@@ -567,15 +587,20 @@ a:visited {
 .popup button.close {
   background-color: transparent;
   font-weight: bold;
-  color: lightgrey;
-  margin-right: 0;
-  margin-top: -.4em;
+  color: grey;
+  opacity: 0.6;
   float: right;
+  margin-top: -.7em;
+  margin-right: -.5em;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 .popup button.close:hover {
-  color: grey;
   box-shadow: none;
   transition: none;
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 .popup td {
   vertical-align: top;
