@@ -19,6 +19,33 @@ article {
     color: black;
     padding: 0.2em 0;
 }
+.fadable {
+  animation: fadeout 20s;
+  -webkit-animation: fadeout 20s;
+  color: black;
+  opacity: 0.2;
+}
+.fadable-hint {
+  animation: fadeout 20s;
+  -webkit-animation: fadeout 20s;
+  opacity: 0.2;
+}
+@-webkit-keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
 html {
     font-size: 100%; 
     -ms-text-size-adjust: 100%; 
@@ -185,6 +212,9 @@ header h1 {
   font-size: 1.9em;
   margin-bottom: 0;
   margin-top: 0;
+  width: intrinsic;
+  width: -moz-max-content;
+  width: -webkit-max-content; 
 }
 header em {
   color: black;
@@ -194,11 +224,15 @@ header a {
   color: lightgray;
 }
 header a.icon:hover {
-  color:black;
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 header div.icon:hover {
   cursor: pointer;
-  color:black;
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 header .icon {
   display: inline-block;

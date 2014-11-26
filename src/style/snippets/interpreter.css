@@ -20,22 +20,8 @@ h3 {
 }
 .intronumber {
   padding: .2em .5em .2em .5em;
-  color: lightgrey;
-  border: solid lightgrey 1px;
+  border: solid 1px;
   border-radius: 1em;
-}
-.fadable {
-  animation-duration: 60s;
-  animation-name: fadeout;
-  color: lightgray;
-}
-@keyframes fadeout {
-from {
-  color: black;
-}
-to {
-  color: lightgray;
-}
 }
 #__input_and_controls {
   z-index: 2;
