@@ -20,7 +20,7 @@
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="message sequence chart renderer">
-        <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js">
+        <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js, doxygen">
         <meta name="google-site-verification" content="${siteverificationid}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -44,6 +44,41 @@
         type="text/css" media="screen">
         <script data-main="script/mscgen-interpreter.js?${commit}"
         src="lib/require.js?${commit}" defer></script>
+        <style>
+            @-webkit-keyframes loading_opa {
+                 0% { opacity:0; }
+                 50% { opacity:0; }
+                 100% { opacity:0.9; }
+            }
+            @keyframes loading_opa {
+                 0% { opacity:0; }
+                 50% { opacity:0; }
+                 100% { opacity:0.9; }
+            }
+            @-webkit-keyframes loading {
+                0% { opacity:0; }
+                50% { opacity:0; -webkit-transform: scale(0.1); }
+                75% { opacity:1; -webkit-transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+            @keyframes loading {
+                0% { opacity:0; }
+                50% { opacity:0; transform: scale(0.1); }
+                75% { opacity:1; transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+            @-webkit-keyframes rotate {
+                0% { -webkit-transform: rotateZ(360deg); }
+                60% { -webkit-transform: rotateZ(0deg); }
+                100% { -webkit-transform: rotateZ(0deg); }
+            }
+            @keyframes rotate {
+                0% { transform: rotateZ(360deg); }
+                60% { transform: rotateZ(0deg); }
+                100% { transform: rotateZ(0deg); }
+            }
+
+        </style>
     </head>
     <body>
 		<!--[if lt IE 17]>
@@ -53,17 +88,17 @@
         to improve your experience.
 		</p>
 		<![endif]-->
-        <header class="fadable">
+        <header>
             <nav>
                 <div id="__about"
-                class="about icon"
+                class="about icon fadable"
                 title="">
                 <br><br>about</div>
                 <div id="__embedme"
-                class="embed icon hideonmobile"
+                class="embed icon hideonmobile fadable"
                 title="embed mscgen in your html"><br><br>embed</div>
                 <div id="__helpme"
-                class="question icon"
+                class="question icon fadable"
                 title="Show cheat sheet"><br><br>learn</div>
             </nav>
 
@@ -80,13 +115,13 @@ mscgen_js
     version: ${version}
     build-date: ${date}
     commit: ${commit}" class="fadable">mscgen_js</h1>
-            <span class="hideonmobile">turns text into sequence charts</span>
-            <span class="showonmobile">text =&gt; MSCs</span>
+            <span class="hideonmobile fadable">turns text into sequence charts</span>
+            <span class="showonmobile fadable">text =&gt; MSCs</span>
         </header>
         <article>
         <section id="__input_and_controls">
             <div>
-                <h3 class="fadable"><span class="intronumber">1</span> <span class="hideonmobile">your</span> text <span class="hideonmobile">goes here </span> &#x0261f;</h3>
+                <h3 class="fadable-hint"><span class="intronumber">1</span> <span class="hideonmobile">your</span> text <span class="hideonmobile">goes here </span> &#x0261f;</h3>
 
                 <div class="herpes">
                     <select id="__samples">
@@ -164,7 +199,7 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
         </section>
 
         <section style="display:inline-block;">
-            <h3 class="fadable"
+            <h3 class="fadable-hint"
                 style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideonmobile">your</span> chart <span class="hideonmobile">shows up here</span> &#x0261f;</h3>
             <a id="__show_svg"
                 class="button"
@@ -286,18 +321,25 @@ whiteboard. Under a roof."></img>
     The mscgen_js javascript library transforms  descriptions in
     <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
     <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a>,
-    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> or json into sequence charts.
+    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> and json into sequence charts.
     </p>
     <p>
-    The library is the engine for this interpreter. It's also used to
-    make <a href="embed.html" target="_blank">embedding sequence charts</a>
+    It is the engine for this interpreter. It also makes
+    <a href="embed.html" target="_blank">embedding sequence charts</a>
     in html easy as eating a banana.
     </p>
-    <p>mscgen_js is open source (GPLv3). The source is hosted at
-    GitHub, so you can <a href="https://github.com/sverweij/mscgen_js"
-    target="_blank">view, clone or fork it</a> and
+    <p>mscgen_js is open source (GPLv3). 
+    You can
+    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    view</a>,
+    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    clone</a>
+    or
+    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    fork it</a>
+    on GitHub and
     <a href="https://github.com/sverweij/mscgen_js/issues"
-    target="_blank">report issues</a>.</p>
+    target="_blank">report issues</a> there.</p>
     </p>
     </td>
 </tr>
@@ -311,9 +353,9 @@ whiteboard. Under a roof."></img>
       <b>Author</b>
   </p>
   <p>
-    Sander Verweij first got in touch with <a
+    When Sander Verweij first got in touch with <a
     href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>
-    at the end of 2012. He thought it was awesome. Annoyed he
+    at the end of 2012, he thought it was awesome. Annoyed he
     couldn't use it <em>just</em> everywhere, he spent his next
     spring holiday correcting that.
   </p>
@@ -333,5 +375,56 @@ whiteboard. Under a roof."></img>
         </div> <!-- popupsheet -->
         </section>
         </article>
+        <div id="__loading"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                background-color: white;
+                opacity: 0.9;
+                z-index: 666;
+                animation-name: loading_opa;
+                animation-duration: 3s;
+                animation-timing-function: ease;
+                -webkit-animation-name: loading_opa;
+                -webkit-animation-duration: 3s;
+                -webkit-animation-timing-function: ease;
+            "> 
+            <div style="
+                position: fixed;
+                left: 0;
+                top: 30%;
+                width: 100%;
+                font-size: 1.8em;
+                animation-name: loading;
+                animation-duration: 3s;
+                animation-timing-function: ease;
+                -webkit-animation-name: loading;
+                -webkit-animation-duration: 3s;
+                -webkit-animation-timing-function: ease;
+                ">
+                
+                <img style="
+                height: 2.1em;
+                animation-name: rotate;
+                animation-duration: 3.14s;
+                animation-timing-function: ease-in-out;
+                animation-iteration-count: infinite;
+                -webkit-animation-name: rotate;
+                -webkit-animation-duration: 3.14s;
+                -webkit-animation-timing-function: ease-in-out;
+                -webkit-animation-iteration-count: infinite;
+                " src="images/xuwhiteshadow.svg" alt="">
+                <div>
+                    loading...
+                </div>
+                <!--
+                <img src="8.gif" alt="">
+                -->
+            </div>
+        </div>
     </body>
 </html>

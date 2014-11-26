@@ -103,17 +103,14 @@ var gDebug = false;
     setupEvents();
     processParams(lParams);
 
-    /*
-    dq.SS(window.__pngcanvas).hide();
-    dq.SS(window.__embedsheet).hide();
-    dq.SS(window.__cheatsheet).hide();
-    dq.SS(window.__error).hide();
-    */
     showAutorenderState ();
     showLanguageState (gCodeMirror.getValue(), gLanguage);
     render(gCodeMirror.getValue(), gLanguage);
     if (undefined === lParams.msc) {
         samplesOnChange();
+    }
+    if (window.__loading) {
+        window.__loading.outerHTML = "";
     }
 
 // }); // document ready
