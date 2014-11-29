@@ -154,6 +154,7 @@ src/style/doc.css: src/style/doc-src.css \
 	src/style/snippets/header.css \
 	src/style/snippets/documentation.css \
 	src/style/snippets/generics.css \
+	src/style/snippets/popup.css \
 	src/style/snippets/mediagenerics.css
 	$(RJS) -o cssIn=src/style/doc-src.css out=$@
 
