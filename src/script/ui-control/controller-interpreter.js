@@ -322,6 +322,7 @@ function setupEvents () {
            if(ESC_KEY === e.keyCode) {
                 dq.SS(window.__cheatsheet).hide();
                 dq.SS(window.__embedsheet).hide();
+                dq.SS(window.__aboutsheet).hide();
            }
         },
         false
