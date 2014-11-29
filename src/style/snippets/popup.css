@@ -26,6 +26,10 @@
   padding: .7em .5em 0 .5em;
   border-bottom: solid lightgray 1px;
 }
+.popup h1 {
+  margin: 0.5em 0 0.5em 0.7em;
+  font-size: 1.34em;
+}
 .popup a {
   text-decoration:underline;
 }
@@ -50,6 +54,8 @@
   float: right;
   margin-top: -.7em;
   margin-right: -.5em;
+  padding-right:0.5em;
+  padding-left:0.5em;
   transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
   -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
@@ -75,6 +81,34 @@
 }
 .popup img.aboutpic {
   width: 4em;
+}
+div.lightbox {
+  display: none;
+  top: 0;
+  padding-top: 5em;
+}
+div.lightbox:target {
+  display: block;
+}
+div.lightbox a.close {
+  float: right;
+  top: 0;
+  padding-right:0.5em;
+  padding-left:0.5em;
+  color: grey;
+  font-weight: bold;
+  text-decoration: none;
+}
+div.lightbox a.close::before {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
 }
 @media screen and (max-width: 480px) {
   .popupsheet {
