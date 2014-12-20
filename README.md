@@ -78,6 +78,7 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters _almost_
   like a walk in the park. 
 - [Elijah Insua][24] for [jsdom][25], which makes it possible to render vector graphics in node.js.
+- [Audrey M. Roy](http://www.audreymroy.com/) for the excelent ["painfully obsessive cheat sheet to favicon sizes/types."](https://github.com/audreyr/favicon-cheat-sheet).
 
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: https://sverweij.github.io/mscgen_js
