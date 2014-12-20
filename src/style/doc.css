@@ -1,8 +1,12 @@
 body {
   color: black;
   font-family: sans-serif;
+  font-weight: normal;
   font-size: 12pt;
   margin:0;
+}
+h1, h2, h3, h4, h5 {
+  font-weight: lighter;
 }
 article {
     padding: 0.5em 0.5em 0 0.5em;

@@ -83,7 +83,7 @@ var gCodeMirror =
         theme             : "midnight",
         mode              : "xu",
         placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
-        lineWrapping      : true
+        lineWrapping      : false
     });
 
 var gErrorCoordinates = {
