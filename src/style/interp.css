@@ -289,8 +289,12 @@ span.CodeMirror-selectedtext { background: none; }
 body {
   color: black;
   font-family: sans-serif;
+  font-weight: normal;
   font-size: 12pt;
   margin:0;
+}
+h1, h2, h3, h4, h5 {
+  font-weight: lighter;
 }
 article {
     padding: 0.5em 0.5em 0 0.5em;
@@ -426,7 +430,7 @@ header .about {
 h3 {
   margin: 0;
   margin-bottom: 1em;
-  font-weight: 500;
+  font-weight: lighter;
   display: inline-block;
 }
 .intronumber {
