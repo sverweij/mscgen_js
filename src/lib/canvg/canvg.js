@@ -25,7 +25,7 @@
 	this.canvg = function (target, s, opts) {
 		// no parameters
 		if (target == null && s == null && opts == null) {
-			var svgTags = document.getElementsByTagName('svg');
+			var svgTags = document.querySelectorAll('svg');
 			for (var i=0; i<svgTags.length; i++) {
 				var svgTag = svgTags[i];
 				var c = document.createElement('canvas');
@@ -38,8 +38,7 @@
 				canvg(c, div.innerHTML);
 			}
 			return;
-		}	
-		opts = opts || {};
+		}
 	
 		if (typeof target == 'string') {
 			target = document.getElementById(target);
@@ -47,10 +46,9 @@
 		
 		// store class on canvas
 		if (target.svg != null) target.svg.stop();
-		var svg = build();
+		var svg = build(opts || {});
 		// on i.e. 8 for flash canvas, we can't assign the property so check for it
 		if (!(target.childNodes.length == 1 && target.childNodes[0].nodeName == 'OBJECT')) target.svg = svg;
-		svg.opts = opts;
 		
 		var ctx = target.getContext('2d');
 		if (typeof(s.documentElement) != 'undefined') {
@@ -67,11 +65,16 @@
 		}
 	}
 
-	function build() {
-		var svg = { };
+	function build(opts) {
+		var svg = { opts: opts };
 		
 		svg.FRAMERATE = 30;
 		svg.MAX_VIRTUAL_PIXELS = 30000;
+		
+		svg.log = function(msg) {};
+		if (svg.opts['log'] == true && typeof(console) != 'undefined') {
+			svg.log = function(msg) { console.log(msg); };
+		};
 		
 		// globals
 		svg.init = function(ctx) {
@@ -129,7 +132,14 @@
 		
 		// parse xml
 		svg.parseXml = function(xml) {
-			if (window.DOMParser)
+			if (typeof(Windows) != 'undefined' && typeof(Windows.Data) != 'undefined' && typeof(Windows.Data.Xml) != 'undefined') {
+				var xmlDoc = new Windows.Data.Xml.Dom.XmlDocument();
+				var settings = new Windows.Data.Xml.Dom.XmlLoadSettings();
+				settings.prohibitDtd = false;
+				xmlDoc.loadXml(xml, settings);
+				return xmlDoc;
+			}
+			else if (window.DOMParser)
 			{
 				var parser = new DOMParser();
 				return parser.parseFromString(xml, 'text/xml');
@@ -179,12 +189,12 @@
 			
 			// color extensions
 				// augment the current color value with the opacity
-				svg.Property.prototype.addOpacity = function(opacity) {
+				svg.Property.prototype.addOpacity = function(opacityProp) {
 					var newValue = this.value;
-					if (opacity != null && opacity != '' && typeof(this.value)=='string') { // can only add opacity to colors, not patterns
+					if (opacityProp.value != null && opacityProp.value != '' && typeof(this.value)=='string') { // can only add opacity to colors, not patterns
 						var color = new RGBColor(this.value);
 						if (color.ok) {
-							newValue = 'rgba(' + color.r + ', ' + color.g + ', ' + color.b + ', ' + opacity + ')';
+							newValue = 'rgba(' + color.r + ', ' + color.g + ', ' + color.b + ', ' + opacityProp.numValue() + ')';
 						}
 					}
 					return new svg.Property(this.name, newValue);
@@ -282,13 +292,33 @@
 					return this.numValue() * (Math.PI / 180.0);
 				}
 		
+			// text extensions
+				// get the text baseline
+				var textBaselineMapping = {
+					'baseline': 'alphabetic',
+					'before-edge': 'top',
+					'text-before-edge': 'top',
+					'middle': 'middle',
+					'central': 'middle',
+					'after-edge': 'bottom',
+					'text-after-edge': 'bottom',
+					'ideographic': 'ideographic',
+					'alphabetic': 'alphabetic',
+					'hanging': 'hanging',
+					'mathematical': 'alphabetic'
+				};
+				svg.Property.prototype.toTextBaseline = function () {
+					if (!this.hasValue()) return null;
+					return textBaselineMapping[this.value];
+				}
+				
 		// fonts
 		svg.Font = new (function() {
 			this.Styles = 'normal|italic|oblique|inherit';
 			this.Variants = 'normal|small-caps|inherit';
 			this.Weights = 'normal|bold|bolder|lighter|100|200|300|400|500|600|700|800|900|inherit';
 			
-			this.CreateFont = function(fontStyle, fontVariant, fontWeight, fontSize, fontFamily, inherit) { 
+			this.CreateFont = function(fontStyle, fontVariant, fontWeight, fontSize, fontFamily, inherit) {
 				var f = inherit != null ? this.Parse(inherit) : this.CreateFont('', '', '', '', '', svg.ctx.font);
 				return { 
 					fontFamily: fontFamily || f.fontFamily, 
@@ -512,6 +542,26 @@
 				this.apply = function(ctx) {
 					ctx.transform(this.m[0], this.m[1], this.m[2], this.m[3], this.m[4], this.m[5]);
 				}
+				this.unapply = function(ctx) {
+					var a = this.m[0];
+					var b = this.m[2];
+					var c = this.m[4];
+					var d = this.m[1];
+					var e = this.m[3];
+					var f = this.m[5];
+					var g = 0.0;
+					var h = 0.0;
+					var i = 1.0;
+					var det = 1 / (a*(e*i-f*h)-b*(d*i-f*g)+c*(d*h-e*g));
+					ctx.transform(
+						det*(e*i-f*h),
+						det*(f*g-d*i),
+						det*(c*h-b*i),
+						det*(a*i-c*g),
+						det*(b*f-c*e),
+						det*(c*d-a*f)
+					);
+				}
 				this.applyToPoint = function(p) {
 					p.applyTransform(this.m);
 				}					
@@ -558,7 +608,7 @@
 				}
 			}
 			
-			var data = svg.trim(svg.compressSpaces(v)).replace(/\)(\s?,\s?)/g,') ').split(/\s(?=[a-z])/);
+			var data = svg.trim(svg.compressSpaces(v)).replace(/\)([a-zA-Z])/g, ') $1').replace(/\)(\s?,\s?)/g,') ').split(/\s(?=[a-z])/);
 			for (var i=0; i<data.length; i++) {
 				var type = svg.trim(data[i].split('(')[0]);
 				var s = data[i].split('(')[1].replace(')','');
@@ -635,7 +685,7 @@
 			}
 			
 			// get or create style, crawls up node tree
-			this.style = function(name, createIfNotExists) {
+			this.style = function(name, createIfNotExists, skipAncestors) {
 				var s = this.styles[name];
 				if (s != null) return s;
 				
@@ -645,11 +695,13 @@
 					return a;
 				}
 				
-				var p = this.parent;
-				if (p != null) {
-					var ps = p.style(name);
-					if (ps != null && ps.hasValue()) {
-						return ps;
+				if (skipAncestors != true) {
+					var p = this.parent;
+					if (p != null) {
+						var ps = p.style(name);
+						if (ps != null && ps.hasValue()) {
+							return ps;
+						}
 					}
 				}
 					
@@ -663,7 +715,7 @@
 				if (this.style('display').value == 'none') return;
 				
 				// don't render visibility=hidden
-				if (this.attribute('visibility').value == 'hidden') return;
+				if (this.style('visibility').value == 'hidden') return;
 			
 				ctx.save();
 				if (this.attribute('mask').hasValue()) { // mask
@@ -703,22 +755,10 @@
 				var child = childNode;
 				if (create) child = svg.CreateElement(childNode);
 				child.parent = this;
-				this.children.push(child);			
+				if (child.type != 'title') { this.children.push(child);	}
 			}
 				
 			if (node != null && node.nodeType == 1) { //ELEMENT_NODE
-				// add children
-				for (var i=0; i<node.childNodes.length; i++) {
-					var childNode = node.childNodes[i];
-					if (childNode.nodeType == 1) this.addChild(childNode, true); //ELEMENT_NODE
-					if (this.captureTextNodes && childNode.nodeType == 3) {
-						var text = childNode.nodeValue || childNode.text || '';
-						if (svg.trim(svg.compressSpaces(text)) != '') {
-							this.addChild(new svg.Element.tspan(childNode), false); // TEXT_NODE
-						}
-					}
-				}
-				
 				// add attributes
 				for (var i=0; i<node.attributes.length; i++) {
 					var attribute = node.attributes[i];
@@ -781,6 +821,18 @@
 						svg.Definitions[this.attribute('id').value] = this;
 					}
 				}
+				
+				// add children
+				for (var i=0; i<node.childNodes.length; i++) {
+					var childNode = node.childNodes[i];
+					if (childNode.nodeType == 1) this.addChild(childNode, true); //ELEMENT_NODE
+					if (this.captureTextNodes && (childNode.nodeType == 3 || childNode.nodeType == 4)) {
+						var text = childNode.nodeValue || childNode.text || '';
+						if (svg.trim(svg.compressSpaces(text)) != '') {
+							this.addChild(new svg.Element.tspan(childNode), false); // TEXT_NODE
+						}
+					}
+				}
 			}
 		}
 		
@@ -797,11 +849,11 @@
 				else if (this.style('fill').hasValue()) {
 					var fillStyle = this.style('fill');
 					if (fillStyle.value == 'currentColor') fillStyle.value = this.style('color').value;
-					ctx.fillStyle = (fillStyle.value == 'none' ? 'rgba(0,0,0,0)' : fillStyle.value);
+					if (fillStyle.value != 'inherit') ctx.fillStyle = (fillStyle.value == 'none' ? 'rgba(0,0,0,0)' : fillStyle.value);
 				}
 				if (this.style('fill-opacity').hasValue()) {
 					var fillStyle = new svg.Property('fill', ctx.fillStyle);
-					fillStyle = fillStyle.addOpacity(this.style('fill-opacity').value);
+					fillStyle = fillStyle.addOpacity(this.style('fill-opacity'));
 					ctx.fillStyle = fillStyle.value;
 				}
 									
@@ -813,11 +865,11 @@
 				else if (this.style('stroke').hasValue()) {
 					var strokeStyle = this.style('stroke');
 					if (strokeStyle.value == 'currentColor') strokeStyle.value = this.style('color').value;
-					ctx.strokeStyle = (strokeStyle.value == 'none' ? 'rgba(0,0,0,0)' : strokeStyle.value);
+					if (strokeStyle.value != 'inherit') ctx.strokeStyle = (strokeStyle.value == 'none' ? 'rgba(0,0,0,0)' : strokeStyle.value);
 				}
 				if (this.style('stroke-opacity').hasValue()) {
 					var strokeStyle = new svg.Property('stroke', ctx.strokeStyle);
-					strokeStyle = strokeStyle.addOpacity(this.style('stroke-opacity').value);
+					strokeStyle = strokeStyle.addOpacity(this.style('stroke-opacity'));
 					ctx.strokeStyle = strokeStyle.value;
 				}
 				if (this.style('stroke-width').hasValue()) {
@@ -827,11 +879,11 @@
 				if (this.style('stroke-linecap').hasValue()) ctx.lineCap = this.style('stroke-linecap').value;
 				if (this.style('stroke-linejoin').hasValue()) ctx.lineJoin = this.style('stroke-linejoin').value;
 				if (this.style('stroke-miterlimit').hasValue()) ctx.miterLimit = this.style('stroke-miterlimit').value;
-				if (this.style('stroke-dasharray').hasValue()) {
+				if (this.style('stroke-dasharray').hasValue() && this.style('stroke-dasharray').value != 'none') {
 					var gaps = svg.ToNumberArray(this.style('stroke-dasharray').value);
 					if (typeof(ctx.setLineDash) != 'undefined') { ctx.setLineDash(gaps); }
 					else if (typeof(ctx.webkitLineDash) != 'undefined') { ctx.webkitLineDash = gaps; }
-					else if (typeof(ctx.mozDash ) != 'undefined') { ctx.mozDash  = gaps; }
+					else if (typeof(ctx.mozDash) != 'undefined' && !(gaps.length==1 && gaps[0]==0)) { ctx.mozDash = gaps; }
 					
 					var offset = this.style('stroke-dashoffset').numValueOrDefault(1);
 					if (typeof(ctx.lineDashOffset) != 'undefined') { ctx.lineDashOffset = offset; }
@@ -856,8 +908,8 @@
 				}
 				
 				// clip
-				if (this.style('clip-path').hasValue()) {
-					var clip = this.style('clip-path').getDefinition();
+				if (this.style('clip-path', false, true).hasValue()) {
+					var clip = this.style('clip-path', false, true).getDefinition();
 					if (clip != null) clip.apply(ctx);
 				}
 				
@@ -882,7 +934,7 @@
 				this.path(ctx);
 				svg.Mouse.checkPath(this, ctx);
 				if (ctx.fillStyle != '') {
-					if (this.attribute('fill-rule').hasValue()) { ctx.fill(this.attribute('fill-rule').value); }
+					if (this.style('fill-rule').valueOrDefault('inherit') != 'inherit') { ctx.fill(this.style('fill-rule').value); }
 					else { ctx.fill(); }
 				}
 				if (ctx.strokeStyle != '') ctx.stroke();
@@ -929,11 +981,14 @@
 			
 			this.baseSetContext = this.setContext;
 			this.setContext = function(ctx) {
-				// initial values
+				// initial values and defaults
 				ctx.strokeStyle = 'rgba(0,0,0,0)';
 				ctx.lineCap = 'butt';
 				ctx.lineJoin = 'miter';
-				ctx.miterLimit = 4;			
+				ctx.miterLimit = 4;	
+				if (typeof(ctx.font) != 'undefined' && typeof(window.getComputedStyle) != 'undefined') {
+					ctx.font = window.getComputedStyle(ctx.canvas).getPropertyValue('font');
+				}
 			
 				this.baseSetContext(ctx);
 				
@@ -958,13 +1013,15 @@
 						y = -this.attribute('refY').toPixels('y');
 					}
 					
-					ctx.beginPath();
-					ctx.moveTo(x, y);
-					ctx.lineTo(width, y);
-					ctx.lineTo(width, height);
-					ctx.lineTo(x, height);
-					ctx.closePath();
-					ctx.clip();
+					if (this.attribute('overflow').valueOrDefault('hidden') != 'visible') {
+						ctx.beginPath();
+						ctx.moveTo(x, y);
+						ctx.lineTo(width, y);
+						ctx.lineTo(width, height);
+						ctx.lineTo(x, height);
+						ctx.closePath();
+						ctx.clip();
+					}
 				}
 				svg.ViewPort.SetCurrent(width, height);	
 						
@@ -986,9 +1043,9 @@
 									minY,
 									this.attribute('refX').value,
 									this.attribute('refY').value);
-										
-					svg.ViewPort.RemoveCurrent();	
-					svg.ViewPort.SetCurrent(viewBox[2], viewBox[3]);						
+					
+					svg.ViewPort.RemoveCurrent();
+					svg.ViewPort.SetCurrent(viewBox[2], viewBox[3]);
 				}				
 			}
 		}
@@ -1603,7 +1660,7 @@
 				var addParentOpacity = function (color) {
 					if (parentOpacityProp.hasValue()) {
 						var p = new svg.Property('color', color);
-						return p.addOpacity(parentOpacityProp.value).value;
+						return p.addOpacity(parentOpacityProp).value;
 					}
 					return color;
 				};
@@ -1655,7 +1712,7 @@
 			this.base(node);
 			
 			this.getGradient = function(ctx, element) {
-				var bb = element.getBoundingBox();
+				var bb = this.gradientUnits == 'objectBoundingBox' ? element.getBoundingBox() : null;
 				
 				if (!this.attribute('x1').hasValue()
 				 && !this.attribute('y1').hasValue()
@@ -1737,7 +1794,7 @@
 			if (this.offset > 1) this.offset = 1;
 			
 			var stopColor = this.style('stop-color');
-			if (this.style('stop-opacity').hasValue()) stopColor = stopColor.addOpacity(this.style('stop-opacity').value);
+			if (this.style('stop-opacity').hasValue()) stopColor = stopColor.addOpacity(this.style('stop-opacity'));
 			this.color = stopColor.value;
 		}
 		svg.Element.stop.prototype = new svg.Element.ElementBase;
@@ -1765,7 +1822,7 @@
 			
 			this.initialValue = null;
 			this.initialUnits = '';
-			this.removed = false;			
+			this.removed = false;		
 
 			this.calcValue = function() {
 				// OVERRIDE ME!
@@ -1786,14 +1843,17 @@
 					 || this.attribute('repeatDur').value == 'indefinite') {
 						this.duration = 0.0
 					}
+					else if (this.attribute('fill').valueOrDefault('remove') == 'freeze' && !this.frozen) {
+						this.frozen = true;
+						this.parent.animationFrozen = true;
+						this.parent.animationFrozenValue = this.getProperty().value;
+					}
 					else if (this.attribute('fill').valueOrDefault('remove') == 'remove' && !this.removed) {
 						this.removed = true;
-						this.getProperty().value = this.initialValue;
+						this.getProperty().value = this.parent.animationFrozen ? this.parent.animationFrozenValue : this.initialValue;
 						return true;
 					}
-					else {
-						return false; // no updates made
-					}
+					return false;
 				}			
 				this.duration = this.duration + delta;
 			
@@ -1972,13 +2032,17 @@
 			this.baseSetContext = this.setContext;
 			this.setContext = function(ctx) {
 				this.baseSetContext(ctx);
-				if (this.style('dominant-baseline').hasValue()) ctx.textBaseline = this.style('dominant-baseline').value;
-				if (this.style('alignment-baseline').hasValue()) ctx.textBaseline = this.style('alignment-baseline').value;
+				
+				var textBaseline = this.style('dominant-baseline').toTextBaseline();
+				if (textBaseline == null) textBaseline = this.style('alignment-baseline').toTextBaseline();
+				if (textBaseline != null) ctx.textBaseline = textBaseline;
 			}
 			
 			this.getBoundingBox = function () {
-				// TODO: implement
-				return new svg.BoundingBox(this.attribute('x').toPixels('x'), this.attribute('y').toPixels('y'), 0, 0);
+				var x = this.attribute('x').toPixels('x');
+				var y = this.attribute('y').toPixels('y');
+				var fontSize = this.parent.style('font-size').numValueOrDefault(svg.Font.Parse(svg.ctx.font).fontSize);
+				return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length, y);
 			}
 			
 			this.renderChildren = function(ctx) {
@@ -2008,6 +2072,7 @@
 				var child = parent.children[i];
 				if (child.attribute('x').hasValue()) {
 					child.x = child.attribute('x').toPixels('x') + this.getAnchorDelta(ctx, parent, i);
+					if (child.attribute('dx').hasValue()) child.x += child.attribute('dx').toPixels('x');
 				}
 				else {
 					if (this.attribute('dx').hasValue()) this.x += this.attribute('dx').toPixels('x');
@@ -2018,6 +2083,7 @@
 				
 				if (child.attribute('y').hasValue()) {
 					child.y = child.attribute('y').toPixels('y');
+					if (child.attribute('dy').hasValue()) child.y += child.attribute('dy').toPixels('y');
 				}
 				else {
 					if (this.attribute('dy').hasValue()) this.y += this.attribute('dy').toPixels('y');
@@ -2167,7 +2233,7 @@
 			this.base = svg.Element.TextElementBase;
 			this.base(node);
 			
-			this.hasText = true;
+			this.hasText = node.childNodes.length > 0;
 			for (var i=0; i<node.childNodes.length; i++) {
 				if (node.childNodes[i].nodeType != 3) this.hasText = false;
 			}
@@ -2186,7 +2252,7 @@
 					var fontSize = new svg.Property('fontSize', svg.Font.Parse(svg.ctx.font).fontSize);
 					svg.Mouse.checkBoundingBox(this, new svg.BoundingBox(this.x, this.y - fontSize.toPixels('y'), this.x + this.measureText(ctx), this.y));					
 				}
-				else {
+				else if (this.children.length > 0) {
 					// render as temporary group
 					var g = new svg.Element.g();
 					g.children = this.children;
@@ -2211,15 +2277,17 @@
 			this.base(node);
 			
 			var href = this.getHrefAttribute().value;
+			if (href == '') { return; }
 			var isSvg = href.match(/\.svg$/)
 			
 			svg.Images.push(this);
 			this.loaded = false;
 			if (!isSvg) {
 				this.img = document.createElement('img');
+				if (svg.opts['useCORS'] == true) { this.img.crossOrigin = 'Anonymous'; }
 				var self = this;
 				this.img.onload = function() { self.loaded = true; }
-				this.img.onerror = function() { if (typeof(console) != 'undefined') { console.log('ERROR: image "' + href + '" not found'); self.loaded = true; } }
+				this.img.onerror = function() { svg.log('ERROR: image "' + href + '" not found'); self.loaded = true; }
 				this.img.src = href;
 			}
 			else {
@@ -2283,31 +2351,10 @@
 		svg.Element.symbol = function(node) {
 			this.base = svg.Element.RenderedElementBase;
 			this.base(node);
-			
-			this.baseSetContext = this.setContext;
-			this.setContext = function(ctx) {		
-				this.baseSetContext(ctx);
-				
-				// viewbox
-				if (this.attribute('viewBox').hasValue()) {				
-					var viewBox = svg.ToNumberArray(this.attribute('viewBox').value);
-					var minX = viewBox[0];
-					var minY = viewBox[1];
-					width = viewBox[2];
-					height = viewBox[3];
-					
-					svg.AspectRatio(ctx,
-									this.attribute('preserveAspectRatio').value, 
-									this.attribute('width').toPixels('x'),
-									width,
-									this.attribute('height').toPixels('y'),
-									height,
-									minX,
-									minY);
 
-					svg.ViewPort.SetCurrent(viewBox[2], viewBox[3]);						
-				}
-			}			
+			this.render = function(ctx) {
+				// NO RENDER
+			};
 		}
 		svg.Element.symbol.prototype = new svg.Element.RenderedElementBase;		
 			
@@ -2378,31 +2425,37 @@
 				if (this.attribute('y').hasValue()) ctx.translate(0, this.attribute('y').toPixels('y'));
 			}
 			
-			this.getDefinition = function() {
-				var element = this.getHrefAttribute().getDefinition();
-				if (this.attribute('width').hasValue()) element.attribute('width', true).value = this.attribute('width').value;
-				if (this.attribute('height').hasValue()) element.attribute('height', true).value = this.attribute('height').value;
-				return element;
-			}
+			var element = this.getHrefAttribute().getDefinition();
 			
 			this.path = function(ctx) {
-				var element = this.getDefinition();
 				if (element != null) element.path(ctx);
 			}
 			
 			this.getBoundingBox = function() {
-				var element = this.getDefinition();
 				if (element != null) return element.getBoundingBox();
 			}
 			
 			this.renderChildren = function(ctx) {
-				var element = this.getDefinition();
 				if (element != null) {
-					// temporarily detach from parent and render
-					var oldParent = element.parent;
-					element.parent = null;
-					element.render(ctx);
-					element.parent = oldParent;
+					var tempSvg = element;
+					if (element.type == 'symbol') {
+						// render me using a temporary svg element in symbol cases (http://www.w3.org/TR/SVG/struct.html#UseElement)
+						tempSvg = new svg.Element.svg();
+						tempSvg.type = 'svg';
+						tempSvg.attributes['viewBox'] = new svg.Property('viewBox', element.attribute('viewBox').value);
+						tempSvg.attributes['preserveAspectRatio'] = new svg.Property('preserveAspectRatio', element.attribute('preserveAspectRatio').value);
+						tempSvg.attributes['overflow'] = new svg.Property('overflow', element.attribute('overflow').value);
+						tempSvg.children = element.children;
+					}
+					if (tempSvg.type == 'svg') {
+						// if symbol or svg, inherit width/height from me
+						if (this.attribute('width').hasValue()) tempSvg.attributes['width'] = new svg.Property('width', this.attribute('width').value);
+						if (this.attribute('height').hasValue()) tempSvg.attributes['height'] = new svg.Property('height', this.attribute('height').value);
+					}
+					var oldParent = tempSvg.parent;
+					tempSvg.parent = null;
+					tempSvg.render(ctx);
+					tempSvg.parent = oldParent;
 				}
 			}
 		}
@@ -2469,6 +2522,13 @@
 			this.base(node);
 			
 			this.apply = function(ctx) {
+				var oldBeginPath = CanvasRenderingContext2D.prototype.beginPath;
+				CanvasRenderingContext2D.prototype.beginPath = function () { };
+				
+				var oldClosePath = CanvasRenderingContext2D.prototype.closePath;
+				CanvasRenderingContext2D.prototype.closePath = function () { };
+			
+				oldBeginPath.call(ctx);
 				for (var i=0; i<this.children.length; i++) {
 					var child = this.children[i];
 					if (typeof(child.path) != 'undefined') {
@@ -2478,10 +2538,15 @@
 							transform.apply(ctx);
 						}
 						child.path(ctx);
-						ctx.clip();
+						CanvasRenderingContext2D.prototype.closePath = oldClosePath;
 						if (transform) { transform.unapply(ctx); }
 					}
 				}
+				oldClosePath.call(ctx);
+				ctx.clip();
+				
+				CanvasRenderingContext2D.prototype.beginPath = oldBeginPath;
+				CanvasRenderingContext2D.prototype.closePath = oldClosePath;
 			}
 			
 			this.render = function(ctx) {
@@ -2549,9 +2614,47 @@
 		}
 		svg.Element.feMorphology.prototype = new svg.Element.ElementBase;
 		
+		svg.Element.feComposite = function(node) {
+			this.base = svg.Element.ElementBase;
+			this.base(node);
+			
+			this.apply = function(ctx, x, y, width, height) {
+				// TODO: implement
+			}
+		}
+		svg.Element.feComposite.prototype = new svg.Element.ElementBase;
+		
 		svg.Element.feColorMatrix = function(node) {
 			this.base = svg.Element.ElementBase;
 			this.base(node);
+			
+			var matrix = svg.ToNumberArray(this.attribute('values').value);
+			switch (this.attribute('type').valueOrDefault('matrix')) { // http://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
+				case 'saturate':
+					var s = matrix[0];
+					matrix = [0.213+0.787*s,0.715-0.715*s,0.072-0.072*s,0,0,
+							  0.213-0.213*s,0.715+0.285*s,0.072-0.072*s,0,0,
+							  0.213-0.213*s,0.715-0.715*s,0.072+0.928*s,0,0,
+							  0,0,0,1,0,
+							  0,0,0,0,1];
+					break;
+				case 'hueRotate':
+					var a = matrix[0] * Math.PI / 180.0;
+					var c = function (m1,m2,m3) { return m1 + Math.cos(a)*m2 + Math.sin(a)*m3; };
+					matrix = [c(0.213,0.787,-0.213),c(0.715,-0.715,-0.715),c(0.072,-0.072,0.928),0,0,
+							  c(0.213,-0.213,0.143),c(0.715,0.285,0.140),c(0.072,-0.072,-0.283),0,0,
+							  c(0.213,-0.213,-0.787),c(0.715,-0.715,0.715),c(0.072,0.928,0.072),0,0,
+							  0,0,0,1,0,
+							  0,0,0,0,1];
+					break;
+				case 'luminanceToAlpha':
+					matrix = [0,0,0,0,0,
+							  0,0,0,0,0,
+							  0,0,0,0,0,
+							  0.2125,0.7154,0.0721,0,0,
+							  0,0,0,0,1];
+					break;
+			}
 			
 			function imGet(img, x, y, width, height, rgba) {
 				return img[y*width*4 + x*4 + rgba];
@@ -2561,8 +2664,12 @@
 				img[y*width*4 + x*4 + rgba] = val;
 			}
 			
+			function m(i, v) {
+				var mi = matrix[i];
+				return mi * (mi < 0 ? v - 255 : v);
+			}
+						
 			this.apply = function(ctx, x, y, width, height) {
-				// only supporting grayscale for now per Issue 195, need to extend to all matrix
 				// assuming x==0 && y==0 for now
 				var srcData = ctx.getImageData(0, 0, width, height);
 				for (var y = 0; y < height; y++) {
@@ -2570,10 +2677,11 @@
 						var r = imGet(srcData.data, x, y, width, height, 0);
 						var g = imGet(srcData.data, x, y, width, height, 1);
 						var b = imGet(srcData.data, x, y, width, height, 2);
-						var gray = (r + g + b) / 3;
-						imSet(srcData.data, x, y, width, height, 0, gray);
-						imSet(srcData.data, x, y, width, height, 1, gray);
-						imSet(srcData.data, x, y, width, height, 2, gray);
+						var a = imGet(srcData.data, x, y, width, height, 3);
+						imSet(srcData.data, x, y, width, height, 0, m(0,r)+m(1,g)+m(2,b)+m(3,a)+m(4,1));
+						imSet(srcData.data, x, y, width, height, 1, m(5,r)+m(6,g)+m(7,b)+m(8,a)+m(9,1));
+						imSet(srcData.data, x, y, width, height, 2, m(10,r)+m(11,g)+m(12,b)+m(13,a)+m(14,1));
+						imSet(srcData.data, x, y, width, height, 3, m(15,r)+m(16,g)+m(17,b)+m(18,a)+m(19,1));
 					}
 				}
 				ctx.clearRect(0, 0, width, height);
@@ -2591,7 +2699,7 @@
 			
 			this.apply = function(ctx, x, y, width, height) {
 				if (typeof(stackBlurCanvasRGBA) == 'undefined') {
-					if (typeof(console) != 'undefined') { console.log('ERROR: StackBlur.js must be included for blur to work'); }
+					svg.log('ERROR: StackBlur.js must be included for blur to work');
 					return;
 				}
 				
@@ -2616,7 +2724,7 @@
 		svg.Element.desc.prototype = new svg.Element.ElementBase;		
 		
 		svg.Element.MISSING = function(node) {
-			if (typeof(console) != 'undefined') { console.log('ERROR: Element \'' + node.nodeName + '\' not yet implemented.'); }
+			svg.log('ERROR: Element \'' + node.nodeName + '\' not yet implemented.');
 		}
 		svg.Element.MISSING.prototype = new svg.Element.ElementBase;
 		
@@ -2703,17 +2811,25 @@
 				
 				if (svg.opts['offsetX'] != null) e.attribute('x', true).value = svg.opts['offsetX'];
 				if (svg.opts['offsetY'] != null) e.attribute('y', true).value = svg.opts['offsetY'];
-				if (svg.opts['scaleWidth'] != null && svg.opts['scaleHeight'] != null) {
-					var xRatio = 1, yRatio = 1, viewBox = svg.ToNumberArray(e.attribute('viewBox').value);
-					if (e.attribute('width').hasValue()) xRatio = e.attribute('width').toPixels('x') / svg.opts['scaleWidth'];
-					else if (!isNaN(viewBox[2])) xRatio = viewBox[2] / svg.opts['scaleWidth'];
-					if (e.attribute('height').hasValue()) yRatio = e.attribute('height').toPixels('y') / svg.opts['scaleHeight'];
-					else if (!isNaN(viewBox[3])) yRatio = viewBox[3] / svg.opts['scaleHeight'];
+				if (svg.opts['scaleWidth'] != null || svg.opts['scaleHeight'] != null) {
+					var xRatio = null, yRatio = null, viewBox = svg.ToNumberArray(e.attribute('viewBox').value);
+					
+					if (svg.opts['scaleWidth'] != null) {
+						if (e.attribute('width').hasValue()) xRatio = e.attribute('width').toPixels('x') / svg.opts['scaleWidth'];
+						else if (!isNaN(viewBox[2])) xRatio = viewBox[2] / svg.opts['scaleWidth'];
+					}
+					
+					if (svg.opts['scaleHeight'] != null) {
+						if (e.attribute('height').hasValue()) yRatio = e.attribute('height').toPixels('y') / svg.opts['scaleHeight'];
+						else if (!isNaN(viewBox[3])) yRatio = viewBox[3] / svg.opts['scaleHeight'];
+					}
+
+					if (xRatio == null) { xRatio = yRatio; }
+					if (yRatio == null) { yRatio = xRatio; }
 					
 					e.attribute('width', true).value = svg.opts['scaleWidth'];
-					e.attribute('height', true).value = svg.opts['scaleHeight'];			
-					e.attribute('viewBox', true).value = '0 0 ' + (cWidth * xRatio) + ' ' + (cHeight * yRatio);
-					e.attribute('preserveAspectRatio', true).value = 'none';
+					e.attribute('height', true).value = svg.opts['scaleHeight'];
+					e.attribute('transform', true).value += ' scale('+(1.0/xRatio)+','+(1.0/yRatio)+')';
 				}
 			
 				// clear and render
