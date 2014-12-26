@@ -18,9 +18,9 @@
         along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         
          mscgen_js
-            version: 0.9.46
-            build-date: 20141223 21:24
-            commit: 80f4533a959d7132
+            version: 0.9.47
+            build-date: 20141226 17:25
+            commit: 3f24ce7039211943
         -->
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -54,8 +54,8 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - embedding</title>
-        <link rel="stylesheet" href="./style/doc.css?80f4533a959d7132" type="text/css" media="screen, print"> 
-        <script src="mscgen-inpage.js?80f4533a959d7132" defer></script>
+        <link rel="stylesheet" href="./style/doc.css?3f24ce7039211943" type="text/css" media="screen, print"> 
+        <script src="mscgen-inpage.js?3f24ce7039211943" defer></script>
         <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -86,9 +86,9 @@
         title="Open the tutorial"><br><br>learn</a>
     </nav>
     <div class="debug fadable" style="display:none">
-        <div><em>version:</em> 0.9.46</div>
-        <div><em>build-date:</em> 20141223 21:24</div>
-        <div><em>commit:</em> 80f4533a959d7132</div>
+        <div><em>version:</em> 0.9.47</div>
+        <div><em>build-date:</em> 20141226 17:25</div>
+        <div><em>commit:</em> 3f24ce7039211943</div>
     </div>
     <a href="./index.html">
     <h1>mscgen_js <em>embedding</em></h1>
@@ -100,15 +100,20 @@
         <p>
             <ol>
                 <li>
-                    Reference the mscgen-inpage script in your page head:
+                    Reference the mscgen-inpage <b>script</b> in your <b>page head</b>:
                     <pre class="code">&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer>
 &lt;/script>
 </pre>
                 </li>
                 <li>
                     Put your mscgen script in the page, with
-                    a tag around it that has <code>mscgen_js</code> as one of its
-                    <code>class</code> attributes.<br>
+                    a tag around it that has <b><code>mscgen_js</code></b> as one of its
+                    <b><code>class</code> attribute</b>s.
+                    We use <code>pre</code> as element type below, but
+                    mscgen_js will behave the same for <code>div</code>,
+                    <code>span</code> or any other type of element
+                    you'd like to use.
+                    <br>
 <pre class="code">
 <mark>&lt;pre class="mscgen_js"&gt;</mark>
 msc {
@@ -123,14 +128,9 @@ msc {
 }
 <mark>&lt;/pre></mark>
 </pre>             
-                    <br>The element type does not matter to mscgen_js (although it might matter to you ...)        
                 </li>
-            </ol>
-        </p>
-        
-        <p>
-        The script replaces all elements in the page with the class <code>mscgen_js</code> by 
-        a rendered sequence chart. For the above mscgen this looks like so: 
+        <li><b>You're done.</b> The script replaces all elements in the page with the class <code>mscgen_js</code> by 
+        a rendered sequence chart. <b>Result</b> for the above mscgen:
         </p>
         <pre class="mscgen_js">
         msc {
@@ -142,12 +142,14 @@ msc {
             b =>> a [label=""];
             a =>> b [label="money"];
             ...;
-        }</pre>
+        }</pre></li>
+        </ol>
+        </p>
 
         <h2>Embedding MscGen in Atlassian Confluence:</h2>
-        <p>If your Confluence admin has enabled the confluence HTML macro, getting
-            mscgen in your page is as simple as adding a HTML "macro" to the page 
-            and put the <code>script</code> tag in there. Sample snippet:
+        <p>
+        Add an <b>HTML macro</b> to the page with the
+        <code>script</code> tag in there. Sample snippet:
         </p>
 <pre class="code">
 &lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer></script>
@@ -161,6 +163,9 @@ msc {
 }
 &lt;/code>
 </pre>
+        <p>Pre-condition for this to work is that your Confluence
+        admin has enabled the HTML macro functionality.
+        </p>
         <h2>Wikimedia style tags</h2>
         <p>
         From version 0.9.37 mscgen_js supports wikimedia style
@@ -200,7 +205,7 @@ msc {
   b >> a[label="done dee done"];
 }</pre>
 
-        <h2>Supported browsers</h2>
+        <h2>Supported browsers: most</h2>
         <p>
             The in page script has been verified to work in all
             desktop and mobile versions of Firefox, Safari, Chrome
@@ -208,7 +213,7 @@ msc {
             verified to work from version 10.
         </p>
 
-        <h2>Other sequence chart languages</h2>
+        <h2>Other sequence chart languages: MsGenny, Xù and JSON</h2>
         <p>
             Mscgen_js assumes the language of the presented
             script to be <em>mscgen</em>. If you use one of the other languages
@@ -221,6 +226,7 @@ msc {
             abstract syntax tree the syntax tree as produced by the parsers
             (<code>json</code>):
         </p>
+        <h3>MsGenny</h3>
         <pre class="code">
 &lt;pre id="yourownidsgetpreserved"
      class="mscgen_js"
@@ -242,7 +248,8 @@ msc {
             Sally -> mother: he's asked me to marry him!; 
             mother -> *: "Stop that. Silly Sally.";
         </pre>
-            <pre class="code">
+        <h3>Xù</h3>
+        <pre class="code">
 &lt;pre class="mscgen_js" <mark>data-language="xu"</mark>>
 msc{
     watermark="xù: 序列圖", wordwraparcs="true";
@@ -287,7 +294,8 @@ msc{
     ...;
 }
         </pre>
-<pre class="code">&lt;pre class="mscgen_js" <mark>data-language="json"</mark>>
+        <h3>JSON</h3>
+        <pre class="code">&lt;pre class="mscgen_js" <mark>data-language="json"</mark>>
 {
     "options":{
     "watermark" : "JSON/ AST"
