@@ -173,6 +173,8 @@ embed.html: $(LIVE_DOC_DEPS) src/embed.html
 
 tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
 
+siteverification.id:
+	    @echo yoursiteverifactionidhere > $@
 
 tracking.id:
 	@echo yourtrackingidhere > $@
