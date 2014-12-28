@@ -174,14 +174,14 @@ describe('ast2animate', function() {
             utl.assertequalJSON(animate.getFrame(animate.getLength()), fix.astCheatSheet);
         });
         it('should return astCheatSheet for astCheatSheet and length === somethingbig', function() {
-            animate.init(fix.astCheatSheet);
+            animate.init(fix.astCheatSheet, true);
             utl.assertequalJSON(animate.getFrame(481), fix.astCheatSheet);
         });
     });
 
     describe('#getFrame()', function() {
 
-        animate.init(fix.astCheatSheet);
+        animate.init(fix.astCheatSheet, true);
 
         it('should return entities and first arc from astCheatSheet for astCheatSheet', function() {
             utl.assertequalJSON(animate.getFrame(1), astCheatSheet1);
@@ -197,29 +197,28 @@ describe('ast2animate', function() {
     });
 
     describe('#home, #end, #inc, #dec, #getPosition, #getCurrentFrame()', function() {
-        animate.init(fix.astCheatSheet);
+        animate.init(fix.astCheatSheet, false);
         it('getCurrentFrame should return astCheatSheet after call to end()', function() {
             animate.end();
             assert.equal(15, animate.getPosition());
             utl.assertequalJSON(animate.getCurrentFrame(), fix.astCheatSheet);
         });
-        it('getCurrentFrame should return astCheatSheet1 after end() and 12 calls to dec()', function() {
+        it('getCurrentFrame should return astCheatSheet1 after end() and 14 calls to dec()', function() {
             animate.end();
-            for (var i = 0; i < 14; i++ ) {
-                animate.dec();
-            }
+            animate.dec(14);
             assert.equal(1, animate.getPosition());
             utl.assertequalJSON(animate.getCurrentFrame(), astCheatSheet1);
         });
         it('getCurrentFrame should return astCheatSheet2 after call to home() and two calls to inc()', function() {
             animate.home();
-            animate.inc();
-            animate.inc();
+            animate.inc(2);
             assert.equal(2, animate.getPosition());
             utl.assertequalJSON(animate.getCurrentFrame(), astCheatSheet2);
         });
         it('getCurrentFrame should return entities only after call to home()', function() {
             animate.home();
+            animate.inc();
+            animate.dec();
             assert.equal(0, animate.getPosition());
             utl.assertequalJSON(animate.getCurrentFrame(), astCheatSheet0);
         });
