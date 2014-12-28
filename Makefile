@@ -18,7 +18,6 @@ SEDVERSION=utl/sedversion.sh
 NPM=npm
 DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 
-
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
 	src/script/parse/msgennyparser.js \
 	src/script/parse/xuparser.js \
@@ -216,7 +215,7 @@ build-prerequisites:
 
 runtime-prerequisites-node:
 	# cd src/script/node
-	$(NPM) install amdefine jsdom posix-getopt
+	$(NPM) install amdefine jsdom
 
 prerequisites: build-prerequisites runtime-prerequisites-node
 
@@ -278,11 +277,6 @@ test: dev-build
 
 check: noconsolestatements lint test
 
-ibartfast: 
-	rm -rf *.png *.ico
-
-slart: ibartfast $(FAVICONS)
-	
 somewhatclean:
 	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
 	rm -rf jsdoc
