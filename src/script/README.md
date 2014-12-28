@@ -54,7 +54,7 @@ each in detail below.
 
 Hint: When you add the parameter debug with value true to the url
 of the demo (e.g. like so: https://sverweij.github.io/mscgen_js?debug=true)
-the interface gets an extra language called option called "AST".
+the interface gets an extra language option called "AST".
 When - after entering a valid mscgen, msgenny or xù program - you
 click it, the editor will show the abstract syntax tree the parser
 generated.  If you are brave and/ or have too much time on your
