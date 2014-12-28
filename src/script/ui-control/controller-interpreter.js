@@ -541,7 +541,7 @@ function show_movieOnClick(pSource, pLanguage){
             msc_render.renderAST(anim.getCurrentFrame(), pSource, "__svg", window);
             gCodeMirror.setValue(renderSource(anim.getCurrentFrame(), pLanguage));
             anim.inc();
-            window.setTimeout(animate, 100);
+            window.setTimeout(animate, 700);
         } else {
             gCodeMirror.setValue(pSource);
         }
@@ -556,7 +556,6 @@ function show_movieOnClick(pSource, pLanguage){
         }
     } catch(e) {
         // do nothing
-        console.error(e);
     }
 }
 
