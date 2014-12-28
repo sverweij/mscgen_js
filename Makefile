@@ -32,6 +32,7 @@ SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/render/text/ast2xu.js \
 	src/script/render/text/ast2msgenny.js \
 	src/script/render/text/ast2dot.js \
+	src/script/render/text/ast2animate.js \
 	src/script/render/text/dotmap.js \
 	src/script/render/text/asttransform.js \
 	src/script/render/text/flatten.js \

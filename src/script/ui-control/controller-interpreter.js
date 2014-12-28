@@ -45,7 +45,7 @@ msc {
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu", "../render/text/ast2dot", "../render/text/ast2mscgen",
         "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
-        "../utl/paramslikker",
+        "../utl/paramslikker", "../render/text/ast2animate",
         "../../lib/codemirror/lib/codemirror",
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
@@ -59,7 +59,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, tovanilla,
             gaga, txt, colorize,
-            params,
+            params, anim,
             codemirror,
             cm_closebrackets,
             cm_matchbrackets,
@@ -197,6 +197,13 @@ function setupEvents () {
         function(e) {
             show_dotOnClick(gCodeMirror.getValue(), gLanguage);
             gaga.g('send', 'event', 'show_dot', 'button');
+        },
+        false
+    );
+    window.__show_movie.addEventListener("click",
+        function(e) {
+            show_movieOnClick(gCodeMirror.getValue(), gLanguage);
+            gaga.g('send', 'event', 'show_movie', 'button');
         },
         false
     );
@@ -521,6 +528,36 @@ function show_htmlOnClick(pSource, pLanguage){
 
 function show_dotOnClick(pSource, pLanguage){
     window.open('data:text/plain;charset=utf-8,'+encodeURIComponent(todot.render(getAST(pSource, pLanguage))));
+}
+function show_movieOnClick(pSource, pLanguage){
+    var lTimer = {};
+
+    function animate(){
+        if (lTimer) {
+            window.clearTimeout(lTimer);
+        }
+        if (anim.getLength() > anim.getPosition()) {
+            msc_render.clean("__svg", window);
+            msc_render.renderAST(anim.getCurrentFrame(), pSource, "__svg", window);
+            gCodeMirror.setValue(renderSource(anim.getCurrentFrame(), pLanguage));
+            anim.inc();
+            window.setTimeout(animate, 100);
+        } else {
+            gCodeMirror.setValue(pSource);
+        }
+    }
+
+    try {
+        var lAST = getAST(pSource, pLanguage);
+
+        if (lAST !== {}){
+            anim.init(lAST, false);
+            animate();
+        }
+    } catch(e) {
+        // do nothing
+        console.error(e);
+    }
 }
 
 function show_vanillaOnClick(pSource, pLanguage){
