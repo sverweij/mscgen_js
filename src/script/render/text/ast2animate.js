@@ -1,8 +1,8 @@
 /*
- * methods to chop a given abstract syntax tree and chop
- * them into "frames" - ASTS that are a strict subset of 
- * the given AST. These frames can be used to render 
- * an animation of the sequence chart it represents. 
+ * methods to chop a given abstract syntax tree into "frames"
+ * - ASTS that are a strict subset of the given AST. These
+ * frames can be used to render an animation of the sequence
+ * chart it represents. 
  *
  * Assumes the AST to be valid (see https://github.com/sverweij/mscgen_js/tree/master/src/script)
  *
@@ -40,13 +40,14 @@ define([], function() {
      *                 latter usually is fast enough(tm) even for real 
      *                 time rendering. It will probably save you some
      *                 cpu cycles when you're going traverse the frames
-     *                 a lot.
+     *                 a lot, at the expense of memory usage.
+     *
      *                 Paramater might get removed somewhere in the near
      *                 future.
      */
     function init(pAST, pPreCalculate){
-        gPreCalculate = pPreCalculate ? true === gPreCalculate : false;
-        gAST      = _deepCopy(pAST); // maybe replace this with a smart deep copy thing later on
+        gPreCalculate = pPreCalculate ? true === pPreCalculate : false;
+        gAST      = _deepCopy(pAST);
         gLength   = _calculateLength();
         gNoRows   = _calculateNoRows();
         gPosition = 0;
@@ -153,6 +154,13 @@ define([], function() {
         return gAST.arcs? gAST.arcs.length : 0;
     }
 
+    /*
+     * returns a "deep copy" of an object.
+     * (uses stringify, so it is limited to objects that
+     * survive stringification roundtrips)
+     *
+     * utility function.  
+     */
     function _deepCopy(pJSON) {
         return JSON.parse(JSON.stringify(pJSON));
     }
