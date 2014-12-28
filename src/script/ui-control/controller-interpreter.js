@@ -146,7 +146,7 @@ function setupEvents () {
     );
     window.__btn_colorize.addEventListener("click",
         function(e) {
-            colorizeOnClick(gCodeMirror.getValue(), gLanguage, false);
+            colorizeOnClick(gCodeMirror.getValue(), gLanguage);
             gaga.g('send', 'event', 'colorize', 'button');
         },
         false
@@ -155,13 +155,6 @@ function setupEvents () {
         function(e) {
             unColorizeOnClick(gCodeMirror.getValue(), gLanguage, false);
             gaga.g('send', 'event', 'uncolorize', 'button');
-        },
-        false
-    );
-    window.__btn_colorize_hard.addEventListener("click",
-        function(e) {
-            colorizeOnClick(gCodeMirror.getValue(), gLanguage, true);
-            gaga.g('send', 'event', 'colorize_hard', 'button');
         },
         false
     );
@@ -411,14 +404,14 @@ function clearOnClick(){
     }
 }
 
-function colorizeOnClick(pSource, pLanguage, pHardOverride){
+function colorizeOnClick(pSource, pLanguage) {
     var lAST = {};
 
     try {
         lAST = getAST(pSource, pLanguage);
 
         if (lAST !== {}){
-            lAST = colorize.colorize(lAST, pHardOverride);
+            lAST = colorize.colorize(lAST, false);
             gCodeMirror.setValue(renderSource(lAST, pLanguage));
         }
     } catch(e) {
@@ -563,21 +556,18 @@ function showLanguageState (pSource, pLanguage) {
         window.__language_json.checked = false;
         dq.SS(window.__btn_colorize).hide();
         dq.SS(window.__btn_uncolorize).hide();
-        dq.SS(window.__btn_colorize_hard).hide();
     } else if ("json" === pLanguage){
         window.__language_mscgen.checked = false;
         window.__language_msgenny.checked = false;
         window.__language_json.checked = true;
         dq.SS(window.__btn_colorize).show();
         dq.SS(window.__btn_uncolorize).show();
-        dq.SS(window.__btn_colorize_hard).show();
     } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
         window.__language_mscgen.checked = true;
         window.__language_msgenny.checked = false;
         window.__language_json.checked = false;
         dq.SS(window.__btn_colorize).show();
         dq.SS(window.__btn_uncolorize).show();
-        dq.SS(window.__btn_colorize_hard).show();
     }
     if (gAutoRender) {
         render (pSource, pLanguage);

@@ -91,18 +91,20 @@
         <header>
             <nav>
                 <div id="__about"
-                class="about icon fadable"
+                class="about icon"
                 title="">
                 <br><br>about</div>
+                <div class="interpreter icon hideonmobile active"
+                title="Interpreter. It's where you are now."><br><br>interpret</div>
                 <div id="__embedme"
-                class="embed icon hideonmobile fadable"
+                class="embed icon hideonmobile"
                 title="embed mscgen in your html"><br><br>embed</div>
                 <div id="__helpme"
-                class="question icon fadable"
+                class="question icon"
                 title="Show cheat sheet"><br><br>learn</div>
             </nav>
 
-            <div class="debug fadable" style="display: none">
+            <div class="debug" style="display: none">
                 <div><em>version:</em> ${version}</div>
                 <div><em>build-date:</em> ${date}</div>
                 <div><em>commit:</em> ${commit}</div>
@@ -114,9 +116,9 @@ Likely nobody will read them, though.
 mscgen_js
     version: ${version}
     build-date: ${date}
-    commit: ${commit}" class="fadable">mscgen_js</h1>
-            <span class="hideonmobile fadable">turns text into sequence charts</span>
-            <span class="showonmobile fadable">text =&gt; MSCs</span>
+    commit: ${commit}">mscgen_js</h1>
+            <span class="hideonmobile">turns text into sequence charts</span>
+            <span class="showonmobile">text =&gt; MSCs</span>
         </header>
         <article>
         <section id="__input_and_controls">
@@ -193,7 +195,6 @@ Note: !! removes comments and reformats your source!!">color</button>
 
 Note: !! removes comments and reformats your source!!">b&amp;w</button>
                 <span class="debug" style="display: none">
-                <button id="__btn_colorize_hard" title="Auto color; overrides existing colors"><span style="font-size: xx-small">hard color override</span></button>
                 </span>
                 <button id="__btn_render" class="btn-primary"
                 title="Click to render. Only shows up when 'autorender' is off">
