@@ -6,6 +6,8 @@ header {
   background-repeat: no-repeat;
   background-position: 25%;
   box-shadow: 0 .1em 0.4em -.2em gray;
+  color: gray;
+  min-height: 3em;
 }
 header > nav {
   float: right;
@@ -27,18 +29,32 @@ header em {
 }
 header a {
   text-decoration: none;
-  color: lightgray;
+  color: inherit;
 }
 header a.icon:hover {
-  opacity: 1;
-  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
-  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  color: blue;
+  -webkit-transition: -webkit-transform 0.28s, color 0.28s;
+  transition: transform 0.28s, color 0.28s;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+header a.icon:active {
+  color: blue;
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 header div.icon:hover {
   cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
-  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  color: blue;
+  -webkit-transition: -webkit-transform 0.28s, color 0.28s;
+  transition: transform 0.28s, color 0.28s;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+header div.icon:active {
+  color: blue;
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 header .icon {
   display: inline-block;
@@ -50,6 +66,8 @@ header .icon {
   padding-left: 0.5em;
   padding-right: 0.5em;
   text-align: center;
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
 }
 header .embed {
   background-image: url('../../images/embed.svg');
@@ -63,7 +81,16 @@ header .interpreter {
 header .about {
   background-image: url('../../images/about.svg');
 }
-
+header .active {
+  font-weight: 900;
+  text-decoration: none;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+header div.active:hover {
+  cursor: default;
+  color: inherit;
+}
 @media screen and (max-width: 480px) {
     header {
         background-image: none;

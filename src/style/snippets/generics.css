@@ -23,12 +23,6 @@ article {
     color: black;
     padding: 0.2em 0;
 }
-.fadable {
-  animation: fadeout 20s;
-  -webkit-animation: fadeout 20s;
-  color: black;
-  opacity: 0.2;
-}
 .fadable-hint {
   animation: fadeout 20s;
   -webkit-animation: fadeout 20s;
