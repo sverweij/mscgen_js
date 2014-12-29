@@ -233,11 +233,16 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                 target="_blank"
                 type="text/dot"
                 title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
-            <a id="__show_movie"
-                class="debug button" style="display: none"
+            <style>
+                #__show_anim {
+                    font-family: Webdings;
+                }
+            </style>
+            <a id="__show_anim"
+                class="debug button hideonmobile" style="display: none"
                 target="_blank"
                 type="text/plain"
-                title="animate the current chart">&#x25B6;</a>
+                title="animate the current chart">&#xF0B7;</a>
             <a id="__show_html"
                 class="debug button" style="display: none"
                 target="_blank"
@@ -261,11 +266,90 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                     <div id="__error_context"></div>
                 </div>
             </div>
-            <br><span id="__svg"></span>
+            <div id="__svg"></div>
         </section>
 
         <section>
         <canvas id="__pngcanvas" style="display:none"></canvas>
+        <style>
+            #__animscreen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 400;
+                background: white;
+                opacity: 0.98;
+            }
+            #__animcontrolswrapper {
+                position: fixed;
+                text-align: center;
+                width: 99%;
+                bottom: 1.5em;
+                z-index: 481;
+            }
+            #__animcontrolswrapper span {
+                font-size: 2em;
+                padding: 0.5em 0.5em 0.5em 0.5em;
+                background-color: black;
+                opacity: 0.6;
+                box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6); /* 0.23 */
+            }
+            #__animscreen button {
+                font-family: Webdings;
+                box-shadow: none;
+            }
+            #__animscreen button:active {
+                -webkit-transform: scale(0.9);
+                transform: scale(0.9);
+            }
+            #__animcontrolswrapper button {
+                color: white;
+                background-color: inherit;
+            }
+            #__animcontrolswrapper span:hover {
+                opacity: 0.8;
+            }
+            #__btn_anim_close {
+                position: fixed;
+                top: 0;
+                right: 0;
+                padding: 1em;
+                color: black;
+                background-color: inherit;
+            }
+            #__animsvgwrapper {
+                width: 100%;
+                text-align: center;
+                margin-top: 3em;
+            }
+            #__animsvg {
+                opacity: 1;
+            }
+        </style>
+        <div id="__animscreen" style="display:none">
+            <button id="__btn_anim_close" title="close">&#xF072;</button>
+            <div id="__animsvgwrapper">
+                <div id="__animsvg"></div>
+            </div>
+            <div id="__animcontrolswrapper">
+                <span>
+                    <button id="__btn_anim_home" title="go to first frame">&#xF039;</button>
+                    <button id="__btn_anim_dec" title="one step back">&#xF037;</button>
+                    <button id="__btn_anim_playpause" title="play/ pause">&#xF034;</button>
+                <!-- pause: &#xF03B; -->
+                    <button id="__btn_anim_inc" title="one step forward">&#xF038;</button>
+                    <button id="__btn_anim_end" title="go to last frame">&#xF03A;</button>
+                    &nbsp;
+                    <!--
+                    <button id="__btn_anim_slower" title="slow down">&#xF036;</button>
+                    <button id="__btn_anim_faster" title="speed up">&#xF035;</button>
+                    &nbsp;
+                    -->
+                </span>
+            </div>
+        </div>
         <div id="__embedsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">

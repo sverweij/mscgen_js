@@ -69,12 +69,12 @@ define(["../../utl/utensils"], function(utl) {
 
     function inc(pFrames) {
         pFrames = pFrames ? pFrames : 1;
-        gPosition += pFrames;
+        gPosition = Math.min(gLength, gPosition + pFrames);
     }
 
     function dec(pFrames) {
         pFrames = pFrames ? pFrames : 1;
-        gPosition -= pFrames;
+        gPosition = Math.max(0, gPosition - pFrames);
     }
 
     function end() {
