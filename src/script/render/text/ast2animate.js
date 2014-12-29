@@ -17,7 +17,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(["../../utl/utensils"], function(utl) {
 
     var gAST        = {};
     var gArcs       = {};
@@ -47,18 +47,18 @@ define([], function() {
      */
     function init(pAST, pPreCalculate){
         gPreCalculate = pPreCalculate ? true === pPreCalculate : false;
-        gAST      = _deepCopy(pAST);
+        gAST      = utl.deepCopy(pAST);
         gLength   = _calculateLength();
         gNoRows   = _calculateNoRows();
         gPosition = 0;
         if (gAST.arcs) {
-            gArcs     = _deepCopy(gAST.arcs);
+            gArcs     = utl.deepCopy(gAST.arcs);
             gAST.arcs = [];
         }
         gFrames = [];
         if (gPreCalculate) {
             for (var i = 0; i < gLength; i++){
-                gFrames.push (_deepCopy(_calculateFrame(i)));
+                gFrames.push (utl.deepCopy(_calculateFrame(i)));
             }
         }
     }
@@ -152,17 +152,6 @@ define([], function() {
      */
     function _calculateNoRows() {
         return gAST.arcs? gAST.arcs.length : 0;
-    }
-
-    /*
-     * returns a "deep copy" of an object.
-     * (uses stringify, so it is limited to objects that
-     * survive stringification roundtrips)
-     *
-     * utility function.  
-     */
-    function _deepCopy(pJSON) {
-        return JSON.parse(JSON.stringify(pJSON));
     }
 
     return {

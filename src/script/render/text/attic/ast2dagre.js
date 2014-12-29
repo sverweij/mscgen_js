@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", /* "./textutensils", */ "./dotmap", "../../lib/dagre/dagred3"], function(flatten, /*txt,*/ map, dagred3) {
+define(["./flatten", /* "./textutensils", */ "./dotmap", "../../lib/dagre/dagred3", ../utl/utensils], function(flatten, /*txt,*/ map, dagred3, utl) {
     // require("../../lib/dagre/dagred3");
     
     var gCounter = 0;
@@ -89,7 +89,7 @@ define(["./flatten", /* "./textutensils", */ "./dotmap", "../../lib/dagre/dagred
 
     function renderArc(pArc, pCounter) {
         var lArc = pArc;
-        //JSON.parse(JSON.stringify(pArc));
+        //utl.deepCopy(pArc);
         var lAggregatedKind = map.getAggregate(pArc.kind);
 
         if (lAggregatedKind === "box") {
