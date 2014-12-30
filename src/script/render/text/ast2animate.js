@@ -19,13 +19,13 @@ if ( typeof define !== 'function') {
 
 define(["../../utl/utensils"], function(utl) {
 
-    var gAST        = {};
-    var gArcs       = {};
-    var gLength     = 0;
-    var gNoRows     = 0;
-    var gPosition   = 0;
-    var gFrames     = [];
-    var EMPTY_ARC   = [{kind:"|||"}];
+    var gAST          = {};
+    var gArcs         = {};
+    var gLength       = 0;
+    var gNoRows       = 0;
+    var gPosition     = 0;
+    var gFrames       = [];
+    var EMPTY_ARC     = [{kind:"|||"}];
     var gPreCalculate = false; 
 
     /*
@@ -63,20 +63,36 @@ define(["../../utl/utensils"], function(utl) {
         }
     }
 
+    /*
+     * Go to the first frame
+     */
     function home() {
         gPosition = 0;
     }
 
+    /*
+     * Skips pFrames ahead. When pFrames not provided, skips 1 ahead
+     *
+     * won't go beyond the last frame
+     */
     function inc(pFrames) {
         pFrames = pFrames ? pFrames : 1;
         gPosition = Math.min(gLength, gPosition + pFrames);
     }
 
+    /*
+     * Skips pFrames back. When pFrames not provided, skips 1 back
+     *
+     * won't go before the first frame
+     */
     function dec(pFrames) {
         pFrames = pFrames ? pFrames : 1;
         gPosition = Math.max(0, gPosition - pFrames);
     }
 
+    /*
+     * Go to the last frame
+     */
     function end() {
         gPosition = gLength;
     }
@@ -102,19 +118,32 @@ define(["../../utl/utensils"], function(utl) {
         }
     }
 
+    /*
+     * returns the position of the current frame (number)
+     */
     function getPosition() {
         return gPosition;
     }
 
-    /* returns the number of "frames" in this AST */
+    /*
+     * returns the number of "frames" in this AST
+     * */
     function getLength(){
         return gLength;
     }
 
+    /*
+     * returns the ratio position/ length in percents.
+     * 0 <= result <= 100, even when position actually exceeds
+     * length or is below 0
+     */
     function getPercentage() {
-        return gLength > 0 ? 100*(gPosition/gLength) : 0;
+        return (gLength > 0) && (gPosition > 0) ? 100*(Math.min(1, gPosition/gLength)) : 0;
     }
 
+    /*
+     * Returns the AST the subset frame pFrameNo should constitute
+     */
     function _calculateFrame(pFrameNo){
         var lFrameNo = Math.min(pFrameNo, gLength - 1);
         var lFrameCount = 0;
@@ -141,6 +170,7 @@ define(["../../utl/utensils"], function(utl) {
 
     /*
      * calculates the number of "frames" in the current AST
+     * --> does not yet cater for recursive structures
      */
     function _calculateLength() {
         var lRetval = 1;
