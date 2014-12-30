@@ -146,6 +146,7 @@ src/style/interp.css: src/style/interp-src.css \
 	src/lib/codemirror/codemirror.css \
 	src/lib/codemirror/theme/midnight.css \
 	src/style/snippets/interpreter.css \
+	src/style/snippets/anim.css \
 	src/style/snippets/header.css \
 	src/style/snippets/generics.css \
 	src/style/snippets/popup.css \
