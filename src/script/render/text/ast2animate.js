@@ -81,10 +81,6 @@ define(["../../utl/utensils"], function(utl) {
         gPosition = gLength;
     }
 
-    function getPosition() {
-        return gPosition;
-    }
-
     /*
      * returns the current frame
      */
@@ -104,6 +100,19 @@ define(["../../utl/utensils"], function(utl) {
         } else {
             return _calculateFrame(pFrameNo);
         }
+    }
+
+    function getPosition() {
+        return gPosition;
+    }
+
+    /* returns the number of "frames" in this AST */
+    function getLength(){
+        return gLength;
+    }
+
+    function getPercentage() {
+        return gLength > 0 ? 100*(gPosition/gLength) : 0;
     }
 
     function _calculateFrame(pFrameNo){
@@ -129,10 +138,6 @@ define(["../../utl/utensils"], function(utl) {
         return gAST;
     }
 
-    /* returns the number of "frames" in this AST */
-    function getLength(){
-        return gLength;
-    }
 
     /*
      * calculates the number of "frames" in the current AST
@@ -163,7 +168,8 @@ define(["../../utl/utensils"], function(utl) {
         getCurrentFrame : getCurrentFrame,
         getFrame        : getFrame,
         getPosition     : getPosition,
-        getLength       : getLength
+        getLength       : getLength,
+        getPercentage   : getPercentage
 
     };
 });
