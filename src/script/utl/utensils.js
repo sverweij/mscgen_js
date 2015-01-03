@@ -6,19 +6,17 @@ if ( typeof define !== 'function') {
 
 define([], function() {
 
-    /*
-     * returns a "deep copy" of an object.
-     * (uses stringify, so it is limited to objects that
-     * survive stringification roundtrips)
-     *
-     * utility function.  
-     */
-    function deepCopy(pObject) {
-        return JSON.parse(JSON.stringify(pObject));
-    }
-
     return {
-        deepCopy: deepCopy
+        /*
+         * returns a "deep copy" of an object.
+         * (uses stringify, so it is limited to objects that
+         * survive stringification roundtrips)
+         *
+         * utility function.  
+         */
+        deepCopy: function deepCopy(pObject) {
+            return JSON.parse(JSON.stringify(pObject));
+        }
     };
 });
 /*
