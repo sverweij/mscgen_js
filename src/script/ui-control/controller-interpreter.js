@@ -45,7 +45,7 @@ msc {
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu", "../render/text/ast2dot", "../render/text/ast2mscgen",
         "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
-        "../utl/paramslikker",
+        "../utl/paramslikker", "./controller-animator",
         "../../lib/codemirror/lib/codemirror",
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
@@ -59,7 +59,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, tovanilla,
             gaga, txt, colorize,
-            params,
+            params, animctrl,
             codemirror,
             cm_closebrackets,
             cm_matchbrackets,
@@ -146,7 +146,7 @@ function setupEvents () {
     );
     window.__btn_colorize.addEventListener("click",
         function(e) {
-            colorizeOnClick(gCodeMirror.getValue(), gLanguage, false);
+            colorizeOnClick(gCodeMirror.getValue(), gLanguage);
             gaga.g('send', 'event', 'colorize', 'button');
         },
         false
@@ -155,13 +155,6 @@ function setupEvents () {
         function(e) {
             unColorizeOnClick(gCodeMirror.getValue(), gLanguage, false);
             gaga.g('send', 'event', 'uncolorize', 'button');
-        },
-        false
-    );
-    window.__btn_colorize_hard.addEventListener("click",
-        function(e) {
-            colorizeOnClick(gCodeMirror.getValue(), gLanguage, true);
-            gaga.g('send', 'event', 'colorize_hard', 'button');
         },
         false
     );
@@ -221,6 +214,14 @@ function setupEvents () {
         },
         false
     );
+    window.__show_anim.addEventListener("click",
+        function(e) {
+            show_animOnClick(gCodeMirror.getValue(), gLanguage);
+            gaga.g('send', 'event', 'show_anim', 'button');
+        },
+        false
+    );
+
     window.__close_lightbox.addEventListener("click",
         function(e) {
             dq.SS(window.__cheatsheet).hide();
@@ -323,6 +324,7 @@ function setupEvents () {
                 dq.SS(window.__cheatsheet).hide();
                 dq.SS(window.__embedsheet).hide();
                 dq.SS(window.__aboutsheet).hide();
+                animctrl.close();
            }
         },
         false
@@ -411,14 +413,14 @@ function clearOnClick(){
     }
 }
 
-function colorizeOnClick(pSource, pLanguage, pHardOverride){
+function colorizeOnClick(pSource, pLanguage) {
     var lAST = {};
 
     try {
         lAST = getAST(pSource, pLanguage);
 
         if (lAST !== {}){
-            lAST = colorize.colorize(lAST, pHardOverride);
+            lAST = colorize.colorize(lAST, false);
             gCodeMirror.setValue(renderSource(lAST, pLanguage));
         }
     } catch(e) {
@@ -501,6 +503,14 @@ function aboutOnClick () {
     dq.SS(window.__cheatsheet).hide();
     dq.SS(window.__aboutsheet).toggle();
 }
+function show_animOnClick(pSource, pLanguage){
+    try {
+        animctrl.initialize(getAST(pSource, pLanguage));
+        dq.SS(window.__animscreen).show();
+    } catch(e) {
+        // do nothing
+    }
+}
 
 function toVectorURI (pSourceElementId) {
     var lb64 = btoa(unescape(encodeURIComponent(dq.webkitNamespaceBugWorkaround(pSourceElementId.innerHTML))));
@@ -563,21 +573,18 @@ function showLanguageState (pSource, pLanguage) {
         window.__language_json.checked = false;
         dq.SS(window.__btn_colorize).hide();
         dq.SS(window.__btn_uncolorize).hide();
-        dq.SS(window.__btn_colorize_hard).hide();
     } else if ("json" === pLanguage){
         window.__language_mscgen.checked = false;
         window.__language_msgenny.checked = false;
         window.__language_json.checked = true;
         dq.SS(window.__btn_colorize).show();
         dq.SS(window.__btn_uncolorize).show();
-        dq.SS(window.__btn_colorize_hard).show();
     } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
         window.__language_mscgen.checked = true;
         window.__language_msgenny.checked = false;
         window.__language_json.checked = false;
         dq.SS(window.__btn_colorize).show();
         dq.SS(window.__btn_uncolorize).show();
-        dq.SS(window.__btn_colorize_hard).show();
     }
     if (gAutoRender) {
         render (pSource, pLanguage);

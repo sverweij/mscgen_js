@@ -11,7 +11,8 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) {
+define(["./flatten", "./textutensils", "./dotmap", "../../utl/utensils"],
+function(flatten, txt, map, utl) {
 
     var INDENT = "  ";
     var gCounter = 0;
@@ -204,7 +205,7 @@ define(["./flatten", "./textutensils", "./dotmap"], function(flatten, txt, map) 
 
     return {
         render : function(pAST) {
-            return _renderAST(flatten.dotFlatten(JSON.parse(JSON.stringify(pAST))));
+            return _renderAST(flatten.dotFlatten(utl.deepCopy(pAST)));
         }
     };
 });

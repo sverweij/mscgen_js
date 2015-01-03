@@ -18,7 +18,6 @@ SEDVERSION=utl/sedversion.sh
 NPM=npm
 DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 
-
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
 	src/script/parse/msgennyparser.js \
 	src/script/parse/xuparser.js \
@@ -33,10 +32,12 @@ SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/render/text/ast2xu.js \
 	src/script/render/text/ast2msgenny.js \
 	src/script/render/text/ast2dot.js \
+	src/script/render/text/ast2animate.js \
 	src/script/render/text/dotmap.js \
 	src/script/render/text/asttransform.js \
 	src/script/render/text/flatten.js \
 	src/script/render/text/colorize.js \
+	src/script/utl/utensils.js \
 	src/script/utl/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib style script
@@ -54,6 +55,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/graphics/renderskeleton.js \
 	src/script/render/graphics/renderast.js \
 	src/script/ui-control/controller-interpreter.js \
+	src/script/ui-control/controller-animator.js \
 	src/script/utl/gaga.js \
 	src/script/utl/domquery.js \
 	src/script/mscgen-interpreter.js 
@@ -144,6 +146,7 @@ src/style/interp.css: src/style/interp-src.css \
 	src/lib/codemirror/codemirror.css \
 	src/lib/codemirror/theme/midnight.css \
 	src/style/snippets/interpreter.css \
+	src/style/snippets/anim.css \
 	src/style/snippets/header.css \
 	src/style/snippets/generics.css \
 	src/style/snippets/popup.css \
@@ -216,7 +219,7 @@ build-prerequisites:
 
 runtime-prerequisites-node:
 	# cd src/script/node
-	$(NPM) install amdefine jsdom posix-getopt
+	$(NPM) install amdefine jsdom
 
 prerequisites: build-prerequisites runtime-prerequisites-node
 
@@ -278,11 +281,6 @@ test: dev-build
 
 check: noconsolestatements lint test
 
-ibartfast: 
-	rm -rf *.png *.ico
-
-slart: ibartfast $(FAVICONS)
-	
 somewhatclean:
 	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
 	rm -rf jsdoc

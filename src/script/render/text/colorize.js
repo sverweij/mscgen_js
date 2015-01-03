@@ -160,12 +160,8 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     }
 
     return {
-        uncolor : function(pAST) {
-            return _uncolor(pAST);
-        },
-        colorize : function(pAST, pHardOverride, pEntityColorArray, pArcColorCombis) {
-            return _colorize(pAST, pHardOverride, pEntityColorArray, pArcColorCombis);
-        },
+        uncolor : _uncolor,
+        colorize : _colorize,
         colorizeRY : function(pAST, pHardOverride) {
             var lEntityColorCombiAry = [{
                 "linecolor" : "#830000",

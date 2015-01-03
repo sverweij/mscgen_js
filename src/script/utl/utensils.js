@@ -1,11 +1,24 @@
-@import "../lib/codemirror/codemirror.css";
-@import "../lib/codemirror/theme/midnight.css";
-@import "./snippets/generics.css";
-@import "./snippets/header.css";
-@import "./snippets/interpreter.css";
-@import "./snippets/popup.css";
-@import "./snippets/anim.css";
-@import "./snippets/mediagenerics.css";
+/* jshint undef:true, unused:strict, browser:false, node:true, indent:4 */
+
+if ( typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define([], function() {
+
+    return {
+        /*
+         * returns a "deep copy" of an object.
+         * (uses stringify, so it is limited to objects that
+         * survive stringification roundtrips)
+         *
+         * utility function.  
+         */
+        deepCopy: function deepCopy(pObject) {
+            return JSON.parse(JSON.stringify(pObject));
+        }
+    };
+});
 /*
  This file is part of mscgen_js.
 

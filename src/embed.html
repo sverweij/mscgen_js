@@ -53,7 +53,7 @@
         <link rel="apple-touch-icon-precomposed" href="./iosfavicon-57.png">
         <link rel="shortcut icon" href="./favicon.ico">
 
-        <title>mscgen_js - embedding</title>
+        <title>mscgen_js - embed</title>
         <link rel="stylesheet" href="./style/doc.css?${commit}" type="text/css" media="screen, print"> 
         <script src="mscgen-inpage.js?${commit}" defer></script>
         <script>
@@ -76,16 +76,18 @@
 <header>
     <nav class="hideonprint">
         <a href="#about"
-        class="about icon hideonmobile fadable"
+        class="about icon hideonmobile"
         title="about"><br><br>about</a>
         <a href="./index.html"
-        class="interpreter icon fadable"
+        class="interpreter icon"
         title="Go to the interpreter"><br><br>interpret</a>     
+        <div class="embed icon hideonmobile active"
+        title="embed mscgen in your html. It's where you are now"><br><br>embed</div>
         <a href="tutorial.html"
-        class="question icon fadable"
+        class="question icon"
         title="Open the tutorial"><br><br>learn</a>
     </nav>
-    <div class="debug fadable" style="display:none">
+    <div class="debug" style="display:none">
         <div><em>version:</em> ${version}</div>
         <div><em>build-date:</em> ${date}</div>
         <div><em>commit:</em> ${commit}</div>
@@ -444,10 +446,10 @@ whiteboard. Under a roof."></img>
     You can
     <a href="https://github.com/sverweij/mscgen_js" target="_blank">
     view</a>,
-    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    <a href="https://github.com/sverweij/mscgen_js.git" target="_blank">
     clone</a>
     or
-    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    <a href="https://github.com/sverweij/mscgen_js/fork" target="_blank">
     fork it</a>
     on GitHub and
     <a href="https://github.com/sverweij/mscgen_js/issues"

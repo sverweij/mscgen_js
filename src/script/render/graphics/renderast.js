@@ -870,9 +870,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
          * @param - {window} pWindow - the browser window object
          *
          */
-        clean : function(pParentElementId, pWindow) {
-            _clean(pParentElementId, pWindow);
-        },
+        clean : _clean,
+
         /**
          * renders the given abstract syntax tree pAST as svg
          * in the element with id pParentELementId in the window pWindow
@@ -883,9 +882,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
          * to put the __svg_output element
          * @param {window} pWindow - the browser window to put the svg in
          */
-        renderAST : function(pAST, pSource, pParentElementId, pWindow) {
-            _renderAST(pAST, pSource, pParentElementId, pWindow);
-        }
+        renderAST : _renderAST
     };
 });
 // define

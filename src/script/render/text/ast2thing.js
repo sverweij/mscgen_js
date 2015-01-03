@@ -215,9 +215,7 @@ define(["./textutensils"], function(utl) {
     }
 
     return {
-        render : function(pAST, pConfig) {
-            return _renderAST(pAST, pConfig);
-        }
+        render : _renderAST
     };
 });
 /*

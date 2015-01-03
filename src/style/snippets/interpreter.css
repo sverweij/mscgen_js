@@ -34,7 +34,7 @@ h3 {
   padding-bottom: 1em;
   margin-right: 1em;
 }
-#__input_and_controls > #__msc_input {
+#__msc_input {
   width: 98%;
   height: 40;
 }
@@ -110,15 +110,6 @@ button:active, a.button:active {
 .btn-primary:active {
   background-color: rgba(66, 133, 244, 0.84);
   color: rgba(255, 255, 255, 1.00);
-}
-a {
-  color: inherit;
-}
-a:hover {
-  color: inherit;
-}
-a:visited {
-  color: inherit;
 }
 .herpes {
   float: right;

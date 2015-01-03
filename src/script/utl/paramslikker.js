@@ -20,24 +20,20 @@ if ( typeof define !== 'function') {
 
 define([], function() {
 
-    function _getParams(pSearchString) {
-        var lRetval = {};
-        if (pSearchString) {
-            var lKeyValAry;
-            //  search string always starts with a "?" - skip this
-            pSearchString.slice(1).split("&").forEach(function(pKeyVal){
-                lKeyValAry = pKeyVal.split("=");
-                if (2 === lKeyValAry.length) {
-                    lRetval[lKeyValAry[0]] = unescape(lKeyValAry[1]);
-                }
-            });
-        }
-        return lRetval;
-    }
-
     return {
-        getParams : function(pSearchString) {
-            return _getParams(pSearchString);
+        getParams : function (pSearchString) {
+            var lRetval = {};
+            if (pSearchString) {
+                var lKeyValAry;
+                //  search string always starts with a "?" - skip this
+                pSearchString.slice(1).split("&").forEach(function(pKeyVal){
+                    lKeyValAry = pKeyVal.split("=");
+                    if (2 === lKeyValAry.length) {
+                        lRetval[lKeyValAry[0]] = unescape(lKeyValAry[1]);
+                    }
+                });
+            }
+            return lRetval;
         }
     };
 });

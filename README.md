@@ -84,7 +84,7 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 [2]: https://sverweij.github.io/mscgen_js
 [3]: wikum/licenses/license.mscgen_js.md
 [5]: wikum/msgenny.md
-[6]: https://github.com/sverweij/mscgen_js/issues?milestone=2&state=open
+[6]: https://github.com/sverweij/mscgen_js/labels/compliance
 [7]: wikum/build.md
 [8]: http://majda.cz/en/
 [9]: http://pegjs.majda.cz/
@@ -94,7 +94,7 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 [13]: wikum/licenses/license.codemirror.md
 [15]: wikum/licenses/license.icons.md
 [16]: wikum/licenses/license.canvg.md
-[17]: http://code.google.com/p/canvg/
+[17]: https://github.com/gabelerner/canvg
 [18]: http://code.google.com/p/mscgen/source/browse/trunk/COPYING
 [19]: wikum/licenses/license.requirejs.md
 [20]: wikum/licenses/license.amdefine.md

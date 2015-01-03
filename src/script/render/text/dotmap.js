@@ -122,9 +122,7 @@ define([], function() {
         getAggregate : function(pKey) {
             return KIND2AGGREGATE[pKey];
         },
-        determineArcClass : function(pKind, pFrom, pTo) {
-            return _determineArcClass(pKind, pFrom, pTo);
-        }
+        determineArcClass : _determineArcClass
     };
 
 });
