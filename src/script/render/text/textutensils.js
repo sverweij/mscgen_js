@@ -114,9 +114,7 @@ function() {
          * @param {number} pMaxLength
          * @return {array} - an array of strings
          */
-        determineMaxTextWidth : function(pWidth) {
-            return _determineMaxTextWidth(pWidth);
-        },
+        determineMaxTextWidth : _determineMaxTextWidth,
 
         /**
          * takes pString and replaces all escaped double quotes with
@@ -148,9 +146,7 @@ function() {
          * @param {string} pString
          * @return  {string} - language. Possible values: "mscgen", "msgenny", "json".
          */
-        classifyExtension : function(pString) {
-            return _classifyExtension(pString);
-        },
+        classifyExtension : _classifyExtension,
 
         /**
          * Given a Number, emits a String with that number in, left padded so the

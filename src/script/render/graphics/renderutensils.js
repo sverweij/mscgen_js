@@ -346,9 +346,8 @@ define([], function() {
          * @param {number=} pRY
          * @return {SVGElement}
          */
-        createRect : function(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
-            return _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY);
-        },
+        createRect : _createRect,
+
         /**
          * Creates an angled box of pWidth x pHeight, with the top left corner
          * at coordinates (pX, pY)
@@ -359,9 +358,8 @@ define([], function() {
          * @param {number} pY
          * @return {SVGElement}
          */
-        createABox : function(pWidth, pHeight, pClass, pX, pY) {
-            return _createABox(pWidth, pHeight, pClass, pX, pY);
-        },
+        createABox : _createABox,
+
         /**
          * Creates a note of pWidth x pHeight, with the top left corner
          * at coordinates (pX, pY). pFoldSize controls the size of the
@@ -375,9 +373,8 @@ define([], function() {
          *
          * @return {SVGElement}
          */
-        createNote : function(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
-            return _createNote(pWidth, pHeight, pClass, pX, pY, pFoldSize);
-        },
+        createNote : _createNote,
+
         /**
          * Creates an edge remark (for use in inline expressions) of pWidth x pHeight,
          * with the top left corner at coordinates (pX, pY). pFoldSize controls the size of the
@@ -391,9 +388,8 @@ define([], function() {
          *
          * @return {SVGElement}
          */
-        createEdgeRemark : function(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
-            return _createEdgeRemark(pWidth, pHeight, pClass, pX, pY, pFoldSize);
-        },
+        createEdgeRemark : _createEdgeRemark,
+
         /**
          * Creates a text node with the appropriate tspan & a elements on position
          * (pX, pY).
@@ -407,9 +403,8 @@ define([], function() {
          * @param {string=} pIDURL - link to render for the id text
          * @return {SVGElement}
          */
-        createText : function(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-            return _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL);
-        },
+        createText : _createText,
+
         /**
          * Creates a line between to coordinates
          * @param {number} pX1
@@ -420,9 +415,8 @@ define([], function() {
          * @param {boolean=} [pDouble=false] - render a double line
          * @return {SVGElement}
          */
-        createLine : function(pX1, pY1, pX2, pY2, pClass, pDouble) {
-            return _createLine(pX1, pY1, pX2, pY2, pClass, pDouble);
-        },
+        createLine : _createLine,
+
         /**
          * Creates a u-turn, departing on pStartX, pStarty and
          * ending on pStartX, pEndY with a width of pWidth
@@ -434,17 +428,15 @@ define([], function() {
          * @param {string} pClass - reference to the css class to be applied
          * @return {SVGElement}
          */
-        createUTurn : function(pStartX, pStartY, pEndY, pWidth, pClass) {
-            return _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass);
-        },
+        createUTurn : _createUTurn,
+
         /**
          * Creates an svg group, identifiable with id pId
          * @param {string} pId
          * @return {SVGElement}
          */
-        createGroup : function(pId) {
-            return _createGroup(pId);
-        },
+        createGroup : _createGroup,
+
         /**
          * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
          * @param {number} pX
@@ -452,9 +444,8 @@ define([], function() {
          * @param {number} pLink
          * @return {SVGElement}
          */
-        createUse : function(pX, pY, pLink) {
-            return _createUse(pX, pY, pLink);
-        },
+        createUse : _createUse,
+
         /**
          * Create a marker consisting of a path as specified in pD
          *
@@ -464,9 +455,8 @@ define([], function() {
          * @param {string} pD - a string containing the path
          * @param {string} pPathClass - the css class to use for the path
          */
-        createMarkerPath : function(pId, pClass, pOrient, pD, pPathClass) {
-            return _createMarkerPath(pId, pClass, pOrient, pD, pPathClass);
-        },
+        createMarkerPath : _createMarkerPath,
+
         /**
          * Create a marker consisting of a polygon as specified in pPoints
          *
@@ -477,9 +467,8 @@ define([], function() {
          * @param {string} pPathClass - the css class to use for the path
          * @return {SVGElement}
          */
-        createMarkerPolygon : function(pId, pClass, pOrient, pPoints, pPathClass) {
-            return _createMarkerPolygon(pId, pClass, pOrient, pPoints, pPathClass);
-        },
+        createMarkerPolygon : _createMarkerPolygon,
+
         /**
          * Returns the bounding box of the passed element.
          *
@@ -492,9 +481,8 @@ define([], function() {
          * the function cannot determine the bounding box  be determined, returns 15,15,2,2
          * as "reasonable default"
          */
-        getBBox : function(pElement) {
-            return _getBBox(pElement);
-        },
+        getBBox : _getBBox,
+
         /**
          * @const
          * @default

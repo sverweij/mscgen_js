@@ -198,9 +198,7 @@ function(transform, map, utl) {
          * @param {arc} pArc
          * @return {arc}
          */
-        swapRTLArc : function(pArc) {
-            return _swapRTLArc(pArc);
-        },
+        swapRTLArc : _swapRTLArc,
         /**
          * Flattens any recursion in the arcs of the given abstract syntax tree to make it
          * more easy to render.
@@ -209,9 +207,7 @@ function(transform, map, utl) {
          * @param {ast} pAST
          * @return {ast}
          */
-        unwind : function(pAST) {
-            return _unwind(pAST);
-        },
+        unwind : _unwind,
         /**
          * expands "broadcast" arcs to its individual counterparts
          * Example in mscgen:
@@ -225,9 +221,7 @@ function(transform, map, utl) {
          *     a -> b, a -> c, a -> d;
          * }
          */
-        explodeBroadcasts : function(pAST) {
-            return _explodeBroadcasts(pAST);
-        },
+        explodeBroadcasts : _explodeBroadcasts,
         /**
          * Simplifies an AST:
          *    - entities without a label get one (the name of the label)

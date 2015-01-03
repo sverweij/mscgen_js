@@ -279,9 +279,7 @@ path{\
          * @param {string} pSvgElementId
          * @param {window} pWindow 
          */
-        bootstrap : function(pParentElementId, pSvgElementId, pWindow) {
-            return _bootstrap(pParentElementId, pSvgElementId, pWindow);
-        },
+        bootstrap : _bootstrap,
         
         /**
          * Initializes the document to the document associated with the 
@@ -290,9 +288,8 @@ path{\
          * @param {window} pWindow
          * @return {document}
          */
-        init : function(pWindow) {
-            return _init(pWindow);
-        }
+        init : _init
+ 
     };
 });
 /*

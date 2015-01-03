@@ -81,9 +81,7 @@ define([], function() {
          * an arc row and entities as input return the modified arc row
          * @return {ast} - the modified syntax tree
          */
-        transform : function(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms) {
-            return _transform(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms);
-        }
+        transform : _transform
     };
 });
 
