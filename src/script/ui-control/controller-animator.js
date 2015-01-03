@@ -83,6 +83,16 @@ function(msc_render, ast2animate, gaga, dq) {
         gaga.g('send', 'event', 'close_animscreen', 'button');
     }
 
+    function percentageClick(pEvent) {
+        var lRect = window.__anim_progress_percentage_wrapper.getBoundingClientRect();
+        var lClickedPosition = (pEvent.clientX - lRect.x);
+        var lMaxPosition = lRect.width;
+
+        var lSelectedPosition = lClickedPosition/ lMaxPosition;
+        anim.setPosition(Math.ceil(lSelectedPosition * anim.getLength()));
+        updateState();
+    }
+
     function _setupEvents() {
         window.__btn_anim_home.addEventListener("click",
             function() {
@@ -125,9 +135,9 @@ function(msc_render, ast2animate, gaga, dq) {
             },
             false
         );
-        window.__anim_progress_percentage.addEventListener("click",
+        window.__anim_progress_percentage_wrapper.addEventListener("click",
              function(pEvent) {
-                 console.log(pEvent);
+                 percentageClick(pEvent);
              },
              false
         );

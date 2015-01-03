@@ -41,6 +41,16 @@
 #__animcontrolswrapper nav:hover {
   opacity: 0.8;
 }
+#__anim_progress_percentage_wrapper {
+    cursor: pointer;
+    z-index: 482;
+    background-color: transparent;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 0.2em;
+    width: 100%;
+}
 #__anim_progress_percentage {
   background-color: white;
   position: relative;
@@ -55,7 +65,7 @@
   right: 0;
   padding: 1em;
   color: black;
-  background-color: inherit;
+  background-color: transparent;
 }
 #__animsvgwrapper {
   width: 100%;
