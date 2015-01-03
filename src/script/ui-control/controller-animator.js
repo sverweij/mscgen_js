@@ -2,13 +2,14 @@
 /* global define */
 
 define(["../render/graphics/renderast", "../render/text/ast2animate", "../utl/gaga", "../utl/domquery"],
-function(msc_render, anim, gaga, dq) {
+function(msc_render, ast2animate, gaga, dq) {
 
     var CH_PAUSE     = "\uF03B";
     var CH_PLAY      = "\uF034";
     var gPlaying     = false;
     var gTimer       = {};
     var gInitialized = false;
+    var anim = new ast2animate.FrameFactory();
 
     _setupEvents();
 

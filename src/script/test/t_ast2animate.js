@@ -1,11 +1,11 @@
 var assert = require("assert");
-var animate = require("../render/text/ast2animate");
+var ast2animate = require("../render/text/ast2animate");
 var parser = require("../parse/xuparser_node");
 var fix = require("./astfixtures");
 var utl = require("./testutensils");
 var fs = require("fs");
 
-describe('ast2animate', function() {
+describe('ast2ani', function() {
     var astCheatSheet0 = {
         "entities" : [{
             "name" : "a"
@@ -117,28 +117,28 @@ describe('ast2animate', function() {
 
     describe('#getLength()', function() {
         it('should return a length of 1 for astEmpty', function() {
-            animate.init(fix.astEmpty);
-            assert.equal(0, animate.getPosition());
-            assert.equal(1, animate.getLength());
+            var ani = new ast2animate.FrameFactory(fix.astEmpty);
+            assert.equal(0, ani.getPosition());
+            assert.equal(1, ani.getLength());
         });
         it('should return a length of 2 for astSimple', function() {
-            animate.init(fix.astSimple);
-            assert.equal(2, animate.getLength());
+            var ani = new ast2animate.FrameFactory(fix.astSimple);
+            assert.equal(2, ani.getLength());
         });
         it('should return a length of 15 for astCheatSheet', function() {
-            animate.init(fix.astCheatSheet);
-            assert.equal(0, animate.getPosition());
-            assert.equal(15, animate.getLength());
+            var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
+            assert.equal(0, ani.getPosition());
+            assert.equal(15, ani.getLength());
         });
     });
 
     describe('#getFrame(0)', function() {
         it('should return astEmpty for astEmpty', function() {
-            animate.init(fix.astEmpty);
-            utl.assertequalJSON(animate.getFrame(0), fix.astEmpty);
+            var ani = new ast2animate.FrameFactory(fix.astEmpty);
+            utl.assertequalJSON(ani.getFrame(0), fix.astEmpty);
         });
         it('should return entities for astSimple', function() {
-            animate.init(fix.astSimple);
+            var ani = new ast2animate.FrameFactory(fix.astSimple);
             var astSimpleEntitiesOnly = {
                 "entities" : [{
                     "name" : "a"
@@ -147,87 +147,87 @@ describe('ast2animate', function() {
                 }],
                 arcs : [[{"kind": "|||"}]]
             };
-            utl.assertequalJSON(animate.getFrame(0), astSimpleEntitiesOnly);
+            utl.assertequalJSON(ani.getFrame(0), astSimpleEntitiesOnly);
         });
 
         it('should return entities for astCheatSheet', function() {
-            animate.init(fix.astCheatSheet);
-            utl.assertequalJSON(animate.getFrame(0), astCheatSheet0);
+            var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
+            utl.assertequalJSON(ani.getFrame(0), astCheatSheet0);
         });
 
         it('should return entities for astCheatSheet for length < 0', function() {
-            animate.init(fix.astCheatSheet);
-            utl.assertequalJSON(animate.getFrame(-481), astCheatSheet0);
+            var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
+            utl.assertequalJSON(ani.getFrame(-481), astCheatSheet0);
         });
 
     });
 
     describe('#getFrame(getLength())', function() {
         it('should return astEmpty for astEmpty', function() {
-            animate.init(fix.astEmpty);
-            utl.assertequalJSON(animate.getFrame(animate.getLength()), fix.astEmpty);
+            var ani = new ast2animate.FrameFactory(fix.astEmpty);
+            utl.assertequalJSON(ani.getFrame(ani.getLength()), fix.astEmpty);
         });
         it('should return astSimple for astSimple', function() {
-            animate.init(fix.astSimple);
-            utl.assertequalJSON(animate.getFrame(animate.getLength()), fix.astSimple);
+            var ani = new ast2animate.FrameFactory(fix.astSimple);
+            utl.assertequalJSON(ani.getFrame(ani.getLength()), fix.astSimple);
         });
         it('should return astCheatSheet for astCheatSheet', function() {
-            animate.init(fix.astCheatSheet);
-            utl.assertequalJSON(animate.getFrame(animate.getLength()), fix.astCheatSheet);
+            var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
+            utl.assertequalJSON(ani.getFrame(ani.getLength()), fix.astCheatSheet);
         });
         it('should return astCheatSheet for astCheatSheet and length === somethingbig', function() {
-            animate.init(fix.astCheatSheet, true);
-            utl.assertequalJSON(animate.getFrame(481), fix.astCheatSheet);
+            var ani = new ast2animate.FrameFactory(fix.astCheatSheet, true);
+            utl.assertequalJSON(ani.getFrame(481), fix.astCheatSheet);
         });
     });
 
     describe('#getFrame()', function() {
 
-        animate.init(fix.astCheatSheet, true);
+        var ani = new ast2animate.FrameFactory(fix.astCheatSheet, true);
 
         it('should return entities and first arc from astCheatSheet for astCheatSheet', function() {
-            utl.assertequalJSON(animate.getFrame(1), astCheatSheet1);
+            utl.assertequalJSON(ani.getFrame(1), astCheatSheet1);
         });
 
         it('should return entities and first three arcs from astCheatSheet for astCheatSheet', function() {
-            utl.assertequalJSON(animate.getFrame(3), astCheatSheet3);
+            utl.assertequalJSON(ani.getFrame(3), astCheatSheet3);
         });
 
         it('should return entities and first two arcs from astCheatSheet for astCheatSheet', function() {
-            utl.assertequalJSON(animate.getFrame(2), astCheatSheet2);
+            utl.assertequalJSON(ani.getFrame(2), astCheatSheet2);
         });
     });
 
 
     describe('#home, #end, #inc, #dec, #getPosition, #getCurrentFrame #getPercentage', function() {
-        animate.init(fix.astCheatSheet, false);
+        var ani = new ast2animate.FrameFactory(fix.astCheatSheet, false);
         it('getCurrentFrame should return astCheatSheet after call to end()', function() {
-            animate.end();
-            assert.equal(15, animate.getPosition());
-            assert.equal(100, animate.getPercentage());
-            utl.assertequalJSON(animate.getCurrentFrame(), fix.astCheatSheet);
+            ani.end();
+            assert.equal(15, ani.getPosition());
+            assert.equal(100, ani.getPercentage());
+            utl.assertequalJSON(ani.getCurrentFrame(), fix.astCheatSheet);
         });
         it('getCurrentFrame should return astCheatSheet1 after end() and 14 calls to dec()', function() {
-            animate.end();
-            animate.dec(14);
-            assert.equal(1, animate.getPosition());
-            assert.equal(100/15, animate.getPercentage());
-            utl.assertequalJSON(animate.getCurrentFrame(), astCheatSheet1);
+            ani.end();
+            ani.dec(14);
+            assert.equal(1, ani.getPosition());
+            assert.equal(100/15, ani.getPercentage());
+            utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet1);
         });
         it('getCurrentFrame should return astCheatSheet2 after call to home() and two calls to inc()', function() {
-            animate.home();
-            animate.inc(2);
-            assert.equal(2, animate.getPosition());
-            assert.equal(200/15, animate.getPercentage());
-            utl.assertequalJSON(animate.getCurrentFrame(), astCheatSheet2);
+            ani.home();
+            ani.inc(2);
+            assert.equal(2, ani.getPosition());
+            assert.equal(200/15, ani.getPercentage());
+            utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet2);
         });
         it('getCurrentFrame should return entities only after call to home()', function() {
-            animate.home();
-            animate.inc();
-            animate.dec();
-            assert.equal(0, animate.getPosition());
-            assert.equal(0, animate.getPercentage());
-            utl.assertequalJSON(animate.getCurrentFrame(), astCheatSheet0);
+            ani.home();
+            ani.inc();
+            ani.dec();
+            assert.equal(0, ani.getPosition());
+            assert.equal(0, ani.getPercentage());
+            utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet0);
         });
     });
 });
