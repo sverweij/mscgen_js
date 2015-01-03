@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?3f24ce7039211943"
+        <link rel="stylesheet" href="style/interp.css?eb32054f07f97164"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?3f24ce7039211943"
-        src="lib/require.js?3f24ce7039211943" defer></script>
+        <script data-main="script/mscgen-interpreter.js?eb32054f07f97164"
+        src="lib/require.js?eb32054f07f97164" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -91,32 +91,34 @@
         <header>
             <nav>
                 <div id="__about"
-                class="about icon fadable"
+                class="about icon"
                 title="">
                 <br><br>about</div>
+                <div class="interpreter icon hideonmobile active"
+                title="Interpreter. It's where you are now."><br><br>interpret</div>
                 <div id="__embedme"
-                class="embed icon hideonmobile fadable"
+                class="embed icon hideonmobile"
                 title="embed mscgen in your html"><br><br>embed</div>
                 <div id="__helpme"
-                class="question icon fadable"
+                class="question icon"
                 title="Show cheat sheet"><br><br>learn</div>
             </nav>
 
-            <div class="debug fadable" style="display: none">
-                <div><em>version:</em> 0.9.47</div>
-                <div><em>build-date:</em> 20141226 17:25</div>
-                <div><em>commit:</em> 3f24ce7039211943</div>
+            <div class="debug" style="display: none">
+                <div><em>version:</em> 0.9.48</div>
+                <div><em>build-date:</em> 20150103 19:16</div>
+                <div><em>commit:</em> eb32054f07f97164</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.47
-    build-date: 20141226 17:25
-    commit: 3f24ce7039211943" class="fadable">mscgen_js</h1>
-            <span class="hideonmobile fadable">turns text into sequence charts</span>
-            <span class="showonmobile fadable">text =&gt; MSCs</span>
+    version: 0.9.48
+    build-date: 20150103 19:16
+    commit: eb32054f07f97164">mscgen_js</h1>
+            <span class="hideonmobile">turns text into sequence charts</span>
+            <span class="showonmobile">text =&gt; MSCs</span>
         </header>
         <article>
         <section id="__input_and_controls">
@@ -193,7 +195,6 @@ Note: !! removes comments and reformats your source!!">color</button>
 
 Note: !! removes comments and reformats your source!!">b&amp;w</button>
                 <span class="debug" style="display: none">
-                <button id="__btn_colorize_hard" title="Auto color; overrides existing colors"><span style="font-size: xx-small">hard color override</span></button>
                 </span>
                 <button id="__btn_render" class="btn-primary"
                 title="Click to render. Only shows up when 'autorender' is off">
@@ -227,16 +228,21 @@ Note: the url bar will contain the base64 encoded version of the png">png</a>
                 title="Shows the chart in a separate window (jpeg).
 
 Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
-            <a id="__show_html"
-                class="debug button" style="display: none"
-                target="_blank"
-                type="text/plain"
-                title="Generates an html page with the chart embedded">html</a>
             <a id="__show_dot"
                 class="button"
                 target="_blank"
                 type="text/dot"
                 title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
+            <a id="__show_anim"
+                class="button hideonmobile" 
+                target="_blank"
+                type="text/plain"
+                title="animate the current chart">&#xF0B7;</a>
+            <a id="__show_html"
+                class="debug button" style="display: none"
+                target="_blank"
+                type="text/plain"
+                title="Generates an html page with the chart embedded">html</a>
             <a id="__show_vanilla"
                 class="debug button" style="display: none"
                 target="_blank"
@@ -255,11 +261,29 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                     <div id="__error_context"></div>
                 </div>
             </div>
-            <br><span id="__svg"></span>
+            <div id="__svg"></div>
         </section>
 
         <section>
         <canvas id="__pngcanvas" style="display:none"></canvas>
+        <div id="__animscreen" style="display:none">
+            <button id="__btn_anim_close" title="close">&#xF072;</button>
+            <div id="__animsvgwrapper">
+                <div id="__animsvg"></div>
+            </div>
+            <div id="__animcontrolswrapper">
+                <nav>
+                    <button id="__btn_anim_home" title="go to first frame">&#xF039;</button>
+                    <button id="__btn_anim_dec" title="one step back">&#xF037;</button>
+                    <button id="__btn_anim_playpause" title="play/ pause">&#xF034;</button>
+                    <button id="__btn_anim_inc" title="one step forward">&#xF038;</button>
+                    <button id="__btn_anim_end" title="go to last frame">&#xF03A;</button>
+                    <div id="__anim_progress_percentage_wrapper">
+                        <div id="__anim_progress_percentage"></div>
+                    </div>
+                </nav>
+            </div>
+        </div>
         <div id="__embedsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">
@@ -336,10 +360,10 @@ whiteboard. Under a roof."></img>
     You can
     <a href="https://github.com/sverweij/mscgen_js" target="_blank">
     view</a>,
-    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    <a href="https://github.com/sverweij/mscgen_js.git" target="_blank">
     clone</a>
     or
-    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    <a href="https://github.com/sverweij/mscgen_js/fork" target="_blank">
     fork it</a>
     on GitHub and
     <a href="https://github.com/sverweij/mscgen_js/issues"
