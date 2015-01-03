@@ -22,13 +22,13 @@ define(["../../utl/utensils"], function(utl) {
     var EMPTY_ARC     = [{kind:"|||"}];
 
     function FrameFactory(pAST, pPreCalculate){
-        this.gAST          = {};
-        this.gArcs         = {};
-        this.gLength       = 0;
-        this.gNoRows       = 0;
-        this.gPosition     = 0;
-        this.gFrames       = [];
-        this.gPreCalculate = false; 
+        this.AST          = {};
+        this.arcs         = {};
+        this.len          = 0;
+        this.noRows       = 0;
+        this.position     = 0;
+        this.frames       = [];
+        this.preCalculate = false; 
         if (pAST) {
             if (pAST && undefined !== pPreCalculate){
                 this.init(pAST, pPreCalculate);
@@ -56,28 +56,37 @@ define(["../../utl/utensils"], function(utl) {
      *                 future.
      */
     FrameFactory.prototype.init = function (pAST, pPreCalculate){
-        this.gPreCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.gAST      = utl.deepCopy(pAST);
-        this.gLength   = this._calculateLength();
-        this.gNoRows   = this._calculateNoRows();
-        this.gPosition = 0;
-        if (this.gAST.arcs) {
-            this.gArcs     = utl.deepCopy(this.gAST.arcs);
-            this.gAST.arcs = [];
+        this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
+        this.AST      = utl.deepCopy(pAST);
+        this.len   = this._calculateLength();
+        this.noRows   = this._calculateNoRows();
+        this.position = 0;
+        if (this.AST.arcs) {
+            this.arcs     = utl.deepCopy(this.AST.arcs);
+            this.AST.arcs = [];
         }
-        this.gFrames = [];
-        if (this.gPreCalculate) {
-            for (var i = 0; i < this.gLength; i++){
-                this.gFrames.push (utl.deepCopy(this._calculateFrame(i)));
+        this.frames = [];
+        if (this.preCalculate) {
+            for (var i = 0; i < this.len; i++){
+                this.frames.push (utl.deepCopy(this._calculateFrame(i)));
             }
         }
+    };
+
+    /*
+     * Set position to the provided frame number
+     * If pFrameNumber > last frame, sets position to last frame
+     * If pFrameNumber < first frame, sets position to first frame
+     */
+    FrameFactory.prototype.setPosition = function(pPosition){
+        this.position = Math.min(this.len, Math.max(0, pPosition));
     };
 
     /*
      * Go to the first frame
      */
     FrameFactory.prototype.home = function (){
-        this.gPosition = 0;
+        this.position = 0;
     };
 
     /*
@@ -87,7 +96,7 @@ define(["../../utl/utensils"], function(utl) {
      */
     FrameFactory.prototype.inc = function (pFrames) {
         pFrames = pFrames ? pFrames : 1;
-        this.gPosition = Math.min(this.gLength, this.gPosition + pFrames);
+        this.setPosition(this.position + pFrames);
     };
 
     /*
@@ -97,21 +106,21 @@ define(["../../utl/utensils"], function(utl) {
      */
     FrameFactory.prototype.dec = function (pFrames) {
         pFrames = pFrames ? pFrames : 1;
-        this.gPosition = Math.max(0, this.gPosition - pFrames);
+        this.setPosition(this.position - pFrames);
     };
 
     /*
      * Go to the last frame
      */
     FrameFactory.prototype.end = function()  {
-        this.gPosition = this.gLength;
+        this.position = this.len;
     };
 
     /*
      * returns the current frame
      */
     FrameFactory.prototype.getCurrentFrame = function () {
-        return this.getFrame(this.gPosition);
+        return this.getFrame(this.position);
     };
 
     /* 
@@ -120,9 +129,9 @@ define(["../../utl/utensils"], function(utl) {
      * if pFrameNo <= 0 - returns the first frame (=== original AST - arcs)
      */
     FrameFactory.prototype.getFrame = function (pFrameNo){
-        pFrameNo = Math.max(0, Math.min(pFrameNo, this.gLength - 1));
-        if (this.gPreCalculate) {
-            return this.gFrames[pFrameNo];
+        pFrameNo = Math.max(0, Math.min(pFrameNo, this.len - 1));
+        if (this.preCalculate) {
+            return this.frames[pFrameNo];
         } else {
             return this._calculateFrame(pFrameNo);
         }
@@ -132,14 +141,14 @@ define(["../../utl/utensils"], function(utl) {
      * returns the position of the current frame (number)
      */
     FrameFactory.prototype.getPosition = function () {
-        return this.gPosition;
+        return this.position;
     };
 
     /*
      * returns the number of "frames" in this AST
      * */
     FrameFactory.prototype.getLength = function (){
-        return this.gLength;
+        return this.len;
     };
 
     /*
@@ -148,33 +157,33 @@ define(["../../utl/utensils"], function(utl) {
      * length or is below 0
      */
     FrameFactory.prototype.getPercentage = function () {
-        return (this.gLength > 0) && (this.gPosition > 0) ? 100*(Math.min(1, this.gPosition/this.gLength)) : 0;
+        return (this.len > 0) && (this.position > 0) ? 100*(Math.min(1, this.position/this.len)) : 0;
     };
 
     /*
      * Returns the AST the subset frame pFrameNo should constitute
      */
     FrameFactory.prototype._calculateFrame = function (pFrameNo){
-        var lFrameNo = Math.min(pFrameNo, this.gLength - 1);
+        var lFrameNo = Math.min(pFrameNo, this.len - 1);
         var lFrameCount = 0;
         var lRowNo = 0;
 
-        if (this.gLength - 1 > 0){
-            this.gAST.arcs = [];
+        if (this.len - 1 > 0){
+            this.AST.arcs = [];
         }
         
         while (lFrameCount < lFrameNo) {
-            this.gAST.arcs[lRowNo]=[];
-            for(var j = 0; (j < this.gArcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++){ 
-                this.gAST.arcs[lRowNo].push(this.gArcs[lRowNo][j]);
+            this.AST.arcs[lRowNo]=[];
+            for(var j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++){ 
+                this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
             }
             lRowNo++;
         }
 
-        for (var k=lRowNo; k < this.gNoRows; k++){
-            this.gAST.arcs[k] = EMPTY_ARC;
+        for (var k=lRowNo; k < this.noRows; k++){
+            this.AST.arcs[k] = EMPTY_ARC;
         }
-        return this.gAST;
+        return this.AST;
     };
 
 
@@ -184,8 +193,8 @@ define(["../../utl/utensils"], function(utl) {
      */
     FrameFactory.prototype._calculateLength = function () {
         var lRetval = 1;
-        if (this.gAST.arcs) {
-            lRetval += this.gAST.arcs.reduce(function(pThing, pCurrent){
+        if (this.AST.arcs) {
+            lRetval += this.AST.arcs.reduce(function(pThing, pCurrent){
                 return pThing + pCurrent.length;
             },0);
         } 
@@ -196,7 +205,7 @@ define(["../../utl/utensils"], function(utl) {
      * returns the number of rows in the current AST
      */
     FrameFactory.prototype._calculateNoRows = function () {
-        return this.gAST.arcs? this.gAST.arcs.length : 0;
+        return this.AST.arcs? this.AST.arcs.length : 0;
     };
 
     return {

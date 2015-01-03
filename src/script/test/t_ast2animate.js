@@ -117,16 +117,19 @@ describe('ast2ani', function() {
 
     describe('#getLength()', function() {
         it('should return a length of 1 for astEmpty', function() {
-            var ani = new ast2animate.FrameFactory(fix.astEmpty);
+            var ani = new ast2animate.FrameFactory();
+            ani.init(fix.astEmpty);
             assert.equal(0, ani.getPosition());
             assert.equal(1, ani.getLength());
         });
         it('should return a length of 2 for astSimple', function() {
-            var ani = new ast2animate.FrameFactory(fix.astSimple);
+            var ani = new ast2animate.FrameFactory();
+            ani.init(fix.astSimple);
             assert.equal(2, ani.getLength());
         });
         it('should return a length of 15 for astCheatSheet', function() {
-            var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
+            var ani = new ast2animate.FrameFactory();
+            ani.init(fix.astCheatSheet);
             assert.equal(0, ani.getPosition());
             assert.equal(15, ani.getLength());
         });
