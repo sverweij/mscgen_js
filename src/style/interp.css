@@ -717,12 +717,13 @@ div.lightbox a.close::before {
   bottom: 1.5em;
   z-index: 481;
 }
-#__animcontrolswrapper span {
+#__animcontrolswrapper nav {
   font-size: 2em;
-  padding: 0.5em 0.5em 0.5em 0.5em;
+  padding: 0.1 0.25em 0.25em 0.25em;
   background-color: black;
   opacity: 0.6;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6); 
+  display: inline-block;
 }
 #__animscreen button {
   font-family: Webdings;
@@ -736,8 +737,16 @@ div.lightbox a.close::before {
   color: white;
   background-color: inherit;
 }
-#__animcontrolswrapper span:hover {
+#__animcontrolswrapper nav:hover {
   opacity: 0.8;
+}
+#__anim_progress_percentage {
+  background-color: white;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  height: 0.2em;
+  width: 0;
 }
 #__btn_anim_close {
   position: fixed;

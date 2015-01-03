@@ -37,6 +37,8 @@ function(msc_render, anim, gaga, dq) {
         if (gInitialized) {
             msc_render.clean("__animsvg", window);
             msc_render.renderAST(anim.getCurrentFrame(), "", "__animsvg", window);
+            window.__anim_progress_percentage.setAttribute("style",
+                                "width: " + anim.getPercentage() + "%");
         }
         if (gPlaying){
             window.__btn_anim_playpause.textContent = CH_PAUSE;
@@ -74,6 +76,7 @@ function(msc_render, anim, gaga, dq) {
     function close() {
         dq.SS(window.__animscreen).hide();
         gPlaying = false;
+        anim.home();
         updateState();
         gInitialized = false;
         gaga.g('send', 'event', 'close_animscreen', 'button');
@@ -120,6 +123,12 @@ function(msc_render, anim, gaga, dq) {
                 close();
             },
             false
+        );
+        window.__anim_progress_percentage.addEventListener("click",
+             function(pEvent) {
+                 console.log(pEvent);
+             },
+             false
         );
     }
 
