@@ -57,10 +57,10 @@ define(["../../utl/utensils"], function(utl) {
      */
     FrameFactory.prototype.init = function (pAST, pPreCalculate){
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.AST      = utl.deepCopy(pAST);
-        this.len   = this._calculateLength();
-        this.noRows   = this._calculateNoRows();
-        this.position = 0;
+        this.AST          = utl.deepCopy(pAST);
+        this.len          = _calculateLength(pAST);
+        this.noRows       = _calcNumberOfRows(pAST);
+        this.position     = 0;
         if (this.AST.arcs) {
             this.arcs     = utl.deepCopy(this.AST.arcs);
             this.AST.arcs = [];
@@ -188,25 +188,50 @@ define(["../../utl/utensils"], function(utl) {
 
 
     /*
-     * calculates the number of "frames" in the current AST
-     * --> does not yet cater for recursive structures
+     * returns the number of rows for the current AST
      */
-    FrameFactory.prototype._calculateLength = function () {
-        var lRetval = 1;
-        if (this.AST.arcs) {
-            lRetval += this.AST.arcs.reduce(function(pThing, pCurrent){
-                return pThing + pCurrent.length;
-            },0);
-        } 
-        return lRetval; 
+    FrameFactory.prototype.getNoRows = function () {
+        return this.noRows;
     };
 
     /*
-     * returns the number of rows in the current AST
+     * calculates the number of "frames" in the current AST
+     * --> does not yet cater for recursive structures
      */
-    FrameFactory.prototype._calculateNoRows = function () {
-        return this.AST.arcs? this.AST.arcs.length : 0;
-    };
+    function _calculateLength(pThing) {
+        var lRetval = 1; /* separate frame for entities */
+        if (pThing.arcs) {
+            lRetval += pThing.arcs.reduce(function(pPrevious, pCurrent){
+                /*
+                 * inner itself counts for two arcs (one extra for 
+                 * drawing the bottom), but for one frame)
+                 */
+                if (pCurrent[0].arcs){
+                    return pPrevious + _calculateLength(pCurrent[0]);
+                } else {
+                    return pPrevious + pCurrent.length;
+                }
+            },0);
+        } 
+        return lRetval; 
+    }
+
+    /*
+     * returns the number of rows for a given AST (/ AST snippet)
+     */
+    function _calcNumberOfRows(pThing) {
+        var lRetval = 0;
+        if (pThing.arcs){
+            pThing.arcs.forEach(function(pArcRow) {
+                lRetval += 1;
+                if (pArcRow[0].arcs) {
+                    lRetval += _calcNumberOfRows(pArcRow[0]) + 1; 
+                }
+            });
+        }
+        return lRetval;
+    }
+
 
     return {
         FrameFactory: FrameFactory
@@ -228,4 +253,4 @@ define(["../../utl/utensils"], function(utl) {
 
  You should have received a copy of the GNU General Public License
  along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/ 

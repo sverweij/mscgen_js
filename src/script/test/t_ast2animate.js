@@ -115,6 +115,8 @@ describe('ast2ani', function() {
         ]
     };
 
+/*
+*/
     describe('#getLength()', function() {
         it('should return a length of 1 for astEmpty', function() {
             var ani = new ast2animate.FrameFactory();
@@ -232,5 +234,43 @@ describe('ast2ani', function() {
             assert.equal(0, ani.getPercentage());
             utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet0);
         });
+    });
+
+    describe('inline expressions', function(){
+        var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/simpleXuSample.xu', {"encoding":"utf8"});
+        var lAST = parser.parse(lTextFromFile.toString());
+
+        var ani = new ast2animate.FrameFactory(lAST, false);
+
+        it('getLength for inline expressions takes expression length into account', function(){
+            assert.equal(10, ani.getLength());
+        });
+
+        it('getNoRows takes inline expressions length into account', function(){
+            assert.equal(9, ani.getNoRows());
+        });
+
+        it('produces the right frames - 0', function(){
+            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe00.json', ani.getFrame(0));
+        });
+
+        it('produces the right frames - 1', function(){
+            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe01.json', ani.getFrame(1));
+        });
+
+        it('produces the right frames - 2', function(){
+            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe02.json', ani.getFrame(2));
+        });
+
+        /*
+        it('produces the right frames - 3', function(){
+            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe03.json', ani.getFrame(3));
+        });
+
+        it('produces the right frames - last', function(){
+            ani.end();
+            utl.assertequalJSONFile('./src/script/test/fixtures/simpleXuSample.json', ani.getCurrentFrame());
+        });
+        */
     });
 });

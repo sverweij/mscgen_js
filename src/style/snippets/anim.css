@@ -42,14 +42,15 @@
   opacity: 0.8;
 }
 #__anim_progress_percentage_wrapper {
-    cursor: pointer;
-    z-index: 482;
-    background-color: transparent;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    height: 0.2em;
-    width: 100%;
+  cursor: pointer;
+  z-index: 482;
+  background-color: transparent;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 0.2em;
+  width: 100%;
+  border: 1px solid white;
 }
 #__anim_progress_percentage {
   background-color: white;
