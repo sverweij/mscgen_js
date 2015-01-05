@@ -428,7 +428,7 @@ header .about {
   background-image: url(../images/about.svg);
 }
 header .active {
-  font-weight: 900;
+  font-weight: 600;
   text-decoration: none;
   -webkit-transform: scale(1);
   transform: scale(1);
