@@ -80,7 +80,7 @@ function(msc_render, ast2animate, gaga, dq) {
         anim.home();
         updateState();
         gInitialized = false;
-        gaga.g('send', 'event', 'close_animscreen', 'button');
+        // gaga.g('send', 'event', 'close_animscreen', 'button');
     }
 
     function percentageClick(pEvent) {
