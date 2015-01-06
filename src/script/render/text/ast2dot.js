@@ -13,6 +13,7 @@ if ( typeof define !== 'function') {
 
 define(["./flatten", "./textutensils", "./dotmap", "../../utl/utensils"],
 function(flatten, txt, map, utl) {
+    "use strict";
 
     var INDENT = "  ";
     var gCounter = 0;

@@ -3,6 +3,7 @@
 
 define(["../render/graphics/renderast", "../render/text/ast2animate", "../utl/gaga", "../utl/domquery"],
 function(msc_render, ast2animate, gaga, dq) {
+    "use strict";
 
     var CH_PAUSE     = "\uF03B";
     var CH_PLAY      = "\uF034";

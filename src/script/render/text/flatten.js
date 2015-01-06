@@ -15,6 +15,7 @@ define(["./asttransform", "./dotmap", "../../utl/utensils"],
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 function(transform, map, utl) {
+    "use strict";
 
     var gMaxDepth = 0;
 

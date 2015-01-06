@@ -18,6 +18,7 @@ if ( typeof define !== 'function') {
 }
 
 define(["../../utl/utensils"], function(utl) {
+    "use strict";
 
     var EMPTY_ARC     = [{kind:"|||"}];
 

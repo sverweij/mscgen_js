@@ -13,6 +13,8 @@ if ( typeof define !== 'function') {
 }
 
 define(["./textutensils"], function(utl) {
+    "use strict";
+
     var INDENT = "  ";
     var SP = " ";
     var EOL = "\n";

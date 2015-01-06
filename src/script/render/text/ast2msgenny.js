@@ -13,6 +13,7 @@ if ( typeof define !== 'function') {
 }
 
 define(['./ast2thing'], function(thing) {
+    "use strict";
 
     function renderMsGennyString(pString) {
         function isQuotable(pString) {

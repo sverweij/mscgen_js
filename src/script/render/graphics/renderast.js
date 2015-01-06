@@ -21,6 +21,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      * @exports renderast
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
+    "use strict";
 
     var PAD_VERTICAL = 3;
     var DEFAULT_INTER_ENTITY_SPACING = 160;

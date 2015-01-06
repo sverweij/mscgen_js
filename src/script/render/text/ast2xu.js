@@ -13,6 +13,7 @@ if ( typeof define !== 'function') {
 }
 
 define(["./textutensils", "./ast2thing"], function(utl, thing) {
+    "use strict";
 
     var INDENT = "  ";
     var SP = " ";

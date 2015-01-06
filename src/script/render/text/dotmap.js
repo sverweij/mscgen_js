@@ -7,6 +7,8 @@ if ( typeof define !== 'function') {
 }
 
 define([], function() {
+    "use strict";
+
     /**
      * Defines several mappings of arckinds to agregations
      *

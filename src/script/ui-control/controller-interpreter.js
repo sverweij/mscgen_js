@@ -70,6 +70,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
             cv_rgbcolor,
             dq
         ) {
+"use strict";
 
 var gAutoRender = true;
 var gLanguage = "mscgen";

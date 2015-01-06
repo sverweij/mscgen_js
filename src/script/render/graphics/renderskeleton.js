@@ -29,6 +29,7 @@ define(["./renderutensils"], function(utl) {
      * @exports renderskeleton
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
+    "use strict";
 
     var gDocument;
     var gInnerElementId = "mscgen_js$svg$";

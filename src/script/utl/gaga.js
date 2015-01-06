@@ -13,6 +13,8 @@ define([],
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 function() {
+    "use strict";
+
     var gTrack = true;
 
     function _gaSetup(pTrack) {

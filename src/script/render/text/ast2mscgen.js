@@ -13,6 +13,7 @@ if ( typeof define !== 'function') {
 }
 
 define(["./dotmap", "./textutensils", "./ast2thing"], function(map, utl, thing) {
+    "use strict";
 
     var INDENT = "  ";
     var SP = " ";
