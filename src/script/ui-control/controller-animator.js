@@ -86,7 +86,7 @@ function(msc_render, ast2animate, gaga, dq) {
 
     function percentageClick(pEvent) {
         var lRect = window.__anim_progress_percentage_wrapper.getBoundingClientRect();
-        var lClickedPosition = (pEvent.clientX - lRect.x);
+        var lClickedPosition = (pEvent.clientX - lRect.left);
         var lMaxPosition = lRect.width;
 
         var lSelectedPosition = lClickedPosition/ lMaxPosition;
