@@ -1,6 +1,3 @@
-#__show_anim {
-  font-family: Webdings;
-}
 #__animscreen {
   position: absolute;
   top: 0;
@@ -27,7 +24,6 @@
   display: inline-block;
 }
 #__animscreen button {
-  font-family: Webdings;
   box-shadow: none;
 }
 #__animscreen button:active {

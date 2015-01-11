@@ -15,6 +15,7 @@ define([],
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 function() {
+    "use strict";
 
     function _wrap(pText, pMaxLength) {
         var lCharCount = 0;

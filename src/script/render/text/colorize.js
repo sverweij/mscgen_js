@@ -20,6 +20,8 @@ if ( typeof define !== 'function') {
 }
 
 define(["./asttransform", "./dotmap"], function(transform, map) {
+    "use strict";
+
     var gColorCombiCount = 0;
     var gHardOverride = false;
 

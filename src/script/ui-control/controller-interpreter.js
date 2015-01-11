@@ -70,6 +70,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
             cv_rgbcolor,
             dq
         ) {
+"use strict";
 
 var gAutoRender = true;
 var gLanguage = "mscgen";
@@ -593,9 +594,15 @@ function showLanguageState (pSource, pLanguage) {
 
 function render(pSource, pLanguage) {
     try {
+        var lAST = {};
         hideError();
+        dq.SS(window.__output_buttons).hide();
         msc_render.clean("__svg", window);
-        msc_render.renderAST(getAST(pSource, pLanguage), pSource, "__svg", window);
+        lAST = getAST(pSource, pLanguage);
+        msc_render.renderAST(lAST, pSource, "__svg", window);
+        if (lAST.entities.length > 0) {
+            dq.SS(window.__output_buttons).show();
+        }
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
             gErrorCoordinates.line = e.line;

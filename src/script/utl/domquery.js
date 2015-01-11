@@ -1,6 +1,8 @@
 /* jshint browser:true */
 /* global define */
 define([], function(){
+    "use strict";
+
     return {
         SS: function SS(pId) {
             return {

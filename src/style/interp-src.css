@@ -1,3 +1,4 @@
+@import "./snippets/fonts.css";
 @import "../lib/codemirror/codemirror.css";
 @import "../lib/codemirror/theme/midnight.css";
 @import "./snippets/generics.css";

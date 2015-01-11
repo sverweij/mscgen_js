@@ -3,9 +3,10 @@
 
 define(["../render/graphics/renderast", "../render/text/ast2animate", "../utl/gaga", "../utl/domquery"],
 function(msc_render, ast2animate, gaga, dq) {
+    "use strict";
 
-    var CH_PAUSE     = "\uF03B";
-    var CH_PLAY      = "\uF034";
+    var ICON_PLAY    = "icon-play3";
+    var ICON_PAUSE   = "icon-pause2";
     var gPlaying     = false;
     var gTimer       = {};
     var gInitialized = false;
@@ -25,7 +26,7 @@ function(msc_render, ast2animate, gaga, dq) {
             window.clearTimeout(gTimer);
         }
         if (gPlaying && (anim.getPosition() < anim.getLength())) {
-            gTimer = window.setTimeout(animate, 400);
+            gTimer = window.setTimeout(animate, 500);
             updateState();
             anim.inc();
         } else {
@@ -42,9 +43,9 @@ function(msc_render, ast2animate, gaga, dq) {
                                 "width: " + anim.getPercentage() + "%");
         }
         if (gPlaying){
-            window.__btn_anim_playpause.textContent = CH_PAUSE;
+            window.__btn_anim_playpause.className = ICON_PAUSE;
         } else {
-            window.__btn_anim_playpause.textContent = CH_PLAY;
+            window.__btn_anim_playpause.className = ICON_PLAY;
         }
     }
 

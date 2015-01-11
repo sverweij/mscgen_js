@@ -40,7 +40,7 @@ SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/utl/utensils.js \
 	src/script/utl/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
-PRODDIRS=lib style script
+PRODDIRS=lib style script fonts
 LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/addon/edit/closebrackets.js \
 	src/lib/codemirror/addon/edit/matchbrackets.js \
@@ -63,6 +63,14 @@ SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB)
 EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \
 	src/script/ui-control/controller-inpage.js \
 	src/script/mscgen-inpage.js
+FONT_SOURCES=src/fonts/controls.eot \
+	src/fonts/controls.svg \
+	src/fonts/controls.ttf \
+	src/fonts/controls.woff
+FONTS=fonts/controls.eot \
+	fonts/controls.svg \
+	fonts/controls.ttf \
+	fonts/controls.woff
 FAVICONMASTER=src/images/xu.png
 FAVICONS=favicon.ico \
 	favicon-16.png \
@@ -129,6 +137,9 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 style/%.css: src/style/%.css
 	cp $< $@
 
+fonts/%: src/fonts/%
+	cp $< $@
+
 favicon.ico: $(FAVICONMASTER)
 	$(PNG2FAVICO) $< $@
 
@@ -148,9 +159,14 @@ src/style/interp.css: src/style/interp-src.css \
 	src/style/snippets/interpreter.css \
 	src/style/snippets/anim.css \
 	src/style/snippets/header.css \
+	src/style/snippets/fonts.css \
 	src/style/snippets/generics.css \
 	src/style/snippets/popup.css \
-	src/style/snippets/mediagenerics.css
+	src/style/snippets/mediagenerics.css \
+	src/fonts/controls.eot \
+	src/fonts/controls.svg \
+	src/fonts/controls.ttf \
+	src/fonts/controls.woff
 	$(RJS) -o cssIn=src/style/interp-src.css out=$@
 
 src/style/doc.css: src/style/doc-src.css \
@@ -161,14 +177,14 @@ src/style/doc.css: src/style/doc-src.css \
 	src/style/snippets/mediagenerics.css
 	$(RJS) -o cssIn=src/style/doc-src.css out=$@
 
-src/index.html: src/style/interp.css $(SOURCES_WEB)
+src/index.html: src/style/interp.css $(SOURCES_WEB) $(FONT_SOURCES)
 
 src/embed.html: src/style/doc.css
 
 src/tutorial.html: src/style/doc.css
 
 # file targets prod
-index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-interpreter.js images/ samples/ $(FAVICONS)
+index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-interpreter.js images/ samples/ $(FAVICONS) $(FONTS)
 
 LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
 

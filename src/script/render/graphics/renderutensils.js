@@ -23,6 +23,7 @@ define([], function() {
      *      fold size on notes
      *      space to use between double lines
      */
+    "use strict";
 
     var SVGNS = "http://www.w3.org/2000/svg";
     var XLINKNS = "http://www.w3.org/1999/xlink";
