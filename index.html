@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?9166454559ef6c66"
+        <link rel="stylesheet" href="style/interp.css?e19877eeb6b83664"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?9166454559ef6c66"
-        src="lib/require.js?9166454559ef6c66" defer></script>
+        <script data-main="script/mscgen-interpreter.js?e19877eeb6b83664"
+        src="lib/require.js?e19877eeb6b83664" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -105,18 +105,18 @@
             </nav>
 
             <div class="debug" style="display: none">
-                <div><em>version:</em> 0.9.49</div>
-                <div><em>build-date:</em> 20150106 19:36</div>
-                <div><em>commit:</em> 9166454559ef6c66</div>
+                <div><em>version:</em> 0.9.50</div>
+                <div><em>build-date:</em> 20150111 21:18</div>
+                <div><em>commit:</em> e19877eeb6b83664</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.49
-    build-date: 20150106 19:36
-    commit: 9166454559ef6c66">mscgen_js</h1>
+    version: 0.9.50
+    build-date: 20150111 21:18
+    commit: e19877eeb6b83664">mscgen_js</h1>
             <span class="hideonmobile">turns text into sequence charts</span>
             <span class="showonmobile">text =&gt; MSCs</span>
         </header>
@@ -206,6 +206,7 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
         <section style="display:inline-block;">
             <h3 class="fadable-hint"
                 style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideonmobile">your</span> chart <span class="hideonmobile">shows up here</span> &#x0261f;</h3>
+            <span id="__output_buttons">
             <a id="__show_svg"
                 class="button"
                 target="_blank"
@@ -234,25 +235,31 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                 type="text/dot"
                 title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
             <a id="__show_anim"
-                class="debug button hideonmobile" style="display: none"
+                class="button hideonmobile"
                 target="_blank"
                 type="text/plain"
-                title="animate the current chart">&#xF0B7;</a>
+                title="animate the current chart
+
+- works for classic mscgen compatible charts. 
+- support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
             <a id="__show_html"
                 class="debug button" style="display: none"
                 target="_blank"
                 type="text/plain"
-                title="Generates an html page with the chart embedded">html</a>
+                title="Generates an html page with the chart embedded"><span class="icon-embed"></span></a>
             <a id="__show_vanilla"
                 class="debug button" style="display: none"
                 target="_blank"
                 type="text/plain"
-                title="exports to vanilla mscgen">vanilla</a>
+                title="exports to vanilla mscgen"><span class="icon-arrow-down"></span></a>
             <a id="__show_url"
                 class="debug button" style="display: none"
                 target="_blank"
                 type="text/plain"
-                title="dont use">url</a>
+                title="don't use.
+generates an url that represents current the current interpreter state. 
+Useful for debugging with small charts."><span class="icon-share"></span></a>
+            </span>
             <div id="__error" class="error" style="display:none">
                 <div class="header">Parse error</div>
                 <div class="content">
@@ -267,17 +274,17 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
         <section>
         <canvas id="__pngcanvas" style="display:none"></canvas>
         <div id="__animscreen" style="display:none">
-            <button id="__btn_anim_close" title="close">&#xF072;</button>
+            <button id="__btn_anim_close" class="icon-cross" title="close"></button>
             <div id="__animsvgwrapper">
                 <div id="__animsvg"></div>
             </div>
             <div id="__animcontrolswrapper">
                 <nav>
-                    <button id="__btn_anim_home" title="go to first frame">&#xF039;</button>
-                    <button id="__btn_anim_dec" title="one step back">&#xF037;</button>
-                    <button id="__btn_anim_playpause" title="play/ pause">&#xF034;</button>
-                    <button id="__btn_anim_inc" title="one step forward">&#xF038;</button>
-                    <button id="__btn_anim_end" title="go to last frame">&#xF03A;</button>
+                    <button id="__btn_anim_home" class="icon-first" title="go to first frame"></button>
+                    <button id="__btn_anim_dec" class="icon-previous2" title="one step back"></button>
+                    <button id="__btn_anim_playpause" class="icon-play3" title="play/ pause"></button>
+                    <button id="__btn_anim_inc" class="icon-next2" title="one step forward"></button>
+                    <button id="__btn_anim_end" class="icon-last" title="go to last frame"></button>
                     <div id="__anim_progress_percentage_wrapper">
                         <div id="__anim_progress_percentage"></div>
                     </div>
