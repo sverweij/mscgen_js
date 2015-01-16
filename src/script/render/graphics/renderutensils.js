@@ -43,10 +43,29 @@ define([], function() {
         };
 
         if ( typeof (pElement.getBBox) === 'function') {
-            var lBody = document.getElementsByTagName("svg")[0];
+            /*
+            var lBody = gDocument.getElementsByTagName("svg")[0];
+
             lBody.appendChild(pElement);
             lRetval = pElement.getBBox();
             lBody.removeChild(pElement);
+
+            it's probably better to not depend on the existence of
+            an svg in the body that is actualy usable :-). 
+
+            Hence:
+            */
+
+            var lSvg = gDocument.createElementNS(SVGNS, "svg");
+            lSvg.setAttribute("version", "1.1");
+            lSvg.setAttribute("xmlns", SVGNS);
+            lSvg.setAttribute("xmlns:xlink", XLINKNS);
+
+            gDocument.body.appendChild(lSvg);
+            lSvg.appendChild(pElement);
+            lRetval = pElement.getBBox();
+            lSvg.removeChild(pElement);
+            gDocument.body.removeChild(lSvg);
 
             /*
              * workaround for Opera browser quirk: if the dimensions
