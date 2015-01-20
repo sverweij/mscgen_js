@@ -32,26 +32,34 @@ define(["./renderutensils"], function(utl) {
     "use strict";
 
     var gDocument;
-    var gInnerElementId = "mscgen_js$svg$";
 
-    function setupMarkers(pDefs) {
+    function setupMarkers(pDefs, pElementId) {
         var lDefs = pDefs;
-        lDefs.appendChild(utl.createMarkerPath("signal", "arrow-marker", "auto", "M 9 3 l -8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath("signal-u", "arrow-marker", "auto", "M 9 3 l -8 -2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath("signal-l", "arrow-marker", "auto", "M 9 3 l 8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath("signal-lu", "arrow-marker", "auto", "M 9 3 l 8 -2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPolygon("method", "arrow-marker", "auto", "1,1 9,3 1,5", "filled arrow-style"));
-        lDefs.appendChild(utl.createMarkerPolygon("method-l", "arrow-marker", "auto", "17,1 9,3 17,5", "filled arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath("callback", "arrow-marker", "auto", "M 1 1 l 8 2 l -8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath("callback-l", "arrow-marker", "auto", "M 17 1 l -8 2 l 8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath("lost", "arrow-marker", "auto", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal",
+                    "arrow-marker", "auto", "M 9 3 l -8 2", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal-u",
+                    "arrow-marker", "auto", "M 9 3 l -8 -2", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal-l",
+                    "arrow-marker", "auto", "M 9 3 l 8 2", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal-lu",
+                    "arrow-marker", "auto", "M 9 3 l 8 -2", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPolygon(pElementId + "method",
+                    "arrow-marker", "auto", "1,1 9,3 1,5", "filled arrow-style"));
+        lDefs.appendChild(utl.createMarkerPolygon(pElementId + "method-l",
+                    "arrow-marker", "auto", "17,1 9,3 17,5", "filled arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "callback",
+                    "arrow-marker", "auto", "M 1 1 l 8 2 l -8 2", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "callback-l",
+                    "arrow-marker", "auto", "M 17 1 l -8 2 l 8 2", "arrow-style"));
+        lDefs.appendChild(utl.createMarkerPath(pElementId + "lost",
+                    "arrow-marker", "auto", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style"));
         return lDefs;
     }
 
-    function setupStyle() {
+    function setupStyle(pElementId) {
         var lStyle = gDocument.createElement("style");
         lStyle.setAttribute("type", "text/css");
-        lStyle.appendChild(gDocument.createTextNode(gSvgStyleElementString));
+        lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pElementId)));
         return lStyle;
     }
 
@@ -64,32 +72,32 @@ define(["./renderutensils"], function(utl) {
         return lRetVal;
     }
 
-    function setupDefs() {
+    function setupDefs(pElementId) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
         var lDefs = gDocument.createElementNS(utl.SVGNS, "defs");
-        lDefs.appendChild(setupStyle(gDocument));
-        lDefs = setupMarkers(lDefs);
-        lDefs.appendChild(utl.createGroup(gInnerElementId + "__defs"));
+        lDefs.appendChild(setupStyle(pElementId));
+        lDefs = setupMarkers(lDefs, pElementId);
+        lDefs.appendChild(utl.createGroup(pElementId + "__defs"));
         return lDefs;
     }
 
-    function setupDesc() {
+    function setupDesc(pElementId) {
         var lDesc = gDocument.createElementNS(utl.SVGNS, "desc");
-        lDesc.setAttribute("id", gInnerElementId + "__msc_source");
+        lDesc.setAttribute("id", pElementId + "__msc_source");
         return lDesc;
     }
 
-    function setupBody() {
-        var lBody = utl.createGroup(gInnerElementId + "__body");
+    function setupBody(pElementId) {
+        var lBody = utl.createGroup(pElementId + "__body");
         
-        lBody.appendChild(utl.createGroup(gInnerElementId + "__background"));
-        lBody.appendChild(utl.createGroup(gInnerElementId + "__arcspanlayer"));
-        lBody.appendChild(utl.createGroup(gInnerElementId + "__lifelinelayer"));
-        lBody.appendChild(utl.createGroup(gInnerElementId + "__sequencelayer"));
-        lBody.appendChild(utl.createGroup(gInnerElementId + "__notelayer"));
-        lBody.appendChild(utl.createGroup(gInnerElementId + "__watermark"));
+        lBody.appendChild(utl.createGroup(pElementId + "__background"));
+        lBody.appendChild(utl.createGroup(pElementId + "__arcspanlayer"));
+        lBody.appendChild(utl.createGroup(pElementId + "__lifelinelayer"));
+        lBody.appendChild(utl.createGroup(pElementId + "__sequencelayer"));
+        lBody.appendChild(utl.createGroup(pElementId + "__notelayer"));
+        lBody.appendChild(utl.createGroup(pElementId + "__watermark"));
         return lBody;
     }
 
@@ -107,22 +115,22 @@ define(["./renderutensils"], function(utl) {
     function _bootstrap(pParentElementId, pSvgElementId, pWindow) {
 
         gDocument = _init(pWindow);
-        gInnerElementId = pSvgElementId;
-
+        
         var lParent = gDocument.getElementById(pParentElementId);
         if (lParent === null) {
             lParent = gDocument.body;
         }
         var lSkeletonSvg = setupSkeletonSvg(pSvgElementId);
-        lSkeletonSvg.appendChild(setupDesc());
-        lSkeletonSvg.appendChild(setupDefs());
-        lSkeletonSvg.appendChild(setupBody());
+        lSkeletonSvg.appendChild(setupDesc(pSvgElementId));
+        lSkeletonSvg.appendChild(setupDefs(pSvgElementId));
+        lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
     }
 
-    var gSvgStyleElementString =
+    function setupStyleElement(pElementId) {
 /*jshint multistr:true */
-"svg{\
+/* jshint -W030 */ /* jshint -W033 */
+        return "svg{\
   font-family:Helvetica,sans-serif;\
   font-size:9pt;\
   font-weight:normal;\
@@ -205,62 +213,62 @@ path{\
 .comment{\
   stroke-dasharray:5,2;\
 }\
-.signal{\
-  marker-end:url(#signal);\
+ #" + pElementId + " .signal{\
+  marker-end:url(#" + pElementId + "signal);\
 }\
-.signal-u{\
-  marker-end:url(#signal-u);\
+ #" + pElementId + " .signal-u{\
+  marker-end:url(#" + pElementId + "signal-u);\
 }\
-.signal-both{\
-  marker-end:url(#signal);\
-  marker-start:url(#signal-l);\
+ #" + pElementId + " .signal-both{\
+  marker-end:url(#" + pElementId + "signal);\
+  marker-start:url(#" + pElementId + "signal-l);\
 }\
-.signal-both-u{\
-  marker-end:url(#signal-u);\
-  marker-start:url(#signal-lu);\
+ #" + pElementId + " .signal-both-u{\
+  marker-end:url(#" + pElementId + "signal-u);\
+  marker-start:url(#" + pElementId + "signal-lu);\
 }\
-.signal-both-self{\
-  marker-end:url(#signal-u);\
-  marker-start:url(#signal-l);\
+ #" + pElementId + " .signal-both-self{\
+  marker-end:url(#" + pElementId + "signal-u);\
+  marker-start:url(#" + pElementId + "signal-l);\
 }\
-.method{\
-  marker-end:url(#method);\
+ #" + pElementId + " .method{\
+  marker-end:url(#" + pElementId + "method);\
 }\
-.method-both{\
-  marker-end:url(#method);\
-  marker-start:url(#method-l);\
+ #" + pElementId + " .method-both{\
+  marker-end:url(#" + pElementId + "method);\
+  marker-start:url(#" + pElementId + "method-l);\
 }\
-.returnvalue{\
+ #" + pElementId + " .returnvalue{\
   stroke-dasharray:5,2;\
-  marker-end:url(#callback);\
+  marker-end:url(#" + pElementId + "callback);\
 }\
-.returnvalue-both{\
+ #" + pElementId + " .returnvalue-both{\
   stroke-dasharray:5,2;\
-  marker-end:url(#callback);\
-  marker-start:url(#callback-l);\
+  marker-end:url(#" + pElementId + "callback);\
+  marker-start:url(#" + pElementId + "callback-l);\
 }\
-.callback{\
-  marker-end:url(#callback);\
+ #" + pElementId + " .callback{\
+  marker-end:url(#" + pElementId + "callback);\
 }\
-.callback-both{\
-  marker-end:url(#callback);\
-  marker-start:url(#callback-l);\
+ #" + pElementId + " .callback-both{\
+  marker-end:url(#" + pElementId + "callback);\
+  marker-start:url(#" + pElementId + "callback-l);\
 }\
-.emphasised{\
-  marker-end:url(#method);\
+ #" + pElementId + " .emphasised{\
+  marker-end:url(#" + pElementId + "method);\
 }\
-.emphasised-both{\
-  marker-end:url(#method);\
-  marker-start:url(#method-l);\
+ #" + pElementId + " .emphasised-both{\
+  marker-end:url(#" + pElementId + "method);\
+  marker-start:url(#" + pElementId + "method-l);\
 }\
-.lost{\
-  marker-end:url(#lost);\
+ #" + pElementId + " .lost{\
+  marker-end:url(#" + pElementId + "lost);\
 }\
-.inherit{\
+ #" + pElementId + " .inherit{\
   stroke:inherit;\
   color:inherit;\
 }\
-.inherit-fill{\
+ #" + pElementId + " .inherit-fill{\
   fill:inherit;\
 }\
 .watermark{\
@@ -270,6 +278,8 @@ path{\
   font-size: 48pt;\
   font-weight:bold;\
   opacity:0.14;}";
+/* jshint +W030 */ /* jshint +W033 */
+    }
     return {
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element
