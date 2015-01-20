@@ -4,7 +4,7 @@
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast", "../render/text/textutensils"], function(mscparser, msgennyparser, msc_render, utl) {
     "use strict";
 
-    var PARENTELEMENTPREFIX = "mscgen_js$parent_";
+    var PARENTELEMENTPREFIX = "mscgen_js-parent_";
     var DEFAULT_LANGUAGE = "mscgen";
 
     start();

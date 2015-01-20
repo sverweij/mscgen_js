@@ -31,7 +31,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     var LINE_WIDTH = 2;
     var DEFAULT_ARC_GRADIENT = 0;
     
-    var INNERELEMENTPREFIX = "mscgen_js$svg$";
+    var INNERELEMENTPREFIX = "mscgen_js-svg-";
     
     var gEntityXHWM = 0;
     var gEntity2X = {};
