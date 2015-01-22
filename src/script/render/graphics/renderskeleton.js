@@ -130,6 +130,22 @@ define(["./renderutensils"], function(utl) {
     function setupStyleElement(pElementId) {
 /*jshint multistr:true */
 /* jshint -W030 */ /* jshint -W033 */
+/*
+ * a note on the marker ends:
+ * - the reference to the marker ends/ ids of the marker ends should be
+ *   unique _across svgs_ (otherwise removing/ hiding an earlier or
+ *   later svg will make all marker ends go away from all other svgs 
+ *   within the same html document).
+ * - the class names for the marker names can - in theory - be 
+ *   the same accross the svgs, they should just be "fenced" so the 
+ *   class definitions in the nth svg don't overwrite the class definitions
+ *   of the 1 to (n-1)th svgs:
+ *   #someuniqueidforthesvg .signal { ...
+ * - canvg does not (yet?) handle these fenced classes at the moment,
+ *   so instead we prefix the class names (and made sure the graphical
+ *   renderer uses the same for these).
+ *   .someuniqueidforthesvgsignal { ...
+ */
         return "svg{\
   font-family:Helvetica,sans-serif;\
   font-size:9pt;\
@@ -213,62 +229,62 @@ path{\
 .comment{\
   stroke-dasharray:5,2;\
 }\
- #" + pElementId + " .signal{\
+ ." + pElementId + "signal{\
   marker-end:url(#" + pElementId + "signal);\
 }\
- #" + pElementId + " .signal-u{\
+ ." + pElementId + "signal-u{\
   marker-end:url(#" + pElementId + "signal-u);\
 }\
- #" + pElementId + " .signal-both{\
+ ." + pElementId + "signal-both{\
   marker-end:url(#" + pElementId + "signal);\
   marker-start:url(#" + pElementId + "signal-l);\
 }\
- #" + pElementId + " .signal-both-u{\
+ ." + pElementId + "signal-both-u{\
   marker-end:url(#" + pElementId + "signal-u);\
   marker-start:url(#" + pElementId + "signal-lu);\
 }\
- #" + pElementId + " .signal-both-self{\
+ ." + pElementId + "signal-both-self{\
   marker-end:url(#" + pElementId + "signal-u);\
   marker-start:url(#" + pElementId + "signal-l);\
 }\
- #" + pElementId + " .method{\
+ ." + pElementId + "method{\
   marker-end:url(#" + pElementId + "method);\
 }\
- #" + pElementId + " .method-both{\
+ ." + pElementId + "method-both{\
   marker-end:url(#" + pElementId + "method);\
   marker-start:url(#" + pElementId + "method-l);\
 }\
- #" + pElementId + " .returnvalue{\
+ ." + pElementId + "returnvalue{\
   stroke-dasharray:5,2;\
   marker-end:url(#" + pElementId + "callback);\
 }\
- #" + pElementId + " .returnvalue-both{\
+ ." + pElementId + "returnvalue-both{\
   stroke-dasharray:5,2;\
   marker-end:url(#" + pElementId + "callback);\
   marker-start:url(#" + pElementId + "callback-l);\
 }\
- #" + pElementId + " .callback{\
+ ." + pElementId + "callback{\
   marker-end:url(#" + pElementId + "callback);\
 }\
- #" + pElementId + " .callback-both{\
+ ." + pElementId + "callback-both{\
   marker-end:url(#" + pElementId + "callback);\
   marker-start:url(#" + pElementId + "callback-l);\
 }\
- #" + pElementId + " .emphasised{\
+ ." + pElementId + "emphasised{\
   marker-end:url(#" + pElementId + "method);\
 }\
- #" + pElementId + " .emphasised-both{\
+ ." + pElementId + "emphasised-both{\
   marker-end:url(#" + pElementId + "method);\
   marker-start:url(#" + pElementId + "method-l);\
 }\
- #" + pElementId + " .lost{\
+ ." + pElementId + "lost{\
   marker-end:url(#" + pElementId + "lost);\
 }\
- #" + pElementId + " .inherit{\
+ .inherit{\
   stroke:inherit;\
   color:inherit;\
 }\
- #" + pElementId + " .inherit-fill{\
+ .inherit-fill{\
   fill:inherit;\
 }\
 .watermark{\

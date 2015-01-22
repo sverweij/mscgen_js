@@ -593,7 +593,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lArcGradient = chart.arcGradient;
         var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
 
-        lClass = map.determineArcClass(pArc.kind, pFrom, pTo);
+        lClass = gInnerElementId + map.determineArcClass(pArc.kind, pFrom, pTo);
 
         if ("-x" === pArc.kind) {
             pTo = pFrom + (pTo - pFrom) * (3 / 4);
