@@ -69,6 +69,11 @@ MIT style):
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
+- Icons in the animation, were created with the [IcoMoon App](https://icomoon.io/app/). 
+At the time the font was created it was licensed 
+[GPLv3](http://www.gnu.org/licenses/gpl.html) or 
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
 It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
 
 ## Thanks
