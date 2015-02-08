@@ -17,12 +17,21 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
+SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
 	src/script/parse/msgennyparser.js \
 	src/script/parse/xuparser.js \
 	src/style/interp.css \
-	src/style/doc.css
+	src/style/doc.css \
+	src/style/snippets/anim.css \
+	src/style/snippets/documentation.css \
+	src/style/snippets/fonts.css \
+	src/style/snippets/generics.css \
+	src/style/snippets/header.css \
+	src/style/snippets/interpreter.css \
+	src/style/snippets/mediagenerics.css \
+	src/style/snippets/popup.css
 GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
 	src/script/parse/msgennyparser_node.js \
 	src/script/parse/xuparser_node.js 
@@ -134,6 +143,9 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 %.html: src/%.html tracking.id tracking.host VERSION
 	$(SEDVERSION) < $< > $@
 
+%.css: %.scss
+	$(SASS) $< $@
+
 style/%.css: src/style/%.css
 	cp $< $@
 
@@ -231,7 +243,7 @@ script/mscgen-inpage.js: mscgen-inpage.js
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint
+	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint node-sass
 
 runtime-prerequisites-node:
 	# cd src/script/node
