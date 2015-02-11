@@ -110,7 +110,7 @@ par {
 ```
 
 If you're interested in the complete grammar: the parsing expression grammar we
-use to generate the parser is [included in the source](4). 
+use to generate the parser is [included in the source][4]. 
 
 ## ms genny
 ms genny also has support for inline expressions, the if-then-else construct above
