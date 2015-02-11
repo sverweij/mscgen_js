@@ -164,8 +164,8 @@ Note: obviously features not supported by *ms genny* get lost in translation.
     </tr>
 </table>
 
-[1]: ../src/script/node/msgennyparser.pegjs
-[2]: ../src/script/node/cli/genny2msc.js
-[3]: ../src/script/node/cli/msc2genny.js
+[1]: ../src/script/parse/peg/msgennyparser.pegjs
+[2]: ../src/script/cli/genny2msc.js
+[3]: ../src/script/cli/msc2genny.js
 [4]: https://sverweij.github.io/mscgen_js/
 [5]: https://sverweij.github.io/mscgen_js/tutorial.html
