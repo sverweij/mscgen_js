@@ -1,8 +1,12 @@
-@import "./snippets/generics.css";
-@import "./snippets/documentation.css";
-@import "./snippets/header.css";
-@import "./snippets/popup.css";
-@import "./snippets/mediagenerics.css";
+@import "./snippets/fonts";
+@import "../lib/codemirror/codemirror";
+@import "../lib/codemirror/theme/midnight";
+@import "./snippets/_generics";
+@import "./snippets/_header";
+@import "./snippets/_interpreter";
+@import "./snippets/_popup";
+@import "./snippets/_anim";
+@import "./snippets/_mediagenerics";
 /*
  This file is part of mscgen_js.
 

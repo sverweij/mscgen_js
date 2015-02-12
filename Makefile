@@ -17,6 +17,7 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
+SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
 	src/script/parse/msgennyparser.js \
@@ -134,6 +135,9 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 %.html: src/%.html tracking.id tracking.host VERSION
 	$(SEDVERSION) < $< > $@
 
+%.css: %.scss
+	$(SASS) $< $@
+
 style/%.css: src/style/%.css
 	cp $< $@
 
@@ -153,29 +157,30 @@ $(PRODDIRS):
 	mkdir $@
 
 # file targets dev
-src/style/interp.css: src/style/interp-src.css \
-	src/lib/codemirror/codemirror.css \
-	src/lib/codemirror/theme/midnight.css \
-	src/style/snippets/interpreter.css \
-	src/style/snippets/anim.css \
-	src/style/snippets/header.css \
-	src/style/snippets/fonts.css \
-	src/style/snippets/generics.css \
-	src/style/snippets/popup.css \
-	src/style/snippets/mediagenerics.css \
+
+src/style/interp.scss: src/lib/codemirror/_codemirror.scss \
+	src/lib/codemirror/theme/_midnight.scss \
+	src/style/snippets/_interpreter.scss \
+	src/style/snippets/_anim.scss \
+	src/style/snippets/_header.scss \
+	src/style/snippets/_fonts.scss \
+	src/style/snippets/_generics.scss \
+	src/style/snippets/_popup.scss \
+	src/style/snippets/_mediagenerics.scss \
 	src/fonts/controls.eot \
 	src/fonts/controls.svg \
 	src/fonts/controls.ttf \
 	src/fonts/controls.woff
-	$(RJS) -o cssIn=src/style/interp-src.css out=$@
 
-src/style/doc.css: src/style/doc-src.css \
-	src/style/snippets/header.css \
-	src/style/snippets/documentation.css \
-	src/style/snippets/generics.css \
-	src/style/snippets/popup.css \
-	src/style/snippets/mediagenerics.css
-	$(RJS) -o cssIn=src/style/doc-src.css out=$@
+# $(RJS) -o cssIn=src/style/interp-src.css out=$@
+
+src/style/doc.scss: src/style/snippets/_header.scss \
+	src/style/snippets/_documentation.scss \
+	src/style/snippets/_generics.scss \
+	src/style/snippets/_popup.scss \
+	src/style/snippets/_mediagenerics.scss
+
+# $(RJS) -o cssIn=src/style/doc-src.css out=$@
 
 src/index.html: src/style/interp.css $(SOURCES_WEB) $(FONT_SOURCES)
 
@@ -231,7 +236,7 @@ script/mscgen-inpage.js: mscgen-inpage.js
 
 # "phony" targets
 build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint
+	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint node-sass
 
 runtime-prerequisites-node:
 	# cd src/script/node

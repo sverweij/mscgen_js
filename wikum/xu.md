@@ -109,6 +109,9 @@ par {
 }
 ```
 
+If you're interested in the complete grammar: the parsing expression grammar we
+use to generate the parser is [included in the source][4]. 
+
 ## ms genny
 ms genny also has support for inline expressions, the if-then-else construct above
 would look something like this:
@@ -218,3 +221,4 @@ Just like msgenny, xù supports a "watermark" _option_: ```watermark="xù rocks!
 [1]: http://my.safaribooksonline.com/book/software-engineering-and-development/uml/0321193687/sequence-diagrams/ch04lev1sec4
 [2]: http://www.sdl-rt.org/standard/V2.3/html/index.htm
 [3]: http://www.omg.org/spec/UML/2.4.1/Superstructure/PDF/
+[4]: ../src/script/parse/peg/xuparser.pegjs

@@ -1,17 +1,23 @@
+$background-color: white;
+$warning-color: orange;
+$info-color: blue;
+$mark-color: #FFFFAA;
+$line-color: #ddd;
+$background-color-code: #F8F8F8;
 body {
     counter-reset: article-counter;
 }
 footer {
-  border-top: solid lightgray 1px;
+  border-top: solid $line-color 1px;
   padding-top: .9em;
   font-size: 10pt;
-  background-color: white;
+  background-color: $background-color;
 }
 article {
   max-width: 65em;
   margin-top: .25em;
   padding: 2em;
-  background-color: white;
+  background-color: $background-color;
   overflow: hidden;
   counter-reset: chapter-counter;
   border-collapse: separate; /* apparently needed for IE */
@@ -26,6 +32,9 @@ section {
 p, pre {
   margin-left: 1em;
   margin-right: 1em;
+}
+p {
+  margin: 0 1em 1em 1em;
 }
 code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
@@ -45,27 +54,24 @@ article h3:before {
   counter-increment: paragraph-counter;
   content: counter(article-counter) "." counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
+article h1.first-title-on-page {
+  border: none;
+}
 article h1, h2 {
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid #F8F8F8;
+  padding-top: 0.5em;
+  border-top: 1px solid $line-color;
 }
-article a {
-  color: blue;
+article h1, h2, h3 {
+  margin-bottom: 0.2em;
 }
-article a:visited {
-  color: blue;
-}
-code {
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
+code, .code {
+  border: 1px solid $line-color;
+  background-color: $background-color-code;
   border-radius: 3px;
 }
 .code {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
   overflow: auto;
   padding: 6px 10px;
-  border-radius: 3px;
   display: inline-block;
   vertical-align: top;
 }
@@ -77,21 +83,21 @@ img, svg, .mscgen_js {
   display: inline-block;
 }
 .info {
-  border-left: 1px solid #AAAAFF;
+  border-left: 1px solid $info-color;
   padding: 0.5em;
 }
 .info:before {
   content: "(i) ";
-  color: blue;
+  color: $info-color;
   font-weight: bold;
 }
 .warning {
-  border-left: 1px solid orange;
+  border-left: 1px solid $warning-color;
   padding: 0.5em;
 }
 .warning:before {
   content: "/!\\ "; /* warning icon looks like this, but is not available everywhere ...\0026A0\0000A0 */
-  color: orange;
+  color: $warning-color;
   font-weight: bold;
 }
 .shadow {
@@ -99,7 +105,7 @@ img, svg, .mscgen_js {
   border-collapse: separate; /* apparently needed for IE */   
 }
 mark {
-  background-color: #FFFFAA;
+  background-color: $mark-color;
 }
 @media screen and (max-width: 639px) {
   body {
