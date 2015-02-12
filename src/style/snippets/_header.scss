@@ -2,7 +2,7 @@ header {
   padding: 1em 0.5em 0.5em 0.5em;
   border-bottom: solid lightgray 1px;
   margin-bottom: .4em;
-  background-image: url('../../images/bg.png');
+  background-image: url('../images/bg.png');
   background-repeat: no-repeat;
   background-position: 25%;
   box-shadow: 0 .1em 0.4em -.2em gray;
@@ -70,16 +70,16 @@ header .icon {
   transform: scale(0.9);
 }
 header .embed {
-  background-image: url('../../images/embed.svg');
+  background-image: url('../images/embed.svg');
 }
 header .question {
-  background-image: url('../../images/question.svg');
+  background-image: url('../images/question.svg');
 }
 header .interpreter {
-  background-image: url('../../images/interpreter.svg');
+  background-image: url('../images/interpreter.svg');
 }
 header .about {
-  background-image: url('../../images/about.svg');
+  background-image: url('../images/about.svg');
 }
 header .active {
   font-weight: 600;
