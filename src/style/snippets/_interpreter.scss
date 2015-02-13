@@ -1,3 +1,6 @@
+$error-background-color: #F2DEDE;
+$error-color: #A94442;
+$error-border: 1px solid #EBCCD1;
 .code {
   font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
   font-size: .7em;
@@ -39,7 +42,7 @@ h3 {
   height: 40;
 }
 .error {
-  border: 1px solid #EBCCD1;
+  border: $error-border;
   border-radius: 2px;
   margin: 0;
   font-size: 0.9em;
@@ -48,9 +51,9 @@ h3 {
 }
 .error .header {
   padding: 0.5em 0.5em 0.5em 1em;
-  background-color: #F2DEDE;
-  color: #A94442;
-  border-bottom: 1px solid #EBCCD1;
+  background-color: $error-background-color;
+  color: $error-color;
+  border-bottom: $error-border;
 }
 .error .content {
   padding: 0.5em 0.5em 0.5em 1em;
