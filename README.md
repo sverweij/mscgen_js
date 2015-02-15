@@ -16,27 +16,27 @@ This sequence chart ...
 ![a sample sequence chart, rendered as png](wikum/readme.png)
 
 was made with this *mscgen* source:
-``` mscgen
-msc {
-  a [ label="Entity A", textbgcolor="red", textcolor="white" ],
-  b [ label="Entity B", textbgcolor="yellow" ],
-  c [ label="Entity C", textbgcolor="blue", textcolor="yellow" ];
 
-  a->b [ label = "ab()" ] ;
-  b->c [ label = "bc(TRUE)"];
-  c=>>c [ label = "process(1)" ];
-  b<<=c [ label = "callback()", arcskip="1"];
-  |||;
-  ---  [ label = "If more to run", ID="*" ];
-  a->a [ label = "next()"];
-  a=>c [ label = "ac1()"];
-  b<<c [ label = "cb(true)", textbgcolor="lime"];
-  b->b [ label = "stalled(...)"];
-  a<<b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
-  c note c [ label="Just a note ...", linecolor="green", 
-            textcolor="green", textbgcolor="lime" ];
-}
-```
+    msc {
+      a [ label="Entity A", textbgcolor="red", textcolor="white" ],
+      b [ label="Entity B", textbgcolor="yellow" ],
+      c [ label="Entity C", textbgcolor="blue", textcolor="yellow" ];
+
+      a->b [ label = "ab()" ] ;
+      b->c [ label = "bc(TRUE)"];
+      c=>>c [ label = "process(1)" ];
+      b<<=c [ label = "callback()", arcskip="1"];
+      |||;
+      ---  [ label = "If more to run", ID="*" ];
+      a->a [ label = "next()"];
+      a=>c [ label = "ac1()"];
+      b<<c [ label = "cb(true)", textbgcolor="lime"];
+      b->b [ label = "stalled(...)"];
+      a<<b [ label = "ab() = FALSE", textcolor="red", linecolor="red"], 
+      c note c [ label="Just a note ...", linecolor="green", 
+                textcolor="green", textbgcolor="lime" ];
+    }
+
 
 ## mscgen_js and the mscgen standard
 mscgen_js was made to go both ways:
@@ -59,6 +59,22 @@ we try to explain that [here][33].
 ## Licenses and dependencies
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
 it as part of other free software, but _not_ as part of non free software.
+
+In addition to that, for the use of the minified version of the embedding code
+(```mscgen-inpage.js```) as described on [embedding][30] a special exception
+to the GPL is made:  
+
+As a special exception to the GPL, any HTML file which merely makes
+function calls to mscgen-inpage.js, and for that purpose includes
+it by reference shall be deemed a separate work for copyright law
+purposes. In addition, the copyright holders of this code give you
+permission to combine this code with free software libraries that
+are released under the GNU LGPL. You may copy and distribute such
+a system following the terms of the GNU GPL for this code and the
+LGPL for the libraries. If you modify this code, you may extend
+this exception to your version of the code, but you are not obligated
+to do so. If you do not wish to do so, delete this exception statement
+from your version.
 
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style):
