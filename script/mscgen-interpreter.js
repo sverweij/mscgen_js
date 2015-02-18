@@ -14,6 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 

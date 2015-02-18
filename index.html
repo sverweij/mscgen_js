@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?4a691e2e8858ee00"
+        <link rel="stylesheet" href="style/interp.css?8c9d57eea522662e"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?4a691e2e8858ee00"
-        src="lib/require.js?4a691e2e8858ee00" defer></script>
+        <script data-main="script/mscgen-interpreter.js?8c9d57eea522662e"
+        src="lib/require.js?8c9d57eea522662e" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -105,18 +105,18 @@
             </nav>
 
             <div class="debug" style="display: none">
-                <div><em>version:</em> 0.9.55</div>
-                <div><em>build-date:</em> 20150212 21:50</div>
-                <div><em>commit:</em> 4a691e2e8858ee00</div>
+                <div><em>version:</em> 0.9.56</div>
+                <div><em>build-date:</em> 20150218 21:04</div>
+                <div><em>commit:</em> 8c9d57eea522662e</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.55
-    build-date: 20150212 21:50
-    commit: 4a691e2e8858ee00">mscgen_js</h1>
+    version: 0.9.56
+    build-date: 20150218 21:04
+    commit: 8c9d57eea522662e">mscgen_js</h1>
             <span class="hideonmobile">turns text into sequence charts</span>
             <span class="showonmobile">text =&gt; MSCs</span>
         </header>
@@ -126,8 +126,8 @@ mscgen_js
                 <h3 class="fadable-hint"><span class="intronumber">1</span> <span class="hideonmobile">your</span> text <span class="hideonmobile">goes here </span> &#x0261f;</h3>
 
                 <div class="herpes">
-                    <select id="__samples">
-                        <option value="none">select an example...</option>
+                    <select title="list of samples" id="__samples">
+                        <option value="none" selected>select an example...</option>
                         <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
                         <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
                         <option value="samples/readme.mscin">showing off Mscgen</option>
@@ -161,7 +161,7 @@ mscgen_js
                     </select>
                 </div>
             </div>
-            <textarea id="__msc_input" class="code mscgen" spellcheck="false"></textarea>
+            <textarea id="__msc_input" class="code mscgen" spellcheck="false" title="your input text:"></textarea>
             <div id="__input_controls">
                 <input type="checkbox" id="__autorender">
                 <label for="__autorender"
@@ -303,7 +303,8 @@ Useful for debugging with small charts."><span class="icon-share"></span></a>
                         cols="56"
                         rows="20"
                         id="__embedsnippet"
-                        class="code html">
+                        class="code html"
+                        title="sample embedding html">
                     </textarea>
                 </div>
             </div>
