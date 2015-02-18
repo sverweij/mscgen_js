@@ -302,7 +302,8 @@ vector graphics (SVG):
 - Vector graphics are an obvious choice for drawing sequence charts - it's mostly lines
 - SVG works out of the box in most modern browsers
 - Converting (/ downgrading) vector graphics to raster graphic
-  formats (like png, jpeg etc) is possible.
+  formats (like png, jpeg etc) is doable (see below). The other way 'round is
+  difficult.
 
 ## The scalable vector graphics skeleton
 :page_with_curl: code in [render/graphics/renderskeleton.js](render/graphics/renderskeleton.js)
@@ -435,7 +436,7 @@ these are now generated when you actually click the button.
 For rendering raster graphics we use the `canvg` library, which takes
 a piece of svg and renders it on a canvas. When that has happened, a
 call to the canvas's `toDataURL` function suffices to return the base64
-encoded
+encoded version of the chart.
 
 ### The editor: code mirror
 - choosing code mirror

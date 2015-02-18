@@ -172,15 +172,11 @@ src/style/interp.scss: src/lib/codemirror/_codemirror.scss \
 	src/fonts/controls.ttf \
 	src/fonts/controls.woff
 
-# $(RJS) -o cssIn=src/style/interp-src.css out=$@
-
 src/style/doc.scss: src/style/snippets/_header.scss \
 	src/style/snippets/_documentation.scss \
 	src/style/snippets/_generics.scss \
 	src/style/snippets/_popup.scss \
 	src/style/snippets/_mediagenerics.scss
-
-# $(RJS) -o cssIn=src/style/doc-src.css out=$@
 
 src/index.html: src/style/interp.css $(SOURCES_WEB) $(FONT_SOURCES)
 
@@ -215,7 +211,6 @@ images/: src/images
 samples/: src/samples
 	cp -R $< .
 
-
 lib/require.js: src/lib/require.js
 	cp $< $@
 
@@ -223,13 +218,15 @@ script/mscgen-interpreter.js: $(SOURCES_WEB)
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
 			out=$@ \
+			preserveLicenseComments=true
 
 mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
 			name=../lib/almond \
 			include=mscgen-inpage \
 			out=$@ \
-			wrap=true
+			wrap=true \
+			preserveLicenseComments=true
 
 script/mscgen-inpage.js: mscgen-inpage.js
 	cp $< $@
