@@ -47,27 +47,20 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
         "../utl/paramslikker", "./controller-animator",
         "../../lib/codemirror/lib/codemirror",
+        "../utl/domquery",
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
         "../../lib/codemirror/mode/mscgen/mscgen",
         "../../lib/canvg/canvg",
         "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor",
-        "../utl/domquery"
+        "../../lib/canvg/rgbcolor"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen, todot, tovanilla,
             gaga, txt, colorize,
             params, animctrl,
             codemirror,
-            cm_closebrackets,
-            cm_matchbrackets,
-            cm_placeholder,
-            cm_mscgen,
-            cv,
-            cv_stackblur,
-            cv_rgbcolor,
             dq
         ) {
 "use strict";

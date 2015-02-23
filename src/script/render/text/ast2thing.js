@@ -122,7 +122,7 @@ define(["./textutensils"], function(utl) {
         function isQuotable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
             if (lMatchResult && lMatchResult !== null) {
-                return lMatchResult.length != 1;
+                return lMatchResult.length !== 1;
             } else {
                 return true;
             }

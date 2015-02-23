@@ -1,6 +1,6 @@
-# mscgen_js
-*Turns text into sequence charts.*
-
+# mscgen_js 
+*Turns text into sequence charts.*    
+[![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
 - Implementation of the super easy [mscgen][1] in javascript. 
 - [Embeddable][30] in your html.
 - Try it in the [interactive interpreter][2].
@@ -90,7 +90,7 @@ At the time the font was created it was licensed
 [GPLv3](http://www.gnu.org/licenses/gpl.html) or 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. 
+It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. Besides the repo is monitored by Code Climate.
 
 ## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for 
