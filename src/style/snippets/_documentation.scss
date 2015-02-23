@@ -31,11 +31,10 @@ section {
   counter-reset: paragraph-counter;
 }
 p, pre {
-  margin-left: 1em;
   margin-right: 1em;
 }
 p {
-  margin: 0 1em 1em 1em;
+  margin: 0 1em 1em 0;
 }
 code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
