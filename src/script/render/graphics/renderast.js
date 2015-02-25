@@ -30,9 +30,9 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     var DEFAULT_ARCROW_HEIGHT = 38;
     var LINE_WIDTH = 2;
     var DEFAULT_ARC_GRADIENT = 0;
-    
+
     var INNERELEMENTPREFIX = "mscgen_js-svg-";
-    
+
     var gEntityXHWM = 0;
     var gEntity2X = {};
     var gEntity2ArcColor = {};
@@ -204,7 +204,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         pAST = flatten.flatten(pAST);
 
         gInnerElementId = INNERELEMENTPREFIX + pParentElementId;
-        
+
         skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
         chart.document = skel.init(pWindow);
         chart.layer.defs = chart.document.getElementById(toId("__defs"));
@@ -226,11 +226,11 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             lMscDepthCorrection = 2 * ((pAST.depth + 1) * 2 * LINE_WIDTH);
             chart.maxDepth = pAST.depth;
         }
-                
+
         /* render entities and arcs */
         renderEntities(pAST.entities);
         renderArcRows(pAST.arcs, pAST.entities);
-        
+
         var lNoArcs = pAST.arcs ? pAST.arcs.length : 0;
         var lRowInfo = getRowInfo(lNoArcs - 1);
         var lCanvas = {
@@ -291,7 +291,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         });
         return lHWM;
     }
-    
+
     function renderEntity(pId, pEntity) {
         var lGroup = utl.createGroup(pId);
         var lTextLabel = createTextLabel(pId + "_txt", pEntity, 0, chart.entityHeight / 2, chart.entityWidth, "entity");
@@ -301,14 +301,14 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         lGroup.appendChild(lTextLabel);
         return lGroup;
     }
-    
+
     function _renderEntity(pEntity, pEntityXPos) {
         var arcColors = {};
-        
+
         chart.layer.defs.appendChild(renderEntity(toId(pEntity.name), pEntity));
         chart.layer.sequence.appendChild(utl.createUse(pEntityXPos, 0, toId(pEntity.name)));
         gEntity2X[pEntity.name] = pEntityXPos + (chart.entityWidth / 2);
-        
+
         if (pEntity.arclinecolor) {
             arcColors.arclinecolor = pEntity.arclinecolor;
         }
@@ -737,7 +737,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             lArcStart = gEntity2X[pArc.from];
             lArcEnd = Math.abs(gEntity2X[pArc.to] - gEntity2X[pArc.from]);
         }
-        lGroup.appendChild(createTextLabel(pId, pArc, lArcStart, 0, lArcEnd));
+        lGroup.appendChild(createTextLabel(pId + "_lbl", pArc, lArcStart, 0, lArcEnd));
         return lGroup;
     }
 
