@@ -542,7 +542,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lHeight = 2 * (chart.arcRowHeight / 5);
         var lWidth = chart.interEntitySpacing / 3;
 
-        var lGroup = utl.createGroup("selfie");
+        var lGroup = utl.createGroup();
         if (pDouble) {
             // TODO #13: render associated marker(s) in <def>
             var lInnerTurn = utl.createUTurn(pFrom, (lHeight - 4) / 2, (pYTo - 2 + lHeight)/*lSign*lHeight*/, lWidth - 4, "none");

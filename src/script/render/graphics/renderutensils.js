@@ -51,7 +51,7 @@ define([], function() {
             lBody.removeChild(pElement);
 
             it's probably better to not depend on the existence of
-            an svg in the body that is actualy usable :-). 
+            an svg in the body that is actualy usable :-).
 
             Hence:
             */
@@ -294,7 +294,9 @@ define([], function() {
 
     function _createGroup(pId) {
         var lGroup = gDocument.createElementNS(SVGNS, "g");
-        lGroup.setAttribute("id", pId);
+        if (pId) {
+          lGroup.setAttribute("id", pId);
+        }
 
         return lGroup;
     }
