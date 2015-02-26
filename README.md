@@ -1,6 +1,7 @@
 # mscgen_js 
 *Turns text into sequence charts.*    
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
+[![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)](https://travis-ci.org/sverweij/mscgen_js)
 - Implementation of the super easy [mscgen][1] in javascript. 
 - [Embeddable][30] in your html.
 - Try it in the [interactive interpreter][2].
