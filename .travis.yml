@@ -3,5 +3,9 @@ language: node_js
 node_js:
   - "0.10"
 
+install:
+  - npm install
+  - make dev-build
+
 script:
-  - npm test
+  - make check
