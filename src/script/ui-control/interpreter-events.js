@@ -1,227 +1,57 @@
 /* jshint browser:true */
 /* global define */
 define(["./controller-interpreter",
-        "./controller-animator",
-        "./controller-exporter",
+        "./interpreter-input-actions",
+        "./interpreter-output-actions",
+        "./interpreter-nav-actions",
         "../utl/paramslikker",
         "../utl/domquery",
-        "../utl/gaga"],
+        "../utl/gaga"
+        ],
         function(
             uistate,
-            animctrl,
-            xport,
+            iactions,
+            oactions,
+            nactions,
             params,
             dq,
             gaga) {
     "use strict";
 
-    var ESC_KEY   = 27;
-
-    function setupGA(pDoNotTrack){
-        gaga.gaSetup("false" === pDoNotTrack || undefined === pDoNotTrack );
-        gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
-        gaga.g('send', 'pageview');
-    }
-    
     function setupInputEvents(){
-      window.__autorender.addEventListener("click",
-          function() {
-              uistate.autorenderOnClick();
-              gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
-          },
-          false
-      );
-      window.__language_msgenny.addEventListener("click",
-          function() {
-              uistate.switchLanguageOnClick("msgenny");
-              gaga.g('send', 'event', 'toggle_ms_genny', 'msgenny');
-          },
-          false
-      );
-      window.__language_mscgen.addEventListener("click",
-          function() {
-              uistate.switchLanguageOnClick("mscgen");
-              gaga.g('send', 'event', 'toggle_ms_genny', 'mscgen');
-          },
-          false
-      );
-      window.__language_json.addEventListener("click",
-          function() {
-              uistate.switchLanguageOnClick("json");
-              gaga.g('send', 'event', 'toggle_ms_genny', 'json');
-          },
-          false
-      );
-      window.__btn_colorize.addEventListener("click",
-          function() {
-              uistate.colorizeOnClick();
-              gaga.g('send', 'event', 'colorize', 'button');
-          },
-          false
-      );
-      window.__btn_uncolorize.addEventListener("click",
-          function() {
-              uistate.unColorizeOnClick();
-              gaga.g('send', 'event', 'uncolorize', 'button');
-          },
-          false
-      );
-      window.__btn_render.addEventListener("click",
-          function() {
-              uistate.renderOnClick();
-              gaga.g('send', 'event', 'render', 'button');
-          },
-          false
-      );
-      window.__samples.addEventListener("change",
-          function () {
-              uistate.setSample(window.__samples.value);
-              gaga.g('send', 'event', 'selectexample', window.__samples.value);
-          },
-          false
-      );
+      window.__autorender.addEventListener("click", iactions.autorenderOnClick, false);
+      window.__language_msgenny.addEventListener("click", iactions.languageMsGennyOnClick, false);
+      window.__language_mscgen.addEventListener("click", iactions.languageMscGenOnClick, false);
+      window.__language_json.addEventListener("click", iactions.languageJSONOnClick, false);
+      window.__btn_colorize.addEventListener("click", iactions.colorizeOnClick, false);
+      window.__btn_uncolorize.addEventListener("click", iactions.uncolorizeOnClick, false);
+      window.__btn_render.addEventListener("click", iactions.renderOnClick, false);
+      window.__samples.addEventListener("change", iactions.samplesOnChange, false);
     }
 
     function setupOutputEvents(){
-      window.__svg.addEventListener("dblclick",
-          function() {
-              window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
-              gaga.g('send', 'event', 'show_svg_base64', 'svg dblcick');
-          },
-          false
-      );
-      window.__show_svg.addEventListener("click",
-          function() {
-              window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
-              gaga.g('send', 'event', 'show_svg_base64', 'button');
-          },
-          false
-      );
-      window.__show_png.addEventListener("click",
-          function() {
-              window.open(xport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/png"), "_blank");
-              gaga.g('send', 'event', 'show_png_base64', 'button');
-          },
-          false
-      );
-      window.__show_jpeg.addEventListener("click",
-          function() {
-              window.open(xport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/jpeg"), "_blank");
-              gaga.g('send', 'event', 'show_jpeg_base64', 'button');
-          },
-          false
-      );
-      window.__show_html.addEventListener("click",
-          function() {
-              window.open(xport.toHTMLSnippetURI(uistate.getSource(), uistate.getLanguage()));
-              gaga.g('send', 'event', 'show_html', 'button');
-          },
-          false
-      );
-      window.__show_dot.addEventListener("click",
-          function() {
-              window.open(xport.todotURI(uistate.getAST()));
-              gaga.g('send', 'event', 'show_dot', 'button');
-          },
-          false
-      );
-      window.__show_vanilla.addEventListener("click",
-          function() {
-              window.open(xport.toVanillaMscGenURI(uistate.getAST()));
-              gaga.g('send', 'event', 'show_vanilla', 'button');
-          },
-          false
-          );
-      window.__show_url.addEventListener("click",
-          function() {
-              window.open(xport.toDebugURI(window.location, uistate.getSource(), uistate.getLanguage()));
-              gaga.g('send', 'event', 'show_url', 'button');
-          },
-          false
-      );
-      window.__show_anim.addEventListener("click",
-          function() {
-              try {
-                  animctrl.initialize(uistate.getAST());
-                  dq.SS(window.__animscreen).show();
-              } catch(e) {
-                  // do nothing
-              }
-              gaga.g('send', 'event', 'show_anim', 'button');
-          },
-          false
-      );
-      window.__error.addEventListener("click",
-          function() {
-              uistate.errorOnClick();
-              gaga.g('send', 'event', 'link', "error");
-          },
-          false
-      );
+      window.__svg.addEventListener("dblclick", oactions.svgOnDblClick, false);
+      window.__show_svg.addEventListener("click", oactions.svgOnClick, false);
+      window.__show_png.addEventListener("click", oactions.pngOnClick,false);
+      window.__show_jpeg.addEventListener("click", oactions.jpegOnClick, false);
+      window.__show_html.addEventListener("click", oactions.htmlOnClick, false);
+      window.__show_dot.addEventListener("click", oactions.dotOnClick, false);
+      window.__show_vanilla.addEventListener("click", oactions.vanillaOnClick, false);
+      window.__show_url.addEventListener("click", oactions.urlOnClick, false);
+      window.__show_anim.addEventListener("click", oactions.animOnClick, false);
+      window.__error.addEventListener("click", oactions.errorOnClick, false);
     }
 
     function setupInfoNavigationEvents(){
-      window.__close_lightbox.addEventListener("click",
-          function() {
-              dq.SS(window.__cheatsheet).hide();
-              gaga.g('send', 'event', 'close_source_lightbox', 'button');
-          },
-          false
-      );
-      window.__close_embedsheet.addEventListener("click",
-          function() {
-              dq.SS(window.__embedsheet).hide();
-              gaga.g('send', 'event', 'close_embedsheet', 'button');
-          },
-          false
-      );
-      window.__close_aboutsheet.addEventListener("click",
-          function() {
-              dq.SS(window.__aboutsheet).hide();
-              gaga.g('send', 'event', 'close_aboutsheet', 'button');
-          },
-          false
-      );
-      window.__helpme.addEventListener("click",
-          function() {
-              dq.SS(window.__embedsheet).hide();
-              dq.SS(window.__cheatsheet).toggle();
-              dq.SS(window.__aboutsheet).hide();
-              gaga.g('send', 'event', 'link', "helpme");
-          },
-          false
-      );
-      window.__embedme.addEventListener("click",
-          function() {
-              dq.SS(window.__cheatsheet).hide();
-              window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage());
-              dq.SS(window.__embedsheet).toggle();
-              dq.SS(window.__aboutsheet).hide();
-              gaga.g('send', 'event', 'link', "embedme");
-          },
-          false
-      );
-      window.__about.addEventListener("click",
-          function() {
-              dq.SS(window.__embedsheet).hide();
-              dq.SS(window.__cheatsheet).hide();
-              dq.SS(window.__aboutsheet).toggle();
-              gaga.g('send', 'event', 'link', "about");
-          },
-          false
-      );
-      window.document.body.addEventListener("keydown",
-          function (e) {
-             if(ESC_KEY === e.keyCode) {
-                  dq.SS(window.__cheatsheet).hide();
-                  dq.SS(window.__embedsheet).hide();
-                  dq.SS(window.__aboutsheet).hide();
-                  animctrl.close();
-             }
-          },
-          false
-      );
+      window.__close_lightbox.addEventListener("click", nactions.closeCheatSheet, false);
+      window.__close_embedsheet.addEventListener("click", nactions.closeEmbedsheet, false);
+      window.__close_aboutsheet.addEventListener("click", nactions.closeAboutsheet, false);
+      window.__helpme.addEventListener("click", nactions.helpMeOnClick, false);
+      window.__embedme.addEventListener("click", nactions.embedMeOnClick, false);
+      window.__about.addEventListener("click", nactions.aboutOnClick, false);
+      window.document.body.addEventListener("keydown", nactions.keyDown, false);
     }
+
     function tagAllLinks(){
       dq.attachEventHandler("a[href]", "click", function(e){
         var lTarget = "unknown";
@@ -262,7 +92,7 @@ define(["./controller-interpreter",
 
     var lParams = params.getParams (window.location.search);
 
-    setupGA(lParams.donottrack);
+    iactions.setupGA(lParams.donottrack);
     processParams(lParams);
     setupEvents();
 });
