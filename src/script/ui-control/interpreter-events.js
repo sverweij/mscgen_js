@@ -2,12 +2,14 @@
 /* global define */
 define(["./controller-interpreter",
         "./controller-animator",
+        "./controller-exporter",
         "../utl/paramslikker",
         "../utl/domquery",
         "../utl/gaga"],
         function(
-            actions,
+            uistate,
             animctrl,
+            xport,
             params,
             dq,
             gaga) {
@@ -20,59 +22,60 @@ define(["./controller-interpreter",
         gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
         gaga.g('send', 'pageview');
     }
+    
     function setupInputEvents(){
       window.__autorender.addEventListener("click",
           function() {
-              actions.autorenderOnClick();
+              uistate.autorenderOnClick();
               gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
           },
           false
       );
       window.__language_msgenny.addEventListener("click",
           function() {
-              actions.switchLanguageOnClick("msgenny");
+              uistate.switchLanguageOnClick("msgenny");
               gaga.g('send', 'event', 'toggle_ms_genny', 'msgenny');
           },
           false
       );
       window.__language_mscgen.addEventListener("click",
           function() {
-              actions.switchLanguageOnClick("mscgen");
+              uistate.switchLanguageOnClick("mscgen");
               gaga.g('send', 'event', 'toggle_ms_genny', 'mscgen');
           },
           false
       );
       window.__language_json.addEventListener("click",
           function() {
-              actions.switchLanguageOnClick("json");
+              uistate.switchLanguageOnClick("json");
               gaga.g('send', 'event', 'toggle_ms_genny', 'json');
           },
           false
       );
       window.__btn_colorize.addEventListener("click",
           function() {
-              actions.colorizeOnClick();
+              uistate.colorizeOnClick();
               gaga.g('send', 'event', 'colorize', 'button');
           },
           false
       );
       window.__btn_uncolorize.addEventListener("click",
           function() {
-              actions.unColorizeOnClick();
+              uistate.unColorizeOnClick();
               gaga.g('send', 'event', 'uncolorize', 'button');
           },
           false
       );
       window.__btn_render.addEventListener("click",
           function() {
-              actions.renderOnClick();
+              uistate.renderOnClick();
               gaga.g('send', 'event', 'render', 'button');
           },
           false
       );
       window.__samples.addEventListener("change",
           function () {
-              actions.setSample(window.__samples.value);
+              uistate.setSample(window.__samples.value);
               gaga.g('send', 'event', 'selectexample', window.__samples.value);
           },
           false
@@ -82,70 +85,75 @@ define(["./controller-interpreter",
     function setupOutputEvents(){
       window.__svg.addEventListener("dblclick",
           function() {
-              actions.show_svgOnClick();
+              window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
               gaga.g('send', 'event', 'show_svg_base64', 'svg dblcick');
           },
           false
       );
       window.__show_svg.addEventListener("click",
           function() {
-              actions.show_svgOnClick();
+              window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
               gaga.g('send', 'event', 'show_svg_base64', 'button');
           },
           false
       );
       window.__show_png.addEventListener("click",
           function() {
-              actions.show_rasterOnClick("image/png");
+              window.open(xport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/png"), "_blank");
               gaga.g('send', 'event', 'show_png_base64', 'button');
           },
           false
       );
       window.__show_jpeg.addEventListener("click",
           function() {
-              actions.show_rasterOnClick("image/jpeg");
+              window.open(xport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/jpeg"), "_blank");
               gaga.g('send', 'event', 'show_jpeg_base64', 'button');
           },
           false
       );
       window.__show_html.addEventListener("click",
           function() {
-              actions.show_htmlOnClick();
+              window.open(xport.toHTMLSnippetURI(uistate.getSource(), uistate.getLanguage()));
               gaga.g('send', 'event', 'show_html', 'button');
           },
           false
       );
       window.__show_dot.addEventListener("click",
           function() {
-              actions.show_dotOnClick();
+              window.open(xport.todotURI(uistate.getAST()));
               gaga.g('send', 'event', 'show_dot', 'button');
           },
           false
       );
       window.__show_vanilla.addEventListener("click",
-              function() {
-                  actions.show_vanillaOnClick();
-                  gaga.g('send', 'event', 'show_vanilla', 'button');
-              },
-              false
+          function() {
+              window.open(xport.toVanillaMscGenURI(uistate.getAST()));
+              gaga.g('send', 'event', 'show_vanilla', 'button');
+          },
+          false
           );
       window.__show_url.addEventListener("click",
           function() {
-              actions.show_urlOnClick();
+              window.open(xport.toDebugURI(window.location, uistate.getSource(), uistate.getLanguage()));
               gaga.g('send', 'event', 'show_url', 'button');
           },
           false
       );
       window.__show_anim.addEventListener("click",
           function() {
-              actions.show_animOnClick(animctrl);
+              try {
+                  animctrl.initialize(uistate.getAST());
+                  dq.SS(window.__animscreen).show();
+              } catch(e) {
+                  // do nothing
+              }
               gaga.g('send', 'event', 'show_anim', 'button');
           },
           false
       );
       window.__error.addEventListener("click",
           function() {
-              actions.errorOnClick();
+              uistate.errorOnClick();
               gaga.g('send', 'event', 'link', "error");
           },
           false
@@ -176,21 +184,28 @@ define(["./controller-interpreter",
       );
       window.__helpme.addEventListener("click",
           function() {
-              actions.helpmeOnClick();
+              dq.SS(window.__embedsheet).hide();
+              dq.SS(window.__cheatsheet).toggle();
+              dq.SS(window.__aboutsheet).hide();
               gaga.g('send', 'event', 'link', "helpme");
           },
           false
       );
       window.__embedme.addEventListener("click",
           function() {
-              actions.embedmeOnClick();
+              dq.SS(window.__cheatsheet).hide();
+              window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage());
+              dq.SS(window.__embedsheet).toggle();
+              dq.SS(window.__aboutsheet).hide();
               gaga.g('send', 'event', 'link', "embedme");
           },
           false
       );
       window.__about.addEventListener("click",
           function() {
-              actions.aboutOnClick();
+              dq.SS(window.__embedsheet).hide();
+              dq.SS(window.__cheatsheet).hide();
+              dq.SS(window.__aboutsheet).toggle();
               gaga.g('send', 'event', 'link', "about");
           },
           false
@@ -221,7 +236,7 @@ define(["./controller-interpreter",
 
     function processParams(pParams){
         if ("true" === pParams.debug) {
-            actions.setDebug(true);
+            uistate.setDebug(true);
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });
@@ -229,11 +244,11 @@ define(["./controller-interpreter",
         }
 
         if (pParams.msc) {
-            actions.setSource(pParams.msc);
+            uistate.setSource(pParams.msc);
             gaga.g('send', 'event', 'params.msc');
         }
         if (pParams.lang){
-            actions.setLanguage(pParams.lang);
+            uistate.setLanguage(pParams.lang);
             gaga.g('send', 'event', 'params.lang', pParams.lang);
         }
     }

@@ -58,6 +58,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/ui-control/controller-interpreter.js \
 	src/script/ui-control/interpreter-events.js \
 	src/script/ui-control/controller-animator.js \
+	src/script/ui-control/controller-exporter.js \
 	src/script/utl/gaga.js \
 	src/script/utl/domquery.js \
 	src/script/mscgen-interpreter.js 
