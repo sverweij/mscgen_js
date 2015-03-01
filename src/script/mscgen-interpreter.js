@@ -1,6 +1,5 @@
 /* global require */
-/* jshint unused:false */
-require(["ui-control/controller-interpreter"], function(controller) {
+require(["ui-control/interpreter-events"], function() {
 });
 /*
  This file is part of mscgen_js.
