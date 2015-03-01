@@ -35,10 +35,9 @@ msc {
 }
 */
 
-/* jshint undef:true */
 /* jshint browser:true */
-/* jshint jquery:false */
 /* jshint nonstandard:true */
+/* jshint unused:true */
 /* global define, canvg */
 
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
@@ -99,8 +98,9 @@ function setupEditorEvents(pCodeMirror){
               gGaKeyCount++;
           }
   });
+
   pCodeMirror.on ("drop",
-      function(pThing, pEvent) {
+      function(pUnused, pEvent) {
           /* if there is a file in the drop event clear the textarea,
            * otherwise do default handling for drop events (whatever it is)
            */
