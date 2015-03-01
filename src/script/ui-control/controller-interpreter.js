@@ -35,10 +35,9 @@ msc {
 }
 */
 
-/* jshint undef:true */
 /* jshint browser:true */
-/* jshint jquery:false */
 /* jshint nonstandard:true */
+/* jshint unused:true */
 /* global define, canvg */
 
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
@@ -99,8 +98,9 @@ function setupEditorEvents(pCodeMirror){
               gGaKeyCount++;
           }
   });
+
   pCodeMirror.on ("drop",
-      function(pThing, pEvent) {
+      function(pUnused, pEvent) {
           /* if there is a file in the drop event clear the textarea,
            * otherwise do default handling for drop events (whatever it is)
            */
@@ -443,7 +443,7 @@ function displayError (pError, pContext) {
 
  mscgen_js is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNEdq.SS FOR A PARTICULAR PURPOSE.  See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License

@@ -2,7 +2,7 @@
  * methods to chop a given abstract syntax tree into "frames"
  * - ASTS that are a strict subset of the given AST. These
  * frames can be used to render an animation of the sequence
- * chart it represents. 
+ * chart it represents.
  *
  * Assumes the AST to be valid (see https://github.com/sverweij/mscgen_js/tree/master/src/script)
  *
@@ -29,7 +29,7 @@ define(["../../utl/utensils"], function(utl) {
         this.noRows       = 0;
         this.position     = 0;
         this.frames       = [];
-        this.preCalculate = false; 
+        this.preCalculate = false;
         if (pAST) {
             if (pAST && undefined !== pPreCalculate){
                 this.init(pAST, pPreCalculate);
@@ -48,7 +48,7 @@ define(["../../utl/utensils"], function(utl) {
      *                 in advance. In all other cases the module will
      *                 calculate each frame when it is called for (with
      *                 getFrame/ getCurrentFrame calls). Note that the
-     *                 latter usually is fast enough(tm) even for real 
+     *                 latter usually is fast enough(tm) even for real
      *                 time rendering. It will probably save you some
      *                 cpu cycles when you're going traverse the frames
      *                 a lot, at the expense of memory usage.
@@ -124,7 +124,7 @@ define(["../../utl/utensils"], function(utl) {
         return this.getFrame(this.position);
     };
 
-    /* 
+    /*
      * returns frame pFrameNo
      * if pFrameNo >= getLength() - returns the last frame (=== original AST)
      * if pFrameNo <= 0 - returns the first frame (=== original AST - arcs)
@@ -172,10 +172,10 @@ define(["../../utl/utensils"], function(utl) {
         if (this.len - 1 > 0){
             this.AST.arcs = [];
         }
-        
+
         while (lFrameCount < lFrameNo) {
             this.AST.arcs[lRowNo]=[];
-            for(var j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++){ 
+            for(var j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++){
                 this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
             }
             lRowNo++;
@@ -204,7 +204,7 @@ define(["../../utl/utensils"], function(utl) {
         if (pThing.arcs) {
             lRetval += pThing.arcs.reduce(function(pPrevious, pCurrent){
                 /*
-                 * inner itself counts for two arcs (one extra for 
+                 * inner itself counts for two arcs (one extra for
                  * drawing the bottom), but for one frame)
                  */
                 if (pCurrent[0].arcs){
@@ -213,8 +213,8 @@ define(["../../utl/utensils"], function(utl) {
                     return pPrevious + pCurrent.length;
                 }
             },0);
-        } 
-        return lRetval; 
+        }
+        return lRetval;
     }
 
     /*
@@ -226,7 +226,7 @@ define(["../../utl/utensils"], function(utl) {
             pThing.arcs.forEach(function(pArcRow) {
                 lRetval += 1;
                 if (pArcRow[0].arcs) {
-                    lRetval += _calcNumberOfRows(pArcRow[0]) + 1; 
+                    lRetval += _calcNumberOfRows(pArcRow[0]) + 1;
                 }
             });
         }
@@ -254,4 +254,4 @@ define(["../../utl/utensils"], function(utl) {
 
  You should have received a copy of the GNU General Public License
  along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
-*/ 
+ */
