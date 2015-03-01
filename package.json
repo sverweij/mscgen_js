@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "pegjs": "^0.8.0",
-    "node-sass": "^1.2.3",
+    "node-sass": "^2.0.1",
     "mocha": "^2.1.0",
     "codeclimate-test-reporter": "^0.0.4",
     "jshint": "^2.6.0",
