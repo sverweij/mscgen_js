@@ -128,18 +128,6 @@ function msc_inputKeyup () {
     }
 }
 
-function renderOnClick () {
-    render(getSource(), getLanguage());
-}
-
-function autorenderOnClick () {
-    gAutoRender = !gAutoRender;
-    if (gAutoRender) {
-        render (getSource(), getLanguage());
-    }
-    showAutorenderState (gAutoRender);
-}
-
 function getAST(pLanguage) {
     var lAST = {};
     var lLanguage = pLanguage ? pLanguage: getLanguage();
@@ -153,7 +141,7 @@ function getAST(pLanguage) {
     return lAST;
 }
 
-function switchLanguageOnClick (pLanguage) {
+function switchLanguage (pLanguage) {
     var lPreviousLanguage = getLanguage();
     var lAST = {};
     var lTargetSource = "";
@@ -170,7 +158,7 @@ function switchLanguageOnClick (pLanguage) {
     showLanguageState (lTargetSource, pLanguage, gAutoRender);
 }
 
-function clearOnClick(){
+function clear(){
     if ("msgenny" === getLanguage()){
         setSource("");
     } else if ("json" === getLanguage()){
@@ -256,13 +244,21 @@ function getLanguage(){
     return gLanguage;
 }
 
+function getAutoRender(){
+    return gAutoRender;
+}
+
+function setAutoRender(pBoolean){
+    gAutoRender = pBoolean;
+}
+
 function setDebug(pDebug){
     gDebug = pDebug;
 }
 
 function setSample(pURL) {
     if ("none" === pURL || null === pURL || undefined === pURL){
-        clearOnClick();
+        clear();
     } else {
         dq.ajax (pURL, function(pEvent){
             setLanguage(txt.classifyExtension(pURL));
@@ -345,21 +341,24 @@ function displayError (pError, pContext) {
 }
 
     return {
-        autorenderOnClick: autorenderOnClick,
-        switchLanguageOnClick: switchLanguageOnClick,
+        switchLanguage: switchLanguage,
         colorizeOnClick: colorizeOnClick,
         unColorizeOnClick: unColorizeOnClick,
-        renderOnClick: renderOnClick,
         setSample: setSample,
 
         errorOnClick: errorOnClick,
 
+        render: render,
+        getAutoRender: getAutoRender,
+        setAutoRender: setAutoRender,
         getSource: getSource,
         setSource: setSource,
         getLanguage: getLanguage,
         setLanguage: setLanguage,
         getAST: getAST,
         setDebug: setDebug,
+
+        showAutorenderState: showAutorenderState
     };
 }); // define
 /*
