@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils"], function(utl) {
+define(["./renderutensils", "./constants"], function(utl, C) {
     /**
      * sets up a skeleton svg, with the skeleton for rendering an msc ready
      *
@@ -24,8 +24,8 @@ define(["./renderutensils"], function(utl) {
      *      __sequencelayer - for arcs and associated text
      *      __notelayer     - for notes and boxes - the labels of arcspanning arcs
      *                        will go in here as well
-     *      __watermark     - the watermark. Contra-intuitively this one 
-     *                        goes on top. 
+     *      __watermark     - the watermark. Contra-intuitively this one
+     *                        goes on top.
      * @exports renderskeleton
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
@@ -64,11 +64,11 @@ define(["./renderutensils"], function(utl) {
     }
 
     function setupSkeletonSvg(pSvgElementId) {
-        var lRetVal = gDocument.createElementNS(utl.SVGNS, "svg");
+        var lRetVal = gDocument.createElementNS(C.SVGNS, "svg");
         lRetVal.setAttribute("version", "1.1");
         lRetVal.setAttribute("id", pSvgElementId);
-        lRetVal.setAttribute("xmlns", utl.SVGNS);
-        lRetVal.setAttribute("xmlns:xlink", utl.XLINKNS);
+        lRetVal.setAttribute("xmlns", C.SVGNS);
+        lRetVal.setAttribute("xmlns:xlink", C.XLINKNS);
         return lRetVal;
     }
 
@@ -76,7 +76,7 @@ define(["./renderutensils"], function(utl) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
-        var lDefs = gDocument.createElementNS(utl.SVGNS, "defs");
+        var lDefs = gDocument.createElementNS(C.SVGNS, "defs");
         lDefs.appendChild(setupStyle(pElementId));
         lDefs = setupMarkers(lDefs, pElementId);
         lDefs.appendChild(utl.createGroup(pElementId + "__defs"));
@@ -84,14 +84,14 @@ define(["./renderutensils"], function(utl) {
     }
 
     function setupDesc(pElementId) {
-        var lDesc = gDocument.createElementNS(utl.SVGNS, "desc");
+        var lDesc = gDocument.createElementNS(C.SVGNS, "desc");
         lDesc.setAttribute("id", pElementId + "__msc_source");
         return lDesc;
     }
 
     function setupBody(pElementId) {
         var lBody = utl.createGroup(pElementId + "__body");
-        
+
         lBody.appendChild(utl.createGroup(pElementId + "__background"));
         lBody.appendChild(utl.createGroup(pElementId + "__arcspanlayer"));
         lBody.appendChild(utl.createGroup(pElementId + "__lifelinelayer"));
@@ -115,7 +115,7 @@ define(["./renderutensils"], function(utl) {
     function _bootstrap(pParentElementId, pSvgElementId, pWindow) {
 
         gDocument = _init(pWindow);
-        
+
         var lParent = gDocument.getElementById(pParentElementId);
         if (lParent === null) {
             lParent = gDocument.body;
@@ -134,10 +134,10 @@ define(["./renderutensils"], function(utl) {
  * a note on the marker ends:
  * - the reference to the marker ends/ ids of the marker ends should be
  *   unique _across svgs_ (otherwise removing/ hiding an earlier or
- *   later svg will make all marker ends go away from all other svgs 
+ *   later svg will make all marker ends go away from all other svgs
  *   within the same html document).
- * - the class names for the marker names can - in theory - be 
- *   the same accross the svgs, they should just be "fenced" so the 
+ * - the class names for the marker names can - in theory - be
+ *   the same accross the svgs, they should just be "fenced" so the
  *   class definitions in the nth svg don't overwrite the class definitions
  *   of the 1 to (n-1)th svgs:
  *   #someuniqueidforthesvg .signal { ...
@@ -299,24 +299,24 @@ path{\
     return {
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element
-         * with id pParentElementId, both in window pWindow. See the module 
+         * with id pParentElementId, both in window pWindow. See the module
          * documentation for details on the structur of the skeleton.
-         * 
+         *
          * @param {string} pParentElementId
          * @param {string} pSvgElementId
-         * @param {window} pWindow 
+         * @param {window} pWindow
          */
         bootstrap : _bootstrap,
-        
+
         /**
-         * Initializes the document to the document associated with the 
+         * Initializes the document to the document associated with the
          * given pWindow and returns it.
-         * 
+         *
          * @param {window} pWindow
          * @return {document}
          */
         init : _init
- 
+
     };
 });
 /*
