@@ -39,7 +39,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     var gInnerElementId = INNERELEMENTPREFIX;
     /* sensible default - gets overwritten in bootstrap */
 
-    var chart = {
+    var gChart = {
         "interEntitySpacing" : DEFAULT_INTER_ENTITY_SPACING,
         "entityWidth" : DEFAULT_ENTITY_WIDTH,
         "entityHeight" : DEFAULT_ENTITY_HEIGHT,
@@ -85,8 +85,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             return gRowInfo[pRowNumber];
         } else {
             return {
-                y : (chart.entityHeight + (1.5 * chart.arcRowHeight)) + pRowNumber * chart.arcRowHeight,
-                height : chart.arcRowHeight
+                y : (gChart.entityHeight + (1.5 * gChart.arcRowHeight)) + pRowNumber * gChart.arcRowHeight,
+                height : gChart.arcRowHeight
             };
         }
     }
@@ -103,15 +103,15 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      * @param <int> pY
      */
     function setRowInfo(pRowNumber, pHeight, pY) {
-        if (pHeight === undefined || pHeight < chart.arcRowHeight) {
-            pHeight = chart.arcRowHeight;
+        if (pHeight === undefined || pHeight < gChart.arcRowHeight) {
+            pHeight = gChart.arcRowHeight;
         }
         if (pY === undefined) {
             var lPreviousRowInfo = getRowInfo(pRowNumber - 1);
             if (lPreviousRowInfo && lPreviousRowInfo.y > 0) {
                 pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2;
             } else {// TODO: this might be overkill
-                pY = (chart.entityHeight + (1.5 * chart.arcRowHeight)) + pRowNumber * chart.arcRowHeight;
+                pY = (gChart.entityHeight + (1.5 * gChart.arcRowHeight)) + pRowNumber * gChart.arcRowHeight;
             }
         }
         gRowInfo[pRowNumber] = {
@@ -123,10 +123,10 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     /* ---------------end row memory ---------------------- */
 
     function _clean(pParentElementId, pWindow) {
-        chart.document = skel.init(pWindow);
-        var lChildElement = chart.document.getElementById(INNERELEMENTPREFIX + pParentElementId);
+        gChart.document = skel.init(pWindow);
+        var lChildElement = gChart.document.getElementById(INNERELEMENTPREFIX + pParentElementId);
         if (lChildElement && (lChildElement !== null) && (lChildElement !== undefined)) {
-            var lParentElement = chart.document.getElementById(pParentElementId);
+            var lParentElement = gChart.document.getElementById(pParentElementId);
             lParentElement.removeChild(lChildElement);
         }
     }
@@ -146,30 +146,30 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      * @param <object> - pOptions - the option part of the AST
      */
     function preProcessOptions(pOptions) {
-        chart.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
-        chart.entityHeight = DEFAULT_ENTITY_HEIGHT;
-        chart.entityWidth = DEFAULT_ENTITY_WIDTH;
-        chart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
-        chart.arcGradient = DEFAULT_ARC_GRADIENT;
-        chart.wordWrapArcs = false;
+        gChart.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
+        gChart.entityHeight = DEFAULT_ENTITY_HEIGHT;
+        gChart.entityWidth = DEFAULT_ENTITY_WIDTH;
+        gChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
+        gChart.arcGradient = DEFAULT_ARC_GRADIENT;
+        gChart.wordWrapArcs = false;
 
         if (pOptions) {
             if (pOptions.hscale) {
-                chart.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
-                chart.entityWidth = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
+                gChart.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
+                gChart.entityWidth = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
             }
             if (pOptions.arcgradient) {
-                chart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-                chart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
+                gChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+                gChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
             }
             if (pOptions.wordwraparcs && pOptions.wordwraparcs === "true") {
-                chart.wordWrapArcs = true;
+                gChart.wordWrapArcs = true;
             }
         }
     }
 
     function renderWatermark(pWatermark, pCanvas) {
-        var lWaterMarkLayer = chart.document.getElementById(toId("__watermark"));
+        var lWaterMarkLayer = gChart.document.getElementById(toId("__watermark"));
         var lWatermark = utl.createText(pWatermark, pCanvas.width / 2, pCanvas.height / 2, "watermark");
         var lAngle = 0 - (Math.atan(pCanvas.height / pCanvas.width) * 360 / (2 * Math.PI));
         lWatermark.setAttribute("transform", "rotate(" + lAngle.toString() + " " + ((pCanvas.width) / 2).toString() + " " + ((pCanvas.height) / 2).toString() + ")");
@@ -206,13 +206,13 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         gInnerElementId = INNERELEMENTPREFIX + pParentElementId;
 
         skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
-        chart.document = skel.init(pWindow);
-        chart.layer.defs = chart.document.getElementById(toId("__defs"));
-        chart.layer.lifeline = chart.document.getElementById(toId("__lifelinelayer"));
-        chart.layer.sequence = chart.document.getElementById(toId("__sequencelayer"));
-        chart.layer.notes = chart.document.getElementById(toId("__notelayer"));
-        chart.layer.inline = chart.document.getElementById(toId("__arcspanlayer"));
-        chart.textHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
+        gChart.document = skel.init(pWindow);
+        gChart.layer.defs = gChart.document.getElementById(toId("__defs"));
+        gChart.layer.lifeline = gChart.document.getElementById(toId("__lifelinelayer"));
+        gChart.layer.sequence = gChart.document.getElementById(toId("__sequencelayer"));
+        gChart.layer.notes = gChart.document.getElementById(toId("__notelayer"));
+        gChart.layer.inline = gChart.document.getElementById(toId("__arcspanlayer"));
+        gChart.textHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
 
         preProcessOptions(pAST.options);
         embedSource(pSource);
@@ -221,10 +221,10 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
          * extra width needed into account
          */
         var lMscDepthCorrection = 0;
-        chart.maxDepth = 0;
+        gChart.maxDepth = 0;
         if (pAST.depth) {
             lMscDepthCorrection = 2 * ((pAST.depth + 1) * 2 * LINE_WIDTH);
-            chart.maxDepth = pAST.depth;
+            gChart.maxDepth = pAST.depth;
         }
 
         /* render entities and arcs */
@@ -234,9 +234,9 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lNoArcs = pAST.arcs ? pAST.arcs.length : 0;
         var lRowInfo = getRowInfo(lNoArcs - 1);
         var lCanvas = {
-            "width" : (pAST.entities.length * chart.interEntitySpacing) + lMscDepthCorrection,
+            "width" : (pAST.entities.length * gChart.interEntitySpacing) + lMscDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
-            "horizontaltransform" : (chart.interEntitySpacing + lMscDepthCorrection - chart.entityWidth) / 2,
+            "horizontaltransform" : (gChart.interEntitySpacing + lMscDepthCorrection - gChart.entityWidth) / 2,
             "verticaltransform" : PAD_VERTICAL,
             "scale" : 1
         };
@@ -254,19 +254,19 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
 
     function embedSource(pSource) {
         if (pSource) {
-            var lContent = chart.document.createTextNode("\n\n# Generated by mscgen_js - http://sverweij.github.io/mscgen_js\n" + pSource);
-            chart.document.getElementById(toId("__msc_source")).appendChild(lContent);
+            var lContent = gChart.document.createTextNode("\n\n# Generated by mscgen_js - http://sverweij.github.io/mscgen_js\n" + pSource);
+            gChart.document.getElementById(toId("__msc_source")).appendChild(lContent);
         }
     }
 
     function renderBackground(pCanvas) {
-        var lBgRect = utl.createRect(pCanvas.width, pCanvas.height, "bglayer", 0 - pCanvas.horizontaltransform, 0 - pCanvas.verticaltransform);
-        chart.document.getElementById(toId("__background")).appendChild(lBgRect);
+        var lBgRect = utl.createRect({width: pCanvas.width, height: pCanvas.height, x: 0 - pCanvas.horizontaltransform, y: 0 - pCanvas.verticaltransform}, "bglayer");
+        gChart.document.getElementById(toId("__background")).appendChild(lBgRect);
     }
 
     function renderSvgElement(pCanvas) {
-        var lSvgElement = chart.document.getElementById(gInnerElementId);
-        var body = chart.document.getElementById(toId("__body"));
+        var lSvgElement = gChart.document.getElementById(gInnerElementId);
+        var body = gChart.document.getElementById(toId("__body"));
         body.setAttribute("transform", "translate(" + pCanvas.horizontaltransform + "," + pCanvas.verticaltransform + ")" + " scale(" + pCanvas.scale + "," + pCanvas.scale + ")");
         lSvgElement.setAttribute("width", pCanvas.width.toString());
         lSvgElement.setAttribute("height", pCanvas.height.toString());
@@ -281,8 +281,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      * @return <int> - height - the height of the heighest entity
      */
     function getMaxEntityHeight(pEntities) {
-        var lHWM = chart.entityHeight;
-        var lHeight = chart.entityHeight;
+        var lHWM = gChart.entityHeight;
+        var lHeight = gChart.entityHeight;
         pEntities.forEach(function(pEntity){
             lHeight = utl.getBBox(renderEntity(pEntity.name, pEntity)).height;
             if (lHeight > lHWM) {
@@ -294,8 +294,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
 
     function renderEntity(pId, pEntity) {
         var lGroup = utl.createGroup(pId);
-        var lTextLabel = createTextLabel(pId + "_txt", pEntity, 0, chart.entityHeight / 2, chart.entityWidth, "entity");
-        var lRect = utl.createRect(chart.entityWidth, chart.entityHeight);
+        var lTextLabel = createTextLabel(pId + "_txt", pEntity, 0, gChart.entityHeight / 2, gChart.entityWidth, "entity");
+        var lRect = utl.createRect({width: gChart.entityWidth, height: gChart.entityHeight});
         colorBox(lRect, pEntity);
         lGroup.appendChild(lRect);
         lGroup.appendChild(lTextLabel);
@@ -305,9 +305,9 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     function _renderEntity(pEntity, pEntityXPos) {
         var arcColors = {};
 
-        chart.layer.defs.appendChild(renderEntity(toId(pEntity.name), pEntity));
-        chart.layer.sequence.appendChild(utl.createUse(pEntityXPos, 0, toId(pEntity.name)));
-        gEntity2X[pEntity.name] = pEntityXPos + (chart.entityWidth / 2);
+        gChart.layer.defs.appendChild(renderEntity(toId(pEntity.name), pEntity));
+        gChart.layer.sequence.appendChild(utl.createUse(pEntityXPos, 0, toId(pEntity.name)));
+        gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityWidth / 2);
 
         if (pEntity.arclinecolor) {
             arcColors.arclinecolor = pEntity.arclinecolor;
@@ -323,7 +323,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
 
     /**
      * renderEntities() - renders the given pEntities (subtree of the AST) into
-     * the chart.layer.sequence layer
+     * the gChart.layer.sequence layer
      *
      * @param <object> - pEntities - the entities to render
      */
@@ -334,10 +334,10 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         gEntity2ArcColor = {};
 
         if (pEntities) {
-            chart.entityHeight = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
+            gChart.entityHeight = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
-                lEntityXPos += chart.interEntitySpacing;
+                lEntityXPos += gChart.interEntitySpacing;
             });
         }
         gEntityXHWM = lEntityXPos;
@@ -352,10 +352,10 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lInlineExpressionMemory = [];
 
         var lLabel = "";
-        var lArcEnd = gEntityXHWM - chart.interEntitySpacing + chart.entityWidth;
+        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
 
-        chart.layer.defs.appendChild(renderLifeLines(pEntities, toId("arcrow")));
-        chart.layer.lifeline.appendChild(utl.createUse(0, getRowInfo(-1).y, toId("arcrow")));
+        gChart.layer.defs.appendChild(renderLifeLines(pEntities, toId("arcrow")));
+        gChart.layer.lifeline.appendChild(utl.createUse(0, getRowInfo(-1).y, toId("arcrow")));
 
         clearRowInfo();
         if (pArcRows) {
@@ -376,21 +376,21 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                             lArcRowOmit = ("..." === pArc.kind);
                             lRowMemory.push({
                                 id : lCurrentId,
-                                layer : chart.layer.sequence
+                                layer : gChart.layer.sequence
                             });
                             break;
                         case("box"):
                             lElement = createBox(lCurrentId, gEntity2X[pArc.from], gEntity2X[pArc.to], pArc);
                             lRowMemory.push({
                                 id : lCurrentId,
-                                layer : chart.layer.notes
+                                layer : gChart.layer.notes
                             });
                             break;
                         case("inline_expression"):
                             lElement = renderInlineExpressionLabel(lCurrentId + "_label", pArc);
                             lRowMemory.push({
                                 id : lCurrentId + "_label",
-                                layer : chart.layer.notes
+                                layer : gChart.layer.notes
                             });
                             lInlineExpressionMemory.push({
                                 id : lCurrentId,
@@ -411,19 +411,19 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                                         if (pEntity.name != lFrom) {
                                             xTo = gEntity2X[pEntity.name];
                                             pArc.label = "";
-                                            chart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));
+                                            gChart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));
                                             lRowMemory.push({
                                                 id : lCurrentId + "bc" + pEntityNumber,
-                                                layer : chart.layer.sequence
+                                                layer : gChart.layer.sequence
                                             });
                                         }
                                     });
                                     pArc.label = lLabel;
 
-                                    lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (chart.textHeight / 2) - LINE_WIDTH, lArcEnd);
+                                    lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (gChart.textHeight / 2) - LINE_WIDTH, lArcEnd);
                                     lRowMemory.push({
                                         id : lCurrentId + "_txt",
-                                        layer : chart.layer.sequence
+                                        layer : gChart.layer.sequence
                                     });
                                 } else {// it's a regular arc
                                     xFrom = gEntity2X[lFrom];
@@ -431,7 +431,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                                     lElement = createArc(lCurrentId, pArc, xFrom, xTo);
                                     lRowMemory.push({
                                         id : lCurrentId,
-                                        layer : chart.layer.sequence
+                                        layer : gChart.layer.sequence
                                     });
                                 }  /// lTo or lFrom === "*"
                             }// if both a from and a to
@@ -439,7 +439,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                     }// switch
                     if (lElement) {
                         setRowInfo(pRowNumber, Math.max(getRowInfo(pRowNumber).height, utl.getBBox(lElement).height + 2 * LINE_WIDTH));
-                        chart.layer.defs.appendChild(lElement);
+                        gChart.layer.defs.appendChild(lElement);
                     }
                 });// for all arcs in a row
 
@@ -451,8 +451,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                 if (lArcRowOmit) {
                     lArcRowClass = "arcrowomit";
                 }
-                chart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, getRowInfo(pRowNumber).height, toId(lArcRowId)));
-                chart.layer.lifeline.appendChild(utl.createUse(0, getRowInfo(pRowNumber).y, toId(lArcRowId)));
+                gChart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, getRowInfo(pRowNumber).height, toId(lArcRowId)));
+                gChart.layer.lifeline.appendChild(utl.createUse(0, getRowInfo(pRowNumber).y, toId(lArcRowId)));
 
                 lRowMemory.forEach(function(pRowMemoryLine){
                     pRowMemoryLine.layer.appendChild(utl.createUse(0, getRowInfo(pRowNumber).y, pRowMemoryLine.id));
@@ -479,18 +479,18 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             lTo = lTmp;
         }
 
-        var lMaxWidth = (lTo - lFrom) + (chart.interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
+        var lMaxWidth = (lTo - lFrom) + (gChart.interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
 
-        var lStart = (lFrom - ((chart.interEntitySpacing - 3 * LINE_WIDTH) / 2) - (chart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
+        var lStart = (lFrom - ((gChart.interEntitySpacing - 3 * LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
         var lGroup = utl.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
-        var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth / 2), chart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
+        var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
         var lBBox = utl.getBBox(lTextGroup);
 
-        var lHeight = Math.max(lBBox.height + 2 * LINE_WIDTH, (chart.arcRowHeight / 2) - 2 * LINE_WIDTH);
+        var lHeight = Math.max(lBBox.height + 2 * LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * LINE_WIDTH);
         var lWidth = Math.min(lBBox.width + 2 * LINE_WIDTH, lMaxWidth);
 
-        var lBox = utl.createEdgeRemark(lWidth - LINE_WIDTH + FOLD_SIZE, lHeight, "box", lStart, 0, FOLD_SIZE);
+        var lBox = utl.createEdgeRemark({width: lWidth - LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", FOLD_SIZE);
         colorBox(lBox, pArc);
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
@@ -500,8 +500,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
 
     function renderInlineExpressions(pInlineExpressions) {
         pInlineExpressions.forEach(function(pInlineExpression){
-            chart.layer.defs.appendChild(renderInlineExpression(pInlineExpression));
-            chart.layer.inline.appendChild(utl.createUse(0, getRowInfo(pInlineExpression.rownum).y, pInlineExpression.id));
+            gChart.layer.defs.appendChild(renderInlineExpression(pInlineExpression));
+            gChart.layer.inline.appendChild(utl.createUse(0, getRowInfo(pInlineExpression.rownum).y, pInlineExpression.id));
         });
     }
 
@@ -518,29 +518,29 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         if ((pId === undefined) || (pId === null)) {
             pId = pClass;
         }
-        if ((pHeight === undefined) || (pHeight === null) || pHeight < chart.arcRowHeight) {
-            pHeight = chart.arcRowHeight;
+        if ((pHeight === undefined) || (pHeight === null) || pHeight < gChart.arcRowHeight) {
+            pHeight = gChart.arcRowHeight;
         }
         var lGroup = utl.createGroup(pId);
         var lEntityXPos = 0;
 
         pEntities.forEach(function(pEntity) {
-            var lLine = utl.createLine(lEntityXPos + (chart.entityWidth / 2), 0 - (pHeight / 2), lEntityXPos + (chart.entityWidth / 2), (pHeight / 2), pClass);
+            var lLine = utl.createLine(lEntityXPos + (gChart.entityWidth / 2), 0 - (pHeight / 2), lEntityXPos + (gChart.entityWidth / 2), (pHeight / 2), pClass);
             // TODO #13: render associated marker(s) in <def>
             if (pEntity.linecolor) {
                 lLine.setAttribute("style", "stroke : " + pEntity.linecolor + ";");
                 // TODO #13: color the associated marker(s)
             }
             lGroup.appendChild(lLine);
-            lEntityXPos += chart.interEntitySpacing;
+            lEntityXPos += gChart.interEntitySpacing;
         });
 
         return lGroup;
     }
 
    function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
-        var lHeight = 2 * (chart.arcRowHeight / 5);
-        var lWidth = chart.interEntitySpacing / 3;
+        var lHeight = 2 * (gChart.arcRowHeight / 5);
+        var lWidth = gChart.interEntitySpacing / 3;
 
         var lGroup = utl.createGroup();
         if (pDouble) {
@@ -590,7 +590,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = utl.createGroup(pId);
         var lClass = "";
-        var lArcGradient = chart.arcGradient;
+        var lArcGradient = gChart.arcGradient;
         var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
 
         lClass = gInnerElementId + map.determineArcClass(pArc.kind, pFrom, pTo);
@@ -602,7 +602,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lYTo = 0;
         if (pArc.arcskip) {
             /* TODO: derive from hashmap */
-            lYTo = pArc.arcskip * chart.arcRowHeight;
+            lYTo = pArc.arcskip * gChart.arcRowHeight;
             lArcGradient = lYTo;
         }
 
@@ -616,7 +616,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
 
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine, pArc.linecolor));
-            lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (chart.interEntitySpacing / 2), 0 - (chart.arcRowHeight / 5), chart.interEntitySpacing, "anchor-start"));
+            lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (gChart.interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), gChart.interEntitySpacing, "anchor-start"));
         } else {
             var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
             if (pArc.linecolor) {
@@ -628,47 +628,17 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         return lGroup;
     }
 
-    /**
-     * splitLabel () - splits the given pLabel into an array of strings
-     * - if the arc kind passed is a box the split occurs regardless
-     * - if the arc kind passed is something else, the split occurs
-     *   only if the _word wrap arcs_ option is true.
-     *
-     * @param <string> - pLabel
-     * @param <string> - pKind
-     * @param <number> - pWidth
-     * @return <array of strings> - lLines
-     */
-    function splitLabel(pLabel, pKind, pWidth) {
-        var lLines = pLabel.split('\\n');
-        var lMaxTextWidthInChars = txt.determineMaxTextWidth(pWidth);
-        switch(pKind) {
-            case("box"):
-            case("rbox"):
-            case("abox"):
-            case("note"):
-            case(undefined):
-                lLines = txt.wrap(pLabel, lMaxTextWidthInChars);
-                break;
-            default:
-                if (chart.wordWrapArcs) {
-                    lLines = txt.wrap(pLabel, lMaxTextWidthInChars);
-                }
-        }
-        return lLines;
-    }
-
     function renderTextLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
         var lGroup = pGroup;
         var lText = {};
         if (pPosition === 0) {
-            lText = utl.createText(pLine, pMiddle, pStartY + chart.textHeight / 4 + (pPosition * chart.textHeight), pClass, pArc.url, pArc.id, pArc.idurl);
+            lText = utl.createText(pLine, pMiddle, pStartY + gChart.textHeight / 4 + (pPosition * gChart.textHeight), pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
-            lText = utl.createText(pLine, pMiddle, pStartY + chart.textHeight / 4 + (pPosition * chart.textHeight), pClass, pArc.url);
+            lText = utl.createText(pLine, pMiddle, pStartY + gChart.textHeight / 4 + (pPosition * gChart.textHeight), pClass, pArc.url);
         }
         var lBBox = utl.getBBox(lText);
 
-        var lRect = utl.createRect(lBBox.width, lBBox.height, "textbg", lBBox.x, lBBox.y);
+        var lRect = utl.createRect(lBBox, "textbg");
         colorText(lText, pArc);
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
@@ -708,9 +678,9 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             if (pArc.id) {
                 pArc.id = txt.unescapeString(pArc.id);
             }
-            var lLines = splitLabel(pArc.label, pArc.kind, pWidth);
+            var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
 
-            var lStartY = pStartY - (((lLines.length - 1) * chart.textHeight) / 2) - ((lLines.length - 1) / 2);
+            var lStartY = pStartY - (((lLines.length - 1) * gChart.textHeight) / 2) - ((lLines.length - 1) / 2);
             lLines.forEach(function(pLine, pLineNumber){
                 lGroup = renderTextLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
                 lStartY++;
@@ -730,7 +700,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      */
     function createLifeLinesText(pId, pArc) {
         var lArcStart = 0;
-        var lArcEnd = gEntityXHWM - chart.interEntitySpacing + chart.entityWidth;
+        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
         var lGroup = utl.createGroup(pId);
 
         if (pArc.from && pArc.to) {
@@ -749,15 +719,15 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      */
     function createComment(pId, pArc) {
         var lStartX = 0;
-        var lEndX = gEntityXHWM - chart.interEntitySpacing + chart.entityWidth;
+        var lEndX = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
         var lClass = "dotted";
         var lGroup = utl.createGroup(pId);
 
         if (pArc.from && pArc.to) {
-            var lArcDepthCorrection = (chart.maxDepth - pArc.depth) * 2 * LINE_WIDTH;
+            var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH;
 
-            lStartX = (gEntity2X[pArc.from] - (chart.interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
-            lEndX = (gEntity2X[pArc.to] + (chart.interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
+            lStartX = (gEntity2X[pArc.from] - (gChart.interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
+            lEndX = (gEntity2X[pArc.to] + (gChart.interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
             lClass = "striped";
         }
         var lLine = utl.createLine(lStartX, 0, lEndX, 0, lClass);
@@ -781,9 +751,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      */
     function colorText(pElement, pArc) {
         if (pArc.textcolor) {
-            var lStyleString = "";
-            lStyleString += "fill:" + pArc.textcolor + ";";
-            pElement.setAttribute("style", lStyleString);
+            pElement.setAttribute("style", "fill:" + pArc.textcolor + ";");
         }
     }
 
@@ -823,36 +791,38 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             pFrom = pTo;
             pTo = lTmp;
         }
-        var lWidth = ((pTo - pFrom) + chart.interEntitySpacing - 2 * LINE_WIDTH);
+        var lWidth = ((pTo - pFrom) + gChart.interEntitySpacing - 2 * LINE_WIDTH);
         var NOTE_FOLD_SIZE = 9;
         // px
         var RBOX_CORNER_RADIUS = 6;
         // px
 
-        var lStart = (pFrom - ((chart.interEntitySpacing - 2 * LINE_WIDTH) / 2));
+        var lStart = pFrom - ((gChart.interEntitySpacing - 2 * LINE_WIDTH) / 2);
         var lGroup = utl.createGroup(pId);
         var lBox;
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
-        var lBBox = utl.getBBox(lTextGroup);
+        var lTextBBox = utl.getBBox(lTextGroup);
 
-        var lHeight = pHeight ? pHeight : Math.max(lBBox.height + 2 * LINE_WIDTH, chart.arcRowHeight - 2 * LINE_WIDTH);
+        var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * LINE_WIDTH, gChart.arcRowHeight - 2 * LINE_WIDTH);
+        var lBBox = {width: lWidth, height: lHeight, x: lStart, y: (0 - lHeight / 2)};
 
         switch (pArc.kind) {
             case ("box") :
-                lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0 - lHeight / 2));
+                lBox = utl.createRect(lBBox, "box");
                 break;
             case ("rbox") :
-                lBox = utl.createRect(lWidth, lHeight, "box", lStart, (0 - lHeight / 2), RBOX_CORNER_RADIUS, RBOX_CORNER_RADIUS);
+                lBox = utl.createRect(lBBox, "box", RBOX_CORNER_RADIUS, RBOX_CORNER_RADIUS);
                 break;
             case ("abox") :
-                lBox = utl.createABox(lWidth, lHeight, "box", lStart, 0);
+                lBBox.y = 0;
+                lBox = utl.createABox(lBBox, "box");
                 break;
             case ("note") :
-                lBox = utl.createNote(lWidth, lHeight, "box", lStart, (0 - lHeight / 2), NOTE_FOLD_SIZE);
+                lBox = utl.createNote(lBBox, "box", NOTE_FOLD_SIZE);
                 break;
             default :
-                var lArcDepthCorrection = (chart.maxDepth - pArc.depth ) * 2 * LINE_WIDTH;
-                lBox = utl.createRect(lWidth + lArcDepthCorrection * 2, lHeight, "box", lStart - lArcDepthCorrection, 0);
+                var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * LINE_WIDTH;
+                lBox = utl.createRect({width: lWidth + lArcDepthCorrection * 2, height: lHeight, x: lStart - lArcDepthCorrection, y: 0}, "box");
         }
         colorBox(lBox, pArc);
         lGroup.appendChild(lBox);
@@ -886,7 +856,6 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         renderAST : _renderAST
     };
 });
-// define
 /*
  This file is part of mscgen_js.
 
