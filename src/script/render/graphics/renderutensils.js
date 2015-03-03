@@ -64,7 +64,7 @@ define(["./constants"], function(C) {
              * To counter this, manually set the return value to 0x0
              * if height or width has a wacky value:
              */
-            if (lRetval.height > INSANELYBIG || lRetval.width > INSANELYBIG || lRetval.height < 0 - INSANELYBIG || lRetval.width < 0 - INSANELYBIG) {
+            if (Math.abs(lRetval.height) > INSANELYBIG || lRetval.width > INSANELYBIG || lRetval.height < 0 - INSANELYBIG || lRetval.width < 0 - INSANELYBIG) {
                 lRetval = {
                     height : 0,
                     width : 0,

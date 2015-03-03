@@ -33,27 +33,26 @@ define(["./renderutensils", "./constants"], function(utl, C) {
 
     var gDocument;
 
+    function setupMarker (pDefs, pId, pPath, pClass){
+        pDefs.appendChild(utl.createMarkerPath(pId,
+                    "arrow-marker", "auto", pPath, pClass));
+    }
+
     function setupMarkers(pDefs, pElementId) {
-        var lDefs = pDefs;
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal",
-                    "arrow-marker", "auto", "M 9 3 l -8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal-u",
-                    "arrow-marker", "auto", "M 9 3 l -8 -2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal-l",
-                    "arrow-marker", "auto", "M 9 3 l 8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "signal-lu",
-                    "arrow-marker", "auto", "M 9 3 l 8 -2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPolygon(pElementId + "method",
-                    "arrow-marker", "auto", "1,1 9,3 1,5", "filled arrow-style"));
-        lDefs.appendChild(utl.createMarkerPolygon(pElementId + "method-l",
-                    "arrow-marker", "auto", "17,1 9,3 17,5", "filled arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "callback",
-                    "arrow-marker", "auto", "M 1 1 l 8 2 l -8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "callback-l",
-                    "arrow-marker", "auto", "M 17 1 l -8 2 l 8 2", "arrow-style"));
-        lDefs.appendChild(utl.createMarkerPath(pElementId + "lost",
-                    "arrow-marker", "auto", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style"));
-        return lDefs;
+        setupMarker(pDefs, pElementId + "signal", "M 9 3 l -8 2", "arrow-style");
+        setupMarker(pDefs, pElementId + "signal-u", "M 9 3 l -8 -2", "arrow-style");
+        setupMarker(pDefs, pElementId + "signal-l", "M 9 3 l 8 2", "arrow-style");
+        setupMarker(pDefs, pElementId + "signal-lu", "M 9 3 l 8 -2", "arrow-style");
+
+        pDefs.appendChild(utl.createMarkerPolygon(pElementId + "method",
+                            "arrow-marker", "auto", "1,1 9,3 1,5", "filled arrow-style"));
+        pDefs.appendChild(utl.createMarkerPolygon(pElementId + "method-l",
+                            "arrow-marker", "auto", "17,1 9,3 17,5", "filled arrow-style"));
+
+        setupMarker(pDefs, pElementId + "callback", "M 1 1 l 8 2 l -8 2", "arrow-style");
+        setupMarker(pDefs, pElementId + "callback-l", "M 17 1 l -8 2 l 8 2", "arrow-style");
+        setupMarker(pDefs, pElementId + "lost", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style");
+        return pDefs;
     }
 
     function setupStyle(pElementId) {
