@@ -44,8 +44,8 @@ define(["./controller-interpreter",
 
     function setupInfoNavigationEvents(){
       window.__close_lightbox.addEventListener("click", nactions.closeCheatSheet, false);
-      window.__close_embedsheet.addEventListener("click", nactions.closeEmbedsheet, false);
-      window.__close_aboutsheet.addEventListener("click", nactions.closeAboutsheet, false);
+      window.__close_embedsheet.addEventListener("click", nactions.closeEmbedSheet, false);
+      window.__close_aboutsheet.addEventListener("click", nactions.closeAboutSheet, false);
       window.__helpme.addEventListener("click", nactions.helpMeOnClick, false);
       window.__embedme.addEventListener("click", nactions.embedMeOnClick, false);
       window.__about.addEventListener("click", nactions.aboutOnClick, false);
