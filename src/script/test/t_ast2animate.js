@@ -7,6 +7,11 @@ var fs = require("fs");
 
 describe('ast2ani', function() {
     var astCheatSheet0 = {
+        "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
         "entities" : [{
             "name" : "a"
         }, {
@@ -28,6 +33,11 @@ describe('ast2ani', function() {
         ]
     };
     var astCheatSheet1 = {
+        "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
         "entities" : [{
             "name" : "a"
         }, {
@@ -53,6 +63,11 @@ describe('ast2ani', function() {
         ]
     };
     var astCheatSheet2 = {
+        "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
         "entities" : [{
             "name" : "a"
         }, {
@@ -82,6 +97,11 @@ describe('ast2ani', function() {
         ]
     };
     var astCheatSheet3 = {
+        "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
         "entities" : [{
             "name" : "a"
         }, {
@@ -145,6 +165,11 @@ describe('ast2ani', function() {
         it('should return entities for astSimple', function() {
             var ani = new ast2animate.FrameFactory(fix.astSimple);
             var astSimpleEntitiesOnly = {
+                "meta": {
+                  "extendedOptions": false,
+                  "extendedArcTypes": false,
+                  "extendedFeatures": false
+                },
                 "entities" : [{
                     "name" : "a"
                 }, {

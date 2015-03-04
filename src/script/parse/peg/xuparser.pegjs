@@ -1,14 +1,14 @@
 /*
  * parser for MSC (messsage sequence chart)
- * see http://www.mcternan.me.uk/mscgen/ for more 
+ * see http://www.mcternan.me.uk/mscgen/ for more
  * information
- * - In the original mscgen booleans and ints are 
+ * - In the original mscgen booleans and ints are
  *   allowed in some of the options, without presenting them
- *   as quotes, but floats are not. Pourquoi? This PEG 
+ *   as quotes, but floats are not. Pourquoi? This PEG
  *   does allow them ...
  * - quoted identifiers present some problems in mscgen in this
  *   pathological case:
- *   define entitites "C" and C 
+ *   define entitites "C" and C
  *   - the entities are rendered as separate ones
  *   - C -> "C",  generates a self-reference
  *     to C, as does "C" -> C and "C" -> "C"
@@ -16,8 +16,8 @@
  * - in mscgen grammar, only the option list is optional;
  *   empty input (no entities/ no arcs) is apparently not allowed
  *   mscgen_js does allow this
- * 
- * - there's some kludgy non-DRY code still. 
+ *
+ * - there's some kludgy non-DRY code still.
  */
 
 {
@@ -27,7 +27,7 @@
         for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
         return obj3;
     }
-    
+
     function flattenBoolean(pBoolean) {
         var lBoolean = "false";
         switch(pBoolean.toLowerCase()) {
@@ -76,16 +76,52 @@
         }
         return pEntities;
     }
+
+    function hasExtendedOptions (pOptions){
+        if (pOptions && pOptions.options){
+            return pOptions.options["watermark"] ? true : false;
+        } else {
+            return false;
+        }
+    }
+
+    function hasExtendedArcTypes(pArcLineList){
+        if (pArcLineList && pArcLineList.arcs){
+            return pArcLineList.arcs.some(function(pArcLine){
+                return pArcLine.some(function(pArc){
+                    return (["alt", "else", "opt", "break", "par",
+                      "seq", "strict", "neg", "critical",
+                      "ignore", "consider", "assert",
+                      "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
+                });
+            });
+        }
+        return false;
+    }
+
+    function getMetaInfo(pOptions, pArcLineList){
+        var lHasExtendedOptions  = hasExtendedOptions(pOptions);
+        var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLineList);
+        return {
+            "extendedOptions" : lHasExtendedOptions,
+            "extendedArcTypes": lHasExtendedArcTypes,
+            "extendedFeatures":  lHasExtendedOptions||lHasExtendedArcTypes
+        }
+    }
 }
 
 program         =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
-{ 
+{
     d[1] = checkForUndeclaredEntities(d[1], d[2]);
     var lRetval = merge (d[0], merge (d[1], d[2]));
+    
+    lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
 
     if (pre.length > 0) {
         lRetval = merge({precomment: pre}, lRetval);
     }
+
+
 /*
     if (post.length > 0) {
         lRetval = merge(lRetval, {postcomment:post});
@@ -96,11 +132,11 @@ program         =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
 
 starttoken      = "msc"i
 
-declarationlist = (o:optionlist {return {options:o}})? 
+declarationlist = (o:optionlist {return {options:o}})?
                   (e:entitylist {return {entities:e}})?
                   (a:arclist {return {arcs:a}})?
-optionlist      = o:((o:option "," {return o})* 
-                  (o:option ";" {return o})) 
+optionlist      = o:((o:option "," {return o})*
+                  (o:option ";" {return o}))
 {
   var lOptionList = {};
   var opt, bla;
@@ -113,10 +149,10 @@ optionlist      = o:((o:option "," {return o})*
   return lOptionList;
 }
 
-option          = _ n:optionname _ "=" _ 
+option          = _ n:optionname _ "=" _
                   v:(s:string {return s}
                      / i:number {return i.toString()}
-                     / b:boolean {return b.toString()}) _ 
+                     / b:boolean {return b.toString()}) _
 {
    var lOption = {};
    n = n.toLowerCase();
@@ -149,7 +185,7 @@ arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
    return al[0];
 }
 arc             = regulararc / spanarc
-regulararc      = a:((a:singlearc {return a}) 
+regulararc      = a:((a:singlearc {return a})
                    / (a:dualarc {return a})
                    / (a:commentarc {return a}))
                       al:("[" al:attributelist "]" {return al})?
@@ -160,14 +196,14 @@ regulararc      = a:((a:singlearc {return a})
 
 singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
 commentarc      = _ kind:commenttoken _ {return {kind:kind}}
-dualarc         = 
+dualarc         =
  (_ from:identifier _ kind:dualarctoken _ to:identifier _
   {return {kind: kind, from:from, to:to}})
 /(_ "*" _ kind:bckarrowtoken _ to:identifier _
   {return {kind:kind, from: "*", to:to}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to:"*"}})
-spanarc         = 
+spanarc         =
  (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _
   {
     var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
@@ -176,9 +212,9 @@ spanarc         =
   }
  )
 
-singlearctoken  = "|||" / "..." 
+singlearctoken  = "|||" / "..."
 commenttoken    = "---"
-dualarctoken    = kind:( 
+dualarctoken    = kind:(
                     bidiarrowtoken/ fwdarrowtoken / bckarrowtoken
                   / boxtoken )
                  {return kind.toLowerCase()}
@@ -196,7 +232,7 @@ boxtoken        "box"
                 = "note"i / "abox"i / "rbox"i / "box"i
 spanarctoken    "arc spanning box"
                 = kind:("alt"i / "else"i/ "opt"i / "break"i /"par"i
-                  / "seq"i / "strict"i / "neg"i / "critical"i 
+                  / "seq"i / "strict"i / "neg"i / "critical"i
                   / "ignore"i / "consider"i / "assert"i
                   / "loop"i / "ref"i / "exc"i
                   )
@@ -221,14 +257,14 @@ attribute       = _ n:attributename _ "=" _ v:identifier _
   n = n.toLowerCase();
   n = n.replace("colour", "color");
   lAttribute[n] = v;
-  return lAttribute 
+  return lAttribute
 }
-attributename  "attribute name" 
-                =  "label"i / "idurl"i/ "id"i / "url"i 
+attributename  "attribute name"
+                =  "label"i / "idurl"i/ "id"i / "url"i
                   / "linecolor"i / "linecolour"i
                   / "textcolor"i / "textcolour"i
-                  / "textbgcolor"i / "textbgcolour"i 
-                  / "arclinecolor"i / "arclinecolour"i 
+                  / "textbgcolor"i / "textbgcolour"i
+                  / "arclinecolor"i / "arclinecolour"i
                   / "arctextcolor"i / "arctextcolour"i
                   / "arctextbgcolor"i / "arctextbgcolour"i
                   / "arcskip"i
@@ -247,7 +283,7 @@ lineend "lineend"
 mlcomstart      = "/*"
 mlcomend        = "*/"
 mlcomtok        = !"*/" c:. {return c}
-mlcomment       = start:mlcomstart com:(mlcomtok)* end:mlcomend 
+mlcomment       = start:mlcomstart com:(mlcomtok)* end:mlcomend
 {
   return start + com.join("") + end
 }
@@ -260,7 +296,7 @@ slcomment       = start:(slcomstart) com:(slcomtok)*
 comment "comment"
                 =   slcomment
                   / mlcomment
-_               = (whitespace / lineend / comment)* 
+_               = (whitespace / lineend / comment)*
 
 number = real / integer
 integer "integer"

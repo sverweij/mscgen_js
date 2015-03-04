@@ -1,16 +1,89 @@
-msc {
-  a [linecolor="#008800", textbgcolor="#CCFFCC", arclinecolor="#008800"],
-  b [linecolor="#FF0000", textbgcolor="#FFCCCC", arclinecolor="#FF0000"],
-  c [linecolor="#0000FF", textbgcolor="#CCCCFF", arclinecolor="#0000FF"];
-
-  a -> b [label="brace yourself!"],
-  b -> c [label="he sez to brace yeself"];
-  a loop c [linecolor="grey", textbgcolor="white"] {
-    a =>> b [label="do thing"];
-    a alt c [label="okeleedokelee", linecolor="grey", textbgcolor="white"] {
-      |||;
-      |||;
-      |||;
-    };
-  };
+{
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": true,
+    "extendedFeatures": true
+  },
+  "entities": [
+    {
+      "name": "a",
+      "linecolor": "#008800",
+      "textbgcolor": "#CCFFCC",
+      "arclinecolor": "#008800"
+    },
+    {
+      "name": "b",
+      "linecolor": "#FF0000",
+      "textbgcolor": "#FFCCCC",
+      "arclinecolor": "#FF0000"
+    },
+    {
+      "name": "c",
+      "linecolor": "#0000FF",
+      "textbgcolor": "#CCCCFF",
+      "arclinecolor": "#0000FF"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b",
+        "label": "brace yourself!"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "he sez to brace yeself"
+      }
+    ],
+    [
+      {
+        "kind": "loop",
+        "from": "a",
+        "to": "c",
+        "arcs": [
+          [
+            {
+              "kind": "=>>",
+              "from": "a",
+              "to": "b",
+              "label": "do thing"
+            }
+          ],
+          [
+            {
+              "kind": "alt",
+              "from": "a",
+              "to": "c",
+              "arcs": [
+                [
+                  {
+                    "kind": "|||"
+                  }
+                ],
+                [
+                  {
+                    "kind": "|||"
+                  }
+                ],
+                [
+                  {
+                    "kind": "|||"
+                  }
+                ]
+              ],
+              "label": "okeleedokelee",
+              "linecolor": "grey",
+              "textbgcolor": "white"
+            }
+          ]
+        ],
+        "linecolor": "grey",
+        "textbgcolor": "white"
+      }
+    ]
+  ]
 }
