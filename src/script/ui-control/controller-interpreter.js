@@ -277,6 +277,11 @@ function render(pSource, pLanguage) {
         msc_render.renderAST(lAST, pSource, "__svg", window);
         if (lAST.entities.length > 0) {
             dq.SS(window.__output_buttons).show();
+            if (lAST.meta && true === lAST.meta.extendedArcTypes) {
+                dq.SS(window.__show_anim).hide();
+            } else {
+                dq.SS(window.__show_anim).show();
+            }
         }
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
