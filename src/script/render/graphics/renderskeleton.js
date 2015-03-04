@@ -33,25 +33,26 @@ define(["./renderutensils", "./constants"], function(utl, C) {
 
     var gDocument;
 
-    function setupMarker (pDefs, pId, pPath, pClass){
-        pDefs.appendChild(utl.createMarkerPath(pId,
-                    "arrow-marker", "auto", pPath, pClass));
+    function setupMarker (pDefs, pId, pPath){
+        pDefs.appendChild(utl.createMarkerPath(pId, pPath));
+    }
+
+    function setupMarkerPolygon (pDefs, pId, pPoints){
+        pDefs.appendChild(utl.createMarkerPolygon(pId, pPoints));
     }
 
     function setupMarkers(pDefs, pElementId) {
-        setupMarker(pDefs, pElementId + "signal", "M 9 3 l -8 2", "arrow-style");
-        setupMarker(pDefs, pElementId + "signal-u", "M 9 3 l -8 -2", "arrow-style");
-        setupMarker(pDefs, pElementId + "signal-l", "M 9 3 l 8 2", "arrow-style");
-        setupMarker(pDefs, pElementId + "signal-lu", "M 9 3 l 8 -2", "arrow-style");
+        setupMarker(pDefs, pElementId + "signal", "M 9 3 l -8 2");
+        setupMarker(pDefs, pElementId + "signal-u", "M 9 3 l -8 -2");
+        setupMarker(pDefs, pElementId + "signal-l", "M 9 3 l 8 2");
+        setupMarker(pDefs, pElementId + "signal-lu", "M 9 3 l 8 -2");
 
-        pDefs.appendChild(utl.createMarkerPolygon(pElementId + "method",
-                            "arrow-marker", "auto", "1,1 9,3 1,5", "filled arrow-style"));
-        pDefs.appendChild(utl.createMarkerPolygon(pElementId + "method-l",
-                            "arrow-marker", "auto", "17,1 9,3 17,5", "filled arrow-style"));
+        setupMarkerPolygon(pDefs, pElementId + "method", "1,1 9,3 1,5");
+        setupMarkerPolygon(pDefs, pElementId + "method-l", "17,1 9,3 17,5");
 
-        setupMarker(pDefs, pElementId + "callback", "M 1 1 l 8 2 l -8 2", "arrow-style");
-        setupMarker(pDefs, pElementId + "callback-l", "M 17 1 l -8 2 l 8 2", "arrow-style");
-        setupMarker(pDefs, pElementId + "lost", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5", "arrow-style");
+        setupMarker(pDefs, pElementId + "callback", "M 1 1 l 8 2 l -8 2");
+        setupMarker(pDefs, pElementId + "callback-l", "M 17 1 l -8 2 l 8 2");
+        setupMarker(pDefs, pElementId + "lost", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5");
         return pDefs;
     }
 

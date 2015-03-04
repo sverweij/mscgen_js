@@ -322,16 +322,16 @@ define(["./constants"], function(C) {
         return lMarker;
     }
 
-    function _createMarkerPath(pId, pClass, pOrient, pD, pPathClass) {
-        var lMarker = _createMarker(pId, pClass, pOrient);
-        var lPath = _createPath(pD, pPathClass);
+    function _createMarkerPath(pId, pD) {
+        var lMarker = _createMarker(pId, "arrow-marker", "auto");
+        var lPath = _createPath(pD, "arrow-style");
         lMarker.appendChild(lPath);
         return lMarker;
     }
 
-    function _createMarkerPolygon(pId, pClass, pOrient, pPoints, pPathClass) {
-        var lMarker = _createMarker(pId, pClass, pOrient);
-        var lPolygon = _createPolygon(pPoints, pPathClass);
+    function _createMarkerPolygon(pId, pPoints) {
+        var lMarker = _createMarker(pId, "arrow-marker", "auto");
+        var lPolygon = _createPolygon(pPoints, "filled arrow-style");
         lMarker.appendChild(lPolygon);
         return lMarker;
     }
@@ -453,24 +453,18 @@ define(["./constants"], function(C) {
         createUse : _createUse,
 
         /**
-         * Create a marker consisting of a path as specified in pD
+         * Create an arrow marker consisting of a path as specified in pD
          *
          * @param {string} pId
-         * @param {string} pClass - the css class to use for the marker
-         * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
          * @param {string} pD - a string containing the path
-         * @param {string} pPathClass - the css class to use for the path
          */
         createMarkerPath : _createMarkerPath,
 
         /**
-         * Create a marker consisting of a polygon as specified in pPoints
+         * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
          *
          * @param {string} pId
-         * @param {string} pClass - the css class to use for the marker
-         * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
          * @param {string} pPoints - a string with the points of the polygon
-         * @param {string} pPathClass - the css class to use for the path
          * @return {SVGElement}
          */
         createMarkerPolygon : _createMarkerPolygon,
