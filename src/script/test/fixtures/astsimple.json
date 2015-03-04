@@ -1,4 +1,9 @@
 {
+    "meta": {
+        "extendedOptions": false,
+        "extendedArcTypes": false,
+        "extendedFeatures": false
+    },
     "options": {
         "width": "300",
         "wordwraparcs": "true"

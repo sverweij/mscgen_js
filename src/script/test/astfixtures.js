@@ -2,9 +2,37 @@ module.exports = (function() {
 
     return {
         astEmpty : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : []
         },
         astSimple : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
+            "entities" : [{
+                "name" : "a"
+            }, {
+                "name" : "b space"
+            }],
+            "arcs" : [[{
+                "kind" : "=>",
+                "from" : "a",
+                "to" : "b space",
+                "label" : "a simple script"
+            }]]
+        },
+        astSimpleExtended : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -18,6 +46,11 @@ module.exports = (function() {
             }]]
         },
         astOptionsMscgen : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "options" : {
                 "hscale" : "1.2",
                 "width" : "800",
@@ -29,6 +62,11 @@ module.exports = (function() {
             }]
         },
         astOptions : {
+            "meta" : {
+                "extendedOptions": true,
+                "extendedArcTypes": false,
+                "extendedFeatures": true
+            },
             "options" : {
                 "hscale" : "1.2",
                 "width" : "800",
@@ -41,6 +79,11 @@ module.exports = (function() {
             }]
         },
         astNoEntities : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [],
             "arcs" : [[{
                 "kind" : "---",
@@ -54,12 +97,22 @@ module.exports = (function() {
             }]]
         },
         astWorwraparcstrue : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "options" : {
                 "wordwraparcs" : "true",
             },
             "entities" : []
         },
         astBoxArcs : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -88,6 +141,11 @@ module.exports = (function() {
             }]]
         },
         astMixedAttributes : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a",
                 "label" : "miXed",
@@ -103,6 +161,11 @@ module.exports = (function() {
             }]]
         },
         astColourColor : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a",
                 "textcolor" : "green",
@@ -111,6 +174,11 @@ module.exports = (function() {
             }]
         },
         astAllAttributes : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a",
                 "label" : "Label for A",
@@ -138,6 +206,11 @@ module.exports = (function() {
             }]]
         },
         astBroadcastCounting : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -162,6 +235,11 @@ module.exports = (function() {
             }]]
         },
         astCountingTest : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -210,6 +288,11 @@ module.exports = (function() {
             }]]
         },
         astBoxes : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -234,6 +317,11 @@ module.exports = (function() {
             }]]
         },
         astOneAlt : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -294,6 +382,11 @@ module.exports = (function() {
             depth : 1
         },
         astAltWithinLoop : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -401,6 +494,11 @@ module.exports = (function() {
             depth : 2
         },
         astOptWithComment : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -454,6 +552,11 @@ module.exports = (function() {
             depth : 1
         },
         astDeclarationWithinArcspan : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -475,6 +578,11 @@ module.exports = (function() {
             }]]
         },
         astInlineWithArcColor : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -528,6 +636,11 @@ module.exports = (function() {
             depth : 1
         },
         astNestedInlinesWithArcColor : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -636,6 +749,11 @@ module.exports = (function() {
             depth : 2
         },
         astSimpleBroadcast : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -652,6 +770,11 @@ module.exports = (function() {
             }]]
         },
         astSimpleBroadcastExploded : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -676,6 +799,11 @@ module.exports = (function() {
             }]]
         },
         astComplexerBroadcast : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -707,6 +835,11 @@ module.exports = (function() {
             }]]
         },
         astComplexerBroadcastExploded : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -762,6 +895,11 @@ module.exports = (function() {
             }]]
         },
         astSameArcRowBroadcast : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "options" : {
                 "arcgradient" : "20"
             },
@@ -785,6 +923,11 @@ module.exports = (function() {
             }]]
         },
         astSameArcRowBroadcastExploded : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "options" : {
                 "arcgradient" : "20"
             },
@@ -816,6 +959,11 @@ module.exports = (function() {
             }]]
         },
         astCheatSheet : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -889,6 +1037,11 @@ module.exports = (function() {
         },
         astWithPreComment : {
             "precomment" : ["# pre comment", "\n", "/* pre\n * multiline\n * comment\n */", "\n"],
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -901,6 +1054,11 @@ module.exports = (function() {
             }]]
         },
         astSimpleParallel : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "a"
             }, {
@@ -921,6 +1079,11 @@ module.exports = (function() {
             }]]
         },
         astAttributes : {
+            "meta" : {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
             "entities" : [{
                 "name" : "Alice",
                 "linecolor" : "#008800",
@@ -974,4 +1137,3 @@ module.exports = (function() {
         }
     };
 })();
-

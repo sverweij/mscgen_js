@@ -3,6 +3,11 @@
     "# test10 strings and \\\" & \\n escapes",
     "\n"
   ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
   "options": {
     "hscale": "1.1"
   },
