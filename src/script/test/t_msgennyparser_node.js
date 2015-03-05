@@ -6,6 +6,11 @@ var fs = require("fs");
 
 var gCorrectOrderFixture = {
     "precomment":["# A,a, c, d, b, B;", "\n"],
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": true,
+      "extendedFeatures": true
+    },
     "entities" : [{
         "name" : "A"
     }, {
@@ -118,4 +123,3 @@ describe('msgennyparser', function() {
         });
     });
 });
-

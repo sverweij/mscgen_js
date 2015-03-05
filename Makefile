@@ -52,11 +52,15 @@ LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/canvg/rgbcolor.js 
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/graphics/renderutensils.js \
+	src/script/render/graphics/constants.js \
 	src/script/render/text/textutensils.js \
 	src/script/render/graphics/renderskeleton.js \
 	src/script/render/graphics/renderast.js \
 	src/script/ui-control/controller-interpreter.js \
 	src/script/ui-control/interpreter-events.js \
+	src/script/ui-control/interpreter-input-actions.js \
+	src/script/ui-control/interpreter-output-actions.js \
+	src/script/ui-control/interpreter-nav-actions.js \
 	src/script/ui-control/controller-animator.js \
 	src/script/ui-control/controller-exporter.js \
 	src/script/utl/gaga.js \

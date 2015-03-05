@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(["./constants"], function(C) {
     /**
      * Renders individual elements in sequence charts
      * @exports renderutensils
@@ -25,16 +25,18 @@ define([], function() {
      */
     "use strict";
 
-    var SVGNS = "http://www.w3.org/2000/svg";
-    var XLINKNS = "http://www.w3.org/1999/xlink";
-    var INSANELYBIG = 100000;
     var gDocument;
 
     /* superscript style could also be super or a number (1em) or a % (100%) */
     var lSuperscriptStyle = "vertical-align : text-top;";
     lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
+    // TODO: this is a query type of thing
+    //       responsibility-wise a strange one in this module
+    //       (which is responsible for creating svg elements)
     function _getBBox(pElement) {
+
+        var INSANELYBIG = 100000;
         var lRetval = {
             height : 15,
             width : 15,
@@ -43,23 +45,10 @@ define([], function() {
         };
 
         if ( typeof (pElement.getBBox) === 'function') {
-            /*
-            var lBody = gDocument.getElementsByTagName("svg")[0];
-
-            lBody.appendChild(pElement);
-            lRetval = pElement.getBBox();
-            lBody.removeChild(pElement);
-
-            it's probably better to not depend on the existence of
-            an svg in the body that is actualy usable :-).
-
-            Hence:
-            */
-
-            var lSvg = gDocument.createElementNS(SVGNS, "svg");
+            var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
             lSvg.setAttribute("version", "1.1");
-            lSvg.setAttribute("xmlns", SVGNS);
-            lSvg.setAttribute("xmlns:xlink", XLINKNS);
+            lSvg.setAttribute("xmlns", C.SVGNS);
+            lSvg.setAttribute("xmlns:xlink", C.XLINKNS);
 
             gDocument.body.appendChild(lSvg);
             lSvg.appendChild(pElement);
@@ -75,7 +64,7 @@ define([], function() {
              * To counter this, manually set the return value to 0x0
              * if height or width has a wacky value:
              */
-            if (lRetval.height > INSANELYBIG || lRetval.width > INSANELYBIG || lRetval.height < 0 - INSANELYBIG || lRetval.width < 0 - INSANELYBIG) {
+            if (Math.abs(lRetval.height) > INSANELYBIG || lRetval.width > INSANELYBIG || lRetval.height < 0 - INSANELYBIG || lRetval.width < 0 - INSANELYBIG) {
                 lRetval = {
                     height : 0,
                     width : 0,
@@ -97,7 +86,7 @@ define([], function() {
      * @return {SVGElement}
      */
     function _createPath(pD, pClass) {
-        var lPath = gDocument.createElementNS(SVGNS, "path");
+        var lPath = gDocument.createElementNS(C.SVGNS, "path");
         lPath.setAttribute("d", pD);
         if (pClass) {
             lPath.setAttribute("class", pClass);
@@ -106,7 +95,7 @@ define([], function() {
     }
 
     function _createPolygon(pPoints, pClass) {
-        var lPath = gDocument.createElementNS(SVGNS, "polygon");
+        var lPath = gDocument.createElementNS(C.SVGNS, "polygon");
         lPath.setAttribute("points", pPoints);
         if (pClass) {
             lPath.setAttribute("class", pClass);
@@ -114,15 +103,15 @@ define([], function() {
         return lPath;
     }
 
-    function _createRect(pWidth, pHeight, pClass, pX, pY, pRX, pRY) {
-        var lRect = gDocument.createElementNS(SVGNS, "rect");
-        lRect.setAttribute("width", pWidth);
-        lRect.setAttribute("height", pHeight);
-        if (pX) {
-            lRect.setAttribute("x", pX);
+    function _createRect(pBBox, pClass, pRX, pRY) {
+        var lRect = gDocument.createElementNS(C.SVGNS, "rect");
+        lRect.setAttribute("width", pBBox.width);
+        lRect.setAttribute("height", pBBox.height);
+        if (pBBox.x) {
+            lRect.setAttribute("x", pBBox.x);
         }
-        if (pY) {
-            lRect.setAttribute("y", pY);
+        if (pBBox.y) {
+            lRect.setAttribute("y", pBBox.y);
         }
         if (pRX) {
             lRect.setAttribute("rx", pRX);
@@ -136,63 +125,64 @@ define([], function() {
         return lRect;
     }
 
-    function _createABox(pWidth, pHeight, pClass, pX, pY) {
+    function _createABox(pBBox, pClass) {
         var lSlopeOffset = 3;
-        var lPathString = "M" + pX + "," + pY;
+        var lPathString = "M" + pBBox.x + "," + pBBox.y;
         // start
-        lPathString += "l" + lSlopeOffset + ", -" + pHeight / 2;
-        lPathString += "l" + (pWidth - 2 * lSlopeOffset) + ",0";
-        lPathString += "l" + lSlopeOffset + "," + pHeight / 2;
-        lPathString += "l-" + lSlopeOffset + "," + pHeight / 2;
-        lPathString += "l-" + (pWidth - 2 * lSlopeOffset) + ",0 ";
+        lPathString += "l" + lSlopeOffset + ", -" + pBBox.height / 2;
+        lPathString += "l" + (pBBox.width - 2 * lSlopeOffset) + ",0";
+        lPathString += "l" + lSlopeOffset + "," + pBBox.height / 2;
+        lPathString += "l-" + lSlopeOffset + "," + pBBox.height / 2;
+        lPathString += "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 ";
         // bottom line
-        lPathString += "l-" + lSlopeOffset + ",-" + pHeight / 2;
+        lPathString += "l-" + lSlopeOffset + ",-" + pBBox.height / 2;
 
         return _createPath(lPathString, pClass);
     }
 
-    function _createNote(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
+    function _createNote(pBBox, pClass, pFoldSize) {
         var lFoldSizeN = pFoldSize ? pFoldSize : 9;
         var lFoldSize = lFoldSizeN.toString(10);
-        var lPathString = "M" + pX + "," + pY;
+        var lPathString = "M" + pBBox.x + "," + pBBox.y;
         //((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
-        lPathString += "l" + (pWidth - lFoldSizeN) + ",0 ";
+        lPathString += "l" + (pBBox.width - lFoldSizeN) + ",0 ";
         // top line
         lPathString += "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " ";
         // fold
-        lPathString += "l0," + (pHeight - lFoldSizeN) + " ";
+        lPathString += "l0," + (pBBox.height - lFoldSizeN) + " ";
         //down
-        lPathString += "l-" + pWidth + ",0 ";
+        lPathString += "l-" + pBBox.width + ",0 ";
         // bottom line
-        lPathString += "l0,-" + pHeight + " ";
+        lPathString += "l0,-" + pBBox.height + " ";
         // back to home
 
         return _createPath(lPathString, pClass);
     }
 
-    function _createEdgeRemark(pWidth, pHeight, pClass, pX, pY, pFoldSize) {
+    function _createEdgeRemark(pBBox, pClass, pFoldSize) {
         var lFoldSize = pFoldSize ? pFoldSize : 7;
-        // M-28,0 l112.91796875,0 l0,l9,-9l-103.91796875,0 l0,17
         // start:
-        var lPathString = "M" + pX + "," + pY;
+        var lPathString = "M" + pBBox.x + "," + pBBox.y;
         // top line:
-        lPathString += " l" + pWidth + ",0 ";
+        lPathString += " l" + pBBox.width + ",0 ";
         // down:
-        lPathString += " l0," + (pHeight - lFoldSize);
+        lPathString += " l0," + (pBBox.height - lFoldSize);
         // fold:
         lPathString += " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10);
         // bottom line:
-        lPathString += " l-" + (pWidth - lFoldSize) + ",0 ";
+        lPathString += " l-" + (pBBox.width - lFoldSize) + ",0 ";
         // back to home:
         lPathString += "H";
 
         return _createPath(lPathString, pClass);
     }
 
+    // TODO: split?
+    // TODO: accept coords object i.o x, y
     function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        var lText = gDocument.createElementNS(SVGNS, "text");
-        var lTSpanLabel = gDocument.createElementNS(SVGNS, "tspan");
-        var lTSpanID = gDocument.createElementNS(SVGNS, "tspan");
+        var lText = gDocument.createElementNS(C.SVGNS, "text");
+        var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
+        var lTSpanID = gDocument.createElementNS(C.SVGNS, "tspan");
 
         var lContent = gDocument.createTextNode(pLabel);
         lText.setAttribute("x", pX.toString());
@@ -203,10 +193,10 @@ define([], function() {
 
         lTSpanLabel.appendChild(lContent);
         if (pURL) {
-            var lA = gDocument.createElementNS(SVGNS, "a");
-            lA.setAttributeNS(XLINKNS, "xlink:href", pURL);
-            lA.setAttributeNS(XLINKNS, "xlink:title", pURL);
-            lA.setAttributeNS(XLINKNS, "xlink:show", "new");
+            var lA = gDocument.createElementNS(C.SVGNS, "a");
+            lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
+            lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
+            lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
             lA.appendChild(lTSpanLabel);
             lText.appendChild(lA);
         } else {
@@ -219,10 +209,10 @@ define([], function() {
             // lTSpanID.setAttribute("y", "-1");
 
             if (pIDURL) {
-                var lAid = gDocument.createElementNS(SVGNS, "a");
-                lAid.setAttributeNS(XLINKNS, "xlink:href", pIDURL);
-                lAid.setAttributeNS(XLINKNS, "xlink:title", pIDURL);
-                lAid.setAttributeNS(XLINKNS, "xlink:show", "new");
+                var lAid = gDocument.createElementNS(C.SVGNS, "a");
+                lAid.setAttributeNS(C.XLINKNS, "xlink:href", pIDURL);
+                lAid.setAttributeNS(C.XLINKNS, "xlink:title", pIDURL);
+                lAid.setAttributeNS(C.XLINKNS, "xlink:show", "new");
                 lAid.appendChild(lTSpanID);
                 lText.appendChild(lAid);
 
@@ -233,8 +223,9 @@ define([], function() {
         return lText;
     }
 
+    // TODO: accept (2x) coords i/o x & y
     function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
-        var lLine = gDocument.createElementNS(SVGNS, "line");
+        var lLine = gDocument.createElementNS(C.SVGNS, "line");
         lLine.setAttribute("x1", pX1.toString());
         lLine.setAttribute("y1", pY1.toString());
         lLine.setAttribute("x2", pX2.toString());
@@ -245,6 +236,9 @@ define([], function() {
         return lLine;
     }
 
+    // TODO: accept (2x) coords i/o x & y
+    // TODO: de-uglify the resulting grahpics?
+    // TODO: delegate stuff?
     function createDoubleLine(pX1, pY1, pX2, pY2, pClass) {
         var lSpace = 2;
         var lPathString = "M" + pX1.toString() + "," + pY1.toString();
@@ -268,6 +262,7 @@ define([], function() {
         return _createPath(lPathString, pClass);
     }
 
+    // TODO: accept (2x) coords i/o x & y
     function _createLine(pX1, pY1, pX2, pY2, pClass, pDouble) {
         if (!pDouble) {
             return createSingleLine(pX1, pY1, pX2, pY2, pClass);
@@ -275,7 +270,7 @@ define([], function() {
             return createDoubleLine(pX1, pY1, pX2, pY2, pClass);
         }
     }
-
+    // TODO: accept coords (or even a bbox?)
     function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass) {
         var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
         lPathString += " l" + pWidth.toString() + ",0";
@@ -293,7 +288,7 @@ define([], function() {
     }
 
     function _createGroup(pId) {
-        var lGroup = gDocument.createElementNS(SVGNS, "g");
+        var lGroup = gDocument.createElementNS(C.SVGNS, "g");
         if (pId) {
           lGroup.setAttribute("id", pId);
         }
@@ -302,15 +297,15 @@ define([], function() {
     }
 
     function _createUse(pX, pY, pLink) {
-        var lUse = gDocument.createElementNS(SVGNS, "use");
+        var lUse = gDocument.createElementNS(C.SVGNS, "use");
         lUse.setAttribute("x", pX.toString());
         lUse.setAttribute("y", pY.toString());
-        lUse.setAttributeNS(XLINKNS, "xlink:href", "#" + pLink);
+        lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
         return lUse;
     }
 
     function _createMarker(pId, pClass, pOrient) {
-        var lMarker = gDocument.createElementNS(SVGNS, "marker");
+        var lMarker = gDocument.createElementNS(C.SVGNS, "marker");
         lMarker.setAttribute("orient", pOrient);
         lMarker.setAttribute("id", pId);
         lMarker.setAttribute("class", pClass);
@@ -327,16 +322,16 @@ define([], function() {
         return lMarker;
     }
 
-    function _createMarkerPath(pId, pClass, pOrient, pD, pPathClass) {
-        var lMarker = _createMarker(pId, pClass, pOrient);
-        var lPath = _createPath(pD, pPathClass);
+    function _createMarkerPath(pId, pD) {
+        var lMarker = _createMarker(pId, "arrow-marker", "auto");
+        var lPath = _createPath(pD, "arrow-style");
         lMarker.appendChild(lPath);
         return lMarker;
     }
 
-    function _createMarkerPolygon(pId, pClass, pOrient, pPoints, pPathClass) {
-        var lMarker = _createMarker(pId, pClass, pOrient);
-        var lPolygon = _createPolygon(pPoints, pPathClass);
+    function _createMarkerPolygon(pId, pPoints) {
+        var lMarker = _createMarker(pId, "arrow-marker", "auto");
+        var lPolygon = _createPolygon(pPoints, "filled arrow-style");
         lMarker.appendChild(lPolygon);
         return lMarker;
     }
@@ -352,18 +347,15 @@ define([], function() {
             gDocument = pDocument;
         },
         /**
-         * Creates an svg rectangle of pWidth x pHeight, with the top left
-         * corner at coordinates (pX, pY). pRX and pRY define the amount of
+         * Creates an svg rectangle of width x height, with the top left
+         * corner at coordinates (x, y). pRX and pRY define the amount of
          * rounding the corners of the rectangle get; when they're left out
          * the function will render the corners as straight.
          *
          * Unit: pixels
          *
-         * @param {number} pWidth
-         * @param {number} pHeight
+         * @param {object} pBBox
          * @param {string} pClass - reference to the css class to be applied
-         * @param {number} pX
-         * @param {number} pY
          * @param {number=} pRX
          * @param {number=} pRY
          * @return {SVGElement}
@@ -371,13 +363,11 @@ define([], function() {
         createRect : _createRect,
 
         /**
-         * Creates an angled box of pWidth x pHeight, with the top left corner
-         * at coordinates (pX, pY)
-         * @param {number} pWidth
-         * @param {number} pHeight
+         * Creates an angled box of width x height, with the top left corner
+         * at coordinates (x, y)
+         *
+         * @param {object} pBBox
          * @param {string} pClass - reference to the css class to be applied
-         * @param {number} pX
-         * @param {number} pY
          * @return {SVGElement}
          */
         createABox : _createABox,
@@ -386,11 +376,8 @@ define([], function() {
          * Creates a note of pWidth x pHeight, with the top left corner
          * at coordinates (pX, pY). pFoldSize controls the size of the
          * fold in the top right corner.
-         * @param {number} pWidth
-         * @param {number} pHeight
+         * @param {object} pBBox
          * @param {string} pClass - reference to the css class to be applied
-         * @param {number} pX
-         * @param {number} pY
          * @param {number=} [pFoldSize=9]
          *
          * @return {SVGElement}
@@ -398,14 +385,11 @@ define([], function() {
         createNote : _createNote,
 
         /**
-         * Creates an edge remark (for use in inline expressions) of pWidth x pHeight,
-         * with the top left corner at coordinates (pX, pY). pFoldSize controls the size of the
+         * Creates an edge remark (for use in inline expressions) of width x height,
+         * with the top left corner at coordinates (x, y). pFoldSize controls the size of the
          * fold bottom right corner.
-         * @param {number} pWidth
-         * @param {number} pHeight
+         * @param {object} pBBox
          * @param {string} pClass - reference to the css class to be applied
-         * @param {number} pX
-         * @param {number} pY
          * @param {number=} [pFoldSize=7]
          *
          * @return {SVGElement}
@@ -469,24 +453,18 @@ define([], function() {
         createUse : _createUse,
 
         /**
-         * Create a marker consisting of a path as specified in pD
+         * Create an arrow marker consisting of a path as specified in pD
          *
          * @param {string} pId
-         * @param {string} pClass - the css class to use for the marker
-         * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
          * @param {string} pD - a string containing the path
-         * @param {string} pPathClass - the css class to use for the path
          */
         createMarkerPath : _createMarkerPath,
 
         /**
-         * Create a marker consisting of a polygon as specified in pPoints
+         * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
          *
          * @param {string} pId
-         * @param {string} pClass - the css class to use for the marker
-         * @param {string} pOrient - the orientation (see svg documentation for possible values. 'auto' is usually a good one)
          * @param {string} pPoints - a string with the points of the polygon
-         * @param {string} pPathClass - the css class to use for the path
          * @return {SVGElement}
          */
         createMarkerPolygon : _createMarkerPolygon,
@@ -504,18 +482,6 @@ define([], function() {
          * as "reasonable default"
          */
         getBBox : _getBBox,
-
-        /**
-         * @const
-         * @default
-         */
-        SVGNS : SVGNS,
-        /**
-         * @const
-         * @default
-         */
-        XLINKNS : XLINKNS
-
     };
 });
 /*

@@ -35,8 +35,10 @@ module.exports = (function() {
         peg$c0 = peg$FAILED,
         peg$c1 = function(pre, d) {
             d[1] = extractUndeclaredEntities(d[1], d[2]);
-            
             var lRetval = merge (d[0], merge (d[1], d[2]));
+
+            lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
+            
             if (pre.length > 0) {
                 lRetval = merge({precomment: pre}, lRetval);
             }
@@ -140,7 +142,7 @@ module.exports = (function() {
             var retval = {kind: kind, from:from, to:to, arcs:arcs};
             if (label) {
               retval["label"] = label;
-            } 
+            }
             return retval;
           },
         peg$c54 = "|||",
@@ -2823,7 +2825,7 @@ module.exports = (function() {
             for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
             return obj3;
         }
-        
+
         function flattenBoolean(pBoolean) {
             var lBoolean = "false";
             switch(pBoolean.toLowerCase()) {
@@ -2840,7 +2842,7 @@ module.exports = (function() {
                 if (pEntities.entities.some(function(pEntity){
                     return pEntity.name === pName;
                 })){
-                    return true; 
+                    return true;
                 }
             }
             if (pEntityNamesToIgnore) {
@@ -2860,7 +2862,7 @@ module.exports = (function() {
                 pEntities = {};
                 pEntities.entities = [];
             }
-            
+
             if (!pEntityNamesToIgnore){
                 pEntityNamesToIgnore = {};
             }
@@ -2886,6 +2888,38 @@ module.exports = (function() {
                 });
             }
             return pEntities;
+        }
+
+        function hasExtendedOptions (pOptions){
+            if (pOptions && pOptions.options){
+                return pOptions.options["watermark"] ? true : false;
+            } else {
+                return false;
+            }
+        }
+
+        function hasExtendedArcTypes(pArcLineList){
+            if (pArcLineList && pArcLineList.arcs){
+                return pArcLineList.arcs.some(function(pArcLine){
+                    return pArcLine.some(function(pArc){
+                        return (["alt", "else", "opt", "break", "par",
+                          "seq", "strict", "neg", "critical",
+                          "ignore", "consider", "assert",
+                          "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
+                    });
+                });
+            }
+            return false;
+        }
+
+        function getMetaInfo(pOptions, pArcLineList){
+            var lHasExtendedOptions  = hasExtendedOptions(pOptions);
+            var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLineList);
+            return {
+                "extendedOptions" : lHasExtendedOptions,
+                "extendedArcTypes": lHasExtendedArcTypes,
+                "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
+            }
         }
 
 

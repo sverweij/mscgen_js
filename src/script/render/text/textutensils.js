@@ -7,14 +7,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([],
+define(["./dotmap"],
 /**
  * A hodge podge of functions manipulating text
  *
  * @exports node/textutensils
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function() {
+function(map) {
     "use strict";
 
     function _wrap(pText, pMaxLength) {
@@ -89,6 +89,14 @@ function() {
 
     }
 
+    function _splitLabel(pLabel, pKind, pWidth, pWordWrapArcs) {
+        if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){
+            return _wrap(pLabel, _determineMaxTextWidth(pWidth));
+        } else {
+            return pLabel.split('\\n');
+        }
+    }
+
     return {
         /**
          * Wraps text on the first space found before pMaxlength,
@@ -116,6 +124,20 @@ function() {
          * @return {array} - an array of strings
          */
         determineMaxTextWidth : _determineMaxTextWidth,
+
+        /**
+         * splitLabel () - splits the given pLabel into an array of strings
+         * - if the arc kind passed is a box the split occurs regardless
+         * - if the arc kind passed is something else, the split occurs
+         *   only if the _word wrap arcs_ option is true.
+         *
+         * @param <string> - pLabel
+         * @param <string> - pKind
+         * @param <number> - pWidth
+         * @param <bool>   - pWordWrapArcs
+         * @return <array of strings> - lLines
+         */
+         splitLabel: _splitLabel,
 
         /**
          * takes pString and replaces all escaped double quotes with
@@ -151,7 +173,7 @@ function() {
 
         /**
          * Given a Number, emits a String with that number in, left padded so the
-         * string is pMaxWidth long. If the number doesn't fit within pMaxWidth 
+         * string is pMaxWidth long. If the number doesn't fit within pMaxWidth
          * characters, just returns a String with that number in it
          *
          * @param {number} pNumber

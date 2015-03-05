@@ -37,9 +37,12 @@ module.exports = (function() {
         peg$c2 = { type: "literal", value: "{", description: "\"{\"" },
         peg$c3 = "}",
         peg$c4 = { type: "literal", value: "}", description: "\"}\"" },
-        peg$c5 = function(pre, d) { 
+        peg$c5 = function(pre, d) {
             d[1] = checkForUndeclaredEntities(d[1], d[2]);
             var lRetval = merge (d[0], merge (d[1], d[2]));
+
+            lRetval = merge ({meta: getMetaInfo()}, lRetval);
+            
             if (pre.length > 0) {
                 lRetval = merge({precomment: pre}, lRetval);
             }
@@ -207,7 +210,7 @@ module.exports = (function() {
           n = n.toLowerCase();
           n = n.replace("colour", "color");
           lAttribute[n] = v;
-          return lAttribute 
+          return lAttribute
         },
         peg$c115 = { type: "other", description: "attribute name" },
         peg$c116 = "label",
@@ -2754,7 +2757,7 @@ module.exports = (function() {
             for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
             return obj3;
         }
-        
+
         function flattenBoolean(pBoolean) {
             var lBoolean = "false";
             switch(pBoolean.toLowerCase()) {
@@ -2802,6 +2805,14 @@ module.exports = (function() {
                 });
             }
             return pEntities;
+        }
+
+        function getMetaInfo(){
+            return {
+                "extendedOptions" : false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            }
         }
 
 

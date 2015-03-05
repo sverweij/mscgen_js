@@ -37,13 +37,17 @@ define ([], function() {
         peg$c2 = { type: "literal", value: "{", description: "\"{\"" },
         peg$c3 = "}",
         peg$c4 = { type: "literal", value: "}", description: "\"}\"" },
-        peg$c5 = function(pre, d) { 
+        peg$c5 = function(pre, d) {
             d[1] = checkForUndeclaredEntities(d[1], d[2]);
             var lRetval = merge (d[0], merge (d[1], d[2]));
+            
+            lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
 
             if (pre.length > 0) {
                 lRetval = merge({precomment: pre}, lRetval);
             }
+
+
         /*
             if (post.length > 0) {
                 lRetval = merge(lRetval, {postcomment:post});
@@ -246,7 +250,7 @@ define ([], function() {
           n = n.toLowerCase();
           n = n.replace("colour", "color");
           lAttribute[n] = v;
-          return lAttribute 
+          return lAttribute
         },
         peg$c149 = { type: "other", description: "attribute name" },
         peg$c150 = "label",
@@ -3114,7 +3118,7 @@ define ([], function() {
             for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
             return obj3;
         }
-        
+
         function flattenBoolean(pBoolean) {
             var lBoolean = "false";
             switch(pBoolean.toLowerCase()) {
@@ -3162,6 +3166,38 @@ define ([], function() {
                 });
             }
             return pEntities;
+        }
+
+        function hasExtendedOptions (pOptions){
+            if (pOptions && pOptions.options){
+                return pOptions.options["watermark"] ? true : false;
+            } else {
+                return false;
+            }
+        }
+
+        function hasExtendedArcTypes(pArcLineList){
+            if (pArcLineList && pArcLineList.arcs){
+                return pArcLineList.arcs.some(function(pArcLine){
+                    return pArcLine.some(function(pArc){
+                        return (["alt", "else", "opt", "break", "par",
+                          "seq", "strict", "neg", "critical",
+                          "ignore", "consider", "assert",
+                          "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
+                    });
+                });
+            }
+            return false;
+        }
+
+        function getMetaInfo(pOptions, pArcLineList){
+            var lHasExtendedOptions  = hasExtendedOptions(pOptions);
+            var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLineList);
+            return {
+                "extendedOptions" : lHasExtendedOptions,
+                "extendedArcTypes": lHasExtendedArcTypes,
+                "extendedFeatures":  lHasExtendedOptions||lHasExtendedArcTypes
+            }
         }
 
 
