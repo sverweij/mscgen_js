@@ -6,6 +6,7 @@ if ( typeof define !== 'function') {
 }
 
 define([], function() {
+    "use strict";
     return {
         SVGNS: "http://www.w3.org/2000/svg",
         XLINKNS: "http://www.w3.org/1999/xlink",
