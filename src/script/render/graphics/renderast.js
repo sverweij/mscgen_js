@@ -480,7 +480,13 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lEntityXPos = 0;
 
         pEntities.forEach(function(pEntity) {
-            var lLine = utl.createLine(lEntityXPos + (gChart.entityWidth / 2), 0 - (pHeight / 2), lEntityXPos + (gChart.entityWidth / 2), (pHeight / 2), pClass);
+            var lLine = utl.createLine({
+                                    xFrom: lEntityXPos + (gChart.entityWidth / 2),
+                                    yFrom: 0 - (pHeight / 2),
+                                    xTo: lEntityXPos + (gChart.entityWidth / 2),
+                                    yTo: (pHeight / 2)
+                                },
+                                pClass);
             // TODO #13: render associated marker(s) in <def>
             if (pEntity.linecolor) {
                 lLine.setAttribute("style", "stroke : " + pEntity.linecolor + ";");
@@ -573,7 +579,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             lGroup.appendChild(createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine, pArc.linecolor));
             lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (gChart.interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), gChart.interEntitySpacing, "anchor-start"));
         } else {
-            var lLine = utl.createLine(pFrom, 0, pTo, lArcGradient, lClass, lDoubleLine);
+            var lLine = utl.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
             if (pArc.linecolor) {
                 lLine.setAttribute("style", "stroke:" + pArc.linecolor + "; fill: " + pArc.linecolor + ";");
             }
@@ -685,7 +691,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             lEndX = (gEntity2X[pArc.to] + (gChart.interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
             lClass = "striped";
         }
-        var lLine = utl.createLine(lStartX, 0, lEndX, 0, lClass);
+        var lLine = utl.createLine({xFrom: lStartX, yFrom: 0, xTo: lEndX, yTo: 0}, lClass);
 
         lGroup.appendChild(lLine);
         lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc));

@@ -177,99 +177,90 @@ define(["./constants"], function(C) {
         return _createPath(lPathString, pClass);
     }
 
-    // TODO: split?
+    function createLink (pURL, pElementToWrap){
+        var lA = gDocument.createElementNS(C.SVGNS, "a");
+        lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
+        lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
+        lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
+        lA.appendChild(pElementToWrap);
+        return lA;
+    }
+
+    function createTSpan(pLabel, pURL){
+        var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
+        var lContent = gDocument.createTextNode(pLabel);
+        lTSpanLabel.appendChild(lContent);
+        if (pURL) {
+            return createLink(pURL, lTSpanLabel);
+        } else {
+            return lTSpanLabel;
+        }
+    }
+
     // TODO: accept coords object i.o x, y
     function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         var lText = gDocument.createElementNS(C.SVGNS, "text");
-        var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
-        var lTSpanID = gDocument.createElementNS(C.SVGNS, "tspan");
-
-        var lContent = gDocument.createTextNode(pLabel);
         lText.setAttribute("x", pX.toString());
         lText.setAttribute("y", pY.toString());
+
         if (pClass) {
             lText.setAttribute("class", pClass);
         }
-
-        lTSpanLabel.appendChild(lContent);
-        if (pURL) {
-            var lA = gDocument.createElementNS(C.SVGNS, "a");
-            lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
-            lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
-            lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
-            lA.appendChild(lTSpanLabel);
-            lText.appendChild(lA);
-        } else {
-            lText.appendChild(lTSpanLabel);
-        }
+        lText.appendChild(createTSpan(pLabel, pURL));
 
         if (pID) {
-            lTSpanID.appendChild(gDocument.createTextNode(" [" + pID + "]"));
+            var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
             lTSpanID.setAttribute("style", lSuperscriptStyle);
-            // lTSpanID.setAttribute("y", "-1");
-
-            if (pIDURL) {
-                var lAid = gDocument.createElementNS(C.SVGNS, "a");
-                lAid.setAttributeNS(C.XLINKNS, "xlink:href", pIDURL);
-                lAid.setAttributeNS(C.XLINKNS, "xlink:title", pIDURL);
-                lAid.setAttributeNS(C.XLINKNS, "xlink:show", "new");
-                lAid.appendChild(lTSpanID);
-                lText.appendChild(lAid);
-
-            } else {
-                lText.appendChild(lTSpanID);
-            }
+            lText.appendChild(lTSpanID);
         }
         return lText;
     }
 
-    // TODO: accept (2x) coords i/o x & y
-    function createSingleLine(pX1, pY1, pX2, pY2, pClass) {
+    function createSingleLine(pLine, pClass) {
         var lLine = gDocument.createElementNS(C.SVGNS, "line");
-        lLine.setAttribute("x1", pX1.toString());
-        lLine.setAttribute("y1", pY1.toString());
-        lLine.setAttribute("x2", pX2.toString());
-        lLine.setAttribute("y2", pY2.toString());
+        lLine.setAttribute("x1", pLine.xFrom.toString());
+        lLine.setAttribute("y1", pLine.yFrom.toString());
+        lLine.setAttribute("x2", pLine.xTo.toString());
+        lLine.setAttribute("y2", pLine.yTo.toString());
         if (pClass) {
             lLine.setAttribute("class", pClass);
         }
         return lLine;
     }
 
-    // TODO: accept (2x) coords i/o x & y
     // TODO: de-uglify the resulting grahpics?
     // TODO: delegate stuff?
-    function createDoubleLine(pX1, pY1, pX2, pY2, pClass) {
+    function createDoubleLine(pLine, pClass) {
         var lSpace = 2;
-        var lPathString = "M" + pX1.toString() + "," + pY1.toString();
-        var ldx = pX2 > pX1 ? ldx = 1 : ldx = -1;
-        var ldy = ldx * (pY2 - pY1) / (pX2 - pX1);
-        var lLenX = pX2 - pX1;
-        var lLenY = pY2 - pY1;
+        var lPathString = "M" + pLine.xFrom.toString() + "," + pLine.yFrom.toString();
+        var ldx = pLine.xTo > pLine.xFrom ? ldx = 1 : ldx = -1;
+        var ldy = ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom);
+        var lLenX = pLine.xTo - pLine.xFrom;
+        var lLenY = pLine.yTo - pLine.yFrom;
 
         lPathString += "l" + ldx.toString() + "," + ldy.toString();
         // left stubble
-        lPathString += "M" + pX1.toString() + "," + (pY1 - lSpace).toString();
+        lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - lSpace).toString();
         lPathString += " l" + lLenX.toString() + "," + lLenY.toString();
         // upper line
-        lPathString += "M" + pX1.toString() + "," + (pY1 + lSpace).toString();
+        lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + lSpace).toString();
         lPathString += " l" + lLenX.toString() + "," + lLenY.toString();
         // lower line
-        lPathString += "M" + (pX2 - ldx).toString() + "," + pY2.toString();
+        lPathString += "M" + (pLine.xTo - ldx).toString() + "," + pLine.yTo.toString();
         lPathString += "l" + ldx.toString() + "," + ldy.toString();
         // right stubble
 
         return _createPath(lPathString, pClass);
     }
 
-    // TODO: accept (2x) coords i/o x & y
-    function _createLine(pX1, pY1, pX2, pY2, pClass, pDouble) {
+    function _createLine(pLine, pClass, pDouble) {
         if (!pDouble) {
-            return createSingleLine(pX1, pY1, pX2, pY2, pClass);
+            return createSingleLine(pLine, pClass);
         } else {
-            return createDoubleLine(pX1, pY1, pX2, pY2, pClass);
+            return createDoubleLine(pLine, pClass);
         }
     }
+
     // TODO: accept coords (or even a bbox?)
     function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass) {
         var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
@@ -413,10 +404,7 @@ define(["./constants"], function(C) {
 
         /**
          * Creates a line between to coordinates
-         * @param {number} pX1
-         * @param {number} pY1
-         * @param {number} pX2
-         * @param {number} pY2
+         * @param {object} pLine - an xFrom, yFrom and xTo, yTo pair describing a line
          * @param {string} pClass - reference to the css class to be applied
          * @param {boolean=} [pDouble=false] - render a double line
          * @return {SVGElement}
