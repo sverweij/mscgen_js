@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap"], function(utl, skel, txt, flatten, map) {
+define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap", "./rowmemory"], function(utl, skel, txt, flatten, map, rowmemory) {
     /**
      *
-     * renders an abstract syntax tree of a chart.layer.sequence chart
+     * renders an abstract syntax tree of a sequence chart
      *
      * knows of:
      *  - the syntax tree
-     *  - the target canvasf
+     *  - the target canvas
      *
      * Defines default sizes and distances for all objects.
      * @exports renderast
@@ -58,70 +58,6 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         }
     };
 
-    /* ------------------ row memory ---------------------- */
-
-    /**
-     * Functions to help determine the correct height and
-     * y position of rows befor rendering them.
-     */
-    var gRowInfo = [];
-
-    /**
-     * clearRowInfo() - resets the helper array to an empty one
-     */
-    function clearRowInfo() {
-        gRowInfo = [];
-    }
-
-    /**
-     * getRowInfo() - returns the row info for a given pRowNumber.
-     * If the row info was not set earlier with a setRowinfo call
-     * the function returns a best guess, based on defaults
-     *
-     * @param <int> pRowNumber
-     */
-    function getRowInfo(pRowNumber) {
-        if (gRowInfo[pRowNumber]) {
-            return gRowInfo[pRowNumber];
-        } else {
-            return {
-                y : (gChart.entityHeight + (1.5 * gChart.arcRowHeight)) + pRowNumber * gChart.arcRowHeight,
-                height : gChart.arcRowHeight
-            };
-        }
-    }
-
-    /**
-     * setRowInfo() - stores the pHeight and y position pY for the given pRowNumber
-     * - If the caller does not provide pHeight, the function sets the height to
-     * the current default arc row height
-     * - If the caller does not provide pY, the function calculates from the row height
-     * and the y position (and height) of the previous row
-     *
-     * @param <int> pRowNumber
-     * @param <int> pHeight
-     * @param <int> pY
-     */
-    function setRowInfo(pRowNumber, pHeight, pY) {
-        if (pHeight === undefined || pHeight < gChart.arcRowHeight) {
-            pHeight = gChart.arcRowHeight;
-        }
-        if (pY === undefined) {
-            var lPreviousRowInfo = getRowInfo(pRowNumber - 1);
-            if (lPreviousRowInfo && lPreviousRowInfo.y > 0) {
-                pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2;
-            } else {// TODO: this might be overkill
-                pY = (gChart.entityHeight + (1.5 * gChart.arcRowHeight)) + pRowNumber * gChart.arcRowHeight;
-            }
-        }
-        gRowInfo[pRowNumber] = {
-            y : pY,
-            height : pHeight
-        };
-    }
-
-    /* ---------------end row memory ---------------------- */
-
     function _clean(pParentElementId, pWindow) {
         gChart.document = skel.init(pWindow);
         var lChildElement = gChart.document.getElementById(INNERELEMENTPREFIX + pParentElementId);
@@ -145,25 +81,25 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      *
      * @param <object> - pOptions - the option part of the AST
      */
-    function preProcessOptions(pOptions) {
-        gChart.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
-        gChart.entityHeight = DEFAULT_ENTITY_HEIGHT;
-        gChart.entityWidth = DEFAULT_ENTITY_WIDTH;
-        gChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
-        gChart.arcGradient = DEFAULT_ARC_GRADIENT;
-        gChart.wordWrapArcs = false;
+    function preProcessOptions(pChart, pOptions) {
+        pChart.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
+        pChart.entityHeight = DEFAULT_ENTITY_HEIGHT;
+        pChart.entityWidth = DEFAULT_ENTITY_WIDTH;
+        pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
+        pChart.arcGradient = DEFAULT_ARC_GRADIENT;
+        pChart.wordWrapArcs = false;
 
         if (pOptions) {
             if (pOptions.hscale) {
-                gChart.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
-                gChart.entityWidth = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
+                pChart.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
+                pChart.entityWidth = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
             }
             if (pOptions.arcgradient) {
-                gChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-                gChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
+                pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+                pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
             }
             if (pOptions.wordwraparcs && pOptions.wordwraparcs === "true") {
-                gChart.wordWrapArcs = true;
+                pChart.wordWrapArcs = true;
             }
         }
     }
@@ -199,6 +135,33 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         return gInnerElementId + pElementIdentifierString;
     }
 
+    function initializeChart(pChart, pWindow, pDepth){
+        pChart.document = skel.init(pWindow);
+        pChart.layer.defs = pChart.document.getElementById(toId("__defs"));
+        pChart.layer.lifeline = pChart.document.getElementById(toId("__lifelinelayer"));
+        pChart.layer.sequence = pChart.document.getElementById(toId("__sequencelayer"));
+        pChart.layer.notes = pChart.document.getElementById(toId("__notelayer"));
+        pChart.layer.inline = pChart.document.getElementById(toId("__arcspanlayer"));
+        pChart.textHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
+
+        if (pDepth) {
+            pChart.maxDepth = pDepth;
+        } else {
+            pChart.maxDepth = 0;
+        }
+
+    }
+
+    function determineDepthCorrection(pDepth){
+        /* if there's nesting, make sure the rendering routines take the
+         * extra width needed into account
+         */
+        if (pDepth) {
+            return 2 * ((pDepth + 1) * 2 * LINE_WIDTH);
+        }
+        return 0;
+    }
+
     function _renderAST(pAST, pSource, pParentElementId, pWindow) {
         /* process the AST so it is simpler to render */
         pAST = flatten.flatten(pAST);
@@ -206,33 +169,20 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         gInnerElementId = INNERELEMENTPREFIX + pParentElementId;
 
         skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
-        gChart.document = skel.init(pWindow);
-        gChart.layer.defs = gChart.document.getElementById(toId("__defs"));
-        gChart.layer.lifeline = gChart.document.getElementById(toId("__lifelinelayer"));
-        gChart.layer.sequence = gChart.document.getElementById(toId("__sequencelayer"));
-        gChart.layer.notes = gChart.document.getElementById(toId("__notelayer"));
-        gChart.layer.inline = gChart.document.getElementById(toId("__arcspanlayer"));
-        gChart.textHeight = utl.getBBox(utl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
+        initializeChart(gChart, pWindow, pAST.depth);
 
-        preProcessOptions(pAST.options);
-        embedSource(pSource);
-
-        /* if there's nesting, make sure the rendering routines take the
-         * extra width needed into account
-         */
-        var lMscDepthCorrection = 0;
-        gChart.maxDepth = 0;
-        if (pAST.depth) {
-            lMscDepthCorrection = 2 * ((pAST.depth + 1) * 2 * LINE_WIDTH);
-            gChart.maxDepth = pAST.depth;
-        }
+        preProcessOptions(gChart, pAST.options);
+        embedSource(gChart, pSource);
 
         /* render entities and arcs */
         renderEntities(pAST.entities);
+        rowmemory.clear(gChart.entityHeight, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
 
+
+        var lMscDepthCorrection = determineDepthCorrection(pAST.depth);
         var lNoArcs = pAST.arcs ? pAST.arcs.length : 0;
-        var lRowInfo = getRowInfo(lNoArcs - 1);
+        var lRowInfo = rowmemory.get(lNoArcs - 1);
         var lCanvas = {
             "width" : (pAST.entities.length * gChart.interEntitySpacing) + lMscDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
@@ -247,21 +197,21 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
          *
          * We do this _before_ scaling is applied to the svg
          */
-        renderBackground(lCanvas);
+        renderBackground(gChart, lCanvas);
         postProcessOptions(pAST.options, lCanvas);
         renderSvgElement(lCanvas);
     }
 
-    function embedSource(pSource) {
+    function embedSource(pChart, pSource) {
         if (pSource) {
-            var lContent = gChart.document.createTextNode("\n\n# Generated by mscgen_js - http://sverweij.github.io/mscgen_js\n" + pSource);
-            gChart.document.getElementById(toId("__msc_source")).appendChild(lContent);
+            var lContent = pChart.document.createTextNode("\n\n# Generated by mscgen_js - http://sverweij.github.io/mscgen_js\n" + pSource);
+            pChart.document.getElementById(toId("__msc_source")).appendChild(lContent);
         }
     }
 
-    function renderBackground(pCanvas) {
+    function renderBackground(pChart, pCanvas) {
         var lBgRect = utl.createRect({width: pCanvas.width, height: pCanvas.height, x: 0 - pCanvas.horizontaltransform, y: 0 - pCanvas.verticaltransform}, "bglayer");
-        gChart.document.getElementById(toId("__background")).appendChild(lBgRect);
+        pChart.document.getElementById(toId("__background")).appendChild(lBgRect);
     }
 
     function renderSvgElement(pCanvas) {
@@ -280,9 +230,9 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
      * @param <object> - pEntities - the entities subtree of the AST
      * @return <int> - height - the height of the heighest entity
      */
-    function getMaxEntityHeight(pEntities) {
-        var lHWM = gChart.entityHeight;
-        var lHeight = gChart.entityHeight;
+    function getMaxEntityHeight(pEntities, pInititalEntityHeight) {
+        var lHWM = pInititalEntityHeight;
+        var lHeight = pInititalEntityHeight;
         pEntities.forEach(function(pEntity){
             lHeight = utl.getBBox(renderEntity(pEntity.name, pEntity)).height;
             if (lHeight > lHWM) {
@@ -334,7 +284,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         gEntity2ArcColor = {};
 
         if (pEntities) {
-            gChart.entityHeight = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
+            gChart.entityHeight = getMaxEntityHeight(pEntities, gChart.entityHeight) + LINE_WIDTH * 2;
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
                 lEntityXPos += gChart.interEntitySpacing;
@@ -355,14 +305,14 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
 
         gChart.layer.defs.appendChild(renderLifeLines(pEntities, toId("arcrow")));
-        gChart.layer.lifeline.appendChild(utl.createUse(0, getRowInfo(-1).y, toId("arcrow")));
+        gChart.layer.lifeline.appendChild(utl.createUse(0, rowmemory.get(-1).y, toId("arcrow")));
 
-        clearRowInfo();
+
         if (pArcRows) {
             pArcRows.forEach(function(pArcRow, pRowNumber){
                 var lArcRowOmit = false;
                 var lRowMemory = [];
-                setRowInfo(pRowNumber);
+                rowmemory.set(pRowNumber);
                 pArcRow.forEach(function(pArc,pArcNumber){
                     var lCurrentId = toId(pRowNumber.toString() + "_" + pArcNumber.toString());
                     var lElement;
@@ -438,7 +388,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                             break;
                     }// switch
                     if (lElement) {
-                        setRowInfo(pRowNumber, Math.max(getRowInfo(pRowNumber).height, utl.getBBox(lElement).height + 2 * LINE_WIDTH));
+                        rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, utl.getBBox(lElement).height + 2 * LINE_WIDTH));
                         gChart.layer.defs.appendChild(lElement);
                     }
                 });// for all arcs in a row
@@ -451,11 +401,11 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
                 if (lArcRowOmit) {
                     lArcRowClass = "arcrowomit";
                 }
-                gChart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, getRowInfo(pRowNumber).height, toId(lArcRowId)));
-                gChart.layer.lifeline.appendChild(utl.createUse(0, getRowInfo(pRowNumber).y, toId(lArcRowId)));
+                gChart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, rowmemory.get(pRowNumber).height, toId(lArcRowId)));
+                gChart.layer.lifeline.appendChild(utl.createUse(0, rowmemory.get(pRowNumber).y, toId(lArcRowId)));
 
                 lRowMemory.forEach(function(pRowMemoryLine){
-                    pRowMemoryLine.layer.appendChild(utl.createUse(0, getRowInfo(pRowNumber).y, pRowMemoryLine.id));
+                    pRowMemoryLine.layer.appendChild(utl.createUse(0, rowmemory.get(pRowNumber).y, pRowMemoryLine.id));
                 });
             }); // for all rows
             renderInlineExpressions(lInlineExpressionMemory);
@@ -501,13 +451,13 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     function renderInlineExpressions(pInlineExpressions) {
         pInlineExpressions.forEach(function(pInlineExpression){
             gChart.layer.defs.appendChild(renderInlineExpression(pInlineExpression));
-            gChart.layer.inline.appendChild(utl.createUse(0, getRowInfo(pInlineExpression.rownum).y, pInlineExpression.id));
+            gChart.layer.inline.appendChild(utl.createUse(0, rowmemory.get(pInlineExpression.rownum).y, pInlineExpression.id));
         });
     }
 
     function renderInlineExpression(pArcMem) {
-        var lFromY = getRowInfo(pArcMem.rownum).y;
-        var lToY = getRowInfo(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
+        var lFromY = rowmemory.get(pArcMem.rownum).y;
+        var lToY = rowmemory.get(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
         var lHeight = lToY - lFromY;
         pArcMem.arc.label = "";
 
@@ -538,7 +488,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         return lGroup;
     }
 
-   function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
+    function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
         var lHeight = 2 * (gChart.arcRowHeight / 5);
         var lWidth = gChart.interEntitySpacing / 3;
 
