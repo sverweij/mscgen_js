@@ -8,7 +8,8 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap", "./rowmemory"], function(utl, skel, txt, flatten, map, rowmemory) {
+define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap", "./rowmemory"],
+    function(utl, skel, txt, flatten, map, rowmemory) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -153,19 +154,13 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     }
 
     function determineDepthCorrection(pDepth){
-        /* if there's nesting, make sure the rendering routines take the
-         * extra width needed into account
-         */
         if (pDepth) {
             return 2 * ((pDepth + 1) * 2 * LINE_WIDTH);
         }
         return 0;
     }
 
-    function _renderAST(pAST, pSource, pParentElementId, pWindow) {
-        /* process the AST so it is simpler to render */
-        pAST = flatten.flatten(pAST);
-
+    function renderASTPre(pAST, pSource, pParentElementId, pWindow){
         gInnerElementId = INNERELEMENTPREFIX + pParentElementId;
 
         skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
@@ -173,20 +168,22 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
 
         preProcessOptions(gChart, pAST.options);
         embedSource(gChart, pSource);
+    }
 
-        /* render entities and arcs */
+    function renderASTMain(pAST){
         renderEntities(pAST.entities);
         rowmemory.clear(gChart.entityHeight, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
+    }
 
-
-        var lMscDepthCorrection = determineDepthCorrection(pAST.depth);
+    function renderASTPost(pAST){
+        var lDepthCorrection = determineDepthCorrection(pAST.depth);
         var lNoArcs = pAST.arcs ? pAST.arcs.length : 0;
         var lRowInfo = rowmemory.get(lNoArcs - 1);
         var lCanvas = {
-            "width" : (pAST.entities.length * gChart.interEntitySpacing) + lMscDepthCorrection,
+            "width" : (pAST.entities.length * gChart.interEntitySpacing) + lDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
-            "horizontaltransform" : (gChart.interEntitySpacing + lMscDepthCorrection - gChart.entityWidth) / 2,
+            "horizontaltransform" : (gChart.interEntitySpacing + lDepthCorrection - gChart.entityWidth) / 2,
             "verticaltransform" : PAD_VERTICAL,
             "scale" : 1
         };
@@ -200,6 +197,14 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         renderBackground(gChart, lCanvas);
         postProcessOptions(pAST.options, lCanvas);
         renderSvgElement(lCanvas);
+    }
+
+    function _renderAST(pAST, pSource, pParentElementId, pWindow) {
+        var lAST = flatten.flatten(pAST);
+
+        renderASTPre(lAST, pSource, pParentElementId, pWindow);
+        renderASTMain(lAST);
+        renderASTPost(lAST);
     }
 
     function embedSource(pChart, pSource) {
