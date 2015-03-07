@@ -1,5 +1,5 @@
 # mscgen_js
-*Turns text into sequence charts.*
+*Turns text into sequence charts.*    
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
 [![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)](https://travis-ci.org/sverweij/mscgen_js)
 - Implementation of the super easy [mscgen][1] in javascript.
@@ -57,14 +57,13 @@ If you find proof to the contrary on any of this [tell us][6].
 See [build.md][7]. If you want to understand how mscgen_js' innards work:
 we try to explain that [here][33].
 
-## License
-### GNU Public License v3
+## License information
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
 it as part of other free software, but _not_ as part of non free software.
 
 
 ### Commercial use of embedding mscgen
-In addition to that, for the use of the minified version of the embedding code
+In addition to the GNU public license, for the use of the minified version of the embedding code
 (```mscgen-inpage.js```) as described on [embedding][30] a special exception
 to the GPL is made:  
 
@@ -80,7 +79,7 @@ this exception to your version of the code, but you are not obligated
 to do so. If you do not wish to do so, delete this exception statement
 from your version.
 
-## Dependencies and their licenses
+### Dependencies and their licenses
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style):
 - [requirejs][19] is used for modularization.
