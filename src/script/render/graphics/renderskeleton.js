@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils", "./constants"], function(utl, C) {
+define(["./svgutensils", "./constants"], function(utl, C) {
     /**
      * sets up a skeleton svg, with the skeleton for rendering an msc ready
      *

@@ -2,13 +2,12 @@
 /* jshint unused:strict */
 /* jshint browser:true */
 /* jshint node:true */
-/* jshint trailing:true */
 
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap", "./rowmemory"],
+define(["./svgutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap", "./rowmemory"],
     function(utl, skel, txt, flatten, map, rowmemory) {
     /**
      *
@@ -25,12 +24,12 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
     "use strict";
 
     var PAD_VERTICAL = 3;
-    var DEFAULT_INTER_ENTITY_SPACING = 160;
-    var DEFAULT_ENTITY_WIDTH = 100;
-    var DEFAULT_ENTITY_HEIGHT = 34;
-    var DEFAULT_ARCROW_HEIGHT = 38;
     var LINE_WIDTH = 2;
-    var DEFAULT_ARC_GRADIENT = 0;
+    var DEFAULT_INTER_ENTITY_SPACING = 160; // chart only
+    var DEFAULT_ENTITY_WIDTH = 100; // chart only
+    var DEFAULT_ENTITY_HEIGHT = 34; // chart only
+    var DEFAULT_ARCROW_HEIGHT = 38; // chart only
+    var DEFAULT_ARC_GRADIENT = 0; // chart only
 
     var INNERELEMENTPREFIX = "mscgen_js-svg-";
 
@@ -506,8 +505,8 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
         var lGroup = utl.createGroup();
         if (pDouble) {
             // TODO #13: render associated marker(s) in <def>
-            var lInnerTurn = utl.createUTurn(pFrom, (lHeight - 4) / 2, (pYTo - 2 + lHeight)/*lSign*lHeight*/, lWidth - 4, "none");
-            var lOuterTurn = utl.createUTurn(pFrom, (lHeight + 4) / 2, (pYTo + 6 + lHeight)/*lSign*lHeight*/, lWidth, pClass);
+            var lInnerTurn = utl.createUTurn({x: pFrom, y:(lHeight - 4) / 2}, (pYTo - 2 + lHeight)/*lSign*lHeight*/, lWidth - 4, "none");
+            var lOuterTurn = utl.createUTurn({x:pFrom, y:(lHeight + 4) / 2}, (pYTo + 6 + lHeight)/*lSign*lHeight*/, lWidth, pClass);
             if (pLineColor) {
                 lInnerTurn.setAttribute("style", "stroke: " + pLineColor + ";");
                 lOuterTurn.setAttribute("style", "stroke: " + pLineColor + ";");
@@ -515,7 +514,7 @@ define(["./renderutensils", "./renderskeleton", "../text/textutensils", "../text
             lGroup.appendChild(lInnerTurn);
             lGroup.appendChild(lOuterTurn);
         } else {
-            var lUTurn = utl.createUTurn(pFrom, lHeight / 2, (pYTo + lHeight)/*lSign*lHeight*/, lWidth, pClass);
+            var lUTurn = utl.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight)/*lSign*lHeight*/, lWidth, pClass);
             if (pLineColor) {
                 lUTurn.setAttribute("style", "stroke: " + pLineColor + ";");
             }
