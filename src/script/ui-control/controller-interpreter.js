@@ -282,9 +282,7 @@ function render(pSource, pLanguage) {
             } else {
                 dq.SS(window.__show_anim).show();
             }
-            if( ['mscgen', 'xu'].indexOf(pLanguage) > -1 &&
-                lAST.meta &&
-                true === lAST.meta.extendedFeatures){
+            if( lAST.meta && true === lAST.meta.extendedFeatures){
                 dq.SS(window.__xu_notify).show();
             } else {
                 dq.SS(window.__xu_notify).hide();
