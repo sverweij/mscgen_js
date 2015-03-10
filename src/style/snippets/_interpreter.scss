@@ -121,8 +121,8 @@ button:active, a.button:active {
 .xunotify {
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
   font-size: 0.7em;
-  position: fixed;
-  margin: -0.6em 0 0 -0.4em;
+  position: absolute;
+  margin: -0.6em 0 0 -0.5em;
 }
 
 @media screen and (max-width: 1024px) {
