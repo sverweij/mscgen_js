@@ -262,8 +262,8 @@ define(["./constants"], function(C) {
     }
 
     // TODO: accept coords (or even a bbox?)
-    function _createUTurn(pStartX, pStartY, pEndY, pWidth, pClass) {
-        var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
+    function _createUTurn(pPoint, pEndY, pWidth, pClass) {
+        var lPathString = "M" + pPoint.x.toString() + ", -" + pPoint.y.toString();
         lPathString += " l" + pWidth.toString() + ",0";
         // right
         lPathString += " l0," + (pEndY).toString();
