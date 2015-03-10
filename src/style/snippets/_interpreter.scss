@@ -88,7 +88,7 @@ button, a.button {
   font-size: 1em;
   text-decoration: none;
   text-align: center;
-}  
+}
 button:hover, a.button:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
               0 3px 6px rgba(0, 0, 0, 0.23);
@@ -118,6 +118,13 @@ button:active, a.button:active {
   float: right;
   position: relative;
 }
+.xunotify {
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  font-size: 0.7em;
+  position: absolute;
+  margin: -0.6em 0 0 -0.5em;
+}
+
 @media screen and (max-width: 1024px) {
   #__input_and_controls {
     width: 28em;
