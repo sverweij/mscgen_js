@@ -282,6 +282,11 @@ function render(pSource, pLanguage) {
             } else {
                 dq.SS(window.__show_anim).show();
             }
+            if( lAST.meta && true === lAST.meta.extendedFeatures){
+                dq.SS(window.__xu_notify).show();
+            } else {
+                dq.SS(window.__xu_notify).hide();
+            }
         }
     } catch (e) {
         if (e.line !== undefined && e.column !== undefined) {
