@@ -1,4 +1,2 @@
-src/script/test
-src/script/cli
 src/script/parse
 src/script/render/text/attic

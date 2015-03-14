@@ -1,4 +1,4 @@
-var assert = require("assert");
+/* jshint nonstandard: true */
 var par = require("../utl/paramslikker");
 var utl = require("./testutensils");
 
@@ -54,4 +54,3 @@ describe('textutensils', function() {
 
     });
 });
-

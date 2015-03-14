@@ -1,9 +1,7 @@
-var assert = require("assert");
+/* jshint unused: true */
 var renderer = require("../render/graphics/renderast");
-var fix = require("./astfixtures");
 var tst = require ("./testutensils");
 var jsdom = require('jsdom');
-var fs = require('fs');
 
 
 function ast2svg(pAST, pWindow) {
@@ -21,7 +19,7 @@ function processAndCompare(pExpectedFile, pInputFile) {
             return ast2svg(JSON.parse(pInput), window);
         });
     });
-};
+}
 
 describe('renderast', function() {
     describe('#renderAST() - xu everyting', function() {
@@ -36,6 +34,6 @@ describe('renderast', function() {
         it('should render colors', function() {
             processAndCompare('./src/script/test/fixtures/rainbow.svg', //
             './src/script/test/fixtures/rainbow.json');
-        }); 
+        });
     });
 });

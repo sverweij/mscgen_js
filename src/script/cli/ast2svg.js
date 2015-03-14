@@ -1,18 +1,19 @@
 /*
  * Reads an abstract syntax tree from stdin and writes the corresponding
  * scalable vector graphic to stdout
- * 
+ *
  * Useful in combination with e.g. genny2ast.js, msc2ast.js or genrandomast.js:
  *     node genrandomast.js | node mscgen_js_cli.js > renderedchart.svg
- *     node msc2ast.js < mychart.msc | node mscgen_js_cli.js > mychart_rendered.svg 
+ *     node msc2ast.js < mychart.msc | node mscgen_js_cli.js > mychart_rendered.svg
  */
 
+/* jshint unused: true */
 var jsdom = require('jsdom');
 var renderast = require('../render/graphics/renderast');
 
 jsdom.env("<html><body></body></html>", function(err, window) {
     var gInput = "";
-    
+
     process.stdin.resume();
     process.stdin.setEncoding('utf8');
 

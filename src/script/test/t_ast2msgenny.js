@@ -1,9 +1,7 @@
 var assert = require("assert");
 var renderer = require("../render/text/ast2msgenny");
-var parser = require("../parse/msgennyparser_node");
 var fix = require("./astfixtures");
 var utl = require("./testutensils");
-var fs = require("fs");
 
 describe('ast2msgenny', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
@@ -91,6 +89,6 @@ a =>> a : happy-the-peppy - outside;\n\
                 return renderer.render(JSON.parse(pFileContent));
             });
         });
-    }); 
+    });
 
 });
