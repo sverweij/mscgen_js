@@ -2,10 +2,6 @@
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
-PLATO=node_modules/plato/bin/plato
-MOCHA=node_modules/mocha/bin/mocha
-MOCHA_FORK=node_modules/mocha/bin/_mocha
-COVER=node node_modules/istanbul/lib/cli.js
 COVER2REPORT=genhtml --no-source --branch-coverage --no-sort --rc genhtml_med_limit=50 --rc genhtml_hi_limit=80 --quiet --output-directory 
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
@@ -99,7 +95,7 @@ FAVICONS=favicon.ico \
 	favicon-228.png
 VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
 
-.PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites build-prerequisites-node report test
+.PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
 
 help:
 	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
@@ -239,14 +235,8 @@ script/mscgen-inpage.js: mscgen-inpage.js
 	cp $< $@
 
 # "phony" targets
-build-prerequisites:
-	$(NPM) install pegjs requirejs jshint plato mocha istanbul csslint node-sass
-
-runtime-prerequisites-node:
-	# cd src/script/node
-	$(NPM) install amdefine jsdom
-
-prerequisites: build-prerequisites runtime-prerequisites-node
+prerequisites:
+	$(NPM) install
 
 dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
 
@@ -259,13 +249,13 @@ consolecheck:
 	grep -r console src/script/*
 
 csslint:
-	$(CSSLINT) src/style/snippets/*.css
+	$(CSSLINT) src/style/*.css
 
-lint:
-	$(LINT) $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
+lint: $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
+	$(NPM) run lint
 
 cover: dev-build
-	$(COVER) cover $(MOCHA_FORK) src/script/test/
+	$(NPM) run cover
 
 coverage/lcov.info: cover
 
@@ -295,14 +285,13 @@ tag:
 	$(GIT) push --tags
 
 report: dev-build
-	$(PLATO) -r -d platoreports -x "jquery|parser|test|cli|attic" src/script/
+	$(NPM) plato
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
 
 test: dev-build
-	# $(MOCHA) -R spec src/script/test/
-	$(MOCHA) -R dot src/script/test/
+	$(NPM) run test
 
 check: noconsolestatements lint test
 
