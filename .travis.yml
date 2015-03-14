@@ -9,4 +9,6 @@ install:
   - make dev-build
 
 script:
-  - make check
+  - npm run lint
+  - npm run test
+  - npm run nsp
