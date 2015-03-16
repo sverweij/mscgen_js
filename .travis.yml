@@ -6,7 +6,7 @@ node_js:
 
 install:
   - npm install
-  - make install
+  - make dev-build
 
 script:
   - npm run lint
