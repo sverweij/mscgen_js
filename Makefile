@@ -135,7 +135,7 @@ src/script/parse/%parser.js: src/script/parse/%parser_node.js
 src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs 
 	$(PEGJS) $< $@
 
-%.html: src/%.html tracking.id tracking.host VERSION
+%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
 	$(SEDVERSION) < $< > $@
 
 %.css: %.scss
