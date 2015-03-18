@@ -3,14 +3,14 @@ _**Low effort labeling. Auto declarations**_
 
 mscgen already is a simple, concise, well readable language. Write-ability
 leaves room for improvement, though.
-The *ms genny* language is our attempt to fill that room. It does away with some of 
+The *ms genny* language is our attempt to fill that room. It does away with some of
 mscgen's more fancy features in favor of low effort labeling
 and automatic entity declarations. This enables you to set up a sequence chart *very*
 fast. See below for a complete comparison chart.
 
 To have our cake and eat it too we made the mscgen_js [online interpreter][4] translate between
 the two with the flick of a switch. The interpreter also contains a complete [tutorial][5]
-on *ms genny*. 
+on *ms genny*.
 
 ## Example
 ``` msgenny
@@ -55,9 +55,9 @@ the documentation.
 When in a hurry we directly use the rendered output from *ms genny*.
 
 ## A note on quotes ##
-Just like in *mscgen*, in *ms genny* labels need to be surrounded by quotes. 
-To simplify entry, however, in most cases *ms genny* allows you to 
-skip the quotes. It only needs quotes when a label contains a comma or a 
+Just like in *mscgen*, in *ms genny* labels need to be surrounded by quotes.
+To simplify entry, however, in most cases *ms genny* allows you to
+skip the quotes. It only needs quotes when a label contains a comma or a
 semicolon:
 
     a => b : "hello b";  # works
@@ -74,8 +74,8 @@ is used to generate the ms genny parser as well.
 
 ## Feature comparison
 As mentioned above the [online interpreter][4] converts between *mscgen* and *ms genny*.
-Moreover, the source code tree contains two node.js scripts which can perform 
-these translations from the command line: [genny2msc.js][2] and [msc2genny.js][3] . 
+Moreover, the source code tree contains two node.js scripts which can perform
+these translations from the command line: [genny2msc.js][2] and [msc2genny.js][3] .
 
 Note: obviously features not supported by *ms genny* get lost in translation.
 
@@ -167,5 +167,5 @@ Note: obviously features not supported by *ms genny* get lost in translation.
 [1]: ../src/script/parse/peg/msgennyparser.pegjs
 [2]: ../src/script/cli/genny2msc.js
 [3]: ../src/script/cli/msc2genny.js
-[4]: https://sverweij.github.io/mscgen_js/
+[4]: https://sverweij.github.io/mscgen_js/?utm_source=wikum.genny
 [5]: https://sverweij.github.io/mscgen_js/tutorial.html
