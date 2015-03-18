@@ -362,7 +362,7 @@ define(["./svgutensils", "./renderskeleton", "../text/textutensils", "../text/fl
                                 if (lTo === "*") {// it's a broadcast arc
                                     xFrom = gEntity2X[lFrom];
                                     pEntities.forEach(function(pEntity, pEntityNumber){
-                                        if (pEntity.name != lFrom) {
+                                        if (pEntity.name !== lFrom) {
                                             xTo = gEntity2X[pEntity.name];
                                             pArc.label = "";
                                             gChart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));

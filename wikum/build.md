@@ -45,18 +45,20 @@ this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
 
 ## Prerequisites
 - make
-- all javascript necessary to run mscgen_js and/ or the online interpreter is included in the distribution
+- npm
 - bash (cp, mkdir, rm, sed, grep, expr)
-- many node modules use amdefine, which is not distributed. To install run either
-  ```npm install amdefine``` (for amdefine only) or ```make prerequisites``` (to install
-  the other nodejs dependencies as well)
+- all javascript necessary to run mscgen_js and/ or the online interpreter in the browser is included in the distribution
+- to run in nodejs amdefine is also required - an ```npm install``` will get you that
+- for the rest: run an ```npm install```
 - nodejs
     - pegjs (mandatory)    
-    - r.js (mandatory for smashing together css sources. Mandatory for creating an minified version of the javascript (which in itself is optional))
+    - r.js (Mandatory for creating an minified version of the javascript (which in itself is optional))
+    - node-sass (mandatory for smashing togetter (s)css sources.
     - jshint (optional: linting)
     - mocha (optional: unit testing)
     - istanbul (optional: unit testing coverage)
     - plato (optional: static code analysis)
+    - nsp (optional: node security project - checks node module dependencies for security flaws)
 - git (for gh-pages deployment target only)
 - imagemagik and optipng (generating favicons)
 - genhtml from lcov, which is part of the linux test project (optional: generating an alternate small coverage report)

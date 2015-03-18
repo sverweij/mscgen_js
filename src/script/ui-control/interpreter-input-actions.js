@@ -6,7 +6,7 @@ define(["./controller-interpreter",
         function(
             uistate,
             gaga) {
-
+    "use strict";
 
 
     return {

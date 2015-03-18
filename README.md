@@ -103,7 +103,7 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters _almost_
   like a walk in the park.
-- [Elijah Insua][24] for [jsdom][25], which makes it possible to render vector graphics in node.js.
+- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in node.js.
 - [Audrey M. Roy](http://www.audreymroy.com/) for the excelent ["painfully obsessive cheat sheet to favicon sizes/types."](https://github.com/audreyr/favicon-cheat-sheet).
 
 [1]: http://www.mcternan.me.uk/mscgen
@@ -128,7 +128,6 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 [22]: wikum/licenses/license.jshint.md
 [23]: wikum/licenses/license.plato.md
 [24]: http://tmpvar.com/
-[25]: https://github.com/tmpvar/jsdom
 [25]: wikum/licenses/license.jsdom.md
 [26]: http://cs.brown.edu/~dap/
 [27]: https://npmjs.org/package/posix-getopt
@@ -138,3 +137,4 @@ It uses [mocha][21], [istanbul][28], [lcov genhtml][32], [jshint][22] and [plato
 [31]: https://github.com/jrburke/almond
 [32]: wikum/licenses/license.lcovgenhtml.md
 [33]: src/script
+[34]: https://github.com/tmpvar/jsdom

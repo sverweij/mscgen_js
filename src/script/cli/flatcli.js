@@ -1,4 +1,3 @@
-var x = require("../flatten");
 var g = require("../statstransforms");
 
 var parser = require("../parse/mscgenparser_node");
@@ -18,7 +17,6 @@ process.stdin.on('data', function(chunk) {
 
 process.stdin.on('end', function() {
     var lAST = parser.parse(gInput);
-    // lAST = x.flatten(lAST);
     lAST = g.inoutweigh(lAST);
     process.stdout.write(ast2mscgen.render (lAST));
     process.stdin.pause();

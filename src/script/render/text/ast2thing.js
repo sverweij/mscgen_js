@@ -7,6 +7,7 @@
 /* jshint undef:true */
 /* jshint unused:strict */
 /* jshint indent:4 */
+/* jshint devel:false */
 
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
@@ -59,19 +60,26 @@ define(["./textutensils"], function(utl) {
     };
     var gConfig = {};
 
-    function _renderAST(pAST, pConfig) {
+    function fillGloblalConfig (pConfig){
         var lAttribute = "";
-        for (lAttribute in CONFIG) {
-            gConfig[lAttribute] = CONFIG[lAttribute];
-        }
         for (lAttribute in pConfig) {
-            gConfig[lAttribute] = pConfig[lAttribute];
+            if(pConfig.hasOwnProperty(lAttribute)){
+                gConfig[lAttribute] = pConfig[lAttribute];
+            }
         }
-
-        return jurk(pAST);
     }
 
-    function jurk(pAST) {
+    function processConfig(pConfig){
+        fillGloblalConfig(CONFIG);
+        fillGloblalConfig(pConfig);
+    }
+
+    function _renderAST(pAST, pConfig) {
+        processConfig(pConfig);
+        return doTheRender(pAST);
+    }
+
+    function doTheRender(pAST) {
         var lRetVal = "";
         if (pAST) {
             if (pAST.precomment) {
@@ -90,7 +98,7 @@ define(["./textutensils"], function(utl) {
             lRetVal += gConfig.program.closer;
             if (pAST.postcomment) {
                 lRetVal += gConfig.renderCommentfn(pAST.postcomment);
-            }           
+            }
         }
         return lRetVal;
     }
@@ -108,7 +116,7 @@ define(["./textutensils"], function(utl) {
         var lRetvalAry = [];
         pSupportedOptions.forEach(function(pSupportedOption) {
             pushAttribute(lRetvalAry, pSupportedOption, pOptions[pSupportedOption]);
-        }); 
+        });
         return lRetvalAry;
     }
 

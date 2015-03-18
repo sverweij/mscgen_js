@@ -1,3 +1,5 @@
+sudo: false
+
 language: node_js
 
 node_js:
@@ -6,7 +8,9 @@ node_js:
 
 install:
   - npm install
-  - make dev-build
+  - make install
 
 script:
-  - make check
+  - npm run lint
+  - npm run test
+  - npm run nsp
