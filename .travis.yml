@@ -12,5 +12,12 @@ install:
 
 script:
   - npm run lint
-  - npm run test
+  - npm run cover
   - npm run nsp
+
+ addons:
+   code_climate:
+     repo_token: a958c23bd7d2a4f3685ac0687008f132ef9e835f3eaf9f15934d6b3db6057c14
+
+after_success:
+  - npm run codeclimate-cover-submit
