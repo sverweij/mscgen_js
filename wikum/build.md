@@ -72,4 +72,3 @@ This is totally optional, b.t.w.
     - nsp (optional: node security project - checks node module dependencies for security flaws)
 - git (for gh-pages deployment target only)
 - imagemagik and optipng (generating favicons)
-- genhtml from lcov, which is part of the linux test project (optional: generating an alternate small coverage report)
