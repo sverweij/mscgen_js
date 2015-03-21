@@ -37,9 +37,7 @@ describe('renderast', function() {
         });
         it('should wrap text in boxes well', function(){
             processAndCompare('./src/script/test/fixtures/test19_multiline_lipsum.svg',//
-            './src/script/test/fixtures/test19_multiline_lipsum.json'
-            )
-
+            './src/script/test/fixtures/test19_multiline_lipsum.json');
         });
     });
 });
