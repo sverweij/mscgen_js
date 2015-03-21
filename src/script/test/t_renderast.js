@@ -27,13 +27,17 @@ describe('renderast', function() {
             processAndCompare('./src/script/test/fixtures/astsimple.svg', //
             './src/script/test/fixtures/astsimple.json');
         });
-        it('should render all the stuff', function() {
+        it('should render all possible arcs', function() {
             processAndCompare('./src/script/test/fixtures/test01_all_possible_arcs.svg', //
             './src/script/test/fixtures/test01_all_possible_arcs.json');
         });
         it('should render colors', function() {
             processAndCompare('./src/script/test/fixtures/rainbow.svg', //
             './src/script/test/fixtures/rainbow.json');
+        });
+        it('should wrap text in boxes well', function(){
+            processAndCompare('./src/script/test/fixtures/test19_multiline_lipsum.svg',//
+            './src/script/test/fixtures/test19_multiline_lipsum.json');
         });
     });
 });

@@ -96,9 +96,12 @@ define(["./textutensils"], function(utl) {
                 lRetVal += renderArcLines(pAST.arcs, "");
             }
             lRetVal += gConfig.program.closer;
+            /*
+             * not supported yet
             if (pAST.postcomment) {
                 lRetVal += gConfig.renderCommentfn(pAST.postcomment);
             }
+            */
         }
         return lRetVal;
     }
