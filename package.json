@@ -18,7 +18,6 @@
     "plato": "^1.4.0",
     "nsp": "^1.0.1"
   },
-  "bundledDependencies": ["almond", "requirejs", "codemirror", "canvg"],
   "scripts": {
     "test": "mocha -R dot src/script/test/",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha src/script/test",

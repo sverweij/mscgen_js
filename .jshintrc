@@ -64,7 +64,6 @@
 
     // Environments
     "browser"       : false,     // Web Browser (window, document, etc)
-    "browserify"    : false,    // Browserify (node.js code in the browser)
     "couch"         : false,    // CouchDB
     "devel"         : false,     // Development/debugging (alert, confirm, etc)
     "dojo"          : false,    // Dojo Toolkit
