@@ -31,53 +31,58 @@ define(["./constants"], function(C) {
     var lSuperscriptStyle = "vertical-align : text-top;";
     lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
-    // TODO: this is a query type of thing
-    //       responsibility-wise a strange one in this module
-    //       (which is responsible for creating svg elements)
-    function _getBBox(pElement) {
+    function getNativeBBox(pElement){
+        var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
+        lSvg.setAttribute("version", "1.1");
+        lSvg.setAttribute("xmlns", C.SVGNS);
+        lSvg.setAttribute("xmlns:xlink", C.XLINKNS);
 
-        var INSANELYBIG = 100000;
-        var lRetval = {
-            height : 15,
-            width : 15,
-            x : 2,
-            y : 2
-        };
-
-        if ( typeof (pElement.getBBox) === 'function') {
-            var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
-            lSvg.setAttribute("version", "1.1");
-            lSvg.setAttribute("xmlns", C.SVGNS);
-            lSvg.setAttribute("xmlns:xlink", C.XLINKNS);
-
-            gDocument.body.appendChild(lSvg);
-            lSvg.appendChild(pElement);
-            lRetval = pElement.getBBox();
-            lSvg.removeChild(pElement);
-            gDocument.body.removeChild(lSvg);
-
-            /*
-             * workaround for Opera browser quirk: if the dimensions
-             * of an element are 0x0, Opera's getBBox() implementation
-             * returns -Infinity (which is a kind of impractical value
-             * to actually render, even for Opera)
-             * To counter this, manually set the return value to 0x0
-             * if height or width has a wacky value:
-             */
-            if (Math.abs(lRetval.height) > INSANELYBIG || lRetval.width > INSANELYBIG || lRetval.height < 0 - INSANELYBIG || lRetval.width < 0 - INSANELYBIG) {
-                lRetval = {
-                    height : 0,
-                    width : 0,
-                    x : 0,
-                    y : 0
-                };
-            }
-            /* end workaround */
-        }
+        gDocument.body.appendChild(lSvg);
+        lSvg.appendChild(pElement);
+        var lRetval = pElement.getBBox();
+        lSvg.removeChild(pElement);
+        gDocument.body.removeChild(lSvg);
 
         return lRetval;
     }
 
+    /*
+     * workaround for Opera browser quirk: if the dimensions
+     * of an element are 0x0, Opera's getBBox() implementation
+     * returns -Infinity (which is a kind of impractical value
+     * to actually render, even for Opera)
+     * To counter this, manually set the return value to 0x0
+     * if height or width has a wacky value:
+     */
+    function sanitizeBBox(pBBox){
+        var INSANELYBIG = 100000;
+        if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG ) {
+            return {
+                height : 0,
+                width : 0,
+                x : 0,
+                y : 0
+            };
+        } else {
+            return pBBox;
+        }
+    }
+
+    // TODO: this is a query type of thing
+    //       responsibility-wise a strange one in this module
+    //       (which is responsible for creating svg elements)
+    function _getBBox(pElement) {
+        if ( typeof (pElement.getBBox) === 'function') {
+            return sanitizeBBox(getNativeBBox(pElement));
+        } else {
+            return {
+                height : 15,
+                width : 15,
+                x : 2,
+                y : 2
+            };
+        }
+    }
 
     function _calculateTextHeight(){
         return _getBBox(_createText("\u00C1jy\u00CE9\u0192@", 0, 0)).height;
