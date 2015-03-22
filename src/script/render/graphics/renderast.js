@@ -58,13 +58,17 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         }
     };
 
-    function _clean(pParentElementId, pWindow) {
-        gChart.document = skel.init(pWindow);
-        var lChildElement = gChart.document.getElementById(INNERELEMENTPREFIX + pParentElementId);
+    function removeRenderedSVGFromElement(pElementId){
+        var lChildElement = gChart.document.getElementById(INNERELEMENTPREFIX + pElementId);
         if (lChildElement && (lChildElement !== null) && (lChildElement !== undefined)) {
-            var lParentElement = gChart.document.getElementById(pParentElementId);
+            var lParentElement = gChart.document.getElementById(pElementId);
             lParentElement.removeChild(lChildElement);
         }
+    }
+
+    function _clean(pParentElementId, pWindow) {
+        gChart.document = skel.init(pWindow);
+        removeRenderedSVGFromElement(pParentElementId);
     }
 
     /**
