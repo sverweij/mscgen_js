@@ -241,12 +241,8 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         return lGroup;
     }
 
-    function _renderEntity(pEntity, pEntityXPos) {
+    function saveEntityArcColors(pEntity){
         var arcColors = {};
-
-        gChart.layer.defs.appendChild(renderEntity(pEntity, gChart.entityDims));
-        gChart.layer.sequence.appendChild(svgutl.createUse(pEntityXPos, 0, id.get(pEntity.name)));
-        gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityDims.width / 2);
 
         if (pEntity.arclinecolor) {
             arcColors.arclinecolor = pEntity.arclinecolor;
@@ -258,6 +254,14 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
             arcColors.arctextbgcolor = pEntity.arctextbgcolor;
         }
         gEntity2ArcColor[pEntity.name] = arcColors;
+    }
+
+    function _renderEntity(pEntity, pEntityXPos) {
+        gChart.layer.defs.appendChild(renderEntity(pEntity, gChart.entityDims));
+        gChart.layer.sequence.appendChild(svgutl.createUse(pEntityXPos, 0, id.get(pEntity.name)));
+
+        gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityDims.width / 2);
+        saveEntityArcColors(pEntity);
     }
 
     /**
