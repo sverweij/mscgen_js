@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgutensils", "./constants"], function(utl, C) {
+define(["./svgelementfactory", "./constants"], function(fact, C) {
     /**
      * sets up a skeleton svg, with the skeleton for rendering an msc ready
      *
@@ -34,11 +34,11 @@ define(["./svgutensils", "./constants"], function(utl, C) {
     var gDocument;
 
     function setupMarker (pDefs, pId, pPath){
-        pDefs.appendChild(utl.createMarkerPath(pId, pPath));
+        pDefs.appendChild(fact.createMarkerPath(pId, pPath));
     }
 
     function setupMarkerPolygon (pDefs, pId, pPoints){
-        pDefs.appendChild(utl.createMarkerPolygon(pId, pPoints));
+        pDefs.appendChild(fact.createMarkerPolygon(pId, pPoints));
     }
 
     function setupMarkers(pDefs, pElementId) {
@@ -79,7 +79,7 @@ define(["./svgutensils", "./constants"], function(utl, C) {
         var lDefs = gDocument.createElementNS(C.SVGNS, "defs");
         lDefs.appendChild(setupStyle(pElementId));
         lDefs = setupMarkers(lDefs, pElementId);
-        lDefs.appendChild(utl.createGroup(pElementId + "__defs"));
+        lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
     }
 
@@ -90,14 +90,14 @@ define(["./svgutensils", "./constants"], function(utl, C) {
     }
 
     function setupBody(pElementId) {
-        var lBody = utl.createGroup(pElementId + "__body");
+        var lBody = fact.createGroup(pElementId + "__body");
 
-        lBody.appendChild(utl.createGroup(pElementId + "__background"));
-        lBody.appendChild(utl.createGroup(pElementId + "__arcspanlayer"));
-        lBody.appendChild(utl.createGroup(pElementId + "__lifelinelayer"));
-        lBody.appendChild(utl.createGroup(pElementId + "__sequencelayer"));
-        lBody.appendChild(utl.createGroup(pElementId + "__notelayer"));
-        lBody.appendChild(utl.createGroup(pElementId + "__watermark"));
+        lBody.appendChild(fact.createGroup(pElementId + "__background"));
+        lBody.appendChild(fact.createGroup(pElementId + "__arcspanlayer"));
+        lBody.appendChild(fact.createGroup(pElementId + "__lifelinelayer"));
+        lBody.appendChild(fact.createGroup(pElementId + "__sequencelayer"));
+        lBody.appendChild(fact.createGroup(pElementId + "__notelayer"));
+        lBody.appendChild(fact.createGroup(pElementId + "__watermark"));
         return lBody;
     }
 
@@ -108,7 +108,7 @@ define(["./svgutensils", "./constants"], function(utl, C) {
         } else {
             lDocument = window.document;
         }
-        utl.init(lDocument);
+        fact.init(lDocument);
         return lDocument;
     }
 
