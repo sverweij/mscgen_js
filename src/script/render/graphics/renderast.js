@@ -127,8 +127,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         return gInnerElementId + pElementIdentifierString;
     }
 
-    function initializeChart(pChart, pWindow, pDepth){
-        pChart.document = skel.init(pWindow);
+    function initializeChart(pChart, pDepth){
         pChart.layer.defs = pChart.document.getElementById(toId("__defs"));
         pChart.layer.lifeline = pChart.document.getElementById(toId("__lifelinelayer"));
         pChart.layer.sequence = pChart.document.getElementById(toId("__sequencelayer"));
@@ -147,8 +146,8 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
     function renderASTPre(pAST, pSource, pParentElementId, pWindow){
         gInnerElementId = INNERELEMENTPREFIX + pParentElementId;
 
-        skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
-        initializeChart(gChart, pWindow, pAST.depth);
+        gChart.document = skel.bootstrap(pParentElementId, gInnerElementId, pWindow);
+        initializeChart(gChart, pAST.depth);
 
         preProcessOptions(gChart, pAST.options);
         embedSource(gChart, pSource);

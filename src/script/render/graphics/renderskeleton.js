@@ -125,6 +125,8 @@ define(["./svgutensils", "./constants"], function(utl, C) {
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
+
+        return gDocument;
     }
 
     function setupStyleElement(pElementId) {
