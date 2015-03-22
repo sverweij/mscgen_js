@@ -216,6 +216,13 @@ define(["./constants"], function(C) {
         return lText;
     }
 
+    function _createDiagonalText (pText, pCanvas){
+        var lRetval = _createText(pText, pCanvas.width / 2, pCanvas.height / 2, "watermark");
+        var lAngle = 0 - (Math.atan(pCanvas.height / pCanvas.width) * 360 / (2 * Math.PI));
+        lRetval.setAttribute("transform", "rotate(" + lAngle.toString() + " " + ((pCanvas.width) / 2).toString() + " " + ((pCanvas.height) / 2).toString() + ")");
+        return lRetval;
+    }
+
     function createSingleLine(pLine, pClass) {
         var lLine = gDocument.createElementNS(C.SVGNS, "line");
         lLine.setAttribute("x1", pLine.xFrom.toString());
@@ -401,6 +408,15 @@ define(["./constants"], function(C) {
          * @return {SVGElement}
          */
         createText : _createText,
+
+        /**
+         * Creates a text node with the given pText fitting diagonally (bottom-left
+         *  - top right) in canvas pCanvas
+         *
+         * @param {string} pText
+         * @param {object} pCanvas (an object with at least a .width and a .height)
+         */
+        createDiagonalText: _createDiagonalText,
 
         /**
          * Creates a line between to coordinates

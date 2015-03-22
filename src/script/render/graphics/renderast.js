@@ -105,11 +105,10 @@ define(["./svgutensils", "./renderskeleton", "../text/textutensils", "../text/fl
     }
 
     function renderWatermark(pWatermark, pCanvas) {
-        var lWaterMarkLayer = gChart.document.getElementById(toId("__watermark"));
-        var lWatermark = utl.createText(pWatermark, pCanvas.width / 2, pCanvas.height / 2, "watermark");
-        var lAngle = 0 - (Math.atan(pCanvas.height / pCanvas.width) * 360 / (2 * Math.PI));
-        lWatermark.setAttribute("transform", "rotate(" + lAngle.toString() + " " + ((pCanvas.width) / 2).toString() + " " + ((pCanvas.height) / 2).toString() + ")");
-        lWaterMarkLayer.appendChild(lWatermark);
+        gChart
+            .document
+            .getElementById(toId("__watermark"))
+            .appendChild(utl.createDiagonalText(pWatermark, pCanvas));
     }
 
     function adjustCanvasSize(pWidth, pCanvas) {
