@@ -78,6 +78,10 @@ define(["./constants"], function(C) {
         return lRetval;
     }
 
+    function _createTextNode(pText){
+        return gDocument.createTextNode(pText);
+    }
+
     /**
      * Creates an svg path element given the path pD, with pClass applied
      * (if provided)
@@ -344,6 +348,14 @@ define(["./constants"], function(C) {
         init : function(pDocument) {
             gDocument = pDocument;
         },
+        
+        /**
+         * creates an svg textNode in the document with the given pText
+         *
+         * @param {string} pText
+         */
+        createTextNode: _createTextNode,
+
         /**
          * Creates an svg rectangle of width x height, with the top left
          * corner at coordinates (x, y). pRX and pRY define the amount of
