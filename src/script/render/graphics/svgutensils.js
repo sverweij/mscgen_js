@@ -80,7 +80,7 @@ define(["./constants"], function(C) {
 
 
     function _calculateTextHeight(){
-        return _getBBox(_createText("ÁjyÎ9ƒ@", 0, 0)).height;
+        return _getBBox(_createText("\u00C1jy\u00CE9\u0192@", 0, 0)).height;
     }
 
     function _createTextNode(pText){
