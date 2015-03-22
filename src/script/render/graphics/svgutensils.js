@@ -76,24 +76,24 @@ define(["./constants"], function(C) {
         return lTSpanLabel;
     }
 
-    function createText(pLabel, pX, pY) {
+    function createText(pLabel) {
         var lText = gDocument.createElementNS(C.SVGNS, "text");
-        lText.setAttribute("x", pX.toString());
-        lText.setAttribute("y", pY.toString());
+        lText.setAttribute("x", "0");
+        lText.setAttribute("y", "0");
         lText.appendChild(createTSpan(pLabel));
 
         return lText;
     }
 
     function _calculateTextHeight(){
-        return _getBBox(createText("\u00C1jy\u00CE9\u0192@", 0, 0)).height;
+        return _getBBox(createText("\u00C1jy\u00CE9\u0192@")).height;
     }
 
     return {
         init: function(pDocument){
             gDocument = pDocument;
         },
-        
+
         /**
          * Returns the bounding box of the passed element.
          *
