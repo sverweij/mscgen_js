@@ -78,6 +78,11 @@ define(["./constants"], function(C) {
         return lRetval;
     }
 
+
+    function _calculateTextHeight(){
+        return _getBBox(_createText("ÁjyÎ9ƒ@", 0, 0)).height;
+    }
+
     function _createTextNode(pText){
         return gDocument.createTextNode(pText);
     }
@@ -348,7 +353,7 @@ define(["./constants"], function(C) {
         init : function(pDocument) {
             gDocument = pDocument;
         },
-        
+
         /**
          * creates an svg textNode in the document with the given pText
          *
@@ -498,6 +503,11 @@ define(["./constants"], function(C) {
          * as "reasonable default"
          */
         getBBox : _getBBox,
+
+        /**
+         * Returns the height in pixels necessary for rendering characters
+         */
+        calculateTextHeight: _calculateTextHeight
     };
 });
 /*

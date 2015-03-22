@@ -112,7 +112,6 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         gChart.layer.watermark.appendChild(svgutl.createDiagonalText(pWatermark, pCanvas));
     }
 
-
     function postProcessOptions(pOptions, pCanvas) {
         if (pOptions) {
             if (pOptions.watermark) {
@@ -133,13 +132,9 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
     }
 
-    function calculateTextHeight(){
-        return svgutl.getBBox(svgutl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
-    }
-
     function initializeChart(pChart, pDepth){
         createLayerShortcuts(pChart.layer, pChart.document);
-        pChart.textHeight = calculateTextHeight();
+        pChart.textHeight = svgutl.calculateTextHeight();
 
         if (pDepth) {
             pChart.maxDepth = pDepth;
