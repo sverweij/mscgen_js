@@ -41,8 +41,10 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
 
     var gChart = {
         "interEntitySpacing" : DEFAULT_INTER_ENTITY_SPACING,
-        "entityWidth" : DEFAULT_ENTITY_WIDTH,
-        "entityHeight" : DEFAULT_ENTITY_HEIGHT,
+        "entityDims" : {
+            "width": DEFAULT_ENTITY_WIDTH,
+            "height" : DEFAULT_ENTITY_HEIGHT,
+        },
         "arcRowHeight" : DEFAULT_ARCROW_HEIGHT,
         "arcGradient" : DEFAULT_ARC_GRADIENT,
         "wordWrapArcs" : false,
@@ -87,8 +89,8 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
      */
     function preProcessOptions(pChart, pOptions) {
         pChart.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
-        pChart.entityHeight = DEFAULT_ENTITY_HEIGHT;
-        pChart.entityWidth = DEFAULT_ENTITY_WIDTH;
+        pChart.entityDims.height = DEFAULT_ENTITY_HEIGHT;
+        pChart.entityDims.width = DEFAULT_ENTITY_WIDTH;
         pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
         pChart.arcGradient = DEFAULT_ARC_GRADIENT;
         pChart.wordWrapArcs = false;
@@ -96,7 +98,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         if (pOptions) {
             if (pOptions.hscale) {
                 pChart.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
-                pChart.entityWidth = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
+                pChart.entityDims.width = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
             }
             if (pOptions.arcgradient) {
                 pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
@@ -164,7 +166,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
 
     function renderASTMain(pAST){
         renderEntities(pAST.entities);
-        rowmemory.clear(gChart.entityHeight, gChart.arcRowHeight);
+        rowmemory.clear(gChart.entityDims.height, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
     }
 
@@ -175,7 +177,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         var lCanvas = {
             "width" : (pAST.entities.length * gChart.interEntitySpacing) + lDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
-            "horizontaltransform" : (gChart.interEntitySpacing + lDepthCorrection - gChart.entityWidth) / 2,
+            "horizontaltransform" : (gChart.interEntitySpacing + lDepthCorrection - gChart.entityDims.width) / 2,
             "verticaltransform" : PAD_VERTICAL,
             "scale" : 1
         };
@@ -231,7 +233,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         var lHWM = pInititalEntityHeight;
         var lHeight = pInititalEntityHeight;
         pEntities.forEach(function(pEntity){
-            lHeight = svgutl.getBBox(renderEntity(pEntity.name, pEntity)).height;
+            lHeight = svgutl.getBBox(renderEntity(pEntity.name, pEntity, gChart.entityDims)).height;
             if (lHeight > lHWM) {
                 lHWM = lHeight;
             }
@@ -239,10 +241,10 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         return lHWM;
     }
 
-    function renderEntity(pId, pEntity) {
+    function renderEntity(pId, pEntity, pBBox) {
         var lGroup = svgutl.createGroup(pId);
-        var lTextLabel = createTextLabel(pId + "_txt", pEntity, 0, gChart.entityHeight / 2, gChart.entityWidth, "entity");
-        var lRect = svgutl.createRect({width: gChart.entityWidth, height: gChart.entityHeight});
+        var lTextLabel = createTextLabel(pId + "_txt", pEntity, 0, pBBox.height / 2, pBBox.width, "entity");
+        var lRect = svgutl.createRect(pBBox);
         utl.colorBox(lRect, pEntity);
         lGroup.appendChild(lRect);
         lGroup.appendChild(lTextLabel);
@@ -252,9 +254,9 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
     function _renderEntity(pEntity, pEntityXPos) {
         var arcColors = {};
 
-        gChart.layer.defs.appendChild(renderEntity(toId(pEntity.name), pEntity));
+        gChart.layer.defs.appendChild(renderEntity(toId(pEntity.name), pEntity, gChart.entityDims));
         gChart.layer.sequence.appendChild(svgutl.createUse(pEntityXPos, 0, toId(pEntity.name)));
-        gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityWidth / 2);
+        gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityDims.width / 2);
 
         if (pEntity.arclinecolor) {
             arcColors.arclinecolor = pEntity.arclinecolor;
@@ -281,7 +283,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         gEntity2ArcColor = {};
 
         if (pEntities) {
-            gChart.entityHeight = getMaxEntityHeight(pEntities, gChart.entityHeight) + LINE_WIDTH * 2;
+            gChart.entityDims.height = getMaxEntityHeight(pEntities, gChart.entityDims.height) + LINE_WIDTH * 2;
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
                 lEntityXPos += gChart.interEntitySpacing;
@@ -299,7 +301,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         var lInlineExpressionMemory = [];
 
         var lLabel = "";
-        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
+        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityDims.width;
 
         gChart.layer.defs.appendChild(renderLifeLines(pEntities, toId("arcrow")));
         gChart.layer.lifeline.appendChild(svgutl.createUse(0, rowmemory.get(-1).y, toId("arcrow")));
@@ -473,9 +475,9 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
 
         pEntities.forEach(function(pEntity) {
             var lLine = svgutl.createLine({
-                                    xFrom: lEntityXPos + (gChart.entityWidth / 2),
+                                    xFrom: lEntityXPos + (gChart.entityDims.width / 2),
                                     yFrom: 0 - (pHeight / 2),
-                                    xTo: lEntityXPos + (gChart.entityWidth / 2),
+                                    xTo: lEntityXPos + (gChart.entityDims.width / 2),
                                     yTo: (pHeight / 2)
                                 },
                                 pClass);
@@ -653,7 +655,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
      */
     function createLifeLinesText(pId, pArc) {
         var lArcStart = 0;
-        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
+        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityDims.width;
         var lGroup = svgutl.createGroup(pId);
 
         if (pArc.from && pArc.to) {
@@ -672,7 +674,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
      */
     function createComment(pId, pArc) {
         var lStartX = 0;
-        var lEndX = gEntityXHWM - gChart.interEntitySpacing + gChart.entityWidth;
+        var lEndX = gEntityXHWM - gChart.interEntitySpacing + gChart.entityDims.width;
         var lClass = "dotted";
         var lGroup = svgutl.createGroup(pId);
 
