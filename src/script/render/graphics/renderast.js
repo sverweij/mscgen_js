@@ -222,7 +222,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         var lHWM = pInititalEntityHeight;
         var lHeight = pInititalEntityHeight;
         pEntities.forEach(function(pEntity){
-            lHeight = svgutl.getBBox(renderEntity(pEntity.name, pEntity, gChart.entityDims)).height;
+            lHeight = svgutl.getBBox(renderEntity(pEntity, gChart.entityDims)).height;
             if (lHeight > lHWM) {
                 lHWM = lHeight;
             }
@@ -230,9 +230,9 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         return lHWM;
     }
 
-    function renderEntity(pId, pEntity, pBBox) {
-        var lGroup = svgutl.createGroup(pId);
-        var lTextLabel = createTextLabel(pId + "_txt", pEntity, 0, pBBox.height / 2, pBBox.width, "entity");
+    function renderEntity(pEntity, pBBox) {
+        var lGroup = svgutl.createGroup(id.get(pEntity.name));
+        var lTextLabel = createTextLabel(id.get(pEntity.name) + "_txt", pEntity, 0, pBBox.height / 2, pBBox.width, "entity");
         var lRect = svgutl.createRect(pBBox);
         utl.colorBox(lRect, pEntity);
         lGroup.appendChild(lRect);
@@ -243,7 +243,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
     function _renderEntity(pEntity, pEntityXPos) {
         var arcColors = {};
 
-        gChart.layer.defs.appendChild(renderEntity(id.get(pEntity.name), pEntity, gChart.entityDims));
+        gChart.layer.defs.appendChild(renderEntity(pEntity, gChart.entityDims));
         gChart.layer.sequence.appendChild(svgutl.createUse(pEntityXPos, 0, id.get(pEntity.name)));
         gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityDims.width / 2);
 
