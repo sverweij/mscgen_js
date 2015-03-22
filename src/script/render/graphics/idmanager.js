@@ -15,8 +15,8 @@ define([], function() {
     var gInnerElementId = INNERELEMENTPREFIX;
 
     return {
-        setPrefix: function (pId){
-            gInnerElementId = pId;
+        setPrefix: function (pPrefix){
+            gInnerElementId = INNERELEMENTPREFIX + pPrefix;
         },
         get: function(pElementIdentifierString) {
             if (pElementIdentifierString){

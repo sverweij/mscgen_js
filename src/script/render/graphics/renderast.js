@@ -59,7 +59,8 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
     };
 
     function removeRenderedSVGFromElement(pElementId){
-        var lChildElement = gChart.document.getElementById(id.get(pElementId));
+        id.setPrefix(pElementId);
+        var lChildElement = gChart.document.getElementById(id.get());
         if (lChildElement && (lChildElement !== null) && (lChildElement !== undefined)) {
             var lParentElement = gChart.document.getElementById(pElementId);
             lParentElement.removeChild(lChildElement);
@@ -144,7 +145,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
     }
 
     function renderASTPre(pAST, pSource, pParentElementId, pWindow){
-        id.setPrefixInnerElementId(pParentElementId);
+        id.setPrefix(pParentElementId);
 
         gChart.document = skel.bootstrap(pParentElementId, id.get(), pWindow);
         initializeChart(gChart, pAST.depth);
