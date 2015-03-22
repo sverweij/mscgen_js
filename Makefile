@@ -278,7 +278,7 @@ tag:
 	$(GIT) push --tags
 
 report: dev-build
-	$(NPM) plato
+	$(NPM) run plato
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
