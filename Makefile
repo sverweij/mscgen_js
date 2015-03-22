@@ -46,6 +46,7 @@ LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/canvg/StackBlur.js \
 	src/lib/canvg/rgbcolor.js 
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
+	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
 	src/script/render/graphics/renderutensils.js \
 	src/script/render/graphics/constants.js \
