@@ -50,6 +50,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/graphics/renderutensils.js \
 	src/script/render/graphics/constants.js \
 	src/script/render/graphics/rowmemory.js \
+	src/script/render/graphics/idmanager.js \
 	src/script/render/text/textutensils.js \
 	src/script/render/graphics/renderskeleton.js \
 	src/script/render/graphics/renderast.js \
