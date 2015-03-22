@@ -105,10 +105,7 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
     }
 
     function renderWatermark(pWatermark, pCanvas) {
-        gChart
-            .document
-            .getElementById(toId("__watermark"))
-            .appendChild(svgutl.createDiagonalText(pWatermark, pCanvas));
+        gChart.layer.watermark.appendChild(svgutl.createDiagonalText(pWatermark, pCanvas));
     }
 
 
@@ -127,20 +124,28 @@ define(["./svgutensils", "./renderutensils", "./renderskeleton", "../text/textut
         return gInnerElementId + pElementIdentifierString;
     }
 
+    function createLayerShortcuts (pLayer, pDocument){
+        pLayer.defs = pDocument.getElementById(toId("__defs"));
+        pLayer.lifeline = pDocument.getElementById(toId("__lifelinelayer"));
+        pLayer.sequence = pDocument.getElementById(toId("__sequencelayer"));
+        pLayer.notes = pDocument.getElementById(toId("__notelayer"));
+        pLayer.inline = pDocument.getElementById(toId("__arcspanlayer"));
+        pLayer.watermark = pDocument.getElementById(toId("__watermark"));
+    }
+
+    function calculateTextHeight(){
+        return svgutl.getBBox(svgutl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
+    }
+
     function initializeChart(pChart, pDepth){
-        pChart.layer.defs = pChart.document.getElementById(toId("__defs"));
-        pChart.layer.lifeline = pChart.document.getElementById(toId("__lifelinelayer"));
-        pChart.layer.sequence = pChart.document.getElementById(toId("__sequencelayer"));
-        pChart.layer.notes = pChart.document.getElementById(toId("__notelayer"));
-        pChart.layer.inline = pChart.document.getElementById(toId("__arcspanlayer"));
-        pChart.textHeight = svgutl.getBBox(svgutl.createText("ÁjyÎ9ƒ@", 0, 0)).height;
+        createLayerShortcuts(pChart.layer, pChart.document);
+        pChart.textHeight = calculateTextHeight();
 
         if (pDepth) {
             pChart.maxDepth = pDepth;
         } else {
             pChart.maxDepth = 0;
         }
-
     }
 
     function renderASTPre(pAST, pSource, pParentElementId, pWindow){
