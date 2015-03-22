@@ -244,27 +244,35 @@ define(["./constants"], function(C) {
         return lLine;
     }
 
+    function determineDirection(pLine){
+        var ldx = 1;
+        if (pLine.xTo > pLine.xFrom){
+            ldx = -1;
+        }
+        return {
+            dx: ldx,
+            dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
+        };
+    }
+
     // TODO: de-uglify the resulting grahpics?
     // TODO: delegate stuff?
     function createDoubleLine(pLine, pClass) {
         var lSpace = 2;
         var lPathString = "M" + pLine.xFrom.toString() + "," + pLine.yFrom.toString();
-        var ldx = pLine.xTo > pLine.xFrom ? ldx = 1 : ldx = -1;
-        var ldy = ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom);
-        var lLenX = pLine.xTo - pLine.xFrom;
-        var lLenY = pLine.yTo - pLine.yFrom;
+        var lDir = determineDirection(pLine);
+        var lLenX = (pLine.xTo - pLine.xFrom).toString();
+        var lLenY = (pLine.yTo - pLine.yFrom).toString();
+        var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
+        var lLine = " l" + lLenX + "," + lLenY;
 
-        lPathString += "l" + ldx.toString() + "," + ldy.toString();
-        // left stubble
+        lPathString += lStubble; // left stubble
         lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - lSpace).toString();
-        lPathString += " l" + lLenX.toString() + "," + lLenY.toString();
-        // upper line
+        lPathString += lLine; // upper line
         lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + lSpace).toString();
-        lPathString += " l" + lLenX.toString() + "," + lLenY.toString();
-        // lower line
-        lPathString += "M" + (pLine.xTo - ldx).toString() + "," + pLine.yTo.toString();
-        lPathString += "l" + ldx.toString() + "," + ldy.toString();
-        // right stubble
+        lPathString += lLine; // lower line
+        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + pLine.yTo.toString();
+        lPathString += lStubble; // right stubble
 
         return _createPath(lPathString, pClass);
     }
