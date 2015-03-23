@@ -368,8 +368,6 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
                                         layer : gChart.layer.sequence
                                     });
                                 } else {// it's a regular arc
-                                    xFrom = ;
-                                    xTo = g;
                                     lElement = createArc(lCurrentId, pArc, gEntity2X[lFrom], gEntity2X[lTo]);
                                     lRowMemory.push({
                                         id : lCurrentId,
