@@ -58,6 +58,12 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         }
     };
 
+    function getOAndD (pFrom, pTo){
+        return {
+            from: gEntity2X[pFrom],
+            to: gEntity2X[pTo]
+        };
+    }
 
     function _renderAST(pAST, pSource, pParentElementId, pWindow) {
         var lAST = flatten.flatten(pAST);
@@ -316,7 +322,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
                             });
                             break;
                         case("box"):
-                            lElement = createBox(lCurrentId, gEntity2X[pArc.from], gEntity2X[pArc.to], pArc);
+                            lElement = createBox(lCurrentId, getOAndD(pArc.from, pArc.to), pArc);
                             lRowMemory.push({
                                 id : lCurrentId,
                                 layer : gChart.layer.notes
@@ -362,9 +368,9 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
                                         layer : gChart.layer.sequence
                                     });
                                 } else {// it's a regular arc
-                                    xFrom = gEntity2X[lFrom];
-                                    xTo = gEntity2X[lTo];
-                                    lElement = createArc(lCurrentId, pArc, xFrom, xTo);
+                                    xFrom = ;
+                                    xTo = g;
+                                    lElement = createArc(lCurrentId, pArc, gEntity2X[lFrom], gEntity2X[lTo]);
                                     lRowMemory.push({
                                         id : lCurrentId,
                                         layer : gChart.layer.sequence
@@ -406,18 +412,19 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      * @param <object> pArc - the arc spanning arc
      */
     function renderInlineExpressionLabel(pId, pArc) {
-        var lFrom = gEntity2X[pArc.from];
-        var lTo = gEntity2X[pArc.to];
+        var lOnD = {
+            from: gEntity2X[pArc.from],
+            to: gEntity2X[pArc.to]
+        };
+
         var FOLD_SIZE = 7;
-        if (lFrom > lTo) {
-            var lTmp = lFrom;
-            lFrom = lTo;
-            lTo = lTmp;
+        if (lOnD.from > lOnD.to) {
+            utl.swap(lOnD, "from", "to");
         }
 
-        var lMaxWidth = (lTo - lFrom) + (gChart.interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
+        var lMaxWidth = (lOnD.to - lOnD.from) + (gChart.interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
 
-        var lStart = (lFrom - ((gChart.interEntitySpacing - 3 * LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
+        var lStart = (lOnD.from - ((gChart.interEntitySpacing - 3 * LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
         var lGroup = fact.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
@@ -447,7 +454,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         var lHeight = lToY - lFromY;
         pArcMem.arc.label = "";
 
-        return createBox(pArcMem.id, gEntity2X[pArcMem.arc.from], gEntity2X[pArcMem.arc.to], pArcMem.arc, lHeight);
+        return createBox(pArcMem.id, getOAndD(pArcMem.arc.from, pArcMem.arc.to), pArcMem.arc, lHeight);
     }
 
     function renderLifeLines(pEntities, pClass, pHeight, pId) {
@@ -509,9 +516,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
         if (pArc.from && pArc.to) {
             if (gEntity2X[pArc.from] > gEntity2X[pArc.to]) {
-                var lTmp = pArc.from;
-                pArc.from = pArc.to;
-                pArc.to = lTmp;
+                utl.swap(pArc, "from", "to");
             }
         }
 
@@ -527,32 +532,33 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         return lElement;
     }
 
-    function createArc(pId, pArc, pFrom, pTo) {
-        var lGroup = fact.createGroup(pId);
-        var lClass = "";
-        var lArcGradient = gChart.arcGradient;
-        var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
-
-        lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
-
+    function determineArcXTo(pArc, pFrom, pTo){
         if ("-x" === pArc.kind) {
-            pTo = pFrom + (pTo - pFrom) * (3 / 4);
+            return pFrom + (pTo - pFrom) * (3 / 4);
+        } else {
+            return pTo;
         }
+    }
 
-        var lYTo = 0;
+    function determineArcYTo(pArc){
         if (pArc.arcskip) {
             /* TODO: derive from hashmap */
-            lYTo = pArc.arcskip * gChart.arcRowHeight;
-            lArcGradient = lYTo;
+            return pArc.arcskip * gChart.arcRowHeight;
+        } else {
+            return 0;
         }
+    }
 
-        /* for one line labels add an end of line so it gets
-         * rendered above the arc in stead of directly on it.
-         * TODO: kludgy
-         */
-        if (pArc.label && (pArc.label.indexOf('\\n') === -1)) {
-            pArc.label += "\\n";
-        }
+    function createArc(pId, pArc, pFrom, pTo) {
+        var lGroup = fact.createGroup(pId);
+        var lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
+        var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
+        var lYTo = determineArcYTo(pArc);
+        var lArcGradient = (lYTo === 0) ? gChart.arcGradient: lYTo;
+
+        pTo = determineArcXTo(pArc, pFrom, pTo);
+
+        pArc.label = utl.oneLineLabelsFix(pArc.label);
 
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine, pArc.linecolor));
@@ -694,19 +700,17 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      * takes the bounding box of the (rendered) label of the arc, taking care not
      * to get smaller than the default arc row height
      */
-    function createBox(pId, pFrom, pTo, pArc, pHeight) {
-        if (pFrom > pTo) {
-            var lTmp = pFrom;
-            pFrom = pTo;
-            pTo = lTmp;
+    function createBox(pId, pOAndD, pArc, pHeight) {
+        if (pOAndD.from > pOAndD.to) {
+            utl.swap(pOAndD, "from", "to");
         }
-        var lWidth = ((pTo - pFrom) + gChart.interEntitySpacing - 2 * LINE_WIDTH);
+        var lWidth = ((pOAndD.to - pOAndD.from) + gChart.interEntitySpacing - 2 * LINE_WIDTH);
         var NOTE_FOLD_SIZE = 9;
         // px
         var RBOX_CORNER_RADIUS = 6;
         // px
 
-        var lStart = pFrom - ((gChart.interEntitySpacing - 2 * LINE_WIDTH) / 2);
+        var lStart = pOAndD.from - ((gChart.interEntitySpacing - 2 * LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
