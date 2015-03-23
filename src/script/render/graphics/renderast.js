@@ -417,7 +417,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
         var FOLD_SIZE = 7;
         if (lOnD.from > lOnD.to) {
-            utl.swap(lOnD, "from", "to");
+            utl.swapfromto(lOnD);
         }
 
         var lMaxWidth = (lOnD.to - lOnD.from) + (gChart.interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
@@ -514,7 +514,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
         if (pArc.from && pArc.to) {
             if (gEntity2X[pArc.from] > gEntity2X[pArc.to]) {
-                utl.swap(pArc, "from", "to");
+                utl.swapfromto(pArc);
             }
         }
 
@@ -700,7 +700,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      */
     function createBox(pId, pOAndD, pArc, pHeight) {
         if (pOAndD.from > pOAndD.to) {
-            utl.swap(pOAndD, "from", "to");
+            utl.swapfromto(pOAndD);
         }
         var lWidth = ((pOAndD.to - pOAndD.from) + gChart.interEntitySpacing - 2 * LINE_WIDTH);
         var NOTE_FOLD_SIZE = 9;

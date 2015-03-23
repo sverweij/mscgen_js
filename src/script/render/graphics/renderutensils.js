@@ -70,12 +70,15 @@ define([], function() {
         pElement.setAttribute("style", lStyleString);
     }
 
-    function _swap (pPair, pA, pB){
+    function swap (pPair, pA, pB){
         var lTmp = pPair[pA];
         pPair[pA] = pPair[pB];
         pPair[pB] = lTmp;
     }
 
+    function _swapfromto(pPair){
+        swap(pPair, "from", "to");
+    }
 
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
@@ -83,6 +86,6 @@ define([], function() {
         oneLineLabelsFix: _oneLineLabelsFix,
         colorText: _colorText,
         colorBox: _colorBox,
-        swap: _swap
+        swapfromto: _swapfromto
     };
 });
