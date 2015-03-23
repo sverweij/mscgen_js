@@ -17,6 +17,8 @@ define([], function() {
         pCanvas.height *= pCanvas.scale;
         pCanvas.horizontaltransform *= pCanvas.scale;
         pCanvas.verticaltransform *= pCanvas.scale;
+        pCanvas.x = 0 - pCanvas.horizontaltransform;
+        pCanvas.y = 0 - pCanvas.verticaltransform;
     }
 
     function _determineDepthCorrection(pDepth, pLineWidth){
@@ -26,6 +28,17 @@ define([], function() {
         return 0;
     }
 
+    /* for one line labels add an end of line so it gets
+     * rendered above the arc in stead of directly on it.
+     * TODO: kludgy
+     */
+    function _oneLineLabelsFix(pLabel){
+        if (pLabel && (pLabel.indexOf('\\n') === -1)) {
+            return pLabel + "\\n";
+        } else {
+            return pLabel;
+        }
+    }
     /**
      * Sets the fill color of the passed pElement to the textcolor of
      * the given pArc
@@ -57,10 +70,19 @@ define([], function() {
         pElement.setAttribute("style", lStyleString);
     }
 
+    function _swap (pPair, pA, pB){
+        var lTmp = pPair[pA];
+        pPair[pA] = pPair[pB];
+        pPair[pB] = lTmp;
+    }
+
+
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
         determineDepthCorrection : _determineDepthCorrection,
+        oneLineLabelsFix: _oneLineLabelsFix,
         colorText: _colorText,
-        colorBox: _colorBox
+        colorBox: _colorBox,
+        swap: _swap
     };
 });

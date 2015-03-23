@@ -43,6 +43,10 @@ define([], function() {
         }
     }
 
+    function getLast(){
+        return get(gRowInfo.length - 1);
+    }
+
     /**
      * setRowInfo() - stores the pHeight and y position pY for the given pRowNumber
      * - If the caller does not provide pHeight, the function sets the height to
@@ -74,6 +78,7 @@ define([], function() {
     return {
         clear: clear,
         get: get,
+        getLast: getLast,
         set: set
     };
 });

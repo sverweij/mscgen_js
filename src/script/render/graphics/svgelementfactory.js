@@ -193,9 +193,9 @@ define(["./constants"], function(C) {
     }
 
     function determineDirection(pLine){
-        var ldx = 1;
+        var ldx = -1;
         if (pLine.xTo > pLine.xFrom){
-            ldx = -1;
+            ldx = 1;
         }
         return {
             dx: ldx,
