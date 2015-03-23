@@ -31,7 +31,6 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
     var DEFAULT_ARCROW_HEIGHT = 38; // chart only
     var DEFAULT_ARC_GRADIENT = 0; // chart only
 
-    var gEntityXHWM = 0;
     var gEntity2X = {};
     var gEntity2ArcColor = {};
 
@@ -39,24 +38,26 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
     var gChart = {
         "interEntitySpacing" : DEFAULT_INTER_ENTITY_SPACING,
-        "entityDims" : {
-            "width": DEFAULT_ENTITY_WIDTH,
-            "height" : DEFAULT_ENTITY_HEIGHT,
+        "entityDims"   : {
+            "width"        : DEFAULT_ENTITY_WIDTH,
+            "height"       : DEFAULT_ENTITY_HEIGHT,
         },
         "arcRowHeight" : DEFAULT_ARCROW_HEIGHT,
-        "arcGradient" : DEFAULT_ARC_GRADIENT,
+        "arcGradient"  : DEFAULT_ARC_GRADIENT,
+        "arcEndX"      : 0,
         "wordWrapArcs" : false,
-        "maxDepth" : 0,
-        "textHeight" : 12,
-        "document" : {},
-        "layer" : {
-            "defs" : {},
-            "lifeline": {},
-            "sequence":{},
-            "notes":{},
-            "inline":{}
+        "maxDepth"     : 0,
+        "textHeight"   : 12,
+        "document"     : {},
+        "layer"        : {
+            "defs"         : {},
+            "lifeline"     : {},
+            "sequence"     : {},
+            "notes"        : {},
+            "inline"       : {}
         }
     };
+    var gInlineExpressionMemory = [];
 
     function getOAndD (pFrom, pTo){
         return {
@@ -282,7 +283,106 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
                 lEntityXPos += gChart.interEntitySpacing;
             });
         }
-        gEntityXHWM = lEntityXPos;
+        gChart.arcEndX = lEntityXPos - gChart.interEntitySpacing + gChart.entityDims.width;
+    }
+
+    function renderArcRow (pArcRow, pRowNumber, pEntities){
+        var lArcRowOmit = false;
+        var lRowMemory = [];
+
+        rowmemory.set(pRowNumber);
+        pArcRow.forEach(function(pArc,pArcNumber){
+            var lCurrentId = id.get(pRowNumber.toString() + "_" + pArcNumber.toString());
+            var lElement;
+            var lLabel = "";
+            if (pArc.label) {
+                lLabel = pArc.label;
+            }
+            switch(map.getAggregate(pArc.kind)) {
+                case("emptyarc"):
+                    lElement = renderEmptyArc(pArc, lCurrentId);
+                    lArcRowOmit = ("..." === pArc.kind);
+                    lRowMemory.push({
+                        id : lCurrentId,
+                        layer : gChart.layer.sequence
+                    });
+                    break;
+                case("box"):
+                    lElement = createBox(lCurrentId, getOAndD(pArc.from, pArc.to), pArc);
+                    lRowMemory.push({
+                        id : lCurrentId,
+                        layer : gChart.layer.notes
+                    });
+                    break;
+                case("inline_expression"):
+                    lElement = renderInlineExpressionLabel(lCurrentId + "_label", pArc);
+                    lRowMemory.push({
+                        id : lCurrentId + "_label",
+                        layer : gChart.layer.notes
+                    });
+                    gInlineExpressionMemory.push({
+                        id : lCurrentId,
+                        arc : pArc,
+                        rownum : pRowNumber
+                    });
+                    break;
+                default:
+                    if (pArc.from && pArc.to) {
+                        var lFrom = pArc.from;
+                        var lTo = pArc.to;
+                        var xTo = 0;
+                        var xFrom = 0;
+
+                        if (lTo === "*") {// it's a broadcast arc
+                            xFrom = gEntity2X[lFrom];
+                            pEntities.forEach(function(pEntity, pEntityNumber){
+                                if (pEntity.name !== lFrom) {
+                                    xTo = gEntity2X[pEntity.name];
+                                    pArc.label = "";
+                                    gChart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));
+                                    lRowMemory.push({
+                                        id : lCurrentId + "bc" + pEntityNumber,
+                                        layer : gChart.layer.sequence
+                                    });
+                                }
+                            });
+                            pArc.label = lLabel;
+
+                            lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (gChart.textHeight / 2) - LINE_WIDTH, gChart.arcEndX);
+                            lRowMemory.push({
+                                id : lCurrentId + "_txt",
+                                layer : gChart.layer.sequence
+                            });
+                        } else {// it's a regular arc
+                            lElement = createArc(lCurrentId, pArc, gEntity2X[lFrom], gEntity2X[lTo]);
+                            lRowMemory.push({
+                                id : lCurrentId,
+                                layer : gChart.layer.sequence
+                            });
+                        }  /// lTo or lFrom === "*"
+                    }// if both a from and a to
+                    break;
+            }// switch
+            if (lElement) {
+                rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, svgutl.getBBox(lElement).height + 2 * LINE_WIDTH));
+                gChart.layer.defs.appendChild(lElement);
+            }
+        });// for all arcs in a row
+
+        /*
+         *  only here we can determine the height of the row and the y position
+         */
+        var lArcRowId = "arcrow_" + pRowNumber.toString();
+        var lArcRowClass = "arcrow";
+        if (lArcRowOmit) {
+            lArcRowClass = "arcrowomit";
+        }
+        gChart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, rowmemory.get(pRowNumber).height, id.get(lArcRowId)));
+        gChart.layer.lifeline.appendChild(fact.createUse(0, rowmemory.get(pRowNumber).y, id.get(lArcRowId)));
+
+        lRowMemory.forEach(function(pRowMemoryLine){
+            pRowMemoryLine.layer.appendChild(fact.createUse(0, rowmemory.get(pRowNumber).y, pRowMemoryLine.id));
+        });
     }
 
     /** renderArcRows() - renders the arcrows from an AST
@@ -291,114 +391,16 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      * @param <object> - pEntities - the entities to consider
      */
     function renderArcRows(pArcRows, pEntities) {
-        var lInlineExpressionMemory = [];
-
-        var lLabel = "";
-        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityDims.width;
-
+        gInlineExpressionMemory = [];
         gChart.layer.defs.appendChild(renderLifeLines(pEntities, id.get("arcrow")));
         gChart.layer.lifeline.appendChild(fact.createUse(0, rowmemory.get(-1).y, id.get("arcrow")));
 
-
         if (pArcRows) {
-            pArcRows.forEach(function(pArcRow, pRowNumber){
-                var lArcRowOmit = false;
-                var lRowMemory = [];
-                rowmemory.set(pRowNumber);
-                pArcRow.forEach(function(pArc,pArcNumber){
-                    var lCurrentId = id.get(pRowNumber.toString() + "_" + pArcNumber.toString());
-                    var lElement;
-                    lLabel = "";
-                    if (pArc.label) {
-                        lLabel = pArc.label;
-                    }
-                    switch(map.getAggregate(pArc.kind)) {
-                        case("emptyarc"):
-                            lElement = renderEmptyArc(pArc, lCurrentId);
-                            lArcRowOmit = ("..." === pArc.kind);
-                            lRowMemory.push({
-                                id : lCurrentId,
-                                layer : gChart.layer.sequence
-                            });
-                            break;
-                        case("box"):
-                            lElement = createBox(lCurrentId, getOAndD(pArc.from, pArc.to), pArc);
-                            lRowMemory.push({
-                                id : lCurrentId,
-                                layer : gChart.layer.notes
-                            });
-                            break;
-                        case("inline_expression"):
-                            lElement = renderInlineExpressionLabel(lCurrentId + "_label", pArc);
-                            lRowMemory.push({
-                                id : lCurrentId + "_label",
-                                layer : gChart.layer.notes
-                            });
-                            lInlineExpressionMemory.push({
-                                id : lCurrentId,
-                                arc : pArc,
-                                rownum : pRowNumber
-                            });
-                            break;
-                        default:
-                            if (pArc.from && pArc.to) {
-                                var lFrom = pArc.from;
-                                var lTo = pArc.to;
-                                var xTo = 0;
-                                var xFrom = 0;
-
-                                if (lTo === "*") {// it's a broadcast arc
-                                    xFrom = gEntity2X[lFrom];
-                                    pEntities.forEach(function(pEntity, pEntityNumber){
-                                        if (pEntity.name !== lFrom) {
-                                            xTo = gEntity2X[pEntity.name];
-                                            pArc.label = "";
-                                            gChart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));
-                                            lRowMemory.push({
-                                                id : lCurrentId + "bc" + pEntityNumber,
-                                                layer : gChart.layer.sequence
-                                            });
-                                        }
-                                    });
-                                    pArc.label = lLabel;
-
-                                    lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (gChart.textHeight / 2) - LINE_WIDTH, lArcEnd);
-                                    lRowMemory.push({
-                                        id : lCurrentId + "_txt",
-                                        layer : gChart.layer.sequence
-                                    });
-                                } else {// it's a regular arc
-                                    lElement = createArc(lCurrentId, pArc, gEntity2X[lFrom], gEntity2X[lTo]);
-                                    lRowMemory.push({
-                                        id : lCurrentId,
-                                        layer : gChart.layer.sequence
-                                    });
-                                }  /// lTo or lFrom === "*"
-                            }// if both a from and a to
-                            break;
-                    }// switch
-                    if (lElement) {
-                        rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, svgutl.getBBox(lElement).height + 2 * LINE_WIDTH));
-                        gChart.layer.defs.appendChild(lElement);
-                    }
-                });// for all arcs in a row
-
-                /*
-                 *  only here we can determine the height of the row and the y position
-                 */
-                var lArcRowId = "arcrow_" + pRowNumber.toString();
-                var lArcRowClass = "arcrow";
-                if (lArcRowOmit) {
-                    lArcRowClass = "arcrowomit";
-                }
-                gChart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, rowmemory.get(pRowNumber).height, id.get(lArcRowId)));
-                gChart.layer.lifeline.appendChild(fact.createUse(0, rowmemory.get(pRowNumber).y, id.get(lArcRowId)));
-
-                lRowMemory.forEach(function(pRowMemoryLine){
-                    pRowMemoryLine.layer.appendChild(fact.createUse(0, rowmemory.get(pRowNumber).y, pRowMemoryLine.id));
-                });
-            }); // for all rows
-            renderInlineExpressions(lInlineExpressionMemory);
+            for (var i =0; i< pArcRows.length; i++){
+                renderArcRow(pArcRows[i], i, pEntities);
+            }
+            // pArcRows.forEach(renderArcRow);
+            renderInlineExpressions(gInlineExpressionMemory);
         } // if pArcRows
     }// function
 
@@ -644,7 +646,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      */
     function createLifeLinesText(pId, pArc) {
         var lArcStart = 0;
-        var lArcEnd = gEntityXHWM - gChart.interEntitySpacing + gChart.entityDims.width;
+        var lArcEnd = gChart.arcEndX;
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
@@ -663,7 +665,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      */
     function createComment(pId, pArc) {
         var lStartX = 0;
-        var lEndX = gEntityXHWM - gChart.interEntitySpacing + gChart.entityDims.width;
+        var lEndX = gChart.arcEndX;
         var lClass = "dotted";
         var lGroup = fact.createGroup(pId);
 
