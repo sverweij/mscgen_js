@@ -17,6 +17,8 @@ define([], function() {
         pCanvas.height *= pCanvas.scale;
         pCanvas.horizontaltransform *= pCanvas.scale;
         pCanvas.verticaltransform *= pCanvas.scale;
+        pCanvas.x = 0 - pCanvas.horizontaltransform;
+        pCanvas.y = 0 - pCanvas.verticaltransform;
     }
 
     function _determineDepthCorrection(pDepth, pLineWidth){
