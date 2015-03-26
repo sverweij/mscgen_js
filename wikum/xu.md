@@ -2,19 +2,19 @@
 _**It is mscgen, but not as we know it**_
 
 ## Inline expressions
-[SDL][2] has a feature called _inline expressions_. They allow you to group a bunch of 
-arcs and label them somehow. To define a loop, for instance. Or a conditional statement. 
+[SDL][2] has a feature called _inline expressions_. They allow you to group a bunch of
+arcs and label them somehow. To define a loop, for instance. Or a conditional statement.
 
-[UML2][3] sequence diagrams have a similar concept called "combined fragments" (see 
-paragraph 14.3.3 of the linked document for details). 
+[UML2][3] sequence diagrams have a similar concept called "combined fragments" (see
+paragraph 14.3.3 of the linked document for details).
 
 Behaviour specification is not a particularly strong suit of interaction diagrams
 (sequence charts/ diagrams/ collaboration diagrams), as Martin Fowler
-correctly notes in [UML distilled][1]. At this time (December 2013) mscgen does not 
-support them. 
+correctly notes in [UML distilled][1]. At this time (December 2013) mscgen does not
+support them.
 
 Nonetheless inline expressions are damn handy. Hence xù, a superset of mscgen
-including them. 
+including them.
 
 ## An example
 This is an example of a xù script describing an interaction that loops over
@@ -50,6 +50,8 @@ msc {
 }
 ```
 
+Rendered (e.g. with the [online interpreter](https://sverweij.github.io/mscgen_js?utm_source=wikum.xu) ) this looks like so:
+
 ![rendered](xusample.png)
 
 ## Syntax
@@ -58,7 +60,7 @@ of regular arcs, the only difference being that inline expressions have a (manda
 section of arcs, enclosed by curly brackets.
 
 ```peg
-spanarc         = 
+spanarc         =
  _ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _ ";"
 ```
 
@@ -76,7 +78,7 @@ break {
 };
 ```
 
-Arguments go into the label as free text. 
+Arguments go into the label as free text.
 ```mscgen
 loop [label="for each grain of sand on the beach"] {
   a => beach [label="get grain"];
@@ -110,7 +112,7 @@ par {
 ```
 
 If you're interested in the complete grammar: the parsing expression grammar we
-use to generate the parser is [included in the source][4]. 
+use to generate the parser is [included in the source][4].
 
 ## ms genny
 ms genny also has support for inline expressions, the if-then-else construct above
@@ -119,7 +121,7 @@ would look something like this:
 ```msgenny
 john, shed, bike;
 
-john alt bike: wheather is nice {
+john alt bike: weather is nice {
   john =>> shed : get(bike);
   shed >> john : bike;
   john =>> bike : use;
@@ -129,7 +131,7 @@ john alt bike: wheather is nice {
 ```
 
 ## compatibility with mscgen
-```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---") 
+```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---")
 
 ## watermark
 Just like msgenny, xù supports a "watermark" _option_: ```watermark="xù rocks!"```;

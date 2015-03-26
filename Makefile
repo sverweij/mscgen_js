@@ -2,7 +2,6 @@
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
-COVER2REPORT=genhtml --no-source --branch-coverage --no-sort --rc genhtml_med_limit=50 --rc genhtml_hi_limit=80 --quiet --output-directory 
 GIT=git
 LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
@@ -47,9 +46,12 @@ LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/canvg/StackBlur.js \
 	src/lib/canvg/rgbcolor.js 
 SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
+	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
+	src/script/render/graphics/renderutensils.js \
 	src/script/render/graphics/constants.js \
 	src/script/render/graphics/rowmemory.js \
+	src/script/render/graphics/idmanager.js \
 	src/script/render/text/textutensils.js \
 	src/script/render/graphics/renderskeleton.js \
 	src/script/render/graphics/renderast.js \
@@ -257,16 +259,9 @@ lint: $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 cover: dev-build
 	$(NPM) run cover
 
-coverage/lcov.info: cover
-
-testcoverage-report/index.html: coverage/lcov.info
-	$(COVER2REPORT) testcoverage-report $<
-
-cover-report: testcoverage-report/index.html
-
 install: index.html embed.html tutorial.html
 
-publish: install cover-report
+publish: install
 	
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
@@ -285,7 +280,7 @@ tag:
 	$(GIT) push --tags
 
 report: dev-build
-	$(NPM) plato
+	$(NPM) run plato
 
 doc:
 	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
