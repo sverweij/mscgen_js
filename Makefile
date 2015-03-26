@@ -261,19 +261,19 @@ cover: dev-build
 
 install: index.html embed.html tutorial.html
 
-publish: install
-	
 checkout-gh-pages:
 	$(GIT) checkout gh-pages
 	$(GIT) merge master -m "merge for gh-pages build `cat VERSION`"
 
-build-gh-pages: checkout-gh-pages mostlyclean publish
+build-gh-pages: checkout-gh-pages mostlyclean install
 
-deploy-gh-pages: build-gh-pages
+add-n-push-gh-pages:
 	$(GIT) add --all .
 	$(GIT) commit -m "build `cat VERSION`"
 	$(GIT) push
 	$(GIT) status
+
+deploy-gh-pages: build-gh-pages add-n-push-gh-pages
 
 tag: 
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"

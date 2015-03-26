@@ -265,6 +265,9 @@ path{\
   marker-end:url(#" + pElementId + "callback);\
   marker-start:url(#" + pElementId + "callback-l);\
 }\
+." + pElementId + "dotted{\
+  stroke-dasharray:5,2;\
+}\
  ." + pElementId + "callback{\
   marker-end:url(#" + pElementId + "callback);\
 }\
