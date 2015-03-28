@@ -339,10 +339,10 @@ We use the following structure for the svg
 
 
 TODO. Subjects to be covered:
-- renderast/ utensiles (:page_with_curl: code in [render/graphics/renderast.js](render/graphics/renderast.js) and [render/graphics/renderutensils.js](render/graphics/renderutensils.js) )
+- renderast/ and the svg element factory (:page_with_curl: code in [render/graphics/renderast.js](render/graphics/renderast.js) and [render/graphics/svgelementfactory.js](render/graphics/svgelementfactory.js) )
 - flattening (:page_with_curl: code in [render/text/flatten.js](render/text/flatten.js))
 - text wrapping (html vs text/tspans) (:page_with_curl: code in [render/text/textutensils.js](render/text/textutensils.js))
-  & BBox (in [render/graphics/renderutensils.js](render/graphics/renderutensils.js) iircc)
+  & BBox (in [render/graphics/svgutensils.js](render/graphics/svgutensils.js) iircc)
 
 ## Rendering text: other script languages
 :page_with_curl: code in [render/text/](render/text)
@@ -360,17 +360,19 @@ TODO:
 
 # The controllers
 ## embedding
-:page_with_curl: code in [ui-control/controller-inpage.js](gui-control/controller-inpage.js)
+:page_with_curl: code in [mscgen-inpage.js](mscgen-inpage.js)
 
 The embedding controller uses the obvious approach:
-- Run through all elements in the DOM tree and filter out those that have the mscgen_js class.
+- Run through all elements in the DOM tree and filter out those that have the mscgen_js class
+  or are of the `mscgen` element type.
 - For each element thus found attempt to parse and render its content as mscgen (or one of
   the three other supported languages).
 - If the parsing doesn't work out, display the text of the element with the
   error the parser found highlighted.
 
 ### defer: prevent execution before DOM tree has loaded
-When testing this on larger DOM trees (like the one of the [tutorial](https://sverweij.github.io/mscgen_js/tutorial.html)), we found that
+When testing this on larger DOM trees (like the one of the
+[tutorial](https://sverweij.github.io/mscgen_js/tutorial.html)), we found that
 sometimes the code would start executing before the browser completed loading
 the DOM tree. The result of this was that the only part of the embedded
 mscgen would be rendered.
@@ -405,18 +407,20 @@ James Burke wrote almond to circumvent exactly that. More information on the [al
 
 
 ## interactive interpreter
-:page_with_curl: code in [ui-control/controller-interpreter.js](ui-control/controller-interpreter.js)
+:page_with_curl: code in [mscgen-interpreter.js](mscgen-interpreter.js) and
+the sources in [ui-control/](ui-control).
 
 ### Rendering in real time
 When we built the first version of the on line interpreter we parsed and
 rendered the chart at each key-up. It turned out the javascript
 was more than fast enough to keep up, so we kept this approach.
 
-In our enthousiasm we also started pre-rendering the raster graphics
+In our enthusiasm we also started pre-rendering the raster graphics
 versions, but that turned out to be too slow (data below), so
 these are now generated when you actually click the button.
 
-- rendering base64 encoded strings on each keystroke is too slow:
+Our findings from that experiment:
+> - rendering base64 encoded strings on each keystroke is too slow:
   - canvg is called twice for doing exactly the same (svg => canvas)
   - it inserts relatively big amounts of data in the DOM tree
     (typically 20k for svg, 60k for png, somewhat more for jpeg,
