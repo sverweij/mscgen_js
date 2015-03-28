@@ -64,7 +64,6 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
 var gAutoRender = true;
 var gLanguage = "mscgen";
 var gGaKeyCount = 0;
-var gDebug = false;
 
 var gCodeMirror =
     codemirror.fromTextArea(window.__msc_input, {
@@ -128,17 +127,19 @@ function msc_inputKeyup () {
     }
 }
 
-function getAST(pLanguage) {
-    var lAST = {};
+function getASTBare (pSource, pLanguage){
+    if ("msgenny" === pLanguage) {
+        return msgennyparser.parse(pSource);
+    } else if ("json" === pLanguage) {
+        return JSON.parse(pSource);
+    } // we use the xu parser for both mscgen and xu:
+    return mscparser.parse(pSource);
+}
+
+function getAST(pLanguage, pSource) {
     var lLanguage = pLanguage ? pLanguage: getLanguage();
-    if ("msgenny" === lLanguage) {
-        lAST = msgennyparser.parse(getSource());
-    } else if ("json" === lLanguage) {
-        lAST = JSON.parse(getSource());
-    } else { // we use the xu parser for both mscgen and xu
-        lAST = mscparser.parse(getSource());
-    }
-    return lAST;
+    var lSource = pSource ? pSource: getSource();
+    return getASTBare(lSource, lLanguage);
 }
 
 function switchLanguage (pLanguage) {
@@ -155,7 +156,6 @@ function switchLanguage (pLanguage) {
         // do nothing
     }
     setLanguage(pLanguage);
-    showLanguageState (lTargetSource, pLanguage, gAutoRender);
 }
 
 function clear(){
@@ -252,10 +252,6 @@ function setAutoRender(pBoolean){
     gAutoRender = pBoolean;
 }
 
-function setDebug(pDebug){
-    gDebug = pDebug;
-}
-
 function setSample(pURL) {
     if ("none" === pURL || null === pURL || undefined === pURL){
         clear();
@@ -267,39 +263,58 @@ function setSample(pURL) {
     }
 }
 
+function handleRenderException (pException, pSource){
+    if (pException.line !== undefined && pException.column !== undefined) {
+        gErrorCoordinates.line = pException.line;
+        gErrorCoordinates.column = pException.column;
+        displayError(
+         "Line " + pException.line + ", column " + pException.column + ": " + pException.message,
+          ">>> " + pSource.split('\n')[pException.line - 1] + " <<<");
+    } else {
+        gErrorCoordinates.line = 0;
+        gErrorCoordinates.column = 0;
+        displayError(pException.message);
+    }
+}
+
 function render(pSource, pLanguage) {
+    preRenderReset();
     try {
-        var lAST = {};
-        hideError();
-        dq.SS(window.__output_buttons).hide();
-        msc_render.clean("__svg", window);
-        lAST = getAST(pLanguage);
+        var lAST = getASTBare(pSource, pLanguage);
         msc_render.renderAST(lAST, pSource, "__svg", window);
         if (lAST.entities.length > 0) {
-            dq.SS(window.__output_buttons).show();
-            if (lAST.meta && true === lAST.meta.extendedArcTypes) {
-                dq.SS(window.__show_anim).hide();
-            } else {
-                dq.SS(window.__show_anim).show();
-            }
-            if( lAST.meta && true === lAST.meta.extendedFeatures){
-                dq.SS(window.__xu_notify).show();
-            } else {
-                dq.SS(window.__xu_notify).hide();
-            }
+            showRenderSuccess(lAST.meta);
         }
     } catch (e) {
-        if (e.line !== undefined && e.column !== undefined) {
-            gErrorCoordinates.line = e.line;
-            gErrorCoordinates.column = e.column;
-            displayError(
-             "Line " + e.line + ", column " + e.column + ": " + e.message,
-              ">>> " + pSource.split('\n')[e.line - 1] + " <<<");
-        } else {
-            gErrorCoordinates.line = 0;
-            gErrorCoordinates.column = 0;
-            displayError(e.message);
-        }
+        handleRenderException(e, pSource);
+    }
+}
+
+function preRenderReset(){
+    hideError();
+    dq.SS(window.__output_buttons).hide();
+    msc_render.clean("__svg", window);
+}
+
+function showRenderSuccess(pMeta){
+    dq.SS(window.__output_buttons).show();
+    showExtendedArcTypeFeatures(pMeta);
+    showExtendedFeatures(pMeta);
+}
+
+function showExtendedArcTypeFeatures(pMeta){
+    if (pMeta && true === pMeta.extendedArcTypes) {
+        dq.SS(window.__show_anim).hide();
+    } else {
+        dq.SS(window.__show_anim).show();
+    }
+}
+
+function showExtendedFeatures(pMeta){
+    if( pMeta && true === pMeta.extendedFeatures){
+        dq.SS(window.__xu_notify).show();
+    } else {
+        dq.SS(window.__xu_notify).hide();
     }
 }
 
@@ -366,7 +381,6 @@ function displayError (pError, pContext) {
         getLanguage: getLanguage,
         setLanguage: setLanguage,
         getAST: getAST,
-        setDebug: setDebug,
 
         showAutorenderState: showAutorenderState
     };
