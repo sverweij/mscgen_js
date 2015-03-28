@@ -1,6 +1,6 @@
 /* jshint browser:true */
 /* global define */
-define(["./controller-interpreter",
+define(["./interpreter-uistate",
         "./interpreter-input-actions",
         "./interpreter-output-actions",
         "./interpreter-nav-actions",
@@ -66,7 +66,6 @@ define(["./controller-interpreter",
 
     function processParams(pParams){
         if ("true" === pParams.debug) {
-            uistate.setDebug(true);
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });

@@ -1,6 +1,6 @@
 /* global define */
 /* jshint browser:true */
-define(["./controller-interpreter",
+define(["./interpreter-uistate",
         "./controller-animator",
         "./controller-exporter",
         "../utl/domquery",

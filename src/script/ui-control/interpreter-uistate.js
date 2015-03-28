@@ -64,7 +64,6 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
 var gAutoRender = true;
 var gLanguage = "mscgen";
 var gGaKeyCount = 0;
-var gDebug = false;
 
 var gCodeMirror =
     codemirror.fromTextArea(window.__msc_input, {
@@ -157,7 +156,6 @@ function switchLanguage (pLanguage) {
         // do nothing
     }
     setLanguage(pLanguage);
-    showLanguageState (lTargetSource, pLanguage, gAutoRender);
 }
 
 function clear(){
@@ -252,10 +250,6 @@ function getAutoRender(){
 
 function setAutoRender(pBoolean){
     gAutoRender = pBoolean;
-}
-
-function setDebug(pDebug){
-    gDebug = pDebug;
 }
 
 function setSample(pURL) {
@@ -387,7 +381,6 @@ function displayError (pError, pContext) {
         getLanguage: getLanguage,
         setLanguage: setLanguage,
         getAST: getAST,
-        setDebug: setDebug,
 
         showAutorenderState: showAutorenderState
     };

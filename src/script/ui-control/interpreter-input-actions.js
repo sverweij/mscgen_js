@@ -1,6 +1,6 @@
 /* jshint browser:true */
 /* global define */
-define(["./controller-interpreter",
+define(["./interpreter-uistate",
         "../utl/gaga"
         ],
         function(
