@@ -64,7 +64,6 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
 var gAutoRender = true;
 var gLanguage = "mscgen";
 var gGaKeyCount = 0;
-var gDebug = false;
 
 var gCodeMirror =
     codemirror.fromTextArea(window.__msc_input, {
