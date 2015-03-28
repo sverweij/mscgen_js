@@ -62,6 +62,7 @@ hands you can even edit the syntax tree directly from there.
 
 In the explanation we will use this mscgen program as a reference.
 ```mscgen
+# Just a sample chart. Don't think too much of it :-).
 msc {
   hscale="1.1",
   width="700",
@@ -284,6 +285,34 @@ msc {
   ]
 }
 ```
+
+### Comments
+The parser strips all comments from the source, which makes processing the
+abstract syntax tree a lot simpler. It turned out that it was easy to save
+comments that go on top of the source, without generating undue complexity.
+In the AST they show up somewhere at the top, like this:
+```json
+"precomment": [
+  "# Just a sample chart. Don't think too much of it :-).",
+  "\n"
+]
+```
+
+### Meta information
+The three languages mscgen_js, support different feature sets. To
+indicate if the AST uses extended feature sets, it contains a `meta` section.
+```json
+"meta": {
+  "extendedOptions": false,
+  "extendedArcTypes": false,
+  "extendedFeatures": false
+}
+```
+- `extendedOptions` - indicates if the AST contains a non standard option was
+  used. Currently the only non standard option is the `watermark`.
+- `extendedArcTypes` - indicates if the AST contains _inline expressions_.
+- `extendedFeatures` - indicates the AST contains extended options,
+  extended features or both.
 
 # Rendering
 ## Introduction
