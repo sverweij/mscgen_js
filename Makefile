@@ -67,7 +67,6 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/mscgen-interpreter.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \
-	src/script/ui-control/controller-inpage.js \
 	src/script/mscgen-inpage.js
 FONT_SOURCES=src/fonts/controls.eot \
 	src/fonts/controls.svg \
@@ -199,7 +198,7 @@ embed.html: $(LIVE_DOC_DEPS) src/embed.html
 tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
 
 siteverification.id:
-	    @echo yoursiteverifactionidhere > $@
+	@echo yoursiteverifactionidhere > $@
 
 tracking.id:
 	@echo yourtrackingidhere > $@
