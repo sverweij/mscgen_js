@@ -308,9 +308,10 @@ indicate if the AST uses extended feature sets, it contains a `meta` section.
   "extendedFeatures": false
 }
 ```
-- `extendedOptions` - indicates if the AST contains a non standard option was
-  used. Currently the only non standard option is the `watermark`.
-- `extendedArcTypes` - indicates if the AST contains _inline expressions_.
+- `extendedOptions` - indicates if the AST contains a non standard option.
+  (currently only `watermark`).
+- `extendedArcTypes` - indicates if the AST contains at least one
+  _inline expression_.
 - `extendedFeatures` - indicates the AST contains extended options,
   extended features or both.
 
