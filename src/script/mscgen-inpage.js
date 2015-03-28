@@ -9,8 +9,9 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
     start();
 
     function start() {
-        renderElementArray(document.getElementsByClassName("mscgen_js"));
-        renderelementArray(document.getElementsByTagName("mscgen"));
+        var lClassElements = document.getElementsByClassName("mscgen_js");
+        renderElementArray(lClassElements, 0);
+        renderElementArray(document.getElementsByTagName("mscgen"), lClassElements.length);
     }
 
     function formatLine(pLine, pLineNo){
@@ -26,9 +27,9 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
         }, "");
     }
 
-    function renderElementArray(pMscgenElements){
+    function renderElementArray(pMscGenElements, pStartIdAt){
         for (var i = 0; i < pMscGenElements.length; i++) {
-            renderElement(pMscGenElements[i], i);
+            renderElement(pMscGenElements[i], pStartIdAt + i);
         }
     }
 
