@@ -66,7 +66,6 @@ define(["./interpreter-uistate",
 
     function processParams(pParams){
         if ("true" === pParams.debug) {
-            uistate.setDebug(true);
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });

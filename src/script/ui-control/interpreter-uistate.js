@@ -254,10 +254,6 @@ function setAutoRender(pBoolean){
     gAutoRender = pBoolean;
 }
 
-function setDebug(pDebug){
-    gDebug = pDebug;
-}
-
 function setSample(pURL) {
     if ("none" === pURL || null === pURL || undefined === pURL){
         clear();
@@ -387,7 +383,6 @@ function displayError (pError, pContext) {
         getLanguage: getLanguage,
         setLanguage: setLanguage,
         getAST: getAST,
-        setDebug: setDebug,
 
         showAutorenderState: showAutorenderState
     };
