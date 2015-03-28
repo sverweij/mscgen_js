@@ -1,6 +1,6 @@
 /* global define */
 /* jshint browser:true */
-define(["./controller-interpreter",
+define(["./controller-uistate",
         "./controller-animator",
         "./controller-exporter",
         "../utl/domquery",
@@ -13,7 +13,7 @@ define(["./controller-interpreter",
             dq,
             gaga) {
     "use strict";
-    
+
     var ESC_KEY   = 27;
 
     return {
