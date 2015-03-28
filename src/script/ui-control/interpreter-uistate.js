@@ -157,7 +157,6 @@ function switchLanguage (pLanguage) {
         // do nothing
     }
     setLanguage(pLanguage);
-    showLanguageState (lTargetSource, pLanguage, gAutoRender);
 }
 
 function clear(){
