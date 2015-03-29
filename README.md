@@ -85,7 +85,8 @@ from your version.
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style):
 - [requirejs][19] is used for modularization.
-- The bare (embedding only) mscgen_js uses [almond][31]; its parser was generated with [pegjs][12].
+- The bare (embedding only) mscgen_js is packaged using requirejs and [almond][31] to be able to run as a stand alone, dependency less package.
+- Parsers are generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13] and [canvg][16].
 - To run in node, mscgen_js uses [jsdom][25] and [amdefine][20].
 
@@ -96,7 +97,10 @@ At the time the font was created it was licensed
 [GPLv3](http://www.gnu.org/licenses/gpl.html) or
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. Besides the repo is monitored by Code Climate.
+It uses [mocha][21], [istanbul][28], [jshint][22], [plato][23] and
+[nsp][35] to maintain some modicum of verifiable code quality.
+You can see the build history in [Travis](https://travis-ci.org/sverweij/mscgen_js) and an indication of the
+shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/mscgen_js).
 
 ## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for
@@ -139,3 +143,4 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 [31]: https://github.com/jrburke/almond
 [33]: src/script
 [34]: https://github.com/tmpvar/jsdom
+[35]: https://nodesecurity.io/
