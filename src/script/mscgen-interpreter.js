@@ -75,6 +75,8 @@ require(["ui-control/interpreter-uistate",
         if (pParams.msc) {
             uistate.setSource(pParams.msc);
             gaga.g('send', 'event', 'params.msc');
+        } else {
+            uistate.setSample();
         }
         if (pParams.lang){
             uistate.setLanguage(pParams.lang);
