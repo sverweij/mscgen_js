@@ -18,4 +18,4 @@ TODO
 :page_with_curl: code in [colorize.js](colorize.js)
 
 ## Utensils
-:page_with_curl: code in [textutensils.js](textutenils.js)
+:page_with_curl: code in [textutensils.js](textutensils.js)
