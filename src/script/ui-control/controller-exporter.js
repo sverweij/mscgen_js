@@ -7,7 +7,13 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../render/text/ast2dot",  "../render/text/ast2mscgen", "../../lib/canvg/canvg"], function(ast2dot, ast2mscgen) {
+define(["../render/text/ast2dot",
+        "../render/text/ast2mscgen",
+        "../../lib/canvg/canvg",
+        "../../lib/canvg/StackBlur",
+        "../../lib/canvg/rgbcolor"
+        ],
+        function(ast2dot, ast2mscgen) {
     "use strict";
 
     function toHTMLSnippet (pSource, pLanguage){

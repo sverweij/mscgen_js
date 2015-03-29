@@ -48,9 +48,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
-        "../../lib/codemirror/mode/mscgen/mscgen",
-        "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor"
+        "../../lib/codemirror/mode/mscgen/mscgen"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
