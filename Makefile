@@ -33,7 +33,7 @@ SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/render/text/asttransform.js \
 	src/script/render/text/flatten.js \
 	src/script/render/text/colorize.js \
-	src/script/utl/utensils.js \
+	src/script/render/text/utensils.js \
 	src/script/utl/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 PRODDIRS=lib style script fonts
