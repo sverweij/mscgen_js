@@ -10,11 +10,6 @@ define(["./interpreter-uistate",
 
 
     return {
-        setupGA: function (pDoNotTrack){
-            gaga.gaSetup("false" === pDoNotTrack || undefined === pDoNotTrack );
-            gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
-            gaga.g('send', 'pageview');
-        },
         autorenderOnClick: function() {
             uistate.setAutoRender(!(uistate.getAutoRender()));
             if (uistate.getAutoRender()) {

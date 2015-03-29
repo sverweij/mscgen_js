@@ -1,21 +1,15 @@
 /* jshint browser:true */
 /* global require */
-require(["ui-control/interpreter-uistate",
-        "ui-control/interpreter-input-actions",
+require(["ui-control/interpreter-input-actions",
         "ui-control/interpreter-output-actions",
         "ui-control/interpreter-nav-actions",
-        "utl/paramslikker",
-        "utl/domquery",
-        "utl/gaga"
+        "ui-control/interpreter-param-actions"
         ],
         function(
-            uistate,
             iactions,
             oactions,
             nactions,
-            params,
-            dq,
-            gaga) {
+            par) {
     "use strict";
 
     function setupInputEvents(){
@@ -52,49 +46,14 @@ require(["ui-control/interpreter-uistate",
       window.document.body.addEventListener("keydown", nactions.keyDown, false);
     }
 
-    function tagAllLinks(){
-      dq.attachEventHandler("a[href]", "click", function(e){
-        var lTarget = "unknown";
-
-        if (e.currentTarget && e.currentTarget.href){
-            lTarget = e.currentTarget.href;
-        }
-
-        gaga.g('send', 'event', 'link', lTarget);
-      });
-    }
-
-    function processParams(pParams){
-        if ("true" === pParams.debug) {
-            dq.doForAllOfClass("debug", function(pDomNode){
-                dq.SS(pDomNode).show();
-            });
-            gaga.g('send', 'event', 'debug', 'true');
-        }
-
-        if (pParams.msc) {
-            uistate.setSource(pParams.msc);
-            gaga.g('send', 'event', 'params.msc');
-        } else {
-            uistate.setSample();
-        }
-        if (pParams.lang){
-            uistate.setLanguage(pParams.lang);
-            gaga.g('send', 'event', 'params.lang', pParams.lang);
-        }
-    }
-
     function setupEvents(){
+        par.processParams();
         setupInputEvents();
         setupOutputEvents();
         setupInfoNavigationEvents();
-        tagAllLinks();
+        par.tagAllLinks();
     }
 
-    var lParams = params.getParams (window.location.search);
-
-    iactions.setupGA(lParams.donottrack);
-    processParams(lParams);
     setupEvents();
 });
 /*
