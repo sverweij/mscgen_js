@@ -41,7 +41,7 @@ msc {
 
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu",
-        "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
+        "../utl/gaga", "../utl/maps", "../render/text/colorize",
         "../../lib/codemirror/lib/codemirror",
         "../utl/domquery",
         "../../lib/codemirror/addon/edit/closebrackets",
