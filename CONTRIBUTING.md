@@ -8,12 +8,15 @@ the code base:
 
 ### Reporting issues
 
-- All issues (bug reports, questions, feature requests/ enhancement proposals etc.) are welcome.
-- We try to provide a response within a week. This might or might not include an actual code fix.
-- We prefer bugs to be in a _steps taken_ - _expected_ - _found_ format because
-  that makes it more easy to actually provide a solution.
-- If applicable, it is also nice when you provide the input you used and the environment
-  (browser version/ os, or node.js version + os).
+- All **issues** are **welcome**.    
+  (bug reports, questions, feature requests/ enhancement proposals etc.)
+- We try to **respond within a week**.    
+  This might or might not include an actual code fix.
+- **bugs** preferred in  _steps taken_ - _expected_ - _found_ format.
+  -  that makes it more easy to actually provide a solution.
+  - If applicable, it is also nice when you provide
+    - the **input** you used and
+    - the **environment** (browser version/ os, or node.js version + os).
 
 ### Contributing code
 
@@ -30,5 +33,5 @@ the code base:
 ### Legal
 
 - the code you add will be subject to [GPLv3](wikum/licenses/license.mscgen_js.md
-), just like the rest of mscgen_js    
-- the code you add is your own original work    
+), just like the rest of mscgen_js
+- the code you add is your own original work
