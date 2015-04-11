@@ -1,10 +1,10 @@
 {
   "name": "mscgen_js",
-  "version": "0.9.68",
+  "version": "0.9.69",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "dependencies": {
     "amdefine": "^0.1.0",
-    "jsdom": "^3.1.2",
+    "jsdom": "^4.3.0",
     "requirejs": "^2.1.17"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
   "author": "Sander Verweij",
   "license": "GPLv3",
   "keywords": ["mscgen", "sequence chart", "sequence diagram", "xu", "msgenny"],
-  "engines": {"node": "^0.10.36"},
+  "engines": {"iojs": "^1.6.4"},
   "bugs": {
     "url": "https://github.com/sverweij/mscgen_js/issues"
   },
