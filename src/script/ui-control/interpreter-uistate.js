@@ -41,21 +41,17 @@ msc {
 
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu",
-        "../utl/gaga", "../render/text/textutensils", "../render/text/colorize",
-        "../utl/paramslikker",
+        "../utl/gaga", "../utl/maps", "../render/text/colorize",
         "../../lib/codemirror/lib/codemirror",
         "../utl/domquery",
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
-        "../../lib/codemirror/mode/mscgen/mscgen",
-        "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor"
+        "../../lib/codemirror/mode/mscgen/mscgen"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
             gaga, txt, colorize,
-            params,
             codemirror,
             dq
         ) {
@@ -82,7 +78,7 @@ var gErrorCoordinates = {
   };
 
 setupEditorEvents(gCodeMirror);
-initializeUI(params.getParams (window.location.search));
+initializeUI();
 
 function setupEditorEvents(pCodeMirror){
   pCodeMirror.on ("change",
@@ -109,13 +105,10 @@ function setupEditorEvents(pCodeMirror){
   });
 }
 
-function initializeUI(pParams) {
+function initializeUI() {
     showAutorenderState (gAutoRender);
     showLanguageState (getSource(), getLanguage(), gAutoRender);
     render(getSource(), getLanguage());
-    if (undefined === pParams.msc) {
-        setSample();
-    }
     if (window.__loading) {
         window.__loading.outerHTML = "";
     }

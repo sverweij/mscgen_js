@@ -4,13 +4,15 @@
 [![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)](https://travis-ci.org/sverweij/mscgen_js)
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
 [![Test Coverage](https://codeclimate.com/github/sverweij/mscgen_js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
+[![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
+[![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
 - Implementation of the super easy [mscgen][1] in javascript.
 - [Embeddable][30] in your html.
 - Try it in the [interactive interpreter][2].
 - Also
   - talks a [simplified subset of mscgen][5] for lazy bastards.
   - speaks a [superset of mscgen][29] for the feature hungry.
-  - runs in all modern browsers (and in _node.js_).
+  - runs in all modern browsers (and in ~~_node.js_~~ _io.js_).
   - animates your chart.
 
 ## Sample
@@ -85,7 +87,8 @@ from your version.
 mscgen_js is built on various libraries, each of which have their own license (incidentally all
 MIT style):
 - [requirejs][19] is used for modularization.
-- The bare (embedding only) mscgen_js uses [almond][31]; its parser was generated with [pegjs][12].
+- The bare (embedding only) mscgen_js is packaged using requirejs and [almond][31] to be able to run as a stand alone, dependency less package.
+- Parsers are generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13] and [canvg][16].
 - To run in node, mscgen_js uses [jsdom][25] and [amdefine][20].
 
@@ -96,7 +99,10 @@ At the time the font was created it was licensed
 [GPLv3](http://www.gnu.org/licenses/gpl.html) or
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain some modicum of verifiable code quality. Besides the repo is monitored by Code Climate.
+It uses [mocha][21], [istanbul][28], [jshint][22], [plato][23] and
+[nsp][35] to maintain some modicum of verifiable code quality.
+You can see the build history in [Travis](https://travis-ci.org/sverweij/mscgen_js) and an indication of the
+shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/mscgen_js).
 
 ## Thanks
 - [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for
@@ -105,7 +111,7 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters _almost_
   like a walk in the park.
-- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in node.js.
+- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in ~~node.js~~ io.js.
 - [Audrey M. Roy](http://www.audreymroy.com/) for the excelent ["painfully obsessive cheat sheet to favicon sizes/types."](https://github.com/audreyr/favicon-cheat-sheet).
 
 [1]: http://www.mcternan.me.uk/mscgen
@@ -139,3 +145,4 @@ It uses [mocha][21], [istanbul][28], [jshint][22] and [plato][23] to maintain so
 [31]: https://github.com/jrburke/almond
 [33]: src/script
 [34]: https://github.com/tmpvar/jsdom
+[35]: https://nodesecurity.io/

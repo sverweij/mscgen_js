@@ -17,7 +17,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../utl/utensils"], function(utl) {
+define(["./utensils"], function(utl) {
     "use strict";
 
     var EMPTY_ARC     = [{kind:"|||"}];
