@@ -57,6 +57,9 @@ describe('xuparser', function() {
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
         });
+        it("unicode is cool. But not yet for unquoted entity names", function() {
+            tst.assertSyntaxError('msc{序;}', parser);
+        });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('msc{a}', parser);
         });

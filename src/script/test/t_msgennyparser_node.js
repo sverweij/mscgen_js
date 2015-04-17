@@ -84,6 +84,15 @@ describe('msgennyparser', function() {
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
         });
+        it("unicode is cool. But not yet for unquoted entity names", function() {
+            tst.assertSyntaxError('序;', parser);
+        });
+        it("unicode is cool. But not yet for unquoted entity names", function() {
+            tst.assertSyntaxError('序;', parser);
+        });
+        it("unicode is cool. But not yet for unquoted entity names - neither does it in arcs", function() {
+            tst.assertSyntaxError('"序" -> 序;', parser);
+        });
         it("should throw a SyntaxError on an invalid arc type", function() {
             tst.assertSyntaxError('a, b; a xx b;', parser);
         });
