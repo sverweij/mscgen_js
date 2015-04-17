@@ -20,6 +20,22 @@ return {
         var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
         var lInputContents = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});
         assert.equal(lExpectedContents, pProcessingFn(lInputContents));
+    },
+    
+    assertSyntaxError: function(pProgram, pParser, pErrorType){
+        if (!pErrorType){
+            pErrorType = "SyntaxError";
+        }
+        try {
+            var lAST = pParser.parse(pProgram);
+            var lStillRan = false;
+            if (lAST) {
+                lStillRan = true;
+            }
+            assert.equal(lStillRan, false);
+        } catch(e) {
+            assert.equal(e.name, pErrorType);
+        }
     }
 };
 

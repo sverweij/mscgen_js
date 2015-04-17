@@ -1,4 +1,3 @@
-var assert = require("assert");
 var parser = require("../parse/msgennyparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
@@ -45,6 +44,7 @@ var gCorrectOrderFixture = {
     }]]
 };
 
+
 describe('msgennyparser', function() {
 
     describe('#parse()', function() {
@@ -79,17 +79,19 @@ describe('msgennyparser', function() {
             tst.assertequalJSON(parser.parse('wordwraparcs="1";'), fix.astWorwraparcstrue);
         });
         it("should throw a SyntaxError on an invalid program", function() {
-            try {
-                var lAST = parser.parse('a');
-                var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e) {
-                assert.equal(e.name, "SyntaxError");
-            }
-
+            tst.assertSyntaxError('a', parser);
+        });
+        it("should throw a SyntaxError on an invalid arc type", function() {
+            tst.assertSyntaxError('a, b; a xx b;', parser);
+        });
+        it("should throw a SyntaxError on an invalid option", function() {
+            tst.assertSyntaxError('wordwarparcs="true"; a, b; a -> b;', parser);
+        });
+        it("should throw a SyntaxError on an invalid value for an option", function() {
+            tst.assertSyntaxError('wordwraparcs=notallowed; a, b; a -> b;', parser);
+        });
+        it("should throw a SyntaxError on a missing semi colon", function() {
+            tst.assertSyntaxError('wordwraparcs="true"; a, b; a -> b', parser);
         });
         it("should parse all types of arcs supported by mscgen", function() {
             var lAST = parser.parse('a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);');

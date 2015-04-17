@@ -53,40 +53,31 @@ describe('xuparser', function() {
             tst.assertequalJSON(parser.parse('msc { wordwraparcs="1";}'), fix.astWorwraparcstrue);
         });
         it("should throw a SyntaxError on an invalid program", function() {
-            try {
-                var lAST = parser.parse('a');
-                var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e) {
-                assert.equal(e.name, "SyntaxError");
-            }
+            tst.assertSyntaxError('a', parser);
+        });
+        it("should throw a SyntaxError on an invalid program", function() {
+            tst.assertSyntaxError('msc{a}', parser);
+        });
+        it("should throw a SyntaxError on an invalid arc type", function() {
+            tst.assertSyntaxError('msc{a, b; a xx b;}', parser);
+        });
+        it("should throw a SyntaxError on empty inline expression", function() {
+            tst.assertSyntaxError('msc{a, b; a opt b{};}', parser);
+        });
+        it("should throw a SyntaxError on an invalid option", function() {
+            tst.assertSyntaxError('msc{wordwarparcs="true"; a, b; a -> b;}', parser);
+        });
+        it("should throw a SyntaxError on an invalid value for an option", function() {
+            tst.assertSyntaxError('msc{wordwraparcs=notallowed; a, b; a -> b;}', parser);
+        });
+        it("should throw a SyntaxError on a missing semi colon", function() {
+            tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
         });
         it ("should complain about an undeclared entity in a from", function(){
-            try {
-                var lAST = parser.parse ("msc{a,b,c;d=>a;}");
-                                    var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e){
-                assert.equal(e.name, "EntityNotDefinedError");
-            }
+            tst.assertSyntaxError("msc{a,b,c;d=>a;}", parser, "EntityNotDefinedError");
         });
         it ("should complain about an undeclared entity in a to", function(){
-            try {
-                var lAST = parser.parse ("msc{a,b,c;b=>f;}");
-                                    var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e){
-                assert.equal(e.name, "EntityNotDefinedError");
-            }
+            tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });
     });
     
