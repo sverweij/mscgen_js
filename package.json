@@ -1,10 +1,10 @@
 {
   "name": "mscgen_js",
-  "version": "0.9.69",
+  "version": "0.9.70",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "dependencies": {
     "amdefine": "^0.1.0",
-    "jsdom": "^4.3.0",
+    "jsdom": "^5.0.0",
     "requirejs": "^2.1.17"
   },
   "devDependencies": {
@@ -12,7 +12,7 @@
     "node-sass": "^2.1.1",
     "mocha": "^2.2.4",
     "codeclimate-test-reporter": "^0.0.4",
-    "jshint": "^2.6.3",
+    "jshint": "^2.7.0",
     "csslint": "^0.10.0",
     "istanbul": "^0.3.13",
     "plato": "^1.4.0",
