@@ -11,7 +11,10 @@ describe('mscgenparser', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
-
+        it('should ignore c++ style one line comments', function() {
+            var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored');
+            tst.assertequalJSON(lAST, fix.astSimple);
+        });
         it("should produce an (almost empty) AST for empty input", function() {
             var lAST = parser.parse("msc{}");
             tst.assertequalJSON(lAST, fix.astEmpty);
@@ -69,6 +72,15 @@ describe('mscgenparser', function() {
         });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
+        });
+        it("should throw a SyntaxError on a missing program closer", function() {
+            tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b;', parser);
+        });
+        it("should throw a SyntaxError on a invalid entity attribute", function() {
+            tst.assertSyntaxError('msc{a[invalidentitityattribute="invalid"];}', parser);
+        });
+        it("should throw a SyntaxError on a invalid arc attribute", function() {
+            tst.assertSyntaxError('msc{a, b; a -> b[invalidearcattribute="invalid"];}', parser);
         });
         it ("should complain about an undeclared entity in a from", function(){
             tst.assertSyntaxError("msc{a,b,c;d=>a;}", parser, "EntityNotDefinedError");

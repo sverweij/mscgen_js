@@ -53,7 +53,10 @@ describe('msgennyparser', function() {
             var lAST = parser.parse('a => "b space": a simple script;');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
-
+        it('should ignore c++ style one line comments', function() {
+            var lAST = parser.parse('a => "b space": a simple script;//ignored');
+            tst.assertequalJSON(lAST, fix.astSimple);
+        });
         it("should produce an (almost empty) AST for empty input", function() {
             var lAST = parser.parse("");
             tst.assertequalJSON(lAST, fix.astEmpty);
@@ -83,6 +86,12 @@ describe('msgennyparser', function() {
         });
         it("should throw a SyntaxError on an invalid arc type", function() {
             tst.assertSyntaxError('a, b; a xx b;', parser);
+        });
+        it("should throw a SyntaxError on empty inline expression", function() {
+            tst.assertSyntaxError('a, b; a opt b{};', parser);
+        });
+        it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
+            tst.assertSyntaxError('a, b; a => b{|||;};', parser);
         });
         it("should throw a SyntaxError on an invalid option", function() {
             tst.assertSyntaxError('wordwarparcs="true"; a, b; a -> b;', parser);
