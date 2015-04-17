@@ -25,5 +25,26 @@ describe('maps', function() {
             assert.equal(txt.classifyExtension('test01_all_arcs.json'), "json");
         });
     });
+    
+    describe('#correctLanguage() - ', function() {
+
+        it('returns xu in case of mscgen with extensions ', function() {
+            assert.equal(txt.correctLanguage(true, "mscgen"), "xu");
+        });
+
+        it('returns mscgen in case of xu witout extensions ', function() {
+            assert.equal(txt.correctLanguage(false, "xu"), "mscgen");
+        });
+
+        it('returns msgenny with or without extensions', function() {
+            assert.equal(txt.correctLanguage(true, "msgenny"), "msgenny");
+            assert.equal(txt.correctLanguage(false, "msgenny"), "msgenny");
+        });
+
+        it('returns whatever language when  extensions null or undefined', function() {
+            assert.equal(txt.correctLanguage(undefined, 'mscgen'), "mscgen");
+            assert.equal(txt.correctLanguage(null, 'xu'), "xu");
+        });
+    });
 
 });
