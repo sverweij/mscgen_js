@@ -1,4 +1,3 @@
-var assert = require("assert");
 var parser = require("../parse/xuparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
