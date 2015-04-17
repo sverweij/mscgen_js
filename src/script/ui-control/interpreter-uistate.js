@@ -293,6 +293,19 @@ function showRenderSuccess(pMeta){
     dq.SS(window.__output_buttons).show();
     showExtendedArcTypeFeatures(pMeta);
     showExtendedFeatures(pMeta);
+    gLanguage = correctLanguage(pMeta, getLanguage());
+}
+
+function correctLanguage(pMeta, pLanguage){
+    if (pMeta){
+        if (true === pMeta.extendedFeatures && pLanguage === "mscgen"){
+            return "xu";
+        } else if (false === pMeta.extendedFeatures && pLanguage === "xu"){
+            return "mscgen";
+        } 
+    }
+    return pLanguage;
+
 }
 
 function showExtendedArcTypeFeatures(pMeta){
