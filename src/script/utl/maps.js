@@ -40,6 +40,15 @@ define([], function() {
             }
 
             return "mscgen";
+        },
+        correctLanguage: function (pExtendedFeatures, pLanguage){
+            if (true === pExtendedFeatures && pLanguage === "mscgen"){
+                return "xu";
+            }
+            if (false === pExtendedFeatures && pLanguage === "xu"){
+                return "mscgen";
+            }
+            return pLanguage;
         }
     };
 }); // define
