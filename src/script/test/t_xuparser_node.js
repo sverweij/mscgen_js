@@ -27,7 +27,7 @@ describe('xuparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('msc{HSCAle="1.2", widtH=800,  ARCGRADIENT="17",woRDwrAParcS="oN", WATERmark="not in mscgen, available in xù and msgenny" ;a;}');
+            var lAST = parser.parse('msc{HSCAle=1.2, widtH=800,  ARCGRADIENT="17",woRDwrAParcS="oN", WATERmark="not in mscgen, available in xù and msgenny" ;a;}');
             tst.assertequalJSON(lAST, fix.astOptions);
         });
         it("should produce lowercase for upper/ mixed case attributes", function() {
@@ -80,6 +80,12 @@ describe('xuparser', function() {
         });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
+        });
+        it("should throw a SyntaxError for a * on the RHS of x-", function() {
+            tst.assertSyntaxError('msc{a,b,c; b x- *;}', parser);
+        });
+        it("should throw a SyntaxError for a * on the LHS of -x", function() {
+            tst.assertSyntaxError('msc{a,b,c; * -x b;}', parser);
         });
         it("should throw a SyntaxError on a missing program closer", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b;', parser);

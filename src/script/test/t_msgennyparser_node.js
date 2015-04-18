@@ -70,9 +70,17 @@ describe('msgennyparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('HSCAle="1.2", widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
+            var lAST = parser.parse('HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
             tst.assertequalJSON(lAST, fix.astOptions);
         });
+        it("should keep the labeled name of an entity", function(){
+            var lAST = parser.parse('"實體": This is the label for 實體;');
+            tst.assertequalJSON(lAST, fix.astLabeledEntity);
+        });
+        it("should generate arcs to all other arcs with bare *", function(){
+            var lAST = parser.parse('a;"實體" -> *;* << b;');
+            tst.assertequalJSON(lAST, fix.astAsterisk);
+        })
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
             tst.assertequalJSON(parser.parse('wordwraparcs=true;'), fix.astWorwraparcstrue);
             tst.assertequalJSON(parser.parse('wordwraparcs="true";'), fix.astWorwraparcstrue);
@@ -110,6 +118,12 @@ describe('msgennyparser', function() {
         });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('wordwraparcs="true"; a, b; a -> b', parser);
+        });
+        it("should throw a SyntaxError for a * on the RHS of x-", function() {
+            tst.assertSyntaxError('a,b,c; b x- *;', parser);
+        });
+        it("should throw a SyntaxError for a * on the LHS of -x", function() {
+            tst.assertSyntaxError('a,b,c; * -x b;', parser);
         });
         it("should parse all types of arcs supported by mscgen", function() {
             var lAST = parser.parse('a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);');
