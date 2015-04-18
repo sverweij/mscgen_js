@@ -80,7 +80,7 @@ describe('msgennyparser', function() {
         it("should generate arcs to all other arcs with bare *", function(){
             var lAST = parser.parse('a;"實體" -> *;* << b;');
             tst.assertequalJSON(lAST, fix.astAsterisk);
-        })
+        });
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
             tst.assertequalJSON(parser.parse('wordwraparcs=true;'), fix.astWorwraparcstrue);
             tst.assertequalJSON(parser.parse('wordwraparcs="true";'), fix.astWorwraparcstrue);
