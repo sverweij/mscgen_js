@@ -14,6 +14,7 @@
 /* jshint undef:true, unused:strict, browser:true, node:true, indent:4 */
 /* global unescape: false */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }

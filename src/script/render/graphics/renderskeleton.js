@@ -4,6 +4,7 @@
 /* jshint node:true */
 /* jshint trailing:true */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -103,6 +104,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
 
     function _init(pWindow) {
         var lDocument;
+        /* istanbul ignore else */
         if ("object" !== typeof (document)) {
             lDocument = pWindow.document;
         } else {
