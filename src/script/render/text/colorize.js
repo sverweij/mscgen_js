@@ -157,32 +157,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
     return {
         uncolor : _uncolor,
-        colorize : _colorize,
-        colorizeRY : function(pAST) {
-            var lEntityColorCombiAry = [{
-                "linecolor" : "#830000",
-                "textbgcolor" : "#FFFFCC"
-            }];
-            var lArc2ColorCombi = {
-                "note" : {
-                    "linecolor" : "#830000",
-                    "textbgcolor" : "#FFFFCC"
-                },
-                "box" : {
-                    "linecolor" : "#830000",
-                    "textbgcolor" : "white"
-                },
-                "rbox" : {
-                    "linecolor" : "#830000",
-                    "textbgcolor" : "white"
-                },
-                "abox" : {
-                    "linecolor" : "#830000",
-                    "textbgcolor" : "white"
-                },
-            };
-            return _colorize(pAST, lEntityColorCombiAry, lArc2ColorCombi);
-        }
+        colorize : _colorize
     };
 });
 
