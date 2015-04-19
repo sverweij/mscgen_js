@@ -1,4 +1,3 @@
-var assert = require("assert");
 var parser = require("../parse/msgennyparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
@@ -45,6 +44,7 @@ var gCorrectOrderFixture = {
     }]]
 };
 
+
 describe('msgennyparser', function() {
 
     describe('#parse()', function() {
@@ -53,7 +53,10 @@ describe('msgennyparser', function() {
             var lAST = parser.parse('a => "b space": a simple script;');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
-
+        it('should ignore c++ style one line comments', function() {
+            var lAST = parser.parse('a => "b space": a simple script;//ignored');
+            tst.assertequalJSON(lAST, fix.astSimple);
+        });
         it("should produce an (almost empty) AST for empty input", function() {
             var lAST = parser.parse("");
             tst.assertequalJSON(lAST, fix.astEmpty);
@@ -67,8 +70,16 @@ describe('msgennyparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('HSCAle="1.2", widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
+            var lAST = parser.parse('HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
             tst.assertequalJSON(lAST, fix.astOptions);
+        });
+        it("should keep the labeled name of an entity", function(){
+            var lAST = parser.parse('"實體": This is the label for 實體;');
+            tst.assertequalJSON(lAST, fix.astLabeledEntity);
+        });
+        it("should generate arcs to all other arcs with bare *", function(){
+            var lAST = parser.parse('a;"實體" -> *;* << b;');
+            tst.assertequalJSON(lAST, fix.astAsterisk);
         });
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
             tst.assertequalJSON(parser.parse('wordwraparcs=true;'), fix.astWorwraparcstrue);
@@ -79,17 +90,40 @@ describe('msgennyparser', function() {
             tst.assertequalJSON(parser.parse('wordwraparcs="1";'), fix.astWorwraparcstrue);
         });
         it("should throw a SyntaxError on an invalid program", function() {
-            try {
-                var lAST = parser.parse('a');
-                var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e) {
-                assert.equal(e.name, "SyntaxError");
-            }
-
+            tst.assertSyntaxError('a', parser);
+        });
+        it("unicode is cool. But not yet for unquoted entity names", function() {
+            tst.assertSyntaxError('序;', parser);
+        });
+        it("unicode is cool. But not yet for unquoted entity names", function() {
+            tst.assertSyntaxError('序;', parser);
+        });
+        it("unicode is cool. But not yet for unquoted entity names - neither does it in arcs", function() {
+            tst.assertSyntaxError('"序" -> 序;', parser);
+        });
+        it("should throw a SyntaxError on an invalid arc type", function() {
+            tst.assertSyntaxError('a, b; a xx b;', parser);
+        });
+        it("should throw a SyntaxError on empty inline expression", function() {
+            tst.assertSyntaxError('a, b; a opt b{};', parser);
+        });
+        it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
+            tst.assertSyntaxError('a, b; a => b{|||;};', parser);
+        });
+        it("should throw a SyntaxError on an invalid option", function() {
+            tst.assertSyntaxError('wordwarparcs="true"; a, b; a -> b;', parser);
+        });
+        it("should throw a SyntaxError on an invalid value for an option", function() {
+            tst.assertSyntaxError('wordwraparcs=\u0181; a, b; a -> b;', parser);
+        });
+        it("should throw a SyntaxError on a missing semi colon", function() {
+            tst.assertSyntaxError('wordwraparcs="true"; a, b; a -> b', parser);
+        });
+        it("should throw a SyntaxError for a * on the RHS of x-", function() {
+            tst.assertSyntaxError('a,b,c; b x- *;', parser);
+        });
+        it("should throw a SyntaxError for a * on the LHS of -x", function() {
+            tst.assertSyntaxError('a,b,c; * -x b;', parser);
         });
         it("should parse all types of arcs supported by mscgen", function() {
             var lAST = parser.parse('a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);');

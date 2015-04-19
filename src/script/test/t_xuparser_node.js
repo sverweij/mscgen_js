@@ -1,4 +1,3 @@
-var assert = require("assert");
 var parser = require("../parse/xuparser_node");
 var tst = require("./testutensils");
 var fix = require("./astfixtures");
@@ -11,7 +10,10 @@ describe('xuparser', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
             tst.assertequalJSON(lAST, fix.astSimple);
         });
-
+        it('should ignore c++ style one line comments', function() {
+            var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored');
+            tst.assertequalJSON(lAST, fix.astSimple);
+        });
         it("should produce an (almost empty) AST for empty input", function() {
             var lAST = parser.parse("msc{}");
             tst.assertequalJSON(lAST, fix.astEmpty);
@@ -25,7 +27,7 @@ describe('xuparser', function() {
             tst.assertequalJSON(lAST, fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('msc{HSCAle="1.2", widtH=800,  ARCGRADIENT="17",woRDwrAParcS="oN", WATERmark="not in mscgen, available in xù and msgenny" ;a;}');
+            var lAST = parser.parse('msc{HSCAle=1.2, widtH=800,  ARCGRADIENT="17",woRDwrAParcS="oN", WATERmark="not in mscgen, available in xù and msgenny" ;a;}');
             tst.assertequalJSON(lAST, fix.astOptions);
         });
         it("should produce lowercase for upper/ mixed case attributes", function() {
@@ -53,40 +55,52 @@ describe('xuparser', function() {
             tst.assertequalJSON(parser.parse('msc { wordwraparcs="1";}'), fix.astWorwraparcstrue);
         });
         it("should throw a SyntaxError on an invalid program", function() {
-            try {
-                var lAST = parser.parse('a');
-                var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e) {
-                assert.equal(e.name, "SyntaxError");
-            }
+            tst.assertSyntaxError('a', parser);
+        });
+        it("unicode is cool. But not yet for unquoted entity names", function() {
+            tst.assertSyntaxError('msc{序;}', parser);
+        });
+        it("should throw a SyntaxError on an invalid program", function() {
+            tst.assertSyntaxError('msc{a}', parser);
+        });
+        it("should throw a SyntaxError on an invalid arc type", function() {
+            tst.assertSyntaxError('msc{a, b; a xx b;}', parser);
+        });
+        it("should throw a SyntaxError on empty inline expression", function() {
+            tst.assertSyntaxError('msc{a, b; a opt b{};}', parser);
+        });
+        it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
+            tst.assertSyntaxError('msc{a, b; a => b{|||;};}', parser);
+        });
+        it("should throw a SyntaxError on an invalid option", function() {
+            tst.assertSyntaxError('msc{wordwarparcs="true"; a, b; a -> b;}', parser);
+        });
+        it("should throw a SyntaxError on an invalid value for an option", function() {
+            tst.assertSyntaxError('msc{wordwraparcs=\u0181; a, b; a -> b;}', parser);
+        });
+        it("should throw a SyntaxError on a missing semi colon", function() {
+            tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
+        });
+        it("should throw a SyntaxError for a * on the RHS of x-", function() {
+            tst.assertSyntaxError('msc{a,b,c; b x- *;}', parser);
+        });
+        it("should throw a SyntaxError for a * on the LHS of -x", function() {
+            tst.assertSyntaxError('msc{a,b,c; * -x b;}', parser);
+        });
+        it("should throw a SyntaxError on a missing program closer", function() {
+            tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b;', parser);
+        });
+        it("should throw a SyntaxError on a invalid entity attribute", function() {
+            tst.assertSyntaxError('msc{a[invalidentitityattribute="invalid"];}', parser);
+        });
+        it("should throw a SyntaxError on a invalid arc attribute", function() {
+            tst.assertSyntaxError('msc{a, b; a -> b[invalidearcattribute="invalid"];}', parser);
         });
         it ("should complain about an undeclared entity in a from", function(){
-            try {
-                var lAST = parser.parse ("msc{a,b,c;d=>a;}");
-                                    var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e){
-                assert.equal(e.name, "EntityNotDefinedError");
-            }
+            tst.assertSyntaxError("msc{a,b,c;d=>a;}", parser, "EntityNotDefinedError");
         });
         it ("should complain about an undeclared entity in a to", function(){
-            try {
-                var lAST = parser.parse ("msc{a,b,c;b=>f;}");
-                                    var lStillRan = false;
-                if (lAST) {
-                    lStillRan = true;
-                }
-                assert.equal(lStillRan, false);
-            } catch(e){
-                assert.equal(e.name, "EntityNotDefinedError");
-            }
+            tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });
     });
     

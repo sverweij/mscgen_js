@@ -8,6 +8,7 @@
 /* jshint unused:strict */
 /* jshint indent:4 */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -38,31 +39,26 @@ define([], function() {
         }
     }
     
-    function transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry) {
-        if (pRowFunctionAry) {
-            pRowFunctionAry.forEach(function(pRowFunction){
-                pRowFunction(pArcRow, pEntities);
-            });
-        }
+    function transformArcRow(pEntities, pArcRow, pFunctionAry) {
         pArcRow.forEach(function(pArc){
             transformArc(pEntities, pArcRow, pArc, pFunctionAry);
             if (pArc.arcs) {
-                transformArcRows(pEntities, pArc.arcs, pRowFunctionAry, pFunctionAry);
+                transformArcRows(pEntities, pArc.arcs, pFunctionAry);
             }            
         });
     }
 
-    function transformArcRows(pEntities, pArcRows, pRowFunctionAry, pFunctionAry) {
-        if (pEntities && pArcRows && (pRowFunctionAry || pFunctionAry)) {
+    function transformArcRows(pEntities, pArcRows, pFunctionAry) {
+        if (pEntities && pArcRows && pFunctionAry) {
             pArcRows.forEach(function(pArcRow) {
-                transformArcRow(pEntities, pArcRow, pRowFunctionAry, pFunctionAry);
+                transformArcRow(pEntities, pArcRow, pFunctionAry);
             });
         }
     }
 
-    function _transform(pAST, pEnityTransforms, pArcTransforms, pArcRowTransforms) {
+    function _transform(pAST, pEnityTransforms, pArcTransforms) {
         transformEntities(pAST.entities, pEnityTransforms);
-        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms, pArcTransforms);
+        transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
         return pAST;
     }
 

@@ -9,6 +9,7 @@
 /* jshint indent:4 */
 /* jshint devel:false */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }

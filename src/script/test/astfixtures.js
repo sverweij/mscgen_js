@@ -27,6 +27,53 @@ module.exports = (function() {
                 "label" : "a simple script"
             }]]
         },
+        astLabeledEntity : {
+            "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
+            "entities": [
+                {
+                    "name": "實體",
+                    "label": "This is the label for 實體"
+                }
+            ]
+        },
+        astAsterisk : {
+          "meta": {
+            "extendedOptions": false,
+            "extendedArcTypes": false,
+            "extendedFeatures": false
+          },
+          "entities": [
+            {
+              "name": "a"
+            },
+            {
+              "name": "實體"
+            },
+            {
+              "name": "b"
+            }
+          ],
+          "arcs": [
+            [
+              {
+                "kind": "->",
+                "from": "實體",
+                "to": "*"
+              }
+            ],
+            [
+              {
+                "kind": "<<",
+                "from": "*",
+                "to": "b"
+              }
+            ]
+          ]
+      },
         astSimpleExtended : {
             "meta" : {
                 "extendedOptions": false,

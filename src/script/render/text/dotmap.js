@@ -2,6 +2,7 @@
 /* jshint undef:true */
 /* jshint unused:strict */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }

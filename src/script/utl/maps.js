@@ -4,6 +4,7 @@
 /* jshint indent:4 */
 /* jshint node:true */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -40,6 +41,15 @@ define([], function() {
             }
 
             return "mscgen";
+        },
+        correctLanguage: function (pExtendedFeatures, pLanguage){
+            if (true === pExtendedFeatures && pLanguage === "mscgen"){
+                return "xu";
+            }
+            if (false === pExtendedFeatures && pLanguage === "xu"){
+                return "mscgen";
+            }
+            return pLanguage;
         }
     };
 }); // define

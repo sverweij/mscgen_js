@@ -4,6 +4,7 @@
 /* jshint node:true */
 /* jshint indent:4 */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -16,6 +17,7 @@ define(["./constants"], function(C) {
 
     var gDocument;
 
+    /* istanbul ignore next */
     function getNativeBBox(pElement){
         var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
         lSvg.setAttribute("version", "1.1");
@@ -39,8 +41,10 @@ define(["./constants"], function(C) {
      * To counter this, manually set the return value to 0x0
      * if height or width has a wacky value:
      */
+     /* istanbul ignore next */
     function sanitizeBBox(pBBox){
         var INSANELYBIG = 100000;
+        
         if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG ) {
             return {
                 height : 0,
@@ -57,6 +61,7 @@ define(["./constants"], function(C) {
     //       responsibility-wise a strange one in this module
     //       (which is responsible for creating svg elements)
     function _getBBox(pElement) {
+        /* istanbul ignore if */
         if ( typeof (pElement.getBBox) === 'function') {
             return sanitizeBBox(getNativeBBox(pElement));
         } else {

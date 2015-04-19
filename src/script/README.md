@@ -62,7 +62,7 @@ The controller for the interpreter UI is less trivial.
 ## Testing
 :page_with_curl: code in [test/](test)
 
-About 150 automated tests (and growing) make sure refactoring most of
+About 200 automated tests (and counting) make sure refactoring most of
 the back end code (parsing and rendering) can be done safely.
 
 The ui controller tests are inherently harder to test automated. This

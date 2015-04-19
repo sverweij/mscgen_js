@@ -13,3 +13,4 @@ src/*tmp*.*
 tracking.*
 siteverification.id
 tmp_*.md
+npm-debug.log
