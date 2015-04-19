@@ -76,7 +76,7 @@ describe('xuparser', function() {
             tst.assertSyntaxError('msc{wordwarparcs="true"; a, b; a -> b;}', parser);
         });
         it("should throw a SyntaxError on an invalid value for an option", function() {
-            tst.assertSyntaxError('msc{wordwraparcs=notallowed; a, b; a -> b;}', parser);
+            tst.assertSyntaxError('msc{wordwraparcs=\u0181; a, b; a -> b;}', parser);
         });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);

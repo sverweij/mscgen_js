@@ -70,7 +70,7 @@ describe('mscgenparser', function() {
             tst.assertSyntaxError('msc{wordwarparcs="true"; a, b; a -> b;}', parser);
         });
         it("should throw a SyntaxError on an invalid value for an option", function() {
-            tst.assertSyntaxError('msc{wordwraparcs=notallowed; a, b; a -> b;}', parser);
+            tst.assertSyntaxError('msc{wordwraparcs=\u0181; a, b; a -> b;}', parser);
         });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
@@ -92,7 +92,7 @@ describe('mscgenparser', function() {
         });
         it ("should complain about an undeclared entity in a from", function(){
             tst.assertSyntaxError("msc{a,b,c;d=>a;}", parser, "EntityNotDefinedError");
-        });
+        });        
         it ("should complain about an undeclared entity in a to", function(){
             tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });

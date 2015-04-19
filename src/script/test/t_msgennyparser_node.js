@@ -114,7 +114,7 @@ describe('msgennyparser', function() {
             tst.assertSyntaxError('wordwarparcs="true"; a, b; a -> b;', parser);
         });
         it("should throw a SyntaxError on an invalid value for an option", function() {
-            tst.assertSyntaxError('wordwraparcs=notallowed; a, b; a -> b;', parser);
+            tst.assertSyntaxError('wordwraparcs=\u0181; a, b; a -> b;', parser);
         });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('wordwraparcs="true"; a, b; a -> b', parser);
