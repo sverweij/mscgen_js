@@ -169,7 +169,7 @@ function colorizeOnClick() {
         lAST = getAST();
 
         if (lAST !== {}){
-            lAST = colorize.colorize(lAST, false);
+            lAST = colorize.colorize(lAST);
             setSource(renderSource(lAST, getLanguage()));
         }
     } catch(e) {

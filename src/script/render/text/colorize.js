@@ -23,7 +23,6 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     "use strict";
 
     var gColorCombiCount = 0;
-    var gHardOverride = false;
 
     var gAggregateColorCombis = {
         "inline_expression" : {
@@ -85,7 +84,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     }
 
     function colorizeArc(pArc) {
-        if (!hasColors(pArc) || gHardOverride) {
+        if (!hasColors(pArc)) {
             var lColorCombi = getArcColorCombis(pArc.kind);
             if (lColorCombi) {
                 pArc.linecolor = lColorCombi.linecolor;
@@ -117,7 +116,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     }
 
     function colorizeEntity(pEntity) {
-        if (!hasColors(pEntity) || gHardOverride) {
+        if (!hasColors(pEntity)) {
             var lNextColorCombi = getNextColorCombi();
             pEntity.linecolor = lNextColorCombi.linecolor;
             pEntity.textbgcolor = lNextColorCombi.textbgcolor;
@@ -130,7 +129,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return pEntity;
     }
 
-    function _colorize(pAST, pHardOverride, pEntityColorArray, pArcColorCombis) {
+    function _colorize(pAST, pEntityColorArray, pArcColorCombis) {
         if (pEntityColorArray) {
             gEntityColorArray = pEntityColorArray;
         }
@@ -138,11 +137,6 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
             gArcColorCombis = pArcColorCombis;
         }
         gColorCombiCount = 0;
-        if (pHardOverride) {
-            gHardOverride = true;
-        } else {
-            gHardOverride = false;
-        }
 
         return transform.transform(pAST, [colorizeEntity], [colorizeArc]);
     }
@@ -164,7 +158,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     return {
         uncolor : _uncolor,
         colorize : _colorize,
-        colorizeRY : function(pAST, pHardOverride) {
+        colorizeRY : function(pAST) {
             var lEntityColorCombiAry = [{
                 "linecolor" : "#830000",
                 "textbgcolor" : "#FFFFCC"
@@ -187,7 +181,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
                     "textbgcolor" : "white"
                 },
             };
-            return _colorize(pAST, pHardOverride, lEntityColorCombiAry, lArc2ColorCombi);
+            return _colorize(pAST, lEntityColorCombiAry, lArc2ColorCombi);
         }
     };
 });
