@@ -16,8 +16,8 @@ script:
   - npm run nsp
 
 branches:
-  only:
-    - master
+  except:
+    - gh-pages
 
 addons:
    code_climate:
