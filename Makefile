@@ -3,7 +3,6 @@
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
 GIT=git
-LINT=node_modules/jshint/bin/jshint --verbose --show-non-errors
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
@@ -36,7 +35,13 @@ SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/render/text/utensils.js \
 	src/script/utl/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
-PRODDIRS=lib style script fonts
+BUILDDIR=build
+REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
+	$(BUILDDIR)/style \
+	$(BUILDDIR)/script \
+	$(BUILDDIR)/fonts
+PRODDIRS=$(BUILDDIR) \
+		 $(REMOVABLEPRODDIRS)
 LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/addon/edit/closebrackets.js \
 	src/lib/codemirror/addon/edit/matchbrackets.js \
@@ -72,31 +77,31 @@ FONT_SOURCES=src/fonts/controls.eot \
 	src/fonts/controls.svg \
 	src/fonts/controls.ttf \
 	src/fonts/controls.woff
-FONTS=fonts/controls.eot \
-	fonts/controls.svg \
-	fonts/controls.ttf \
-	fonts/controls.woff
+FONTS=$(BUILDDIR)/fonts/controls.eot \
+	$(BUILDDIR)/fonts/controls.svg \
+	$(BUILDDIR)/fonts/controls.ttf \
+	$(BUILDDIR)/fonts/controls.woff
 FAVICONMASTER=src/images/xu.png
-FAVICONS=favicon.ico \
-	favicon-16.png \
-	favicon-24.png \
-	favicon-32.png \
-	favicon-48.png \
-	favicon-64.png \
-	iosfavicon-57.png \
-	iosfavicon-72.png \
-	favicon-96.png \
-	iosfavicon-114.png \
-	iosfavicon-120.png \
-	favicon-144.png \
-	iosfavicon-144.png \
-	favicon-152.png \
-	iosfavicon-152.png \
-	favicon-195.png \
-	favicon-228.png
-VERSIONEMBEDDABLESOURCES=index.html embed.html tutorial.html
+FAVICONS=$(BUILDDIR)/favicon.ico \
+	$(BUILDDIR)/favicon-16.png \
+	$(BUILDDIR)/favicon-24.png \
+	$(BUILDDIR)/favicon-32.png \
+	$(BUILDDIR)/favicon-48.png \
+	$(BUILDDIR)/favicon-64.png \
+	$(BUILDDIR)/iosfavicon-57.png \
+	$(BUILDDIR)/iosfavicon-72.png \
+	$(BUILDDIR)/favicon-96.png \
+	$(BUILDDIR)/iosfavicon-114.png \
+	$(BUILDDIR)/iosfavicon-120.png \
+	$(BUILDDIR)/favicon-144.png \
+	$(BUILDDIR)/iosfavicon-144.png \
+	$(BUILDDIR)/favicon-152.png \
+	$(BUILDDIR)/iosfavicon-152.png \
+	$(BUILDDIR)/favicon-195.png \
+	$(BUILDDIR)/favicon-228.png
+VERSIONEMBEDDABLESOURCES=$(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
-.PHONY: help dev-build install checkout-gh-pages build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
+.PHONY: help dev-build install build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
 
 help:
 	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
@@ -136,25 +141,25 @@ src/script/parse/%parser.js: src/script/parse/%parser_node.js
 src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs 
 	$(PEGJS) $< $@
 
-%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
+$(BUILDDIR)/%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
 	$(SEDVERSION) < $< > $@
 
 %.css: %.scss
 	$(SASS) $< $@
 
-style/%.css: src/style/%.css
+$(BUILDDIR)/style/%.css: src/style/%.css
 	cp $< $@
 
-fonts/%: src/fonts/%
+$(BUILDDIR)/fonts/%: src/fonts/%
 	cp $< $@
 
-favicon.ico: $(FAVICONMASTER)
+$(BUILDDIR)/favicon.ico: $(FAVICONMASTER)
 	$(PNG2FAVICO) $< $@
 
-favicon-%.png: $(FAVICONMASTER)
+$(BUILDDIR)/favicon-%.png: $(FAVICONMASTER)
 	$(RESIZE) $< $@ 
 
-iosfavicon-%.png: $(FAVICONMASTER)
+$(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 	$(IOSRESIZE) $< $@ 
 
 $(PRODDIRS):
@@ -189,13 +194,25 @@ src/embed.html: src/style/doc.css
 src/tutorial.html: src/style/doc.css
 
 # file targets prod
-index.html: $(PRODDIRS) src/index.html style/interp.css lib/require.js script/mscgen-interpreter.js images/ samples/ $(FAVICONS) $(FONTS)
+$(BUILDDIR)/index.html: $(PRODDIRS) \
+	src/index.html \
+	$(BUILDDIR)/style/interp.css \
+	$(BUILDDIR)/lib/require.js \
+	$(BUILDDIR)/script/mscgen-interpreter.js \
+	$(BUILDDIR)/images/ \
+	$(BUILDDIR)/samples/ \
+	$(FAVICONS) \
+	$(FONTS)
 
-LIVE_DOC_DEPS=$(PRODDIRS) style/doc.css mscgen-inpage.js images/ $(FAVICONS)
+LIVE_DOC_DEPS=$(PRODDIRS) \
+	$(BUILDDIR)/style/doc.css \
+	$(BUILDDIR)/mscgen-inpage.js \
+	$(BUILDDIR)/images/ \
+	$(FAVICONS)
 
-embed.html: $(LIVE_DOC_DEPS) src/embed.html
+$(BUILDDIR)/embed.html: $(LIVE_DOC_DEPS) src/embed.html
 
-tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
+$(BUILDDIR)/tutorial.html: $(LIVE_DOC_DEPS) src/tutorial.html
 
 siteverification.id:
 	@echo yoursiteverifactionidhere > $@
@@ -209,22 +226,22 @@ tracking.host:
 VERSION:
 	@echo 0.0.0 > $@
 
-images/: src/images
-	cp -R $< .
+$(BUILDDIR)/images/: src/images
+	cp -R $< $@
 
-samples/: src/samples
-	cp -R $< .
+$(BUILDDIR)/samples/: src/samples
+	cp -R $< $@
 
-lib/require.js: src/lib/require.js
+$(BUILDDIR)/lib/require.js: src/lib/require.js
 	cp $< $@
 
-script/mscgen-interpreter.js: $(SOURCES_WEB)  
+$(BUILDDIR)/script/mscgen-interpreter.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
 			out=$@ \
 			preserveLicenseComments=true
 
-mscgen-inpage.js: $(EMBED_SOURCES_WEB)
+$(BUILDDIR)/mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
 			name=../lib/almond \
 			include=mscgen-inpage \
@@ -232,7 +249,7 @@ mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 			wrap=true \
 			preserveLicenseComments=true
 
-script/mscgen-inpage.js: mscgen-inpage.js
+$(BUILDDIR)/script/mscgen-inpage.js: $(BUILDDIR)/mscgen-inpage.js
 	cp $< $@
 
 # "phony" targets
@@ -258,18 +275,15 @@ lint: $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
 cover: dev-build
 	$(NPM) run cover
 
-install: index.html embed.html tutorial.html
+install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
-checkout-gh-pages:
-	$(GIT) checkout gh-pages
-	$(GIT) merge master -m "merge for gh-pages build `cat VERSION`"
-
-build-gh-pages: checkout-gh-pages mostlyclean install
+build-gh-pages: mostlyclean install
 
 add-n-push-gh-pages:
+	cd $(BUILDDIR)
 	$(GIT) add --all .
-	$(GIT) commit -m "build `cat VERSION`"
-	$(GIT) push
+	$(GIT) commit -m "build `cat ../VERSION`"
+	$(GIT) push origin gh-pages
 	$(GIT) status
 
 deploy-gh-pages: build-gh-pages add-n-push-gh-pages
@@ -290,7 +304,13 @@ test: dev-build
 check: noconsolestatements lint test
 
 somewhatclean:
-	rm -rf $(PRODDIRS) images samples index.html embed.html tutorial.html mscgen-inpage.js
+	rm -rf $(REMOVABLEPRODDIRS) \
+		$(BUILDDIR)/images \
+		$(BUILDDIR)/samples \
+		$(BUILDDIR)/index.html \
+		$(BUILDDIR)/embed.html \
+		$(BUILDDIR)/tutorial.html \
+		$(BUILDDIR)/mscgen-inpage.js
 	rm -rf jsdoc
 	rm -rf coverage
 	rm -rf testcoverage-report
