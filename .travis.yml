@@ -3,21 +3,24 @@ sudo: false
 language: node_js
 
 node_js:
-#  - "0.10"
   - "iojs"
 
 install:
   - npm install
-  - make install
 
 script:
   - npm run lint
   - npm run cover
   - npm run nsp
+  - make install
 
 branches:
   except:
     - gh-pages
+
+cache:
+  directories:
+    - node_modules
 
 addons:
    code_climate:
