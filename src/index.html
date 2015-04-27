@@ -21,7 +21,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="message sequence chart renderer">
         <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js, doxygen">
-        <meta name="google-site-verification" content="${siteverificationid}" />
+        <meta name="google-site-verification" content="{{siteverificationid}}" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" sizes="16x16 32x32 64x64" href="./favicon.ico">
@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?${commit}"
+        <link rel="stylesheet" href="style/interp.css?{{commit}}"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?${commit}"
-        src="lib/require.js?${commit}" defer></script>
+        <script data-main="script/mscgen-interpreter.js?{{commit}}"
+        src="lib/require.js?{{commit}}" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -105,18 +105,18 @@
             </nav>
 
             <div class="debug" style="display: none">
-                <div><em>version:</em> ${version}</div>
-                <div><em>build-date:</em> ${date}</div>
-                <div><em>commit:</em> ${commit}</div>
+                <div><em>version:</em> {{version}}</div>
+                <div><em>build-date:</em> {{date}}</div>
+                <div><em>commit:</em> {{commit}}</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: ${version}
-    build-date: ${date}
-    commit: ${commit}">mscgen_js</h1>
+    version: {{version}}
+    build-date: {{date}}
+    commit: {{commit}}">mscgen_js</h1>
             <span class="hideonmobile">turns text into sequence charts</span>
             <span class="showonmobile">text =&gt; MSCs</span>
         </header>
