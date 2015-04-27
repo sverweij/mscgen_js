@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+        This file is part of mscgen_js.
+
+        mscgen_js is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        mscgen_js is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+        -->
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="message sequence chart renderer">
+        <meta name="keywords" content="mscgen,msc,sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js, doxygen">
+        <meta name="google-site-verification" content="G7Qv6VkSE89m8dMe9LGXIR5VlycCrVLD53OmmtTYsKw" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" sizes="16x16 32x32 64x64" href="./favicon.ico">
+        <link rel="icon" sizes="228x228" href="./favicon-228.png">
+        <link rel="icon" sizes="195x195" href="./favicon-195.png">
+        <link rel="icon" sizes="152x152" href="./favicon-152.png">
+        <link rel="icon" sizes="144x144" href="./favicon-144.png">
+        <link rel="icon" sizes="128x128" href="./favicon-128.png">
+
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="./iosfavicon-152.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./iosfavicon-144.png">
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="./iosfavicon-120.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./iosfavicon-114.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="./iosfavicon-72.png">
+        <link rel="apple-touch-icon-precomposed" href="./iosfavicon-57.png">
+        <link rel="shortcut icon" href="./favicon.ico">
+
+        <title>mscgen_js - turns text into sequence charts</title>
+        <link rel="stylesheet" href="style/interp.css?ed519b485437dc7b"
+        type="text/css" media="screen">
+        <script data-main="script/mscgen-interpreter.js?ed519b485437dc7b"
+        src="lib/require.js?ed519b485437dc7b" defer></script>
+        <style>
+            @-webkit-keyframes loading_opa {
+                 0% { opacity:0; }
+                 50% { opacity:0; }
+                 100% { opacity:0.9; }
+            }
+            @keyframes loading_opa {
+                 0% { opacity:0; }
+                 50% { opacity:0; }
+                 100% { opacity:0.9; }
+            }
+            @-webkit-keyframes loading {
+                0% { opacity:0; }
+                50% { opacity:0; -webkit-transform: scale(0.1); }
+                75% { opacity:1; -webkit-transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+            @keyframes loading {
+                0% { opacity:0; }
+                50% { opacity:0; transform: scale(0.1); }
+                75% { opacity:1; transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+            @-webkit-keyframes rotate {
+                0% { -webkit-transform: rotateZ(360deg); }
+                60% { -webkit-transform: rotateZ(0deg); }
+                100% { -webkit-transform: rotateZ(0deg); }
+            }
+            @keyframes rotate {
+                0% { transform: rotateZ(360deg); }
+                60% { transform: rotateZ(0deg); }
+                100% { transform: rotateZ(0deg); }
+            }
+
+        </style>
+    </head>
+    <body>
+		<!--[if lt IE 17]>
+        <p class="browsehappy">You are using an <strong>outdated</strong>
+        browser. The mscgen_js interpreter requires a modern one.
+        Please <a href="http://browsehappy.com/">upgrade your browser</a>
+        to improve your experience.
+		</p>
+		<![endif]-->
+        <header>
+            <nav>
+                <div id="__about"
+                class="about icon"
+                title="">
+                <br><br>about</div>
+                <div class="interpreter icon hideonmobile active"
+                title="Interpreter. It's where you are now."><br><br>interpret</div>
+                <div id="__embedme"
+                class="embed icon hideonmobile"
+                title="embed mscgen in your html"><br><br>embed</div>
+                <div id="__helpme"
+                class="question icon"
+                title="Show cheat sheet"><br><br>learn</div>
+            </nav>
+
+            <div class="debug" style="display: none">
+                <div><em>version:</em> 0.9.72</div>
+                <div><em>build-date:</em> 20150427 17:12</div>
+                <div><em>commit:</em> ed519b485437dc7b</div>
+            </div>
+
+            <h1 title="There's some good copy in tooltips.
+Likely nobody will read them, though.
+
+mscgen_js
+    version: 0.9.72
+    build-date: 20150427 17:12
+    commit: ed519b485437dc7b">mscgen_js</h1>
+            <span class="hideonmobile">turns text into sequence charts</span>
+            <span class="showonmobile">text =&gt; MSCs</span>
+        </header>
+        <article>
+        <section id="__input_and_controls">
+            <div>
+                <h3 class="fadable-hint"><span class="intronumber">1</span> <span class="hideonmobile">your</span> text <span class="hideonmobile">goes here </span> &#x0261f;</h3>
+
+                <div class="herpes">
+                    <select title="list of samples" id="__samples">
+                        <option value="none" selected>select an example...</option>
+                        <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
+                        <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
+                        <option value="samples/readme.mscin">showing off Mscgen</option>
+                        <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
+                        <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
+                        <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
+                        <option value="samples/test08_smtp.mscin">sample: SMTP</option>
+                        <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
+                        <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">sample: ACME Challenge request</option>
+                        <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">sample: ACME Auth request</option>
+                        <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">sample: ACME Cert request</option>
+                        <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">sample: ACME Revoke request</option>
+                        <option class="debug" style="display: none" value="samples/smoketest.mscin">test: smoke test</option>
+                        <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
+                        <option value="samples/test02_some_coloring.mscin">test: colors</option>
+                        <option class="debug" style="display: none" value="samples/test51_with_alt.xu">test: alt (xù)</option>
+                        <option class="debug" style="display: none" value="samples/test52_alt_within_loop.xu">test: alt within a loop (xù)</option>
+                        <option class="debug" style="display: none" value="samples/test50_expansions.xu">test: expansion - sketch (xù)</option>
+                        <option class="debug" style="display: none" value="samples/rainbow.mscin">test: rainbow</option>
+                        <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
+                        <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
+                        <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
+                        <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
+                        <option value="samples/test19_multiline_lipsum.mscin">test: multiline autowrap</option>
+                        <option value="samples/test11_autodeclaration.msgenny">test: auto entities (Genny)</option>
+                        <option value="samples/3rdparty/test20_quoteless_attributes.mscin">test: quoteless attributes</option>
+                        <option value="samples/test21_unicode.mscin">test: double byte characters</option>
+                        <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
+                        <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
+                        <option value="samples/test43_flag.mscin">weird: flag</option>
+                    </select>
+                </div>
+            </div>
+            <textarea id="__msc_input" class="code mscgen" spellcheck="false" title="your input text:"></textarea>
+            <div id="__input_controls">
+                <input type="checkbox" id="__autorender">
+                <label for="__autorender"
+                title="Automatically renders the chart.
+
+Switch off on slow machines. A render button will appear in stead.">Auto render</label>
+                <fieldset>
+                    <legend>
+                        language
+                    </legend>
+                    <input id="__language_mscgen" type="radio" name="languagerg" checked>
+                    <label for="__language_mscgen"
+                    title="Switches to Mscgen mode. Automatically converts Ms Genny back to MscGen">MscGen<span id="__xu_notify" class="xunotify" style="display:none">xù</span></label>
+                    <input id="__language_msgenny"  type="radio" name="languagerg">
+
+                    <label for="__language_msgenny"
+                    title="Switches on lazy bastard mode. Automatically converts from MscGen to Ms Genny.
+
+Watch out (1): Ms Genny enables you to work blazingly fast.
+Watch out (2): switching to Ms Genny strips all fancy stuff from MscGen scripts">MsGenny</label>
+                    <span class="debug" style="display: none">
+                        <input id="__language_json" type="radio" name="languagerg">
+                        <label for="__language_json"
+                        title="Switches to abstract syntax tree representation (json)">AST</label>
+                    </span>
+                </fieldset>
+                <button id="__btn_colorize" title="Auto colors the sequence chart
+
+Note: !! removes comments and reformats your source!!">color</button>
+                <button id="__btn_uncolorize" title="Removes all color from the sequence chart
+
+Note: !! removes comments and reformats your source!!">b&amp;w</button>
+                <span class="debug" style="display: none">
+                </span>
+                <button id="__btn_render" class="btn-primary"
+                title="Click to render. Only shows up when 'autorender' is off">
+                    render
+                </button>
+            </div>
+        </section>
+
+        <section style="display:inline-block;">
+            <h3 class="fadable-hint"
+                style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideonmobile">your</span> chart <span class="hideonmobile">shows up here</span> &#x0261f;</h3>
+            <span id="__output_buttons">
+            <a id="__show_svg"
+                class="button"
+                target="_blank"
+                type="image/svg+xml"
+                title="Shows the chart in a separate window (svg).
+
+Note: the url bar will contain the base64 encoded version of the svg
+Note: Double clicking on the picture has the same effect.">svg</a>
+            <a id="__show_png"
+                class="button"
+                target="_blank"
+                type="image/png"
+                title="Shows the chart in a separate window (png).
+
+Note: the url bar will contain the base64 encoded version of the png">png</a>
+            <a id="__show_jpeg"
+                class="button"
+                target="_blank"
+                type="image/jpeg"
+                title="Shows the chart in a separate window (jpeg).
+
+Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
+            <a id="__show_dot"
+                class="button"
+                target="_blank"
+                type="text/dot"
+                title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
+            <a id="__show_anim"
+                class="button hideonmobile"
+                target="_blank"
+                type="text/plain"
+                title="animate the current chart
+
+- works for classic mscgen compatible charts.
+- support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
+            <a id="__show_html"
+                class="debug button" style="display: none"
+                target="_blank"
+                type="text/plain"
+                title="Generates an html page with the chart embedded"><span class="icon-embed"></span></a>
+            <a id="__show_vanilla"
+                class="debug button" style="display: none"
+                target="_blank"
+                type="text/plain"
+                title="exports to vanilla mscgen"><span class="icon-arrow-down"></span></a>
+            <a id="__show_url"
+                class="debug button" style="display: none"
+                target="_blank"
+                type="text/plain"
+                title="don't use.
+generates an url that represents current the current interpreter state.
+Useful for debugging with small charts."><span class="icon-share"></span></a>
+            </span>
+            <div id="__error" class="error" style="display:none">
+                <div class="header">Parse error</div>
+                <div class="content">
+                    <div id="__error_output"></div>
+                    <br>
+                    <div id="__error_context"></div>
+                </div>
+            </div>
+            <div id="__svg"></div>
+        </section>
+
+        <section>
+        <div id="__animscreen" style="display:none">
+            <button id="__btn_anim_close" class="icon-cross" title="close"></button>
+            <div id="__animsvgwrapper">
+                <div id="__animsvg"></div>
+            </div>
+            <div id="__animcontrolswrapper">
+                <nav>
+                    <button id="__btn_anim_home" class="icon-first" title="go to first frame"></button>
+                    <button id="__btn_anim_dec" class="icon-previous2" title="one step back"></button>
+                    <button id="__btn_anim_playpause" class="icon-play3" title="play/ pause"></button>
+                    <button id="__btn_anim_inc" class="icon-next2" title="one step forward"></button>
+                    <button id="__btn_anim_end" class="icon-last" title="go to last frame"></button>
+                    <div id="__anim_progress_percentage_wrapper">
+                        <div id="__anim_progress_percentage"></div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div id="__embedsheet" class="popupsheet" style="display:none">
+            <div class="popup">
+                <div class="header">
+                     <button id="__close_embedsheet" class="close">x</button>
+                     Sample for embedding the current chart in html<br>(<a href="./embed.html" target="_blank">learn more</a>):<br><br>
+                </div>
+                <div class="content">
+                    <textarea wrap="off"
+                        readonly="true"
+                        cols="56"
+                        rows="20"
+                        id="__embedsnippet"
+                        class="code html"
+                        title="sample embedding html">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <div id="__cheatsheet" class="popupsheet" style="display:none">
+            <div class="popup">
+                <div class="header">
+                    <button id="__close_lightbox" class="close">x</button>
+                    <table style="width: 80%">
+                        <tr>
+                            <td><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
+                            <td>
+                                <div>The <a href="tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
+                                <div>Online <a href="tutorial.html#interpreter" target="_blank">interpreter</a></div>
+                                <div>The <a href="tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="content">
+                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                </div>
+            </div>
+        </div>
+        <div id="__aboutsheet" class="popupsheet" style="display:none">
+            <div class="popup">
+                <div class="header">
+                    <button id="__close_aboutsheet" class="close">x</button>
+                    <h1>About</h1>
+                </div>
+                <div class="content">
+<table>
+<tr>
+    <td>
+<img class="aboutpic" src="images/xuwhiteshadow.svg" alt="mscgen_js logo" title="Logo
+
+It's the Chinese letter 序 (xù).
+
+According to Google it means 'sequence'.
+
+According to Chinese people it's more akin
+to the 'intrc' in 'introduction'.
+
+According to Sander it's an angry little man
+drawing a sequence chart. On a sloped
+whiteboard. Under a roof."></img>
+    </td>
+    <td>
+    <p>
+    The mscgen_js javascript library transforms  descriptions in
+    <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
+    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a>,
+    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> and json into sequence charts.
+    </p>
+    <p>
+    It is the engine for this interpreter. It also makes
+    <a href="embed.html" target="_blank">embedding sequence charts</a>
+    in html easy as eating a banana.
+    </p>
+    <p>mscgen_js is open source (GPLv3).
+    You can
+    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+    view</a>,
+    <a href="https://github.com/sverweij/mscgen_js.git" target="_blank">
+    clone</a>
+    or
+    <a href="https://github.com/sverweij/mscgen_js/fork" target="_blank">
+    fork it</a>
+    on GitHub and
+    <a href="https://github.com/sverweij/mscgen_js/issues"
+    target="_blank">report issues</a> there.</p>
+    </td>
+</tr>
+<tr>
+    <td>
+  <a href="https://sverweij.github.io/">
+    <img class="aboutpic" style="border-radius: 50%" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
+
+The Netherlands forbids smiling
+on photos that go on official
+documents."></img></a>
+  </td>
+  <td>
+  <p>
+      <strong>Author</strong>
+  </p>
+  <p>
+    When Sander first got in touch with <a
+    href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>
+    at the end of 2012, he thought it was awesome. Annoyed he
+    couldn't use it <em>just</em> everywhere, he spent his next
+    spring holiday correcting that.
+  </p>
+  <p>
+    Sander lives in The Netherlands and brews a wicked tea.
+  </p>
+  <p>
+  <a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
+  <a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
+  <a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
+  </p>
+</td>
+</tr>
+</table>
+                </div> <!-- content -->
+            </div> <!-- popup -->
+        </div> <!-- popupsheet -->
+        </section>
+        </article>
+        <div id="__loading"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                background-color: white;
+                opacity: 0.9;
+                z-index: 666;
+                animation-name: loading_opa;
+                animation-duration: 3s;
+                animation-timing-function: ease;
+                -webkit-animation-name: loading_opa;
+                -webkit-animation-duration: 3s;
+                -webkit-animation-timing-function: ease;
+            ">
+            <div style="
+                position: fixed;
+                left: 0;
+                top: 30%;
+                width: 100%;
+                font-size: 1.8em;
+                animation-name: loading;
+                animation-duration: 3s;
+                animation-timing-function: ease;
+                -webkit-animation-name: loading;
+                -webkit-animation-duration: 3s;
+                -webkit-animation-timing-function: ease;
+                ">
+
+                <img style="
+                height: 2.1em;
+                animation-name: rotate;
+                animation-duration: 3.14s;
+                animation-timing-function: ease-in-out;
+                animation-iteration-count: infinite;
+                -webkit-animation-name: rotate;
+                -webkit-animation-duration: 3.14s;
+                -webkit-animation-timing-function: ease-in-out;
+                -webkit-animation-iteration-count: infinite;
+                " src="images/xuwhiteshadow.svg" alt="">
+                <div>
+                    loading...
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

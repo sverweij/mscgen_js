@@ -1,0 +1,121 @@
+{
+  "samples": [
+    {
+      "url": "none",
+      "name": "select an example..."
+    },
+    {
+      "url": "samples/test15_simple_starter.msgenny",
+      "name": "simple starter (Genny)"
+    },
+    {
+      "url": "samples/test14_cheat_sheet.msgenny",
+      "name": "cheat sheet (Genny)"
+    },
+    {
+      "url": "samples/readme.mscin",
+      "name": "showing off Mscgen"
+    },
+    {
+      "url": "samples/test04_bob_alice.mscin",
+      "name": "sample: PKI"
+    },
+    {
+      "url": "samples/test05_sip_(from_wikipedia).mscin",
+      "name": "sample: SIP"
+    },
+    {
+      "url": "samples/test06_intermediate_proxy_(from_wikipedia).mscin",
+      "name": "sample: SIP proxy"
+    },
+    {
+      "url": "samples/test08_smtp.mscin",
+      "name": "sample: SMTP"
+    },
+    {
+      "url": "samples/test12_how_mscgen_js_works.mscin",
+      "name": "sample: mscgen_js"
+    },
+    {
+      "debug": true,
+      "url": "samples/smoketest.mscin",
+      "name": "test: smoke test"
+    },
+    {
+      "url": "samples/test01_all_possible_arcs.mscin",
+      "name": "test: all arcs"
+    },
+    {
+      "url": "samples/test02_some_coloring.mscin",
+      "name": "test: colors"
+    },
+    {
+      "debug": true,
+      "url": "samples/test51_with_alt.xu",
+      "name": "test: alt (xù)"
+    },
+    {
+      "debug": true,
+      "url": "samples/test52_alt_within_loop.xu",
+      "name": "test: alt within a loop (xù)"
+    },
+    {
+      "debug": true,
+      "url": "samples/test50_expansions.xu",
+      "name": "test: expansion - sketch (xù)"
+    },
+    {
+      "debug": true,
+      "url": "samples/rainbow.mscin",
+      "name": "test: rainbow"
+    },
+    {
+      "debug": true,
+      "url": "samples/test16_multiline_in_detail.mscin",
+      "name": "test: multiline zoomed"
+    },
+    {
+      "debug": true,
+      "url": "samples/test17_multiline_in_boxes.msgenny",
+      "name": "test: multilines in boxes"
+    },
+    {
+      "debug": true,
+      "url": "samples/test18_multiline_broadcasts.msgenny",
+      "name": "test: multiline broadcasts"
+    },
+    {
+      "debug": true,
+      "url": "samples/test23_all_signal_variants.msgenny",
+      "name": "signals!"
+    },
+    {
+      "url": "samples/test19_multiline_lipsum.mscin",
+      "name": "test: multiline autowrap"
+    },
+    {
+      "url": "samples/test11_autodeclaration.msgenny",
+      "name": "test: auto entities (Genny)"
+    },
+    {
+      "url": "samples/3rdparty/test20_quoteless_attributes.mscin",
+      "name": "test: quoteless attributes"
+    },
+    {
+      "url": "samples/test21_unicode.mscin",
+      "name": "test: double byte characters"
+    },
+    {
+      "url": "samples/test09_arcskip_over_there.mscin",
+      "name": "weird: skipping arcs"
+    },
+    {
+      "url": "samples/test42_strangeuse.mscin",
+      "name": "weird: scheduling"
+    },
+    {
+      "url": "samples/test43_flag.mscin",
+      "name": "weird: flag"
+    }
+  ]
+}

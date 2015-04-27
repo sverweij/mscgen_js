@@ -1,0 +1,14 @@
+# test 16: multi line in close up
+msc {
+  width="800";
+  # entities
+  a [label="two\nlinejg", textbgcolor="yellow"],b;
+
+  # arcs
+  a =>> a [label="two gjlines makes\nselfies get snowed over\n\n", textbgcolor="red", textcolor="yellow"];
+  b =>> a [label="two lines makes\nselfies get snowed over", textbgcolor="red", textcolor="yellow"];
+  
+  b note b[label="close up. Multiple lines. Incidental j, y and g to show bottom shows up fine. y j g", id="id", textbgcolor="lime"];
+  --- [label="One jine\nanother jine", id="just an ID", textbgcolor="cyan"];
+}
+
