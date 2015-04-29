@@ -1,0 +1,7 @@
+languages:
+  JavaScript: true
+exclude_paths:
+  - src/lib/*
+  - src/script/cli/*
+  - src/script/parse/*
+  - src/script/test/*
