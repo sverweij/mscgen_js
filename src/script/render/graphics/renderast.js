@@ -248,7 +248,8 @@ define(["./svgelementfactory",
         var lEntityXPos = 0;
 
         if (pEntities) {
-            entities.getDims().height = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
+            entities.setHeight (getMaxEntityHeight(pEntities) + LINE_WIDTH * 2);
+
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
                  entities.setX(pEntity, lEntityXPos);

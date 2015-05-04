@@ -56,6 +56,10 @@ define([], function() {
     function getDims(){
         return gEntityDims;
     }
+    
+    function setHeight(pHeight){
+        gEntityDims.height = pHeight;
+    }
 
     return {
         // render: render,
@@ -65,6 +69,7 @@ define([], function() {
         setX: setX,
         getOAndD: getOAndD,
         
+        setHeight: setHeight,
         getDims: getDims,
     };
 });
