@@ -22,6 +22,8 @@ define([], function() {
         width: DEFAULT_ENTITY_WIDTH
     };
     
+    var gEntity2X = {};
+    
     function init(pOptions){
         gEntityDims.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
         gEntityDims.height = DEFAULT_ENTITY_HEIGHT;
@@ -31,21 +33,25 @@ define([], function() {
             gEntityDims.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
             gEntityDims.width = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
         }
+        gEntity2X = {};
     }
     
+    function getOAndD (pFrom, pTo){
+        return {
+            from: getX(pFrom),
+            to: getX(pTo)
+        };
+    }
     /**
      * returns the x position of the entity
      */
-    // function getX(pEntity){
-    //     return gEntity2X[pEntity.name];
-    // }
-    
-    /**
-     * returns the color(s) of the entity
-     */
-    // function getEntityColor(pEntity){
-    //     gEntity2ArcColor[pEntity.name]
-    // }
+    function getX(pName){
+        return gEntity2X[pName];
+    }
+        
+    function setX(pEntity, pX){
+        gEntity2X[pEntity.name] = pX + (gEntityDims.width / 2);
+    }
     
     function getDims(){
         return gEntityDims;
@@ -68,9 +74,12 @@ define([], function() {
 
     return {
         // render: render,
-        // getX: getX,
-        // getEntityColor: getEntityColor,
         init: init,
+        
+        getX: getX,
+        setX: setX,
+        getOAndD: getOAndD,
+        
         getDims: getDims,
         LLextractEntityArcColors: extractEntityArcColors
     };

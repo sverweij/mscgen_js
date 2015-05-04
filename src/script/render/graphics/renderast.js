@@ -39,9 +39,6 @@ define(["./svgelementfactory",
     var DEFAULT_ARCROW_HEIGHT = 38; // chart only
     var DEFAULT_ARC_GRADIENT = 0; // chart only
 
-    var gEntity2X = {};
-    var gEntity2ArcColor = {};
-
     /* sensible default - gets overwritten in bootstrap */
 
     var gChart = {
@@ -61,13 +58,6 @@ define(["./svgelementfactory",
         }
     };
     var gInlineExpressionMemory = [];
-
-    function getOAndD (pFrom, pTo){
-        return {
-            from: gEntity2X[pFrom],
-            to: gEntity2X[pTo]
-        };
-    }
 
     function _renderAST(pAST, pSource, pParentElementId, pWindow) {
         var lAST = flatten.flatten(pAST);
@@ -246,9 +236,6 @@ define(["./svgelementfactory",
     function _renderEntity(pEntity, pEntityXPos) {
         gChart.layer.defs.appendChild(renderEntity(pEntity, entities.getDims()));
         gChart.layer.sequence.appendChild(fact.createUse(pEntityXPos, 0, id.get(pEntity.name)));
-
-        gEntity2X[pEntity.name] = pEntityXPos + (entities.getDims().width / 2);
-        gEntity2ArcColor[pEntity.name] = entities.LLextractEntityArcColors(pEntity);
     }
 
     /**
@@ -260,14 +247,12 @@ define(["./svgelementfactory",
     function renderEntities(pEntities) {
         var lEntityXPos = 0;
 
-        gEntity2X = {};
-        gEntity2ArcColor = {};
-
         if (pEntities) {
             entities.getDims().height = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
-                lEntityXPos += entities.getDims().interEntitySpacing;
+                 entities.setX(pEntity, lEntityXPos);
+                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
         }
         gChart.arcEndX = lEntityXPos - entities.getDims().interEntitySpacing + entities.getDims().width;
@@ -297,7 +282,7 @@ define(["./svgelementfactory",
                     });
                     break;
                 case("box"):
-                    lElement = createBox(lCurrentId, getOAndD(pArc.from, pArc.to), pArc);
+                    lElement = createBox(lCurrentId, entities.getOAndD(pArc.from, pArc.to), pArc);
                     lRowMemory.push({
                         id : lCurrentId,
                         layer : gChart.layer.notes
@@ -323,10 +308,10 @@ define(["./svgelementfactory",
                         var xFrom = 0;
 
                         if (lTo === "*") {// it's a broadcast arc
-                            xFrom = gEntity2X[lFrom];
+                            xFrom = entities.getX(lFrom);
                             pEntities.forEach(function(pEntity, pEntityNumber){
                                 if (pEntity.name !== lFrom) {
-                                    xTo = gEntity2X[pEntity.name];
+                                    xTo = entities.getX(pEntity.name);
                                     pArc.label = "";
                                     gChart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));
                                     lRowMemory.push({
@@ -343,7 +328,7 @@ define(["./svgelementfactory",
                                 layer : gChart.layer.sequence
                             });
                         } else {// it's a regular arc
-                            lElement = createArc(lCurrentId, pArc, gEntity2X[lFrom], gEntity2X[lTo]);
+                            lElement = createArc(lCurrentId, pArc, entities.getX(lFrom), entities.getX(lTo));
                             lRowMemory.push({
                                 id : lCurrentId,
                                 layer : gChart.layer.sequence
@@ -402,8 +387,8 @@ define(["./svgelementfactory",
      */
     function renderInlineExpressionLabel(pId, pArc) {
         var lOnD = {
-            from: gEntity2X[pArc.from],
-            to: gEntity2X[pArc.to]
+            from: entities.getX(pArc.from),
+            to: entities.getX(pArc.to)
         };
 
         var FOLD_SIZE = 7;
@@ -443,7 +428,7 @@ define(["./svgelementfactory",
         var lHeight = lToY - lFromY;
         pArcMem.arc.label = "";
 
-        return createBox(pArcMem.id, getOAndD(pArcMem.arc.from, pArcMem.arc.to), pArcMem.arc, lHeight);
+        return createBox(pArcMem.id, entities.getOAndD(pArcMem.arc.from, pArcMem.arc.to), pArcMem.arc, lHeight);
     }
 
     function renderLifeLines(pEntities, pClass, pHeight, pId) {
@@ -457,9 +442,9 @@ define(["./svgelementfactory",
 
         pEntities.forEach(function(pEntity) {
             var lLine = fact.createLine({
-                                    xFrom: gEntity2X[pEntity.name],
+                                    xFrom: entities.getX(pEntity.name),
                                     yFrom: 0 - (pHeight / 2),
-                                    xTo: gEntity2X[pEntity.name],
+                                    xTo: entities.getX(pEntity.name),
                                     yTo: (pHeight / 2)
                                 },
                                 pClass);
@@ -504,7 +489,7 @@ define(["./svgelementfactory",
         var lElement;
 
         if (pArc.from && pArc.to) {
-            if (gEntity2X[pArc.from] > gEntity2X[pArc.to]) {
+            if (entities.getX(pArc.from) > entities.getX(pArc.to)) {
                 utl.swapfromto(pArc);
             }
         }
@@ -639,8 +624,8 @@ define(["./svgelementfactory",
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
-            lArcStart = gEntity2X[pArc.from];
-            lArcEnd = Math.abs(gEntity2X[pArc.to] - gEntity2X[pArc.from]);
+            lArcStart = entities.getX(pArc.from);
+            lArcEnd = Math.abs(entities.getX(pArc.to) - entities.getX(pArc.from));
         }
         lGroup.appendChild(createTextLabel(pId + "_lbl", pArc, lArcStart, 0, lArcEnd));
         return lGroup;
@@ -661,8 +646,8 @@ define(["./svgelementfactory",
         if (pArc.from && pArc.to) {
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH;
 
-            lStartX = (gEntity2X[pArc.from] - (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
-            lEndX = (gEntity2X[pArc.to] + (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
+            lStartX = (entities.getX(pArc.from) - (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
+            lEndX = (entities.getX(pArc.to) + (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
             lClass = "striped";
         }
         var lLine = fact.createLine({xFrom: lStartX, yFrom: 0, xTo: lEndX, yTo: 0}, lClass);
