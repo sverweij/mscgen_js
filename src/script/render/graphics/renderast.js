@@ -8,8 +8,17 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderskeleton", "../text/textutensils", "../text/flatten", "../text/dotmap", "./rowmemory", "./idmanager"],
-    function(fact, svgutl, utl, skel, txt, flatten, map, rowmemory, id) {
+define(["./svgelementfactory", 
+        "./svgutensils", 
+        "./renderutensils", 
+        "./renderskeleton", 
+        "../text/textutensils", 
+        "../text/flatten", 
+        "../text/dotmap", 
+        "./rowmemory", 
+        "./idmanager", 
+        "./entities"],
+    function(fact, svgutl, utl, skel, txt, flatten, map, rowmemory, id, entities) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -26,9 +35,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
     var PAD_VERTICAL = 3;
     var LINE_WIDTH = 2;
-    var DEFAULT_INTER_ENTITY_SPACING = 160; // chart only
-    var DEFAULT_ENTITY_WIDTH = 100; // chart only
-    var DEFAULT_ENTITY_HEIGHT = 34; // chart only
+        
     var DEFAULT_ARCROW_HEIGHT = 38; // chart only
     var DEFAULT_ARC_GRADIENT = 0; // chart only
 
@@ -38,11 +45,6 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
     /* sensible default - gets overwritten in bootstrap */
 
     var gChart = {
-        "interEntitySpacing" : DEFAULT_INTER_ENTITY_SPACING,
-        "entityDims"   : {
-            "width"        : DEFAULT_ENTITY_WIDTH,
-            "height"       : DEFAULT_ENTITY_HEIGHT,
-        },
         "arcRowHeight" : DEFAULT_ARCROW_HEIGHT,
         "arcGradient"  : DEFAULT_ARC_GRADIENT,
         "arcEndX"      : 0,
@@ -88,7 +90,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
     function renderASTMain(pAST){
         renderEntities(pAST.entities);
-        rowmemory.clear(gChart.entityDims.height, gChart.arcRowHeight);
+        rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
     }
 
@@ -126,6 +128,22 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
     }
 
+    function preProcessOptionsArcs(pChart, pOptions){
+        pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
+        pChart.arcGradient = DEFAULT_ARC_GRADIENT;
+        pChart.wordWrapArcs = false;
+        
+        if (pOptions) {
+            if (pOptions.arcgradient) {
+                pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+                pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
+            }
+            if (pOptions.wordwraparcs && pOptions.wordwraparcs === "true") {
+                pChart.wordWrapArcs = true;
+            }
+        }
+    }
+
     /**
      * preProcessOptions() -
      * - resets the global variables governing entity width and height,
@@ -141,26 +159,8 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      * @param <object> - pOptions - the option part of the AST
      */
     function preProcessOptions(pChart, pOptions) {
-        pChart.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
-        pChart.entityDims.height = DEFAULT_ENTITY_HEIGHT;
-        pChart.entityDims.width = DEFAULT_ENTITY_WIDTH;
-        pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
-        pChart.arcGradient = DEFAULT_ARC_GRADIENT;
-        pChart.wordWrapArcs = false;
-
-        if (pOptions) {
-            if (pOptions.hscale) {
-                pChart.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
-                pChart.entityDims.width = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
-            }
-            if (pOptions.arcgradient) {
-                pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-                pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
-            }
-            if (pOptions.wordwraparcs && pOptions.wordwraparcs === "true") {
-                pChart.wordWrapArcs = true;
-            }
-        }
+        entities.init(pOptions);
+        preProcessOptionsArcs(pChart, pOptions);
     }
 
     function embedSource(pChart, pSource) {
@@ -173,9 +173,9 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         var lDepthCorrection = utl.determineDepthCorrection(pAST.depth, LINE_WIDTH);
         var lRowInfo = rowmemory.getLast();
         var lCanvas = {
-            "width" : (pAST.entities.length * gChart.interEntitySpacing) + lDepthCorrection,
+            "width" : (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
-            "horizontaltransform" : (gChart.interEntitySpacing + lDepthCorrection - gChart.entityDims.width) / 2,
+            "horizontaltransform" : (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
             "verticaltransform" : PAD_VERTICAL,
             "scale" : 1
         };
@@ -212,6 +212,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         lSvgElement.setAttribute("height", pCanvas.height.toString());
     }
 
+/* ----------------------START entity shizzle-------------------------------- */
     /**
      * getMaxEntityHeight() -
      * crude method for determining the max entity height; create all entities,
@@ -220,11 +221,11 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
      * @param <object> - pEntities - the entities subtree of the AST
      * @return <int> - height - the height of the heighest entity
      */
-    function getMaxEntityHeight(pEntities, pInititalEntityHeight) {
-        var lHWM = pInititalEntityHeight;
-        var lHeight = pInititalEntityHeight;
+    function getMaxEntityHeight(pEntities) {
+        var lHWM = entities.getDims().height;
+        var lHeight = 0;
         pEntities.forEach(function(pEntity){
-            lHeight = svgutl.getBBox(renderEntity(pEntity, gChart.entityDims)).height;
+            lHeight = svgutl.getBBox(renderEntity(pEntity, entities.getDims())).height;
             if (lHeight > lHWM) {
                 lHWM = lHeight;
             }
@@ -242,27 +243,12 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         return lGroup;
     }
 
-    function extractEntityArcColors(pEntity){
-        var lRetval = {};
-
-        if (pEntity.arclinecolor) {
-            lRetval.arclinecolor = pEntity.arclinecolor;
-        }
-        if (pEntity.arctextcolor) {
-            lRetval.arctextcolor = pEntity.arctextcolor;
-        }
-        if (pEntity.arctextbgcolor) {
-            lRetval.arctextbgcolor = pEntity.arctextbgcolor;
-        }
-        return lRetval;
-    }
-
     function _renderEntity(pEntity, pEntityXPos) {
-        gChart.layer.defs.appendChild(renderEntity(pEntity, gChart.entityDims));
+        gChart.layer.defs.appendChild(renderEntity(pEntity, entities.getDims()));
         gChart.layer.sequence.appendChild(fact.createUse(pEntityXPos, 0, id.get(pEntity.name)));
 
-        gEntity2X[pEntity.name] = pEntityXPos + (gChart.entityDims.width / 2);
-        gEntity2ArcColor[pEntity.name] = extractEntityArcColors(pEntity);
+        gEntity2X[pEntity.name] = pEntityXPos + (entities.getDims().width / 2);
+        gEntity2ArcColor[pEntity.name] = entities.LLextractEntityArcColors(pEntity);
     }
 
     /**
@@ -278,14 +264,16 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         gEntity2ArcColor = {};
 
         if (pEntities) {
-            gChart.entityDims.height = getMaxEntityHeight(pEntities, gChart.entityDims.height) + LINE_WIDTH * 2;
+            entities.getDims().height = getMaxEntityHeight(pEntities) + LINE_WIDTH * 2;
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
-                lEntityXPos += gChart.interEntitySpacing;
+                lEntityXPos += entities.getDims().interEntitySpacing;
             });
         }
-        gChart.arcEndX = lEntityXPos - gChart.interEntitySpacing + gChart.entityDims.width;
+        gChart.arcEndX = lEntityXPos - entities.getDims().interEntitySpacing + entities.getDims().width;
     }
+
+/* ------------------------END entity shizzle-------------------------------- */
 
     function renderArcRow (pArcRow, pRowNumber, pEntities){
         var lArcRowOmit = false;
@@ -423,9 +411,9 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
             utl.swapfromto(lOnD);
         }
 
-        var lMaxWidth = (lOnD.to - lOnD.from) + (gChart.interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
+        var lMaxWidth = (lOnD.to - lOnD.from) + (entities.getDims().interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
 
-        var lStart = (lOnD.from - ((gChart.interEntitySpacing - 3 * LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
+        var lStart = (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
         var lGroup = fact.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
@@ -488,7 +476,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
     function createSelfRefArc(pClass, pFrom, pYTo, pDouble, pLineColor) {
         var lHeight = 2 * (gChart.arcRowHeight / 5);
-        var lWidth = gChart.interEntitySpacing / 3;
+        var lWidth = entities.getDims().interEntitySpacing / 3;
 
         var lGroup = fact.createGroup();
         if (pDouble) {
@@ -563,7 +551,7 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
 
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(lClass, pFrom, lYTo, lDoubleLine, pArc.linecolor));
-            lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (gChart.interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), gChart.interEntitySpacing, "anchor-start"));
+            lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (entities.getDims().interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), entities.getDims().interEntitySpacing, "anchor-start"));
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
             if (pArc.linecolor) {
@@ -673,8 +661,8 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         if (pArc.from && pArc.to) {
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH;
 
-            lStartX = (gEntity2X[pArc.from] - (gChart.interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
-            lEndX = (gEntity2X[pArc.to] + (gChart.interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
+            lStartX = (gEntity2X[pArc.from] - (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
+            lEndX = (gEntity2X[pArc.to] + (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
             lClass = "striped";
         }
         var lLine = fact.createLine({xFrom: lStartX, yFrom: 0, xTo: lEndX, yTo: 0}, lClass);
@@ -705,13 +693,13 @@ define(["./svgelementfactory", "./svgutensils", "./renderutensils", "./renderske
         if (pOAndD.from > pOAndD.to) {
             utl.swapfromto(pOAndD);
         }
-        var lWidth = ((pOAndD.to - pOAndD.from) + gChart.interEntitySpacing - 2 * LINE_WIDTH);
+        var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * LINE_WIDTH);
         var NOTE_FOLD_SIZE = 9;
         // px
         var RBOX_CORNER_RADIUS = 6;
         // px
 
-        var lStart = pOAndD.from - ((gChart.interEntitySpacing - 2 * LINE_WIDTH) / 2);
+        var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
