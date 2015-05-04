@@ -56,21 +56,6 @@ define([], function() {
     function getDims(){
         return gEntityDims;
     }
-    
-    function extractEntityArcColors(pEntity){
-        var lRetval = {};
-
-        if (pEntity.arclinecolor) {
-            lRetval.arclinecolor = pEntity.arclinecolor;
-        }
-        if (pEntity.arctextcolor) {
-            lRetval.arctextcolor = pEntity.arctextcolor;
-        }
-        if (pEntity.arctextbgcolor) {
-            lRetval.arctextbgcolor = pEntity.arctextbgcolor;
-        }
-        return lRetval;
-    }
 
     return {
         // render: render,
@@ -81,7 +66,6 @@ define([], function() {
         getOAndD: getOAndD,
         
         getDims: getDims,
-        LLextractEntityArcColors: extractEntityArcColors
     };
 });
 /*
