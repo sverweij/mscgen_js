@@ -17,8 +17,9 @@ define(["./svgelementfactory",
         "../text/dotmap", 
         "./rowmemory", 
         "./idmanager", 
-        "./entities"],
-    function(fact, svgutl, utl, skel, txt, flatten, map, rowmemory, id, entities) {
+        "./entities",
+        "./constants"],
+    function(fact, svgutl, utl, skel, txt, flatten, map, rowmemory, id, entities, C) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -34,7 +35,6 @@ define(["./svgelementfactory",
     "use strict";
 
     var PAD_VERTICAL = 3;
-    var LINE_WIDTH = 2;
         
     var DEFAULT_ARCROW_HEIGHT = 38; // chart only
     var DEFAULT_ARC_GRADIENT = 0; // chart only
@@ -160,7 +160,7 @@ define(["./svgelementfactory",
         }
     }
     function calculateCanvasDimensions(pAST){
-        var lDepthCorrection = utl.determineDepthCorrection(pAST.depth, LINE_WIDTH);
+        var lDepthCorrection = utl.determineDepthCorrection(pAST.depth, C.LINE_WIDTH);
         var lRowInfo = rowmemory.getLast();
         var lCanvas = {
             "width" : (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
@@ -248,7 +248,7 @@ define(["./svgelementfactory",
         var lEntityXPos = 0;
 
         if (pEntities) {
-            entities.setHeight (getMaxEntityHeight(pEntities) + LINE_WIDTH * 2);
+            entities.setHeight (getMaxEntityHeight(pEntities) + C.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
                  _renderEntity(pEntity, lEntityXPos);
@@ -323,7 +323,7 @@ define(["./svgelementfactory",
                             });
                             pArc.label = lLabel;
 
-                            lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (gChart.textHeight / 2) - LINE_WIDTH, gChart.arcEndX);
+                            lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (gChart.textHeight / 2) - C.LINE_WIDTH, gChart.arcEndX);
                             lRowMemory.push({
                                 id : lCurrentId + "_txt",
                                 layer : gChart.layer.sequence
@@ -339,7 +339,7 @@ define(["./svgelementfactory",
                     break;
             }// switch
             if (lElement) {
-                rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, svgutl.getBBox(lElement).height + 2 * LINE_WIDTH));
+                rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, svgutl.getBBox(lElement).height + 2 * C.LINE_WIDTH));
                 gChart.layer.defs.appendChild(lElement);
             }
         });// for all arcs in a row
@@ -397,18 +397,18 @@ define(["./svgelementfactory",
             utl.swapfromto(lOnD);
         }
 
-        var lMaxWidth = (lOnD.to - lOnD.from) + (entities.getDims().interEntitySpacing - 2 * LINE_WIDTH) - FOLD_SIZE - LINE_WIDTH;
+        var lMaxWidth = (lOnD.to - lOnD.from) + (entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) - FOLD_SIZE - C.LINE_WIDTH;
 
-        var lStart = (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH);
+        var lStart = (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * C.LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH);
         var lGroup = fact.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
-        var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
+        var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart + C.LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
         var lBBox = svgutl.getBBox(lTextGroup);
 
-        var lHeight = Math.max(lBBox.height + 2 * LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * LINE_WIDTH);
-        var lWidth = Math.min(lBBox.width + 2 * LINE_WIDTH, lMaxWidth);
+        var lHeight = Math.max(lBBox.height + 2 * C.LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * C.LINE_WIDTH);
+        var lWidth = Math.min(lBBox.width + 2 * C.LINE_WIDTH, lMaxWidth);
 
-        var lBox = fact.createEdgeRemark({width: lWidth - LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", FOLD_SIZE);
+        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", FOLD_SIZE);
         utl.colorBox(lBox, pArc);
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
@@ -645,10 +645,10 @@ define(["./svgelementfactory",
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
-            var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * LINE_WIDTH;
+            var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
 
-            lStartX = (entities.getX(pArc.from) - (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) - lArcDepthCorrection;
-            lEndX = (entities.getX(pArc.to) + (entities.getDims().interEntitySpacing + 2 * LINE_WIDTH) / 2) + lArcDepthCorrection;
+            lStartX = (entities.getX(pArc.from) - (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) - lArcDepthCorrection;
+            lEndX = (entities.getX(pArc.to) + (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) + lArcDepthCorrection;
             lClass = "striped";
         }
         var lLine = fact.createLine({xFrom: lStartX, yFrom: 0, xTo: lEndX, yTo: 0}, lClass);
@@ -679,19 +679,19 @@ define(["./svgelementfactory",
         if (pOAndD.from > pOAndD.to) {
             utl.swapfromto(pOAndD);
         }
-        var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * LINE_WIDTH);
+        var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH);
         var NOTE_FOLD_SIZE = 9;
         // px
         var RBOX_CORNER_RADIUS = 6;
         // px
 
-        var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * LINE_WIDTH) / 2);
+        var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
         var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
         var lTextBBox = svgutl.getBBox(lTextGroup);
 
-        var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * LINE_WIDTH, gChart.arcRowHeight - 2 * LINE_WIDTH);
+        var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);
         var lBBox = {width: lWidth, height: lHeight, x: lStart, y: (0 - lHeight / 2)};
 
         switch (pArc.kind) {
@@ -709,7 +709,7 @@ define(["./svgelementfactory",
                 lBox = fact.createNote(lBBox, "box", NOTE_FOLD_SIZE);
                 break;
             default :
-                var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * LINE_WIDTH;
+                var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * C.LINE_WIDTH;
                 lBox = fact.createRect({width: lWidth + lArcDepthCorrection * 2, height: lHeight, x: lStart - lArcDepthCorrection, y: 0}, "box");
         }
         utl.colorBox(lBox, pArc);
