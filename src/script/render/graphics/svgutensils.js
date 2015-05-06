@@ -57,9 +57,6 @@ define(["./constants"], function(C) {
         }
     }
 
-    // TODO: this is a query type of thing
-    //       responsibility-wise a strange one in this module
-    //       (which is responsible for creating svg elements)
     function _getBBox(pElement) {
         /* istanbul ignore if */
         if ( typeof (pElement.getBBox) === 'function') {
@@ -116,7 +113,8 @@ define(["./constants"], function(C) {
         /**
          * Returns the height in pixels necessary for rendering characters
          */
-        calculateTextHeight: _calculateTextHeight    };
+        calculateTextHeight: _calculateTextHeight    
+    };
 });
 /*
  This file is part of mscgen_js.

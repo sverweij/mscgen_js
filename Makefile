@@ -60,6 +60,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/text/textutensils.js \
 	src/script/render/graphics/renderskeleton.js \
 	src/script/render/graphics/renderast.js \
+	src/script/render/graphics/entities.js \
 	src/script/ui-control/interpreter-param-actions.js \
 	src/script/ui-control/interpreter-uistate.js \
 	src/script/ui-control/interpreter-input-actions.js \

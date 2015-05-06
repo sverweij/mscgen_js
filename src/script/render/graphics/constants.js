@@ -12,6 +12,7 @@ define([], function() {
     return {
         SVGNS: "http://www.w3.org/2000/svg",
         XLINKNS: "http://www.w3.org/1999/xlink",
+        LINE_WIDTH: 2
     };
 });
 /*

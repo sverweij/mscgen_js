@@ -163,7 +163,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
 rect{\
   fill:none;\
   stroke:black;\
-  stroke-width: 2;\
+  stroke-width:"+ C.LINE_WIDTH + ";\
 }\
 .bglayer{\
   fill:white;\
@@ -178,7 +178,7 @@ rect.textbg{\
 }\
 line{\
   stroke:black;\
-  stroke-width:2;\
+  stroke-width:"+ C.LINE_WIDTH + ";\
 }\
 .arcrowomit{\
   stroke-dasharray:2,2;\
