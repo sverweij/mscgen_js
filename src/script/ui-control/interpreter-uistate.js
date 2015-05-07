@@ -47,7 +47,8 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
-        "../../lib/codemirror/mode/mscgen/mscgen"
+        "../../lib/codemirror/mode/mscgen/mscgen",
+        "../../lib/codemirror/mode/javascript/javascript"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
@@ -225,11 +226,7 @@ function setCursorInSource(pLine, pColumn){
 
 function setLanguage (pLanguage){
     gLanguage = pLanguage;
-    if ("mscgen" === pLanguage){
-        gCodeMirror.setOption("mode", "xu");
-    } else {
-        gCodeMirror.setOption("mode", pLanguage);
-    }
+    gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
     showLanguageState(getSource(), pLanguage, gAutoRender);
 }
 
