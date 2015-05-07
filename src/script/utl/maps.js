@@ -42,6 +42,27 @@ define([], function() {
 
             return "mscgen";
         },
+        /**
+         * Given a language in pLanguage, returns the codemirror mode to use
+         * 
+         * When not known returns pLanguage
+         *
+         * @param {string} pLangauge
+         * @return  {string} - language. Possible values: "xu", "application/json"
+         *     or the input string
+         */
+        language2Mode: function(pLanguage){
+            var lLang2Mode = {
+                "mscgen" : "xu",
+                "json" : "application/json"
+            };
+            
+            if (lLang2Mode[pLanguage]){
+                return lLang2Mode[pLanguage];
+            }
+            
+            return pLanguage;
+        },
         correctLanguage: function (pExtendedFeatures, pLanguage){
             if (true === pExtendedFeatures && pLanguage === "mscgen"){
                 return "xu";

@@ -226,13 +226,7 @@ function setCursorInSource(pLine, pColumn){
 
 function setLanguage (pLanguage){
     gLanguage = pLanguage;
-    if ("mscgen" === pLanguage){
-        gCodeMirror.setOption("mode", "xu");
-    } else if ("json" === pLanguage){
-        gCodeMirror.setOption("mode", "application/json");
-    } else {
-        gCodeMirror.setOption("mode", pLanguage);
-    }
+    gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
     showLanguageState(getSource(), pLanguage, gAutoRender);
 }
 

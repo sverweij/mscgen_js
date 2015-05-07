@@ -46,5 +46,28 @@ describe('maps', function() {
             assert.equal(txt.correctLanguage(null, 'xu'), "xu");
         });
     });
+    
+    describe('#language2Mode() - ', function() {
+
+        it('returns xu when presented with mscgen', function() {
+            assert.equal(txt.language2Mode("mscgen"), "xu");
+        });
+
+        it('returns application/json in case of json', function() {
+            assert.equal(txt.language2Mode("json"), "application/json");
+        });
+
+        it('returns msgenny in case of msgenny', function() {
+            assert.equal(txt.language2Mode("msgenny"), "msgenny");
+        });
+        
+        it('returns xu in case of xu', function() {
+            assert.equal(txt.language2Mode("xu"), "xu");
+        });
+        
+        it('returns whatever in case of whatever', function() {
+            assert.equal(txt.language2Mode("whatever"), "whatever");
+        });
+    });
 
 });
