@@ -70,12 +70,10 @@ msc {
 - _If it's not in the input, it's not in the output_ -
   The parser does not generate "default values" for objects whose
   pendant was not available in the input.
-- The order of attributes within objects is not guaranteed.  - The
-order of objects outside of arrays is not guaranteed.  - The order
-of objects within an array represents the order in which they are
-  present in the source program.
+- The order of attributes within arrays is guaranteed to be the same
+  as in the source program.
+- For all other objects the order is not guaranteed.
 - TODO: describe escape mechanism
-
 
 ### options
 `options` is an object with the options that are possible in
