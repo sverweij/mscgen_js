@@ -4,6 +4,8 @@
 - *master* branch only contains source/ dev version
 - *gh-pages* branch contains production build
 
+Technically, *gh-pages* is an _orphan_ branch
+
 ## Building
 ### Development build
 Run this:
@@ -14,20 +16,27 @@ It creates all generated sources, but keeps them in the `src` tree.
 ### Production build
 Run, this:
 - `make prerequisites` (or `npm install`) - installs prerequisite node packages
--  ```make install```. As explained above the idea is only to run and commit
-this target on the *gh-pages* branch. If it was run on e.g. *master*, just run a
-```make clean dev-build``` before any ```git add``` or ```git commit```.
+-  ```make install```
+
+The result will be in the `build` folder. On *master* and derivative branches _git_ will ignore this folder. 
 
 ### Deployment to github-pages
-This is totally optional, b.t.w.
-- ```make deploy-gh-pages``` - this *make target*:
-    - switches to the *gh-pages* branch,
-    - merges master into *gh-pages*
-    - executes a production build (with the *install* target)
-    - adds and commits changes,
-    - pushes the changes to *origin*
-    - switches (back) to the *master* branch
+#### Preparation (once only)
+After creating a production build, initialize a git repo in the build folder with your repo as remote and gh-pages as an _orphan_ branch. This ensures only the files really needed for production get on github-pages.
 
+```shell
+git init
+git remote add origin git@github.com:userororganisation/reponame.git
+git checkout --orphan gh-pages
+```
+
+#### Deployment itself
+Now a straightforward add/ commit/ push in the build folder: 
+```shell
+git add .
+git commit -m "build `cat ..\VERSION`"
+git push
+```
 
 ## Cleaning
 - ```make mostlyclean``` removes built production files
@@ -49,26 +58,26 @@ This is totally optional, b.t.w.
 - `npm run nsp`
     - checks dependencies for known vulnerabilities (with _node security project_)
 
-- ```make check```
+- ```make check``` combination target:
     -  checks for occurence of ```console``` statements
-    -  runs jshint on non-library, non-generated source code
-    -  runs a ```make test```
+    -  runs jshint on non-library, non-generated source code (= `npm run lint`)
+    -  runs a ```make test``` (=`npm run test`)
 
 ## Prerequisites
 - make
 - npm
 - bash (cp, mkdir, rm, sed, grep, expr)
-- all javascript necessary to run mscgen_js and/ or the online interpreter in the browser is included in the distribution
+- all javascript necessary to run mscgen_js and/ or the online interpreter in the browser is already included in the `src` tree
 - to run in nodejs amdefine is also required - an ```npm install``` will get you that
 - for the rest: run an ```npm install```
 - nodejs
     - pegjs (mandatory)
     - r.js (Mandatory for creating an minified version of the javascript (which in itself is optional))
-    - node-sass (mandatory for smashing togetter (s)css sources.
+    - node-sass (mandatory for smashing together (s)css sources)
     - jshint (optional: linting)
     - mocha (optional: unit testing)
-    - istanbul (optional: unit testing coverage)
+    - istanbul (optional: test coverage)
     - plato (optional: static code analysis)
     - nsp (optional: node security project - checks node module dependencies for security flaws)
 - git (for gh-pages deployment target only)
-- imagemagik and optipng (generating favicons)
+- imagemagik and optipng (re-generating favicons that are already in the `src` tree)
