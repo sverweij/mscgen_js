@@ -27,11 +27,11 @@ All parsers generate a JSON syntax tree that consist of three
 parts that make up mscgen programs: options, entities and arcs.
 We will discuss each in detail below.
 
-> Hint: When you add the parameter debug with value true to the url
-> of the demo (e.g. like so: https://sverweij.github.io/mscgen_js?debug=true)
-> the interface gets an extra language option called "AST".
-> When you click it, the editor will show the abstract syntax tree the 
-> parser generated.
+> :information_source: When you add `debug=true` to the url of the 
+> online interpreter (https://sverweij.github.io/mscgen_js?debug=true)
+> it gets an extra language option called "AST". When you click it,
+> the editor will show the abstract syntax tree the parser
+> generated.
 >
 > If you are brave and/ or have too much time on your
 > hands you can edit the syntax tree directly from there.
