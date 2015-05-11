@@ -24,17 +24,21 @@ commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
 
 ## The abstract syntax tree
 All parsers generate a JSON syntax tree that consist of three
-parts that make up mscgen programs: options, entities and arcs.
+parts that make up mscgen programs: 
+- options
+- entities
+- arcs.
+
 We will discuss each in detail below.
 
-> Hint: When you add the parameter debug with value true to the url
-> of the demo (e.g. like so: https://sverweij.github.io/mscgen_js?debug=true)
-> the interface gets an extra language option called "AST".
-> When you click it, the editor will show the abstract syntax tree the 
-> parser generated.
+> :information_source: When you add `debug=true` to the url of the 
+> online interpreter (https://sverweij.github.io/mscgen_js?debug=true)
+> it gets an extra language option called "AST". When you click it,
+> the editor will show the abstract syntax tree the parser
+> generated.
 >
 > If you are brave and/ or have too much time on your
-> hands you can edit the syntax tree directly from there.
+> hands you can even edit the syntax tree directly from there.
 
 In the explanation we will use this mscgen program as a reference.
 ```mscgen
@@ -57,7 +61,7 @@ msc {
 ```
 
 ### general conventions
-- _Be liberal in what you receive and strict in what you send_ -
+- _Be liberal in what you receive and strict in what you send_    
   although mscgen (, msgenny, xù) often support multiple spellings
   of attributes and options and are case insensitive the parser
   outputs only one variant of them in - lowercase (e.g. TEXTcolor,
@@ -67,28 +71,30 @@ msc {
   to the
     attribute "textcolor")
   - "true" and "false" as values for booleans
-- _If it's not in the input, it's not in the output_ -
+- _If it's not in the input, it's not in the output_    
   The parser does not generate "default values" for objects whose
   pendant was not available in the input.
-- The order of attributes within arrays is guaranteed to be the same
-  as in the source program.
-- For all other objects the order is not guaranteed.
+- _No order guarantees, except for arrays_
+    - The order of attributes within arrays is guaranteed to be the same
+      as in the source program.
+    - For all other objects the order is not guaranteed.
 - TODO: describe escape mechanism
 
 ### options
 `options` is an object with the options that are possible in
 mscgen as attributes.
 
-- If the input program does not have an option, the parser leaves
-  the associated attribute out of the syntax tree.
-- If the input program does not have any options at all, the parser
-  leaves the options object out of the syntax tree altogether.
+- If the input program does not have an option, the associated 
+  attribute won't be in the syntax tree either.
+- If the input program does not have any options at all, the
+  syntax tree won't have an options object.
 - Note that in mscgen, msgenny and xù the boolean attribute
 `wordwraparcs` can have
-  the values true, 1, on, "true" and "on" for true and false, 0,
-  off, "false" and "off" for off. The parser flattens this to "true"
-  and "false" respectively so consumers working with the syntax
-  tree don't have to worry about
+  - the values _true_, _1_, _on_, _"true"_ and _"on"_ for *true* and 
+  - _false_, _0_, _off_, _"false"_ and _"off"_ for *false*.    
+  The parser flattens this to "true" and "false" respectively so
+  consumers working with the syntax tree don't have to worry 
+  about it.
 
 ```json
   "options": {
@@ -117,7 +123,7 @@ The list of possible attributes is equal to what is allowed for mscgen:
   it is meaningless. The reason for its pressence is simply that the
   mscgen and xù parsers use the same list of attributes for entities
   as for arcs.  Consumers are advised to ignore the arcskip attribute
-  for entities (the demo code certainly does :-)).
+  for entities (our code certainly does :-)).
 
 ```json
 "entities": [
@@ -176,7 +182,7 @@ todo: add recursive structure for xù.
 
 In the sample mscgen `b` communicates to `a` that it is working on
 something, while _at the same time_ instructing `c` to do something.
-The part of the syntax tree representing that looks like this:
+Syntax tree snippet:
 
 ```json
     ...
@@ -198,9 +204,8 @@ The part of the syntax tree representing that looks like this:
 ```
 
 ### recursive arcs in xù and msgenny
-xù and msgenny both support "inline expressions". An important attribute
-of inline expressions is that they can contain other arcs and inline
-expressions.
+xù and msgenny both support "inline expressions", which
+can contain other arcs and inline expressions.
 
 In the abstract syntax tree an inline expression is an "arc", just
 as they are in xù and msgenny.
@@ -273,7 +278,7 @@ In the AST they show up somewhere at the top, like this:
 ```
 
 ### Meta information
-The three languages mscgen_js, support different feature sets. To
+The three languages mscgen_js supports, have different feature sets. To
 indicate if the AST uses extended feature sets, it contains a `meta` section.
 ```json
 "meta": {
@@ -282,9 +287,9 @@ indicate if the AST uses extended feature sets, it contains a `meta` section.
   "extendedFeatures": false
 }
 ```
-- `extendedOptions` - indicates if the AST contains a non standard option.
+- `extendedOptions` - `true` when the AST contains a non standard option.
   (currently only `watermark`).
-- `extendedArcTypes` - indicates if the AST contains at least one
+- `extendedArcTypes` - `true` when the AST contains at least one
   _inline expression_.
-- `extendedFeatures` - indicates the AST contains extended options,
-  extended features or both.
+- `extendedFeatures` - `true` when the AST contains _extended options_,
+  _extended features_ or both.
