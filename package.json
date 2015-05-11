@@ -4,7 +4,7 @@
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "dependencies": {
     "amdefine": "^0.1.0",
-    "jsdom": "^5.3.0",
+    "jsdom": "^5.4.1",
     "requirejs": "^2.1.17"
   },
   "devDependencies": {
@@ -14,7 +14,7 @@
     "codeclimate-test-reporter": "^0.0.4",
     "jshint": "^2.7.0",
     "csslint": "^0.10.0",
-    "istanbul": "^0.3.13",
+    "istanbul": "^0.3.14",
     "plato": "^1.4.0",
     "nsp": "^1.0.1"
   },
