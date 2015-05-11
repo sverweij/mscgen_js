@@ -85,9 +85,7 @@ function(map) {
          * @param {int} pMaxLength
          * @return {string}
          */
-        wrap : function(pText, pMaxLength) {
-            return _wrap(pText, pMaxLength);
-        },
+        wrap : _wrap,
 
         /**
          * Determine the number characters of that fits within pWidth amount
