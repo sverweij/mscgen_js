@@ -303,7 +303,15 @@ doc:
 test: dev-build
 	$(NPM) run test
 
+nsp:
+	$(NPM) run nsp
+
+outdated:
+	$(NPM) outdated
+	
 check: noconsolestatements lint test
+
+fullcheck: check outdated nsp
 
 somewhatclean:
 	rm -rf $(REMOVABLEPRODDIRS) \
