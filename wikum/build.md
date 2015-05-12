@@ -63,6 +63,11 @@ git push
     -  runs jshint on non-library, non-generated source code (= `npm run lint`)
     -  runs a ```make test``` (=`npm run test`)
 
+- `make fullcheck` combination target:
+    - runs a `make check` and
+    - npm outdated (to check for outdated node_modules)
+    - `npm run nsp` (see above)
+
 ## Prerequisites
 - make
 - npm
