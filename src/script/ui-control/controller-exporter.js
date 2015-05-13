@@ -9,11 +9,12 @@ if ( typeof define !== 'function') {
 
 define(["../render/text/ast2dot",
         "../render/text/ast2mscgen",
+        "../utl/paramslikker",
         "../../lib/canvg/canvg",
         "../../lib/canvg/StackBlur",
         "../../lib/canvg/rgbcolor"
         ],
-        function(ast2dot, ast2mscgen) {
+        function(ast2dot, ast2mscgen, par) {
     "use strict";
 
     function toHTMLSnippet (pSource, pLanguage){
@@ -45,13 +46,23 @@ define(["../render/text/ast2dot",
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
         toDebugURI: function(pLocation, pSource, pLanguage){
+            var lParams = par.getParams(pLocation.search);
+            var lAdditionalParameters = "";
+            
+            if (lParams.donottrack){
+                lAdditionalParameters += '&donottrack=' + lParams.donottrack;
+            }
+            if (lParams.debug){
+                lAdditionalParameters += '&debug=' + lParams.debug;
+            }
             return 'data:text/plain;charset=utf-8,'+
                 encodeURIComponent(
                     pLocation.protocol + '//' +
                     pLocation.host +
                     pLocation.pathname +
-                    '?donottrack=true&debug=true&lang=' + pLanguage +
-                    '&msc=' +  escape(pSource)
+                    '?lang=' + pLanguage +
+                    lAdditionalParameters +
+                    '&msc=' + encodeURIComponent(pSource)
                 );
         }
     };
