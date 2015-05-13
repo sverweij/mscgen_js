@@ -20,6 +20,20 @@ define(["../render/text/ast2dot",
     function toHTMLSnippet (pSource, pLanguage){
         return "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + pLanguage + " mscgen_js' data-language='" + pLanguage +"'>\n" + pSource + "\n    </pre>\n  </body>\n</html>";
     }
+    
+    function getAdditionalParameters(pLocation){
+        var lParams = par.getParams(pLocation.search);
+        var lAdditionalParameters = "";
+        
+        if (lParams.donottrack){
+            lAdditionalParameters += '&donottrack=' + lParams.donottrack;
+        }
+        if (lParams.debug){
+            lAdditionalParameters += '&debug=' + lParams.debug;
+        }
+        
+        return lAdditionalParameters;
+    }
 
     return {
         toVectorURI: function (pSVGSource) {
@@ -46,22 +60,13 @@ define(["../render/text/ast2dot",
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
         toDebugURI: function(pLocation, pSource, pLanguage){
-            var lParams = par.getParams(pLocation.search);
-            var lAdditionalParameters = "";
-            
-            if (lParams.donottrack){
-                lAdditionalParameters += '&donottrack=' + lParams.donottrack;
-            }
-            if (lParams.debug){
-                lAdditionalParameters += '&debug=' + lParams.debug;
-            }
             return 'data:text/plain;charset=utf-8,'+
                 encodeURIComponent(
                     pLocation.protocol + '//' +
                     pLocation.host +
                     pLocation.pathname +
                     '?lang=' + pLanguage +
-                    lAdditionalParameters +
+                    getAdditionalParameters(pLocation) +
                     '&msc=' + encodeURIComponent(pSource)
                 );
         }
