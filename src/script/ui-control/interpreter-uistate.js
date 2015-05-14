@@ -137,14 +137,12 @@ function getAST(pLanguage, pSource) {
 }
 
 function switchLanguage (pLanguage) {
-    var lPreviousLanguage = getLanguage();
     var lAST = {};
-    var lTargetSource = "";
+    
     try {
-        lAST = getAST(lPreviousLanguage);
+        lAST = getAST();
         if (lAST !== {}){
-            lTargetSource = renderSource(lAST, pLanguage);
-            setSource(lTargetSource);
+            setSource(renderSource(lAST, pLanguage));
         }
     } catch(e) {
         // do nothing
@@ -163,34 +161,25 @@ function clear(){
     }
 }
 
-function colorizeOnClick() {
+function manipulateSource(pFunction){
     var lAST = {};
 
     try {
         lAST = getAST();
-
         if (lAST !== {}){
-            lAST = colorize.colorize(lAST);
+            lAST = pFunction(lAST);
             setSource(renderSource(lAST, getLanguage()));
         }
     } catch(e) {
         // do nothing
     }
 }
+function colorizeOnClick() {
+    manipulateSource(colorize.colorize);
+}
 
 function unColorizeOnClick(){
-    var lAST = {};
-
-    try {
-        lAST = getAST();
-
-        if (lAST !== {}){
-            lAST = colorize.uncolor(lAST);
-            setSource(renderSource(lAST, getLanguage()));
-        }
-    } catch(e) {
-        // do nothing
-    }
+    manipulateSource(colorize.uncolor);
 }
 
 function errorOnClick(){
