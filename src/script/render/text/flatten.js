@@ -62,24 +62,18 @@ function(transform, map, utl) {
      * assumes arc direction to be either LTR, both, or none
      * so arc.from exists.
      */
-    function overrideColors(pArc, pEntities) {
-        function getEntityIndex(pEntities, pNameKey) {
-            // TODO: could benefit from cache or precalculation
-            for (var i = 0; i < pEntities.length; i++) {
-                if (pEntities[i].name === pNameKey) {
-                    return i;
-                }
-            }
-            return -1;
-        }
 
+    function overrideColors(pArc, pEntities) {
         if (pArc && pArc.from) {
-            var lEntityIndex = getEntityIndex(pEntities, pArc.from);
-            if (lEntityIndex > -1) {
-                overrideColorsFromThing(pArc, pEntities[lEntityIndex]);
+            var lMatchingEntities = pEntities.filter(function(pEntity){
+                return pEntity.name === pArc.from;
+            });
+            if (lMatchingEntities.length > 0) {
+                overrideColorsFromThing(pArc, lMatchingEntities[0]);
             }
         }
     }
+
 
     function calcNumberOfRows(pArcRow) {
         var lRetval = pArcRow.arcs.length;
