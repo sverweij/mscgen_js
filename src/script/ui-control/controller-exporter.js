@@ -1,38 +1,42 @@
 /* jshint nonstandard:true */
 /* jshint browser: true */ // for btoa. Alternative: https://github.com/node-browser-compat/btoa/blob/master/index.js
 /* jshint node: true */
-/* global canvg */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
 define(["../render/text/ast2dot",
         "../render/text/ast2mscgen",
-        "../../lib/canvg/canvg",
-        "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor"
+        "../utl/paramslikker",
         ],
-        function(ast2dot, ast2mscgen) {
+        function(ast2dot, ast2mscgen, par) {
     "use strict";
 
     function toHTMLSnippet (pSource, pLanguage){
         return "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + pLanguage + " mscgen_js' data-language='" + pLanguage +"'>\n" + pSource + "\n    </pre>\n  </body>\n</html>";
     }
+    
+    function getAdditionalParameters(pLocation){
+        var lParams = par.getParams(pLocation.search);
+        var lAdditionalParameters = "";
+        
+        if (lParams.donottrack){
+            lAdditionalParameters += '&donottrack=' + lParams.donottrack;
+        }
+        if (lParams.debug){
+            lAdditionalParameters += '&debug=' + lParams.debug;
+        }
+        
+        return lAdditionalParameters;
+    }
 
     return {
-        toVectorURI: function (pSVGSource) {
-            var lb64 = btoa(unescape(encodeURIComponent(pSVGSource)));
+        toVectorURI: function (pSVGSource, pWindow) {
+            pWindow = pWindow ? pWindow : window;
+            var lb64 = pWindow.btoa(unescape(encodeURIComponent(pSVGSource)));
             return "data:image/svg+xml;base64,"+lb64;
-        },
-        toRasterURI: function (pDocument, pSVGSource, pType){
-            var lCanvas = pDocument.createElement('canvas');
-            lCanvas.setAttribute('style', 'display:none');
-            pDocument.body.appendChild(lCanvas);
-            canvg(lCanvas, pSVGSource);
-            var lRetval = lCanvas.toDataURL(pType, 0.8);
-            pDocument.body.removeChild(lCanvas);
-            return lRetval;
         },
         toHTMLSnippet: toHTMLSnippet,
         toHTMLSnippetURI: function(pSource, pLanguage){
@@ -50,8 +54,9 @@ define(["../render/text/ast2dot",
                     pLocation.protocol + '//' +
                     pLocation.host +
                     pLocation.pathname +
-                    '?donottrack=true&debug=true&lang=' + pLanguage +
-                    '&msc=' +  escape(pSource)
+                    '?lang=' + pLanguage +
+                    getAdditionalParameters(pLocation) +
+                    '&msc=' + encodeURIComponent(pSource)
                 );
         }
     };

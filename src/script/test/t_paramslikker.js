@@ -48,8 +48,8 @@ describe('textutensils', function() {
         });
         it('should return an object with an msc program', function() {
             utl.assertequalJSON({
-                msc : 'msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'
-            }, par.getParams('?msc=' + escape('msc{a,b,c; a->b; c->b; b >> * [label="answer"]}')));
+                msc : 'msc{a,b,c; a->b; c->b; b >> * [label="💩 - ånswer"]}'
+            }, par.getParams('?msc=' + encodeURIComponent('msc{a,b,c; a->b; c->b; b >> * [label="💩 - ånswer"]}')));
         });
 
     });

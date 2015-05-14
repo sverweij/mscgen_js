@@ -3,6 +3,7 @@
 define(["./interpreter-uistate",
         "./controller-animator",
         "./controller-exporter",
+        "./controller-raster-exporter",
         "../utl/domquery",
         "../utl/gaga"
         ],
@@ -10,6 +11,7 @@ define(["./interpreter-uistate",
             uistate,
             animctrl,
             xport,
+            rxport,
             dq,
             gaga) {
     "use strict";
@@ -23,11 +25,11 @@ define(["./interpreter-uistate",
             gaga.g('send', 'event', 'show_svg_base64', 'button');
         },
         pngOnClick: function() {
-            window.open(xport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/png"), "_blank");
+            window.open(rxport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/png"), "_blank");
             gaga.g('send', 'event', 'show_png_base64', 'button');
         },
         jpegOnClick: function() {
-            window.open(xport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/jpeg"), "_blank");
+            window.open(rxport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/jpeg"), "_blank");
             gaga.g('send', 'event', 'show_jpeg_base64', 'button');
         },
         htmlOnClick: function() {

@@ -12,7 +12,6 @@
  * }
  */
 /* jshint undef:true, unused:strict, browser:true, node:true, indent:4 */
-/* global unescape: false */
 
 /* istanbul ignore else */
 if ( typeof define !== 'function') {
@@ -31,7 +30,7 @@ define([], function() {
                 pSearchString.slice(1).split("&").forEach(function(pKeyVal){
                     lKeyValAry = pKeyVal.split("=");
                     if (2 === lKeyValAry.length) {
-                        lRetval[lKeyValAry[0]] = unescape(lKeyValAry[1]);
+                        lRetval[lKeyValAry[0]] = decodeURIComponent(lKeyValAry[1]);
                     }
                 });
             }
