@@ -1,8 +1,8 @@
 /* jshint nonstandard:true */
 /* jshint browser: true */ // for btoa. Alternative: https://github.com/node-browser-compat/btoa/blob/master/index.js
 /* jshint node: true */
-/* global canvg */
 
+/* istanbul ignore else */
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -10,9 +10,6 @@ if ( typeof define !== 'function') {
 define(["../render/text/ast2dot",
         "../render/text/ast2mscgen",
         "../utl/paramslikker",
-        "../../lib/canvg/canvg",
-        "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor"
         ],
         function(ast2dot, ast2mscgen, par) {
     "use strict";
@@ -36,18 +33,10 @@ define(["../render/text/ast2dot",
     }
 
     return {
-        toVectorURI: function (pSVGSource) {
-            var lb64 = btoa(unescape(encodeURIComponent(pSVGSource)));
+        toVectorURI: function (pSVGSource, pWindow) {
+            pWindow = pWindow ? pWindow : window;
+            var lb64 = pWindow.btoa(unescape(encodeURIComponent(pSVGSource)));
             return "data:image/svg+xml;base64,"+lb64;
-        },
-        toRasterURI: function (pDocument, pSVGSource, pType){
-            var lCanvas = pDocument.createElement('canvas');
-            lCanvas.setAttribute('style', 'display:none');
-            pDocument.body.appendChild(lCanvas);
-            canvg(lCanvas, pSVGSource);
-            var lRetval = lCanvas.toDataURL(pType, 0.8);
-            pDocument.body.removeChild(lCanvas);
-            return lRetval;
         },
         toHTMLSnippet: toHTMLSnippet,
         toHTMLSnippetURI: function(pSource, pLanguage){
