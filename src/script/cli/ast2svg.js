@@ -22,7 +22,7 @@ jsdom.env("<html><body></body></html>", function(err, window) {
     });
     process.stdin.on('end', function() {
         var lAST = JSON.parse(gInput);
-        renderast.renderAST(lAST, JSON.stringify(lAST, null, " "), "__svg", window);
+        renderast.renderAST(lAST, gInput, "__svg", window);
         process.stdout.write(window.document.body.innerHTML);
         process.stdin.pause();
     });
