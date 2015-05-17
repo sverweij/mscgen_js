@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants"], function(C) {
+define(["./constants", "./idmanager"], function(C, id) {
     /**
      * Some SVG specific calculations & workarounds
      */
@@ -90,11 +90,26 @@ define(["./constants"], function(C) {
     function _calculateTextHeight(){
         return _getBBox(createText("\u00C1jy\u00CE9\u0192@")).height;
     }
+    
+    
+    function _removeRenderedSVGFromElement(pElementId){
+        id.setPrefix(pElementId);
+        var lChildElement = gDocument.getElementById(id.get());
+        if (lChildElement && (lChildElement !== undefined)) {
+            var lParentElement = gDocument.getElementById(pElementId);
+            if (lParentElement) {
+                lParentElement.removeChild(lChildElement);
+            } else {
+                gDocument.body.removeChild(lChildElement);
+            }
+        }
+    }
 
     return {
         init: function(pDocument){
             gDocument = pDocument;
         },
+        removeRenderedSVGFromElement : _removeRenderedSVGFromElement,
 
         /**
          * Returns the bounding box of the passed element.

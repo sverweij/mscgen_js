@@ -722,16 +722,7 @@ define(["./svgelementfactory",
     function _clean(pParentElementId, pWindow) {
         gChart.document = skel.init(pWindow);
         svgutl.init(gChart.document);
-        removeRenderedSVGFromElement(pParentElementId);
-    }
-
-    function removeRenderedSVGFromElement(pElementId){
-        id.setPrefix(pElementId);
-        var lChildElement = gChart.document.getElementById(id.get());
-        if (lChildElement && (lChildElement !== null) && (lChildElement !== undefined)) {
-            var lParentElement = gChart.document.getElementById(pElementId);
-            lParentElement.removeChild(lChildElement);
-        }
+        svgutl.removeRenderedSVGFromElement(pParentElementId);
     }
 
     return {

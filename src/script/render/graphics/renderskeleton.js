@@ -103,15 +103,8 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
     }
 
     function _init(pWindow) {
-        var lDocument;
-        /* istanbul ignore else */
-        if ("object" !== typeof (document)) {
-            lDocument = pWindow.document;
-        } else {
-            lDocument = window.document;
-        }
-        fact.init(lDocument);
-        return lDocument;
+        fact.init(pWindow.document);
+        return pWindow.document;
     }
 
     function _bootstrap(pParentElementId, pSvgElementId, pWindow) {
