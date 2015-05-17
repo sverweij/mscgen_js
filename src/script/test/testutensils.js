@@ -19,7 +19,7 @@ return {
     assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn){
         var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
         var lInputContents = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});
-        assert.equal(lExpectedContents, pProcessingFn(lInputContents));
+        assert.equal(pProcessingFn(lInputContents), lExpectedContents);
     },
     
     assertSyntaxError: function(pProgram, pParser, pErrorType){
