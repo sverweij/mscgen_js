@@ -21,11 +21,13 @@ define(["./interpreter-uistate",
     function processParams(){
         var lParams = params.getParams (window.location.search);
         setupGA(lParams.donottrack);
-
+        
+        uistate.setDebug(false);
         if ("true" === lParams.debug) {
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });
+            uistate.setDebug(true);
             gaga.g('send', 'event', 'debug', 'true');
         }
 
