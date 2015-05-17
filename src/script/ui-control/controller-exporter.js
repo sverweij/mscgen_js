@@ -31,7 +31,14 @@ define(["../render/text/ast2dot",
         
         return lAdditionalParameters;
     }
-
+    
+    function getLocationString (pLocation, pSource, pLanguage) {
+        return pLocation.pathname +
+                '?lang=' + pLanguage +
+                getAdditionalParameters(pLocation) +
+                '&msc=' + encodeURIComponent(pSource);
+    }
+    
     return {
         toVectorURI: function (pSVGSource, pWindow) {
             pWindow = pWindow ? pWindow : window;
@@ -48,15 +55,13 @@ define(["../render/text/ast2dot",
         toVanillaMscGenURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
+        getLocationString: getLocationString,
         toDebugURI: function(pLocation, pSource, pLanguage){
             return 'data:text/plain;charset=utf-8,'+
                 encodeURIComponent(
                     pLocation.protocol + '//' +
                     pLocation.host +
-                    pLocation.pathname +
-                    '?lang=' + pLanguage +
-                    getAdditionalParameters(pLocation) +
-                    '&msc=' + encodeURIComponent(pSource)
+                    getLocationString(pLocation, pSource, pLanguage)
                 );
         }
     };

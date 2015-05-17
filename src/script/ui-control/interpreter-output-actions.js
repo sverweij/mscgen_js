@@ -45,7 +45,7 @@ define(["./interpreter-uistate",
             gaga.g('send', 'event', 'show_vanilla', 'button');
         },
         urlOnClick: function() {
-            window.open(xport.toDebugURI(window.location, uistate.getSource(), uistate.getLanguage()));
+            window.history.replaceState({},"", xport.getLocationString(window.location, uistate.getSource(), uistate.getLanguage()));
             gaga.g('send', 'event', 'show_url', 'button');
         },
         animOnClick: function() {
