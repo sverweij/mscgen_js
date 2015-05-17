@@ -23,10 +23,7 @@ define([], function() {
     }
 
     function _determineDepthCorrection(pDepth, pLineWidth){
-        if (pDepth) {
-            return 2 * ((pDepth + 1) * 2 * pLineWidth);
-        }
-        return 0;
+        return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
     }
 
     /* for one line labels add an end of line so it gets

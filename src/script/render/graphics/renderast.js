@@ -101,12 +101,7 @@ define(["./svgelementfactory",
     function initializeChart(pChart, pDepth){
         createLayerShortcuts(pChart.layer, pChart.document);
         pChart.textHeight = svgutl.calculateTextHeight();
-
-        if (pDepth) {
-            pChart.maxDepth = pDepth;
-        } else {
-            pChart.maxDepth = 0;
-        }
+        pChart.maxDepth = pDepth ? pDepth : 0;
     }
 
     function createLayerShortcuts (pLayer, pDocument){
