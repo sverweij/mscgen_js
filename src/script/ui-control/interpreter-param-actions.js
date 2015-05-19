@@ -23,7 +23,7 @@ define(["./interpreter-uistate",
         setupGA(lParams.donottrack);
         
         uistate.setDebug(false);
-        if ("true" === lParams.debug) {
+        if (["true", "1", "on"].indexOf(lParams.debug) > -1 ) {
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });
