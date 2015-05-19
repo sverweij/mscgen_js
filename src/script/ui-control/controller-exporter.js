@@ -65,15 +65,7 @@ define(["../render/text/ast2dot",
         toVanillaMscGenURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
-        getLocationString: getLocationString,
-        toDebugURI: function(pLocation, pSource, pLanguage){
-            return 'data:text/plain;charset=utf-8,'+
-                encodeURIComponent(
-                    pLocation.protocol + '//' +
-                    pLocation.host +
-                    getLocationString(pLocation, pSource, pLanguage)
-                );
-        }
+        getLocationString: getLocationString
     };
 });
 /*

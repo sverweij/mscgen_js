@@ -74,32 +74,43 @@ describe('controller-exporter', function(){
             'data:text/plain;charset=utf-8,msc%20%7B%0A%20%20a%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%2C%0A%20%20b%20%5Blabel%3D%22%E5%BA%8F%22%5D%2C%0A%20%20c%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%0A%0A%20%20a%20%3D%3E%20b%20%5Blabel%3D%22things%22%5D%2C%0Ac%20%3D%3E%20b%3B%0A%7D');
         });
     });
-    describe('#toDebugURI', function(){
-        it('with extra parameters', function(){
+    describe('#getLocationString', function(){
+        it ('with extra parameters', function(){
             var lLocation = {
                 protocol: "http",
                 host: "localhost",
                 pathname: "mscgen_js/index.html",
-                search: '?debug="false"&donottrack="true"'
+                search: '?debug=false&donottrack=true'
             };
-            assert.equal(
-                xport.toDebugURI(lLocation, gMsc, 'mscgen'), 
-                                 "data:text/plain;charset=utf-8,http%2F%2Flocalhostmscgen_js%2Findex.html%3Flang%3Dmscgen%26donottrack%3D%22true%22%26debug%3D%22false%22%26msc%3Dmsc%257Ba%255Blabel%253D%2522%25F0%259F%2592%25A9%2522%255D%252Cb%255Blabel%253D%2522%25E5%25BA%258F%2522%255D%252Cc%2520%255Blabel%253D%2522%25F0%259F%2592%25A9%2522%255D%253B%2520a%2520%253D%253E%2520b%255Blabel%253D%2522things%2522%255D%252C%2520c%2520%253D%253E%2520b%253B%257D");
+            assert.equal(xport.getLocationString(lLocation, gMsc, 'mscgen'),
+                        'mscgen_js/index.html?lang=mscgen&donottrack=true&debug=false&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D');
         });
-        
-        it('without extra parameters', function(){
+        it ('without extra parameters', function(){
             var lLocation = {
                 protocol: "http",
                 host: "localhost",
                 pathname: "mscgen_js/index.html"
             };
-            assert.equal(
-                xport.toDebugURI(lLocation, gMsc, 'mscgen'), 
-                                 "data:text/plain;charset=utf-8,http%2F%2Flocalhostmscgen_js%2Findex.html%3Flang%3Dmscgen%26msc%3Dmsc%257Ba%255Blabel%253D%2522%25F0%259F%2592%25A9%2522%255D%252Cb%255Blabel%253D%2522%25E5%25BA%258F%2522%255D%252Cc%2520%255Blabel%253D%2522%25F0%259F%2592%25A9%2522%255D%253B%2520a%2520%253D%253E%2520b%255Blabel%253D%2522things%2522%255D%252C%2520c%2520%253D%253E%2520b%253B%257D");
-        });
+            assert.equal(xport.getLocationString(lLocation, gMsc, 'mscgen'),
+                        'mscgen_js/index.html?lang=mscgen&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D');
 
+            
+        });
+        it ('with a source that is too big (> 4k)', function(){
+            var lLocation = {
+                protocol: "http",
+                host: "localhost",
+                pathname: "mscgen_js/index.html",
+                search: '?debug=false&donottrack=true'
+            };
+            var l100wString = '# 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890';
+            var lBig = l100wString;
+            for (var i=0;i<40;i++){
+                lBig += l100wString;
+            }
+            assert.equal(xport.getLocationString(lLocation, lBig, 'mscgen'),
+                        'mscgen_js/index.html?lang=mscgen&donottrack=true&debug=false&msc=%23%20source%20too%20long%20for%20an%20URL');
+            
+        });
     });
-    
-    
-    
 });
