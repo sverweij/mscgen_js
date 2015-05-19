@@ -13,6 +13,8 @@ define(["../render/text/ast2dot",
         ],
         function(ast2dot, ast2mscgen, par) {
     "use strict";
+    
+    var MAX_LOCATION_LENGTH = 4094;// max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1
 
     function toHTMLSnippet (pSource, pLanguage){
         return "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + pLanguage + " mscgen_js' data-language='" + pLanguage +"'>\n" + pSource + "\n    </pre>\n  </body>\n</html>";
@@ -33,10 +35,18 @@ define(["../render/text/ast2dot",
     }
     
     function getLocationString (pLocation, pSource, pLanguage) {
-        return pLocation.pathname +
+        var lRetval = pLocation.pathname +
                 '?lang=' + pLanguage +
                 getAdditionalParameters(pLocation) +
                 '&msc=' + encodeURIComponent(pSource);
+        if (lRetval.length < MAX_LOCATION_LENGTH) {
+            return lRetval;
+        } else {
+            return pLocation.pathname +
+                    '?lang=' + pLanguage +
+                    getAdditionalParameters(pLocation) +
+                    '&msc=' + encodeURIComponent('# source too long for an URL');
+        }
     }
     
     return {
