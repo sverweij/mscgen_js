@@ -45,14 +45,6 @@ define(["../render/text/ast2dot",
         return source2LocationString(pLocation, pSource, pLanguage).length < MAX_LOCATION_LENGTH;
     }
     
-    function toLocationString (pLocation, pSource, pLanguage) {
-        var lSource = '# source too long for an URL';
-        if (sourceIsURLable(pLocation, pSource, pLanguage)) {
-            lSource = pSource;
-        }
-        return source2LocationString(pLocation, lSource, pLanguage); 
-    }
-    
     return {
         toVectorURI: function (pSVGSource, pWindow) {
             pWindow = pWindow ? pWindow : window;
@@ -69,7 +61,13 @@ define(["../render/text/ast2dot",
         toVanillaMscGenURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
-        toLocationString: toLocationString
+        toLocationString: function (pLocation, pSource, pLanguage) {
+            var lSource = '# source too long for an URL';
+            if (sourceIsURLable(pLocation, pSource, pLanguage)) {
+                lSource = pSource;
+            }
+            return source2LocationString(pLocation, lSource, pLanguage); 
+        }
     };
 });
 /*
