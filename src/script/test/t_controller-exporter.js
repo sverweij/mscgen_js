@@ -74,7 +74,7 @@ describe('controller-exporter', function(){
             'data:text/plain;charset=utf-8,msc%20%7B%0A%20%20a%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%2C%0A%20%20b%20%5Blabel%3D%22%E5%BA%8F%22%5D%2C%0A%20%20c%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%0A%0A%20%20a%20%3D%3E%20b%20%5Blabel%3D%22things%22%5D%2C%0Ac%20%3D%3E%20b%3B%0A%7D');
         });
     });
-    describe('#getLocationString', function(){
+    describe('#toLocationString', function(){
         it ('with extra parameters', function(){
             var lLocation = {
                 protocol: "http",
@@ -82,7 +82,7 @@ describe('controller-exporter', function(){
                 pathname: "mscgen_js/index.html",
                 search: '?debug=false&donottrack=true'
             };
-            assert.equal(xport.getLocationString(lLocation, gMsc, 'mscgen'),
+            assert.equal(xport.toLocationString(lLocation, gMsc, 'mscgen'),
                         'mscgen_js/index.html?lang=mscgen&donottrack=true&debug=false&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D');
         });
         it ('without extra parameters', function(){
@@ -91,7 +91,7 @@ describe('controller-exporter', function(){
                 host: "localhost",
                 pathname: "mscgen_js/index.html"
             };
-            assert.equal(xport.getLocationString(lLocation, gMsc, 'mscgen'),
+            assert.equal(xport.toLocationString(lLocation, gMsc, 'mscgen'),
                         'mscgen_js/index.html?lang=mscgen&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D');
 
             
@@ -108,7 +108,7 @@ describe('controller-exporter', function(){
             for (var i=0;i<40;i++){
                 lBig += l100wString;
             }
-            assert.equal(xport.getLocationString(lLocation, lBig, 'mscgen'),
+            assert.equal(xport.toLocationString(lLocation, lBig, 'mscgen'),
                         'mscgen_js/index.html?lang=mscgen&donottrack=true&debug=false&msc=%23%20source%20too%20long%20for%20an%20URL');
             
         });

@@ -34,19 +34,23 @@ define(["../render/text/ast2dot",
         return lAdditionalParameters;
     }
     
-    function getLocationString (pLocation, pSource, pLanguage) {
-        var lRetval = pLocation.pathname +
+    function source2LocationString(pLocation, pSource, pLanguage){
+        return pLocation.pathname +
                 '?lang=' + pLanguage +
                 getAdditionalParameters(pLocation) +
                 '&msc=' + encodeURIComponent(pSource);
-        if (lRetval.length < MAX_LOCATION_LENGTH) {
-            return lRetval;
-        } else {
-            return pLocation.pathname +
-                    '?lang=' + pLanguage +
-                    getAdditionalParameters(pLocation) +
-                    '&msc=' + encodeURIComponent('# source too long for an URL');
+    }
+    
+    function sourceIsURLable(pLocation, pSource, pLanguage){
+        return source2LocationString(pLocation, pSource, pLanguage).length < MAX_LOCATION_LENGTH;
+    }
+    
+    function toLocationString (pLocation, pSource, pLanguage) {
+        var lSource = '# source too long for an URL';
+        if (sourceIsURLable(pLocation, pSource, pLanguage)) {
+            lSource = pSource;
         }
+        return source2LocationString(pLocation, lSource, pLanguage); 
     }
     
     return {
@@ -65,7 +69,7 @@ define(["../render/text/ast2dot",
         toVanillaMscGenURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
-        getLocationString: getLocationString
+        toLocationString: toLocationString
     };
 });
 /*

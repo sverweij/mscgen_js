@@ -121,7 +121,7 @@ function initializeUI() {
 function msc_inputKeyup () {
     if (gAutoRender) {
         if (gDebug) {
-            window.history.replaceState({},"", xport.getLocationString(window.location, getSource(), getLanguage()));
+            window.history.replaceState({},"", xport.toLocationString(window.location, getSource(), getLanguage()));
         }
         render(getSource(), getLanguage());
     }
