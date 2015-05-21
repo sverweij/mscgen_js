@@ -21,23 +21,26 @@ define(["./interpreter-uistate",
     function processParams(){
         var lParams = params.getParams (window.location.search);
         setupGA(lParams.donottrack);
-
-        if ("true" === lParams.debug) {
+        
+        uistate.setDebug(false);
+        if (["true", "1", "on"].indexOf(lParams.debug) > -1 ) {
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });
+            uistate.setDebug(true);
             gaga.g('send', 'event', 'debug', 'true');
         }
-
+        
+        if (lParams.lang){
+            uistate.setLanguage(lParams.lang);
+            gaga.g('send', 'event', 'params.lang', lParams.lang);
+        }
+        
         if (lParams.msc) {
             uistate.setSource(lParams.msc);
             gaga.g('send', 'event', 'params.msc');
         } else {
             uistate.setSample();
-        }
-        if (lParams.lang){
-            uistate.setLanguage(lParams.lang);
-            gaga.g('send', 'event', 'params.lang', lParams.lang);
         }
     }
 

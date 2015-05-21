@@ -44,6 +44,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
         "../utl/gaga", "../utl/maps", "../render/text/colorize",
         "../../lib/codemirror/lib/codemirror",
         "../utl/domquery",
+        "./controller-exporter",
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
@@ -54,12 +55,14 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
             tomsgenny, tomscgen,
             gaga, txt, colorize,
             codemirror,
-            dq
+            dq,
+            xport
         ) {
 "use strict";
 
 var gAutoRender = true;
 var gLanguage = "mscgen";
+var gDebug = false;
 var gGaKeyCount = 0;
 
 var gCodeMirror =
@@ -84,7 +87,7 @@ initializeUI();
 function setupEditorEvents(pCodeMirror){
   pCodeMirror.on ("change",
       function() {
-          msc_inputKeyup(getSource(), getLanguage());
+          msc_inputKeyup();
           if (gGaKeyCount > 17) {
               gGaKeyCount = 0;
               gaga.g('send', 'event', '17 characters typed', getLanguage());
@@ -227,6 +230,10 @@ function getAutoRender(){
     return gAutoRender;
 }
 
+function setDebug(pBoolean){
+    gDebug = pBoolean;
+}
+
 function setAutoRender(pBoolean){
     gAutoRender = pBoolean;
 }
@@ -260,6 +267,16 @@ function render(pSource, pLanguage) {
     preRenderReset();
     try {
         var lAST = getASTBare(pSource, pLanguage);
+        if (gDebug) {
+            window.history.replaceState({},"", 
+                        xport.toLocationString(window.location, 
+                            pSource, 
+                            txt.correctLanguage(lAST.meta.extendedFeatures, 
+                                pLanguage
+                            )
+                        )
+            );
+        }
         msc_render.renderAST(lAST, pSource, "__svg", window);
         if (lAST.entities.length > 0) {
             showRenderSuccess(lAST.meta);
@@ -360,6 +377,7 @@ function displayError (pError, pContext) {
         setSource: setSource,
         getLanguage: getLanguage,
         setLanguage: setLanguage,
+        setDebug: setDebug,
         getAST: getAST,
 
         showAutorenderState: showAutorenderState

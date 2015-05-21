@@ -13,6 +13,8 @@ define(["../render/text/ast2dot",
         ],
         function(ast2dot, ast2mscgen, par) {
     "use strict";
+    
+    var MAX_LOCATION_LENGTH = 4094;// max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1
 
     function toHTMLSnippet (pSource, pLanguage){
         return "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + pLanguage + " mscgen_js' data-language='" + pLanguage +"'>\n" + pSource + "\n    </pre>\n  </body>\n</html>";
@@ -31,7 +33,18 @@ define(["../render/text/ast2dot",
         
         return lAdditionalParameters;
     }
-
+    
+    function source2LocationString(pLocation, pSource, pLanguage){
+        return pLocation.pathname +
+                '?lang=' + pLanguage +
+                getAdditionalParameters(pLocation) +
+                '&msc=' + encodeURIComponent(pSource);
+    }
+    
+    function sourceIsURLable(pLocation, pSource, pLanguage){
+        return source2LocationString(pLocation, pSource, pLanguage).length < MAX_LOCATION_LENGTH;
+    }
+    
     return {
         toVectorURI: function (pSVGSource, pWindow) {
             pWindow = pWindow ? pWindow : window;
@@ -48,16 +61,12 @@ define(["../render/text/ast2dot",
         toVanillaMscGenURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
         },
-        toDebugURI: function(pLocation, pSource, pLanguage){
-            return 'data:text/plain;charset=utf-8,'+
-                encodeURIComponent(
-                    pLocation.protocol + '//' +
-                    pLocation.host +
-                    pLocation.pathname +
-                    '?lang=' + pLanguage +
-                    getAdditionalParameters(pLocation) +
-                    '&msc=' + encodeURIComponent(pSource)
-                );
+        toLocationString: function (pLocation, pSource, pLanguage) {
+            var lSource = '# source too long for an URL';
+            if (sourceIsURLable(pLocation, pSource, pLanguage)) {
+                lSource = pSource;
+            }
+            return source2LocationString(pLocation, lSource, pLanguage); 
         }
     };
 });
