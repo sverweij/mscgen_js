@@ -120,9 +120,6 @@ function initializeUI() {
 
 function msc_inputKeyup () {
     if (gAutoRender) {
-        if (gDebug) {
-            window.history.replaceState({},"", xport.toLocationString(window.location, getSource(), getLanguage()));
-        }
         render(getSource(), getLanguage());
     }
 }
@@ -270,6 +267,16 @@ function render(pSource, pLanguage) {
     preRenderReset();
     try {
         var lAST = getASTBare(pSource, pLanguage);
+        if (gDebug) {
+            window.history.replaceState({},"", 
+                        xport.toLocationString(window.location, 
+                            pSource, 
+                            txt.correctLanguage(lAST.meta.extendedFeatures, 
+                                pLanguage
+                            )
+                        )
+            );
+        }
         msc_render.renderAST(lAST, pSource, "__svg", window);
         if (lAST.entities.length > 0) {
             showRenderSuccess(lAST.meta);
