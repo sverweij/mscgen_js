@@ -5,7 +5,7 @@
   "dependencies": {
     "amdefine": "^0.1.0",
     "btoa": "^1.1.2",
-    "jsdom": "^5.4.2",
+    "jsdom": "^5.4.3",
     "requirejs": "^2.1.17"
   },
   "devDependencies": {
@@ -16,7 +16,7 @@
     "jshint": "^2.7.0",
     "csslint": "^0.10.0",
     "istanbul": "^0.3.14",
-    "plato": "^1.4.0",
+    "plato": "^1.5.0",
     "nsp": "^1.0.1"
   },
   "scripts": {
