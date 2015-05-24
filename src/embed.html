@@ -134,17 +134,16 @@ msc {
         <li><strong>You're done.</strong> The script replaces all elements in the page with the class <code>mscgen_js</code> by
         a rendered sequence chart. <strong>Result</strong> for the above mscgen:
         <br/>
-        <pre class="mscgen_js">
-        msc {
-            a [label="consumer"], b [label="shopfront"], c;
+        <pre class="mscgen_js" data-clickable="true">msc {
+    a [label="consumer"], b [label="shopfront"], c;
 
-            a =>> b [label="buy (commestible)"];
-            b =>> c [label="lookup_price(commestible)"];
-            c >> b [label="price"];
-            b =>> a [label=""];
-            a =>> b [label="money"];
-            ...;
-        }</pre></li>
+    a =>> b [label="buy (commestible)"];
+    b =>> c [label="lookup_price(commestible)"];
+    c >> b [label="price"];
+    b =>> a [label=""];
+    a =>> b [label="money"];
+    ...;
+}</pre></li>
         </ol>
         </p>
 
@@ -206,6 +205,28 @@ msc {
   a -> b[nonexistingattribute="something"];
   b >> a[label="done dee done"];
 }</pre>
+        <h2>Linking charts to the interpreter</h2>
+        <p>As you can see in the <a href="tutorial.html">tutorial</a> it is possible to make a click on 
+            the generated chart open it in the mscgen_js interpreter.
+        </p>
+        <p>By default this behavior is switched <em>off</em>. To enable it, set 
+            a global variable named <code>mscgen_js_config</code> like this:
+        </p>
+        <pre class="code">&lt;script>
+    var mscgen_js_config = {
+        clickable : "true"
+    };
+&lt;/script></pre>
+        <p>When you want to use your own hosted version of the mscgen_js 
+            interpreter instead of the one on sverweij.github.io/mscgen_js add
+            the property <code>clickURL</code>, like so:
+        </p>
+        <pre class="code">&lt;script>
+    var mscgen_js_config = {
+        clickable: "true",
+        <mark>clickURL: "https://your.host/pathtointerpreter/"</mark>
+    };
+&lt;/script></pre>
 
         <h2>Supported browsers: most</h2>
         <p>
@@ -243,12 +264,12 @@ msc {
         <pre id="yourownidsgetpreserved"
              class="mscgen_js"
              data-language="msgenny">
-            hscale=0.9, arcgradient=10, watermark="msgenny";
+hscale=0.9, arcgradient=10, watermark="msgenny";
 
-            Harry =>> Sally: "marry(Sally, Harry)?";
-            Sally >> Harry: YES,
-            Sally -> mother: he's asked me to marry him!;
-            mother -> *: "Stop that. Silly Sally.";
+Harry =>> Sally: "marry(Sally, Harry)?";
+Sally >> Harry: YES,
+Sally -> mother: he's asked me to marry him!;
+mother -> *: "Stop that. Silly Sally.";
         </pre>
         <h3>Xù</h3>
         <pre class="code">
@@ -299,6 +320,11 @@ msc{
         <h3>JSON</h3>
         <pre class="code">&lt;pre class="mscgen_js" <mark>data-language="json"</mark>>
 {
+    "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+    },
     "options":{
     "watermark" : "JSON/ AST"
     },
@@ -353,6 +379,11 @@ msc{
 &lt;/pre></pre>
         <pre class="mscgen_js" data-language="json">
 {
+    "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+    },
     "options":{
     "watermark" : "JSON/ AST"
     },
