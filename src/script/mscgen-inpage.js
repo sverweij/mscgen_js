@@ -1,10 +1,13 @@
 /* jshint browser:true */
 /* global require */
-require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "render/text/textutensils"], function(mscparser, msgennyparser, msc_render, utl) {
+require(["parse/xuparser", 
+         "parse/msgennyparser",
+         "render/graphics/renderast",
+         "render/text/textutensils",
+         "ui-control/controller-exporter",
+         "ui-control/embed-config"], 
+        function(mscparser, msgennyparser, msc_render, utl, exp, conf) {
     "use strict";
-
-    var PARENTELEMENTPREFIX = "mscgen_js-parent_";
-    var DEFAULT_LANGUAGE = "mscgen";
 
     start();
 
@@ -41,7 +44,7 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
             pElement.setAttribute("data-renderedby", "mscgen_js");
 
             if (lAST.entities) {
-                render(lAST, pElement.id, pElement.textContent);
+                render(lAST, pElement.id, pElement.textContent, lLanguage);
             } else {
                 pElement.innerHTML = pElement.textContent.split('\n').reduce(function(pPrev, pLine, pIndex) {
                     if (pIndex === (lAST.line - 1)) {
@@ -52,10 +55,23 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
             }
         }
     }
+    
+    function renderLink(pSource, pLanguage, pId){
+        var lLocation = {
+            pathname: "index.html"
+        };
+        
+        var lLink = document.createElement("a");
+        lLink.setAttribute("href", conf.getConfig().clickURL + exp.toLocationString(lLocation, pSource, pLanguage));
+        lLink.setAttribute("id", pId + "link");
+        lLink.setAttribute("style", "text-decoration: none;");
+        lLink.setAttribute("title", "click to edit in the mscgen_js interpreter");
+        return lLink;
+    }
 
     function setElementId(pElement, pIndex) {
         if ("" === pElement.id || null === pElement.id || undefined === pElement.id) {
-            pElement.id = PARENTELEMENTPREFIX + pIndex.toString();
+            pElement.id = conf.getConfig().parentElementPrefix + pIndex.toString();
         }
     }
 
@@ -63,7 +79,7 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
         /* the way to do it, but doesn't work in IE: lLanguage = pElement.dataset.language; */
         var lLanguage = pElement.getAttribute('data-language');
         if (undefined === lLanguage || null === lLanguage) {
-            lLanguage = DEFAULT_LANGUAGE;
+            lLanguage = conf.getConfig().defaultLanguage;
         }
         return lLanguage;
     }
@@ -75,8 +91,6 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
                 lAST = msgennyparser.parse(pText);
             } else if ("json" === pLanguage) {
                 lAST = JSON.parse(pText);
-            } else if ("xu" === pLanguage) {
-                lAST = mscparser.parse(pText);
             } else {
                 lAST = mscparser.parse(pText);
             }
@@ -86,10 +100,16 @@ require(["parse/xuparser", "parse/msgennyparser", "render/graphics/renderast", "
         return lAST;
     }
 
-    function render(pAST, pElement, pText) {
-        document.getElementById(pElement).innerHTML = "";
-        msc_render.clean(pElement, window);
-        msc_render.renderAST(pAST, pText, pElement, window);
+    function render(pAST, pElementId, pSource, pLanguage) {
+        var lElement = document.getElementById(pElementId);
+        lElement.innerHTML = "";
+        
+        if ("true" === conf.getConfig().clickable){
+            lElement.appendChild(renderLink(pSource, pLanguage, pElementId));
+            pElementId = pElementId + "link";
+        }
+        msc_render.clean(pElementId, window);
+        msc_render.renderAST(pAST, pSource, pElementId, window);
     }
 
 });
