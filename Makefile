@@ -70,6 +70,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/ui-control/controller-animator.js \
 	src/script/ui-control/controller-exporter.js \
 	src/script/ui-control/controller-raster-exporter.js \
+	src/script/ui-control/store.js \
 	src/script/utl/gaga.js \
 	src/script/utl/domquery.js \
 	src/script/mscgen-interpreter.js 
@@ -171,7 +172,8 @@ $(PRODDIRS):
 
 # file targets dev
 
-src/style/interp.scss: src/lib/codemirror/_codemirror.scss \
+src/style/interp.css: src/style/interp.scss \
+	src/lib/codemirror/_codemirror.scss \
 	src/lib/codemirror/theme/_midnight.scss \
 	src/style/snippets/_interpreter.scss \
 	src/style/snippets/_anim.scss \
@@ -185,7 +187,8 @@ src/style/interp.scss: src/lib/codemirror/_codemirror.scss \
 	src/fonts/controls.ttf \
 	src/fonts/controls.woff
 
-src/style/doc.scss: src/style/snippets/_header.scss \
+src/style/doc.css: src/style/doc.scss \
+	src/style/snippets/_header.scss \
 	src/style/snippets/_documentation.scss \
 	src/style/snippets/_generics.scss \
 	src/style/snippets/_popup.scss \
