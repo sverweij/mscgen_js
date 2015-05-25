@@ -50,13 +50,13 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - learn</title>
-<link rel="stylesheet" href="style/doc.css?4cc81eded08eb0f6" type="text/css" media="screen, print">
+<link rel="stylesheet" href="style/doc.css?699a0e2bf9a90c3b" type="text/css" media="screen, print">
 <script>
     var mscgen_js_config = {
         clickable: "true"
     };
 </script>
-<script src="mscgen-inpage.js?4cc81eded08eb0f6" defer></script>
+<script src="mscgen-inpage.js?699a0e2bf9a90c3b" defer></script>
 <script>
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -621,24 +621,59 @@ these will get lost in the translation.
 </p>
 <h3>Color</h3>
 <p>When you hit the <em>color</em> button the interpreter colors
-    your sequence chart by applying these rules:
-    <ul>
-        <li>If an entity does not have a color yet, it gets colors
-            from a carefully selected scheme, affecting:
+    your sequence chart
+<div>
+<mscgen>msc {
+  hscale="0.8";
+
+  Co, Mo, Dolores;
+
+  Co =>> Mo [label="Hello"];
+  Dolores =>> Co [label="Is it me you're looking for?"];
+  Mo =>> Dolores [label="I see it in your eyes"];
+}</mscgen>
+=>
+<mscgen>msc {
+  hscale="0.8";
+
+  Co [linecolor="#008800", textbgcolor="#CCFFCC", arclinecolor="#008800"],
+  Mo [linecolor="#FF0000", textbgcolor="#FFCCCC", arclinecolor="#FF0000"],
+  Dolores [linecolor="#0000FF", textbgcolor="#CCCCFF", arclinecolor="#0000FF"];
+
+  Co =>> Mo [label="Hello"];
+  Dolores =>> Co [label="Is it me you're looking for?"];
+  Mo =>> Dolores [label="I see it in your eyes"];
+}</mscgen>
+</div>
+<p>
+    It uses these rules:
+</p>
+    <table>
+        <tr><th>When <em>x</em> doesn't have a color yet</th><th>the system...</th></tr>
+        <td>entity</td>
+        <td>applies colors from a nice color scheme, affecting
             <ul>
                 <li>line color</li>
                 <li>background color</li>
-                <li>arc line color the same as the line color (so all lines departing
-                    from the entities lifeline get the same color)</li>
+                <li><a href="#coloring-everything-departing-from-a-lifeline">arc line color</a>
+                     the same as the line color</li>
             </ul>
-        </li>
-        <li>If a note does not have any color yet it gets a light
-            yellow background and black text and lines.</li>
-        <li>If a box (/abox/ rbox) doesn't have any color yet it
-            gets a white background and black text and line</li>
-        <li>If you happen to use inline expressions, their line colors
-            are made grey</li>
-    </ul>
+        </td>
+        </tr>
+        <tr>
+            <td>note</td>
+            <td>gets the note a light yellow background and black text and lines.</td>
+        </tr>
+        <tr>
+            <td>box (/abox/ rbox)</td>
+            <td>gets the box a white background and black text and lines.</td>
+        </tr>
+        <tr>
+            <td>inline expression</td>
+            <td>gets the inline expression grey lines.</td>
+        </tr>
+    </table>
+<p>    
     As msgenny does not support colors, auto color is disabled
     when msgenny is selected.
 </p>
@@ -667,36 +702,18 @@ these will get lost in the translation.
 </p>
 
 <h3>The little film camera icon</h3>
-<p>Animates the current sequence chart.</p>
-<h4>Functionality</h4>
-<p>A light box opens. What you see are the life-lines of the chart
-and a few buttons that look like they walked away from a media
-player. We did this so you can easily guess what the buttons do.
-Just to be sure: </p>
-<p>When you click the right pointing triangle in the middle,
-messages going back and forth between the entities will start
-showing up one by one, at fixed intervals.
-</p>
-<p>The buttons immediately adjacent enable you to go back and forth
-one message at a time.
-</p>
-<p>The outer left button jumps to the life lines without the messages.
-The outer right one jumps to the completely filled out chart.
-</p>
+<p>Animates the current sequence chart. When you click it, a light 
+    box opens:</p>
+<img itemprop="image" class="shadow" src="images/animation-sample.gif" alt="a simple sequence chart - animated">
 <p>
-Closing the light box: click the big back cross on the top right
-or hit the ESC key on your keyboard.
+    The multi-media buttons should be pretty self explanatory. To close the
+    lightbox, click the X or hit the ESC key.
 </p>
 <h4>Why is this in?</h4>
-<p>We noticed that when a sequence chart is created, even people
-who have never seen one, immediately grasp what is going on. They
-often demonstrate this by actively participating in discussions.
-It is one of the reasons mscgen_js is only our <em>second</em>
-favorite chart drawing tool. The first one is a whiteboard.
-</p>
-<p>When you confront people with the static end-result, however,
-we noted mostly glassy stares. The animation feature is an attempt
-to capture the feeling of seeing a sequence chart grow on the fly.
+<p>The animation feature is an attempt to capture the feeling of seeing
+    a sequence chart grow on a whiteboard. We noticed that when we <em>draw</em>
+    sequence charts, even people who have never seen one immediately grasp
+    what is going on. 
 </p>
 </section>
 <section>
@@ -727,7 +744,7 @@ you'll notice the interpreter grows some extra features:
     <code>https://sverweij.github.io/mscgen_js/index.html?debug=true&lang=mscgen&msc=msc%7B%0A%20%20a%2Cb%3B%0A%20%20a%3D%3E%20b%3B%0A%7D</code>.
     <ul>
         <li>Works for programs up till a size of approximately 2k.</li>
-        <li>Note that when 'Auto render' is on, mscgen_js updates the url as you type.</li> 
+        <li>When 'Auto render' is on, mscgen_js updates the url as you type.</li> 
     </ul></p>
     </li>
     <li><em>Version information</em>
@@ -740,7 +757,7 @@ you'll notice the interpreter grows some extra features:
 
 <article itemscope itemtype="http://schema.org/Article" id="mscgen">
 <h1 itemprop="name">The MscGen language</h1>
-<p>MscGen is a sequence chart language created by Michael McTernan in 2006. It's a
+<p>Michael McTernan created the MscGen sequence chart language in 2006. It's a
     bit more elaborate than MsGenny. There are three good reasons
     to use MscGen in stead of (or beside) the simpler MsGenny:</p>
 <ul>
