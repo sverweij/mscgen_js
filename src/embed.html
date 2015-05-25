@@ -147,7 +147,7 @@ msc {
         </ol>
         </p>
 
-        <h2>Embedding MscGen in Atlassian Confluence:</h2>
+        <h2 id="embedding-in-atlassian-confluence">Embedding MscGen in Atlassian Confluence:</h2>
         <p>
         Add an <strong>HTML macro</strong> to the page with the
         <code>script</code> tag in there. Sample snippet:
@@ -167,7 +167,7 @@ msc {
         <p>Pre-condition for this to work is that your Confluence
         admin has enabled the HTML macro functionality.
         </p>
-        <h2>Wikimedia style tags</h2>
+        <h2 id="wikimedia-style-tags">Wikimedia style tags</h2>
         <p>
         From version 0.9.37 mscgen_js supports wikimedia style
         <code>mscgen</code> tags, so something like this will
@@ -197,7 +197,7 @@ msc {
 }
 </mscgen>
 
-        <h2>Error handling</h2>
+        <h2 id="error-handling">Error handling</h2>
         <p>If your mscgen code contains an error, instead of a sequence chart, you will see
              your mscgen code with the offending line highlighted, thusly:</p>
         <pre class="code mscgen_js">msc {
@@ -205,30 +205,31 @@ msc {
   a -> b[nonexistingattribute="something"];
   b >> a[label="done dee done"];
 }</pre>
-        <h2>Linking charts to the interpreter</h2>
-        <p>As you can see in the <a href="tutorial.html">tutorial</a> it is possible to make a click on 
-            the generated chart open it in the mscgen_js interpreter.
+        <h2 id="deeplink-to-interpreter">Deep linking charts to the interpreter</h2>
+        <p>As you can see in the <a href="tutorial.html">tutorial</a> it is
+            possible to open embedded charts in the mscgen_js interpreter
+            by clicking on them. By default this behavior is 
+            switched <em>off</em>.
         </p>
-        <p>By default this behavior is switched <em>off</em>. To enable it, set 
-            a global variable named <code>mscgen_js_config</code> like this:
-        </p>
-        <pre class="code">&lt;script>
+        <ul>
+            <li>To <strong>enable</strong> it, set a global variable named
+                <code>mscgen_js_config</code> in the header of your page:
+        <p><pre class="code">&lt;script>
     var mscgen_js_config = {
         clickable : "true"
     };
-&lt;/script></pre>
-        <p>When you want to use your own hosted version of the mscgen_js 
-            interpreter instead of the one on sverweij.github.io/mscgen_js add
-            the property <code>clickURL</code>, like so:
-        </p>
+&lt;/script></pre></p></li>
+        <li>Use your <strong>own hosted version</strong>? Add
+            the <code>clickURL</code> property:
+            <p>
         <pre class="code">&lt;script>
     var mscgen_js_config = {
         clickable: "true",
         <mark>clickURL: "https://your.host/pathtointerpreter/"</mark>
     };
-&lt;/script></pre>
-
-        <h2>Supported browsers: most</h2>
+&lt;/script></pre></p></li>
+        </ul>
+        <h2 id="supported-browsers">Supported browsers: most</h2>
         <p>
             The in page script has been verified to work in all
             desktop and mobile versions of Firefox, Safari, Chrome
@@ -236,7 +237,7 @@ msc {
             verified to work from version 10.
         </p>
 
-        <h2>Other sequence chart languages: MsGenny, Xù and JSON</h2>
+        <h2 id="other-sequence-chart-languages">Other sequence chart languages: MsGenny, Xù and JSON</h2>
         <p>
             Mscgen_js assumes the language of the presented
             script to be <em>mscgen</em>. If you use one of the other languages
@@ -437,7 +438,7 @@ msc{
 }</pre>
         </article>
 <article>
-    <h1>Licensing</h1>
+    <h1 id="licensing">Licensing</h1>
     <p>As you can read on the
     <a href="https://github.com/sverweij/mscgen_js">mscgen_js github page</a>
     mscgen_js is licensed under the GNU General Public License version 3
