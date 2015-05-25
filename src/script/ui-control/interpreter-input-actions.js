@@ -1,13 +1,14 @@
 /* jshint browser:true */
 /* global define */
 define(["./interpreter-uistate",
+        "./store",
         "../utl/gaga"
         ],
         function(
             uistate,
+            store,
             gaga) {
     "use strict";
-
 
     return {
         autorenderOnClick: function() {
@@ -45,6 +46,14 @@ define(["./interpreter-uistate",
         samplesOnChange: function () {
             uistate.setSample(window.__samples.value);
             gaga.g('send', 'event', 'selectexample', window.__samples.value);
+        },
+        saveOnClick: function() {
+            store.save(uistate);
+            gaga.g('send', 'event', 'save', 'button');
+        },
+        loadOnClick: function(){
+            store.load(uistate);
+            gaga.g('send', 'event', 'load', 'button');
         }
     };
 });

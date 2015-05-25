@@ -21,6 +21,8 @@ require(["ui-control/interpreter-input-actions",
       window.__btn_uncolorize.addEventListener("click", iactions.uncolorizeOnClick, false);
       window.__btn_render.addEventListener("click", iactions.renderOnClick, false);
       window.__samples.addEventListener("change", iactions.samplesOnChange, false);
+      window.__save.addEventListener("click", iactions.saveOnClick, false);
+      window.__load.addEventListener("click", iactions.loadOnClick, false);
     }
 
     function setupOutputEvents(){

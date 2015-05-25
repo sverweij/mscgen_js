@@ -202,13 +202,12 @@ function renderSource(pAST, pLanguage){
     return lTargetSource;
 }
 
+function getSource(){
+    return gCodeMirror.getValue();
+}
 
 function setSource(pSource){
     gCodeMirror.setValue(pSource);
-}
-
-function getSource(){
-    return gCodeMirror.getValue();
 }
 
 function setCursorInSource(pLine, pColumn){
@@ -216,26 +215,14 @@ function setCursorInSource(pLine, pColumn){
     gCodeMirror.focus();
 }
 
-function setLanguage (pLanguage){
-    gLanguage = pLanguage;
-    gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
-    showLanguageState(getSource(), pLanguage, gAutoRender);
-}
-
 function getLanguage(){
     return gLanguage;
 }
 
-function getAutoRender(){
-    return gAutoRender;
-}
-
-function setDebug(pBoolean){
-    gDebug = pBoolean;
-}
-
-function setAutoRender(pBoolean){
-    gAutoRender = pBoolean;
+function setLanguage (pLanguage){
+    gLanguage = pLanguage;
+    gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
+    showLanguageState(getSource(), pLanguage, gAutoRender);
 }
 
 function setSample(pURL) {
@@ -371,13 +358,14 @@ function displayError (pError, pContext) {
         errorOnClick: errorOnClick,
 
         render: render,
-        getAutoRender: getAutoRender,
-        setAutoRender: setAutoRender,
+        getAutoRender: function(){return gAutoRender;},
+        setAutoRender: function(pBoolean){gAutoRender = pBoolean;},
         getSource: getSource,
         setSource: setSource,
         getLanguage: getLanguage,
         setLanguage: setLanguage,
-        setDebug: setDebug,
+        getDebug: function(){return gDebug;},
+        setDebug: function(pBoolean){gDebug = pBoolean;},
         getAST: getAST,
 
         showAutorenderState: showAutorenderState
