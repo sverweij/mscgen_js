@@ -70,6 +70,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/ui-control/controller-animator.js \
 	src/script/ui-control/controller-exporter.js \
 	src/script/ui-control/controller-raster-exporter.js \
+	src/script/ui-control/store.js \
 	src/script/utl/gaga.js \
 	src/script/utl/domquery.js \
 	src/script/mscgen-interpreter.js 
