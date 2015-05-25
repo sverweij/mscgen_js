@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?4132b8c46548532c"
+        <link rel="stylesheet" href="style/interp.css?4cc81eded08eb0f6"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?4132b8c46548532c"
-        src="lib/require.js?4132b8c46548532c" defer></script>
+        <script data-main="script/mscgen-interpreter.js?4cc81eded08eb0f6"
+        src="lib/require.js?4cc81eded08eb0f6" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -105,26 +105,33 @@
             </nav>
 
             <div class="debug" style="display: none">
-                <div><em>version:</em> 0.9.77</div>
-                <div><em>build-date:</em> 20150524 19:11</div>
-                <div><em>commit:</em> 4132b8c46548532c</div>
+                <div><em>version:</em> 0.9.78</div>
+                <div><em>build-date:</em> 20150525 15:48</div>
+                <div><em>commit:</em> 4cc81eded08eb0f6</div>
             </div>
 
             <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.77
-    build-date: 20150524 19:11
-    commit: 4132b8c46548532c">mscgen_js</h1>
+    version: 0.9.78
+    build-date: 20150525 15:48
+    commit: 4cc81eded08eb0f6">mscgen_js</h1>
             <span class="hideonmobile">turns text into sequence charts</span>
             <span class="showonmobile">text =&gt; MSCs</span>
         </header>
         <article>
         <section id="__input_and_controls">
             <div>
-                <h3 class="fadable-hint"><span class="intronumber">1</span> <span class="hideonmobile">your</span> text <span class="hideonmobile">goes here </span> &#x0261f;</h3>
+                <h3 class="fadable-hint"><span class="intronumber">1</span> <span class="hideontablet">your</span> text <span class="hideontablet">goes here</span> &#x0261f;</h3>
+                <span class="debug hideonmobile" style="display: none">
+                    <a id="__save" class="button" title="save chart
 
+saves the current chart to local storage"><span class="icon-arrow-down"></span></a>
+                    <a id="__load" class="button" title="load chart
+                    
+loads the most recently saved chart from local storage"><span class="icon-folder"></span></a>
+                </span>
                 <div class="herpes">
                     <select title="list of samples" id="__samples">
                         <option value="none" selected>select an example...</option>
@@ -194,8 +201,6 @@ Note: !! removes comments and reformats your source!!">color</button>
                 <button id="__btn_uncolorize" title="Removes all color from the sequence chart
 
 Note: !! removes comments and reformats your source!!">b&amp;w</button>
-                <span class="debug" style="display: none">
-                </span>
                 <button id="__btn_render" class="btn-primary"
                 title="Click to render. Only shows up when 'autorender' is off">
                     render
@@ -205,7 +210,7 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
 
         <section style="display:inline-block;">
             <h3 class="fadable-hint"
-                style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideonmobile">your</span> chart <span class="hideonmobile">shows up here</span> &#x0261f;</h3>
+                style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideontablet">your</span> chart <span class="hideontablet">shows up here</span> &#x0261f;</h3>
             <span id="__output_buttons">
             <a id="__show_svg"
                 class="button"
@@ -229,11 +234,6 @@ Note: the url bar will contain the base64 encoded version of the png">png</a>
                 title="Shows the chart in a separate window (jpeg).
 
 Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
-            <a id="__show_dot"
-                class="button"
-                target="_blank"
-                type="text/dot"
-                title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
             <a id="__show_anim"
                 class="button hideonmobile"
                 target="_blank"
@@ -242,18 +242,23 @@ Note: the url bar will contain the base64 encoded version of the jpeg">jpg</a>
 
 - works for classic mscgen compatible charts.
 - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
+            <a id="__show_dot"
+                class="button hideontablet"
+                target="_blank"
+                type="text/dot"
+                title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
             <a id="__show_html"
-                class="debug button" style="display: none"
+                class="debug button hideontablet" style="display: none"
                 target="_blank"
                 type="text/plain"
                 title="Generates an html page with the chart embedded"><span class="icon-embed"></span></a>
             <a id="__show_vanilla"
-                class="debug button" style="display: none"
+                class="debug button hideontablet" style="display: none"
                 target="_blank"
                 type="text/plain"
                 title="exports to vanilla mscgen"><span class="icon-arrow-down"></span></a>
             <a id="__show_url"
-                class="debug button" style="display: none"
+                class="debug button hideontablet" style="display: none"
                 target="_blank"
                 type="text/plain"
                 title="create bookmarkable url
