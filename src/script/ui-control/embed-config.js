@@ -18,12 +18,9 @@ define([],function() {
     };
     
     function mergeConfig (pConfigBase, pConfigToMerge){
-        var lAttribute = "";
-        for (lAttribute in pConfigToMerge) {
-            if(pConfigToMerge.hasOwnProperty(lAttribute)){
-                pConfigBase[lAttribute] = pConfigToMerge[lAttribute];
-            }
-        }
+        Object.getOwnPropertyNames(pConfigToMerge).forEach(function(pAttribute){
+            pConfigBase[pAttribute] = pConfigToMerge[pAttribute];
+        });
     }
     
     return {

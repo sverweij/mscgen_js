@@ -62,12 +62,9 @@ define(["./textutensils"], function(utl) {
     var gConfig = {};
 
     function fillGloblalConfig (pConfig){
-        var lAttribute = "";
-        for (lAttribute in pConfig) {
-            if(pConfig.hasOwnProperty(lAttribute)){
-                gConfig[lAttribute] = pConfig[lAttribute];
-            }
-        }
+        Object.getOwnPropertyNames(pConfig).forEach(function(pAttribute){
+            gConfig[pAttribute] = pConfig[pAttribute];
+        });
     }
 
     function processConfig(pConfig){
