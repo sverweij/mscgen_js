@@ -63,6 +63,7 @@ define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/rende
 var gAutoRender = true;
 var gLanguage = "mscgen";
 var gDebug = false;
+var gLinkToInterpreter = false;
 var gGaKeyCount = 0;
 
 var gCodeMirror =
@@ -358,15 +359,20 @@ function displayError (pError, pContext) {
         errorOnClick: errorOnClick,
 
         render: render,
-        getAutoRender: function(){return gAutoRender;},
-        setAutoRender: function(pBoolean){gAutoRender = pBoolean;},
+        getAutoRender: function(){ return gAutoRender; },
+        setAutoRender: function(pBoolean){ gAutoRender = pBoolean; },
         getSource: getSource,
         setSource: setSource,
         getLanguage: getLanguage,
         setLanguage: setLanguage,
-        getDebug: function(){return gDebug;},
-        setDebug: function(pBoolean){gDebug = pBoolean;},
+        getDebug: function(){ return gDebug; },
+        setDebug: function(pBoolean){ gDebug = pBoolean; },
         getAST: getAST,
+        getLinkToInterpeter: function(){ return gLinkToInterpreter; },
+        setLinkToInterpeter: function(pBoolean) { 
+            gLinkToInterpreter = pBoolean;
+            window.__link_to_interpreter.checked = pBoolean;
+        },
 
         showAutorenderState: showAutorenderState
     };
