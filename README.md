@@ -90,7 +90,7 @@ MIT style):
 - The bare (embedding only) mscgen_js is packaged using requirejs and [almond][31] to be able to run as a stand alone, dependency less package.
 - Parsers are generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13] and [canvg][16].
-- To run in ~~node~~ iojs (automated tests, command line interface), mscgen_js uses [jsdom][25], [amdefine][20] and [node-localstorage][36].
+- To run in ~~node~~ iojs (automated tests, command line interface), mscgen_js uses [jsdom][25], [amdefine][20], [node-localstorage][36] and [btoa][37].
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
@@ -147,3 +147,4 @@ shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/msc
 [34]: https://github.com/tmpvar/jsdom
 [35]: https://nodesecurity.io/
 [36]: wikum/licenses/license.node-localstorage.md
+[37]: wikum/licenses/license.btoa.md
