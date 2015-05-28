@@ -37,10 +37,17 @@ define(["./interpreter-uistate",
         },
         embedMeOnClick: function() {
             dq.SS(window.__cheatsheet).hide();
-            window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage());
+            window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
             dq.SS(window.__embedsheet).toggle();
             dq.SS(window.__aboutsheet).hide();
             gaga.g('send', 'event', 'link', "embedme");
+        },
+        linkToInterpreterOnClick: function() {
+            uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
+            window.__embedsnippet.textContent = 
+                    xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
+            uistate.showAutorenderState (uistate.getAutoRender());
+            gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
         aboutOnClick: function() {
             dq.SS(window.__embedsheet).hide();

@@ -44,6 +44,7 @@ require(["ui-control/interpreter-input-actions",
       window.__close_aboutsheet.addEventListener("click", nactions.closeAboutSheet, false);
       window.__helpme.addEventListener("click", nactions.helpMeOnClick, false);
       window.__embedme.addEventListener("click", nactions.embedMeOnClick, false);
+      window.__link_to_interpreter.addEventListener("click", nactions.linkToInterpreterOnClick, false);
       window.__about.addEventListener("click", nactions.aboutOnClick, false);
       window.document.body.addEventListener("keydown", nactions.keyDown, false);
     }

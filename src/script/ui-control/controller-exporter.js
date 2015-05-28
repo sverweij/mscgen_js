@@ -15,11 +15,15 @@ define(["../render/text/ast2dot",
     "use strict";
     
     var MAX_LOCATION_LENGTH = 4094;// max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1
-
-    function toHTMLSnippet (pSource, pLanguage){
-        return "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code " + pLanguage + " mscgen_js' data-language='" + pLanguage +"'>\n" + pSource + "\n    </pre>\n  </body>\n</html>";
-    }
+    var gTemplate = "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n{{config}}    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code {{language}} mscgen_js' data-language='{{language}}'>\n{{source}}\n    </pre>\n  </body>\n</html>";
+    var gLinkToEditorConfig = "    <script>\n      var mscgen_js_config = {\n        clickable: 'true'\n      }\n    </script>\n";
     
+    function toHTMLSnippet (pSource, pLanguage, pWithLinkToEditor){
+        return gTemplate.replace(/{{config}}/g, pWithLinkToEditor ? gLinkToEditorConfig : "")
+                        .replace(/{{language}}/g, pLanguage)
+                        .replace(/{{source}}/g, pSource);
+    }
+
     function getAdditionalParameters(pLocation){
         var lParams = par.getParams(pLocation.search);
         var lAdditionalParameters = "";
@@ -52,8 +56,8 @@ define(["../render/text/ast2dot",
             return "data:image/svg+xml;base64,"+lb64;
         },
         toHTMLSnippet: toHTMLSnippet,
-        toHTMLSnippetURI: function(pSource, pLanguage){
-            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(toHTMLSnippet(pSource, pLanguage));
+        toHTMLSnippetURI: function(pSource, pLanguage, pWithLinkToEditor){
+            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pWithLinkToEditor));
         },
         todotURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2dot.render(pAST));
