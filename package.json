@@ -33,7 +33,7 @@
     "url": "https://github.com/sverweij/mscgen_js"
   },
   "author": "Sander Verweij",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "keywords": [
     "mscgen",
     "sequence chart",
