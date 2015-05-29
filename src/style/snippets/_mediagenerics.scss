@@ -8,14 +8,12 @@
   div.hideonmobile {
     display: none;
   }
+  .showonmobile {
+    display: block;
+  }
 }
 @media screen and (max-width: 1164px) {
   .hideontablet {
     display: none;
-  }
-}
-@media screen and (max-width: 480px) {
-  .showonmobile {
-    display: block;
   }
 }

@@ -6,7 +6,7 @@
     "amdefine": "^0.1.0",
     "btoa": "^1.1.2",
     "jsdom": "^5.4.3",
-    "requirejs": "^2.1.17"
+    "requirejs": "^2.1.18"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.0.4",
@@ -33,7 +33,7 @@
     "url": "https://github.com/sverweij/mscgen_js"
   },
   "author": "Sander Verweij",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "keywords": [
     "mscgen",
     "sequence chart",
