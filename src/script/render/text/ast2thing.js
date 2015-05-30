@@ -205,6 +205,10 @@ define(["./textutensils"], function(utl) {
             lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
             lRetVal += pIndent + gConfig.inline.closer;
         }
+        if (null === pArc.arcs){
+            lRetVal += gConfig.inline.opener;
+            lRetVal += pIndent + gConfig.inline.closer;
+        }
         return lRetVal;
     }
 

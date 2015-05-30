@@ -91,6 +91,43 @@ describe('ast2xu', function() {
 }';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("should correctly render empty inline expressions", function() {
+            var lFixture = {
+              "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+              },
+              "entities": [
+                {
+                  "name": "a"
+                },
+                {
+                  "name": "b"
+                }
+              ],
+              "arcs": [
+                [
+                  {
+                    "kind": "opt",
+                    "from": "a",
+                    "to": "b",
+                    "arcs": null
+                  }
+                ]
+              ]
+          };
+            var lProgram = renderer.render(lFixture);
+            var lExpectedProgram = 
+'msc {\n\
+  a,\n\
+  b;\n\
+\n\
+  a opt b {\n\
+  };\n\
+}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 
     describe('#renderAST() - file based tests', function() {

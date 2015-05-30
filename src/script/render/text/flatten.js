@@ -90,33 +90,29 @@ function(transform, map, utl) {
         if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
             lArcSpanningArc = utl.deepCopy(pArcRow[0]);
 
-            if (lArcSpanningArc) {
-                if (lArcSpanningArc.arcs) {
-                    lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
-                    delete lArcSpanningArc.arcs;
-                    pAST.arcs.push([lArcSpanningArc]);
-                    pArcRow[0].arcs.forEach(function(pArcRow0) {
-                        unwindArcRow(pArcRow0, pAST, lArcSpanningArc.from, lArcSpanningArc.to, pDepth + 1);
-                        pArcRow0.forEach(function(pArc) {
-                            overrideColorsFromThing(pArc, lArcSpanningArc);
-                        });
+            if (lArcSpanningArc.arcs) {
+                lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
+                delete lArcSpanningArc.arcs;
+                pAST.arcs.push([lArcSpanningArc]);
+                pArcRow[0].arcs.forEach(function(pArcRow0) {
+                    unwindArcRow(pArcRow0, pAST, lArcSpanningArc.from, lArcSpanningArc.to, pDepth + 1);
+                    pArcRow0.forEach(function(pArc) {
+                        overrideColorsFromThing(pArc, lArcSpanningArc);
                     });
+                });
 
-                    lArcSpanningArc.depth = pDepth;
-                    if (pDepth > gMaxDepth) {
-                        gMaxDepth = pDepth;
-                    }
-                    pAST.arcs.push([{
-                        kind : "|||",
-                        from : lArcSpanningArc.from,
-                        to : lArcSpanningArc.to
-                        // label : lArcSpanningArc.depth.toString()
-                        // label : lArcSpanningArc.kind.toUpperCase() + " end"
-                    }]);
-                } else {
-                    pAST.arcs.push([lArcSpanningArc]);
+                if (pDepth > gMaxDepth) {
+                    gMaxDepth = pDepth;
                 }
+                pAST.arcs.push([{
+                    kind : "|||",
+                    from : lArcSpanningArc.from,
+                    to : lArcSpanningArc.to
+                }]);
+            } else {
+                pAST.arcs.push([lArcSpanningArc]);
             }
+            lArcSpanningArc.depth = pDepth;
         } else {
             if (pFrom && pTo) {
                 pArcRow.forEach(function(pArc) {

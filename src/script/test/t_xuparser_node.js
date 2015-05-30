@@ -60,6 +60,21 @@ describe('xuparser', function() {
         it("unicode is cool. But not yet for unquoted entity names", function() {
             tst.assertSyntaxError('msc{序;}', parser);
         });
+        it("unicode is cool for quoted entity names", function() {
+            var lFixture = {
+              "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+              },
+              "entities": [
+                {
+                  "name": "序"
+                }
+              ]
+            };
+            tst.assertequalJSON(parser.parse('msc{"序";}'), lFixture);
+        });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('msc{a}', parser);
         });
@@ -67,7 +82,32 @@ describe('xuparser', function() {
             tst.assertSyntaxError('msc{a, b; a xx b;}', parser);
         });
         it("should throw a SyntaxError on empty inline expression", function() {
-            tst.assertSyntaxError('msc{a, b; a opt b{};}', parser);
+            var lFixture = {
+              "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+              },
+              "entities": [
+                {
+                  "name": "a"
+                },
+                {
+                  "name": "b"
+                }
+              ],
+              "arcs": [
+                [
+                  {
+                    "kind": "opt",
+                    "from": "a",
+                    "to": "b",
+                    "arcs": null
+                  }
+                ]
+              ]
+            };
+            tst.assertequalJSON(parser.parse('msc{a, b; a opt b{};}'), lFixture);
         });
         it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
             tst.assertSyntaxError('msc{a, b; a => b{|||;};}', parser);

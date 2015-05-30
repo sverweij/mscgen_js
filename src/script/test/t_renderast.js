@@ -54,6 +54,10 @@ describe('renderast', function() {
                 processAndCompare('./src/script/test/fixtures/test19_multiline_lipsum.svg',//
                 './src/script/test/fixtures/test19_multiline_lipsum.json', true);
             });
+            it('should render empty inline expressions correctly', function(){
+                processAndCompare('./src/script/test/fixtures/test20_empty_inline_expression.svg',//
+                './src/script/test/fixtures/test20_empty_inline_expression.json', true);
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
