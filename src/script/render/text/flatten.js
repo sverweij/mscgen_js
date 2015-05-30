@@ -104,14 +104,14 @@ function(transform, map, utl) {
                 if (pDepth > gMaxDepth) {
                     gMaxDepth = pDepth;
                 }
-                pAST.arcs.push([{
-                    kind : "|||",
-                    from : lArcSpanningArc.from,
-                    to : lArcSpanningArc.to
-                }]);
             } else {
                 pAST.arcs.push([lArcSpanningArc]);
             }
+            pAST.arcs.push([{
+                kind : "|||",
+                from : lArcSpanningArc.from,
+                to : lArcSpanningArc.to
+            }]);
             lArcSpanningArc.depth = pDepth;
         } else {
             if (pFrom && pTo) {
