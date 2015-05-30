@@ -204,7 +204,7 @@ dualarc         =
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to:"*"}})
 spanarc         =
- (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _
+ (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
   {
     var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
     lRetval = merge (lRetval, al);

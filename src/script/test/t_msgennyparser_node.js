@@ -95,8 +95,20 @@ describe('msgennyparser', function() {
         it("unicode is cool. But not yet for unquoted entity names", function() {
             tst.assertSyntaxError('序;', parser);
         });
-        it("unicode is cool. But not yet for unquoted entity names", function() {
-            tst.assertSyntaxError('序;', parser);
+        it("unicode is cool for quoted entity names", function() {
+            var lFixture = {
+              "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+              },
+              "entities": [
+                {
+                  "name": "序"
+                }
+              ]
+            };
+            tst.assertequalJSON(parser.parse('"序";'), lFixture);
         });
         it("unicode is cool. But not yet for unquoted entity names - neither does it in arcs", function() {
             tst.assertSyntaxError('"序" -> 序;', parser);
@@ -104,8 +116,33 @@ describe('msgennyparser', function() {
         it("should throw a SyntaxError on an invalid arc type", function() {
             tst.assertSyntaxError('a, b; a xx b;', parser);
         });
-        it("should throw a SyntaxError on empty inline expression", function() {
-            tst.assertSyntaxError('a, b; a opt b{};', parser);
+        it("should allow empty inline expressions", function() {
+            var lFixture = {
+              "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": true,
+                "extendedFeatures": true
+              },
+              "entities": [
+                {
+                  "name": "a"
+                },
+                {
+                  "name": "b"
+                }
+              ],
+              "arcs": [
+                [
+                  {
+                    "kind": "opt",
+                    "from": "a",
+                    "to": "b",
+                    "arcs": null
+                  }
+                ]
+              ]
+            };
+            tst.assertequalJSON (parser.parse('a, b; a opt b{};'), lFixture);
         });
         it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
             tst.assertSyntaxError('a, b; a => b{|||;};', parser);

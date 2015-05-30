@@ -1606,6 +1606,9 @@ define ([], function() {
                           s11 = peg$parse_();
                           if (s11 !== peg$FAILED) {
                             s12 = peg$parsearclist();
+                            if (s12 === peg$FAILED) {
+                              s12 = peg$c8;
+                            }
                             if (s12 !== peg$FAILED) {
                               s13 = peg$parse_();
                               if (s13 !== peg$FAILED) {
