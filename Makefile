@@ -243,15 +243,15 @@ $(BUILDDIR)/samples/: src/samples
 $(BUILDDIR)/lib/require.js: src/lib/require.js
 	cp $< $@
 
-$(BUILDDIR)/script/blarb.js: $(SOURCES_WEB)  
+$(BUILDDIR)/script/tmp-mscgen-interpreter.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
 			out=$@ \
 			preserveLicenseComments=true
 
-$(BUILDDIR)/script/mscgen-interpreter.js: $(BUILDDIR)/script/blarb.js
+$(BUILDDIR)/script/mscgen-interpreter.js: $(BUILDDIR)/script/tmp-mscgen-interpreter.js
 	$(SEDVERSION) < $< > $@
-	rm $(BUILDDIR)/script/blarb.js
+	rm $<
 
 $(BUILDDIR)/mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
