@@ -49,7 +49,7 @@ describe('controller-exporter', function(){
             };
             try {
                 assert.equal(xport.toVectorURI(gSVG, lWindow),
-                             "data:image/svg+xml;base64,PHN2Zz5qdXN0IGEgZHVtbXkgdGhpbmc8L3N2Zz4=");
+                             "data:image/svg+xml;charset=utf-8;base64,PHN2Zz5qdXN0IGEgZHVtbXkgdGhpbmc8L3N2Zz4=");
             } catch(e){
                 return false;
             }
