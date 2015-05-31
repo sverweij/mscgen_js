@@ -14,7 +14,7 @@ define(["./interpreter-uistate",
 
     function setupGA (pDoNotTrack){
         gaga.gaSetup("false" === pDoNotTrack || undefined === pDoNotTrack );
-        gaga.g('create', 'UA-42701906-1', 'sverweij.github.io');
+        gaga.g('create', '{{trackingid}}', '{{host}}');
         gaga.g('send', 'pageview');
     }
 

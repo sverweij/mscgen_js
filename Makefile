@@ -149,6 +149,7 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
 	$(SEDVERSION) < $< > $@
 
+
 %.css: %.scss
 	$(SASS) $< $@
 
@@ -242,11 +243,15 @@ $(BUILDDIR)/samples/: src/samples
 $(BUILDDIR)/lib/require.js: src/lib/require.js
 	cp $< $@
 
-$(BUILDDIR)/script/mscgen-interpreter.js: $(SOURCES_WEB)  
+$(BUILDDIR)/script/blarb.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
 			out=$@ \
 			preserveLicenseComments=true
+
+$(BUILDDIR)/script/mscgen-interpreter.js: $(BUILDDIR)/script/blarb.js
+	$(SEDVERSION) < $< > $@
+	rm $(BUILDDIR)/script/blarb.js
 
 $(BUILDDIR)/mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
