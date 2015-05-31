@@ -149,6 +149,7 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
 	$(SEDVERSION) < $< > $@
 
+
 %.css: %.scss
 	$(SASS) $< $@
 
@@ -247,6 +248,8 @@ $(BUILDDIR)/script/mscgen-interpreter.js: $(SOURCES_WEB)
 			name="mscgen-interpreter" \
 			out=$@ \
 			preserveLicenseComments=true
+	mv $@ $@.tmp
+	$(SEDVERSION) < $@.tmp > $@
 
 $(BUILDDIR)/mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
