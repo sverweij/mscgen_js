@@ -53,7 +53,7 @@ define(["../render/text/ast2dot",
         toVectorURI: function (pSVGSource, pWindow) {
             pWindow = pWindow ? pWindow : window;
             var lb64 = pWindow.btoa(unescape(encodeURIComponent(pSVGSource)));
-            return "data:image/svg+xml;base64,"+lb64;
+            return "data:image/svg+xml;charset=utf-8;base64,"+lb64;
         },
         toHTMLSnippet: toHTMLSnippet,
         toHTMLSnippetURI: function(pSource, pLanguage, pWithLinkToEditor){
