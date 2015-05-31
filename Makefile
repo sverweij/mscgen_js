@@ -246,10 +246,10 @@ $(BUILDDIR)/lib/require.js: src/lib/require.js
 $(BUILDDIR)/script/mscgen-interpreter.js: $(SOURCES_WEB)  
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
-			out=$@ \
+			out=$@.tmp \
 			preserveLicenseComments=true
-	mv $@ $@.tmp
 	$(SEDVERSION) < $@.tmp > $@
+	rm $@.tmp
 
 $(BUILDDIR)/mscgen-inpage.js: $(EMBED_SOURCES_WEB)
 	$(RJS) -o baseUrl=./src/script \
