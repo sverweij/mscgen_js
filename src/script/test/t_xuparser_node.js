@@ -133,8 +133,14 @@ describe('xuparser', function() {
         it("should throw a SyntaxError on a invalid entity attribute", function() {
             tst.assertSyntaxError('msc{a[invalidentitityattribute="invalid"];}', parser);
         });
+        it("should throw a SyntaxError on a missing closing bracket on an entity", function() {
+            tst.assertSyntaxError('msc{a[label="missing closing bracket";}', parser);
+        });
         it("should throw a SyntaxError on a invalid arc attribute", function() {
             tst.assertSyntaxError('msc{a, b; a -> b[invalidearcattribute="invalid"];}', parser);
+        });
+        it("should throw a SyntaxError on a missing closing bracket", function() {
+            tst.assertSyntaxError('msc{a, b; a -> b[label="missing closing bracket";}', parser);
         });
         it ("should complain about an undeclared entity in a from", function(){
             tst.assertSyntaxError("msc{a,b,c;d=>a;}", parser, "EntityNotDefinedError");
