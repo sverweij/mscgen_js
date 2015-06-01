@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)](https://travis-ci.org/sverweij/mscgen_js)
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
-[![Test Coverage](https://codeclimate.com/github/sverweij/mscgen_js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgen_js)
+[![test coverage (codecov.io)](http://codecov.io/github/sverweij/mscgen_js/coverage.svg?branch=master)](http://codecov.io/github/sverweij/mscgen_js?branch=master)
 [![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
 [![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
 - Implementation of the super easy [mscgen][1] in javascript.
