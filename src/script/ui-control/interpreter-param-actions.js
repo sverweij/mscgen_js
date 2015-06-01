@@ -3,27 +3,29 @@
 define(["./interpreter-uistate",
         "../utl/paramslikker",
         "../utl/domquery",
-        "../utl/gaga"
+        "../utl/gaga",
+        "../render/text/textutensils"
         ],
         function(
             uistate,
             params,
             dq,
-            gaga) {
+            gaga,
+            txt) {
     "use strict";
 
     function setupGA (pDoNotTrack){
-        gaga.gaSetup("false" === pDoNotTrack || undefined === pDoNotTrack );
+        gaga.gaSetup(!pDoNotTrack);
         gaga.g('create', '{{trackingid}}', '{{host}}');
         gaga.g('send', 'pageview');
     }
 
     function processParams(){
         var lParams = params.getParams (window.location.search);
-        setupGA(lParams.donottrack);
+        setupGA(txt.sanitizeBooleanesque(lParams.donottrack));
         
         uistate.setDebug(false);
-        if (["true", "1", "on"].indexOf(lParams.debug) > -1 ) {
+        if (txt.sanitizeBooleanesque(lParams.debug)) {
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });
