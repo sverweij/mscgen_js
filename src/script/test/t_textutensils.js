@@ -75,5 +75,19 @@ describe('textutensils', function() {
             assert.equal(txt.formatNumber(481, 3), "481");
         });
     });
+    describe('#sanitizeBooleanesque() - ', function() {
+        it('sanitize non booleanesque', function() { 
+            assert.equal(false, txt.sanitizeBooleanesque("this is not a booleanesque"));        
+        });
+        it('sanitize non booleanesque', function() { 
+            assert.equal(false, txt.sanitizeBooleanesque(undefined));        
+        });
+        it('sanitize booleanesque', function() {
+            assert.equal(true, txt.sanitizeBooleanesque("1"));
+        });
+        it('sanitize booleanesque', function() {
+            assert.equal(false, txt.sanitizeBooleanesque("0"));
+        });
+    });
 
 });
