@@ -3115,19 +3115,27 @@ define ([], function() {
     }
 
 
+        function mergeObject (pBase, pObjectToMerge){
+            if (pObjectToMerge){
+                Object.getOwnPropertyNames(pObjectToMerge).forEach(function(pAttribute){
+                    pBase[pAttribute] = pObjectToMerge[pAttribute];
+                });
+            }
+        }
+            
         function merge(obj1,obj2){
-            var obj3 = {};
-            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-            return obj3;
+            var lReturnObject = {};
+            mergeObject(lReturnObject, obj1);
+            mergeObject(lReturnObject, obj2);
+            return lReturnObject;
         }
 
         function flattenBoolean(pBoolean) {
-            var lBoolean = "false";
-            switch(pBoolean.toLowerCase()) {
-                case("true"): case("on"): case("1"): lBoolean = "true";
+            if (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1) {
+                return "true";
+            } else {
+                return "false";
             }
-            return lBoolean;
         }
 
         function entityExists (pEntities, pName) {
@@ -3135,12 +3143,9 @@ define ([], function() {
                 return true;
             }
 
-            if (pEntities && pEntities.entities && pName) {
-                return pEntities.entities.some(function(pEntity){
-                    return pEntity.name === pName;
-                });
-            }
-            return false;
+            return pEntities.entities.some(function(pEntity){
+                return pEntity.name === pName;
+            });
         }
 
         function EntityNotDefinedError (pEntityName, pArc) {
