@@ -188,6 +188,15 @@ describe('msgennyparser', function() {
             var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             tst.assertequalJSON(gCorrectOrderFixture, lAST);
         });
+        it("should throw a SyntaxError on an inline expression without {}", function() {
+            tst.assertSyntaxError('a loop b', parser);
+        });
+        it("should throw a SyntaxError on an inline expression with a label, without {}", function() {
+            tst.assertSyntaxError('a loop b : ', parser);
+        });
+        it("should throw a SyntaxError on an inline expression with a label, without {}", function() {
+            tst.assertSyntaxError('a loop b : label', parser);
+        });
         it("should throw a SyntaxError on a missing closing bracket", function() {
             tst.assertSyntaxError('a loop b {', parser);
         });

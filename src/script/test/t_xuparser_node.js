@@ -197,7 +197,13 @@ describe('xuparser', function() {
             tst.assertSyntaxError('msc {a,b; a loop b {}', parser);
         });
         it("should throw a SyntaxError on a missing semi colon after a closing bracket", function() {
-            tst.assertSyntaxError('msc {a,b; a loop b {}}', parser);
+            tst.assertSyntaxError('msc {a,b; a loop b [', parser);
+        });
+        it("should throw a SyntaxError on a missing a value for an attribute", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b [label', parser);
+        });
+        it("should throw a SyntaxError on a missing a closing bracket after a valid option", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b [label="brackets missing"', parser);
         });
     });
 });
