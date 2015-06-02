@@ -59,16 +59,8 @@ define ([], function() {
         peg$c9 = function(o) {return o},
         peg$c10 = ";",
         peg$c11 = { type: "literal", value: ";", description: "\";\"" },
-        peg$c12 = function(o) {
-          var lOptionList = {};
-          var opt, bla;
-          for (opt in o[0]) {
-            for (bla in o[0][opt]){
-              lOptionList[bla]=o[0][opt][bla];
-            }
-          }
-          lOptionList = merge(lOptionList, o[1]);
-          return lOptionList;
+        peg$c12 = function(options) {
+          return optionArray2Object(options);
         },
         peg$c13 = "=",
         peg$c14 = { type: "literal", value: "=", description: "\"=\"" },
@@ -2830,11 +2822,18 @@ define ([], function() {
             }
         }
             
-        function merge(obj1,obj2){
-            var lReturnObject = {};
-            mergeObject(lReturnObject, obj1);
-            mergeObject(lReturnObject, obj2);
-            return lReturnObject;
+        function merge(pBase, pObjectToMerge){
+            pBase = pBase ? pBase : {};
+            mergeObject(pBase, pObjectToMerge);
+            return pBase;
+        }
+
+        function optionArray2Object (pOptionList) {
+            var lOptionList = {};
+            pOptionList[0].forEach(function(lOption){
+                lOptionList = merge(lOptionList, lOption);
+            });
+            return merge(lOptionList, pOptionList[1]);
         }
 
         function flattenBoolean(pBoolean) {

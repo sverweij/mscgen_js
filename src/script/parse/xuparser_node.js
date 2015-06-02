@@ -67,16 +67,8 @@ module.exports = (function() {
         peg$c15 = function(o) {return o},
         peg$c16 = ";",
         peg$c17 = { type: "literal", value: ";", description: "\";\"" },
-        peg$c18 = function(o) {
-          var lOptionList = {};
-          var opt, bla;
-          for (opt in o[0]) {
-            for (bla in o[0][opt]){
-              lOptionList[bla]=o[0][opt][bla];
-            }
-          }
-          lOptionList = merge(lOptionList, o[1]);
-          return lOptionList;
+        peg$c18 = function(options) {
+          return optionArray2Object(options);
         },
         peg$c19 = "=",
         peg$c20 = { type: "literal", value: "=", description: "\"=\"" },
@@ -117,8 +109,7 @@ module.exports = (function() {
         peg$c43 = function(i, al) {
           var lOption = {};
           lOption["name"] = i;
-          lOption = merge (lOption, al);
-          return lOption;
+          return merge (lOption, al);
         },
         peg$c44 = function(a) {return [a]},
         peg$c45 = function(al) {
@@ -128,8 +119,7 @@ module.exports = (function() {
         },
         peg$c46 = function(al) {return al},
         peg$c47 = function(a, al) {
-          a = merge (a, al);
-          return a;
+          return merge (a, al);
         },
         peg$c48 = function(kind) {return {kind:kind}},
         peg$c49 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
@@ -139,8 +129,7 @@ module.exports = (function() {
         peg$c53 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
         peg$c54 = function(from, kind, to, al, arclist) {
             var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
-            lRetval = merge (lRetval, al);
-            return lRetval;
+            return merge (lRetval, al);
           },
         peg$c55 = "|||",
         peg$c56 = { type: "literal", value: "|||", description: "\"|||\"" },
@@ -234,16 +223,8 @@ module.exports = (function() {
         peg$c144 = { type: "literal", value: "ref", description: "\"ref\"" },
         peg$c145 = "exc",
         peg$c146 = { type: "literal", value: "exc", description: "\"exc\"" },
-        peg$c147 = function(al) {
-          var obj = {};
-          var opt, bla;
-          for (opt in al[0]) {
-            for (bla in al[0][opt]){
-              obj[bla]=al[0][opt][bla];
-            }
-          }
-          obj = merge(obj, al[1]);
-          return obj;
+        peg$c147 = function(attributes) {
+          return optionArray2Object(attributes);
         },
         peg$c148 = function(n, v) {
           var lAttribute = {};
@@ -3123,11 +3104,18 @@ module.exports = (function() {
             }
         }
             
-        function merge(obj1,obj2){
-            var lReturnObject = {};
-            mergeObject(lReturnObject, obj1);
-            mergeObject(lReturnObject, obj2);
-            return lReturnObject;
+        function merge(pBase, pObjectToMerge){
+            pBase = pBase ? pBase : {};
+            mergeObject(pBase, pObjectToMerge);
+            return pBase;
+        }
+
+        function optionArray2Object (pOptionList) {
+            var lOptionList = {};
+            pOptionList[0].forEach(function(lOption){
+                lOptionList = merge(lOptionList, lOption);
+            });
+            return merge(lOptionList, pOptionList[1]);
         }
 
         function flattenBoolean(pBoolean) {
