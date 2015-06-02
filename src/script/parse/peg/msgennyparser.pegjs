@@ -30,11 +30,10 @@
         }
     }
         
-    function merge(obj1,obj2){
-        var lReturnObject = {};
-        mergeObject(lReturnObject, obj1);
-        mergeObject(lReturnObject, obj2);
-        return lReturnObject;
+    function merge(pBase, pObjectToMerge){
+        pBase = pBase ? pBase : {};
+        mergeObject(pBase, pObjectToMerge);
+        return pBase;
     }
 
     function optionArray2Object (pOptionList) {
@@ -42,8 +41,7 @@
         pOptionList[0].forEach(function(lOption){
             lOptionList = merge(lOptionList, lOption);
         });
-        lOptionList = merge(lOptionList, pOptionList[1]);
-        return lOptionList;
+        return merge(lOptionList, pOptionList[1]);
     }
 
     function flattenBoolean(pBoolean) {
