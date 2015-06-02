@@ -153,6 +153,9 @@ describe('msgennyparser', function() {
         it("should throw a SyntaxError on an invalid value for an option", function() {
             tst.assertSyntaxError('wordwraparcs=\u0181; a, b; a -> b;', parser);
         });
+        it("should throw a SyntaxError on a missing semi colon after the options list", function() {
+            tst.assertSyntaxError('wordwraparcs="true" a, b; a -> b;', parser);
+        });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('wordwraparcs="true"; a, b; a -> b', parser);
         });
@@ -185,6 +188,13 @@ describe('msgennyparser', function() {
             var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             tst.assertequalJSON(gCorrectOrderFixture, lAST);
         });
+        it("should throw a SyntaxError on a missing closing bracket", function() {
+            tst.assertSyntaxError('a loop b {', parser);
+        });
+        it("should throw a SyntaxError on a missing semi after a closing bracket", function() {
+            tst.assertSyntaxError('a loop b {}', parser);
+        });
+
     });
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {

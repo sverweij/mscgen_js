@@ -124,6 +124,9 @@ describe('xuparser', function() {
         it("should throw a SyntaxError on an invalid value for an option", function() {
             tst.assertSyntaxError('msc{wordwraparcs=\u0181; a, b; a -> b;}', parser);
         });
+        it("should throw a SyntaxError on a missing semi colon after the options list", function() {
+            tst.assertSyntaxError('msc{wordwraparcs="true" a, b; a -> b;}', parser);
+        });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
         });
@@ -183,6 +186,18 @@ describe('xuparser', function() {
         it('should render an AST, with a loop and an alt in it', function() {
             var lAST = parser.parse('msc { a,b,c; a => b; a loop c [label="label for loop"] { b alt c [label="label for alt"]{ b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; }; b >> a [label=">> within loop"];}; a =>> a [label="happy-the-peppy - outside"];...;}');
             tst.assertequalJSON(lAST, fix.astAltWithinLoop);
+        });
+        it("should throw a SyntaxError on a missing closing bracket", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b {', parser);
+        });
+        it("should throw a SyntaxError on a missing closing bracket", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b {a=>b;', parser);
+        });
+        it("should throw a SyntaxError on a missing closing bracket", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b {}', parser);
+        });
+        it("should throw a SyntaxError on a missing semi colon after a closing bracket", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b {}}', parser);
         });
     });
 });

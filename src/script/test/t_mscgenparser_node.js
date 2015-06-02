@@ -78,6 +78,9 @@ describe('mscgenparser', function() {
         it("should throw a SyntaxError on an invalid value for an option", function() {
             tst.assertSyntaxError('msc{wordwraparcs=\u0181; a, b; a -> b;}', parser);
         });
+        it("should throw a SyntaxError on a missing semi colon after the options list", function() {
+            tst.assertSyntaxError('msc{wordwraparcs="true" a, b; a -> b;}', parser);
+        });
         it("should throw a SyntaxError on a missing semi colon", function() {
             tst.assertSyntaxError('msc{wordwraparcs="true"; a, b; a -> b}', parser);
         });
