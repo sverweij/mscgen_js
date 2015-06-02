@@ -36,6 +36,15 @@
         return lReturnObject;
     }
 
+    function optionArray2Object (pOptionList) {
+        var lOptionList = {};
+        pOptionList[0].forEach(function(lOption){
+            lOptionList = merge(lOptionList, lOption);
+        });
+        lOptionList = merge(lOptionList, pOptionList[1]);
+        return lOptionList;
+    }
+
     function flattenBoolean(pBoolean) {
         if (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1) {
             return "true";
@@ -140,18 +149,10 @@ starttoken      = "msc"i
 declarationlist = (o:optionlist {return {options:o}})?
                   (e:entitylist {return {entities:e}})?
                   (a:arclist {return {arcs:a}})?
-optionlist      = o:((o:option "," {return o})*
+optionlist      = options:((o:option "," {return o})*
                   (o:option ";" {return o}))
 {
-  var lOptionList = {};
-  var opt, bla;
-  for (opt in o[0]) {
-    for (bla in o[0][opt]){
-      lOptionList[bla]=o[0][opt][bla];
-    }
-  }
-  lOptionList = merge(lOptionList, o[1]);
-  return lOptionList;
+  return optionArray2Object(options);
 }
 
 option          = _ n:optionname _ "=" _
@@ -179,8 +180,7 @@ entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
 {
   var lOption = {};
   lOption["name"] = i;
-  lOption = merge (lOption, al);
-  return lOption;
+  return merge (lOption, al);
 }
 arclist         = (a:arcline _ ";" {return a})+
 arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
@@ -195,8 +195,7 @@ regulararc      = a:((a:singlearc {return a})
                    / (a:commentarc {return a}))
                       al:("[" al:attributelist "]" {return al})?
 {
-  a = merge (a, al);
-  return a;
+  return merge (a, al);
 }
 
 singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
@@ -212,8 +211,7 @@ spanarc         =
  (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
   {
     var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
-    lRetval = merge (lRetval, al);
-    return lRetval;
+    return merge (lRetval, al);
   }
  )
 
@@ -243,19 +241,11 @@ spanarctoken    "arc spanning box"
                   )
                  {return kind.toLowerCase()}
 
-
-attributelist   = al:((a:attribute "," {return a})* (a:attribute {return a}))
+attributelist   = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
 {
-  var obj = {};
-  var opt, bla;
-  for (opt in al[0]) {
-    for (bla in al[0][opt]){
-      obj[bla]=al[0][opt][bla];
-    }
-  }
-  obj = merge(obj, al[1]);
-  return obj;
+  return optionArray2Object(attributes);
 }
+
 attribute       = _ n:attributename _ "=" _ v:identifier _
 {
   var lAttribute = {};

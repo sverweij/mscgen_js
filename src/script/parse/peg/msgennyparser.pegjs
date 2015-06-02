@@ -37,6 +37,15 @@
         return lReturnObject;
     }
 
+    function optionArray2Object (pOptionList) {
+        var lOptionList = {};
+        pOptionList[0].forEach(function(lOption){
+            lOptionList = merge(lOptionList, lOption);
+        });
+        lOptionList = merge(lOptionList, pOptionList[1]);
+        return lOptionList;
+    }
+
     function flattenBoolean(pBoolean) {
         if (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1) {
             return "true";
@@ -150,18 +159,10 @@ program         =  pre:_ d:declarationlist _
 declarationlist = (o:optionlist {return {options:o}})?
                   (e:entitylist {return {entities:e}})?
                   (a:arclist {return {arcs:a}})?
-optionlist      = o:((o:option "," {return o})*
+optionlist      = options:((o:option "," {return o})*
                   (o:option ";" {return o}))
 {
-  var lOptionList = {};
-  var opt, bla;
-  for (opt in o[0]) {
-    for (bla in o[0][opt]){
-      lOptionList[bla]=o[0][opt][bla];
-    }
-  }
-  lOptionList = merge(lOptionList, o[1]);
-  return lOptionList;
+  return optionArray2Object(options);
 }
 
 option          = _ n:optionname _ "=" _
