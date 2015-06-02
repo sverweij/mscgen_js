@@ -78,6 +78,12 @@ describe('xuparser', function() {
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('msc{a}', parser);
         });
+        it("should throw a SyntaxError on a program with only the start token", function() {
+            tst.assertSyntaxError('msc', parser);
+        });
+        it("should throw a SyntaxError on a program with shizzle after the closing statement", function() {
+            tst.assertSyntaxError('msc{a;} shizzle after the closing statement', parser);
+        });
         it("should throw a SyntaxError on an invalid arc type", function() {
             tst.assertSyntaxError('msc{a, b; a xx b;}', parser);
         });

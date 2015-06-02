@@ -57,6 +57,12 @@ describe('mscgenparser', function() {
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
         });
+        it("should throw a SyntaxError on a program with only the start token", function() {
+            tst.assertSyntaxError('msc', parser);
+        });
+        it("should throw a SyntaxError on a program with shizzle after the closing statement", function() {
+            tst.assertSyntaxError('msc{a;} shizzle after the closing statement', parser);
+        });
         it("unicode is cool. But not yet for unquoted entity names", function() {
             tst.assertSyntaxError('msc{序;}', parser);
         });
