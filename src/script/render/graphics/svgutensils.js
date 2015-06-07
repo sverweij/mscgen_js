@@ -16,15 +16,39 @@ define(["./constants", "./idmanager"], function(C, id) {
     "use strict";
 
     var gDocument;
-
+    var gSvgBBoxerId = id.get("bboxer");
+    
     /* istanbul ignore next */
-    function getNativeBBox(pElement){
+    function _createBBoxerSVG(pId){
         var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
         lSvg.setAttribute("version", "1.1");
         lSvg.setAttribute("xmlns", C.SVGNS);
         lSvg.setAttribute("xmlns:xlink", C.XLINKNS);
-
+        lSvg.setAttribute("id", pId);
         gDocument.body.appendChild(lSvg);
+        
+        return lSvg;
+    }
+
+    /* istanbul ignore next */
+    function getNativeBBox(pElement){
+        /* getNativeBBoxWithCache */
+        var lSvg = gDocument.getElementById(gSvgBBoxerId);
+        lSvg = lSvg ? lSvg : _createBBoxerSVG (gSvgBBoxerId);
+        
+        lSvg.appendChild(pElement);
+        var lRetval = pElement.getBBox();
+        lSvg.removeChild(pElement);
+
+        return lRetval;
+    }
+    // ttl: 824ms, 
+    // renderAST:     -, 747  , 643, 614, 560
+    // bbox time: 194ms, 244ms, 184, 190, 197
+    /*
+    function getNativeBBoxWithoutCache(pElement){
+        var lSvg = _createBBoxerSVG (gSvgBBoxerId);
+        
         lSvg.appendChild(pElement);
         var lRetval = pElement.getBBox();
         lSvg.removeChild(pElement);
@@ -32,6 +56,17 @@ define(["./constants", "./idmanager"], function(C, id) {
 
         return lRetval;
     }
+    */
+    // ttl:       1.13s,  912ms, 939ms
+    // renderAST:     -,      -, 736, 874
+    // bbox time: 332ms,  227ms, 252ms, 262
+
+
+    
+    // function getNativeBBox(pElement){
+    //     // return getNativeBBoxWithoutCache(pElement);
+    //     return getNativeBBoxWithCache(pElement);
+    // }
 
     /*
      * workaround for Opera browser quirk: if the dimensions
