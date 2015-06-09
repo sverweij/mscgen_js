@@ -104,7 +104,7 @@ require(["parse/xuparser",
         var lElement = document.getElementById(pElementId);
         lElement.innerHTML = "";
         
-        if ("true" === conf.getConfig().clickable){
+        if (true === conf.getConfig().clickable){
             lElement.appendChild(renderLink(pSource, pLanguage, pElementId));
             pElementId = pElementId + "link";
         }

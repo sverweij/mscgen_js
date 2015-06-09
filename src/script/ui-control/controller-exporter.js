@@ -16,7 +16,7 @@ define(["../render/text/ast2dot",
     
     var MAX_LOCATION_LENGTH = 4094;// max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1
     var gTemplate = "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n{{config}}    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code {{language}} mscgen_js' data-language='{{language}}'>\n{{source}}\n    </pre>\n  </body>\n</html>";
-    var gLinkToEditorConfig = "    <script>\n      var mscgen_js_config = {\n        clickable: 'true'\n      }\n    </script>\n";
+    var gLinkToEditorConfig = "    <script>\n      var mscgen_js_config = {\n        clickable: true\n      }\n    </script>\n";
     
     function toHTMLSnippet (pSource, pLanguage, pWithLinkToEditor){
         return gTemplate.replace(/{{config}}/g, pWithLinkToEditor ? gLinkToEditorConfig : "")
