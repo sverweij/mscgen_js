@@ -9,21 +9,21 @@ describe('embed-config', function() {
             {
                 defaultLanguage : "mscgen",
                 parentElementPrefix : "mscgen_js-parent_",
-                clickable : "false",
+                clickable : false,
                 clickURL : "https://sverweij.github.io/mscgen_js/",
             });
         });
         
         it('should return a changed configuration when a mscgen_js_config is present', function(){
             global.mscgen_js_config = {
-                clickable: "true",
+                clickable: true,
                 clickURL: "http://localhost/"
             };
             utl.assertequalJSON(conf.getConfig(),
             {
                 defaultLanguage : "mscgen",
                 parentElementPrefix : "mscgen_js-parent_",
-                clickable : "true",
+                clickable : true,
                 clickURL : "http://localhost/",
             });
         });

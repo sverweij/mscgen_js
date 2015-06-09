@@ -13,7 +13,7 @@ define([],function() {
     var gConfig = {
         defaultLanguage : "mscgen",
         parentElementPrefix : "mscgen_js-parent_",
-        clickable : "false",
+        clickable : false,
         clickURL : "https://sverweij.github.io/mscgen_js/",
     };
     
