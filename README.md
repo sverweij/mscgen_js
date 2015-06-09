@@ -42,6 +42,7 @@ was made with this *mscgen* source:
                 textcolor="green", textbgcolor="lime" ];
     }
 
+([click here](https://sverweij.github.io/index.html?lang=mscgen&msc=msc%20{%0A%20%20a%20[%20label%3D%22Entity%20A%22%2C%20textbgcolor%3D%22red%22%2C%20textcolor%3D%22white%22%20]%2C%0A%20%20b%20[%20label%3D%22Entity%20B%22%2C%20textbgcolor%3D%22yellow%22%20]%2C%0A%20%20c%20[%20label%3D%22Entity%20C%22%2C%20textbgcolor%3D%22blue%22%2C%20textcolor%3D%22yellow%22%20]%3B%0A%0A%20%20a-%3Eb%20[%20label%20%3D%20%22ab%28%29%22%20]%20%3B%0A%20%20b-%3Ec%20[%20label%20%3D%20%22bc%28TRUE%29%22]%3B%0A%20%20c%3D%3E%3Ec%20[%20label%20%3D%20%22process%281%29%22%20]%3B%0A%20%20b%3C%3C%3Dc%20[%20label%20%3D%20%22callback%28%29%22%2C%20arcskip%3D%221%22]%3B%0A%20%20|||%3B%0A%20%20---%20%20[%20label%20%3D%20%22If%20more%20to%20run%22%2C%20ID%3D%22*%22%20]%3B%0A%20%20a-%3Ea%20[%20label%20%3D%20%22next%28%29%22]%3B%0A%20%20a%3D%3Ec%20[%20label%20%3D%20%22ac1%28%29%22]%3B%0A%20%20b%3C%3Cc%20[%20label%20%3D%20%22cb%28true%29%22%2C%20textbgcolor%3D%22lime%22]%3B%0A%20%20b-%3Eb%20[%20label%20%3D%20%22stalled%28...%29%22]%3B%0A%20%20a%3C%3Cb%20[%20label%20%3D%20%22ab%28%29%20%3D%20FALSE%22%2C%20textcolor%3D%22red%22%2C%20linecolor%3D%22red%22]%2C%0A%20%20c%20note%20c%20[%20label%3D%22Just%20a%20note%20...%22%2C%20linecolor%3D%22green%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20textcolor%3D%22green%22%2C%20textbgcolor%3D%22lime%22%20]%3B%0A}) to open it in the online interpreter.)
 
 ## mscgen_js and the mscgen standard
 mscgen_js was made to go both ways:
