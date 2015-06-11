@@ -129,8 +129,6 @@ define(["./constants"], function(C) {
         lPathString += " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10);
         // bottom line:
         lPathString += " l-" + (pBBox.width - lFoldSize) + ",0 ";
-        // back to home:
-        lPathString += "H";
 
         return _createPath(lPathString, pClass);
     }
