@@ -153,7 +153,6 @@ article {
     padding: 0 3em 0 3em;
     align-items: center; 
     -webkit-align-items: center; 
-    font-size: 1.2em; 
     color: lightgray;
     transition: $height-transition;
 }
@@ -226,13 +225,24 @@ article {
     }
 }
 
-@media screen and (min-width: 769px) and (min-height: 701px) {
+@media screen and (min-width: 769px) and (min-height: 701px) and (max-height: 790px){
     .CodeMirror {
         height: 47em;
         transition: $height-transition;
     }
     #__placeholder {
         height: 30em;
+        transition: $height-transition;
+    }
+}
+
+@media screen and (min-width: 769px) and (min-height: 791px) {
+    .CodeMirror {
+        height: 54em;
+        transition: $height-transition;
+    }
+    #__placeholder {
+        height: 33em;
         transition: $height-transition;
     }
 }
