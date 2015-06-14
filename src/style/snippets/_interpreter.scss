@@ -1,6 +1,8 @@
 $error-background-color: #F2DEDE;
 $error-color: #A94442;
 $error-border: 1px solid #EBCCD1;
+$width-transition: width 0.3s ease-out;
+$height-transition: height 0.5s ease-out;
 .code {
   font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
   font-size: .7em;
@@ -26,21 +28,6 @@ h3 {
   border: solid 1px;
   border-radius: 1em;
 }
-#__input_and_controls {
-  z-index: 2;
-  position: relative;
-  vertical-align: top;
-  float: left;
-  max-width: 100%;
-  max-height: 100%;
-  width: 32em;
-  padding-bottom: 1em;
-  margin-right: 1em;
-}
-#__msc_input {
-  width: 98%;
-  height: 40;
-}
 .error {
   border: $error-border;
   border-radius: 2px;
@@ -62,18 +49,6 @@ h3 {
 	text-decoration: underline;
 	cursor: pointer;
 }
-#__svg {
-  z-index: 0;
-  vertical-align: top;
-  position: absolute;
-  float: left;
-}
-// #__output_buttons {
-//   z-index: 0;
-//   vertical-align: top;
-//   position: absolute;
-//   float: left;
-// }
 fieldset {
   display: inline;
   border: 1px solid lightgray;
@@ -120,10 +95,7 @@ button:active, a.button:active {
   background-color: rgba(66, 133, 244, 0.84);
   color: rgba(255, 255, 255, 1.00);
 }
-.getitright {
-  float: right;
-  position: relative;
-}
+
 .xunotify {
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
   font-size: 0.7em;
@@ -131,8 +103,136 @@ button:active, a.button:active {
   margin: -0.6em 0 0 -0.5em;
 }
 
+.CodeMirror {
+    /* Set height, width, borders, and global font properties here */
+    font-family: monospace;
+    font-size: 0.7em;
+}
+
+article {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+}
+
+#__input_area {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    max-height: 100%;
+}
+#__samples {
+    float: right;
+}
+#__input_controls_area {
+    margin: 0.1em 0 1.7em 0;
+}
+#__output_area {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    padding: 0 0.3em 0 0.3em;
+}
+#__output_controls_area{
+    margin: 0 0 1.1em 2em;
+}
+#__output_content_area{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+#__placeholder {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    padding: 0 3em 0 3em;
+    align-items: center; 
+    -webkit-align-items: center; 
+    font-size: 1.2em; 
+    color: lightgray;
+    transition: $height-transition;
+}
+
 @media screen and (max-width: 1024px) {
-  #__input_and_controls {
+  #__input_area{
     width: 28em;
+    min-width: 28em;
+    transition: $width-transition;
   }
+}
+
+@media screen and (min-width: 1025px) {
+  #__input_area{
+     width: 32em;
+     transition: $width-transition;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  article {
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      -webkit-flex-direction: column;
+  }
+  #__input_area{
+      width: 100%;
+      transition: $width-transition;
+  }
+  #__output_area {
+      width: 100%;
+      flex-direction: column;
+      -webkit-flex-direction: column;
+  }
+  #__output_controls_area {
+      margin: 0 0 0.7em 0;
+      order: 1;
+      -webkit-order: 1;
+  }
+}
+
+@media screen and (max-width: 768px){
+    .CodeMirror {
+        height: 24em;
+        transition: $height-transition;
+    }
+}
+
+/* height dependent mods */
+@media screen and (min-width: 769px) and (max-height: 600px){
+    .CodeMirror {
+        height: 24em;
+        transition: $height-transition;
+    }
+    #__placeholder {
+        height: 16em;
+        transition: $height-transition;
+    }
+}
+
+@media screen and (min-width: 769px) and (min-height: 600px) and (max-height: 700px) {
+    .CodeMirror {
+        height: 38em;
+        transition: $height-transition;
+    }
+    #__placeholder {
+        height: 25em;
+        transition: $height-transition;
+    }
+}
+
+@media screen and (min-width: 769px) and (min-height: 701px) {
+    .CodeMirror {
+        height: 47em;
+        transition: $height-transition;
+    }
+    #__placeholder {
+        height: 30em;
+        transition: $height-transition;
+    }
 }

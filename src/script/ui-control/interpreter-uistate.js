@@ -73,7 +73,7 @@ var gCodeMirror =
         matchBrackets     : true,
         theme             : "midnight",
         mode              : "xu",
-        placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
+        placeholder       : "Type your text. Or drag a file to this area....",
         lineWrapping      : false
     });
 
@@ -276,12 +276,16 @@ function render(pSource, pLanguage) {
 
 function preRenderReset(){
     hideError();
-    dq.SS(window.__output_buttons).hide();
+    dq.SS(window.__output_controls_area).hide();
+    dq.SS(window.__placeholder).show("flex");
+    dq.SS(window.__svg).hide();
     msc_render.clean("__svg", window);
 }
 
 function showRenderSuccess(pMeta){
-    dq.SS(window.__output_buttons).show();
+    dq.SS(window.__output_controls_area).show();
+    dq.SS(window.__placeholder).hide();
+    dq.SS(window.__svg).show();
     showExtendedArcTypeFeatures(pMeta);
     showExtendedFeatures(pMeta);
     gLanguage = txt.correctLanguage(pMeta.extendedFeatures, getLanguage());
@@ -346,6 +350,7 @@ function hideError () {
 
 function displayError (pError, pContext) {
     dq.SS(window.__error).show();
+    dq.SS(window.__placeholder).hide();
     window.__error_output.textContent = pError;
     window.__error_context.textContent = pContext;
 }
