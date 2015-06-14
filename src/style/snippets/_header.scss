@@ -32,29 +32,17 @@ header a {
   color: inherit;
 }
 header a.icon:hover {
-  color: blue;
-  -webkit-transition: -webkit-transform 0.28s, color 0.28s;
-  transition: transform 0.28s, color 0.28s;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  text-decoration: underline;
 }
 header a.icon:active {
-  color: blue;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  text-decoration: underline;
 }
 header div.icon:hover {
   cursor: pointer;
-  color: blue;
-  -webkit-transition: -webkit-transform 0.28s, color 0.28s;
-  transition: transform 0.28s, color 0.28s;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  text-decoration: underline;
 }
 header div.icon:active {
-  color: blue;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  text-decoration: underline;
 }
 header .icon {
   display: inline-block;
@@ -82,10 +70,7 @@ header .about {
   background-image: url('../images/about.svg');
 }
 header .active {
-  font-weight: 600;
-  text-decoration: none;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  text-decoration: underline;
 }
 header div.active:hover {
   cursor: default;
