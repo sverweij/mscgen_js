@@ -26,7 +26,7 @@ function(msc_render, ast2animate, gaga, dq) {
             window.clearTimeout(gTimer);
         }
         if (gPlaying && (anim.getPosition() < anim.getLength())) {
-            gTimer = window.setTimeout(animate, 500);
+            gTimer = window.setTimeout(animate, 1400);
             updateState();
             anim.inc();
         } else {
