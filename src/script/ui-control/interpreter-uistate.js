@@ -42,19 +42,12 @@ msc {
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu",
         "../utl/gaga", "../utl/maps", "../render/text/colorize",
-        "../../lib/codemirror/lib/codemirror",
         "../utl/domquery",
-        "./controller-exporter",
-        "../../lib/codemirror/addon/edit/closebrackets",
-        "../../lib/codemirror/addon/edit/matchbrackets",
-        "../../lib/codemirror/addon/display/placeholder",
-        "../../lib/codemirror/mode/mscgen/mscgen",
-        "../../lib/codemirror/mode/javascript/javascript"
+        "./controller-exporter"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
             gaga, txt, colorize,
-            codemirror,
             dq,
             xport
         ) {
@@ -64,53 +57,15 @@ var gAutoRender = true;
 var gLanguage = "mscgen";
 var gDebug = false;
 var gLinkToInterpreter = false;
-var gGaKeyCount = 0;
 
-var gCodeMirror =
-    codemirror.fromTextArea(window.__msc_input, {
-        lineNumbers       : true,
-        autoCloseBrackets : true,
-        matchBrackets     : true,
-        theme             : "midnight",
-        mode              : "xu",
-        placeholder       : "Type your text. Or drag a file to this area....",
-        lineWrapping      : false
-    });
-
+var gCodeMirror = {};
 var gErrorCoordinates = {
     line : 0,
     column : 0
   };
 
-setupEditorEvents(gCodeMirror);
-initializeUI();
-
-function setupEditorEvents(pCodeMirror){
-  pCodeMirror.on ("change",
-      function() {
-          msc_inputKeyup();
-          if (gGaKeyCount > 17) {
-              gGaKeyCount = 0;
-              gaga.g('send', 'event', '17 characters typed', getLanguage());
-          } else {
-              gGaKeyCount++;
-          }
-  });
-
-  pCodeMirror.on ("drop",
-      function(pUnused, pEvent) {
-          /* if there is a file in the drop event clear the textarea,
-           * otherwise do default handling for drop events (whatever it is)
-           */
-          if (pEvent.dataTransfer.files.length > 0) {
-              setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
-              setSource("");
-              gaga.g('send', 'event', 'drop', gLanguage);
-          }
-  });
-}
-
-function initializeUI() {
+function initializeUI(pCodeMirror) {
+    gCodeMirror = pCodeMirror;
     showAutorenderState (gAutoRender);
     showLanguageState (getSource(), getLanguage(), gAutoRender);
     render(getSource(), getLanguage());
@@ -343,6 +298,8 @@ function displayError (pError, pContext) {
 }
 
     return {
+        init: initializeUI,
+        
         switchLanguage: switchLanguage,
         colorizeOnClick: function () { manipulateSource(colorize.colorize); },
         unColorizeOnClick: function (){ manipulateSource(colorize.uncolor); },
@@ -352,6 +309,7 @@ function displayError (pError, pContext) {
             setCursorInSource(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
         },
 
+        msc_inputKeyup: msc_inputKeyup,
         render: render,
         getAutoRender: function(){ return gAutoRender; },
         setAutoRender: function(pBoolean){ gAutoRender = pBoolean; },
