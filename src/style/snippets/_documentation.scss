@@ -64,20 +64,20 @@ article h1, h2 {
 article h1, h2, h3 {
   margin-bottom: 0.2em;
 }
-table {
+table.doc {
     border-collapse: collapse;
     margin-bottom: 1em;
 }
-td, th {
+.doc td, th {
     padding: 0.5em;
     margin: 0;
     border: solid 1px #DDD;
 }
-td {
+.doc td {
     text-align: left;
     vertical-align: top;
 }
-tr:nth-child(2n+0) {
+.doc tr:nth-child(2n+0) {
     background-color: #F8F8F8;
 }
 code, .code {
