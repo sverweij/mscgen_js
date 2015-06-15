@@ -23,11 +23,6 @@ article {
     color: black;
     padding: 0.2em 0;
 }
-.fadable-hint {
-  animation: fadeout 20s;
-  -webkit-animation: fadeout 20s;
-  opacity: 0.2;
-}
 @-webkit-keyframes fadeout {
   from {
     opacity: 1;

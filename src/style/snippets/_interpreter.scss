@@ -3,6 +3,7 @@ $error-color: #A94442;
 $error-border: 1px solid #EBCCD1;
 $width-transition: width 0.3s ease-out;
 $height-transition: height 0.5s ease-out;
+$placeholder-color: lightgray;
 .code {
   font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
   font-size: .7em;
@@ -22,6 +23,7 @@ h3 {
   margin-bottom: 1em;
   font-weight: lighter;
   display: inline-block;
+  color: $placeholder-color;
 }
 .intronumber {
   padding: .2em .5em .2em .5em;
@@ -150,9 +152,9 @@ article {
     flex-direction: row;
     -webkit-flex-direction: row;
     padding: 0 3em 0 3em;
+    text-align: center;
     align-items: center; 
     -webkit-align-items: center; 
-    color: lightgray;
     transition: $height-transition;
 }
 
