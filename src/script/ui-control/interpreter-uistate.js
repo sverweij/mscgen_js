@@ -155,13 +155,11 @@ function switchLanguage (pLanguage) {
 }
 
 function clear(){
-    if ("msgenny" === getLanguage()){
-        setSource("");
-    } else if ("json" === getLanguage()){
-        setSource("");
-    } else /* language == mscgen or xu */{
+    if(["mscgen", "xu"].indexOf(getLanguage()) > -1){
         setSource("msc{\n  \n}");
-        setCursorInSource(1,3);
+        setCursorInSource(1,3);        
+    } else {
+        setSource("");
     }
 }
 
@@ -177,17 +175,6 @@ function manipulateSource(pFunction){
     } catch(e) {
         // do nothing
     }
-}
-function colorizeOnClick() {
-    manipulateSource(colorize.colorize);
-}
-
-function unColorizeOnClick(){
-    manipulateSource(colorize.uncolor);
-}
-
-function errorOnClick(){
-    setCursorInSource(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
 }
 
 function renderSource(pAST, pLanguage){
@@ -357,11 +344,13 @@ function displayError (pError, pContext) {
 
     return {
         switchLanguage: switchLanguage,
-        colorizeOnClick: colorizeOnClick,
-        unColorizeOnClick: unColorizeOnClick,
+        colorizeOnClick: function () { manipulateSource(colorize.colorize); },
+        unColorizeOnClick: function (){ manipulateSource(colorize.uncolor); },
         setSample: setSample,
 
-        errorOnClick: errorOnClick,
+        errorOnClick: function(){
+            setCursorInSource(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
+        },
 
         render: render,
         getAutoRender: function(){ return gAutoRender; },
