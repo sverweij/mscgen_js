@@ -10,7 +10,7 @@ header {
   min-height: 3em;
 }
 header nav {
-    float: right;
+  float: right;
 }
 header .debug {
   font-size: small;
@@ -20,9 +20,6 @@ header h1 {
   font-size: 1.9em;
   margin-bottom: 0;
   margin-top: 0;
-  width: intrinsic;
-  width: -moz-max-content;
-  width: -webkit-max-content; 
 }
 header em {
   color: black;
