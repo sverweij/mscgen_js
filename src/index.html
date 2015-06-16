@@ -89,36 +89,37 @@
 		</p>
 		<![endif]-->
         <header>
-            <nav>
-                <div id="__about"
-                class="about icon"
-                title="">
-                <br><br>about</div>
-                <div class="interpreter icon hideonmobile active"
-                title="Interpreter. It's where you are now."><br><br>interpret</div>
-                <div id="__embedme"
-                class="embed icon hideonmobile"
-                title="embed mscgen in your html"><br><br>embed</div>
-                <div id="__helpme"
-                class="question icon"
-                title="Show cheat sheet"><br><br>learn</div>
-            </nav>
-
-            <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> {{version}}</div>
-                <div><em>build-date:</em> {{date}}</div>
-                <div><em>commit:</em> {{commit}}</div>
-            </div>
-
-            <h1 title="There's some good copy in tooltips.
+            <span>
+                <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
     version: {{version}}
     build-date: {{date}}
     commit: {{commit}}">mscgen_js</h1>
-            <span class="hideonmobile">turns text into sequence charts</span>
-            <span class="showonmobile">text =&gt; MSCs</span>
+                <span class="hideonmobile">turns text into sequence charts</span>
+                <span class="showonmobile">text =&gt; MSCs</span>
+            </span>
+            <div class="debug hideontablet" style="display: none">
+                <div><em>version:</em> {{version}}</div>
+                <div><em>build-date:</em> {{date}}</div>
+                <div><em>commit:</em> {{commit}}</div>
+            </div>
+            <nav>
+                <span id="__about"
+                class="about icon"
+                title="">
+                <br><br>about</span>
+                <span class="interpreter icon hideonmobile active"
+                title="Interpreter. It's where you are now."><br><br>interpret</span>
+                <span id="__embedme"
+                class="embed icon hideonmobile"
+                title="embed mscgen in your html"><br><br>embed</span>
+                <span id="__helpme"
+                class="question icon"
+                title="Show cheat sheet"><br><br>learn</span>
+            </nav>            
+
         </header>
         <article>
         <section id="__input_area">

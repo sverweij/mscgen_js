@@ -8,12 +8,24 @@ header {
   box-shadow: 0 .1em 0.4em -.2em gray;
   color: gray;
   min-height: 3em;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  // background-color: pink;
 }
-header > nav {
-  float: right;
+header nav {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex: 0 4 auto;
+    -webkit-flex: 0 4 auto;
+  // background-color: orange;
 }
 header .debug {
-  float: right;
   font-size: small;
 }
 header h1 {
@@ -31,20 +43,20 @@ header a {
   text-decoration: none;
   color: inherit;
 }
-header a.icon:hover {
+nav a.icon:hover {
   text-decoration: underline;
 }
-header a.icon:active {
+nav a.icon:active {
   text-decoration: underline;
 }
-header div.icon:hover {
+nav span.icon:hover {
   cursor: pointer;
   text-decoration: underline;
 }
-header div.icon:active {
+nav span.icon:active {
   text-decoration: underline;
 }
-header .icon {
+nav .icon {
   display: inline-block;
   width: 3.6em;
   height: 2.2em;
@@ -57,27 +69,32 @@ header .icon {
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
 }
-header .embed {
+nav .embed {
   background-image: url('../images/embed.svg');
 }
-header .question {
+nav .question {
   background-image: url('../images/question.svg');
 }
-header .interpreter {
+nav .interpreter {
   background-image: url('../images/interpreter.svg');
 }
-header .about {
+nav .about {
   background-image: url('../images/about.svg');
 }
-header .active {
+nav .active {
   text-decoration: underline;
 }
-header div.active:hover {
+nav div.active:hover {
   cursor: default;
   color: inherit;
 }
-@media screen and (max-width: 480px) {
+
+@media screen and (max-width: 639px) {
     header {
         background-image: none;
+    }
+    header em {
+        display: block;
+        font-size: 0.5em;
     }
 }

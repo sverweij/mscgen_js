@@ -1,8 +1,11 @@
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 639px) {
   .hideonmobile {
     display: none;
   }
   a.hideonmobile {
+    display: none;
+  }
+  span.hideonmobile {
     display: none;
   }
   div.hideonmobile {
