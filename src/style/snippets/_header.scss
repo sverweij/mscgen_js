@@ -8,25 +8,13 @@ header {
   box-shadow: 0 .1em 0.4em -.2em gray;
   color: gray;
   min-height: 3em;
-  display: flex;
-  display: -webkit-flex;
-  flex-direction: row;
-  -webkit-flex-direction: row;
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-  // background-color: pink;
 }
 header nav {
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: row;
-    -webkit-flex-direction: row;
-    flex: 0 4 auto;
-    -webkit-flex: 0 4 auto;
-  // background-color: orange;
+    float: right;
 }
 header .debug {
   font-size: small;
+  float:right;
 }
 header h1 {
   font-size: 1.9em;

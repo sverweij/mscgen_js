@@ -89,7 +89,7 @@
 		</p>
 		<![endif]-->
         <header>
-            <span>
+            <span style="float: left">
                 <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
@@ -100,11 +100,6 @@ mscgen_js
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
-            <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> {{version}}</div>
-                <div><em>build-date:</em> {{date}}</div>
-                <div><em>commit:</em> {{commit}}</div>
-            </div>
             <nav>
                 <span id="__about"
                 class="about icon"
@@ -119,7 +114,11 @@ mscgen_js
                 class="question icon"
                 title="Show cheat sheet"><br><br>learn</span>
             </nav>            
-
+            <div class="debug hideontablet" style="display: none">
+                <div><em>version:</em> {{version}}</div>
+                <div><em>build-date:</em> {{date}}</div>
+                <div><em>commit:</em> {{commit}}</div>
+            </div>
         </header>
         <article>
         <section id="__input_area">
