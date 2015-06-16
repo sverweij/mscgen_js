@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?8b9f580adfdd600a"
+        <link rel="stylesheet" href="style/interp.css?597ec395d1ec9dc1"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?8b9f580adfdd600a"
-        src="lib/require.js?8b9f580adfdd600a" defer></script>
+        <script data-main="script/mscgen-interpreter.js?597ec395d1ec9dc1"
+        src="lib/require.js?597ec395d1ec9dc1" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -89,41 +89,42 @@
 		</p>
 		<![endif]-->
         <header>
-            <nav>
-                <div id="__about"
-                class="about icon"
-                title="">
-                <br><br>about</div>
-                <div class="interpreter icon hideonmobile active"
-                title="Interpreter. It's where you are now."><br><br>interpret</div>
-                <div id="__embedme"
-                class="embed icon hideonmobile"
-                title="embed mscgen in your html"><br><br>embed</div>
-                <div id="__helpme"
-                class="question icon"
-                title="Show cheat sheet"><br><br>learn</div>
-            </nav>
-
-            <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.84</div>
-                <div><em>build-date:</em> 20150611 22:21</div>
-                <div><em>commit:</em> 8b9f580adfdd600a</div>
-            </div>
-
-            <h1 title="There's some good copy in tooltips.
+            <span class="header-title">
+                <h1 title="There's some good copy in tooltips.
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.84
-    build-date: 20150611 22:21
-    commit: 8b9f580adfdd600a">mscgen_js</h1>
-            <span class="hideonmobile">turns text into sequence charts</span>
-            <span class="showonmobile">text =&gt; MSCs</span>
+    version: 0.9.85
+    build-date: 20150616 17:21
+    commit: 597ec395d1ec9dc1">mscgen_js</h1>
+                <span class="hideonmobile">turns text into sequence charts</span>
+                <span class="showonmobile">text =&gt; MSCs</span>
+            </span>
+            <nav>
+                <span id="__about"
+                class="about icon"
+                title="">
+                <br><br>about</span>
+                <span class="interpreter icon hideonmobile active"
+                title="Interpreter. It's where you are now."><br><br>interpret</span>
+                <span id="__embedme"
+                class="embed icon hideonmicro"
+                title="embed mscgen in your html"><br><br>embed</span>
+                <span id="__helpme"
+                class="question icon"
+                title="Show cheat sheet"><br><br>learn</span>
+            </nav>            
+            <div class="debug hideontablet" style="display: none">
+                <div><em>version:</em> 0.9.85</div>
+                <div><em>build-date:</em> 20150616 17:21</div>
+                <div><em>commit:</em> 597ec395d1ec9dc1</div>
+            </div>
         </header>
         <article>
-        <section id="__input_and_controls">
-            <div>
-                <h3 class="fadable-hint"><span class="intronumber">1</span> <span class="hideontablet">your</span> text <span class="hideontablet">goes here</span> &#x0261f;</h3>
+        <section id="__input_area">
+            <div id="__input_top_area">
+                <h3>
+                     <span class="hideontablet">your</span> text <span class="hideontablet">goes here</span> &#x0261f;</h3>
                 <span class="debug hideonmobile" style="display: none">
                     <a id="__save" class="button" title="save chart
 
@@ -132,42 +133,40 @@ saves the current chart to local storage"><span class="icon-arrow-down"></span><
                     
 loads the most recently saved chart from local storage"><span class="icon-folder"></span></a>
                 </span>
-                <span class="getitright">
-                    <select title="list of samples" id="__samples">
-                        <option value="none" selected>select an example...</option>
-                        <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
-                        <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
-                        <option value="samples/readme.mscin">showing off Mscgen</option>
-                        <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
-                        <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
-                        <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
-                        <option value="samples/test08_smtp.mscin">sample: SMTP</option>
-                        <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
-                        <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">sample: ACME Challenge</option>
-                        <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">sample: ACME Auth</option>
-                        <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">sample: ACME Cert</option>
-                        <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">sample: ACME Revoke</option>
-                        <option class="debug" style="display: none" value="samples/smoketest.mscin">test: smoke test</option>
-                        <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
-                        <option value="samples/test02_some_coloring.mscin">test: colors</option>
-                        <option class="debug" style="display: none" value="samples/test50_expansions.xu">xù: inline expressions</option>
-                        <option class="debug" style="display: none" value="samples/rainbow.mscin">test: rainbow</option>
-                        <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
-                        <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
-                        <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
-                        <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
-                        <option value="samples/test19_multiline_lipsum.mscin">test: multiline autowrap</option>
-                        <option value="samples/test11_autodeclaration.msgenny">MsGenny: auto entities</option>
-                        <option value="samples/3rdparty/test20_quoteless_attributes.mscin">test: quoteless attributes</option>
-                        <option value="samples/test21_unicode.mscin">test: 信息序圖</option>
-                        <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
-                        <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
-                        <option value="samples/test43_flag.mscin">weird: flag</option>
-                    </select>
-                </span>
+                <select title="list of samples" id="__samples">
+                    <option value="none" selected>select an example...</option>
+                    <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
+                    <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
+                    <option value="samples/readme.mscin">showing off Mscgen</option>
+                    <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
+                    <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
+                    <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
+                    <option value="samples/test08_smtp.mscin">sample: SMTP</option>
+                    <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
+                    <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">sample: ACME Challenge</option>
+                    <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">sample: ACME Auth</option>
+                    <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">sample: ACME Cert</option>
+                    <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">sample: ACME Revoke</option>
+                    <option class="debug" style="display: none" value="samples/smoketest.mscin">test: smoke test</option>
+                    <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
+                    <option value="samples/test02_some_coloring.mscin">test: colors</option>
+                    <option class="debug" style="display: none" value="samples/test50_expansions.xu">xù: inline expressions</option>
+                    <option class="debug" style="display: none" value="samples/rainbow.mscin">test: rainbow</option>
+                    <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
+                    <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
+                    <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
+                    <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
+                    <option value="samples/test19_multiline_lipsum.mscin">test: multiline autowrap</option>
+                    <option value="samples/test11_autodeclaration.msgenny">MsGenny: auto entities</option>
+                    <option value="samples/3rdparty/test20_quoteless_attributes.mscin">test: quoteless attributes</option>
+                    <option value="samples/test21_unicode.mscin">test: 信息序圖</option>
+                    <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
+                    <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
+                    <option value="samples/test43_flag.mscin">weird: flag</option>
+                </select>
             </div>
             <textarea id="__msc_input" class="code mscgen" spellcheck="false" title="your input text:"></textarea>
-            <div id="__input_controls">
+            <div id="__input_controls_area">
                 <input type="checkbox" id="__autorender">
                 <label for="__autorender"
                 title="Automatically renders the chart.
@@ -193,85 +192,91 @@ Watch out (2): switching to Ms Genny strips all fancy stuff from MscGen scripts"
                         title="Switches to abstract syntax tree representation (json)">AST</label>
                     </span>
                 </fieldset>
-                <button id="__btn_colorize" title="Auto colors the sequence chart
+                <button id="__btn_colorize" 
+                        style="display:none"
+                        title="Auto colors the sequence chart
 
 Note: !! removes comments and reformats your source!!">color</button>
-                <button id="__btn_uncolorize" title="Removes all color from the sequence chart
+                <button id="__btn_uncolorize" style="display:none" title="Removes all color from the sequence chart
 
 Note: !! removes comments and reformats your source!!">b&amp;w</button>
-                <button id="__btn_render" class="btn-primary"
+                <button id="__btn_render" class="btn-primary" style="display:none"
                 title="Click to render. Only shows up when 'autorender' is off">
                     render
                 </button>
             </div>
         </section>
 
-        <section style="display:inline-block;">
-            <h3 class="fadable-hint"
-                style="padding-right: 1em;"><span class="intronumber">2</span> <span class="hideontablet">your</span> chart <span class="hideontablet">shows up here</span> &#x0261f;</h3>
-            <span id="__output_buttons">
-            <a id="__show_svg"
-                class="button"
-                target="_blank"
-                type="image/svg+xml"
-                title="Shows the chart in a separate window (svg).
+        <section id="__output_area">
+            <div id="__output_controls_area" style="display:none">
+                <a id="__show_svg"
+                    class="button"
+                    target="_blank"
+                    type="image/svg+xml"
+                    title="Shows the chart in a separate window (svg).
 
-- the url bar will contain the base64 encoded version of the svg
-- Double clicking on the picture has the same effect.">svg</a>
-            <a id="__show_png"
-                class="button"
-                target="_blank"
-                type="image/png"
-                title="Shows the chart in a separate window (png).
+    - the url bar will contain the base64 encoded version of the svg
+    - Double clicking on the picture has the same effect.">svg</a>
+                <a id="__show_png"
+                    class="button"
+                    target="_blank"
+                    type="image/png"
+                    title="Shows the chart in a separate window (png).
 
-- the url bar will contain the base64 encoded version of the png">png</a>
-            <a id="__show_jpeg"
-                class="button"
-                target="_blank"
-                type="image/jpeg"
-                title="Shows the chart in a separate window (jpeg).
+    - the url bar will contain the base64 encoded version of the png">png</a>
+                <a id="__show_jpeg"
+                    class="button"
+                    target="_blank"
+                    type="image/jpeg"
+                    title="Shows the chart in a separate window (jpeg).
 
-- the url bar will contain the base64 encoded version of the jpeg">jpg</a>
-            <a id="__show_anim"
-                class="button"
-                target="_blank"
-                type="text/plain"
-                title="animate the current chart
+    - the url bar will contain the base64 encoded version of the jpeg">jpg</a>
+                <a id="__show_dot"
+                    class="button"
+                    target="_blank"
+                    type="text/dot"
+                    title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
+                <a id="__show_anim"
+                    class="button"
+                    target="_blank"
+                    type="text/plain"
+                    title="animate the current chart
 
-- works for classic mscgen compatible charts.
-- support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
-            <a id="__show_dot"
-                class="button hideontablet"
-                target="_blank"
-                type="text/dot"
-                title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
-            <a id="__show_html"
-                class="debug button hideontablet" style="display: none"
-                target="_blank"
-                type="text/plain"
-                title="Generates an html page with the chart embedded"><span class="icon-embed"></span></a>
-            <a id="__show_vanilla"
-                class="debug button hideontablet" style="display: none"
-                target="_blank"
-                type="text/plain"
-                title="exports to vanilla mscgen"><span class="icon-arrow-down"></span></a>
-            <a id="__show_url"
-                class="debug button hideontablet" style="display: none"
-                target="_blank"
-                type="text/plain"
-                title="create bookmarkable url
-generates an url that represents current the current interpreter state.
-Useful for small charts."><span class="icon-share"></span></a>
-            </span>
-            <div id="__error" class="error" style="display:none">
-                <div class="header">Parse error</div>
-                <div class="content">
-                    <div id="__error_output"></div>
-                    <br>
-                    <div id="__error_context"></div>
+    - works for classic mscgen compatible charts.
+    - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
+                <a id="__show_url"
+                    class="button"
+                    target="_blank"
+                    type="text/plain"
+                    title="create bookmarkable url
+                    
+- generates an url that represents the current interpreter state.
+- Useful for small charts."><span class="icon-share"></span></a>
+                <a id="__show_html"
+                    class="debug button" style="display: none"
+                    target="_blank"
+                    type="text/plain"
+                    title="Generates an html page with the chart embedded"><span class="icon-embed"></span></a>
+                <a id="__show_vanilla"
+                    class="debug button" style="display: none"
+                    target="_blank"
+                    type="text/plain"
+                    title="exports to vanilla mscgen"><span class="icon-arrow-down"></span></a>
+            </div><!-- output-controls-area-->
+            <div id="__output_content_area">
+                <div id="__error" class="error" style="display:none">
+                    <div class="header">Parse error</div>
+                    <div class="content">
+                        <div id="__error_output"></div>
+                        <br>
+                        <div id="__error_context"></div>
+                    </div>
                 </div>
-            </div>
-            <div id="__svg"></div>
+                <div id="__svg" display="none"></div>
+
+                <h3 id="__placeholder">your chart will show up here</h3>
+            <div> <!-- output_content_area -->
+
         </section>
 
         <section>

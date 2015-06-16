@@ -50,13 +50,13 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - learn</title>
-<link rel="stylesheet" href="style/doc.css?8b9f580adfdd600a" type="text/css" media="screen, print">
+<link rel="stylesheet" href="style/doc.css?597ec395d1ec9dc1" type="text/css" media="screen, print">
 <script>
     var mscgen_js_config = {
         clickable: true
     };
 </script>
-<script src="mscgen-inpage.js?8b9f580adfdd600a" defer></script>
+<script src="mscgen-inpage.js?597ec395d1ec9dc1" defer></script>
 <script>
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -75,9 +75,13 @@ ga ('send', 'pageview');
 </head>
 <body>
 <header>
+    <a href="index.html" class="header-title">
+    <h1 itemprop="name">mscgen_js <em>tutorial</em></h1>
+    <span class="hideonmobile">turns text into sequence charts</span>
+    </a>
     <nav class="hideonprint">
         <a href="#about"
-        class="about icon hideonmobile"
+        class="about icon hideonmicro"
         title="about"><br><br>about</a>
         <a href="index.html"
         class="interpreter icon"
@@ -85,13 +89,9 @@ ga ('send', 'pageview');
         <a href="embed.html"
         class="embed icon"
         title="embed mscgen in your html"><br><br>embed</a>
-        <div class="question icon hideonmobile active"
-        title="Tutorial. It's where you are now."><br><br>learn</div>
+        <span class="question icon hideonmobile active"
+        title="Tutorial. It's where you are now."><br><br>learn</span>
     </nav>
-    <a href="index.html">
-    <h1 itemprop="name">mscgen_js <em>tutorial</em></h1>
-    <span class="hideonmobile">turns text into sequence charts</span>
-    </a>
 </header>
 
 <article id="introduction">
@@ -648,7 +648,7 @@ these will get lost in the translation.
 <p>
     It uses these rules:
 </p>
-    <table>
+    <table class="doc">
         <tr><th>When <em>x</em> doesn't have a color yet</th><th>the system...</th></tr>
         <td>entity</td>
         <td>applies colors from a nice color scheme, affecting
