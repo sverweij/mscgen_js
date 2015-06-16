@@ -52,7 +52,7 @@ nav .icon {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  padding: 0 0.2em 0 0.2em;
+  padding: 0 0.1em 0 0.1em;
   text-align: center;
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
@@ -78,9 +78,6 @@ nav div.active:hover {
 }
 
 @media screen and (max-width: 639px) {
-    header {
-        background-image: none;
-    }
     header em {
         display: block;
         font-size: 0.5em;
@@ -88,6 +85,9 @@ nav div.active:hover {
 }
 
 @media screen and (max-width: 480px) {
+    header {
+        background-image: none;
+    }
     header nav {
         float: none;
     }

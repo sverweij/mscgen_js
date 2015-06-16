@@ -20,10 +20,13 @@
     display: block;
   }
 }
-@media screen and (max-width: 360) {
+@media screen and (max-width: 360px) {
     a.hideonmicro {
         display: none;
-    }    
+    }
+    span.hideonmicro {
+        display: none;
+    }
 }
 
 @media print {
