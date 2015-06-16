@@ -3,13 +3,15 @@
 require(["ui-control/interpreter-input-actions",
         "ui-control/interpreter-output-actions",
         "ui-control/interpreter-nav-actions",
-        "ui-control/interpreter-param-actions"
+        "ui-control/interpreter-param-actions",
+        "ui-control/interpreter-editor-events"
         ],
         function(
             iactions,
             oactions,
             nactions,
-            par) {
+            par,
+            edit) {
     "use strict";
 
     function setupInputEvents(){
@@ -50,7 +52,9 @@ require(["ui-control/interpreter-input-actions",
     }
 
     function setupEvents(){
+        edit.init(window.__msc_input);
         par.processParams();
+        
         setupInputEvents();
         setupOutputEvents();
         setupInfoNavigationEvents();

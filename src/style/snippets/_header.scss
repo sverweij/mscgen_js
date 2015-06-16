@@ -8,21 +8,22 @@ header {
   box-shadow: 0 .1em 0.4em -.2em gray;
   color: gray;
   min-height: 3em;
+  overflow: scroll;
 }
-header > nav {
+.header-title {
+  float: left;
+}
+header nav {
   float: right;
 }
 header .debug {
-  float: right;
   font-size: small;
+  float:right;
 }
 header h1 {
   font-size: 1.9em;
   margin-bottom: 0;
   margin-top: 0;
-  width: intrinsic;
-  width: -moz-max-content;
-  width: -webkit-max-content; 
 }
 header em {
   color: black;
@@ -31,68 +32,63 @@ header a {
   text-decoration: none;
   color: inherit;
 }
-header a.icon:hover {
-  color: blue;
-  -webkit-transition: -webkit-transform 0.28s, color 0.28s;
-  transition: transform 0.28s, color 0.28s;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+nav a.icon:hover {
+  text-decoration: underline;
 }
-header a.icon:active {
-  color: blue;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+nav a.icon:active {
+  text-decoration: underline;
 }
-header div.icon:hover {
+nav span.icon:hover {
   cursor: pointer;
-  color: blue;
-  -webkit-transition: -webkit-transform 0.28s, color 0.28s;
-  transition: transform 0.28s, color 0.28s;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  text-decoration: underline;
 }
-header div.icon:active {
-  color: blue;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+nav span.icon:active {
+  text-decoration: underline;
 }
-header .icon {
+nav .icon {
   display: inline-block;
   width: 3.6em;
   height: 2.2em;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+  padding: 0 0.1em 0 0.1em;
   text-align: center;
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
 }
-header .embed {
+nav .embed {
   background-image: url('../images/embed.svg');
 }
-header .question {
+nav .question {
   background-image: url('../images/question.svg');
 }
-header .interpreter {
+nav .interpreter {
   background-image: url('../images/interpreter.svg');
 }
-header .about {
+nav .about {
   background-image: url('../images/about.svg');
 }
-header .active {
-  font-weight: 600;
-  text-decoration: none;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+nav .active {
+  text-decoration: underline;
 }
-header div.active:hover {
+nav div.active:hover {
   cursor: default;
   color: inherit;
 }
+
+@media screen and (max-width: 639px) {
+    header em {
+        display: block;
+        font-size: 0.5em;
+    }
+}
+
 @media screen and (max-width: 480px) {
     header {
         background-image: none;
+    }
+    header nav {
+        float: none;
     }
 }

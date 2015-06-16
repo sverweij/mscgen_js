@@ -6,8 +6,11 @@ define([], function(){
     return {
         SS: function SS(pId) {
             return {
-                show: function(){
+                show: function(pDisplayStyle){
                           pId.removeAttribute("style");
+                          if (pDisplayStyle){
+                              pId.style.display = pDisplayStyle;
+                          }
                       },
                 hide: function(){
                           pId.style.display = "none";

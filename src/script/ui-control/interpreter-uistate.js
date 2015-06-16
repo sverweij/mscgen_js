@@ -42,19 +42,12 @@ msc {
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu",
         "../utl/gaga", "../utl/maps", "../render/text/colorize",
-        "../../lib/codemirror/lib/codemirror",
         "../utl/domquery",
-        "./controller-exporter",
-        "../../lib/codemirror/addon/edit/closebrackets",
-        "../../lib/codemirror/addon/edit/matchbrackets",
-        "../../lib/codemirror/addon/display/placeholder",
-        "../../lib/codemirror/mode/mscgen/mscgen",
-        "../../lib/codemirror/mode/javascript/javascript"
+        "./controller-exporter"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
             gaga, txt, colorize,
-            codemirror,
             dq,
             xport
         ) {
@@ -64,53 +57,15 @@ var gAutoRender = true;
 var gLanguage = "mscgen";
 var gDebug = false;
 var gLinkToInterpreter = false;
-var gGaKeyCount = 0;
 
-var gCodeMirror =
-    codemirror.fromTextArea(window.__msc_input, {
-        lineNumbers       : true,
-        autoCloseBrackets : true,
-        matchBrackets     : true,
-        theme             : "midnight",
-        mode              : "xu",
-        placeholder       : "Type your text (mscgen syntax or ms genny). Or drag a file to this area....",
-        lineWrapping      : false
-    });
-
+var gCodeMirror = {};
 var gErrorCoordinates = {
     line : 0,
     column : 0
   };
 
-setupEditorEvents(gCodeMirror);
-initializeUI();
-
-function setupEditorEvents(pCodeMirror){
-  pCodeMirror.on ("change",
-      function() {
-          msc_inputKeyup();
-          if (gGaKeyCount > 17) {
-              gGaKeyCount = 0;
-              gaga.g('send', 'event', '17 characters typed', getLanguage());
-          } else {
-              gGaKeyCount++;
-          }
-  });
-
-  pCodeMirror.on ("drop",
-      function(pUnused, pEvent) {
-          /* if there is a file in the drop event clear the textarea,
-           * otherwise do default handling for drop events (whatever it is)
-           */
-          if (pEvent.dataTransfer.files.length > 0) {
-              setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
-              setSource("");
-              gaga.g('send', 'event', 'drop', gLanguage);
-          }
-  });
-}
-
-function initializeUI() {
+function initializeUI(pCodeMirror) {
+    gCodeMirror = pCodeMirror;
     showAutorenderState (gAutoRender);
     showLanguageState (getSource(), getLanguage(), gAutoRender);
     render(getSource(), getLanguage());
@@ -155,13 +110,11 @@ function switchLanguage (pLanguage) {
 }
 
 function clear(){
-    if ("msgenny" === getLanguage()){
-        setSource("");
-    } else if ("json" === getLanguage()){
-        setSource("");
-    } else /* language == mscgen or xu */{
+    if(["mscgen", "xu"].indexOf(getLanguage()) > -1){
         setSource("msc{\n  \n}");
-        setCursorInSource(1,3);
+        setCursorInSource(1,3);        
+    } else {
+        setSource("");
     }
 }
 
@@ -177,17 +130,6 @@ function manipulateSource(pFunction){
     } catch(e) {
         // do nothing
     }
-}
-function colorizeOnClick() {
-    manipulateSource(colorize.colorize);
-}
-
-function unColorizeOnClick(){
-    manipulateSource(colorize.uncolor);
-}
-
-function errorOnClick(){
-    setCursorInSource(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
 }
 
 function renderSource(pAST, pLanguage){
@@ -276,12 +218,16 @@ function render(pSource, pLanguage) {
 
 function preRenderReset(){
     hideError();
-    dq.SS(window.__output_buttons).hide();
+    dq.SS(window.__output_controls_area).hide();
+    dq.SS(window.__placeholder).show("flex");
+    dq.SS(window.__svg).hide();
     msc_render.clean("__svg", window);
 }
 
 function showRenderSuccess(pMeta){
-    dq.SS(window.__output_buttons).show();
+    dq.SS(window.__output_controls_area).show();
+    dq.SS(window.__placeholder).hide();
+    dq.SS(window.__svg).show();
     showExtendedArcTypeFeatures(pMeta);
     showExtendedFeatures(pMeta);
     gLanguage = txt.correctLanguage(pMeta.extendedFeatures, getLanguage());
@@ -346,18 +292,24 @@ function hideError () {
 
 function displayError (pError, pContext) {
     dq.SS(window.__error).show();
+    dq.SS(window.__placeholder).hide();
     window.__error_output.textContent = pError;
     window.__error_context.textContent = pContext;
 }
 
     return {
+        init: initializeUI,
+        
         switchLanguage: switchLanguage,
-        colorizeOnClick: colorizeOnClick,
-        unColorizeOnClick: unColorizeOnClick,
+        colorizeOnClick: function () { manipulateSource(colorize.colorize); },
+        unColorizeOnClick: function (){ manipulateSource(colorize.uncolor); },
         setSample: setSample,
 
-        errorOnClick: errorOnClick,
+        errorOnClick: function(){
+            setCursorInSource(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
+        },
 
+        msc_inputKeyup: msc_inputKeyup,
         render: render,
         getAutoRender: function(){ return gAutoRender; },
         setAutoRender: function(pBoolean){ gAutoRender = pBoolean; },

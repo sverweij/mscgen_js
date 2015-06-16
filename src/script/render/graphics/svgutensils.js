@@ -25,6 +25,8 @@ define(["./constants", "./idmanager"], function(C, id) {
         lSvg.setAttribute("xmlns", C.SVGNS);
         lSvg.setAttribute("xmlns:xlink", C.XLINKNS);
         lSvg.setAttribute("id", pId);
+        lSvg.setAttribute("width", 0);
+        lSvg.setAttribute("height", 0);
         gDocument.body.appendChild(lSvg);
         
         return lSvg;
