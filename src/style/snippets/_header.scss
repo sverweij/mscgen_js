@@ -8,6 +8,10 @@ header {
   box-shadow: 0 .1em 0.4em -.2em gray;
   color: gray;
   min-height: 3em;
+  overflow: scroll;
+}
+.header-title {
+  float: left;
 }
 header nav {
   float: right;
@@ -48,8 +52,7 @@ nav .icon {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+  padding: 0 0.2em 0 0.2em;
   text-align: center;
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
@@ -81,5 +84,11 @@ nav div.active:hover {
     header em {
         display: block;
         font-size: 0.5em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header nav {
+        float: none;
     }
 }

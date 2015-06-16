@@ -1,3 +1,8 @@
+@media screen and (max-width: 1164px) {
+  .hideontablet {
+    display: none;
+  }
+}
 @media screen and (max-width: 639px) {
   .hideonmobile {
     display: none;
@@ -15,8 +20,17 @@
     display: block;
   }
 }
-@media screen and (max-width: 1164px) {
-  .hideontablet {
-    display: none;
+@media screen and (max-width: 360) {
+    a.hideonmicro {
+        display: none;
+    }    
+}
+
+@media print {
+  .hideonprint {
+      display: none;
+  }
+  body {
+    font-size: 10pt;
   }
 }

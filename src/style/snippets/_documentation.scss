@@ -138,9 +138,6 @@ mark {
     display: block;
     overflow: auto;
   }
-  .hideonmobile {
-    display: none;
-  }
 }
 @media screen and (min-width: 640px) and (max-width: 767px) {
   body {
@@ -151,14 +148,5 @@ mark {
     border: 0;
     padding: 1em;
     border-radius: 0;
-  }
-}
-
-@media print {
-  .hideonprint {
-      display: none;
-  }
-  body {
-    font-size: 10pt;
   }
 }
