@@ -124,7 +124,7 @@ mscgen_js
         <section id="__input_area">
             <div id="__input_top_area">
                 <h3>
-                     <span class="hideontablet">your</span> text <span class="hideontablet">goes here</span> &#x0261f;</h3>
+                    <span class="hideonmobile">your</span> text <span class="hideonmicro">goes</span> here &#x0261f;</h3>
                 <span class="debug hideonmobile" style="display: none">
                     <a id="__save" class="button" title="save chart
 
@@ -193,11 +193,15 @@ Watch out (2): switching to Ms Genny strips all fancy stuff from MscGen scripts"
                     </span>
                 </fieldset>
                 <button id="__btn_colorize" 
+                        class="hideonmobile-portrait"
                         style="display:none"
                         title="Auto colors the sequence chart
 
 Note: !! removes comments and reformats your source!!">color</button>
-                <button id="__btn_uncolorize" style="display:none" title="Removes all color from the sequence chart
+                <button id="__btn_uncolorize" 
+                        class="hideonmobile-portrait"
+                        style="display:none" 
+                        title="Removes all color from the sequence chart
 
 Note: !! removes comments and reformats your source!!">b&amp;w</button>
                 <button id="__btn_render" class="btn-primary" style="display:none"
@@ -215,22 +219,22 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
                     type="image/svg+xml"
                     title="Shows the chart in a separate window (svg).
 
-    - the url bar will contain the base64 encoded version of the svg
-    - Double clicking on the picture has the same effect.">svg</a>
+- the url bar will contain the base64 encoded version of the svg
+- Double clicking on the picture has the same effect.">svg</a>
                 <a id="__show_png"
                     class="button"
                     target="_blank"
                     type="image/png"
                     title="Shows the chart in a separate window (png).
 
-    - the url bar will contain the base64 encoded version of the png">png</a>
+- the url bar will contain the base64 encoded version of the png">png</a>
                 <a id="__show_jpeg"
                     class="button"
                     target="_blank"
                     type="image/jpeg"
                     title="Shows the chart in a separate window (jpeg).
 
-    - the url bar will contain the base64 encoded version of the jpeg">jpg</a>
+- the url bar will contain the base64 encoded version of the jpeg">jpg</a>
                 <a id="__show_dot"
                     class="button"
                     target="_blank"
@@ -242,8 +246,8 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
                     type="text/plain"
                     title="animate the current chart
 
-    - works for classic mscgen compatible charts.
-    - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
+- works for classic mscgen compatible charts.
+- support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
                 <a id="__show_url"
                     class="button"
                     target="_blank"

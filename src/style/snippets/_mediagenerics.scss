@@ -20,6 +20,11 @@
     display: block;
   }
 }
+@media screen and (max-width: 639px) {
+  .hideonmobile-portrait {
+      display: none;
+  }
+}
 @media screen and (max-width: 360px) {
     a.hideonmicro {
         display: none;
