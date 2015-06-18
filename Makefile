@@ -15,13 +15,13 @@ SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
 	src/script/parse/msgennyparser.js \
-	src/script/parse/xuparser.js \
-	src/style/interp.css \
+	src/script/parse/xuparser.js
+GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
 GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
 	src/script/parse/msgennyparser_node.js \
 	src/script/parse/xuparser_node.js 
-GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
+GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE) $(GENERATED_STYLESHEETS)
 SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/render/text/ast2mscgen.js \
 	src/script/render/text/ast2xu.js \
