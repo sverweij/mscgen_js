@@ -169,6 +169,7 @@ article {
 @media screen and (min-width: 1025px) {
   #__input_area{
      width: 32em;
+     min-width: 32em;
      transition: $width-transition;
   }
 }
@@ -200,6 +201,12 @@ article {
     .CodeMirror {
         height: 24em;
         transition: $height-transition;
+    }
+}
+
+@media screen and (max-width: 479px){
+    #__input_controls_area {
+        font-size: 0.8em;
     }
 }
 
