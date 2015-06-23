@@ -1,7 +1,7 @@
 # Source documentation
 
 The source code is organized as straightforward as possible:
-- The root contains html (for the [interpreter](index.html), the [tutorial](tutorial.html) and the [embedding sample](embed.html).
+- The root contains html (for the [interpreter](index.html), the [tutorial](tutorial.html) and the [embedding sample](embed.html)).
 - style sheets go in [style](style)
 - libraries (-> third party only for now) in [lib](lib)
 - javascript goes in [script](script)
