@@ -2,7 +2,7 @@ $background-color: white;
 $warning-color: orange;
 $info-color: blue;
 $mark-color: #FFFFAA;
-$line-color: #ddd;
+$line-color: #aaa;
 $demarcation-line: solid 1px $line-color;
 $background-color-code: #F8F8F8;
 body {
@@ -15,8 +15,8 @@ footer {
   background-color: $background-color;
 }
 article {
-  max-width: 65em;
-  margin-top: .25em;
+  // max-width: 48em;
+  // margin: .25em 3em 0 3em;
   padding: 2em;
   background-color: $background-color;
   overflow: hidden;
@@ -40,6 +40,9 @@ code, pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 1em;
 }
+.no-number::before {
+    content: none;
+}
 article > h1 {
   counter-increment: article-counter;
 }
@@ -56,13 +59,15 @@ article h3:before {
 }
 article h1.first-title-on-page {
   border: none;
+  margin: 0 0 1em 0;
+  padding: 0 0 0 0;
 }
 article h1, h2 {
-  padding-top: 0.5em;
   border-top: $demarcation-line;
+  padding: 0.5em 0 0 0;
 }
-article h1, h2, h3 {
-  margin-bottom: 0.2em;
+article h2, h3 {
+  margin: 2em 0 1em 0;
 }
 table.doc {
     border-collapse: collapse;
@@ -86,7 +91,7 @@ code, .code {
   border-radius: 3px;
 }
 .code {
-  overflow: auto;
+  overflow: scroll;
   padding: 6px 10px;
   display: inline-block;
   vertical-align: top;

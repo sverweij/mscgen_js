@@ -1,5 +1,5 @@
 header {
-  padding: 1em 0.5em 0.5em 0.5em;
+  padding: 0.5em 0.5em 0.5em 0.7em;
   border-bottom: solid lightgray 1px;
   margin-bottom: .4em;
   background-image: url('../images/bg.png');
@@ -8,7 +8,6 @@ header {
   box-shadow: 0 .1em 0.4em -.2em gray;
   color: gray;
   min-height: 3em;
-  overflow: scroll;
 }
 .header-title {
   float: left;
