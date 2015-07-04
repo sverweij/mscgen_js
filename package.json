@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.1.0",
-    "codecov.io": "^0.1.4",
+    "codecov.io": "^0.1.5",
     "csslint": "^0.10.0",
     "istanbul": "^0.3.17",
     "jshint": "^2.8.0",
