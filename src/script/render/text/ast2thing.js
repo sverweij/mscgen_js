@@ -104,21 +104,12 @@ define(["./textutensils"], function(utl) {
         return lRetVal;
     }
 
-    function pushAttribute(pArray, pAttr, pString) {
-        if (pAttr && pString) {
-            pArray.push({
-                "name" : pAttr,
-                "value" : pString
-            });
-        }
-    }
-
     function extractSupportedOptions(pOptions, pSupportedOptions) {
-        var lRetvalAry = [];
-        pSupportedOptions.forEach(function(pSupportedOption) {
-            pushAttribute(lRetvalAry, pSupportedOption, pOptions[pSupportedOption]);
+        return pSupportedOptions.map(function(pSupportedOption){
+            return {name: pSupportedOption, value: pOptions[pSupportedOption]};
+        }).filter(function(pPair){
+            return pPair.value !== undefined;
         });
-        return lRetvalAry;
     }
 
     function renderComments(pArray) {
@@ -146,11 +137,14 @@ define(["./textutensils"], function(utl) {
 
     function renderOptions(pOptions) {
         var lOptions = extractSupportedOptions(pOptions, gConfig.supportedOptions);
-        var lLastOption = lOptions.pop();
-        var lRetVal = lOptions.reduce(function(pPrevOption, pCurOption) {
-            return pPrevOption + gConfig.renderOptionfn(pCurOption) + gConfig.option.separator;
-        }, gConfig.option.opener);
-        lRetVal += gConfig.renderOptionfn(lLastOption) + gConfig.option.closer;
+        var lRetVal = "";
+        if (lOptions.length > 0){
+            var lLastOption = lOptions.pop();
+            lRetVal = lOptions.reduce(function(pPrevOption, pCurOption) {
+                return pPrevOption + gConfig.renderOptionfn(pCurOption) + gConfig.option.separator;
+            }, gConfig.option.opener);
+            lRetVal += gConfig.renderOptionfn(lLastOption) + gConfig.option.closer;
+        }
         return lRetVal;
     }
 
