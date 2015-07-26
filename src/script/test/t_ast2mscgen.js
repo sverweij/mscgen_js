@@ -90,6 +90,15 @@ describe('ast2mscgen', function() {
 }';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it('When presented with an unsupported option, renders the script by simply omitting it', function(){
+            var lProgram = renderer.render(fix.astWithAWatermark);
+            var lExpectedProgram =
+'msc {\n\
+  a;\n\
+\n\
+}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
     describe('#renderAST() - file based tests', function(){
        it('should render all arcs', function(){

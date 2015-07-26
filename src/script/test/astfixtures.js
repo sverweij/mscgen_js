@@ -125,6 +125,19 @@ module.exports = (function() {
                 "name" : "a"
             }]
         },
+        astWithAWatermark : {
+            "meta" : {
+                "extendedOptions": true,
+                "extendedArcTypes": false,
+                "extendedFeatures": true
+            },
+            "options" : {
+                "watermark" : "not in mscgen, available in xù and msgenny"
+            },
+            "entities" : [{
+                "name" : "a"
+            }]
+        },
         astNoEntities : {
             "meta" : {
                 "extendedOptions": false,
