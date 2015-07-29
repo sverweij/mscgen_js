@@ -3127,11 +3127,7 @@ module.exports = (function() {
         }
 
         function entityExists (pEntities, pName) {
-            if (pName === undefined || pName === "*") {
-                return true;
-            }
-
-            return pEntities.entities.some(function(pEntity){
+            return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
                 return pEntity.name === pName;
             });
         }
