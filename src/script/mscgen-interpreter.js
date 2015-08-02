@@ -35,6 +35,7 @@ require(["ui-control/interpreter-input-actions",
       window.__show_html.addEventListener("click", oactions.htmlOnClick, false);
       window.__show_dot.addEventListener("click", oactions.dotOnClick, false);
       window.__show_vanilla.addEventListener("click", oactions.vanillaOnClick, false);
+      window.__show_doxygen.addEventListener("click", oactions.doxygenOnClick, false);
       window.__show_url.addEventListener("click", oactions.urlOnClick, false);
       window.__show_anim.addEventListener("click", oactions.animOnClick, false);
       window.__error.addEventListener("click", oactions.errorOnClick, false);

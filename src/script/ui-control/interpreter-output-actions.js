@@ -44,6 +44,10 @@ define(["./interpreter-uistate",
             window.open(xport.toVanillaMscGenURI(uistate.getAST()));
             gaga.g('send', 'event', 'show_vanilla', 'button');
         },
+        doxygenOnClick: function() {
+            window.open(xport.toDoxygenURI(uistate.getAST()));
+            gaga.g('send', 'event', 'show_doxygen', 'button');
+        },
         urlOnClick: function() {
             window.history.replaceState({},"", xport.toLocationString(window.location, uistate.getSource(), uistate.getLanguage()));
             gaga.g('send', 'event', 'show_url', 'button');
