@@ -1,6 +1,7 @@
 /*
  * takes an abstract syntax tree for a message sequence chart and renders it
- * as an mscgen program.
+ * as an mscgen program that can be pasted directly into a c-style comment,
+ * in a fashion doxygen can pick it up.
  */
 
 /* jshint node:true */
