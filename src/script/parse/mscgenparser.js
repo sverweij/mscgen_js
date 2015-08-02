@@ -2753,13 +2753,9 @@ define ([], function() {
         }
 
         function flattenBoolean(pBoolean) {
-            if (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1) {
-                return "true";
-            } else {
-                return "false";
-            }
+            return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
         }
-
+        
         function entityExists (pEntities, pName) {
             return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
                 return pEntity.name === pName;
