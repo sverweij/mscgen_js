@@ -80,6 +80,12 @@ describe('controller-exporter', function(){
             'data:text/plain;charset=utf-8,msc%20%7B%0A%20%20a%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%2C%0A%20%20b%20%5Blabel%3D%22%E5%BA%8F%22%5D%2C%0A%20%20c%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%0A%0A%20%20a%20%3D%3E%20b%20%5Blabel%3D%22things%22%5D%2C%0Ac%20%3D%3E%20b%3B%0A%7D');
         });
     });
+    describe('#toDoxygenURI', function(){
+        it('should render an URI encoded doxygen pastable program', function(){
+            assert.equal(xport.toDoxygenURI(gAST), 
+            'data:text/plain;charset=utf-8,%20*%20%5Cmsc%0A%20*%20%20%20a%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%2C%0A%20*%20%20%20b%20%5Blabel%3D%22%E5%BA%8F%22%5D%2C%0A%20*%20%20%20c%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%0A%20*%20%0A%20*%20%20%20a%20%3D%3E%20b%20%5Blabel%3D%22things%22%5D%2C%0A%20*%20%20%20c%20%3D%3E%20b%3B%0A%20*%20%5Cendmsc');
+        });
+    });
     describe('#toLocationString', function(){
         it ('with extra parameters', function(){
             var lLocation = {

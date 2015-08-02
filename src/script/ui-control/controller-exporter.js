@@ -9,9 +9,10 @@ if ( typeof define !== 'function') {
 
 define(["../render/text/ast2dot",
         "../render/text/ast2mscgen",
+        "../render/text/ast2doxygen",
         "../utl/paramslikker",
         ],
-        function(ast2dot, ast2mscgen, par) {
+        function(ast2dot, ast2mscgen, ast2doxygen, par) {
     "use strict";
     
     var MAX_LOCATION_LENGTH = 4094;// max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1
@@ -64,6 +65,9 @@ define(["../render/text/ast2dot",
         },
         toVanillaMscGenURI: function(pAST){
             return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
+        },
+        toDoxygenURI: function(pAST){
+            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2doxygen.render(pAST));
         },
         toLocationString: function (pLocation, pSource, pLanguage) {
             var lSource = '# source too long for an URL';
