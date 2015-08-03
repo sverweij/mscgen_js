@@ -1,9 +1,6 @@
 var assert = require("assert");
 var renderer = require("../render/text/ast2doxygen");
-var parser = require("../parse/mscgenparser_node");
 var fix = require("./astfixtures");
-var utl = require("./testutensils");
-var fs = require("fs");
 
 describe('ast2doxygen', function() {
     describe('#renderAST() - simple syntax tree', function() {
