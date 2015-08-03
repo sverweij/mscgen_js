@@ -1,23 +1,10 @@
 /*
- * parser for MSC (messsage sequence chart)
- * see http://www.mcternan.me.uk/mscgen/ for more
- * information
- * - In the original mscgen booleans and ints are
- *   allowed in some of the options, without presenting them
- *   as quotes, but floats are not. Pourquoi? This PEG
- *   does allow them ...
- * - quoted identifiers present some problems in mscgen in this
- *   pathological case:
- *   define entitites "C" and C
- *   - the entities are rendered as separate ones
- *   - C -> "C",  generates a self-reference
- *     to C, as does "C" -> C and "C" -> "C"
- *   mscgen_js does not render the entities as separate ones
- * - in mscgen grammar, only the option list is optional;
- *   empty input (no entities/ no arcs) is apparently not allowed
- *   mscgen_js does allow this
- *
- * - there's some kludgy non-DRY code still.
+ * parser for xù (messsage sequence chart language)
+ * 
+ * xù is an extension of mscgen, which means each valid mscgen 
+ * script is also a valid xù script
+ * 
+ * see https://github.com/sverweij/mscgen_js/wikum/xu.md for more information
  */
 
 {
@@ -44,11 +31,7 @@
     }
 
     function flattenBoolean(pBoolean) {
-        if (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1) {
-            return "true";
-        } else {
-            return "false";
-        }
+        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
     }
 
     function entityExists (pEntities, pName) {

@@ -2,9 +2,12 @@
  * parser for MSC (messsage sequence chart)
  * see http://www.mcternan.me.uk/mscgen/ for more
  * information
+ * 
+ * In some pathetic border cases this grammar behaves differently
+ * from the original mscgen lexer/ parser: 
  * - In the original mscgen booleans and ints are
  *   allowed in some of the options, without presenting them
- *   as quotes, but floats are not. Pourquoi? This PEG
+ *   as quotes, but floats are not. This PEG
  *   does allow them ...
  * - quoted identifiers present some problems in mscgen in this
  *   pathological case:
@@ -16,8 +19,14 @@
  * - in mscgen grammar, only the option list is optional;
  *   empty input (no entities/ no arcs) is apparently not allowed
  *   mscgen_js does allow this
+ * - mscgen cannot handle entity names that are also keywords
+ *   (box, abox, rbox, not, msc, hscale, width, arcgradient
+ *   wordwraparcs, label, color, idurl, id, url
+ *   linecolor, linecolour, textcolor, textcolour,
+ *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
+ *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
+ *   arcskip). This grammar does allow them for now. 
  *
- * - there's some kludgy non-DRY code still.
  */
 
 {
@@ -44,13 +53,9 @@
     }
 
     function flattenBoolean(pBoolean) {
-        if (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1) {
-            return "true";
-        } else {
-            return "false";
-        }
+        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
     }
-
+    
     function entityExists (pEntities, pName) {
         return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
             return pEntity.name === pName;
