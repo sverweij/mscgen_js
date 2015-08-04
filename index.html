@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?6823e6248e8ff815"
+        <link rel="stylesheet" href="style/interp.css?63d1df5e289b29d7"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?6823e6248e8ff815"
-        src="lib/require.js?6823e6248e8ff815" defer></script>
+        <script data-main="script/mscgen-interpreter.js?63d1df5e289b29d7"
+        src="lib/require.js?63d1df5e289b29d7" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,9 +94,9 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.90
-    build-date: 20150803 19:13
-    commit: 6823e6248e8ff815">mscgen_js</h1>
+    version: 0.9.91
+    build-date: 20150804 20:59
+    commit: 63d1df5e289b29d7">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -115,9 +115,9 @@ mscgen_js
                 title="Show cheat sheet"><br><br>learn</span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.90</div>
-                <div><em>build-date:</em> 20150803 19:13</div>
-                <div><em>commit:</em> 6823e6248e8ff815</div>
+                <div><em>version:</em> 0.9.91</div>
+                <div><em>build-date:</em> 20150804 20:59</div>
+                <div><em>commit:</em> 63d1df5e289b29d7</div>
             </div>
         </header>
         <article>
@@ -235,11 +235,6 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
                     title="Shows the chart in a separate window (jpeg).
 
 - the url bar will contain the base64 encoded version of the jpeg">jpg</a>
-                <a id="__show_dot"
-                    class="button"
-                    target="_blank"
-                    type="text/dot"
-                    title="Shows the communications diagram variant of the chart (graphviz dot)">dot</a>
                 <a id="__show_anim"
                     class="button"
                     target="_blank"
@@ -255,22 +250,13 @@ Note: !! removes comments and reformats your source!!">b&amp;w</button>
                     title="create bookmarkable url
                     
 - generates an url that represents the current interpreter state.
-- Useful for small charts."><span class="icon-share"></span></a>
-                <a id="__show_html"
-                    class="debug button" style="display: none"
+                - Useful for small charts."><span class="icon-share"></span></a>
+                <a id="__more_export_options"
+                    class="debug button" style="display:none"
                     target="_blank"
                     type="text/plain"
-                    title="Generates an html page with the chart embedded"><span class="icon-embed"></span></a>
-                <a id="__show_vanilla"
-                    class="debug button" style="display: none"
-                    target="_blank"
-                    type="text/plain"
-                    title="exports to vanilla mscgen"><span class="icon-arrow-down"></span></a>
-                <a id="__show_doxygen"
-                    class="debug button" style="display: none"
-                    target="_blank"
-                    type="text/plain"
-                    title="exports to mscgen that can be pasted into doxygen comments">dox</span></a>
+                    title="show more exotic export options">...</a>
+
             </div><!-- output-controls-area-->
             <div id="__output_content_area">
                 <div id="__error" class="error" style="display:none">
@@ -432,6 +418,28 @@ documents."></img></a>
         </div> <!-- popupsheet -->
         </section>
         </article>
+        <div id="__output_panel" class="sliding-panel">
+            <div class="header">
+                <h2>Export this chart to</h2>
+                <span><button id="__btn_panel_close" class="icon-cross close-button" title="close"></button></span>
+            </div>
+            <a id="__show_doxygen"
+                target="_blank"
+                type="text/plain"
+                title="exports to mscgen that can be pasted into doxygen comments">Doxygen</a>
+            <a id="__show_dot"
+                target="_blank"
+                type="text/dot"
+                title="Shows the communications diagram variant of the chart (graphviz dot)">GraphViz dot</a>
+            <a id="__show_vanilla"
+                target="_blank"
+                type="text/plain"
+                title="exports to vanilla mscgen">Vanilla MscGen</a>
+            <a id="__show_html"
+                target="_blank"
+                type="text/plain"
+                title="Generates an html page with the chart embedded">html, with the chart embedded</a>
+        </div>
         <div id="__loading"
             style="
                 position: fixed;
