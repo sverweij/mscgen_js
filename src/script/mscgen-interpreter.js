@@ -32,6 +32,8 @@ require(["ui-control/interpreter-input-actions",
       window.__show_svg.addEventListener("click", oactions.svgOnClick, false);
       window.__show_png.addEventListener("click", oactions.pngOnClick,false);
       window.__show_jpeg.addEventListener("click", oactions.jpegOnClick, false);
+      window.__more_export_options.addEventListener("click", oactions.moreExportOptionsOnClick, false);
+      window.__btn_panel_close.addEventListener("click", oactions.closeExportOptions, false);
       window.__show_html.addEventListener("click", oactions.htmlOnClick, false);
       window.__show_dot.addEventListener("click", oactions.dotOnClick, false);
       window.__show_vanilla.addEventListener("click", oactions.vanillaOnClick, false);

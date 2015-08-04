@@ -183,6 +183,7 @@ src/style/interp.css: src/style/interp.scss \
 	src/style/snippets/_fonts.scss \
 	src/style/snippets/_generics.scss \
 	src/style/snippets/_popup.scss \
+	src/style/snippets/_slidingpanel.scss \
 	src/style/snippets/_mediagenerics.scss \
 	src/fonts/controls.eot \
 	src/fonts/controls.svg \

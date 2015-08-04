@@ -64,6 +64,18 @@ define(["./interpreter-uistate",
         errorOnClick: function() {
             uistate.errorOnClick();
             gaga.g('send', 'event', 'link', "error");
+        },
+        moreExportOptionsOnClick: function(){
+            var lHeight = window.__output_panel.style.height.toString();
+            if ( lHeight === '0px' || lHeight === ""){
+                window.__output_panel.style.height = '250px';
+            } else {
+                window.__output_panel.style.height = '0';
+            }
+            gaga.g('send', 'event', 'more_export_options', 'button');
+        },
+        closeExportOptions: function(){
+            window.__output_panel.style.height = '0';
         }
     };
 });
