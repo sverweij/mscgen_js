@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?63d1df5e289b29d7"
+        <link rel="stylesheet" href="style/interp.css?07fc5db4e2e186f1"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?63d1df5e289b29d7"
-        src="lib/require.js?63d1df5e289b29d7" defer></script>
+        <script data-main="script/mscgen-interpreter.js?07fc5db4e2e186f1"
+        src="lib/require.js?07fc5db4e2e186f1" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,9 +94,9 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.91
-    build-date: 20150804 20:59
-    commit: 63d1df5e289b29d7">mscgen_js</h1>
+    version: 0.9.92
+    build-date: 20150805 23:43
+    commit: 07fc5db4e2e186f1">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -115,9 +115,9 @@ mscgen_js
                 title="Show cheat sheet"><br><br>learn</span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.91</div>
-                <div><em>build-date:</em> 20150804 20:59</div>
-                <div><em>commit:</em> 63d1df5e289b29d7</div>
+                <div><em>version:</em> 0.9.92</div>
+                <div><em>build-date:</em> 20150805 23:43</div>
+                <div><em>commit:</em> 07fc5db4e2e186f1</div>
             </div>
         </header>
         <article>
@@ -192,18 +192,11 @@ Watch out (2): switching to Ms Genny strips all fancy stuff from MscGen scripts"
                         title="Switches to abstract syntax tree representation (json)">AST</label>
                     </span>
                 </fieldset>
-                <button id="__btn_colorize" 
-                        class="hideonmobile-portrait"
-                        style="display:none"
-                        title="Auto colors the sequence chart
+
+                <button id="__btn_more_color_schemes"
+                title="Apply a color to the sequence chart
 
 Note: !! removes comments and reformats your source!!">color</button>
-                <button id="__btn_uncolorize" 
-                        class="hideonmobile-portrait"
-                        style="display:none" 
-                        title="Removes all color from the sequence chart
-
-Note: !! removes comments and reformats your source!!">b&amp;w</button>
                 <button id="__btn_render" class="btn-primary" style="display:none"
                 title="Click to render. Only shows up when 'autorender' is off">
                     render
@@ -421,7 +414,7 @@ documents."></img></a>
         <div id="__output_panel" class="sliding-panel">
             <div class="header">
                 <h2>Export this chart to</h2>
-                <span><button id="__btn_panel_close" class="icon-cross close-button" title="close"></button></span>
+                <span><button id="__btn_output_panel_close" class="icon-cross close-button" title="close"></button></span>
             </div>
             <a id="__show_doxygen"
                 target="_blank"
@@ -439,6 +432,24 @@ documents."></img></a>
                 target="_blank"
                 type="text/plain"
                 title="Generates an html page with the chart embedded">html, with the chart embedded</a>
+        </div>
+        <div id="__color_panel" class="sliding-panel">
+            <div class="header">
+                <h2>Apply color scheme</h2>
+                <span><button id="__btn_color_panel_close" class="icon-cross close-button" title="close"></button></span>
+            </div>
+            <a id="__color_minimal"
+                title="applies a minimal color scheme; notes get colored, inline expressions get grey lines">Minimal</a>
+            <a id="__color_rose"
+                type="text/dot"
+                title="applies a scheme with dark-red, yellow and black">Rosy</a>
+            <a id="__color_auto" 
+                    title="Auto colors the sequence chart
+
+Note: !! removes comments and reformats your source!!">Automatic</a>
+            <a id="__color_remove" 
+                    title="Removes all color from the sequence chart
+Note: !! removes comments and reformats your source!!">Remove all color</a>
         </div>
         <div id="__loading"
             style="
