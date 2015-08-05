@@ -2,14 +2,20 @@
 /* global define */
 define(["./interpreter-uistate",
         "./store",
-        "../utl/gaga"
+        "../utl/gaga",
+        "../render/text/colorize"
         ],
         function(
             uistate,
             store,
-            gaga) {
+            gaga,
+            colorize) {
     "use strict";
-
+    
+    function _closeColorPanel(){
+        window.__color_panel.style.height = '0';
+    }
+    
     return {
         autorenderOnClick: function() {
             uistate.setAutoRender(!(uistate.getAutoRender()));
@@ -31,13 +37,82 @@ define(["./interpreter-uistate",
             uistate.switchLanguage("json");
             gaga.g('send', 'event', 'toggle_ms_genny', 'json');
         },
-        colorizeOnClick: function() {
-            uistate.colorizeOnClick();
-            gaga.g('send', 'event', 'colorize', 'button');
+        colorAutoOnClick: function() {
+            uistate.manipulateSource(colorize.colorize);
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.auto', 'button');
+        },
+        colorMinimalOnClick: function(){
+            uistate.manipulateSource(function(pAST){
+                return colorize.colorize(pAST, 
+                    {
+                      "entityColors": [
+                        {}
+                      ],
+                      "arcColors": {
+                        "note": {
+                          "linecolor": "black",
+                          "textbgcolor": "#FFFFCC"
+                        },
+                        "---": {
+                          "linecolor": "grey",
+                          "textbgcolor": "white"
+                        }
+                      },
+                      "aggregateArcColors": {
+                        "inline_expression": {
+                          "linecolor": "grey"
+                        },
+                        "box": {
+                          "linecolor": "black",
+                          "textbgcolor": "white"
+                        }
+                      }
+                    });
+            });
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.minimal', 'button');
+        },
+        colorRoseOnClick: function(){
+            uistate.manipulateSource(function(pAST){
+                return colorize.colorize(pAST, 
+                    {
+                      "entityColors": [
+                        {
+                          "linecolor": "maroon",
+                          "textbgcolor": "#FFFFCC"
+                        }
+                      ],
+                      "arcColors": {
+                        "note": {
+                          "linecolor": "maroon",
+                          "textbgcolor": "#FFFFCC"
+                        },
+                        "---": {
+                          "linecolor": "grey",
+                          "textbgcolor": "white"
+                        }
+                      },
+                      "aggregateArcColors": {
+                        "inline_expression": {
+                          "linecolor": "maroon",
+                          "textcolor": "maroon"
+                        },
+                        "box": {
+                          "linecolor": "maroon",
+                          "textbgcolor": "#FFFFCC"
+                        }
+                      }
+                    }
+                );
+            });
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.rose', 'button');
         },
         uncolorizeOnClick: function() {
-            uistate.unColorizeOnClick();
-            gaga.g('send', 'event', 'uncolorize', 'button');
+            uistate.manipulateSource(colorize.uncolor);
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.remove', 'button');
         },
         renderOnClick: function() {
             uistate.render(uistate.getSource(), uistate.getLanguage());
@@ -54,7 +129,17 @@ define(["./interpreter-uistate",
         loadOnClick: function(){
             store.load(uistate);
             gaga.g('send', 'event', 'load', 'button');
-        }
+        },
+        moreColorSchemesOnClick: function(){
+            var lHeight = window.__color_panel.style.height.toString();
+            if ( lHeight === '0px' || lHeight === ""){
+                window.__color_panel.style.height = '250px';
+            } else {
+                window.__color_panel.style.height = '0';
+            }
+            gaga.g('send', 'event', 'more_color_schemes', 'button');
+        },
+        closeColorPanel: _closeColorPanel
     };
 });
 /*

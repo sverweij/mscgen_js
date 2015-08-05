@@ -25,62 +25,64 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
     var gColorCombiCount = 0;
 
-    var gAggregateColorCombis = {
-        "inline_expression" : {
-            "linecolor" : "grey",
-            "textbgcolor" : "white"
-        },
-        "box" : {
+    var DEFAULT_SCHEME = {
+        "entityColors" : [{
+            "linecolor" : "#008800",
+            "textbgcolor" : "#CCFFCC"
+        }, {
+            "linecolor" : "#FF0000",
+            "textbgcolor" : "#FFCCCC"
+        }, {
+            "linecolor" : "#0000FF",
+            "textbgcolor" : "#CCCCFF"
+        }, {
+            "linecolor" : "#FF00FF",
+            "textbgcolor" : "#FFCCFF"
+        }, {
             "linecolor" : "black",
-            "textbgcolor" : "white"
-        }
-    };
-    var gArcColorCombis = {
-        "note" : {
-            "linecolor" : "black",
+            "textbgcolor" : "#DDDDDD"
+        }, {
+            "linecolor" : "orange",
             "textbgcolor" : "#FFFFCC"
-        },
-        "---" : {
+        }, {
+            "linecolor" : "#117700",
+            "textbgcolor" : "#00FF00"
+        }, {
+            "linecolor" : "purple",
+            "textbgcolor" : "violet"
+        }, {
             "linecolor" : "grey",
             "textbgcolor" : "white"
+        }],
+        "arcColors" : {
+            "note" : {
+                "linecolor" : "black",
+                "textbgcolor" : "#FFFFCC"
+            },
+            "---" : {
+                "linecolor" : "grey",
+                "textbgcolor" : "white"
+            }
+        },
+        "aggregateArcColors" : {
+            "inline_expression" : {
+                "linecolor" : "grey",
+                "textbgcolor" : "white"
+            },
+            "box" : {
+                "linecolor" : "black",
+                "textbgcolor" : "white"
+            }
         }
     };
-
-    var gEntityColorArray = [{
-        "linecolor" : "#008800",
-        "textbgcolor" : "#CCFFCC"
-    }, {
-        "linecolor" : "#FF0000",
-        "textbgcolor" : "#FFCCCC"
-    }, {
-        "linecolor" : "#0000FF",
-        "textbgcolor" : "#CCCCFF"
-    }, {
-        "linecolor" : "#FF00FF",
-        "textbgcolor" : "#FFCCFF"
-    }, {
-        "linecolor" : "black",
-        "textbgcolor" : "#DDDDDD"
-    }, {
-        "linecolor" : "orange",
-        "textbgcolor" : "#FFFFCC"
-    }, {
-        "linecolor" : "#117700",
-        "textbgcolor" : "#00FF00"
-    }, {
-        "linecolor" : "purple",
-        "textbgcolor" : "violet"
-    }, {
-        "linecolor" : "grey",
-        "textbgcolor" : "white"
-    }];
+    var gColorScheme = {};
 
     function getArcColorCombis(pKind) {
-        var lArcCombi = gArcColorCombis[pKind];
+        var lArcCombi = gColorScheme.arcColors[pKind];
         if (lArcCombi) {
             return lArcCombi;
         } else {
-            return gAggregateColorCombis[map.getAggregate(pKind)];
+            return gColorScheme.aggregateArcColors[map.getAggregate(pKind)];
         }
     }
 
@@ -100,18 +102,18 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
     function getNextColorCombi() {
         var lColorCombiCount = gColorCombiCount;
-        if (gColorCombiCount < gEntityColorArray.length - 1) {
+        if (gColorCombiCount < gColorScheme.entityColors.length - 1) {
             gColorCombiCount += 1;
         } else {
             gColorCombiCount = 0;
         }
 
-        return gEntityColorArray[lColorCombiCount];
+        return gColorScheme.entityColors[lColorCombiCount];
     }
 
     function hasColors(pArcOrEntity) {
-        var lColorAttrAry = ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"];
-        return lColorAttrAry.some(function(pColorAttr) {
+        return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
+                .some(function(pColorAttr) {
             return pArcOrEntity[pColorAttr] !== undefined;
         });
     }
@@ -130,12 +132,10 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return pEntity;
     }
 
-    function _colorize(pAST, pEntityColorArray, pArcColorCombis) {
-        if (pEntityColorArray) {
-            gEntityColorArray = pEntityColorArray;
-        }
-        if (pArcColorCombis) {
-            gArcColorCombis = pArcColorCombis;
+    function _colorize(pAST, pColorScheme) {
+        gColorScheme = DEFAULT_SCHEME;
+        if (pColorScheme){
+            gColorScheme = pColorScheme;
         }
         gColorCombiCount = 0;
 

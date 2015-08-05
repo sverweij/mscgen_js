@@ -326,32 +326,44 @@ var alreadyColoredBoxes = {
   ]
 };
 
-var customArcColorCombis = {
-    "note" : {
-        "linecolor" : "#AA0000",
-        "textbgcolor" : "#FFFFCC",
-        "textcolor": "#AA0000"
+var customScheme = {
+    "entityColors": [
+        {
+            "linecolor" : "#FF0000",
+            "textbgcolor" : "red",
+            "textcolor": "white"
+        }, {
+            "linecolor" : "#AAAAAA",
+            "textbgcolor" : "white",
+        }, {
+            "linecolor" : "#0000FF",
+            "textbgcolor" : "blue",
+            "textcolor": "#111111"
+        }
+    ],
+    "arcColors" : {
+        "note" : {
+            "linecolor" : "#AA0000",
+            "textbgcolor" : "#FFFFCC",
+            "textcolor": "#AA0000"
+        },
+        "rbox" : {
+            "linecolor" : "#000000",
+            "textbgcolor" : "#333333",
+            "textcolor": "#FFFFFF"
+        } 
     },
-    "rbox" : {
-        "linecolor" : "#000000",
-        "textbgcolor" : "#333333",
-        "textcolor": "#FFFFFF"
-    }    
-};
-var customEntityColorArray = [
-    {
-        "linecolor" : "#FF0000",
-        "textbgcolor" : "red",
-        "textcolor": "white"
-    }, {
-        "linecolor" : "#AAAAAA",
-        "textbgcolor" : "white",
-    }, {
-        "linecolor" : "#0000FF",
-        "textbgcolor" : "blue",
-        "textcolor": "#111111"
+    "aggregateArcColors":{
+        "inline_expression" : {
+            "linecolor" : "grey",
+            "textbgcolor" : "white"
+        },
+        "box" : {
+            "linecolor" : "black",
+            "textbgcolor" : "white"
+        }
     }
-];
+};
 
 var customMscTestInput = {
   "meta": {
@@ -593,7 +605,7 @@ describe('colorize', function() {
             utl.assertequalJSON(alreadyColoredBoxes, colorize.colorize(alreadyColoredBoxes));
         });
         it('should use custom entity color scheme and arc specifics when passed these', function(){
-            utl.assertequalJSON(customMscTestOutput, colorize.colorize(customMscTestInput, customEntityColorArray, customArcColorCombis));
+            utl.assertequalJSON(customMscTestOutput, colorize.colorize(customMscTestInput, customScheme));
         });
     });
 });

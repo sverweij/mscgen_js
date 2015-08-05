@@ -19,12 +19,16 @@ require(["ui-control/interpreter-input-actions",
       window.__language_msgenny.addEventListener("click", iactions.languageMsGennyOnClick, false);
       window.__language_mscgen.addEventListener("click", iactions.languageMscGenOnClick, false);
       window.__language_json.addEventListener("click", iactions.languageJSONOnClick, false);
-      window.__btn_colorize.addEventListener("click", iactions.colorizeOnClick, false);
-      window.__btn_uncolorize.addEventListener("click", iactions.uncolorizeOnClick, false);
+      window.__btn_more_color_schemes.addEventListener("click", iactions.moreColorSchemesOnClick, false);
+      window.__color_minimal.addEventListener("click", iactions.colorMinimalOnClick, false);
+      window.__color_rose.addEventListener("click", iactions.colorRoseOnClick, false);
+      window.__color_auto.addEventListener("click", iactions.colorAutoOnClick, false);
+      window.__color_remove.addEventListener("click", iactions.uncolorizeOnClick, false);
       window.__btn_render.addEventListener("click", iactions.renderOnClick, false);
       window.__samples.addEventListener("change", iactions.samplesOnChange, false);
       window.__save.addEventListener("click", iactions.saveOnClick, false);
       window.__load.addEventListener("click", iactions.loadOnClick, false);
+      window.__btn_color_panel_close.addEventListener("click", iactions.closeColorPanel, false);
     }
 
     function setupOutputEvents(){
@@ -33,7 +37,7 @@ require(["ui-control/interpreter-input-actions",
       window.__show_png.addEventListener("click", oactions.pngOnClick,false);
       window.__show_jpeg.addEventListener("click", oactions.jpegOnClick, false);
       window.__more_export_options.addEventListener("click", oactions.moreExportOptionsOnClick, false);
-      window.__btn_panel_close.addEventListener("click", oactions.closeExportOptions, false);
+      window.__btn_output_panel_close.addEventListener("click", oactions.closeExportOptions, false);
       window.__show_html.addEventListener("click", oactions.htmlOnClick, false);
       window.__show_dot.addEventListener("click", oactions.dotOnClick, false);
       window.__show_vanilla.addEventListener("click", oactions.vanillaOnClick, false);
