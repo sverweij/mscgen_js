@@ -41,13 +41,13 @@ msc {
 
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu",
-        "../utl/gaga", "../utl/maps", "../render/text/colorize",
+        "../utl/gaga", "../utl/maps",
         "../utl/domquery",
         "./controller-exporter"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,
-            gaga, txt, colorize,
+            gaga, txt,
             dq,
             xport
         ) {
@@ -264,20 +264,18 @@ function showLanguageState (pSource, pLanguage, pAutoRender) {
         window.__language_mscgen.checked = false;
         window.__language_msgenny.checked = true;
         window.__language_json.checked = false;
-        dq.SS(window.__btn_colorize).hide();
-        dq.SS(window.__btn_uncolorize).hide();
+        dq.SS(window.__btn_more_color_schemes).hide();
+        window.__color_panel.style.height = '0';
     } else if ("json" === pLanguage){
         window.__language_mscgen.checked = false;
         window.__language_msgenny.checked = false;
         window.__language_json.checked = true;
-        dq.SS(window.__btn_colorize).show();
-        dq.SS(window.__btn_uncolorize).show();
+        dq.SS(window.__btn_more_color_schemes).show();
     } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
         window.__language_mscgen.checked = true;
         window.__language_msgenny.checked = false;
         window.__language_json.checked = false;
-        dq.SS(window.__btn_colorize).show();
-        dq.SS(window.__btn_uncolorize).show();
+        dq.SS(window.__btn_more_color_schemes).show();
     }
     if (pAutoRender) {
         render (pSource, pLanguage);
@@ -301,8 +299,7 @@ function displayError (pError, pContext) {
         init: initializeUI,
         
         switchLanguage: switchLanguage,
-        colorizeOnClick: function () { manipulateSource(colorize.colorize); },
-        unColorizeOnClick: function (){ manipulateSource(colorize.uncolor); },
+        manipulateSource: manipulateSource,
         setSample: setSample,
 
         errorOnClick: function(){
