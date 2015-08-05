@@ -44,7 +44,7 @@
     "msgenny"
   ],
   "engines": {
-    "iojs": "^1.6.4"
+    "iojs": "^2.5.0"
   },
   "bugs": {
     "url": "https://github.com/sverweij/mscgen_js/issues"
