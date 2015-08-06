@@ -38,73 +38,20 @@ define(["./interpreter-uistate",
             gaga.g('send', 'event', 'toggle_ms_genny', 'json');
         },
         colorAutoOnClick: function() {
-            uistate.manipulateSource(colorize.colorize);
+            uistate.manipulateSource(colorize.applyScheme);
             _closeColorPanel();
             gaga.g('send', 'event', 'color.auto', 'button');
         },
         colorMinimalOnClick: function(){
             uistate.manipulateSource(function(pAST){
-                return colorize.colorize(pAST, 
-                    {
-                      "entityColors": [
-                        {}
-                      ],
-                      "arcColors": {
-                        "note": {
-                          "linecolor": "black",
-                          "textbgcolor": "#FFFFCC"
-                        },
-                        "---": {
-                          "linecolor": "grey",
-                          "textbgcolor": "white"
-                        }
-                      },
-                      "aggregateArcColors": {
-                        "inline_expression": {
-                          "linecolor": "grey"
-                        },
-                        "box": {
-                          "linecolor": "black",
-                          "textbgcolor": "white"
-                        }
-                      }
-                    });
+                return colorize.applyScheme(pAST, "minimal");
             });
             _closeColorPanel();
             gaga.g('send', 'event', 'color.minimal', 'button');
         },
         colorRoseOnClick: function(){
             uistate.manipulateSource(function(pAST){
-                return colorize.colorize(pAST, 
-                    {
-                      "entityColors": [
-                        {
-                          "linecolor": "maroon",
-                          "textbgcolor": "#FFFFCC"
-                        }
-                      ],
-                      "arcColors": {
-                        "note": {
-                          "linecolor": "maroon",
-                          "textbgcolor": "#FFFFCC"
-                        },
-                        "---": {
-                          "linecolor": "grey",
-                          "textbgcolor": "white"
-                        }
-                      },
-                      "aggregateArcColors": {
-                        "inline_expression": {
-                          "linecolor": "maroon",
-                          "textcolor": "maroon"
-                        },
-                        "box": {
-                          "linecolor": "maroon",
-                          "textbgcolor": "#FFFFCC"
-                        }
-                      }
-                    }
-                );
+                return colorize.applyScheme(pAST, "rosy");
             });
             _closeColorPanel();
             gaga.g('send', 'event', 'color.rose', 'button');
