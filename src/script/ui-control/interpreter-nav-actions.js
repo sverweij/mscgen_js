@@ -61,6 +61,8 @@ define(["./interpreter-uistate",
                 dq.SS(window.__embedsheet).hide();
                 dq.SS(window.__aboutsheet).hide();
                 animctrl.close();
+                window.__color_panel.style.height = '0';
+                window.__output_panel.style.height = '0';
            }
         }
     };

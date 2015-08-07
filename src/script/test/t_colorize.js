@@ -1,6 +1,7 @@
 var colorize = require("../render/text/colorize");
 var fix = require("./astfixtures");
 var utl = require("./testutensils");
+var clone = require("../render/text/utensils").deepCopy;
 
 /*
 var template = {
@@ -127,6 +128,60 @@ var coloredBoxes = {
     {
       "name": "a",
       "textcolor": "green"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "box",
+        "from": "a",
+        "to": "a",
+        "linecolor": "black",
+        "textbgcolor": "white"
+      }
+    ],
+    [
+      {
+        "kind": "abox",
+        "from": "a",
+        "to": "a",
+        "linecolor": "black",
+        "textbgcolor": "white"
+      }
+    ],
+    [
+      {
+        "kind": "rbox",
+        "from": "a",
+        "to": "a",
+        "linecolor": "black",
+        "textbgcolor": "white"
+      }
+    ],
+    [
+      {
+        "kind": "note",
+        "from": "a",
+        "to": "a",
+        "linecolor": "black",
+        "textbgcolor": "#FFFFCC"
+      }
+    ]
+  ]
+};
+
+var coloredBoxesForced = {
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "entities": [
+    {
+      "name": "a",
+      "linecolor": "#008800",
+      "textbgcolor": "#CCFFCC",
+      "arclinecolor": "#008800"
     }
   ],
   "arcs": [
@@ -584,25 +639,35 @@ var customMscTestOutput = {
 describe('colorize', function() {
     describe('#colorize', function() {
         it('should return the input on uncolor(colorize)', function(){
-            utl.assertequalJSON(fix.astAltWithinLoop, colorize.uncolor(colorize.colorize(fix.astAltWithinLoop)));
+            utl.assertequalJSON(fix.astAltWithinLoop, colorize.uncolor(colorize.applyScheme(clone(fix.astAltWithinLoop))));
         });
         it('should, leave already textcolored entities alone', function(){
-            utl.assertequalJSON(textColoredEntity, colorize.colorize(textColoredEntity));
+            utl.assertequalJSON(textColoredEntity, colorize.applyScheme(clone(textColoredEntity)));
+        });
+        it('should, leave already textcolored entities alone', function(){
+            utl.assertequalJSON(textColoredEntity, colorize.applyScheme(clone(textColoredEntity), 'auto'));
         });
         it('should, leave already arctextcolored entities alone', function(){
-            utl.assertequalJSON(arcTextColoredEntity, colorize.colorize(arcTextColoredEntity));
+            utl.assertequalJSON(arcTextColoredEntity, colorize.applyScheme(arcTextColoredEntity));
         });
         it('should, leave regular arcs departing from already textcolored entities alone', function(){
-            utl.assertequalJSON(textColoredEntityWithArc, colorize.colorize(textColoredEntityWithArc));
+            utl.assertequalJSON(textColoredEntityWithArc, colorize.applyScheme(textColoredEntityWithArc));
         });
         it('should color box arcs departing from colored entities', function(){
-            utl.assertequalJSON(coloredBoxes, colorize.colorize(boxes));
+            utl.assertequalJSON(coloredBoxes, colorize.applyScheme(clone(boxes)));
+        });
+        it('should not respect any colors when force is applied', function(){
+            utl.assertequalJSON(coloredBoxesForced, colorize.applyScheme(clone(boxes), 'auto', true));
+        });
+        it('should not respect any colors when force is applied', function(){
+            var lRosedBoxes = colorize.applyScheme(clone(boxes), 'rosy');
+            utl.assertequalJSON(coloredBoxesForced, colorize.applyScheme(lRosedBoxes, 'auto', true));
         });
         it('should color box arcs departing from non-colored entities', function(){
-            utl.assertequalJSON(coloredBoxesWithNonColoredEntity, colorize.colorize(boxesWithNonColoredEntity));
+            utl.assertequalJSON(coloredBoxesWithNonColoredEntity, colorize.applyScheme(boxesWithNonColoredEntity));
         });
         it('should not color box arcs already having some color', function(){
-            utl.assertequalJSON(alreadyColoredBoxes, colorize.colorize(alreadyColoredBoxes));
+            utl.assertequalJSON(alreadyColoredBoxes, colorize.applyScheme(alreadyColoredBoxes));
         });
         it('should use custom entity color scheme and arc specifics when passed these', function(){
             utl.assertequalJSON(customMscTestOutput, colorize.colorize(customMscTestInput, customScheme));

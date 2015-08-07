@@ -21,8 +21,11 @@ require(["ui-control/interpreter-input-actions",
       window.__language_json.addEventListener("click", iactions.languageJSONOnClick, false);
       window.__btn_more_color_schemes.addEventListener("click", iactions.moreColorSchemesOnClick, false);
       window.__color_minimal.addEventListener("click", iactions.colorMinimalOnClick, false);
+      window.__color_minimal_force.addEventListener("click", iactions.colorMinimalFOnClick, false);
       window.__color_rose.addEventListener("click", iactions.colorRoseOnClick, false);
+      window.__color_rose_force.addEventListener("click", iactions.colorRoseFOnClick, false);
       window.__color_auto.addEventListener("click", iactions.colorAutoOnClick, false);
+      window.__color_auto_force.addEventListener("click", iactions.colorAutoFOnClick, false);
       window.__color_remove.addEventListener("click", iactions.uncolorizeOnClick, false);
       window.__btn_render.addEventListener("click", iactions.renderOnClick, false);
       window.__samples.addEventListener("change", iactions.samplesOnChange, false);

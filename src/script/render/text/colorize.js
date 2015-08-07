@@ -23,58 +23,122 @@ if ( typeof define !== 'function') {
 define(["./asttransform", "./dotmap"], function(transform, map) {
     "use strict";
 
-    var gColorCombiCount = 0;
-
-    var DEFAULT_SCHEME = {
-        "entityColors" : [{
-            "linecolor" : "#008800",
-            "textbgcolor" : "#CCFFCC"
-        }, {
-            "linecolor" : "#FF0000",
-            "textbgcolor" : "#FFCCCC"
-        }, {
-            "linecolor" : "#0000FF",
-            "textbgcolor" : "#CCCCFF"
-        }, {
-            "linecolor" : "#FF00FF",
-            "textbgcolor" : "#FFCCFF"
-        }, {
-            "linecolor" : "black",
-            "textbgcolor" : "#DDDDDD"
-        }, {
-            "linecolor" : "orange",
-            "textbgcolor" : "#FFFFCC"
-        }, {
-            "linecolor" : "#117700",
-            "textbgcolor" : "#00FF00"
-        }, {
-            "linecolor" : "purple",
-            "textbgcolor" : "violet"
-        }, {
-            "linecolor" : "grey",
-            "textbgcolor" : "white"
-        }],
-        "arcColors" : {
-            "note" : {
-                "linecolor" : "black",
-                "textbgcolor" : "#FFFFCC"
-            },
-            "---" : {
-                "linecolor" : "grey",
-                "textbgcolor" : "white"
-            }
+    var gSchemes = {
+      "minimal": {
+        "entityColors": [
+          {}
+        ],
+        "arcColors": {
+          "note": {
+            "linecolor": "black",
+            "textbgcolor": "#FFFFCC"
+          },
+          "---": {
+            "linecolor": "grey",
+            "textbgcolor": "white"
+          }
         },
-        "aggregateArcColors" : {
-            "inline_expression" : {
-                "linecolor" : "grey",
-                "textbgcolor" : "white"
-            },
-            "box" : {
-                "linecolor" : "black",
-                "textbgcolor" : "white"
-            }
+        "aggregateArcColors": {
+          "inline_expression": {
+            "linecolor": "grey"
+          },
+          "box": {
+            "linecolor": "black",
+            "textbgcolor": "white"
+          }
         }
+      },
+      "rosy": {
+        "entityColors": [
+          {
+            "linecolor": "maroon",
+            "textbgcolor": "#FFFFCC"
+          }
+        ],
+        "arcColors": {
+          "note": {
+            "linecolor": "maroon",
+            "textbgcolor": "#FFFFCC"
+          },
+          "---": {
+            "linecolor": "grey",
+            "textbgcolor": "white"
+          }
+        },
+        "aggregateArcColors": {
+          "inline_expression": {
+            "linecolor": "maroon",
+            "textcolor": "maroon"
+          },
+          "box": {
+            "linecolor": "maroon",
+            "textbgcolor": "#FFFFCC"
+          }
+        }
+      },
+      "auto": {
+        "entityColors": [
+          {
+            "linecolor": "#008800",
+            "textbgcolor": "#CCFFCC"
+          },
+          {
+            "linecolor": "#FF0000",
+            "textbgcolor": "#FFCCCC"
+          },
+          {
+            "linecolor": "#0000FF",
+            "textbgcolor": "#CCCCFF"
+          },
+          {
+            "linecolor": "#FF00FF",
+            "textbgcolor": "#FFCCFF"
+          },
+          {
+            "linecolor": "black",
+            "textbgcolor": "#DDDDDD"
+          },
+          {
+            "linecolor": "orange",
+            "textbgcolor": "#FFFFCC"
+          },
+          {
+            "linecolor": "#117700",
+            "textbgcolor": "#00FF00"
+          },
+          {
+            "linecolor": "purple",
+            "textbgcolor": "violet"
+          },
+          {
+            "linecolor": "grey",
+            "textbgcolor": "white"
+          }
+        ],
+        "arcColors": {
+          "note": {
+            "linecolor": "black",
+            "textbgcolor": "#FFFFCC"
+          },
+          "---": {
+            "linecolor": "grey",
+            "textbgcolor": "white"
+          }
+        },
+        "aggregateArcColors": {
+          "inline_expression": {
+            "linecolor": "grey",
+            "textbgcolor": "white"
+          },
+          "box": {
+            "linecolor": "black",
+            "textbgcolor": "white"
+          }
+        }
+      }
     };
+    
+    var gColorCombiCount = 0;
     var gColorScheme = {};
 
     function getArcColorCombis(pKind) {
@@ -132,14 +196,11 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
         return pEntity;
     }
 
-    function _colorize(pAST, pColorScheme) {
-        gColorScheme = DEFAULT_SCHEME;
-        if (pColorScheme){
-            gColorScheme = pColorScheme;
-        }
+    function _colorize(pAST, pColorScheme, pForce) {
+        gColorScheme = pColorScheme;
         gColorCombiCount = 0;
 
-        return transform.transform(pAST, [colorizeEntity], [colorizeArc]);
+        return transform.transform(pForce ? _uncolor(pAST) : pAST, [colorizeEntity], [colorizeArc]);
     }
 
     function uncolorThing(pThing) {
@@ -158,7 +219,11 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
 
     return {
         uncolor : _uncolor,
-        colorize : _colorize
+        colorize : _colorize,
+        applyScheme: function(pAST, pColorSchemeName, pForced){
+            return _colorize(pAST, gSchemes[pColorSchemeName] ? gSchemes[pColorSchemeName] : gSchemes.auto, pForced);
+        }
+
     };
 });
 

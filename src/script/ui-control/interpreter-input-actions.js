@@ -12,6 +12,19 @@ define(["./interpreter-uistate",
             colorize) {
     "use strict";
     
+    function _applyColorScheme(pSchemeName, pForce){
+        uistate.manipulateSource(function(pAST){
+            return colorize.applyScheme(pAST, pSchemeName, pForce);
+        });
+        _closeColorPanel();
+        gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? "_force" : ""), 'button');
+    }
+    
+    function _switchLanguage(pLanguage){
+        uistate.switchLanguage(pLanguage);
+        gaga.g('send', 'event', 'toggle_ms_genny', pLanguage);
+    }
+    
     function _closeColorPanel(){
         window.__color_panel.style.height = '0';
     }
@@ -25,90 +38,15 @@ define(["./interpreter-uistate",
             uistate.showAutorenderState (uistate.getAutoRender());
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
-        languageMsGennyOnClick: function() {
-            uistate.switchLanguage("msgenny");
-            gaga.g('send', 'event', 'toggle_ms_genny', 'msgenny');
-        },
-        languageMscGenOnClick: function() {
-            uistate.switchLanguage("mscgen");
-            gaga.g('send', 'event', 'toggle_ms_genny', 'mscgen');
-        },
-        languageJSONOnClick: function() {
-            uistate.switchLanguage("json");
-            gaga.g('send', 'event', 'toggle_ms_genny', 'json');
-        },
-        colorAutoOnClick: function() {
-            uistate.manipulateSource(colorize.colorize);
-            _closeColorPanel();
-            gaga.g('send', 'event', 'color.auto', 'button');
-        },
-        colorMinimalOnClick: function(){
-            uistate.manipulateSource(function(pAST){
-                return colorize.colorize(pAST, 
-                    {
-                      "entityColors": [
-                        {}
-                      ],
-                      "arcColors": {
-                        "note": {
-                          "linecolor": "black",
-                          "textbgcolor": "#FFFFCC"
-                        },
-                        "---": {
-                          "linecolor": "grey",
-                          "textbgcolor": "white"
-                        }
-                      },
-                      "aggregateArcColors": {
-                        "inline_expression": {
-                          "linecolor": "grey"
-                        },
-                        "box": {
-                          "linecolor": "black",
-                          "textbgcolor": "white"
-                        }
-                      }
-                    });
-            });
-            _closeColorPanel();
-            gaga.g('send', 'event', 'color.minimal', 'button');
-        },
-        colorRoseOnClick: function(){
-            uistate.manipulateSource(function(pAST){
-                return colorize.colorize(pAST, 
-                    {
-                      "entityColors": [
-                        {
-                          "linecolor": "maroon",
-                          "textbgcolor": "#FFFFCC"
-                        }
-                      ],
-                      "arcColors": {
-                        "note": {
-                          "linecolor": "maroon",
-                          "textbgcolor": "#FFFFCC"
-                        },
-                        "---": {
-                          "linecolor": "grey",
-                          "textbgcolor": "white"
-                        }
-                      },
-                      "aggregateArcColors": {
-                        "inline_expression": {
-                          "linecolor": "maroon",
-                          "textcolor": "maroon"
-                        },
-                        "box": {
-                          "linecolor": "maroon",
-                          "textbgcolor": "#FFFFCC"
-                        }
-                      }
-                    }
-                );
-            });
-            _closeColorPanel();
-            gaga.g('send', 'event', 'color.rose', 'button');
-        },
+        languageMsGennyOnClick: function() { _switchLanguage("msgenny"); },
+        languageMscGenOnClick: function() { _switchLanguage("mscgen"); },
+        languageJSONOnClick: function() { _switchLanguage("json"); },
+        colorAutoOnClick: function() { _applyColorScheme("auto", false); },
+        colorAutoFOnClick: function() { _applyColorScheme("auto", true); },
+        colorMinimalOnClick: function(){ _applyColorScheme("minimal", false); },
+        colorMinimalFOnClick: function(){ _applyColorScheme("minimal", true); },
+        colorRoseOnClick: function(){ _applyColorScheme("rosy", false); },
+        colorRoseFOnClick: function(){ _applyColorScheme("rosy", true); },
         uncolorizeOnClick: function() {
             uistate.manipulateSource(colorize.uncolor);
             _closeColorPanel();
