@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?07fc5db4e2e186f1"
+        <link rel="stylesheet" href="style/interp.css?8136a5657ff2c89b"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?07fc5db4e2e186f1"
-        src="lib/require.js?07fc5db4e2e186f1" defer></script>
+        <script data-main="script/mscgen-interpreter.js?8136a5657ff2c89b"
+        src="lib/require.js?8136a5657ff2c89b" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,9 +94,9 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.92
-    build-date: 20150805 23:43
-    commit: 07fc5db4e2e186f1">mscgen_js</h1>
+    version: 0.9.93
+    build-date: 20150807 21:19
+    commit: 8136a5657ff2c89b">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -115,9 +115,9 @@ mscgen_js
                 title="Show cheat sheet"><br><br>learn</span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.92</div>
-                <div><em>build-date:</em> 20150805 23:43</div>
-                <div><em>commit:</em> 07fc5db4e2e186f1</div>
+                <div><em>version:</em> 0.9.93</div>
+                <div><em>build-date:</em> 20150807 21:19</div>
+                <div><em>commit:</em> 8136a5657ff2c89b</div>
             </div>
         </header>
         <article>
@@ -431,25 +431,57 @@ documents."></img></a>
             <a id="__show_html"
                 target="_blank"
                 type="text/plain"
-                title="Generates an html page with the chart embedded">html, with the chart embedded</a>
+                title="Generates an html page with the chart embedded">HTML, with the chart embedded</a>
         </div>
         <div id="__color_panel" class="sliding-panel">
             <div class="header">
-                <h2>Apply color scheme</h2>
+                <h2>Apply a color scheme</h2>
                 <span><button id="__btn_color_panel_close" class="icon-cross close-button" title="close"></button></span>
             </div>
-            <a id="__color_minimal"
-                title="applies a minimal color scheme; notes get colored, inline expressions get grey lines">Minimal</a>
-            <a id="__color_rose"
-                type="text/dot"
-                title="applies a scheme with dark-red, yellow and black">Rosy</a>
-            <a id="__color_auto" 
-                    title="Auto colors the sequence chart
+            <span>
+                <a id="__color_minimal"
+                    title="applies a minimal color scheme; notes get colored, inline expressions get grey lines
+leaves existing colors in place
 
-Note: !! removes comments and reformats your source!!">Automatic</a>
-            <a id="__color_remove" 
-                    title="Removes all color from the sequence chart
-Note: !! removes comments and reformats your source!!">Remove all color</a>
+Note: !! removes comments and reformats your source!!">Minimal (respect existing colors)</a>
+                <a id="__color_minimal_force"
+                        title="applies a minimal color scheme; notes get colored, inline expressions get grey lines
+replaces existing colors
+
+Note: !! removes comments and reformats your source!!">Minimal (forced)</a>
+            </span>
+            <span>
+                <a id="__color_rose"
+                    type="text/dot"
+                    title="applies a scheme with dark-red, yellow and black
+leaves existing colors in place
+
+Note: !! removes comments and reformats your source!!">Rosy (respect existing colors)</a>
+                <a id="__color_rose_force"
+                        type="text/dot"
+                        title="applies a scheme with dark-red, yellow and black
+replaces existing colors
+
+Note: !! removes comments and reformats your source!!">Rosy (forced)</a>
+            </span>
+            <span>
+                <a id="__color_auto" 
+                        title="Auto colors the sequence chart
+leaves existing colors in place
+
+Note: !! removes comments and reformats your source!!">Automatic (respect existing colors)</a>
+                <a id="__color_auto_force" 
+                        title="Auto colors the sequence chart
+replaces existing colors
+
+Note: !! removes comments and reformats your source!!">Automatic (forced)</a>
+            </span>
+            <span>
+                <a id="__color_remove" 
+                        title="Removes all color from the sequence chart
+
+Note: !! removes comments and reformats your source!!">B&amp;W = remove all color</a>
+            </span>
         </div>
         <div id="__loading"
             style="
