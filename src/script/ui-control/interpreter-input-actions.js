@@ -42,6 +42,13 @@ define(["./interpreter-uistate",
             _closeColorPanel();
             gaga.g('send', 'event', 'color.auto', 'button');
         },
+        colorAutoFOnClick: function() {
+            uistate.manipulateSource(function(pAST){
+                return colorize.applyScheme(pAST, "auto", true);
+            });
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.minimal', 'button');
+        },
         colorMinimalOnClick: function(){
             uistate.manipulateSource(function(pAST){
                 return colorize.applyScheme(pAST, "minimal");
@@ -49,12 +56,26 @@ define(["./interpreter-uistate",
             _closeColorPanel();
             gaga.g('send', 'event', 'color.minimal', 'button');
         },
+        colorMinimalFOnClick: function(){
+            uistate.manipulateSource(function(pAST){
+                return colorize.applyScheme(pAST, "minimal", true);
+            });
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.minimal_force', 'button');
+        },
         colorRoseOnClick: function(){
             uistate.manipulateSource(function(pAST){
                 return colorize.applyScheme(pAST, "rosy");
             });
             _closeColorPanel();
             gaga.g('send', 'event', 'color.rose', 'button');
+        },
+        colorRoseFOnClick: function(){
+            uistate.manipulateSource(function(pAST){
+                return colorize.applyScheme(pAST, "rosy", true);
+            });
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.rose_force', 'button');
         },
         uncolorizeOnClick: function() {
             uistate.manipulateSource(colorize.uncolor);
