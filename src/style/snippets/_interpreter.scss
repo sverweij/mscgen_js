@@ -124,8 +124,13 @@ article {
     flex-direction: column;
     -webkit-flex-direction: column;
 }
-#__samples {
-    float: right;
+#__input_top_area {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
 }
 #__input_controls_area {
     margin: 0.1em 0 1.7em 0;
