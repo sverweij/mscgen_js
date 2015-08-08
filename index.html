@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?8136a5657ff2c89b"
+        <link rel="stylesheet" href="style/interp.css?de01ece1217e417f"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?8136a5657ff2c89b"
-        src="lib/require.js?8136a5657ff2c89b" defer></script>
+        <script data-main="script/mscgen-interpreter.js?de01ece1217e417f"
+        src="lib/require.js?de01ece1217e417f" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,9 +94,9 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.93
-    build-date: 20150807 21:19
-    commit: 8136a5657ff2c89b">mscgen_js</h1>
+    version: 0.9.94
+    build-date: 20150808 22:41
+    commit: de01ece1217e417f">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -115,9 +115,9 @@ mscgen_js
                 title="Show cheat sheet"><br><br>learn</span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.93</div>
-                <div><em>build-date:</em> 20150807 21:19</div>
-                <div><em>commit:</em> 8136a5657ff2c89b</div>
+                <div><em>version:</em> 0.9.94</div>
+                <div><em>build-date:</em> 20150808 22:41</div>
+                <div><em>commit:</em> de01ece1217e417f</div>
             </div>
         </header>
         <article>
@@ -133,37 +133,39 @@ saves the current chart to local storage"><span class="icon-arrow-down"></span><
                     
 loads the most recently saved chart from local storage"><span class="icon-folder"></span></a>
                 </span>
-                <select title="list of samples" id="__samples">
-                    <option value="none" selected>select an example...</option>
-                    <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
-                    <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
-                    <option value="samples/readme.mscin">showing off Mscgen</option>
-                    <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
-                    <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
-                    <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
-                    <option value="samples/test08_smtp.mscin">sample: SMTP</option>
-                    <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
-                    <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">sample: ACME Challenge</option>
-                    <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">sample: ACME Auth</option>
-                    <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">sample: ACME Cert</option>
-                    <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">sample: ACME Revoke</option>
-                    <option class="debug" style="display: none" value="samples/smoketest.mscin">test: smoke test</option>
-                    <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
-                    <option value="samples/test02_some_coloring.mscin">test: colors</option>
-                    <option class="debug" style="display: none" value="samples/test50_expansions.xu">xù: inline expressions</option>
-                    <option class="debug" style="display: none" value="samples/rainbow.mscin">test: rainbow</option>
-                    <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
-                    <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
-                    <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
-                    <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
-                    <option value="samples/test19_multiline_lipsum.mscin">test: multiline autowrap</option>
-                    <option value="samples/test11_autodeclaration.msgenny">MsGenny: auto entities</option>
-                    <option value="samples/3rdparty/test20_quoteless_attributes.mscin">test: quoteless attributes</option>
-                    <option value="samples/test21_unicode.mscin">test: 信息序圖</option>
-                    <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
-                    <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
-                    <option value="samples/test43_flag.mscin">weird: flag</option>
-                </select>
+                <span>
+                    <select title="list of samples" id="__samples">
+                        <option value="none" selected>select an example...</option>
+                        <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
+                        <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
+                        <option value="samples/readme.mscin">showing off Mscgen</option>
+                        <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
+                        <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
+                        <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
+                        <option value="samples/test08_smtp.mscin">sample: SMTP</option>
+                        <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
+                        <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">sample: ACME Challenge</option>
+                        <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">sample: ACME Auth</option>
+                        <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">sample: ACME Cert</option>
+                        <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">sample: ACME Revoke</option>
+                        <option class="debug" style="display: none" value="samples/smoketest.mscin">test: smoke test</option>
+                        <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
+                        <option value="samples/test02_some_coloring.mscin">test: colors</option>
+                        <option class="debug" style="display: none" value="samples/test50_expansions.xu">xù: inline expressions</option>
+                        <option class="debug" style="display: none" value="samples/rainbow.mscin">test: rainbow</option>
+                        <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
+                        <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
+                        <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
+                        <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
+                        <option value="samples/test19_multiline_lipsum.mscin">test: multiline autowrap</option>
+                        <option value="samples/test11_autodeclaration.msgenny">MsGenny: auto entities</option>
+                        <option value="samples/3rdparty/test20_quoteless_attributes.mscin">test: quoteless attributes</option>
+                        <option value="samples/test21_unicode.mscin">test: 信息序圖</option>
+                        <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
+                        <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
+                        <option value="samples/test43_flag.mscin">weird: flag</option>
+                    </select>
+                </span>
             </div>
             <textarea id="__msc_input" class="code mscgen" spellcheck="false" title="your input text:"></textarea>
             <div id="__input_controls_area">
@@ -289,7 +291,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         <div id="__embedsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">
-                     <button id="__close_embedsheet" class="close">x</button>
+                     <button id="__close_embedsheet" class="close icon-cross"></button>
                      Sample for embedding the current chart in html<br>(<a href="./embed.html" target="_blank">learn more</a>):<br><br>
                 </div>
                 <input type="checkbox" id="__link_to_interpreter">
@@ -309,7 +311,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         <div id="__cheatsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">
-                    <button id="__close_lightbox" class="close">x</button>
+                    <button id="__close_lightbox" class="close icon-cross"></button>
                     <table style="width: 80%">
                         <tr>
                             <td><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
@@ -329,7 +331,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         <div id="__aboutsheet" class="popupsheet" style="display:none">
             <div class="popup">
                 <div class="header">
-                    <button id="__close_aboutsheet" class="close">x</button>
+                    <button id="__close_aboutsheet" class="close icon-cross"></button>
                     <h1>About</h1>
                 </div>
                 <div class="content">
