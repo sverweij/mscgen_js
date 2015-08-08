@@ -3,23 +3,23 @@
   "version": "0.9.94",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "dependencies": {
-    "amdefine": "^1.0.0",
-    "btoa": "^1.1.2",
-    "jsdom": "^6.0.0",
-    "requirejs": "^2.1.20"
+    "amdefine": "1.0.0",
+    "btoa": "1.1.2",
+    "jsdom": "6.0.1",
+    "requirejs": "2.1.20"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "^0.1.0",
-    "codecov.io": "^0.1.5",
-    "csslint": "^0.10.0",
-    "istanbul": "^0.3.17",
-    "jshint": "^2.8.0",
-    "mocha": "^2.2.5",
-    "node-localstorage": "^0.5.2",
-    "node-sass": "^3.2.0",
-    "nsp": "^1.0.3",
-    "pegjs": "^0.8.0",
-    "plato": "^1.5.0"
+    "codeclimate-test-reporter": "0.1.0",
+    "codecov.io": "0.1.5",
+    "csslint": "0.10.0",
+    "istanbul": "0.3.17",
+    "jshint": "2.8.0",
+    "mocha": "2.2.5",
+    "node-localstorage": "0.5.2",
+    "node-sass": "3.2.0",
+    "nsp": "1.0.3",
+    "pegjs": "0.8.0",
+    "plato": "1.5.0"
   },
   "scripts": {
     "test": "mocha -R dot src/script/test/",
