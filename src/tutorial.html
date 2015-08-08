@@ -667,8 +667,18 @@ When your program uses features not available in a target language,
 these will get lost in the translation.
 </p>
 <h3>Color</h3>
-<p>When you hit the <em>color</em> button the interpreter colors
-    your sequence chart
+<p>When you hit the <em>color</em> button you can either:
+    <ul>
+        <li>Pick one of three color schemes which adds coloring attributes 
+            to the mscgen source code.
+        </li>
+        <li>Remove any colors from the source.
+        </li>
+    </ul>
+</p>
+<p>For example, here is what the what applying the 'Automatic' color scheme 
+    will get you:
+</p>
 <div>
 <mscgen>msc {
   hscale="0.8";
@@ -692,40 +702,22 @@ these will get lost in the translation.
   Mo =>> Dolores [label="I see it in your eyes"];
 }</mscgen>
 </div>
+<h4>Not for msgenny</h4>
+<p>As msgenny does not support colors, auto color is disabled for that language.
+</p>
+<h4><em>Respect existing colors</em> vs <em>forced</em></h4>
 <p>
-    It uses these rules:
+    Each color scheme has two variants:
+    <ul>
+        <li><b>respect existing colors</b>
+            <p>If an element already has a color attribute <em>of any kind</em> 
+                applying the scheme will not change the colors for that element.</p>
+        </li>
+        <li><b>forced</b>
+            <p>Removes all colors from the chart before applying the scheme.</p>
+        </li>
+    </ul>
 </p>
-    <table class="doc">
-        <tr><th>When <em>x</em> doesn't have a color yet</th><th>the system...</th></tr>
-        <td>entity</td>
-        <td>applies colors from a nice color scheme, affecting
-            <ul>
-                <li>line color</li>
-                <li>background color</li>
-                <li><a href="#coloring-everything-departing-from-a-lifeline">arc line color</a>
-                     the same as the line color</li>
-            </ul>
-        </td>
-        </tr>
-        <tr>
-            <td>note</td>
-            <td>gets the note a light yellow background and black text and lines.</td>
-        </tr>
-        <tr>
-            <td>box (/abox/ rbox)</td>
-            <td>gets the box a white background and black text and lines.</td>
-        </tr>
-        <tr>
-            <td>inline expression</td>
-            <td>gets the inline expression grey lines.</td>
-        </tr>
-    </table>
-<p>    
-    As msgenny does not support colors, auto color is disabled
-    when msgenny is selected.
-</p>
-<h3>B&amp;W</h3>
-<p>Removes all colors from the chart.</p>
 </section>
 <section>
 <h2>Output</h2>
@@ -742,10 +734,6 @@ these will get lost in the translation.
 <p>Opens a new window/ tab with the "rasterized" version of the
     chart in the lossless png or the lossy jpeg formats respectively.
     Saving is just as easy as saving the vector graphics.
-</p>
-<h3>Graphviz dot</h3>
-<p>Opens a new window with a graphviz dot
-    program, that represents the communication diagram version of the sequence chart.
 </p>
 
 <h3>The little film camera icon</h3>
@@ -789,13 +777,28 @@ you'll notice the interpreter grows some extra features:
     directly edit the syntax tree and see changes reflected in the
     chart...</p>
     </li>
-    <li><b>html</b>
-        <p>generates the same sample html as under "embed", only
-    now in a separate window.</p>
-    </li>
-    <li><b>Vanilla mscgen</b>
-        <p>flattens extended features (inline expressions,
-    watermark) to "vanilla" mscgen.</p>
+    <li><b>Extra export options</b>
+        <p><ul>
+            <li><em>Doxygen</em>
+                <p>Opens a new window with the current chart translated into vanilla mscgen, 
+                    
+                    embedded in a comment that plays nice with <a href="https://www.stack.nl/~dimitri/doxygen/">doxygen</a>.
+                </p>
+            </li>
+            <li><em>GraphViz dot</em>
+                <p>Opens a new window with a graphviz dot
+                    program, that represents the communication diagram version of the sequence chart.
+                </p>
+            </li>
+            <li><em>HTML</em>
+                <p>generates the same sample html as under "embed", only
+            now in a separate window.</p>
+            </li>
+            <li><em>Vanilla MscGen</em>
+                <p>flattens extended features (inline expressions,
+            watermark) to "vanilla" MscGen.</p>
+            </li>
+        </ul></p>
     </li>
     <li><b><em>save</em> and <em>load</em> buttons</b>
         <p>These buttons respectively save and load the current chart to 
