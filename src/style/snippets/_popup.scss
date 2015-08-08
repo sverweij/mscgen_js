@@ -46,25 +46,19 @@
 .popup span {
   padding-left: .5em;
 }
-.popup button.close {
+.popup .close {
   background-color: transparent;
-  font-weight: bold;
-  color: #767676;
-  opacity: 0.6;
+  color: inherit;
+  text-decoration: none;
   float: right;
-  margin-top: -.7em;
-  margin-right: -.5em;
-  padding-right:0.5em;
-  padding-left:0.5em;
-  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
-  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  margin-top: -.3em;
+  margin-right: -.3em;
+  // padding-right:0.5em;
+  // padding-left:0.5em;
 }
-.popup button.close:hover {
+.popup .close:hover {
   box-shadow: none;
   transition: none;
-  opacity: 1;
-  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
-  -webkit-transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 .popup td {
   vertical-align: top;
@@ -92,11 +86,10 @@ div.lightbox:target {
 }
 div.lightbox a.close {
   float: right;
-  top: 0;
-  padding-right:0.5em;
-  padding-left:0.5em;
-  color: grey;
-  font-weight: bold;
+  padding-top: 0.5em;
+  padding-right:0.7em;
+}
+div.lightbox a.close:hover {
   text-decoration: none;
 }
 div.lightbox a.close::before {
