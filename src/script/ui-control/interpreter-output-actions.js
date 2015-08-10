@@ -15,6 +15,11 @@ define(["./interpreter-uistate",
             dq,
             gaga) {
     "use strict";
+    
+    function _closeExportPanel(){
+        window.__output_panel.style.height = '0';
+    }
+    
     return {
         svgOnDblClick: function() {
             window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
@@ -69,13 +74,15 @@ define(["./interpreter-uistate",
             var lHeight = window.__output_panel.style.height.toString();
             if ( lHeight === '0px' || lHeight === ""){
                 window.__output_panel.style.height = '250px';
+                gaga.g('send', 'event', 'export.open', 'button');
             } else {
-                window.__output_panel.style.height = '0';
+                _closeExportPanel();
+                gaga.g('send', 'event', 'export.close', 'button');
             }
-            gaga.g('send', 'event', 'more_export_options', 'button');
         },
         closeExportOptions: function(){
-            window.__output_panel.style.height = '0';
+            _closeExportPanel();
+            gaga.g('send', 'event', 'exportPanel.close', 'button');
         }
     };
 });

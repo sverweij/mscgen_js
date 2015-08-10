@@ -72,12 +72,16 @@ define(["./interpreter-uistate",
             var lHeight = window.__color_panel.style.height.toString();
             if ( lHeight === '0px' || lHeight === ""){
                 window.__color_panel.style.height = '250px';
+                gaga.g('send', 'event', 'more_color_schemes.open', 'button');
             } else {
-                window.__color_panel.style.height = '0';
+                _closeColorPanel();
+                gaga.g('send', 'event', 'more_color_schemes.close', 'button');
             }
-            gaga.g('send', 'event', 'more_color_schemes', 'button');
         },
-        closeColorPanel: _closeColorPanel
+        closeColorPanel: function(){
+            _closeColorPanel();
+            gaga.g('send', 'event', 'color.close', 'button');
+        }
     };
 });
 /*
