@@ -23,7 +23,7 @@ define(["./interpreter-uistate",
             lineNumbers       : true,
             autoCloseBrackets : true,
             matchBrackets     : true,
-            theme             : "mbo",
+            theme             : "blackboard",
             mode              : "xu",
             placeholder       : "Type your text. Or drag a file to this area....",
             lineWrapping      : false
