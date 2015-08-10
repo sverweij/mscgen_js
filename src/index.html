@@ -123,15 +123,15 @@ mscgen_js
         <article>
         <section id="__input_area">
             <div id="__input_top_area">
-                <h3>
-                    <span class="hideonmobile">your</span> text <span class="hideonmicro">goes</span> here &#x0261f;</h3>
+                <h2 for="__msc_input">
+                    <span class="hideonmobile">your</span> text <span class="hideonmicro">goes</span> here &#x0261f;</h2>
                 <span class="debug hideonmobile" style="display: none">
-                    <a id="__save" class="button" title="save chart
+                    <button id="__save" class="button icon-arrow-down" title="save chart
 
-saves the current chart to local storage"><span class="icon-arrow-down"></span></a>
-                    <a id="__load" class="button" title="load chart
+saves the current chart to local storage"></button>
+                    <button id="__load" class="button icon-folder" title="load chart
                     
-loads the most recently saved chart from local storage"><span class="icon-folder"></span></a>
+loads the most recently saved chart from local storage"></button>
                 </span>
                 <span>
                     <select title="list of samples" id="__samples">
@@ -208,49 +208,47 @@ Note: !! removes comments and reformats your source!!">color</button>
 
         <section id="__output_area">
             <div id="__output_controls_area" style="display:none">
-                <a id="__show_svg"
-                    class="button"
+                <button id="__show_svg"
                     target="_blank"
                     type="image/svg+xml"
                     title="Shows the chart in a separate window (svg).
 
 - the url bar will contain the base64 encoded version of the svg
-- Double clicking on the picture has the same effect.">svg</a>
-                <a id="__show_png"
-                    class="button"
+- Double clicking on the picture has the same effect.">svg</button>
+                <button id="__show_png"
                     target="_blank"
                     type="image/png"
                     title="Shows the chart in a separate window (png).
 
-- the url bar will contain the base64 encoded version of the png">png</a>
-                <a id="__show_jpeg"
+- the url bar will contain the base64 encoded version of the png">png</button>
+                <button id="__show_jpeg"
                     class="button"
                     target="_blank"
                     type="image/jpeg"
                     title="Shows the chart in a separate window (jpeg).
 
-- the url bar will contain the base64 encoded version of the jpeg">jpg</a>
-                <a id="__show_anim"
-                    class="button"
+- the url bar will contain the base64 encoded version of the jpeg">jpg</button>
+                <button id="__show_anim"
+                    class="icon-video-camera"
                     target="_blank"
                     type="text/plain"
                     title="animate the current chart
 
 - works for classic mscgen compatible charts.
-- support for inline expressions follows in a next release."><span class="icon-video-camera"></span></a> <!-- style="display: none" -->
-                <a id="__show_url"
-                    class="button"
+- support for inline expressions follows in a next release."></button>
+                <button id="__show_url"
+                    class="icon-share"
                     target="_blank"
                     type="text/plain"
                     title="create bookmarkable url
                     
 - generates an url that represents the current interpreter state.
-                - Useful for small charts."><span class="icon-share"></span></a>
-                <a id="__more_export_options"
-                    class="debug button" style="display:none"
+                - Useful for small charts."></button>
+                <button id="__more_export_options"
+                    class="debug" style="display:none"
                     target="_blank"
                     type="text/plain"
-                    title="show more exotic export options">...</a>
+                    title="show more exotic export options">...</button>
 
             </div><!-- output-controls-area-->
             <div id="__output_content_area">
@@ -264,159 +262,15 @@ Note: !! removes comments and reformats your source!!">color</button>
                 </div>
                 <div id="__svg" display="none"></div>
 
-                <h3 id="__placeholder">your chart will show up here</h3>
+                <h2 id="__placeholder">your chart will show up here</h2>
             <div> <!-- output_content_area -->
 
-        </section>
-
-        <section>
-        <div id="__animscreen" style="display:none">
-            <button id="__btn_anim_close" class="icon-cross" title="close"></button>
-            <div id="__animsvgwrapper">
-                <div id="__animsvg"></div>
-            </div>
-            <div id="__animcontrolswrapper">
-                <nav>
-                    <button id="__btn_anim_home" class="icon-first" title="go to first frame"></button>
-                    <button id="__btn_anim_dec" class="icon-previous2" title="one step back"></button>
-                    <button id="__btn_anim_playpause" class="icon-play3" title="play/ pause"></button>
-                    <button id="__btn_anim_inc" class="icon-next2" title="one step forward"></button>
-                    <button id="__btn_anim_end" class="icon-last" title="go to last frame"></button>
-                    <div id="__anim_progress_percentage_wrapper">
-                        <div id="__anim_progress_percentage"></div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-        <div id="__embedsheet" class="popupsheet" style="display:none">
-            <div class="popup">
-                <div class="header">
-                     <button id="__close_embedsheet" class="close icon-cross"></button>
-                     Sample for embedding the current chart in html<br>(<a href="./embed.html" target="_blank">learn more</a>):<br><br>
-                </div>
-                <input type="checkbox" id="__link_to_interpreter">
-                <label for="__link_to_interpreter">Include link to interpreter</label>
-                <div class="content">
-                    <textarea wrap="off"
-                        readonly="true"
-                        cols="56"
-                        rows="20"
-                        id="__embedsnippet"
-                        class="code html"
-                        title="sample embedding html">
-                    </textarea>
-                </div>
-            </div>
-        </div>
-        <div id="__cheatsheet" class="popupsheet" style="display:none">
-            <div class="popup">
-                <div class="header">
-                    <button id="__close_lightbox" class="close icon-cross"></button>
-                    <table style="width: 80%">
-                        <tr>
-                            <td><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
-                            <td>
-                                <div>The <a href="tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
-                                <div>Online <a href="tutorial.html#interpreter" target="_blank">interpreter</a></div>
-                                <div>The <a href="tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="content">
-                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
-                </div>
-            </div>
-        </div>
-        <div id="__aboutsheet" class="popupsheet" style="display:none">
-            <div class="popup">
-                <div class="header">
-                    <button id="__close_aboutsheet" class="close icon-cross"></button>
-                    <h1>About</h1>
-                </div>
-                <div class="content">
-<table>
-<tr>
-    <td>
-<img class="aboutpic" src="images/xuwhiteshadow.svg" alt="mscgen_js logo" title="Logo
-
-It's the Chinese letter 序 (xù).
-
-According to Google it means 'sequence'.
-
-According to Chinese people it's more akin
-to the 'intrc' in 'introduction'.
-
-According to Sander it's an angry little man
-drawing a sequence chart. On a sloped
-whiteboard. Under a roof."></img>
-    </td>
-    <td>
-    <p>
-    The mscgen_js javascript library transforms  descriptions in
-    <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
-    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a>,
-    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> and json into sequence charts.
-    </p>
-    <p>
-    It is the engine for this interpreter. It also makes
-    <a href="embed.html" target="_blank">embedding sequence charts</a>
-    in html easy as eating a banana.
-    </p>
-    <p>mscgen_js is open source (GPLv3).
-    You can
-    <a href="https://github.com/sverweij/mscgen_js" target="_blank">
-    view</a>,
-    <a href="https://github.com/sverweij/mscgen_js.git" target="_blank">
-    clone</a>
-    or
-    <a href="https://github.com/sverweij/mscgen_js/fork" target="_blank">
-    fork it</a>
-    on GitHub and
-    <a href="https://github.com/sverweij/mscgen_js/issues"
-    target="_blank">report issues</a> there.</p>
-    </td>
-</tr>
-<tr>
-    <td>
-  <a href="https://sverweij.github.io/">
-    <img class="aboutpic" style="border-radius: 50%" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
-
-The Netherlands forbids smiling
-on photos that go on official
-documents."></img></a>
-  </td>
-  <td>
-  <p>
-      <strong>Author</strong>
-  </p>
-  <p>
-    When Sander first got in touch with <a
-    href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>
-    at the end of 2012, he thought it was awesome. Annoyed he
-    couldn't use it <em>just</em> everywhere, he spent his next
-    spring holiday correcting that.
-  </p>
-  <p>
-    Sander lives in The Netherlands and brews a wicked tea.
-  </p>
-  <p>
-  <a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
-  <a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
-  <a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
-  </p>
-</td>
-</tr>
-</table>
-                </div> <!-- content -->
-            </div> <!-- popup -->
-        </div> <!-- popupsheet -->
         </section>
         </article>
         <div id="__output_panel" class="sliding-panel">
             <div class="header">
                 <h2>Export this chart to</h2>
-                <span><button id="__btn_output_panel_close" class="icon-cross close-button" title="close"></button></span>
+                <span><button id="__btn_output_panel_close" class="icon-cross close-button" title="close extra output panel"></button></span>
             </div>
             <a id="__show_doxygen"
                 target="_blank"
@@ -438,7 +292,7 @@ documents."></img></a>
         <div id="__color_panel" class="sliding-panel">
             <div class="header">
                 <h2>Apply a color scheme</h2>
-                <span><button id="__btn_color_panel_close" class="icon-cross close-button" title="close"></button></span>
+                <span><button id="__btn_color_panel_close" class="icon-cross close-button" title="close color scheme panel"></button></span>
             </div>
             <span>
                 <a id="__color_minimal"
@@ -485,6 +339,151 @@ Note: !! removes comments and reformats your source!!">Automatic (forced)</a>
 Note: !! removes comments and reformats your source!!">B&amp;W = remove all color</a>
             </span>
         </div>
+        <article>
+            <section>
+            <div id="__animscreen" style="display:none">
+                <button id="__btn_anim_close" class="icon-cross" title="close"></button>
+                <div id="__animsvgwrapper">
+                    <div id="__animsvg"></div>
+                </div>
+                <div id="__animcontrolswrapper">
+                    <nav>
+                        <button id="__btn_anim_home" class="icon-first" title="go to first frame"></button>
+                        <button id="__btn_anim_dec" class="icon-previous2" title="one step back"></button>
+                        <button id="__btn_anim_playpause" class="icon-play3" title="play/ pause"></button>
+                        <button id="__btn_anim_inc" class="icon-next2" title="one step forward"></button>
+                        <button id="__btn_anim_end" class="icon-last" title="go to last frame"></button>
+                        <div id="__anim_progress_percentage_wrapper">
+                            <div id="__anim_progress_percentage"></div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div id="__embedsheet" class="popupsheet" style="display:none">
+                <div class="popup">
+                    <div class="header">
+                         <button id="__close_embedsheet" class="close icon-cross" title="close embedding popup"></button>
+                         Sample for embedding the current chart in html<br>(<a href="./embed.html" target="_blank">learn more</a>):<br><br>
+                    </div>
+                    <input type="checkbox" id="__link_to_interpreter">
+                    <label for="__link_to_interpreter">Include link to interpreter</label>
+                    <div class="content">
+                        <textarea wrap="off"
+                            readonly="true"
+                            cols="56"
+                            rows="20"
+                            id="__embedsnippet"
+                            class="code html"
+                            title="sample embedding html">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="__cheatsheet" class="popupsheet" style="display:none">
+                <div class="popup">
+                    <div class="header">
+                        <button id="__close_lightbox" class="close icon-cross" title="close cheat sheet popup"></button>
+                        <table style="width: 80%">
+                            <tr>
+                                <td><a href="tutorial.html" target="_blank">Tutorial</a>:</td>
+                                <td>
+                                    <div>The <a href="tutorial.html#msgenny" target="_blank">MsGenny</a> language</div>
+                                    <div>Online <a href="tutorial.html#interpreter" target="_blank">interpreter</a></div>
+                                    <div>The <a href="tutorial.html#mscgen" target="_blank">MscGen</a> language</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="content">
+                        <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                    </div>
+                </div>
+            </div>
+            <div id="__aboutsheet" class="popupsheet" style="display:none">
+                <div class="popup">
+                    <div class="header">
+                        <button id="__close_aboutsheet" class="close icon-cross" title="close about popup"></button>
+                        <h1>About</h1>
+                    </div>
+                    <div class="content">
+    <table>
+    <tr>
+        <td>
+    <img class="aboutpic" src="images/xuwhiteshadow.svg" alt="mscgen_js logo" title="Logo
+
+It's the Chinese letter 序 (xù).
+
+According to Google it means 'sequence'.
+
+According to Chinese people it's more akin
+to the 'intrc' in 'introduction'.
+
+According to Sander it's an angry little man
+drawing a sequence chart. On a sloped
+whiteboard. Under a roof."></img>
+        </td>
+        <td>
+        <p>
+        The mscgen_js javascript library transforms  descriptions in
+        <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
+        <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a>,
+        <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> and json into sequence charts.
+        </p>
+        <p>
+        It is the engine for this interpreter. It also makes
+        <a href="embed.html" target="_blank">embedding sequence charts</a>
+        in html easy as eating a banana.
+        </p>
+        <p>mscgen_js is open source (GPLv3).
+        You can
+        <a href="https://github.com/sverweij/mscgen_js" target="_blank">
+        view</a>,
+        <a href="https://github.com/sverweij/mscgen_js.git" target="_blank">
+        clone</a>
+        or
+        <a href="https://github.com/sverweij/mscgen_js/fork" target="_blank">
+        fork it</a>
+        on GitHub and
+        <a href="https://github.com/sverweij/mscgen_js/issues"
+        target="_blank">report issues</a> there.</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+      <a href="https://sverweij.github.io/">
+        <img class="aboutpic" style="border-radius: 50%" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
+
+The Netherlands forbids smiling
+on photos that go on official
+documents."></img></a>
+      </td>
+      <td>
+      <p>
+          <strong>Author</strong>
+      </p>
+      <p>
+        When Sander first got in touch with <a
+        href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>
+        at the end of 2012, he thought it was awesome. Annoyed he
+        couldn't use it <em>just</em> everywhere, he spent his next
+        spring holiday correcting that.
+      </p>
+      <p>
+        Sander lives in The Netherlands and brews a wicked tea.
+      </p>
+      <p>
+      <a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
+      <a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
+      <a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
+      </p>
+    </td>
+    </tr>
+    </table>
+                    </div> <!-- content -->
+                </div> <!-- popup -->
+            </div> <!-- popupsheet -->
+            </section>
+        </article>
         <div id="__loading"
             style="
                 position: fixed;
