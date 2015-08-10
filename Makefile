@@ -176,7 +176,7 @@ $(PRODDIRS):
 
 src/style/interp.css: src/style/interp.scss \
 	src/lib/codemirror/_codemirror.scss \
-	src/lib/codemirror/theme/_midnight.scss \
+	src/lib/codemirror/theme/_blackboard.scss \
 	src/style/snippets/_interpreter.scss \
 	src/style/snippets/_anim.scss \
 	src/style/snippets/_header.scss \
