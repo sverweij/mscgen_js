@@ -3,7 +3,7 @@ $error-color: #A94442;
 $error-border: 1px solid #EBCCD1;
 $width-transition: width 0.3s ease-out;
 $height-transition: height 0.5s ease-out;
-$placeholder-color: lightgray;
+$placeholder-color: #949494;
 .code {
   font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
   font-size: .7em;
@@ -18,7 +18,8 @@ $placeholder-color: lightgray;
   text-overflow:ellipsis;
   overflow-x: scroll;
 }
-h3 {
+article h2 {
+  font-size: 1.16979375em;
   margin: 0;
   margin-bottom: 1em;
   font-weight: lighter;
@@ -61,12 +62,12 @@ fieldset {
 legend {
   font-size: .7em;
 }
-button, a.button {
+button {
   color: rgba(0, 0, 0, 0.84);
   background-color: #eee;
   cursor: pointer;
   border-radius: 2px;
-  padding: .3em .5em .3em .5em;
+  padding: .1em .5em .3em .5em;
   border: none;
   font-size: 1em;
   text-decoration: none;
