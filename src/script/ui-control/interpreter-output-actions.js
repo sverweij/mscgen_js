@@ -60,7 +60,7 @@ define(["./interpreter-uistate",
         animOnClick: function() {
             try {
                 animctrl.initialize(uistate.getAST());
-                dq.SS(window.__animscreen).show();
+                // dq.SS(window.__animscreen).show();
             } catch(e) {
                 // do nothing
             }
