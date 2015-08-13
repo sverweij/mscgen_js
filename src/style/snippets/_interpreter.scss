@@ -67,7 +67,7 @@ button {
   background-color: #eee;
   cursor: pointer;
   border-radius: 2px;
-  padding: .1em .5em .3em .5em;
+  padding: .2em .5em .4em .5em;
   border: none;
   font-size: 1em;
   text-decoration: none;
@@ -88,14 +88,14 @@ button:active, a.button:active {
   opacity:1;
 }
 .btn-primary {
-  background-color: rgba(66, 133, 244, 1.00);
-  color: rgba(255, 255, 255, 0.84);
+  background-color: rgba(57, 116, 214, 1.00);
+  color: rgba(255, 255, 255, 1.0);
 }
 .btn-primary:hover {
   color: rgba(255, 255, 255, 1.00);
 }
 .btn-primary:active {
-  background-color: rgba(66, 133, 244, 0.84);
+  background-color: rgba(57, 116, 214, 0.84);
   color: rgba(255, 255, 255, 1.00);
 }
 
