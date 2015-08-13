@@ -5,16 +5,33 @@ define(["../render/graphics/renderast", "../render/text/ast2animate", "../utl/ga
 function(msc_render, ast2animate, gaga, dq) {
     "use strict";
 
-    var ICON_PLAY    = "icon-play3";
-    var ICON_PAUSE   = "icon-pause2";
-    var gPlaying     = false;
-    var gTimer       = {};
-    var gInitialized = false;
-    var anim = new ast2animate.FrameFactory();
+    var ICON_PLAY            = "icon-play3";
+    var ICON_PAUSE           = "icon-pause2";
+    var gPlaying             = false;
+    var gTimer               = {};
+    var gInitializationTimer = {};
+    var gInitialized         = false;
+    var anim                 = new ast2animate.FrameFactory();
 
     _setupEvents();
 
+    function showAnimationControls(){
+        if (gInitialized){
+            dq.SS(window.__btn_anim_close).show();
+            dq.SS(window.__animsvgwrapper).show();
+            dq.SS(window.__animcontrolswrapper).show();
+        }
+    }
+
     function initialize(pAST) {
+        window.__animscreen.style.height = '100%';
+        window.__animscreen.style["transition-duration"] = '1.2s';
+        if (gInitializationTimer){
+            window.clearTimeout(gInitializationTimer);
+        }
+
+        gInitializationTimer = window.setTimeout(showAnimationControls, 1100);
+        
         msc_render.clean("__animsvg", window);
         anim.init(pAST, true);
         msc_render.renderAST(anim.getCurrentFrame(), "", "__animsvg", window);
@@ -76,7 +93,12 @@ function(msc_render, ast2animate, gaga, dq) {
         updateState();
     }
     function close() {
-        dq.SS(window.__animscreen).hide();
+        // dq.SS(window.__animscreen).hide();
+        window.__animscreen.style["transition-duration"] = '0.6s';
+        window.__animscreen.style.height = '0';
+        dq.SS(window.__animsvgwrapper).hide();
+        dq.SS(window.__animcontrolswrapper).hide();
+        dq.SS(window.__btn_anim_close).hide();
         gPlaying = false;
         anim.home();
         updateState();
