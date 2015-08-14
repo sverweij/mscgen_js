@@ -132,7 +132,7 @@ define(["./constants", "./idmanager"], function(C, id) {
     function _removeRenderedSVGFromElement(pElementId){
         id.setPrefix(pElementId);
         var lChildElement = gDocument.getElementById(id.get());
-        if (lChildElement && (lChildElement !== undefined)) {
+        if (!!lChildElement) {
             var lParentElement = gDocument.getElementById(pElementId);
             if (lParentElement) {
                 lParentElement.removeChild(lChildElement);

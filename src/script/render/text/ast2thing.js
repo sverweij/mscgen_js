@@ -108,7 +108,7 @@ define(["./textutensils"], function(utl) {
         return pSupportedOptions.map(function(pSupportedOption){
             return {name: pSupportedOption, value: pOptions[pSupportedOption]};
         }).filter(function(pPair){
-            return pPair.value !== undefined;
+            return !!pPair.value;
         });
     }
 
@@ -121,7 +121,7 @@ define(["./textutensils"], function(utl) {
     function renderEntityName(pString) {
         function isQuotable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
-            if (lMatchResult && lMatchResult !== null) {
+            if (!!lMatchResult) {
                 return lMatchResult.length !== 1;
             } else {
                 return true;

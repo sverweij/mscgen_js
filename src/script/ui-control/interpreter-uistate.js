@@ -169,7 +169,7 @@ function setLanguage (pLanguage){
 }
 
 function setSample(pURL) {
-    if ("none" === pURL || null === pURL || undefined === pURL){
+    if ("none" === pURL || !pURL){
         clear();
     } else {
         dq.ajax (pURL, function(pEvent){
@@ -180,7 +180,7 @@ function setSample(pURL) {
 }
 
 function handleRenderException (pException, pSource){
-    if (pException.line !== undefined && pException.column !== undefined) {
+    if (!!pException.line && !!pException.column) {
         gErrorCoordinates.line = pException.line;
         gErrorCoordinates.column = pException.column;
         displayError(
