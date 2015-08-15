@@ -34,20 +34,12 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
 
     var gDocument;
 
-    function setupMarker (pDefs, pId, pPath, pColor){
-        pDefs.appendChild(fact.createMarkerPath(pId, pPath, pColor));
-    }
-
-    function setupMarkerPolygon (pDefs, pId, pPoints, pColor){
-        pDefs.appendChild(fact.createMarkerPolygon(pId, pPoints, pColor));
-    }
-
     function setupMarkers(pDefs, pMarkerDefs) {
         pMarkerDefs.forEach(function(pMarker){
             if (pMarker.type === "method"){
-                setupMarkerPolygon(pDefs, pMarker.name, pMarker.path, pMarker.color);
+                pDefs.appendChild(fact.createMarkerPolygon(pMarker.name, pMarker.path, pMarker.color));
             } else {
-                setupMarker(pDefs, pMarker.name, pMarker.path, pMarker.color);
+                pDefs.appendChild(fact.createMarkerPath(pMarker.name, pMarker.path, pMarker.color));
             }
         });
         return pDefs;
