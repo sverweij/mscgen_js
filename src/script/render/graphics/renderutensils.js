@@ -251,16 +251,27 @@ define(["../text/dotmap"], function(map) {
     function toColorCombiObject(pColorCombi){
         return {kind: pColorCombi.split(" ")[0], color: pColorCombi.split(" ")[1]};
     }
-    
+
+    /*
+     * as you might have noticed we only run through the arcs, while entities
+     * also define colors for arcs with their arclinecolor. 
+     * So why does this work? 
+     * Because the pAST that is passed here, is usually "flattened" 
+     * with the ast flattening module (flatten.js), which already distributes
+     * the arclinecolors from the entities to linecolors in the arc.
+     *
+     * For the same reason it's not really necessary to handle the recursion
+     * of inline expressions (note that the code is doing that notwithstanding)
+     */
     function extractKindColorCombis(pAST){
         return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
     }
-    
+
     function flatten (pArray){
         var lRetval = [];
         return lRetval.concat.apply(lRetval, pArray);
     }
-    
+
     function onlyWithMarkers(pCombi){
         return !!(KINDS[pCombi.kind].marker);
     }
@@ -272,6 +283,7 @@ define(["../text/dotmap"], function(map) {
         colorBox: _colorBox,
         swapfromto: _swapfromto,
         getLineStyle: _getLineStyle,
+
         getMarkerDefs : function (pId, pAST) {
             return flatten(extractKindColorCombis(pAST).filter(onlyWithMarkers).map(function(pCombi){
                 return MARKERPATHS[KINDS[pCombi.kind].marker.name].variants.map(function(pVariant){
