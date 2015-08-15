@@ -284,16 +284,19 @@ define(["./constants"], function(C) {
         return lMarker;
     }
 
-    function _createMarkerPath(pId, pD) {
+    function _createMarkerPath(pId, pD, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
         var lPath = _createPath(pD, "arrow-style");
+        lPath.setAttribute("style", "stroke : " + pColor||"black");
         lMarker.appendChild(lPath);
         return lMarker;
     }
 
-    function _createMarkerPolygon(pId, pPoints) {
+    function _createMarkerPolygon(pId, pPoints, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
-        var lPolygon = _createPolygon(pPoints, "filled arrow-style");
+        var lPolygon = _createPolygon(pPoints, "arrow-style");
+        lPolygon.setAttribute("stroke", pColor||"black");
+        lPolygon.setAttribute("fill", pColor||"black");
         lMarker.appendChild(lPolygon);
         return lMarker;
     }
