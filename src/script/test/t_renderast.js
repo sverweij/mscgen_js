@@ -20,8 +20,6 @@ function ast2svg(pASTString, pWindow, pIncludeSource, pUseOwnElement) {
     }
 }
 
-
-
 describe('renderast', function() {
     jsdom.env("<html><body></body></html>", function(err, pWindow) {
         describe('#renderAST in body', function() {

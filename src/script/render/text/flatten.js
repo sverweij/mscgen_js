@@ -27,17 +27,8 @@ function(transform, map, utl) {
     }
 
     function _swapRTLArc(pArc) {
-        var lRTLkinds = {
-            "<-" : "->",
-            "<=" : "=>",
-            "<<=" : "=>>",
-            "<<" : ">>",
-            "<:" : ":>",
-            "x-" : "-x"
-        };
-
-        if (pArc.kind && lRTLkinds[pArc.kind]) {
-            pArc.kind = lRTLkinds[pArc.kind];
+        if (pArc.kind && (map.getNormalizedKind(pArc.kind) !== pArc.kind)) {
+            pArc.kind = map.getNormalizedKind(pArc.kind);
 
             var lTmp = pArc.from;
             pArc.from = pArc.to;
