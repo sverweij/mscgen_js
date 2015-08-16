@@ -77,57 +77,25 @@ define([], function() {
         "ref" : "inline_expression",
         "exc" : "inline_expression"
     };
-    var arc2class = {
-        "->" : "signal",
-        "<->" : "signal-both",
-        "=>" : "method",
-        "<=>" : "method-both",
-        ">>" : "returnvalue",
-        "<<>>" : "returnvalue-both",
-        ".." : "dotted",
-        "=>>" : "callback",
-        "<<=>>" : "callback-both",
-        ":>" : "emphasised",
-        "<:>" : "emphasised-both",
-        "::" : "double",
-        "-x" : "lost"
+
+    var KIND2NORMALIZEDKIND = {
+        "<-" : "->",
+        "<=" : "=>",
+        "<<=" : "=>>",
+        "<<" : ">>",
+        "<:" : ":>",
+        "x-" : "-x"
     };
-    function _determineArcClass(pKind, pFrom, pTo) {
-        var lRetval = "";
-        if (pKind && arc2class[pKind]) {
-            lRetval = arc2class[pKind];
-            if (pFrom && pTo && (pFrom >= pTo)) {
-                if (lRetval === "signal") {
-                    lRetval = "signal-u";
-                }
-                if (lRetval === "signal-both") {
-                    if (pFrom === pTo) {
-                        lRetval = "signal-both-self";
-                    } else {
-                        lRetval = "signal-both-u";
-                    }
-                }
-            }
-        }
-        return lRetval;
-    }
 
     return {
-        getArrow : function(pKey) {
-            return KIND2ARROW[pKey];
-        },
-        getShape : function(pKey) {
-            return KIND2SHAPE[pKey];
-        },
-        getStyle : function(pKey) {
-            return KIND2STYLE[pKey];
-        },
-        getAggregate : function(pKey) {
-            return KIND2AGGREGATE[pKey];
-        },
-        determineArcClass : _determineArcClass
+        getArrow : function(pKey) { return KIND2ARROW[pKey]; },
+        getShape : function(pKey) { return KIND2SHAPE[pKey]; },
+        getStyle : function(pKey) { return KIND2STYLE[pKey]; },
+        getAggregate : function(pKey) { return KIND2AGGREGATE[pKey]; },
+        getNormalizedKind : function(pKey){
+            return KIND2NORMALIZEDKIND[pKey] ? KIND2NORMALIZEDKIND[pKey]: pKey;
+        }
     };
-
 });
 /*
  This file is part of mscgen_js.

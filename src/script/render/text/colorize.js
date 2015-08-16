@@ -178,7 +178,7 @@ define(["./asttransform", "./dotmap"], function(transform, map) {
     function hasColors(pArcOrEntity) {
         return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
                 .some(function(pColorAttr) {
-            return pArcOrEntity[pColorAttr] !== undefined;
+            return !!pArcOrEntity[pColorAttr];
         });
     }
 

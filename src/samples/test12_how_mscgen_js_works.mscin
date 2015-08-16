@@ -15,7 +15,7 @@ msc {
   parser    >>   controler [label="syntax tree"];
   controler =>   renderer  [label="syntax tree"];
   renderer  =>   renderer  [label="render"],
-   comments note comments  [label="This is where the complexity takes place.", linecolor="black", textbgcolor="#FFFFCC"];
+   comments note comments  [label="Actually, this is is the non-trivial stuff...", linecolor="black", textbgcolor="#FFFFCC"];
   renderer  >>   controler [label="vector picture"];
   controler >>   you       [label="vector picture"];
   ---;

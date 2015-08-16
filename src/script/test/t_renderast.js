@@ -20,8 +20,6 @@ function ast2svg(pASTString, pWindow, pIncludeSource, pUseOwnElement) {
     }
 }
 
-
-
 describe('renderast', function() {
     jsdom.env("<html><body></body></html>", function(err, pWindow) {
         describe('#renderAST in body', function() {
@@ -80,6 +78,4 @@ describe('renderast', function() {
     it('dummy so mocha executest the tests wrapped in jsdom', function(){
         return true;
     });
-
-
 });

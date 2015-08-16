@@ -34,33 +34,21 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
 
     var gDocument;
 
-    function setupMarker (pDefs, pId, pPath){
-        pDefs.appendChild(fact.createMarkerPath(pId, pPath));
-    }
-
-    function setupMarkerPolygon (pDefs, pId, pPoints){
-        pDefs.appendChild(fact.createMarkerPolygon(pId, pPoints));
-    }
-
-    function setupMarkers(pDefs, pElementId) {
-        setupMarker(pDefs, pElementId + "signal", "M 9 3 l -8 2");
-        setupMarker(pDefs, pElementId + "signal-u", "M 9 3 l -8 -2");
-        setupMarker(pDefs, pElementId + "signal-l", "M 9 3 l 8 2");
-        setupMarker(pDefs, pElementId + "signal-lu", "M 9 3 l 8 -2");
-
-        setupMarkerPolygon(pDefs, pElementId + "method", "1,1 9,3 1,5");
-        setupMarkerPolygon(pDefs, pElementId + "method-l", "17,1 9,3 17,5");
-
-        setupMarker(pDefs, pElementId + "callback", "M 1 1 l 8 2 l -8 2");
-        setupMarker(pDefs, pElementId + "callback-l", "M 17 1 l -8 2 l 8 2");
-        setupMarker(pDefs, pElementId + "lost", "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5");
+    function setupMarkers(pDefs, pMarkerDefs) {
+        pMarkerDefs.forEach(function(pMarker){
+            if (pMarker.type === "method"){
+                pDefs.appendChild(fact.createMarkerPolygon(pMarker.name, pMarker.path, pMarker.color));
+            } else {
+                pDefs.appendChild(fact.createMarkerPath(pMarker.name, pMarker.path, pMarker.color));
+            }
+        });
         return pDefs;
     }
 
-    function setupStyle(pElementId) {
+    function setupStyle() {
         var lStyle = gDocument.createElement("style");
         lStyle.setAttribute("type", "text/css");
-        lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pElementId)));
+        lStyle.appendChild(gDocument.createTextNode(setupStyleElement()));
         return lStyle;
     }
 
@@ -73,13 +61,13 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return lRetVal;
     }
 
-    function setupDefs(pElementId) {
+    function setupDefs(pElementId, pMarkerDefs) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
         var lDefs = gDocument.createElementNS(C.SVGNS, "defs");
-        lDefs.appendChild(setupStyle(pElementId));
-        lDefs = setupMarkers(lDefs, pElementId);
+        lDefs.appendChild(setupStyle());
+        lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
     }
@@ -107,7 +95,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return pWindow.document;
     }
 
-    function _bootstrap(pParentElementId, pSvgElementId, pWindow) {
+    function _bootstrap(pParentElementId, pSvgElementId, pMarkerDefs, pWindow) {
 
         gDocument = _init(pWindow);
 
@@ -117,14 +105,14 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         }
         var lSkeletonSvg = setupSkeletonSvg(pSvgElementId);
         lSkeletonSvg.appendChild(setupDesc(pSvgElementId));
-        lSkeletonSvg.appendChild(setupDefs(pSvgElementId));
+        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
 
         return gDocument;
     }
 
-    function setupStyleElement(pElementId) {
+    function setupStyleElement() {
 /*jshint multistr:true */
 /* jshint -W030 */ /* jshint -W033 */
 /*
@@ -203,13 +191,8 @@ path{\
   overflow:visible;\
 }\
 .arrow-style{\
-  stroke:black;\
   stroke-dasharray:100,1; /* 'none' should work, but doesn't in webkit */\
   stroke-width:1;\
-}\
-.filled{\
-  stroke:inherit;\
-  fill:black; /* no-inherit */\
 }\
 .arcrowomit{\
   stroke-dasharray:2,2;\
@@ -225,60 +208,6 @@ path{\
 }\
 .comment{\
   stroke-dasharray:5,2;\
-}\
- ." + pElementId + "signal{\
-  marker-end:url(#" + pElementId + "signal);\
-}\
- ." + pElementId + "signal-u{\
-  marker-end:url(#" + pElementId + "signal-u);\
-}\
- ." + pElementId + "signal-both{\
-  marker-end:url(#" + pElementId + "signal);\
-  marker-start:url(#" + pElementId + "signal-l);\
-}\
- ." + pElementId + "signal-both-u{\
-  marker-end:url(#" + pElementId + "signal-u);\
-  marker-start:url(#" + pElementId + "signal-lu);\
-}\
- ." + pElementId + "signal-both-self{\
-  marker-end:url(#" + pElementId + "signal-u);\
-  marker-start:url(#" + pElementId + "signal-l);\
-}\
- ." + pElementId + "method{\
-  marker-end:url(#" + pElementId + "method);\
-}\
- ." + pElementId + "method-both{\
-  marker-end:url(#" + pElementId + "method);\
-  marker-start:url(#" + pElementId + "method-l);\
-}\
- ." + pElementId + "returnvalue{\
-  stroke-dasharray:5,2;\
-  marker-end:url(#" + pElementId + "callback);\
-}\
- ." + pElementId + "returnvalue-both{\
-  stroke-dasharray:5,2;\
-  marker-end:url(#" + pElementId + "callback);\
-  marker-start:url(#" + pElementId + "callback-l);\
-}\
-." + pElementId + "dotted{\
-  stroke-dasharray:5,2;\
-}\
- ." + pElementId + "callback{\
-  marker-end:url(#" + pElementId + "callback);\
-}\
- ." + pElementId + "callback-both{\
-  marker-end:url(#" + pElementId + "callback);\
-  marker-start:url(#" + pElementId + "callback-l);\
-}\
- ." + pElementId + "emphasised{\
-  marker-end:url(#" + pElementId + "method);\
-}\
- ." + pElementId + "emphasised-both{\
-  marker-end:url(#" + pElementId + "method);\
-  marker-start:url(#" + pElementId + "method-l);\
-}\
- ." + pElementId + "lost{\
-  marker-end:url(#" + pElementId + "lost);\
 }\
  .inherit{\
   stroke:inherit;\
@@ -300,7 +229,7 @@ path{\
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element
          * with id pParentElementId, both in window pWindow. See the module
-         * documentation for details on the structur of the skeleton.
+         * documentation for details on the structure of the skeleton.
          *
          * @param {string} pParentElementId
          * @param {string} pSvgElementId
