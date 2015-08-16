@@ -17,9 +17,10 @@ define(["./svgelementfactory",
         "../text/dotmap", 
         "./rowmemory", 
         "./idmanager", 
+        "./markermanager", 
         "./entities",
         "./constants"],
-    function(fact, svgutl, utl, skel, txt, flatten, map, rowmemory, id, entities, C) {
+    function(fact, svgutl, utl, skel, txt, flatten, map, rowmemory, id, mark, entities, C) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -70,7 +71,7 @@ define(["./svgelementfactory",
     function renderASTPre(pAST, pSource, pParentElementId, pWindow){
         id.setPrefix(pParentElementId);
 
-        gChart.document = skel.bootstrap(pParentElementId, id.get(), utl.getMarkerDefs(id.get(), pAST), pWindow);
+        gChart.document = skel.bootstrap(pParentElementId, id.get(), mark.getMarkerDefs(id.get(), pAST), pWindow);
         svgutl.init(gChart.document);
         initializeChart(gChart, pAST.depth);
 
@@ -463,12 +464,12 @@ define(["./svgelementfactory",
             var lInnerTurn = fact.createUTurn({x: pFrom, y:(lHeight - 4) / 2}, (pYTo - 2 + lHeight)/*lSign*lHeight*/, lWidth - 4, "none");
             var lOuterTurn = fact.createUTurn({x:pFrom, y:(lHeight + 4) / 2}, (pYTo + 6 + lHeight)/*lSign*lHeight*/, lWidth);
             lInnerTurn.setAttribute("style", "stroke: " + pLineColor);
-            lOuterTurn.setAttribute("style", utl.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
+            lOuterTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
             lGroup.appendChild(lInnerTurn);
             lGroup.appendChild(lOuterTurn);
         } else {
             var lUTurn = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight)/*lSign*lHeight*/, lWidth);
-            lUTurn.setAttribute("style", utl.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
+            lUTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
             lGroup.appendChild(lUTurn);
         }
 
@@ -531,7 +532,7 @@ define(["./svgelementfactory",
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
             // if (pArc.linecolor) {
-                lLine.setAttribute("style", utl.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
+                lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
             // }
             lGroup.appendChild(lLine);
             lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom));

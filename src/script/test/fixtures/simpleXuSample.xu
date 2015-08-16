@@ -7,12 +7,12 @@ msc {
   a -> b [label="brace yourself!"],
   b -> c [label="he sez to brace yeself"];
   a loop c [linecolor="grey", textbgcolor="white"] {
-    a =>> b [label="do thing"];
+    a =>> b [label="do thing", linecolor="#00FF00"];
     a alt c [label="okeleedokelee", linecolor="grey", textbgcolor="white"] {
-      b >> a [label="thing done"];
+      b >> a [label="thing done", linecolor="blue"];
       --- [label="not so good"];
       b >> a [label="thing not done"],
-      b =>> c [label="Hahaha! Suckah."];
+      b =>> c [label="Hahaha! Suckah.", linecolor="fuchsia"];
     };
   };
 }

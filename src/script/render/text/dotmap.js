@@ -92,11 +92,10 @@ define([], function() {
         getShape : function(pKey) { return KIND2SHAPE[pKey]; },
         getStyle : function(pKey) { return KIND2STYLE[pKey]; },
         getAggregate : function(pKey) { return KIND2AGGREGATE[pKey]; },
-        getNormalizedKind : function(pKey){ 
-            return KIND2NORMALIZEDKIND[pKey] ? KIND2NORMALIZEDKIND[pKey]: pKey; 
-        },
+        getNormalizedKind : function(pKey){
+            return KIND2NORMALIZEDKIND[pKey] ? KIND2NORMALIZEDKIND[pKey]: pKey;
+        }
     };
-
 });
 /*
  This file is part of mscgen_js.

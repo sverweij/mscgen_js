@@ -50,7 +50,8 @@
               "kind": "=>>",
               "from": "a",
               "to": "b",
-              "label": "do thing"
+              "label": "do thing",
+              "linecolor": "#00FF00"
             }
           ],
           [
@@ -64,7 +65,8 @@
                     "kind": ">>",
                     "from": "b",
                     "to": "a",
-                    "label": "thing done"
+                    "label": "thing done",
+                    "linecolor": "blue"
                   }
                 ],
                 [
@@ -84,7 +86,8 @@
                     "kind": "=>>",
                     "from": "b",
                     "to": "c",
-                    "label": "Hahaha! Suckah."
+                    "label": "Hahaha! Suckah.",
+                    "linecolor": "fuchsia"
                   }
                 ]
               ],

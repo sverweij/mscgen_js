@@ -78,6 +78,4 @@ describe('renderast', function() {
     it('dummy so mocha executest the tests wrapped in jsdom', function(){
         return true;
     });
-
-
 });

@@ -10,6 +10,15 @@ define([], function() {
 
     return {
         /*
+         * returns an non-nested array from a nested array
+         * only does one level of nesting
+         * so [[a,b], [c,d,e]] -> [a,b,c,d,e]
+         */
+        flatten : function (pArray){
+            var lRetval = [];
+            return lRetval.concat.apply(lRetval, pArray);
+        },
+        /*
          * returns a "deep copy" of an object.
          * (uses stringify, so it is limited to objects that
          * survive stringification roundtrips)
