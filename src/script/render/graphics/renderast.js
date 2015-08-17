@@ -531,9 +531,7 @@ define(["./svgelementfactory",
             lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (entities.getDims().interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), entities.getDims().interEntitySpacing, "anchor-start"));
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
-            // if (pArc.linecolor) {
-                lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
-            // }
+            lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
             lGroup.appendChild(lLine);
             lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom));
         }

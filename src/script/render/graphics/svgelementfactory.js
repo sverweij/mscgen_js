@@ -201,20 +201,31 @@ define(["./constants"], function(C) {
             dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
         };
     }
-
+    
+    function determineEndCorrection(pLine, pClass){
+        var lRetval = 0;
+        if (pClass !== "nodi"){
+            lRetval = pLine.xTo > pLine.xFrom ? -15 : 15;
+        }
+        return lRetval;
+    }
+    
+    function determineStartCorrection(pLine, pClass){
+        var lRetval = 0;
+        if (pClass !== "nodi"){
+            lRetval = (pClass === "bidi") ? (pLine.xTo > pLine.xFrom ? 15 : -15) : 0;
+        }
+        return lRetval;
+    }
+    
     // TODO: de-uglify the resulting grahpics?
     // TODO: delegate stuff?
     function createDoubleLine(pLine, pClass) {
         var lSpace = 2;
         
         var lDir = determineDirection(pLine);
-        var lEndCorr = 0;
-        var lStartCorr = 0;
-        
-        if (pClass !== "nodi"){
-            lEndCorr = lDir.dx > 0 ? -15 : 15;
-            lStartCorr = (pClass === "bidi") ? (lDir.dx > 0 ? 15 : -15) : 0;
-        }
+        var lEndCorr = determineEndCorrection(pLine, pClass);
+        var lStartCorr = determineStartCorrection(pLine, pClass);
         
         var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
