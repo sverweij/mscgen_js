@@ -206,19 +206,22 @@ define(["./constants"], function(C) {
     // TODO: delegate stuff?
     function createDoubleLine(pLine, pClass) {
         var lSpace = 2;
-        var lPathString = "M" + pLine.xFrom.toString() + "," + pLine.yFrom.toString();
+        
         var lDir = determineDirection(pLine);
-        var lLenX = (pLine.xTo - pLine.xFrom).toString();
+        var lEndCorr = lDir.dx > 0 ? -15 : 15;
+        var lStartCorr = (pClass === "bidi") ? (lDir.dx > 0 ? 15 : -15) : 0;
+        var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
         var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
         var lLine = " l" + lLenX + "," + lLenY;
 
+        var lPathString = "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + -15*lDir.dy).toString();
         lPathString += lStubble; // left stubble
-        lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - lSpace).toString();
+        lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString();
         lPathString += lLine; // upper line
-        lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + lSpace).toString();
+        lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString();
         lPathString += lLine; // lower line
-        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + pLine.yTo.toString();
+        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 15*lDir.dy).toString();
         lPathString += lStubble; // right stubble
 
         return _createPath(lPathString, pClass);

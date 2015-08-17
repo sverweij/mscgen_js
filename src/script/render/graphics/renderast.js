@@ -517,7 +517,7 @@ define(["./svgelementfactory",
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = fact.createGroup(pId);
         // var lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
-        var lClass = "";
+        var lClass = (pArc.kind === "<:>") ? "bidi" : "";
         var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
         var lYTo = determineArcYTo(pArc);
         var lArcGradient = (lYTo === 0) ? gChart.arcGradient: lYTo;

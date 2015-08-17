@@ -72,16 +72,16 @@ define(["../text/utensils", "../text/dotmap"], function(utl, map) {
             }
         },
         ":>"    : {
-            style: "marker-end:url(#{{id}}method-{{color}});",
+            style: "marker-end:url(#{{id}}callback-{{color}});",
             marker: {
-                name : "method",
+                name : "callback",
                 end : "",
             }
         },
         "<:>"   : {
-            style: "marker-end:url(#{{id}}method-{{color}});marker-start:url(#{{id}}method-l-{{color}});",
+            style: "marker-end:url(#{{id}}callback-{{color}});marker-start:url(#{{id}}callback-l-{{color}});",
             marker: {
-                name : "method",
+                name : "callback",
                 end : "",
                 start : "-l"
             }
