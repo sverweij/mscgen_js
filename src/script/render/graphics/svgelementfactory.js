@@ -208,8 +208,14 @@ define(["./constants"], function(C) {
         var lSpace = 2;
         
         var lDir = determineDirection(pLine);
-        var lEndCorr = lDir.dx > 0 ? -15 : 15;
-        var lStartCorr = (pClass === "bidi") ? (lDir.dx > 0 ? 15 : -15) : 0;
+        var lEndCorr = 0;
+        var lStartCorr = 0;
+        
+        if (pClass !== "nodi"){
+            lEndCorr = lDir.dx > 0 ? -15 : 15;
+            lStartCorr = (pClass === "bidi") ? (lDir.dx > 0 ? 15 : -15) : 0;
+        }
+        
         var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
         var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
