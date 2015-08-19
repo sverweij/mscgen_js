@@ -102,17 +102,17 @@ define(["./constants"], function(C) {
         var lFoldSizeN = pFoldSize ? pFoldSize : 9;
         var lFoldSize = lFoldSizeN.toString(10);
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
-        //((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
+
+        // top line:
         lPathString += "l" + (pBBox.width - lFoldSizeN) + ",0 ";
-        // top line
+        // fold:
         lPathString += "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " ";
-        // fold
+        //down:
         lPathString += "l0," + (pBBox.height - lFoldSizeN) + " ";
-        //down
+        // bottom line:
         lPathString += "l-" + pBBox.width + ",0 ";
-        // bottom line
-        lPathString += "l0,-" + pBBox.height + " ";
-        // back to home
+        // back to home:
+        lPathString += "l0,-" + (pBBox.height + (C.LINE_WIDTH/2)) + " ";
 
         return _createPath(lPathString, pClass);
     }
