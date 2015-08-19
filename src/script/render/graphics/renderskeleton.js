@@ -178,7 +178,7 @@ text.anchor-start{\
 path{\
   stroke:black;\
   color:black;\
-  stroke-width:2;\
+  stroke-width:"+ C.LINE_WIDTH + ";\
   fill:none;\
 }\
 .dotted{\

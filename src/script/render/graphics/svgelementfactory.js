@@ -102,17 +102,17 @@ define(["./constants"], function(C) {
         var lFoldSizeN = pFoldSize ? pFoldSize : 9;
         var lFoldSize = lFoldSizeN.toString(10);
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
-        //((ARCROW_HEIGHT -2*LINE_WIDTH)/2); // start
+
+        // top line:
         lPathString += "l" + (pBBox.width - lFoldSizeN) + ",0 ";
-        // top line
+        // fold:
         lPathString += "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " ";
-        // fold
+        //down:
         lPathString += "l0," + (pBBox.height - lFoldSizeN) + " ";
-        //down
+        // bottom line:
         lPathString += "l-" + pBBox.width + ",0 ";
-        // bottom line
-        lPathString += "l0,-" + pBBox.height + " ";
-        // back to home
+        // back to home:
+        lPathString += "l0,-" + (pBBox.height + (C.LINE_WIDTH/2)) + " ";
 
         return _createPath(lPathString, pClass);
     }
@@ -201,24 +201,44 @@ define(["./constants"], function(C) {
             dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
         };
     }
-
+    
+    function determineEndCorrection(pLine, pClass){
+        var lRetval = 0;
+        if (pClass !== "nodi"){
+            lRetval = pLine.xTo > pLine.xFrom ? -15 : 15;
+        }
+        return lRetval;
+    }
+    
+    function determineStartCorrection(pLine, pClass){
+        var lRetval = 0;
+        if (pClass !== "nodi"){
+            lRetval = (pClass === "bidi") ? (pLine.xTo > pLine.xFrom ? 15 : -15) : 0;
+        }
+        return lRetval;
+    }
+    
     // TODO: de-uglify the resulting grahpics?
     // TODO: delegate stuff?
     function createDoubleLine(pLine, pClass) {
         var lSpace = 2;
-        var lPathString = "M" + pLine.xFrom.toString() + "," + pLine.yFrom.toString();
+        
         var lDir = determineDirection(pLine);
-        var lLenX = (pLine.xTo - pLine.xFrom).toString();
+        var lEndCorr = determineEndCorrection(pLine, pClass);
+        var lStartCorr = determineStartCorrection(pLine, pClass);
+        
+        var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
         var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
         var lLine = " l" + lLenX + "," + lLenY;
 
+        var lPathString = "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + -15*lDir.dy).toString();
         lPathString += lStubble; // left stubble
-        lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - lSpace).toString();
+        lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString();
         lPathString += lLine; // upper line
-        lPathString += "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + lSpace).toString();
+        lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString();
         lPathString += lLine; // lower line
-        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + pLine.yTo.toString();
+        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 15*lDir.dy).toString();
         lPathString += lStubble; // right stubble
 
         return _createPath(lPathString, pClass);
@@ -231,15 +251,30 @@ define(["./constants"], function(C) {
             return createDoubleLine(pLine, pClass);
         }
     }
-
+/*
+arcgradient="0", width=800;
+a,b;
+a =>> a: this is a piece of TEXT;
+a :> b;
+*/
     // TODO: accept coords (or even a bbox?)
     function _createUTurn(pPoint, pEndY, pWidth, pClass) {
+        var lEndX = (!!pClass && "double" === pClass) ? pPoint.x + 15 : pPoint.x;
+        
+        // point to start from:
         var lPathString = "M" + pPoint.x.toString() + ", -" + pPoint.y.toString();
-        lPathString += " l" + pWidth.toString() + ",0";
+        // curve first to:
+        lPathString += " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y-15).toString();
+        // curve back from.:
+        lPathString += " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString();
+        // curve end-pont:
+        lPathString += " " + lEndX.toString() + "," + pEndY.toString();
+        
+        // lPathString += " l" + pWidth.toString() + ",0";
         // right
-        lPathString += " l0," + (pEndY).toString();
+        // lPathString += " l0," + (pEndY).toString();
         // down
-        lPathString += " l-" + pWidth.toString() + ",0";
+        // lPathString += " l-" + pWidth.toString() + ",0";
         // left
         /*
          var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();

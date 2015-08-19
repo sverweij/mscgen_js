@@ -456,19 +456,22 @@ define(["./svgelementfactory",
 
     function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor) {
         var lHeight = 2 * (gChart.arcRowHeight / 5);
-        var lWidth = entities.getDims().interEntitySpacing / 3;
+        var lWidth = entities.getDims().interEntitySpacing / 2;
 
         var lGroup = fact.createGroup();
         if (pDouble) {
             // TODO #13: render associated marker(s) in <def>
-            var lInnerTurn = fact.createUTurn({x: pFrom, y:(lHeight - 4) / 2}, (pYTo - 2 + lHeight)/*lSign*lHeight*/, lWidth - 4, "none");
-            var lOuterTurn = fact.createUTurn({x:pFrom, y:(lHeight + 4) / 2}, (pYTo + 6 + lHeight)/*lSign*lHeight*/, lWidth);
-            lInnerTurn.setAttribute("style", "stroke: " + pLineColor);
-            lOuterTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
+            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 4), lWidth - 4, "double");
+            var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2), lWidth);
+            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, "double");
+            lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
+            lMiddleTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom) + "stroke:transparent;");
+            lOuterTurn.setAttribute("style", "stroke:" + pLineColor);
             lGroup.appendChild(lInnerTurn);
             lGroup.appendChild(lOuterTurn);
+            lGroup.appendChild(lMiddleTurn);
         } else {
-            var lUTurn = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight)/*lSign*lHeight*/, lWidth);
+            var lUTurn = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth);
             lUTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
             lGroup.appendChild(lUTurn);
         }
@@ -517,7 +520,7 @@ define(["./svgelementfactory",
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = fact.createGroup(pId);
         // var lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
-        var lClass = "";
+        var lClass = (pArc.kind === "<:>") ? "bidi" : ((pArc.kind === "::") ? "nodi" : "" );
         var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
         var lYTo = determineArcYTo(pArc);
         var lArcGradient = (lYTo === 0) ? gChart.arcGradient: lYTo;
@@ -531,9 +534,7 @@ define(["./svgelementfactory",
             lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (entities.getDims().interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), entities.getDims().interEntitySpacing, "anchor-start"));
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
-            // if (pArc.linecolor) {
-                lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
-            // }
+            lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
             lGroup.appendChild(lLine);
             lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom));
         }
