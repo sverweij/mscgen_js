@@ -313,8 +313,6 @@ a :> b;
         lMarker.setAttribute("markerUnits", "strokeWidth");
         lMarker.setAttribute("markerWidth", "10");
         lMarker.setAttribute("markerHeight", "10");
-        lMarker.setAttribute("refX", "9");
-        lMarker.setAttribute("refX", "9");
 
         return lMarker;
     }
@@ -322,7 +320,13 @@ a :> b;
     function _createMarkerPath(pId, pD, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
         var lPath = _createPath(pD, "arrow-style");
-        lPath.setAttribute("style", "stroke : " + pColor||"black");
+        /* stroke-dasharray: 'none' should work to override any dashes (like in
+         * return messages (a >> b;)) and making sure the marker end gets
+         * lines 
+         * This, however, does not work in webkit, hence the curious 
+         * value for the stroke-dasharray
+         */
+        lPath.setAttribute("style", "stroke-dasharray:100,1; stroke : " + pColor||"black");
         lMarker.appendChild(lPath);
         return lMarker;
     }
