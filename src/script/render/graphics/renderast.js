@@ -542,16 +542,15 @@ define(["./svgelementfactory",
     }
 
     function renderTextLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
-        var lGroup = pGroup;
         var lText = {};
+        var lY = pStartY + gChart.textHeight / 4 + (pPosition * gChart.textHeight);
         if (pPosition === 0) {
-            lText = fact.createText(pLine, pMiddle, pStartY + gChart.textHeight / 4 + (pPosition * gChart.textHeight), pClass, pArc.url, pArc.id, pArc.idurl);
+            lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
-            lText = fact.createText(pLine, pMiddle, pStartY + gChart.textHeight / 4 + (pPosition * gChart.textHeight), pClass, pArc.url);
+            lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url);
         }
-        var lBBox = svgutl.getBBox(lText);
 
-        var lRect = fact.createRect(lBBox, "textbg");
+        var lRect = fact.createRect(svgutl.getBBox(lText), "textbg");
         utl.colorText(lText, pArc);
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
@@ -560,9 +559,9 @@ define(["./svgelementfactory",
             pArc.textcolor = "blue";
             utl.colorText(lText, pArc);
         }
-        lGroup.appendChild(lRect);
-        lGroup.appendChild(lText);
-        return lGroup;
+        pGroup.appendChild(lRect);
+        pGroup.appendChild(lText);
+        return pGroup;
     }
 
     /**
