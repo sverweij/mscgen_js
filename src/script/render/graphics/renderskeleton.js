@@ -133,7 +133,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
  */
         return "svg{\
   font-family:Helvetica,sans-serif;\
-  font-size:9pt;\
+  font-size:" + C.FONT_SIZE + "pt;\
   font-weight:normal;\
   font-style:normal;\
   text-decoration:none;\
