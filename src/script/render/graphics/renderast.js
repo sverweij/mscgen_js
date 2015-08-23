@@ -460,7 +460,7 @@ define(["./svgelementfactory",
 
         var lGroup = fact.createGroup();
         if (pDouble) {
-            // TODO #13: render associated marker(s) in <def>
+            /* we need a middle turn to attach the arrow to */
             var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 4), lWidth - 4, "double");
             var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2), lWidth);
             var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, "double");
@@ -521,7 +521,7 @@ define(["./svgelementfactory",
         var lGroup = fact.createGroup(pId);
         // var lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
         var lClass = (pArc.kind === "<:>") ? "bidi" : ((pArc.kind === "::") ? "nodi" : "" );
-        var lDoubleLine = (":>" === pArc.kind ) || ("::" === pArc.kind ) || ("<:>" === pArc.kind );
+        var lDoubleLine = [":>", "::", "<:>"].indexOf(pArc.kind) > -1;
         var lYTo = determineArcYTo(pArc);
         var lArcGradient = (lYTo === 0) ? gChart.arcGradient: lYTo;
 
