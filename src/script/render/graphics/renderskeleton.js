@@ -115,22 +115,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
     function setupStyleElement() {
 /*jshint multistr:true */
 /* jshint -W030 */ /* jshint -W033 */
-/*
- * a note on the marker ends:
- * - the reference to the marker ends/ ids of the marker ends should be
- *   unique _across svgs_ (otherwise removing/ hiding an earlier or
- *   later svg will make all marker ends go away from all other svgs
- *   within the same html document).
- * - the class names for the marker names can - in theory - be
- *   the same accross the svgs, they should just be "fenced" so the
- *   class definitions in the nth svg don't overwrite the class definitions
- *   of the 1 to (n-1)th svgs:
- *   #someuniqueidforthesvg .signal { ...
- * - canvg does not (yet?) handle these fenced classes at the moment,
- *   so instead we prefix the class names (and made sure the graphical
- *   renderer uses the same for these).
- *   .someuniqueidforthesvgsignal { ...
- */
+
         return "svg{\
   font-family:Helvetica,sans-serif;\
   font-size:" + C.FONT_SIZE + "pt;\
