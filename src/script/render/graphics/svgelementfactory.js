@@ -251,12 +251,7 @@ define(["./constants"], function(C) {
             return createDoubleLine(pLine, pClass);
         }
     }
-/*
-arcgradient="0", width=800;
-a,b;
-a =>> a: this is a piece of TEXT;
-a :> b;
-*/
+
     // TODO: accept coords (or even a bbox?)
     function _createUTurn(pPoint, pEndY, pWidth, pClass) {
         var lEndX = (!!pClass && "double" === pClass) ? pPoint.x + 15 : pPoint.x;
@@ -270,17 +265,6 @@ a :> b;
         // curve end-pont:
         lPathString += " " + lEndX.toString() + "," + pEndY.toString();
         
-        // lPathString += " l" + pWidth.toString() + ",0";
-        // right
-        // lPathString += " l0," + (pEndY).toString();
-        // down
-        // lPathString += " l-" + pWidth.toString() + ",0";
-        // left
-        /*
-         var lPathString = "M" + pStartX.toString() + ", -" + pStartY.toString();
-         lPathString += " a "+ pWidth.toString() + " 4 0 0 1 0 " + pEndY.toString();
-         */
-
         return _createPath(lPathString, pClass);
     }
 
