@@ -1,4 +1,9 @@
 /* jshint undef:true, unused:strict, browser:false, node:true, indent:4 */
+/*
+ * Note: there will be a moment when using a real library (like lodash, 
+ * underscore or ramda) will be more beneficial than these local
+ * implementations.
+ */
 
 /* istanbul ignore else */
 if ( typeof define !== 'function') {
@@ -7,7 +12,11 @@ if ( typeof define !== 'function') {
 
 define([], function() {
     "use strict";
-
+    
+    function has (obj, key) {
+        return obj !== null && hasOwnProperty.call(obj, key);
+    }
+    
     return {
         /*
          * returns an non-nested array from a nested array
@@ -27,7 +36,23 @@ define([], function() {
          */
         deepCopy: function deepCopy(pObject) {
             return JSON.parse(JSON.stringify(pObject));
-        }
+        },
+        
+        /*
+         * Caches the called function
+         */
+        memoize : function(pFunction) {
+            var lMemoize = function(pKey) {
+              var lCache = lMemoize.lCache;
+              var lAddress = '' + pKey;
+              if (!has(lCache, lAddress)) {
+                  lCache[lAddress] = pFunction.apply(this, arguments);
+              }
+              return lCache[lAddress];
+            };
+            lMemoize.lCache = {};
+            return lMemoize;
+          }
     };
 });
 /*

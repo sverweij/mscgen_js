@@ -14,7 +14,7 @@ define(["./svgelementfactory",
         "./renderskeleton", 
         "../text/textutensils", 
         "../text/flatten", 
-        "../text/dotmap", 
+        "../text/dotmap",
         "./rowmemory", 
         "./idmanager", 
         "./markermanager", 
@@ -48,7 +48,6 @@ define(["./svgelementfactory",
         "arcEndX"      : 0,
         "wordWrapArcs" : false,
         "maxDepth"     : 0,
-        "textHeight"   : 12,
         "document"     : {},
         "layer"        : {
             "defs"         : {},
@@ -101,7 +100,6 @@ define(["./svgelementfactory",
 
     function initializeChart(pChart, pDepth){
         createLayerShortcuts(pChart.layer, pChart.document);
-        pChart.textHeight = svgutl.calculateTextHeight();
         pChart.maxDepth = pDepth ? pDepth : 0;
     }
 
@@ -319,7 +317,7 @@ define(["./svgelementfactory",
                             });
                             pArc.label = lLabel;
 
-                            lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (gChart.textHeight / 2) - C.LINE_WIDTH, gChart.arcEndX);
+                            lElement = createTextLabel(lCurrentId + "_txt", pArc, 0, 0 - (svgutl.calculateTextHeight() / 2) - C.LINE_WIDTH, gChart.arcEndX);
                             lRowMemory.push({
                                 id : lCurrentId + "_txt",
                                 layer : gChart.layer.sequence
@@ -543,7 +541,7 @@ define(["./svgelementfactory",
 
     function renderTextLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
         var lText = {};
-        var lY = pStartY + gChart.textHeight / 4 + (pPosition * gChart.textHeight);
+        var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
         if (pPosition === 0) {
             lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
@@ -592,7 +590,7 @@ define(["./svgelementfactory",
             }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
 
-            var lStartY = pStartY - (((lLines.length - 1) * gChart.textHeight) / 2) - ((lLines.length - 1) / 2);
+            var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
             lLines.forEach(function(pLine, pLineNumber){
                 lGroup = renderTextLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
                 lStartY++;
