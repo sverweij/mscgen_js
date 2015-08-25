@@ -125,7 +125,6 @@ define(["./constants", "./idmanager", "../text/utensils"], function(C, id, _) {
     }
 
     function _calculateTextHeight(){
-        console.log('hier jah');
         return _getBBox(createText("\u00C1jy\u00CE9\u0192@")).height;
     }
     
