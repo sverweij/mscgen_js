@@ -1,0 +1,32 @@
+msc {
+  a [label="one", arctextcolor="white", arctextbgcolor="white"],
+  b [label="one\ntwo", arctextcolor="white", arctextbgcolor="white"],
+  c [label="one\ntwo\nthree", arctextcolor="white", arctextbgcolor="white"],
+  d [label="one\ntwo\nthree\nfour", arctextcolor="white", arctextbgcolor="white"],
+  e;
+
+  a -> b [label="one"],
+  b -> c [label="one\ntwo"],
+  c -> d [label="one\ntwo\nthree"],
+  d -> e [label="one\ntwo\nthree\nfour"];
+  --- [label="one", linecolor="grey", textcolor="white", textbgcolor="white"];
+  a >> b [label="one"],
+  b >> c [label="one\ntwo"],
+  c >> d [label="one\ntwo\nthree"],
+  d >> e [label="one\ntwo\nthree\nfour"];
+  --- [label="one\ntwo", linecolor="grey", textcolor="white", textbgcolor="white"];
+  a :> b [label="one"],
+  b :> c [label="one\ntwo"],
+  c :> d [label="one\ntwo\nthree"],
+  d :> e [label="one\ntwo\nthree\nfour"];
+  --- [label="one\ntwo\nthree", linecolor="grey", textcolor="white", textbgcolor="white"];
+  a box a [label="one", linecolor="black", textbgcolor="black"],
+  b abox b [label="one\ntwo", linecolor="black", textbgcolor="black"],
+  c rbox c [label="one\ntwo\nthree", linecolor="black", textbgcolor="black"],
+  d note d [label="one\ntwo\nthree\nfour", linecolor="black", textbgcolor="black"];
+  --- [label="one\ntwo\nthree\nfour", linecolor="grey", textcolor="white", textbgcolor="white"];
+  a -x b [label="one"],
+  b -x c [label="one\ntwo"],
+  c -x d [label="one\ntwo\nthree"],
+  d -x e [label="one\ntwo\nthree\nfour"];
+}
