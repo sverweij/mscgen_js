@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./dotmap", "./utensils", "./textutensils"],
+define(["./asttransform", "./dotmap", "./utensils"],
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, map, utl, tutl) {
+function(transform, map, utl) {
     "use strict";
 
     var gMaxDepth = 0;
