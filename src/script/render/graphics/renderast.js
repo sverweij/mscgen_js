@@ -543,14 +543,12 @@ define(["./svgelementfactory",
         }
 
         var lRect = fact.createRect(svgutl.getBBox(lText), "textbg");
-        utl.colorText(lText, pArc);
+        utl.colorText(lText, pArc.textcolor);
         if (pArc.textbgcolor) {
             lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
         }
-        if (pArc.url && !pArc.textcolor) {
-            pArc.textcolor = "blue";
-            utl.colorText(lText, pArc);
-        }
+        utl.colorLink(lText, pArc.url, pArc.textcolor);
+        
         pGroup.appendChild(lRect);
         pGroup.appendChild(lText);
         return pGroup;
@@ -587,6 +585,49 @@ define(["./svgelementfactory",
             var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
             lLines.forEach(function(pLine, pLineNumber){
                 lGroup = renderTextLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
+                lStartY++;
+            });
+        }
+        return lGroup;
+    }
+    
+    function renderBoxLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition) {
+        var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
+        var lText = fact.createText(pLine, pMiddle, lY, undefined, pArc.url);
+
+        utl.colorText(lText, pArc.textcolor);
+        utl.colorLink(lText, pArc.url, pArc.textcolor);
+
+        pGroup.appendChild(lText);
+        return pGroup;
+    }
+        
+    /**
+     * createBoxLabel() - renders the text (label, id, url) for a given pArc
+     * with a bounding box starting at pStartX, pStartY and of a width of at
+     * most pWidth (all in pixels)
+     *
+     * @param <string> - pId - the unique identification of the textlabe (group) within the svg
+     * @param <objec> - pArc - the arc of which to render the text
+     * @param <number> - pStartX
+     * @param <number> - pStartY
+     * @param <number> - pWidth
+     */
+    function createBoxLabel(pId, pArc, pStartX, pStartY, pWidth) {
+        var lGroup = fact.createGroup(pId);
+        /* pArc:
+         *   label & id
+         *   url & idurl
+         */
+
+        if (pArc.label) {
+            var lMiddle = pStartX + (pWidth / 2);
+            pArc.label = txt.unescapeString(pArc.label);
+            var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth);
+
+            var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
+            lLines.forEach(function(pLine, pLineNumber){
+                lGroup = renderBoxLabelLine(lGroup, pLine, lMiddle, lStartY, pArc, pLineNumber);
                 lStartY++;
             });
         }
@@ -671,7 +712,7 @@ define(["./svgelementfactory",
         var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
-        var lTextGroup = createTextLabel(pId + "_txt", pArc, lStart, 0, lWidth);
+        var lTextGroup = createBoxLabel(pId + "_txt", pArc, lStart, 0, lWidth);
         var lTextBBox = svgutl.getBBox(lTextGroup);
 
         var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);

@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./dotmap", "./utensils"],
+define(["./asttransform", "./dotmap", "./utensils", "./textutensils"],
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, map, utl) {
+function(transform, map, utl, tutl) {
     "use strict";
 
     var gMaxDepth = 0;
@@ -53,7 +53,6 @@ function(transform, map, utl) {
      * assumes arc direction to be either LTR, both, or none
      * so arc.from exists.
      */
-
     function overrideColors(pArc, pEntities) {
         if (pArc && pArc.from) {
             var lMatchingEntities = pEntities.filter(function(pEntity){
@@ -64,7 +63,6 @@ function(transform, map, utl) {
             }
         }
     }
-
 
     function calcNumberOfRows(pArcRow) {
         var lRetval = pArcRow.arcs.length;

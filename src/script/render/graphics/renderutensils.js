@@ -42,13 +42,25 @@ define([], function() {
      * the given pArc
      *
      * @param <svgElement> pElement
-     * @param <object> pArc
+     * @param <string> pTextColor
      */
-    function _colorText(pElement, pArc) {
-        if (pArc.textcolor) {
-            pElement.setAttribute("style", "fill:" + pArc.textcolor + ";");
+    function _colorText(pElement, pTextColor) {
+        if (pTextColor) {
+            pElement.setAttribute("style", "fill:" + pTextColor + ";");
         }
     }
+    
+    /**
+     * Makes the text color blue if there is an url and no text color
+     * 
+     * @param <svgElement> pElement
+     * @param <string> pUrl
+     * @param <string> pTextColor
+     */ 
+     function _colorLink(pElement, pUrl, pTextColor){
+         _colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
+     }
+    
 
     /**
      * colorBox() - sets the fill and stroke color of the element to the
@@ -93,6 +105,7 @@ define([], function() {
         oneLineLabelsFix: _oneLineLabelsFix,
         colorText: _colorText,
         colorBox: _colorBox,
+        colorLink: _colorLink,
         swapfromto: _swapfromto,
         determineArcXTo: _determineArcXTo
     };
