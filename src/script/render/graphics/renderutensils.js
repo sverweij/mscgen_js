@@ -78,6 +78,14 @@ define([], function() {
         swap(pPair, "from", "to");
     }
     
+    
+    function _determineArcXTo(pKind, pFrom, pTo){
+        if ("-x" === pKind) {
+            return pFrom + (pTo - pFrom) * (3 / 4);
+        } else {
+            return pTo;
+        }
+    }
 
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
@@ -85,6 +93,7 @@ define([], function() {
         oneLineLabelsFix: _oneLineLabelsFix,
         colorText: _colorText,
         colorBox: _colorBox,
-        swapfromto: _swapfromto
+        swapfromto: _swapfromto,
+        determineArcXTo: _determineArcXTo
     };
 });

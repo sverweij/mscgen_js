@@ -218,8 +218,6 @@ define(["./constants"], function(C) {
         return lRetval;
     }
     
-    // TODO: de-uglify the resulting grahpics?
-    // TODO: delegate stuff?
     function createDoubleLine(pLine, pClass) {
         var lSpace = 2;
         

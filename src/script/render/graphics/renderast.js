@@ -453,6 +453,8 @@ define(["./svgelementfactory",
     }
 
     function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor) {
+        // globals: (gChart ->) arcRowHeight, (entities ->) interEntitySpacing
+        
         var lHeight = 2 * (gChart.arcRowHeight / 5);
         var lWidth = entities.getDims().interEntitySpacing / 2;
 
@@ -498,14 +500,6 @@ define(["./svgelementfactory",
         return lElement;
     }
 
-    function determineArcXTo(pArc, pFrom, pTo){
-        if ("-x" === pArc.kind) {
-            return pFrom + (pTo - pFrom) * (3 / 4);
-        } else {
-            return pTo;
-        }
-    }
-
     function determineArcYTo(pArc){
         if (pArc.arcskip) {
             /* TODO: derive from hashmap */
@@ -523,7 +517,7 @@ define(["./svgelementfactory",
         var lYTo = determineArcYTo(pArc);
         var lArcGradient = (lYTo === 0) ? gChart.arcGradient: lYTo;
 
-        pTo = determineArcXTo(pArc, pFrom, pTo);
+        pTo = utl.determineArcXTo(pArc.kind, pFrom, pTo);
 
         pArc.label = utl.oneLineLabelsFix(pArc.label);
 
