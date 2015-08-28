@@ -48,6 +48,10 @@ describe('renderast', function() {
                 processAndCompare('./src/script/test/fixtures/rainbow.svg', //
                 './src/script/test/fixtures/rainbow.json', true);
             });
+            it('should render ids & urls', function() {
+                processAndCompare('./src/script/test/fixtures/idsnurls.svg', //
+                './src/script/test/fixtures/idsnurls.json', true);
+            });
             it('should wrap text in boxes well', function(){
                 processAndCompare('./src/script/test/fixtures/test19_multiline_lipsum.svg',//
                 './src/script/test/fixtures/test19_multiline_lipsum.json', true);

@@ -592,8 +592,13 @@ define(["./svgelementfactory",
     }
     
     function renderBoxLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition) {
+        var lText = {};
         var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
-        var lText = fact.createText(pLine, pMiddle, lY, undefined, pArc.url);
+        if (pPosition === 0) {
+            lText = fact.createText(pLine, pMiddle, lY, undefined, pArc.url, pArc.id, pArc.idurl);
+        } else {
+            lText = fact.createText(pLine, pMiddle, lY, undefined, pArc.url);
+        }
 
         utl.colorText(lText, pArc.textcolor);
         utl.colorLink(lText, pArc.url, pArc.textcolor);

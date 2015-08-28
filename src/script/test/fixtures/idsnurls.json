@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "entities": [
+    {
+      "name": "a",
+      "label": "e-label",
+      "url": "e-label-url",
+      "id": "e-id",
+      "idurl": "e-id-url"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "box",
+        "from": "a",
+        "to": "a",
+        "label": "label",
+        "idurl": "idurl",
+        "id": "id",
+        "url": "url"
+      }
+    ]
+  ]
+}
