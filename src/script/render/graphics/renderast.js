@@ -219,7 +219,7 @@ define(["./svgelementfactory",
 
     function renderEntity(pEntity, pBBox) {
         var lGroup = fact.createGroup(id.get(pEntity.name));
-        var lTextLabel = createBoxLabel(id.get(pEntity.name) + "_txt", pEntity, 0, pBBox.height / 2, pBBox.width, "entity");
+        var lTextLabel = createLabel(id.get(pEntity.name) + "_txt", pEntity, 0, pBBox.height / 2, pBBox.width, "entity");
         var lRect = fact.createRect(pBBox);
         utl.colorBox(lRect, pEntity);
         lGroup.appendChild(lRect);
@@ -317,7 +317,7 @@ define(["./svgelementfactory",
                             });
                             pArc.label = lLabel;
 
-                            lElement = createTextLabel(lCurrentId + "_txt", 
+                            lElement = createArcLabel(lCurrentId + "_txt", 
                                                         pArc,
                                                         0,
                                                         0 - (svgutl.calculateTextHeight() / 2) - C.LINE_WIDTH,
@@ -400,7 +400,7 @@ define(["./svgelementfactory",
         var lStart = (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * C.LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH);
         var lGroup = fact.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
-        var lTextGroup = createBoxLabel(pId + "_txt", pArc, lStart + C.LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
+        var lTextGroup = createLabel(pId + "_txt", pArc, lStart + C.LINE_WIDTH - (lMaxWidth / 2), gChart.arcRowHeight / 4, lMaxWidth, "anchor-start" /*, class */);
         var lBBox = svgutl.getBBox(lTextGroup);
 
         var lHeight = Math.max(lBBox.height + 2 * C.LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * C.LINE_WIDTH);
@@ -527,17 +527,17 @@ define(["./svgelementfactory",
 
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(pArc.kind, pFrom, lYTo, lDoubleLine, pArc.linecolor));
-            lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom + 2 - (entities.getDims().interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), entities.getDims().interEntitySpacing, "anchor-start"));
+            lGroup.appendChild(createArcLabel(pId + "_txt", pArc, pFrom + 2 - (entities.getDims().interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), entities.getDims().interEntitySpacing, "anchor-start"));
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
             lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
             lGroup.appendChild(lLine);
-            lGroup.appendChild(createTextLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom));
+            lGroup.appendChild(createArcLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom));
         }
         return lGroup;
     }
 
-    function renderTextLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
+    function renderArcLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
         var lText = {};
         var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
         if (pPosition === 0) {
@@ -559,7 +559,7 @@ define(["./svgelementfactory",
     }
 
     /**
-     * createTextLabel() - renders the text (label, id, url) for a given pArc
+     * createArcLabel() - renders the text (label, id, url) for a given pArc
      * with a bounding box starting at pStartX, pStartY and of a width of at
      * most pWidth (all in pixels)
      *
@@ -570,7 +570,7 @@ define(["./svgelementfactory",
      * @param <number> - pWidth
      * @param <string> - pClass - reference to a css class to influence text appearance
      */
-    function createTextLabel(pId, pArc, pStartX, pStartY, pWidth, pClass) {
+    function createArcLabel(pId, pArc, pStartX, pStartY, pWidth, pClass) {
         var lGroup = fact.createGroup(pId);
         /* pArc:
          *   label & id
@@ -588,14 +588,14 @@ define(["./svgelementfactory",
 
             var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
             lLines.forEach(function(pLine, pLineNumber){
-                lGroup = renderTextLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
+                lGroup = renderArcLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
                 lStartY++;
             });
         }
         return lGroup;
     }
     
-    function renderBoxLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition, pClass) {
+    function renderLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition, pClass) {
         var lText = {};
         var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
         if (pPosition === 0) {
@@ -612,7 +612,7 @@ define(["./svgelementfactory",
     }
         
     /**
-     * createBoxLabel() - renders the text (label, id, url) for a given pArc
+     * createLabel() - renders the text (label, id, url) for a given pArc
      * with a bounding box starting at pStartX, pStartY and of a width of at
      * most pWidth (all in pixels)
      *
@@ -622,7 +622,7 @@ define(["./svgelementfactory",
      * @param <number> - pStartY
      * @param <number> - pWidth
      */
-    function createBoxLabel(pId, pArc, pStartX, pStartY, pWidth, pClass) {
+    function createLabel(pId, pArc, pStartX, pStartY, pWidth, pClass) {
         var lGroup = fact.createGroup(pId);
         /* pArc:
          *   label & id
@@ -636,7 +636,7 @@ define(["./svgelementfactory",
 
             var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
             lLines.forEach(function(pLine, pLineNumber){
-                lGroup = renderBoxLabelLine(lGroup, pLine, lMiddle, lStartY, pArc, pLineNumber, pClass);
+                lGroup = renderLabelLine(lGroup, pLine, lMiddle, lStartY, pArc, pLineNumber, pClass);
                 lStartY++;
             });
         }
@@ -661,7 +661,7 @@ define(["./svgelementfactory",
             lArcStart = entities.getX(pArc.from);
             lArcEnd = Math.abs(entities.getX(pArc.to) - entities.getX(pArc.from));
         }
-        lGroup.appendChild(createTextLabel(pId + "_lbl", pArc, lArcStart, 0, lArcEnd));
+        lGroup.appendChild(createArcLabel(pId + "_lbl", pArc, lArcStart, 0, lArcEnd));
         return lGroup;
     }
 
@@ -721,7 +721,7 @@ define(["./svgelementfactory",
         var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
-        var lTextGroup = createBoxLabel(pId + "_txt", pArc, lStart, 0, lWidth);
+        var lTextGroup = createLabel(pId + "_txt", pArc, lStart, 0, lWidth);
         var lTextBBox = svgutl.getBBox(lTextGroup);
 
         var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);
