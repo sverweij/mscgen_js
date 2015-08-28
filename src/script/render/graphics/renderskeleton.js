@@ -115,10 +115,9 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
     function setupStyleElement() {
 /*jshint multistr:true */
 /* jshint -W030 */ /* jshint -W033 */
-
         return "svg{\
   font-family:Helvetica,sans-serif;\
-  font-size:" + C.FONT_SIZE + "pt;\
+  font-size:" + C.FONT_SIZE + "px;\
   font-weight:normal;\
   font-style:normal;\
   text-decoration:none;\

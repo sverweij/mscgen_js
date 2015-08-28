@@ -55,14 +55,14 @@ function(map) {
     }
 
     /**
-     * Determine the number characters of that fits within pWidth amount
+     * Determine the number characters that fit within pWidth amount
      * of pixels.
      *
      * Uses heuristics that work for 9pt Helvetica in svg's.
      * TODO: make more generic, or use an algorithm that
      *       uses the real width of the text under discourse
-     *       (e.g. using it's BBox; although I fear this
-     *        might be expensive)
+     *       (e.g. using its BBox; although I fear this
+     *        to be expensive)
      * @param {string} pText
      * @param {number} pMaxLength
      * @return {array} - an array of strings
