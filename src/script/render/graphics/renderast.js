@@ -525,13 +525,14 @@ define(["./svgelementfactory",
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(pArc.kind, pFrom, lYTo, lDoubleLine, pArc.linecolor));
             /* creates a label left aligned, a little above the arc*/
+            var lTextWidth = 2*entities.getDims().interEntitySpacing/3;
             lGroup.appendChild(
                 createArcLabel(
                     pId + "_txt", // pId
                     pArc, // pArc
-                    pFrom + 2 - (entities.getDims().interEntitySpacing / 2), //pStartX
+                    pFrom + C.LINE_WIDTH + 2 - (lTextWidth/2), //pStartX
                     0 - (gChart.arcRowHeight / 5), // pStartY
-                    entities.getDims().interEntitySpacing, // pWidth
+                    lTextWidth, // pWidth
                     "anchor-start" // pClass - makes sure it's left aligned
                 )
             );
@@ -603,11 +604,23 @@ define(["./svgelementfactory",
                 pArc.id = txt.unescapeString(pArc.id);
             }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
-            /* hack  - inserts an extra line for one line labels so they render just above the line 
-             * instead of on it:
-             */
-            if (lLines.length === 1) {
-                lLines.push("");
+
+            if (pArc.from === pArc.to){
+                /* 
+                 * hack  - inserts an extra lines for self-reference arcs to
+                 * text from ever occluding the arc
+                 */
+                var lNoLinesToAdd = lLines.length;
+                for (var i = 0; i <  lNoLinesToAdd ;i++){
+                    lLines.push("");
+                }
+            } else {
+                /* hack  - inserts an extra line for one line labels so they render just above the line 
+                 * instead of on it:
+                 */
+                if (lLines.length === 1) {
+                    lLines.push("");
+                }
             }
             
             var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
