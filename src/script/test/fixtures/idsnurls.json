@@ -8,9 +8,12 @@
     {
       "name": "a",
       "label": "e-label",
-      "url": "e-label-url",
+      "idurl": "e-id-url",
       "id": "e-id",
-      "idurl": "e-id-url"
+      "url": "e-label-url"
+    },
+    {
+      "name": "b"
     }
   ],
   "arcs": [
@@ -23,6 +26,24 @@
         "idurl": "idurl",
         "id": "id",
         "url": "url"
+      }
+    ],
+    [
+      {
+        "kind": "|||",
+        "label": "emtpy arc with a label",
+        "id": "and an id",
+        "url": "emptyarclink",
+        "idurl": "emptyarcurllink"
+      }
+    ],
+    [
+      {
+        "kind": "---",
+        "label": "comment arc with a label",
+        "id": "and an id",
+        "url": "commentarclink",
+        "idurl": "commentarcurllink"
       }
     ]
   ]
