@@ -522,11 +522,6 @@ define(["./svgelementfactory",
 
         pTo = utl.determineArcXTo(pArc.kind, pFrom, pTo);
 
-        /* hack  - inserts an \n to for one line labels so they render just above the line 
-         * instead of on it:
-         */
-        pArc.label = utl.oneLineLabelsFix(pArc.label);
-
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(pArc.kind, pFrom, lYTo, lDoubleLine, pArc.linecolor));
             /* creates a label left aligned, a little above the arc*/
@@ -608,6 +603,12 @@ define(["./svgelementfactory",
                 pArc.id = txt.unescapeString(pArc.id);
             }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
+            /* hack  - inserts an extra line for one line labels so they render just above the line 
+             * instead of on it:
+             */
+            if (lLines.length === 1) {
+                lLines.push("");
+            }
             
             var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
             lLines.forEach(function(pLine, pLineNumber){
