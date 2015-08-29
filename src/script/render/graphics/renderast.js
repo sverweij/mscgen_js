@@ -612,8 +612,8 @@ define(["./svgelementfactory",
                 pArc.id = txt.unescapeString(pArc.id);
             }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
-
-            var lStartY = pStartY - (((lLines.length - 1) * (svgutl.calculateTextHeight() + C.LINE_WIDTH)) / 2) - ((lLines.length - 1) / 2);
+            
+            var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
             lLines.forEach(function(pLine, pLineNumber){
                 lGroup = renderArcLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
                 lStartY++;
@@ -661,7 +661,7 @@ define(["./svgelementfactory",
             pArc.label = txt.unescapeString(pArc.label);
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth);
 
-            var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
+            var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + 1);
             lLines.forEach(function(pLine, pLineNumber){
                 lGroup = renderLabelLine(lGroup, pLine, lMiddle, lStartY, pArc, pLineNumber, pClass);
                 lStartY++;
