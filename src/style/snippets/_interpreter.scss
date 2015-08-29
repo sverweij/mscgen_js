@@ -72,6 +72,7 @@ button {
   font-size: 1em;
   text-decoration: none;
   text-align: center;
+  min-width: 3em;
 }
 button:hover, a.button:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
