@@ -569,13 +569,9 @@ define(["./svgelementfactory",
     }
     
     function renderArcLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
-        var lText = {};
+        
         var lY = pStartY + ((pPosition + 1/4) * (svgutl.calculateTextHeight() + C.LINE_WIDTH));
-        if (pPosition === 0) {
-            lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url, pArc.id, pArc.idurl);
-        } else {
-            lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url);
-        }
+        var lText = renderLabelText(pPosition, pLine, pMiddle, lY, pClass, pArc);
 
         utl.colorText(lText, pArc.textcolor);
         utl.colorLink(lText, pArc.url, pArc.textcolor);
@@ -622,14 +618,69 @@ define(["./svgelementfactory",
         return lGroup;
     }
     
-    function renderLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition, pClass) {
-        var lText = {};
+    function renderLifelineLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
+        
         var lY = pStartY + ((pPosition + 1/4) * svgutl.calculateTextHeight());
-        if (pPosition === 0) {
-            lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url, pArc.id, pArc.idurl);
-        } else {
-            lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url);
+        var lText = renderLabelText(pPosition, pLine, pMiddle, lY, pClass, pArc);
+
+        utl.colorText(lText, pArc.textcolor);
+        utl.colorLink(lText, pArc.url, pArc.textcolor);
+        
+        pGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
+        pGroup.appendChild(lText);
+        return pGroup;
+    }
+    
+    /**
+     * createLifelineLabel() - renders the text (label, id, url) for a given pArc
+     * with a bounding box starting at pStartX, pStartY and of a width of at
+     * most pWidth (all in pixels)
+     *
+     * @param <string> - pId - the unique identification of the textlabe (group) within the svg
+     * @param <objec> - pArc - the arc of which to render the text
+     * @param <number> - pStartX
+     * @param <number> - pStartY
+     * @param <number> - pWidth
+     * @param <string> - pClass - reference to a css class to influence text appearance
+     */
+    function createLifelineLabel(pId, pArc, pStartX, pStartY, pWidth, pClass) {
+        var lGroup = fact.createGroup(pId);
+        /* pArc:
+         *   label & id
+         *   url & idurl
+         *   kind (boxes get auto wrapped)
+         */
+
+        if (pArc.label) {
+            var lMiddle = pStartX + (pWidth / 2);
+            pArc.label = txt.unescapeString(pArc.label);
+            if (pArc.id) {
+                pArc.id = txt.unescapeString(pArc.id);
+            }
+            var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
+            
+            var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + 1);
+            lLines.forEach(function(pLine, pLineNumber){
+                lGroup = renderLifelineLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
+                lStartY++;
+            });
         }
+        return lGroup;
+    }
+    
+    function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc){
+        var lText = {};
+        if (pPosition === 0) {
+            lText = fact.createText(pLine, pMiddle, pY, pClass, pArc.url, pArc.id, pArc.idurl);
+        } else {
+            lText = fact.createText(pLine, pMiddle, pY, pClass, pArc.url);
+        }
+        return lText;
+    }
+    
+    function renderLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition, pClass) {
+        var lY = pStartY + ((pPosition + 1/4) * svgutl.calculateTextHeight());
+        var lText = renderLabelText(pPosition, pLine, pMiddle, lY, pClass, pArc);
 
         utl.colorText(lText, pArc.textcolor);
         utl.colorLink(lText, pArc.url, pArc.textcolor);
@@ -688,7 +739,7 @@ define(["./svgelementfactory",
             lArcStart = entities.getX(pArc.from);
             lArcEnd = Math.abs(entities.getX(pArc.to) - entities.getX(pArc.from));
         }
-        lGroup.appendChild(createArcLabel(pId + "_lbl", pArc, lArcStart, 0, lArcEnd));
+        lGroup.appendChild(createLifelineLabel(pId + "_lbl", pArc, lArcStart, 0, lArcEnd));
         return lGroup;
     }
 
