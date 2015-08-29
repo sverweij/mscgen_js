@@ -9,24 +9,24 @@ msc {
   b -> c [label="one\ntwo"],
   c -> d [label="one\ntwo\nthree"],
   d -> e [label="one\ntwo\nthree\nfour"];
-  --- [label="one"];
-  a >> b [label="one"],
-  b >> c [label="one\ntwo"],
-  c >> d [label="one\ntwo\nthree"],
-  d >> e [label="one\ntwo\nthree\nfour"];
-  --- [label="one\ntwo"];
+  --- [label="one", linecolor="grey", textcolor="white", textbgcolor="white"];
+  a =>> a [label="one one one one"],
+  b =>> b [label="one one one one\ntwo two two two"],
+  c =>> c [label="one one one one\ntwo two two two\nthree three three three"],
+  d =>> d [label="one one one one\ntwo two two two\nthree three three\nfour four four four"];
+  --- [label="one\ntwo", linecolor="grey", textcolor="white", textbgcolor="white"];
   a :> b [label="one"],
   b :> c [label="one\ntwo"],
   c :> d [label="one\ntwo\nthree"],
   d :> e [label="one\ntwo\nthree\nfour"];
-  --- [label="one\ntwo\nthree"];
+  --- [label="one\ntwo\nthree", linecolor="grey", textcolor="white", textbgcolor="white"];
+  a >> b [label="one"],
+  b >> c [label="one\ntwo"],
+  c >> d [label="one\ntwo\nthree"],
+  d >> e [label="one\ntwo\nthree\nfour"];
+  --- [label="one\ntwo\nthree\nfour", linecolor="grey", textcolor="white", textbgcolor="white"];
   a box a [label="one"],
   b abox b [label="one\ntwo"],
   c rbox c [label="one\ntwo\nthree"],
   d note d [label="one\ntwo\nthree\nfour"];
-  --- [label="one\ntwo\nthree\nfour"];
-  a -x b [label="one"],
-  b -x c [label="one\ntwo"],
-  c -x d [label="one\ntwo\nthree"],
-  d -x e [label="one\ntwo\nthree\nfour"];
 }
