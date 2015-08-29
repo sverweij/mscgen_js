@@ -263,10 +263,8 @@ define(["./svgelementfactory",
         pArcRow.forEach(function(pArc,pArcNumber){
             var lCurrentId = id.get(pRowNumber.toString() + "_" + pArcNumber.toString());
             var lElement;
-            var lLabel = "";
-            if (pArc.label) {
-                lLabel = pArc.label;
-            }
+            var lLabel = pArc.label ? pArc.label : "";
+
             switch(map.getAggregate(pArc.kind)) {
                 case("emptyarc"):
                     lElement = renderEmptyArc(pArc, lCurrentId);
@@ -297,15 +295,13 @@ define(["./svgelementfactory",
                     break;
                 default:
                     if (pArc.from && pArc.to) {
-                        var lFrom = pArc.from;
-                        var lTo = pArc.to;
                         var xTo = 0;
                         var xFrom = 0;
 
-                        if (lTo === "*") {// it's a broadcast arc
-                            xFrom = entities.getX(lFrom);
+                        if (pArc.to === "*") {// it's a broadcast arc
+                            xFrom = entities.getX(pArc.from);
                             pEntities.forEach(function(pEntity, pEntityNumber){
-                                if (pEntity.name !== lFrom) {
+                                if (pEntity.name !== pArc.from) {
                                     xTo = entities.getX(pEntity.name);
                                     pArc.label = "";
                                     gChart.layer.defs.appendChild(createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo));
@@ -316,23 +312,26 @@ define(["./svgelementfactory",
                                 }
                             });
                             pArc.label = lLabel;
-
-                            lElement = createArcLabel(lCurrentId + "_txt", 
-                                                        pArc,
-                                                        0,
-                                                        0 - (svgutl.calculateTextHeight() / 2) - C.LINE_WIDTH,
-                                                        gChart.arcEndX);
+                            
+                            /* creates a label on the current line, smack in the middle */
+                            lElement = createArcLabel(lCurrentId + "_txt", // pId
+                                                        pArc, // pArc
+                                                        0, // pStartX
+                                                        0 - (svgutl.calculateTextHeight() / 2) - C.LINE_WIDTH, //pStartY
+                                                        gChart.arcEndX // pWidth
+                                                        // pClass
+                                                    ); 
                             lRowMemory.push({
                                 id : lCurrentId + "_txt",
                                 layer : gChart.layer.sequence
                             });
                         } else {// it's a regular arc
-                            lElement = createArc(lCurrentId, pArc, entities.getX(lFrom), entities.getX(lTo));
+                            lElement = createArc(lCurrentId, pArc, entities.getX(pArc.from), entities.getX(pArc.to));
                             lRowMemory.push({
                                 id : lCurrentId,
                                 layer : gChart.layer.sequence
                             });
-                        }  /// lTo or lFrom === "*"
+                        }  /// lTo or pArc.from === "*"
                     }// if both a from and a to
                     break;
             }// switch
@@ -523,37 +522,65 @@ define(["./svgelementfactory",
 
         pTo = utl.determineArcXTo(pArc.kind, pFrom, pTo);
 
+        /* hack  - inserts an \n to for one line labels so they render just above the line 
+         * instead of on it:
+         */
         pArc.label = utl.oneLineLabelsFix(pArc.label);
 
         if (pFrom === pTo) {
             lGroup.appendChild(createSelfRefArc(pArc.kind, pFrom, lYTo, lDoubleLine, pArc.linecolor));
-            lGroup.appendChild(createArcLabel(pId + "_txt", pArc, pFrom + 2 - (entities.getDims().interEntitySpacing / 2), 0 - (gChart.arcRowHeight / 5), entities.getDims().interEntitySpacing, "anchor-start"));
+            /* creates a label left aligned, a little above the arc*/
+            lGroup.appendChild(
+                createArcLabel(
+                    pId + "_txt", // pId
+                    pArc, // pArc
+                    pFrom + 2 - (entities.getDims().interEntitySpacing / 2), //pStartX
+                    0 - (gChart.arcRowHeight / 5), // pStartY
+                    entities.getDims().interEntitySpacing, // pWidth
+                    "anchor-start" // pClass - makes sure it's left aligned
+                )
+            );
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
             lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
             lGroup.appendChild(lLine);
-            lGroup.appendChild(createArcLabel(pId + "_txt", pArc, pFrom, 0, pTo - pFrom));
+            
+            /* create a label centered on the arc */
+            lGroup.appendChild(
+                createArcLabel(
+                    pId + "_txt", // pId
+                    pArc, // pArc
+                    pFrom, // pStartX
+                    0, // pStartY
+                    pTo - pFrom // pWidth
+                    // (no) pClass
+                )
+            );
         }
         return lGroup;
     }
 
+    function renderArcLabelLineBackground(lLabelElement, pTextbgcolor){
+        var lRect = fact.createRect(svgutl.getBBox(lLabelElement), "textbg");
+        if (pTextbgcolor) {
+            lRect.setAttribute("style", "fill: " + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
+        }
+        return lRect;
+    }
+    
     function renderArcLabelLine(pGroup, pLine, pMiddle, pStartY, pClass, pArc, pPosition) {
         var lText = {};
-        var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
+        var lY = pStartY + ((pPosition + 1/4) * (svgutl.calculateTextHeight() + C.LINE_WIDTH));
         if (pPosition === 0) {
             lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
             lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url);
         }
 
-        var lRect = fact.createRect(svgutl.getBBox(lText), "textbg");
         utl.colorText(lText, pArc.textcolor);
-        if (pArc.textbgcolor) {
-            lRect.setAttribute("style", "fill: " + pArc.textbgcolor + "; stroke:" + pArc.textbgcolor + ";");
-        }
         utl.colorLink(lText, pArc.url, pArc.textcolor);
         
-        pGroup.appendChild(lRect);
+        pGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
         pGroup.appendChild(lText);
         return pGroup;
     }
@@ -586,7 +613,7 @@ define(["./svgelementfactory",
             }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
 
-            var lStartY = pStartY - (((lLines.length - 1) * svgutl.calculateTextHeight()) / 2) - ((lLines.length - 1) / 2);
+            var lStartY = pStartY - (((lLines.length - 1) * (svgutl.calculateTextHeight() + C.LINE_WIDTH)) / 2) - ((lLines.length - 1) / 2);
             lLines.forEach(function(pLine, pLineNumber){
                 lGroup = renderArcLabelLine(lGroup, pLine, lMiddle, lStartY, pClass, pArc, pLineNumber);
                 lStartY++;
@@ -597,7 +624,7 @@ define(["./svgelementfactory",
     
     function renderLabelLine(pGroup, pLine, pMiddle, pStartY, pArc, pPosition, pClass) {
         var lText = {};
-        var lY = pStartY + svgutl.calculateTextHeight() / 4 + (pPosition * svgutl.calculateTextHeight());
+        var lY = pStartY + ((pPosition + 1/4) * svgutl.calculateTextHeight());
         if (pPosition === 0) {
             lText = fact.createText(pLine, pMiddle, lY, pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
