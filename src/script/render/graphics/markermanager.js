@@ -7,7 +7,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../text/utensils", "../text/dotmap"], function(utl, map) {
+define(["../text/utensils", "../text/dotmap"], function(_, map) {
     "use strict";
 
     var KINDS = {
@@ -207,7 +207,7 @@ define(["../text/utensils", "../text/dotmap"], function(utl, map) {
         getLineStyle: _getLineStyle,
 
         getMarkerDefs : function (pId, pAST) {
-            return utl.flatten(extractKindColorCombis(pAST).filter(onlyWithMarkers).map(function(pCombi){
+            return _.flatten(extractKindColorCombis(pAST).filter(onlyWithMarkers).map(function(pCombi){
                 return MARKERPATHS[KINDS[pCombi.kind].marker.name].variants.map(function(pVariant){
                     return {
                         name: pId + KINDS[pCombi.kind].marker.name + pVariant.name + "-" + pCombi.color,

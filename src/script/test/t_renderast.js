@@ -48,6 +48,10 @@ describe('renderast', function() {
                 processAndCompare('./src/script/test/fixtures/rainbow.svg', //
                 './src/script/test/fixtures/rainbow.json', true);
             });
+            it('should render ids & urls', function() {
+                processAndCompare('./src/script/test/fixtures/idsnurls.svg', //
+                './src/script/test/fixtures/idsnurls.json', true);
+            });
             it('should wrap text in boxes well', function(){
                 processAndCompare('./src/script/test/fixtures/test19_multiline_lipsum.svg',//
                 './src/script/test/fixtures/test19_multiline_lipsum.json', true);
@@ -55,6 +59,10 @@ describe('renderast', function() {
             it('should render empty inline expressions correctly', function(){
                 processAndCompare('./src/script/test/fixtures/test20_empty_inline_expression.svg',//
                 './src/script/test/fixtures/test20_empty_inline_expression.json', true);
+            });
+            it('should render "alt" lines in inline expressions correctly', function(){
+                processAndCompare('./src/script/test/fixtures/test21_inline_expression_alt_lines.svg',//
+                './src/script/test/fixtures/test21_inline_expression_alt_lines.json', true);
             });
         });
     });

@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./idmanager"], function(C, id) {
+define(["./constants", "./idmanager", "../text/utensils"], function(C, id, _) {
     /**
      * Some SVG specific calculations & workarounds
      */
@@ -125,7 +125,7 @@ define(["./constants", "./idmanager"], function(C, id) {
     }
 
     function _calculateTextHeight(){
-        return _getBBox(createText("\u00C1jy\u00CE9\u0192@")).height;
+        return _getBBox(createText("\u00C1jy\u00CE9\u0192@")).height;// + C.LINE_WIDTH;
     }
     
     
@@ -165,7 +165,7 @@ define(["./constants", "./idmanager"], function(C, id) {
         /**
          * Returns the height in pixels necessary for rendering characters
          */
-        calculateTextHeight: _calculateTextHeight    
+        calculateTextHeight: _.memoize(_calculateTextHeight)
     };
 });
 /*

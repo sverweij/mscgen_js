@@ -5,7 +5,7 @@
   "dependencies": {
     "amdefine": "1.0.0",
     "btoa": "1.1.2",
-    "jsdom": "6.1.0",
+    "jsdom": "6.2.0",
     "requirejs": "2.1.20"
   },
   "devDependencies": {
@@ -17,7 +17,7 @@
     "mocha": "2.2.5",
     "node-localstorage": "0.5.2",
     "node-sass": "3.2.0",
-    "nsp": "1.0.3",
+    "nsp": "1.1.0",
     "pegjs": "0.8.0",
     "plato": "1.5.0"
   },

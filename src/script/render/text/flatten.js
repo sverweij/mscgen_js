@@ -53,7 +53,6 @@ function(transform, map, utl) {
      * assumes arc direction to be either LTR, both, or none
      * so arc.from exists.
      */
-
     function overrideColors(pArc, pEntities) {
         if (pArc && pArc.from) {
             var lMatchingEntities = pEntities.filter(function(pEntity){
@@ -65,7 +64,6 @@ function(transform, map, utl) {
         }
     }
 
-
     function calcNumberOfRows(pArcRow) {
         var lRetval = pArcRow.arcs.length;
         pArcRow.arcs.forEach(function(pArcRow) {
@@ -76,7 +74,7 @@ function(transform, map, utl) {
         return lRetval;
     }
 
-    function unwindArcRow(pArcRow, pAST, pFrom, pTo, pDepth) {
+    function unwindArcRow(pArcRow, pAST, pDepth, pFrom, pTo) {
         var lArcSpanningArc = {};
         if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
             lArcSpanningArc = utl.deepCopy(pArcRow[0]);
@@ -86,7 +84,7 @@ function(transform, map, utl) {
                 delete lArcSpanningArc.arcs;
                 pAST.arcs.push([lArcSpanningArc]);
                 pArcRow[0].arcs.forEach(function(pArcRow0) {
-                    unwindArcRow(pArcRow0, pAST, lArcSpanningArc.from, lArcSpanningArc.to, pDepth + 1);
+                    unwindArcRow(pArcRow0, pAST, pDepth + 1, lArcSpanningArc.from, lArcSpanningArc.to);
                     pArcRow0.forEach(function(pArc) {
                         overrideColorsFromThing(pArc, lArcSpanningArc);
                     });
@@ -128,7 +126,7 @@ function(transform, map, utl) {
 
         if (pAST && pAST.arcs) {
             pAST.arcs.forEach(function(pArcRow) {
-                unwindArcRow(pArcRow, lAST, undefined, undefined, 0);
+                unwindArcRow(pArcRow, lAST, 0);
             });
         }
         lAST.depth = gMaxDepth + 1;

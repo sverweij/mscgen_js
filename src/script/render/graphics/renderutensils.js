@@ -26,29 +26,30 @@ define([], function() {
         return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
     }
 
-    /* for one line labels add an end of line so it gets
-     * rendered above the arc in stead of directly on it.
-     * TODO: kludgy
-     */
-    function _oneLineLabelsFix(pLabel){
-        if (pLabel && (pLabel.indexOf('\\n') === -1)) {
-            return pLabel + "\\n";
-        } else {
-            return pLabel;
-        }
-    }
     /**
      * Sets the fill color of the passed pElement to the textcolor of
      * the given pArc
      *
      * @param <svgElement> pElement
-     * @param <object> pArc
+     * @param <string> pTextColor
      */
-    function _colorText(pElement, pArc) {
-        if (pArc.textcolor) {
-            pElement.setAttribute("style", "fill:" + pArc.textcolor + ";");
+    function _colorText(pElement, pTextColor) {
+        if (pTextColor) {
+            pElement.setAttribute("style", "fill:" + pTextColor + ";");
         }
     }
+    
+    /**
+     * Makes the text color blue if there is an url and no text color
+     * 
+     * @param <svgElement> pElement
+     * @param <string> pUrl
+     * @param <string> pTextColor
+     */ 
+     function _colorLink(pElement, pUrl, pTextColor){
+         _colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
+     }
+    
 
     /**
      * colorBox() - sets the fill and stroke color of the element to the
@@ -78,13 +79,22 @@ define([], function() {
         swap(pPair, "from", "to");
     }
     
+    
+    function _determineArcXTo(pKind, pFrom, pTo){
+        if ("-x" === pKind) {
+            return pFrom + (pTo - pFrom) * (3 / 4);
+        } else {
+            return pTo;
+        }
+    }
 
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
         determineDepthCorrection : _determineDepthCorrection,
-        oneLineLabelsFix: _oneLineLabelsFix,
         colorText: _colorText,
         colorBox: _colorBox,
-        swapfromto: _swapfromto
+        colorLink: _colorLink,
+        swapfromto: _swapfromto,
+        determineArcXTo: _determineArcXTo
     };
 });
