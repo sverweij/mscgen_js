@@ -60,6 +60,10 @@ describe('renderast', function() {
                 processAndCompare('./src/script/test/fixtures/test20_empty_inline_expression.svg',//
                 './src/script/test/fixtures/test20_empty_inline_expression.json', true);
             });
+            it('should render "alt" lines in inline expressions correctly', function(){
+                processAndCompare('./src/script/test/fixtures/test21_inline_expression_alt_lines.svg',//
+                './src/script/test/fixtures/test21_inline_expression_alt_lines.json', true);
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
