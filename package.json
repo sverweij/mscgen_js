@@ -12,11 +12,11 @@
     "codeclimate-test-reporter": "0.1.0",
     "codecov.io": "0.1.6",
     "csslint": "0.10.0",
-    "istanbul": "0.3.18",
+    "istanbul": "0.3.19",
     "jshint": "2.8.0",
     "mocha": "2.2.5",
     "node-localstorage": "0.5.2",
-    "node-sass": "3.2.0",
+    "node-sass": "3.3.2",
     "nsp": "1.1.0",
     "pegjs": "0.8.0",
     "plato": "1.5.0"
