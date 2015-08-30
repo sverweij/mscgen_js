@@ -5,7 +5,7 @@
   "dependencies": {
     "amdefine": "1.0.0",
     "btoa": "1.1.2",
-    "jsdom": "6.2.0",
+    "jsdom": "5.6.1",
     "requirejs": "2.1.20"
   },
   "devDependencies": {
