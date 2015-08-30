@@ -25,6 +25,22 @@ function(transform, map, utl, txt) {
             pEntity.label = pEntity.name;
         }
     }
+    
+    function unescapeLabels(pArcOrEntity){
+        if(!!pArcOrEntity.label) {
+            pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
+        }
+        if(!!pArcOrEntity.id){
+            pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
+        }
+    }
+    
+    /** 
+     * 
+     */
+    function emptyStringForNoLabel(pArc){
+        pArc.label = !!pArc.label ? pArc.label : "";
+    }
 
     function _swapRTLArc(pArc) {
         if (pArc.kind && (map.getNormalizedKind(pArc.kind) !== pArc.kind)) {
@@ -46,15 +62,6 @@ function(transform, map, utl, txt) {
         }
         if (!(pArc.textbgcolor) && pThing.arctextbgcolor) {
             pArc.textbgcolor = pThing.arctextbgcolor;
-        }
-    }
-    
-    function unescapeLabels(pArcOrEntity){
-        if(!!pArcOrEntity.label) {
-            pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
-        }
-        if(!!pArcOrEntity.id){
-            pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
         }
     }
 
@@ -225,7 +232,11 @@ function(transform, map, utl, txt) {
          * @return {ast}
          */
         flatten : function(pAST) {
-            return transform.transform(_unwind(pAST), [nameAsLabel, unescapeLabels], [_swapRTLArc, overrideColors, unescapeLabels]);
+            return transform.transform(
+                _unwind(pAST), 
+                [nameAsLabel, unescapeLabels], 
+                [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
+            );
         },
         /**
          * Simplifies an AST same as the @link {flatten} function, but without flattening the recursion
