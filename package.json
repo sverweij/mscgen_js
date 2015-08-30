@@ -5,7 +5,7 @@
   "dependencies": {
     "amdefine": "1.0.0",
     "btoa": "1.1.2",
-    "jsdom": "6.2.0",
+    "jsdom": "5.6.1",
     "requirejs": "2.1.20"
   },
   "devDependencies": {
@@ -18,7 +18,7 @@
     "node-localstorage": "0.5.2",
     "node-sass": "3.3.2",
     "nsp": "1.1.0",
-    "pegjs": "0.8.0",
+    "pegjs": "0.9.0",
     "plato": "1.5.0"
   },
   "scripts": {
@@ -44,7 +44,7 @@
     "msgenny"
   ],
   "engines": {
-    "iojs": "^2.5.0"
+    "iojs": "3.2.0"
   },
   "bugs": {
     "url": "https://github.com/sverweij/mscgen_js/issues"
