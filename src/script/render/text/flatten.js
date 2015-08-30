@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./dotmap", "./utensils"],
+define(["./asttransform", "./dotmap", "./utensils", "./textutensils"],
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, map, utl) {
+function(transform, map, utl, txt) {
     "use strict";
 
     var gMaxDepth = 0;
@@ -46,6 +46,15 @@ function(transform, map, utl) {
         }
         if (!(pArc.textbgcolor) && pThing.arctextbgcolor) {
             pArc.textbgcolor = pThing.arctextbgcolor;
+        }
+    }
+    
+    function unescapeLabels(pArcOrEntity){
+        if(!!pArcOrEntity.label) {
+            pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
+        }
+        if(!!pArcOrEntity.id){
+            pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
         }
     }
 
@@ -216,7 +225,7 @@ function(transform, map, utl) {
          * @return {ast}
          */
         flatten : function(pAST) {
-            return transform.transform(_unwind(pAST), [nameAsLabel], [_swapRTLArc, overrideColors]);
+            return transform.transform(_unwind(pAST), [nameAsLabel, unescapeLabels], [_swapRTLArc, overrideColors, unescapeLabels]);
         },
         /**
          * Simplifies an AST same as the @link {flatten} function, but without flattening the recursion

@@ -599,10 +599,6 @@ define(["./svgelementfactory",
 
         if (pArc.label) {
             var lMiddle = pStartX + (pWidth / 2);
-            pArc.label = txt.unescapeString(pArc.label);
-            if (pArc.id) {
-                pArc.id = txt.unescapeString(pArc.id);
-            }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
 
             if (lLines.length === 1) {
@@ -652,10 +648,6 @@ define(["./svgelementfactory",
 
         if (pArc.label) {
             var lMiddle = pStartX + (pWidth / 2);
-            pArc.label = txt.unescapeString(pArc.label);
-            if (pArc.id) {
-                pArc.id = txt.unescapeString(pArc.id);
-            }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
 
             var lNoLinesToAdd = lLines.length;
@@ -707,10 +699,6 @@ define(["./svgelementfactory",
 
         if (pArc.label) {
             var lMiddle = pStartX + (pWidth / 2);
-            pArc.label = txt.unescapeString(pArc.label);
-            if (pArc.id) {
-                pArc.id = txt.unescapeString(pArc.id);
-            }
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth, gChart.wordWrapArcs);
             
             var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + 1);
@@ -763,7 +751,6 @@ define(["./svgelementfactory",
 
         if (pArc.label) {
             var lMiddle = pStartX + (pWidth / 2);
-            pArc.label = txt.unescapeString(pArc.label);
             var lLines = txt.splitLabel(pArc.label, pArc.kind, pWidth);
 
             var lStartY = pStartY - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + 1);
