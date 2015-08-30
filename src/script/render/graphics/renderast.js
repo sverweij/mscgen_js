@@ -609,8 +609,8 @@ define(["./svgelementfactory",
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
 
             lStartX = (entities.getX(pArc.from) - (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) - lArcDepthCorrection;
-            lEndX = (entities.getX(pArc.to) + (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) + lArcDepthCorrection;
-            lClass = "striped";
+            lEndX   = (entities.getX(pArc.to)   + (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) + lArcDepthCorrection;
+            lClass  = "striped";
         }
         var lLine = fact.createLine({xFrom: lStartX, yFrom: 0, xTo: lEndX, yTo: 0}, lClass);
 
