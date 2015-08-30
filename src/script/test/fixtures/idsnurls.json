@@ -26,24 +26,33 @@
         "idurl": "idurl",
         "id": "id",
         "url": "url"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "b",
+        "label": "self-label",
+        "idurl": "self-idurl",
+        "id": "self-id",
+        "url": "self-url"
       }
     ],
     [
       {
         "kind": "|||",
         "label": "emtpy arc with a label",
+        "idurl": "emptyarcurllink",
         "id": "and an id",
-        "url": "emptyarclink",
-        "idurl": "emptyarcurllink"
+        "url": "emptyarclink"
       }
     ],
     [
       {
         "kind": "---",
         "label": "comment arc with a label",
+        "idurl": "commentarcurllink",
         "id": "and an id",
-        "url": "commentarclink",
-        "idurl": "commentarcurllink"
+        "url": "commentarclink"
       }
     ]
   ]
