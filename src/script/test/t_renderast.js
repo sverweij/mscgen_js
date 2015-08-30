@@ -40,10 +40,6 @@ describe('renderast', function() {
                 processAndCompare('./src/script/test/fixtures/astsimplenosource.svg', //
                 './src/script/test/fixtures/astsimple.json', false);
             });
-            it('should render all possible arcs', function() {
-                processAndCompare('./src/script/test/fixtures/test01_all_possible_arcs.svg', //
-                './src/script/test/fixtures/test01_all_possible_arcs.json', true);
-            });
             it('should render colors', function() {
                 processAndCompare('./src/script/test/fixtures/rainbow.svg', //
                 './src/script/test/fixtures/rainbow.json', true);
@@ -64,6 +60,10 @@ describe('renderast', function() {
                 processAndCompare('./src/script/test/fixtures/test21_inline_expression_alt_lines.svg',//
                 './src/script/test/fixtures/test21_inline_expression_alt_lines.json', true);
             });
+            it('should render all possible arcs', function() {
+                processAndCompare('./src/script/test/fixtures/test01_all_possible_arcs.svg', //
+                './src/script/test/fixtures/test01_all_possible_arcs.json', true);
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
@@ -83,7 +83,7 @@ describe('renderast', function() {
             });
         });
     });
-    it('dummy so mocha executest the tests wrapped in jsdom', function(){
+    it('dummy so mocha executes the tests wrapped in jsdom', function(){
         return true;
     });
 });
