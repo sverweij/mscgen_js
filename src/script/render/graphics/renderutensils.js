@@ -33,7 +33,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
      * @param <svgElement> pElement
      * @param <string> pTextColor
      */
-    function _colorText(pElement, pTextColor) {
+    function colorText(pElement, pTextColor) {
         if (pTextColor) {
             pElement.setAttribute("style", "fill:" + pTextColor + ";");
         }
@@ -46,8 +46,8 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
      * @param <string> pUrl
      * @param <string> pTextColor
      */ 
-     function _colorLink(pElement, pUrl, pTextColor){
-         _colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
+     function colorLink(pElement, pUrl, pTextColor){
+         colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
      }
     
 
@@ -78,7 +78,6 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
     function _swapfromto(pPair){
         swap(pPair, "from", "to");
     }
-    
     
     function _determineArcXTo(pKind, pFrom, pTo){
         if ("-x" === pKind) {
@@ -123,23 +122,12 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         }
         var lText = renderLabelText(pPosition, pLine, pMiddle, lY, lClass, pArc);
 
-        _colorText(lText, pArc.textcolor);
-        _colorLink(lText, pArc.url, pArc.textcolor);
+        colorText(lText, pArc.textcolor);
+        colorLink(lText, pArc.url, pArc.textcolor);
 
         return lText;
     }
-        
-    /**
-     * createLabel() - renders the text (label, id, url) for a given pArc
-     * with a bounding box starting at pStartX, pStartY and of a width of at
-     * most pWidth (all in pixels)
-     *
-     * @param <string> - pId - the unique identification of the textlabe (group) within the svg
-     * @param <objec> - pArc - the arc of which to render the text
-     * @param <number> - pStartX
-     * @param <number> - pStartY
-     * @param <number> - pWidth
-     */
+
     function _createLabel(pId, pArc, pDims, pOptions) {
         var lGroup = fact.createGroup(pId);
 
@@ -178,11 +166,19 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
         determineDepthCorrection : _determineDepthCorrection,
-        colorText: _colorText,
         colorBox: _colorBox,
-        colorLink: _colorLink,
         swapfromto: _swapfromto,
         determineArcXTo: _determineArcXTo,
+        /**
+         * createLabel() - renders the text (label, id, url) for a given pArc
+         * with a bounding box starting at pStartX, pStartY and of a width of at
+         * most pWidth (all in pixels)
+         *
+         * @param <string> - pId - the unique identification of the textlabe (group) within the svg
+         * @param <object> - pArc - the arc of which to render the text
+         * @param <object> - pDims - x and y to start on and a width
+         * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
+         */
         createLabel: _createLabel
     };
 });
