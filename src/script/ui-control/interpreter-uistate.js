@@ -180,12 +180,12 @@ function setSample(pURL) {
 }
 
 function handleRenderException (pException, pSource){
-    if (!!pException.line && !!pException.column) {
-        gErrorCoordinates.line = pException.line;
-        gErrorCoordinates.column = pException.column;
+    if (!!pException.location) {
+        gErrorCoordinates.line = pException.location.start.line;
+        gErrorCoordinates.column = pException.location.start.column;
         displayError(
-         "Line " + pException.line + ", column " + pException.column + ": " + pException.message,
-          ">>> " + pSource.split('\n')[pException.line - 1] + " <<<");
+         "Line " + pException.location.start.line + ", column " + pException.location.start.column + ": " + pException.message,
+          ">>> " + pSource.split('\n')[pException.location.start.line - 1] + " <<<");
     } else {
         gErrorCoordinates.line = 0;
         gErrorCoordinates.column = 0;

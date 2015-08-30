@@ -46,12 +46,16 @@ require(["parse/xuparser",
             if (lAST.entities) {
                 render(lAST, pElement.id, pElement.textContent, lLanguage);
             } else {
+                var lErrorIntro = !!lAST.location ? 
+                    "<pre><div style='color: red'># ERROR on line " + lAST.location.start.line + ", column " + lAST.location.start.column + " - " + lAST.message + "</div>" :
+                    "<pre><div style='color: red'># ERROR " + lAST.message + "</div>";
+                    
                 pElement.innerHTML = pElement.textContent.split('\n').reduce(function(pPrev, pLine, pIndex) {
-                    if (pIndex === (lAST.line - 1)) {
-                        return pPrev + "<mark>" + formatLine(underlineCol(pLine, lAST.column - 1), pIndex + 1) + '\n' + "</mark>";
+                    if (!!lAST.location && pIndex === (lAST.location.start.line - 1)) {
+                        return pPrev + "<mark>" + formatLine(underlineCol(pLine, lAST.location.start.column - 1), pIndex + 1) + '\n' + "</mark>";
                     }
                     return pPrev + formatLine(pLine, pIndex + 1) + '\n';
-                }, "<pre><div style='color: red'># ERROR on line " + lAST.line + ", column " + lAST.column + " - " + lAST.message + "</div>") + "</pre>";
+                }, lErrorIntro) + "</pre>";
             }
         }
     }
