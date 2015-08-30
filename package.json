@@ -18,7 +18,7 @@
     "node-localstorage": "0.5.2",
     "node-sass": "3.3.2",
     "nsp": "1.1.0",
-    "pegjs": "0.8.0",
+    "pegjs": "0.9.0",
     "plato": "1.5.0"
   },
   "scripts": {
