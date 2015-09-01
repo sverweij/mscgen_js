@@ -156,18 +156,20 @@ define(["./constants"], function(C) {
     // TODO: accept coords object i.o x, y
     function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         var lText = gDocument.createElementNS(C.SVGNS, "text");
-        lText.setAttribute("x", pX.toString());
-        lText.setAttribute("y", pY.toString());
+        if (!!pLabel && pLabel !== ""){
+            lText.setAttribute("x", pX.toString());
+            lText.setAttribute("y", pY.toString());
 
-        if (pClass) {
-            lText.setAttribute("class", pClass);
-        }
-        lText.appendChild(createTSpan(pLabel, pURL));
+            if (pClass) {
+                lText.setAttribute("class", pClass);
+            }
+            lText.appendChild(createTSpan(pLabel, pURL));
 
-        if (pID) {
-            var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
-            lTSpanID.setAttribute("style", lSuperscriptStyle);
-            lText.appendChild(lTSpanID);
+            if (pID) {
+                var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
+                lTSpanID.setAttribute("style", lSuperscriptStyle);
+                lText.appendChild(lTSpanID);
+            }
         }
         return lText;
     }
@@ -268,7 +270,7 @@ define(["./constants"], function(C) {
 
     function _createGroup(pId) {
         var lGroup = gDocument.createElementNS(C.SVGNS, "g");
-        if (pId) {
+        if (!!pId) {
           lGroup.setAttribute("id", pId);
         }
 

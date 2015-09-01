@@ -220,7 +220,6 @@ define(["./svgelementfactory",
         var lGroup = fact.createGroup(id.get(pEntity.name));
         var lTextLabel = 
             utl.createLabel(
-                id.get(pEntity.name) + "_txt",
                 pEntity,
                 {x:0, y:pBBox.height / 2, width:pBBox.width},
                 {underline: true}
@@ -321,10 +320,10 @@ define(["./svgelementfactory",
                             
                             /* creates a label on the current line, smack in the middle */
                             lElement = utl.createLabel(
-                                        lCurrentId + "_lbl",
                                         pArc,
-                                        {x: 0, y: 0 - (svgutl.calculateTextHeight() / 2) - C.LINE_WIDTH, width: gChart.arcEndX},
-                                        {alignAround: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs}    
+                                        {x: 0, y: 0, width: gChart.arcEndX},
+                                        {alignAround: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs},
+                                        lCurrentId + "_lbl"
                             ); 
                             lRowMemory.push({
                                 id : lCurrentId + "_lbl",
@@ -405,7 +404,6 @@ define(["./svgelementfactory",
         var lGroup = fact.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
         var lTextGroup = utl.createLabel(
-            pId + "_lbl",
             pArc,
             {x:lStart + C.LINE_WIDTH - (lMaxWidth / 2), y:gChart.arcRowHeight / 4, width:lMaxWidth}, 
             {alignLeft: true, ownBackground : false, wordWrapArcs: gChart.wordWrapArcs}
@@ -471,9 +469,10 @@ define(["./svgelementfactory",
         
         var lHeight = 2 * (gChart.arcRowHeight / 5);
         var lWidth = entities.getDims().interEntitySpacing / 2;
-
-        var lGroup = fact.createGroup();
+        var lRetval = {};
+        
         if (pDouble) {
+            lRetval = fact.createGroup();
             /* we need a middle turn to attach the arrow to */
             var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 4), lWidth - 4, "double");
             var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2), lWidth);
@@ -481,16 +480,15 @@ define(["./svgelementfactory",
             lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
             lMiddleTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom) + "stroke:transparent;");
             lOuterTurn.setAttribute("style", "stroke:" + pLineColor);
-            lGroup.appendChild(lInnerTurn);
-            lGroup.appendChild(lOuterTurn);
-            lGroup.appendChild(lMiddleTurn);
+            lRetval.appendChild(lInnerTurn);
+            lRetval.appendChild(lOuterTurn);
+            lRetval.appendChild(lMiddleTurn);
         } else {
-            var lUTurn = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth);
-            lUTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
-            lGroup.appendChild(lUTurn);
+            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth);
+            lRetval.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
         }
 
-        return lGroup;
+        return lRetval;
     }
 
     function renderEmptyArc(pArc, pId) {
@@ -539,7 +537,6 @@ define(["./svgelementfactory",
             var lTextWidth = 2*entities.getDims().interEntitySpacing/3;
             lGroup.appendChild(
                 utl.createLabel(
-                    pId + "_txt",
                     pArc, 
                     {x:pFrom + C.LINE_WIDTH + 2 - (lTextWidth/2), y:0 - (gChart.arcRowHeight / 5), width:lTextWidth}, 
                     {alignLeft: true, alignAbove: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs}
@@ -553,7 +550,6 @@ define(["./svgelementfactory",
             /* create a label centered on the arc */
             lGroup.appendChild(
                 utl.createLabel(
-                    pId + "_txt",
                     pArc,
                     {x: pFrom, y: 0, width: pTo - pFrom},
                     {alignAround: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs}
@@ -562,8 +558,6 @@ define(["./svgelementfactory",
         }
         return lGroup;
     }
-
-
 
     /**
      * createLifeLinesText() - creates centered text for the current (most
@@ -585,9 +579,10 @@ define(["./svgelementfactory",
         }
         lGroup.appendChild(
             utl.createLabel(
-                pId + "_lbl", pArc,
+                pArc,
                 {x:lArcStart, y:0, width:lArcEnd},
-                {ownBackground:true, wordWrapArcs: gChart.wordWrapArcs}
+                {ownBackground:true, wordWrapArcs: gChart.wordWrapArcs},
+                pId + "_lbl"
             )
         );
         return lGroup;
@@ -649,7 +644,7 @@ define(["./svgelementfactory",
         var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
-        var lTextGroup = utl.createLabel(pId + "_txt", pArc, {x:lStart, y:0, width:lWidth});
+        var lTextGroup = utl.createLabel(pArc, {x:lStart, y:0, width:lWidth});
         var lTextBBox = svgutl.getBBox(lTextGroup);
 
         var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);
