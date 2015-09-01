@@ -321,7 +321,7 @@ define(["./svgelementfactory",
                             /* creates a label on the current line, smack in the middle */
                             lElement = utl.createLabel(
                                         pArc,
-                                        {x: 0, y: 0 - (svgutl.calculateTextHeight() / 2) - C.LINE_WIDTH, width: gChart.arcEndX},
+                                        {x: 0, y: 0, width: gChart.arcEndX},
                                         {alignAround: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs},
                                         lCurrentId + "_lbl"
                             ); 
