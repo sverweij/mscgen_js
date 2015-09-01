@@ -128,7 +128,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         return lText;
     }
 
-    function _createLabel(pId, pArc, pDims, pOptions) {
+    function _createLabel(pArc, pDims, pOptions, pId) {
         var lGroup = fact.createGroup(pId);
 
         if (pArc.label) {
@@ -153,10 +153,12 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
             }            
             lLines.forEach(function(pLine, pLineNumber){
                 lText = createLabelLine(pLine, lMiddle, lStartY, pArc, pLineNumber, pOptions);
-                if (!!pOptions && pOptions.ownBackground){
-                    lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
+                if (pLine !== ""){
+                    if (!!pOptions && pOptions.ownBackground){
+                        lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
+                    }
+                    lGroup.appendChild(lText);
                 }
-                lGroup.appendChild(lText);
                 lStartY++;
             });
         }
