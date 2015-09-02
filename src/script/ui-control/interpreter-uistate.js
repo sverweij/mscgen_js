@@ -198,14 +198,21 @@ function render(pSource, pLanguage) {
     try {
         var lAST = getASTBare(pSource, pLanguage);
         if (gDebug) {
-            window.history.replaceState({},"", 
+            try {
+                window.history.replaceState({},"", 
                         xport.toLocationString(window.location, 
                             pSource, 
                             txt.correctLanguage(lAST.meta.extendedFeatures, 
                                 pLanguage
                             )
                         )
-            );
+                );
+            } catch (e) {
+                // on chrome window.history.replaceState barfs when
+                // the interpreter runs from a file:// instead of 
+                // from a server. This try/ catch is a crude way 
+                // to handle that without breaking the rest of the flow
+            }
         }
         msc_render.renderAST(lAST, pSource, "__svg", window);
         if (lAST.entities.length > 0) {
