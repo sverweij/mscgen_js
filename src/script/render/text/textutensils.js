@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap"],
+define(["./dotmap", "./utensils"],
 /**
  * A hodge podge of functions manipulating text
  *
  * @exports node/textutensils
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(map) {
+function(map, _) {
     "use strict";
 
     function _wrap(pText, pMaxLength) {
@@ -63,23 +63,19 @@ function(map) {
      *       uses the real width of the text under discourse
      *       (e.g. using its BBox; although I fear this
      *        to be expensive)
-     * @param {string} pText
+     * @param {string} pWidth - the amount to calculate the # characters
+     *        to fit in for
      * @param {number} pMaxLength
      * @return {array} - an array of strings
      */
-    function _determineMaxTextWidth(pWidth) {
+    var _determineMaxTextWidth = _.memoize (function (pWidth) {
         var lAbsWidth = Math.abs(pWidth);
-        var lMagicFactor = lAbsWidth / 8;
-
-        if (lAbsWidth > 160 && lAbsWidth <= 320) {
-            lMagicFactor = lAbsWidth / 6.4;
-        } else if (lAbsWidth > 320 && lAbsWidth <= 480) {
-            lMagicFactor = lAbsWidth / 5.9;
-        } else if (lAbsWidth > 480) {
-            lMagicFactor = lAbsWidth / 5.6;
-        }
-        return lMagicFactor;
-    }
+        
+        if (lAbsWidth > 160 && lAbsWidth <= 320) { return lAbsWidth / 6.4; } 
+        if (lAbsWidth > 320 && lAbsWidth <= 480) { return lAbsWidth / 5.9; }
+        if (lAbsWidth > 480) { return lAbsWidth / 5.6; }
+        return lAbsWidth / 8;
+    });
 
     function _splitLabel(pLabel, pKind, pWidth, pWordWrapArcs) {
         if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){

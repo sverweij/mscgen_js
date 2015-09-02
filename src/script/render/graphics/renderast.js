@@ -538,7 +538,7 @@ define(["./svgelementfactory",
             lGroup.appendChild(
                 utl.createLabel(
                     pArc, 
-                    {x:pFrom + C.LINE_WIDTH + 2 - (lTextWidth/2), y:0 - (gChart.arcRowHeight / 5), width:lTextWidth}, 
+                    {x:pFrom + 1.5*C.LINE_WIDTH - (lTextWidth/2), y:0 - (gChart.arcRowHeight / 5) - C.LINE_WIDTH/2, width:lTextWidth}, 
                     {alignLeft: true, alignAbove: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs}
                 )
             );
