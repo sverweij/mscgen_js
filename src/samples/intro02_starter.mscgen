@@ -1,0 +1,39 @@
+msc {
+  # options - separate with , end with ;
+  #
+  # arcgradient=20, # 
+  # hscale="0.8",
+  # width="600", 
+  # wordwraparcs=on,
+  # watermark="a watermark";
+
+  # entities
+  # 
+  # possible attributes
+  #   label
+  #   textcolor, textbgcolor, linecolor
+  #   arctextcolor, arctextbgcolor, arclinecolor
+  
+  cust [label="Customer"],
+  shop,
+  "delivery service",
+  bank;
+
+  # arcs
+  # attributes
+  # label, textcolor, textbgcolor, linecolor
+  # arcskip
+  # 
+  # arc types ->, =>, =>>, >>, -x, :>
+  # note, box, abox, rbox
+  
+  cust => shop [label="order(thing)"];
+  shop -> "delivery service" [label="deliver(thing)"];
+  "delivery service" =>> cust [label="thing"];
+  cust >> "delivery service" [label="OK"];
+  
+  "delivery service" => shop [label="delivered!"];
+  shop => cust [label="bill"];
+  cust => bank [label="pay(bill, shop)"];
+  bank => shop [label="€"];
+}
