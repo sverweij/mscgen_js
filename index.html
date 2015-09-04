@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?33d0c856ef8434bf"
+        <link rel="stylesheet" href="style/interp.css?d6ec5da51fd627b0"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?33d0c856ef8434bf"
-        src="lib/require.js?33d0c856ef8434bf" defer></script>
+        <script data-main="script/mscgen-interpreter.js?d6ec5da51fd627b0"
+        src="lib/require.js?d6ec5da51fd627b0" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,9 +94,9 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.98
-    build-date: 20150901 21:48
-    commit: 33d0c856ef8434bf">mscgen_js</h1>
+    version: 0.9.99
+    build-date: 20150904 21:17
+    commit: d6ec5da51fd627b0">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -115,9 +115,9 @@ mscgen_js
                 title="Show cheat sheet"><br><br>learn</span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.98</div>
-                <div><em>build-date:</em> 20150901 21:48</div>
-                <div><em>commit:</em> 33d0c856ef8434bf</div>
+                <div><em>version:</em> 0.9.99</div>
+                <div><em>build-date:</em> 20150904 21:17</div>
+                <div><em>commit:</em> d6ec5da51fd627b0</div>
             </div>
         </header>
         <article>
@@ -136,34 +136,46 @@ loads the most recently saved chart from local storage"></button>
                 <span>
                     <select title="list of samples" id="__samples">
                         <option value="none" selected>select an example...</option>
-                        <option value="samples/test15_simple_starter.msgenny">simple starter (Genny)</option>
-                        <option value="samples/test14_cheat_sheet.msgenny">cheat sheet (Genny)</option>
-                        <option value="samples/readme.mscin">showing off Mscgen</option>
-                        <option value="samples/test04_bob_alice.mscin">sample: PKI</option>
-                        <option value="samples/test05_sip_(from_wikipedia).mscin">sample: SIP</option>
-                        <option value="samples/test06_intermediate_proxy_(from_wikipedia).mscin">sample: SIP proxy</option>
-                        <option value="samples/test08_smtp.mscin">sample: SMTP</option>
-                        <option value="samples/test12_how_mscgen_js_works.mscin">sample: mscgen_js</option>
-                        <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">sample: ACME Challenge</option>
-                        <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">sample: ACME Auth</option>
-                        <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">sample: ACME Cert</option>
-                        <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">sample: ACME Revoke</option>
-                        <option class="debug" style="display: none" value="samples/smoketest.mscin">test: smoke test</option>
-                        <option value="samples/test01_all_possible_arcs.mscin">test: all arcs</option>
-                        <option value="samples/test02_some_coloring.mscin">test: colors</option>
-                        <option class="debug" style="display: none" value="samples/test50_expansions.xu">xù: inline expressions</option>
-                        <option class="debug" style="display: none" value="samples/rainbow.mscin">test: rainbow</option>
-                        <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">test: multiline zoomed</option>
-                        <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">test: multilines in boxes</option>
-                        <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">test: multiline broadcasts</option>
-                        <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
-                        <option value="samples/test19_multiline_lipsum.mscin">test: multiline autowrap</option>
-                        <option value="samples/test11_autodeclaration.msgenny">MsGenny: auto entities</option>
-                        <option value="samples/3rdparty/test20_quoteless_attributes.mscin">test: quoteless attributes</option>
-                        <option value="samples/test21_unicode.mscin">test: 信息序圖</option>
-                        <option value="samples/test09_arcskip_over_there.mscin">weird: skipping arcs</option>
-                        <option value="samples/test42_strangeuse.mscin">weird: scheduling</option>
-                        <option value="samples/test43_flag.mscin">weird: flag</option>
+                        <optgroup label="introductory">
+                            <option value="samples/intro01_simple_starter.msgenny">simple (msgenny)</option>
+                            <option value="samples/intro02_starter.mscgen">start (mscgen)</option>
+                            <option value="samples/intro03_cheat_sheet.msgenny">cheating (msgenny)</option>
+                        </optgroup>
+                        <optgroup label="samples">
+                            <option value="samples/sample01_bob_alice.mscin">PKI</option>
+                            <option value="samples/3rdparty/fbauth.xu">Facebook auth</option>
+                            <option value="samples/sample03_sip_(from_wikipedia).mscin">SIP</option>
+                            <option value="samples/sample04_intermediate_proxy_(from_wikipedia).mscin">SIP proxy</option>
+                            <option value="samples/sample05_smtp.mscin">SMTP</option>
+                            <option value="samples/3rdparty/acme-processing-01-challenge.msgenny">ACME Challenge</option>
+                            <option value="samples/3rdparty/acme-processing-02-authorization.msgenny">ACME Auth</option>
+                            <option value="samples/3rdparty/acme-processing-03-certificate.msgenny">ACME Cert</option>
+                            <option value="samples/3rdparty/acme-processing-04-revocation.msgenny">ACME Revoke</option>
+                            <option value="samples/sample10_how_mscgen_js_works.mscin">mscgen_js</option>
+                        </optgroup>
+                        <optgroup label="tests">
+                            <option class="debug" style="display: none" value="samples/test11_autodeclaration.msgenny">auto entities</option>
+                            <option value="samples/test01_all_possible_arcs.mscin">all arcs in mscgen</option>
+                            <option value="samples/test01_all_possible_arcs.xu">all arcs in xù</option>
+                            <option value="samples/test02_some_coloring.mscin">colors</option>
+                            <option class="debug" style="display: none" value="samples/test50_expansions.xu">inline expressions</option>
+                            <option class="debug" style="display: none" value="samples/rainbow.mscin">rainbow</option>
+                            <option class="debug" style="display: none" value="samples/test16_multiline_in_detail.mscin">multiline zoomed</option>
+                            <option class="debug" style="display: none" value="samples/test17_multiline_in_boxes.msgenny">multilines in boxes</option>
+                            <option class="debug" style="display: none" value="samples/test18_multiline_broadcasts.msgenny">multiline broadcasts</option>
+                            <option class="debug" style="display: none" value="samples/test23_all_signal_variants.msgenny">signals!</option>
+                            <option class="debug" style="display: none" value="samples/test19_multiline_lipsum.mscin">multiline autowrap</option>
+                            <option value="samples/3rdparty/test20_quoteless_attributes.mscin">quoteless attributes</option>
+                            <option value="samples/test21_unicode_colored.mscin">unicode 信息序圖</option>
+                            <option value="samples/readme.mscin">readme sample</option>
+                            <option value="samples/test24_pile_of_poo_test.mscin">pile of poo test</option>
+                        </optgroup>
+                        <optgroup label="weird">
+                            <option value="samples/test09_arcskip_over_there.mscin">skipping arcs</option>
+                            <option value="samples/test42_strangeuse.mscin">scheduling</option>
+                            <option value="samples/test43_flag.mscin">flag</option>
+                            <option value="samples/test44_anotherabuse.mscgen">pushing it</option>
+                        </optgroup>
                     </select>
                 </span>
             </div>
