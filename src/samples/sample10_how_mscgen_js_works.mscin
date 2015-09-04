@@ -5,7 +5,7 @@
   color scheme in the interpreter
 */
 msc {
-  hscale="0.7";
+  hscale="0.7", wordwraparcs=1;
 
   you       [linecolor="#008800", textbgcolor="#CCFFCC", arclinecolor="#008800"],
   controler [linecolor="#FF0000", textbgcolor="#FFCCCC", arclinecolor="#FF0000"],

@@ -1,11 +1,11 @@
 msc {
   # options - separate with , end with ;
   #
-  # arcgradient=20, # 
-  # hscale="0.8",
-  # width="600", 
-  # wordwraparcs=on,
-  # watermark="a watermark";
+  # arcgradient=20, # slopes the arcs. 
+  # hscale="0.8", # horizontally squeezes or stretches the chart
+  # width="600", # maximum width of the chart (pixels)
+  # watermark="a watermark", # adds a watermark (xù only!)
+  wordwraparcs=on; # automatically wrap labels on arcs. Default: off
 
   # entities
   # 
@@ -20,13 +20,16 @@ msc {
   bank;
 
   # arcs
-  # attributes
-  # label, textcolor, textbgcolor, linecolor
-  # arcskip
+  #
+  # attributes: 
+  #   label, textcolor, textbgcolor, linecolor
+  #   arcskip
   # 
-  # arc types ->, =>, =>>, >>, -x, :>
-  # note, box, abox, rbox
-  
+  # arc types: ->, =>, =>>, >>, -x, :>
+  #            note, box, abox, rbox
+  # xù only  : alt, else, opt, break, critical,
+  #            neg, strict, seq, assert, exc
+  #            ref, consider, ignore, loop, par
   cust => shop [label="order(thing)"];
   shop -> "delivery service" [label="deliver(thing)"];
   "delivery service" =>> cust [label="thing"];
