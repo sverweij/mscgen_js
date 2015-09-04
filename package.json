@@ -14,7 +14,7 @@
     "csslint": "0.10.0",
     "istanbul": "0.3.19",
     "jshint": "2.8.0",
-    "mocha": "2.2.5",
+    "mocha": "2.3.0",
     "node-localstorage": "0.5.2",
     "node-sass": "3.3.2",
     "nsp": "1.1.0",
