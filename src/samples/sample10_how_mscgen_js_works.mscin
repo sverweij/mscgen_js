@@ -1,4 +1,9 @@
-# how mscgen_js works internally, roughly
+/*  
+  how mscgen_js works internally, roughly
+ 
+  The Colors were added by applying the 'Automatic' 
+  color scheme in the interpreter
+*/
 msc {
   hscale="0.7";
 

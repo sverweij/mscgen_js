@@ -1,6 +1,6 @@
 # test 16: multi line in close up
 msc {
-  width="800", wordwraparcs=on;
+  width="600", wordwraparcs=on;
   # entities
   a [label="two\nlinejg", textbgcolor="yellow"],b;
 

@@ -58,7 +58,7 @@ function(map, _) {
      * Determine the number characters that fit within pWidth amount
      * of pixels.
      *
-     * Uses heuristics that work for 9pt Helvetica in svg's.
+     * Uses heuristics that work for 9pt/12px Helvetica in svg's.
      * TODO: make more generic, or use an algorithm that
      *       uses the real width of the text under discourse
      *       (e.g. using its BBox; although I fear this
@@ -71,11 +71,11 @@ function(map, _) {
     var _determineMaxTextWidth = _.memoize (function (pWidth) {
         var lAbsWidth = Math.abs(pWidth);
         
-        if (lAbsWidth > 160 && lAbsWidth <= 320) { return lAbsWidth / 6.4; } 
-        if (lAbsWidth > 320 && lAbsWidth <= 480) { return lAbsWidth / 5.9; }
-        if (lAbsWidth > 480) { return lAbsWidth / 5.6; }
-        return lAbsWidth / 8;
-    });
+        if (lAbsWidth <= 160) { return lAbsWidth / 8; } 
+        if (lAbsWidth <= 320) { return lAbsWidth / 6.4; } 
+        if (lAbsWidth <= 480) { return lAbsWidth / 5.9; }
+        return lAbsWidth / 5.6;
+    }) ;
 
     function _splitLabel(pLabel, pKind, pWidth, pWordWrapArcs) {
         if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){

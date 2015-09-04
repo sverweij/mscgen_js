@@ -1,4 +1,4 @@
-# test14: cheat sheet
+# intro 03: cheat sheet
 
 a -> b   : a -> b  (signal);
 a => b   : a => b  (method);
