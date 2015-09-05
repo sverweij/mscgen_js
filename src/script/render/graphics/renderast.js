@@ -474,9 +474,9 @@ define(["./svgelementfactory",
         if (pDouble) {
             lRetval = fact.createGroup();
             /* we need a middle turn to attach the arrow to */
-            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2*C.LINE_WIDTH), lWidth - 2*C.LINE_WIDTH, pKind === "::"? null: "double");
+            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2*C.LINE_WIDTH), lWidth - 2*C.LINE_WIDTH, pKind !== "::");
             var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - C.LINE_WIDTH), lWidth);
-            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, pKind === "::"? null: "double");
+            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, pKind !== "::");
             lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
             lMiddleTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom) + "stroke:transparent;");
             lOuterTurn.setAttribute("style", "stroke:" + pLineColor);
@@ -484,7 +484,7 @@ define(["./svgelementfactory",
             lRetval.appendChild(lOuterTurn);
             lRetval.appendChild(lMiddleTurn);
         } else {
-            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth, (pKind === "-x"? "double": null));
+            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth, pKind === "-x");
             lRetval.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
         }
 

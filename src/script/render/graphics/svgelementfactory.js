@@ -253,8 +253,8 @@ define(["./constants"], function(C) {
     }
 
     // TODO: accept coords (or even a bbox?)
-    function _createUTurn(pPoint, pEndY, pWidth, pClass) {
-        var lEndX = (!!pClass && "double" === pClass) ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
+    function _createUTurn(pPoint, pEndY, pWidth, pDontHitHome) {
+        var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
         
         // point to start from:
         var lPathString = "M" + pPoint.x.toString() + ", -" + pPoint.y.toString();
@@ -265,7 +265,7 @@ define(["./constants"], function(C) {
         // curve end-pont:
         lPathString += " " + lEndX.toString() + "," + pEndY.toString();
         
-        return _createPath(lPathString, pClass);
+        return _createPath(lPathString);
     }
 
     function _createGroup(pId) {
