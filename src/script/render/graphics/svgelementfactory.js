@@ -98,8 +98,8 @@ define(["./constants"], function(C) {
         return _createPath(lPathString, pClass);
     }
 
-    function _createNote(pBBox, pClass, pFoldSize) {
-        var lFoldSizeN = pFoldSize ? pFoldSize : 9;
+    function _createNote(pBBox, pClass) {
+        var lFoldSizeN = Math.min(4.5*C.LINE_WIDTH, pBBox.height/2);
         var lFoldSize = lFoldSizeN.toString(10);
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
 
@@ -207,7 +207,7 @@ define(["./constants"], function(C) {
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass !== "nodi"){
-            lRetval = pLine.xTo > pLine.xFrom ? -15 : 15;
+            lRetval = pLine.xTo > pLine.xFrom ? -7.5*C.LINE_WIDTH : 7.5*C.LINE_WIDTH;
         }
         return lRetval;
     }
@@ -215,13 +215,13 @@ define(["./constants"], function(C) {
     function determineStartCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass !== "nodi"){
-            lRetval = (pClass === "bidi") ? (pLine.xTo > pLine.xFrom ? 15 : -15) : 0;
+            lRetval = (pClass === "bidi") ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
         }
         return lRetval;
     }
     
     function createDoubleLine(pLine, pClass) {
-        var lSpace = 2;
+        var lSpace = C.LINE_WIDTH;
         
         var lDir = determineDirection(pLine);
         var lEndCorr = determineEndCorrection(pLine, pClass);
@@ -232,13 +232,13 @@ define(["./constants"], function(C) {
         var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
         var lLine = " l" + lLenX + "," + lLenY;
 
-        var lPathString = "M" + pLine.xFrom.toString() + "," + (pLine.yFrom + -15*lDir.dy).toString();
+        var lPathString = "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5*C.LINE_WIDTH*lDir.dy).toString();
         lPathString += lStubble; // left stubble
         lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString();
         lPathString += lLine; // upper line
         lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString();
         lPathString += lLine; // lower line
-        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 15*lDir.dy).toString();
+        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5*C.LINE_WIDTH*lDir.dy).toString();
         lPathString += lStubble; // right stubble
 
         return _createPath(lPathString, pClass);
@@ -254,12 +254,12 @@ define(["./constants"], function(C) {
 
     // TODO: accept coords (or even a bbox?)
     function _createUTurn(pPoint, pEndY, pWidth, pClass) {
-        var lEndX = (!!pClass && "double" === pClass) ? pPoint.x + 15 : pPoint.x;
+        var lEndX = (!!pClass && "double" === pClass) ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
         
         // point to start from:
         var lPathString = "M" + pPoint.x.toString() + ", -" + pPoint.y.toString();
         // curve first to:
-        lPathString += " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y-15).toString();
+        lPathString += " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y-7.5*C.LINE_WIDTH).toString();
         // curve back from.:
         lPathString += " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString();
         // curve end-pont:
