@@ -484,7 +484,7 @@ define(["./svgelementfactory",
             lRetval.appendChild(lOuterTurn);
             lRetval.appendChild(lMiddleTurn);
         } else {
-            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth);
+            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth, (pKind === "-x"? "double": null));
             lRetval.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
         }
 
