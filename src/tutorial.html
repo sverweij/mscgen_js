@@ -536,7 +536,8 @@ a =>> b   : a =>> b (callback),
 b <<=>> c : b <<=>> c,
 d =>> d   : d =>> d;
 
-a -x b   : a -x b  (lost);
+a -x b   : a -x b  (lost),
+d -x d   : d -x d;
 
 b note b : b note b \n(note),
 c box c  : c box c\n(action);
