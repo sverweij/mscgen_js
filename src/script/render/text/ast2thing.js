@@ -149,9 +149,8 @@ define(["./textutensils"], function(utl) {
     }
 
     function renderEntity(pEntity) {
-        var lRetVal = gConfig.renderEntityNamefn(pEntity.name);
-        lRetVal += renderAttributes(pEntity, gConfig.supportedEntityAttributes);
-        return lRetVal;
+        return gConfig.renderEntityNamefn(pEntity.name) +
+               renderAttributes(pEntity, gConfig.supportedEntityAttributes);
     }
 
     function renderEntities(pEntities) {

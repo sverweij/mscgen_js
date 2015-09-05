@@ -474,9 +474,9 @@ define(["./svgelementfactory",
         if (pDouble) {
             lRetval = fact.createGroup();
             /* we need a middle turn to attach the arrow to */
-            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 4), lWidth - 4, "double");
-            var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2), lWidth);
-            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, "double");
+            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2*C.LINE_WIDTH), lWidth - 2*C.LINE_WIDTH, pKind !== "::");
+            var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - C.LINE_WIDTH), lWidth);
+            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, pKind !== "::");
             lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
             lMiddleTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom) + "stroke:transparent;");
             lOuterTurn.setAttribute("style", "stroke:" + pLineColor);
@@ -484,7 +484,7 @@ define(["./svgelementfactory",
             lRetval.appendChild(lOuterTurn);
             lRetval.appendChild(lMiddleTurn);
         } else {
-            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth);
+            lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth, pKind === "-x");
             lRetval.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
         }
 
@@ -636,7 +636,6 @@ define(["./svgelementfactory",
             utl.swapfromto(pOAndD);
         }
         var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH);
-        var NOTE_FOLD_SIZE = 9;
         // px
         var RBOX_CORNER_RADIUS = 6;
         // px
@@ -662,7 +661,7 @@ define(["./svgelementfactory",
                 lBox = fact.createABox(lBBox, "box");
                 break;
             case ("note") :
-                lBox = fact.createNote(lBBox, "box", NOTE_FOLD_SIZE);
+                lBox = fact.createNote(lBBox, "box");
                 break;
             default :
                 var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * C.LINE_WIDTH;
