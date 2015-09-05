@@ -99,7 +99,7 @@ define(["./constants"], function(C) {
     }
 
     function _createNote(pBBox, pClass) {
-        var lFoldSizeN = Math.min(4.5*C.LINE_WIDTH, pBBox.height/2);
+        var lFoldSizeN = Math.max(9,Math.min(4.5*C.LINE_WIDTH, pBBox.height/2));
         var lFoldSize = lFoldSizeN.toString(10);
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
 
