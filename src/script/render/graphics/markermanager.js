@@ -118,7 +118,7 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
         },  
         "lost" : { 
             "variants" : [ 
-                {name : "",  path : "M6.5,-0.5 L11.5,5.5 M6.5,5.5 L11.5,-0.5"}
+                {name : "",  path : "M7,0 L12,6 M7,6 L12,0"}
             ]   
         }   
     };
