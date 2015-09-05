@@ -58,19 +58,23 @@ function(flatten, txt, map, utl) {
         lString += lStringAry.slice(-1);
         return lString;
     }
-
+    
+    function renderAttribute(pAttr, pString){
+        return pString + "=\"" + renderString(pAttr) + "\"";
+    }
+    
     function pushAttribute(pArray, pAttr, pString) {
-        if (pAttr) {
-            pArray.push(pString + "=\"" + renderString(pAttr) + "\"");
+        if (!!pAttr) {
+            pArray.push(renderAttribute(pAttr, pString));
         }
     }
 
     function translateAttributes(pThing) {
-        var lAttrs = [];
-        ["label", "color", "fontcolor", "fillcolor"].forEach(function(pSupportedAttr) {
-            pushAttribute(lAttrs, pThing[pSupportedAttr], pSupportedAttr);
+        return ["label", "color", "fontcolor", "fillcolor"].filter(function(pSupportedAttr){
+            return !!pThing[pSupportedAttr];
+        }).map (function(pSupportedAttr) {
+            return renderAttribute(pThing[pSupportedAttr], pSupportedAttr);
         });
-        return lAttrs;
     }
 
     function renderAttributeBlock(pAttrs) {
@@ -90,10 +94,8 @@ function(flatten, txt, map, utl) {
     }
 
     function renderEntity(pEntity) {
-        var lRetVal = "";
-        lRetVal += renderEntityName(pEntity.name);
-        lRetVal += renderAttributeBlock(translateAttributes(pEntity));
-        return lRetVal;
+        return renderEntityName(pEntity.name) + 
+               renderAttributeBlock(translateAttributes(pEntity));
     }
 
     function renderEntities(pEntities) {
@@ -103,11 +105,11 @@ function(flatten, txt, map, utl) {
     }
 
     /* ArcLine handling */
-    function counterizeArc(pArc, pCounter) {
-        if (pArc.label) {
-            pArc.label = "(" + pCounter + ") " + pArc.label;
+    function counterizeLabel(pLabel, pCounter) {
+        if (pLabel) {
+            return "(" + pCounter + ") " + pLabel;
         } else {
-            pArc.label = "(" + pCounter + ")";
+            return "(" + pCounter + ")";
         }
     }
 
@@ -133,7 +135,7 @@ function(flatten, txt, map, utl) {
 
     function renderRegularArc(pArc, pAggregatedKind, pCounter) {
         var lRetVal = "";
-        counterizeArc(pArc, pCounter);
+        pArc.label = counterizeLabel(pArc.label, pCounter);
         var lAttrs = translateAttributes(pArc);
 
         pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
@@ -194,15 +196,13 @@ function(flatten, txt, map, utl) {
         return lRetVal;
 
     }
-
+    
     function renderArcLines(pArcLines, pIndent) {
-        var lRetVal = "";
-        pArcLines.forEach(function(pArcLine){
-            pArcLine.forEach(function(pArc){
-                lRetVal += renderArc(pArc, pIndent);
-            });
-        });
-        return lRetVal;
+        return pArcLines.reduce(function(pPrevArcLine, pNextArcLine){
+            return pPrevArcLine + pNextArcLine.reduce(function(pPrevArc, pNextArc){
+                return pPrevArc + renderArc(pNextArc, pIndent);
+            }, "");
+        },"");
     }
 
     return {
