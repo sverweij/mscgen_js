@@ -474,9 +474,9 @@ define(["./svgelementfactory",
         if (pDouble) {
             lRetval = fact.createGroup();
             /* we need a middle turn to attach the arrow to */
-            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2*C.LINE_WIDTH), lWidth - 2*C.LINE_WIDTH, "double");
+            var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2*C.LINE_WIDTH), lWidth - 2*C.LINE_WIDTH, pKind === "::"? null: "double");
             var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - C.LINE_WIDTH), lWidth);
-            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, "double");
+            var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, pKind === "::"? null: "double");
             lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
             lMiddleTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom) + "stroke:transparent;");
             lOuterTurn.setAttribute("style", "stroke:" + pLineColor);
