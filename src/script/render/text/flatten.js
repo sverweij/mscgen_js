@@ -79,15 +79,10 @@ function(transform, map, utl, txt) {
             }
         }
     }
-
     function calcNumberOfRows(pArcRow) {
-        var lRetval = pArcRow.arcs.length;
-        pArcRow.arcs.forEach(function(pArcRow) {
-            if (pArcRow[0].arcs) {
-                lRetval += calcNumberOfRows(pArcRow[0]) + 1;
-            }
-        });
-        return lRetval;
+        return pArcRow.arcs.reduce(function(pSum, pArcRow){
+            return pSum + (!!pArcRow[0].arcs ? calcNumberOfRows(pArcRow[0]) + 1 : 0);
+        }, pArcRow.arcs.length);
     }
 
     function unwindArcRow(pArcRow, pAST, pDepth, pFrom, pTo) {
@@ -150,17 +145,14 @@ function(transform, map, utl, txt) {
     }
 
     function explodeBroadcastArc(pEntities, pArc) {
-        var lRetVal = [];
-        pEntities.forEach(function(pEntity) {
-            if (pArc.from !== pEntity.name) {
-                pArc.to = pEntity.name;
-                lRetVal.push(utl.deepCopy(pArc));
-            }
-
+        return pEntities.filter(function(pEntity){
+            return pArc.from !== pEntity.name;
+        }).map(function(pEntity) {
+            pArc.to = pEntity.name;
+            return utl.deepCopy(pArc);
         });
-        return lRetVal;
     }
-
+    
     function _explodeBroadcasts(pAST) {
         if (pAST.entities && pAST.arcs) {
             var lExplodedArcsAry = [];

@@ -105,10 +105,10 @@ define(["./textutensils"], function(utl) {
     }
 
     function extractSupportedOptions(pOptions, pSupportedOptions) {
-        return pSupportedOptions.map(function(pSupportedOption){
+        return pSupportedOptions.filter(function(pSupportedOption){
+            return !!pOptions[pSupportedOption];
+        }).map(function(pSupportedOption){
             return {name: pSupportedOption, value: pOptions[pSupportedOption]};
-        }).filter(function(pPair){
-            return !!pPair.value;
         });
     }
 

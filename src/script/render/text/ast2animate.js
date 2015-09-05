@@ -203,17 +203,13 @@ define(["./utensils"], function(utl) {
     function _calculateLength(pThing) {
         var lRetval = 1; /* separate frame for entities */
         if (pThing.arcs) {
-            lRetval += pThing.arcs.reduce(function(pPrevious, pCurrent){
+            lRetval = pThing.arcs.reduce(function(pSum, pArcRow){
                 /*
                  * inner itself counts for two arcs (one extra for
                  * drawing the bottom), but for one frame)
                  */
-                if (pCurrent[0].arcs){
-                    return pPrevious + _calculateLength(pCurrent[0]);
-                } else {
-                    return pPrevious + pCurrent.length;
-                }
-            },0);
+                return pSum + (!!pArcRow[0].arcs ? _calculateLength(pArcRow[0]) : pArcRow.length);
+            },lRetval);
         }
         return lRetval;
     }
@@ -224,12 +220,9 @@ define(["./utensils"], function(utl) {
     function _calcNumberOfRows(pThing) {
         var lRetval = 0;
         if (pThing.arcs){
-            pThing.arcs.forEach(function(pArcRow) {
-                lRetval += 1;
-                if (pArcRow[0].arcs) {
-                    lRetval += _calcNumberOfRows(pArcRow[0]) + 1;
-                }
-            });
+            lRetval = pThing.arcs.reduce(function(pSum, pArcRow){
+                return pSum + (!!pArcRow[0].arcs ? _calcNumberOfRows(pArcRow[0]) + 2 : 1);
+            }, lRetval);
         }
         return lRetval;
     }
