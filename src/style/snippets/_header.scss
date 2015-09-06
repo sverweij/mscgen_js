@@ -31,17 +31,17 @@ header a {
   text-decoration: none;
   color: inherit;
 }
-nav a.icon:hover {
+nav a.underline-on-hover:hover {
   text-decoration: underline;
 }
-nav a.icon:active {
+nav a.underline-on-hover:active {
   text-decoration: underline;
 }
-nav span.icon:hover {
+nav span.underline-on-hover:hover {
   cursor: pointer;
   text-decoration: underline;
 }
-nav span.icon:active {
+nav span.underline-on-hover:active {
   text-decoration: underline;
 }
 nav .icon {
@@ -56,17 +56,9 @@ nav .icon {
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
 }
-nav .embed {
-  background-image: url('../images/embed.svg');
-}
-nav .question {
-  background-image: url('../images/question.svg');
-}
-nav .interpreter {
-  background-image: url('../images/interpreter.svg');
-}
-nav .about {
-  background-image: url('../images/about.svg');
+nav .nav-icon {
+    cursor: pointer;
+    font-size: 2.2em;
 }
 nav .active {
   text-decoration: underline;

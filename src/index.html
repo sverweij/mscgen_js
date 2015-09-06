@@ -101,18 +101,22 @@ mscgen_js
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
             <nav>
-                <span id="__about"
-                class="about icon"
-                title="">
-                <br><br>about</span>
-                <span class="interpreter icon hideonmobile active"
-                title="Interpreter. It's where you are now."><br><br>interpret</span>
-                <span id="__embedme"
-                class="embed icon hideonmicro"
-                title="embed mscgen in your html"><br><br>embed</span>
-                <span id="__helpme"
-                class="question icon"
-                title="Show cheat sheet"><br><br>learn</span>
+                <span id="__about" class="icon" title="">
+                    <span class="icon-xu nav-icon"></span>
+                    <span class="underline-on-hover">about</span>
+                </span>
+                <span class="icon hideonmobile" title="Interpreter. It's where you are now.">
+                    <span class="icon-interpreter nav-icon"></span>
+                    <span class="active">interpret</span>
+                </span>
+                <span id="__embedme" class="icon hideonmicro" title="embed mscgen in your html">
+                    <span class="icon-embed nav-icon"></span>
+                    <span class="underline-on-hover">embed</span>
+                </span>
+                <span id="__helpme" class="question icon" title="Show cheat sheet">
+                    <span class="icon-question nav-icon"></span>
+                    <span class="underline-on-hover">learn</span>
+                </span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
                 <div><em>version:</em> {{version}}</div>
@@ -359,9 +363,9 @@ Note: !! removes comments and reformats your source!!">B&amp;W = remove all colo
                 <div id="__animcontrolswrapper" style="display:none">
                     <nav>
                         <button id="__btn_anim_home" class="icon-first" title="go to first frame"></button>
-                        <button id="__btn_anim_dec" class="icon-previous2" title="one step back"></button>
-                        <button id="__btn_anim_playpause" class="icon-play3" title="play/ pause"></button>
-                        <button id="__btn_anim_inc" class="icon-next2" title="one step forward"></button>
+                        <button id="__btn_anim_dec" class="icon-previous" title="one step back"></button>
+                        <button id="__btn_anim_playpause" class="icon-play" title="play/ pause"></button>
+                        <button id="__btn_anim_inc" class="icon-next" title="one step forward"></button>
                         <button id="__btn_anim_end" class="icon-last" title="go to last frame"></button>
                         <div role="progressbar" id="__anim_progress_percentage_wrapper">
                             <div id="__anim_progress_percentage"></div>

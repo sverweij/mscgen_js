@@ -5,8 +5,8 @@ define(["../render/graphics/renderast", "../render/text/ast2animate", "../utl/ga
 function(msc_render, ast2animate, gaga, dq) {
     "use strict";
 
-    var ICON_PLAY            = "icon-play3";
-    var ICON_PAUSE           = "icon-pause2";
+    var ICON_PLAY            = "icon-play";
+    var ICON_PAUSE           = "icon-pause";
     var gPlaying             = false;
     var gTimer               = {};
     var gInitializationTimer = {};
