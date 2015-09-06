@@ -201,9 +201,9 @@ src/style/doc.css: src/style/doc.scss \
 
 src/index.html: src/style/interp.css $(SOURCES_WEB) $(FONT_SOURCES)
 
-src/embed.html: src/style/doc.css
+src/embed.html: src/style/doc.css $(FONT_SOURCES)
 
-src/tutorial.html: src/style/doc.css
+src/tutorial.html: src/style/doc.css $(FONT_SOURCES)
 
 # file targets prod
 $(BUILDDIR)/index.html: $(PRODDIRS) \
