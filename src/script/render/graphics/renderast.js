@@ -209,7 +209,7 @@ define(["./svgelementfactory",
      */
      function getMaxEntityHeight(pEntities){
          var lHighestEntity = pEntities[0];
-         var lHWM = 1;
+         var lHWM = 2;
          pEntities.forEach(function(pEntity){
              var lNoEntityLines = utl.getNoEntityLines(pEntity.label, entities.getDims().width);
              if (lNoEntityLines > lHWM){
