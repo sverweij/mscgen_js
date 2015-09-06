@@ -55,10 +55,10 @@ nav .icon {
   text-align: center;
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
+  cursor: pointer;
 }
 nav .nav-icon {
-    cursor: pointer;
-    font-size: 2.2em;
+  font-size: 2.2em;
 }
 nav .active {
   text-decoration: underline;
