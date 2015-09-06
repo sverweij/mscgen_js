@@ -181,6 +181,10 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
          * @param <object> - pDims - x and y to start on and a width
          * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
          */
-        createLabel: _createLabel
+        createLabel: _createLabel,
+        
+        getNoEntityLines : function(pLabel, pWidth){
+            return txt.splitLabel(pLabel, "box", pWidth).length;
+        }
     };
 });

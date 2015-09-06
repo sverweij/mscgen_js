@@ -198,23 +198,34 @@ define(["./svgelementfactory",
 /* ----------------------START entity shizzle-------------------------------- */
     /**
      * getMaxEntityHeight() -
-     * crude method for determining the max entity height; create all entities,
-     * measure the max, and than re-render using the max thus gotten
+     * crude method for determining the max entity height; 
+     * - take the entity with the most number of lines
+     * - if that number > 2 (default entity hight easily fits 2 lines of text) 
+     *   - render that entity 
+     *   - return the height of its bbox
      *
      * @param <object> - pEntities - the entities subtree of the AST
      * @return <int> - height - the height of the heighest entity
      */
-    function getMaxEntityHeight(pEntities) {
-        var lHWM = entities.getDims().height;
-        var lHeight = 0;
-        pEntities.forEach(function(pEntity){
-            lHeight = svgutl.getBBox(renderEntity(pEntity, entities.getDims())).height;
-            if (lHeight > lHWM) {
-                lHWM = lHeight;
-            }
-        });
-        return lHWM;
-    }
+     function getMaxEntityHeight(pEntities){
+         var lHighestEntity = pEntities[0];
+         var lHWM = 2;
+         pEntities.forEach(function(pEntity){
+             var lNoEntityLines = utl.getNoEntityLines(pEntity.label, entities.getDims().width);
+             if (lNoEntityLines > lHWM){
+                 lHWM = lNoEntityLines;
+                 lHighestEntity = pEntity;
+             }
+         });
+         if (lHWM > 2){
+             return Math.max(entities.getDims().height, 
+                             svgutl.getBBox(
+                                 renderEntity(lHighestEntity, entities.getDims())
+                             ).height
+             );
+         }
+         return entities.getDims().height;
+     }
 
     function renderEntity(pEntity, pBBox) {
         var lGroup = fact.createGroup(id.get(pEntity.name));

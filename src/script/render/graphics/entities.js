@@ -70,7 +70,7 @@ define([], function() {
         getOAndD: getOAndD,
         
         setHeight: setHeight,
-        getDims: getDims,
+        getDims: getDims
     };
 });
 /*

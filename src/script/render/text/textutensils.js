@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap", "./utensils"],
+define(["./dotmap"],
 /**
  * A hodge podge of functions manipulating text
  *
  * @exports node/textutensils
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(map, _) {
+function(map) {
     "use strict";
 
     function _wrap(pText, pMaxLength) {
@@ -68,14 +68,14 @@ function(map, _) {
      * @param {number} pMaxLength
      * @return {array} - an array of strings
      */
-    var _determineMaxTextWidth = _.memoize (function (pWidth) {
+    function _determineMaxTextWidth (pWidth) {
         var lAbsWidth = Math.abs(pWidth);
         
         if (lAbsWidth <= 160) { return lAbsWidth / 8; } 
         if (lAbsWidth <= 320) { return lAbsWidth / 6.4; } 
         if (lAbsWidth <= 480) { return lAbsWidth / 5.9; }
         return lAbsWidth / 5.6;
-    }) ;
+    }
 
     function _splitLabel(pLabel, pKind, pWidth, pWordWrapArcs) {
         if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){
