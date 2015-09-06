@@ -43,9 +43,6 @@
 .content textarea {
     max-width: 98%;
 }
-.popup span {
-  padding-left: .5em;
-}
 .popup .close {
   background-color: transparent;
   color: inherit;
@@ -54,7 +51,7 @@
   margin-top: -.3em;
   margin-right: -.3em;
   // padding-right:0.5em;
-  // padding-left:0.5em;
+  padding-left:0.5em;
 }
 .popup .close:hover {
   box-shadow: none;
@@ -75,6 +72,12 @@
 }
 .popup img.aboutpic {
   width: 4em;
+}
+.popup .about-box-icon {
+    cursor: default;
+    color: white;
+    text-shadow: black 0px 0px 4px;
+    font-size: 4em;
 }
 div.lightbox {
   display: none;
