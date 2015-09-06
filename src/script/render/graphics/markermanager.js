@@ -159,7 +159,7 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
     }
     
     function makeKindColorCombi (pKind, pColor) {
-        return  map.getNormalizedKind(pKind) + 
+        return  KINDS[map.getNormalizedKind(pKind)].marker.name + 
                 ((!!pColor ) ? " " + pColor : " black");
     }
     
@@ -173,8 +173,8 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
         if (!!pArc.arcs){
             pArc.arcs.forEach(_extractKindColorCombis);
         }
-        if(!!pArc.kind && !!KINDS[pArc.kind] &&
-            makeKindColorCombi(pArc.kind, pArc.linecolor) && 
+        if(!!pArc.kind && !!KINDS[map.getNormalizedKind(pArc.kind)] &&
+            !!(KINDS[map.getNormalizedKind(pArc.kind)].marker) &&
             pKindColorCombis.indexOf(makeKindColorCombi(pArc.kind, pArc.linecolor)) < 0){
             pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
         }
@@ -200,20 +200,17 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
         return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
     }
 
-    function onlyWithMarkers(pCombi){
-        return !!(KINDS[pCombi.kind].marker);
-    }
     return {
         getLineStyle: _getLineStyle,
 
         getMarkerDefs : function (pId, pAST) {
-            return _.flatten(extractKindColorCombis(pAST).filter(onlyWithMarkers).map(function(pCombi){
-                return MARKERPATHS[KINDS[pCombi.kind].marker.name].variants.map(function(pVariant){
+            return _.flatten(extractKindColorCombis(pAST).map(function(pCombi){
+                return MARKERPATHS[pCombi.kind].variants.map(function(pVariant){
                     return {
-                        name: pId + KINDS[pCombi.kind].marker.name + pVariant.name + "-" + pCombi.color,
+                        name: pId + pCombi.kind + pVariant.name + "-" + pCombi.color,
                         path: pVariant.path,
                         color: pCombi.color,
-                        type: KINDS[pCombi.kind].marker.name
+                        type: pCombi.kind
                     };
                 });
             }));
