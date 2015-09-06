@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?db138e0254b4f523"
+        <link rel="stylesheet" href="style/interp.css?0a380f9ed57f85d3"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?db138e0254b4f523"
-        src="lib/require.js?db138e0254b4f523" defer></script>
+        <script data-main="script/mscgen-interpreter.js?0a380f9ed57f85d3"
+        src="lib/require.js?0a380f9ed57f85d3" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,30 +94,34 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 0.9.100
-    build-date: 20150905 14:12
-    commit: db138e0254b4f523">mscgen_js</h1>
+    version: 0.9.101
+    build-date: 20150906 16:49
+    commit: 0a380f9ed57f85d3">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
             <nav>
-                <span id="__about"
-                class="about icon"
-                title="">
-                <br><br>about</span>
-                <span class="interpreter icon hideonmobile active"
-                title="Interpreter. It's where you are now."><br><br>interpret</span>
-                <span id="__embedme"
-                class="embed icon hideonmicro"
-                title="embed mscgen in your html"><br><br>embed</span>
-                <span id="__helpme"
-                class="question icon"
-                title="Show cheat sheet"><br><br>learn</span>
+                <span id="__about" class="icon" title="">
+                    <span class="icon-xu nav-icon"></span>
+                    <span class="underline-on-hover">about</span>
+                </span>
+                <span class="icon hideonmobile" title="Interpreter. It's where you are now.">
+                    <span class="icon-interpreter nav-icon"></span>
+                    <span class="active">interpret</span>
+                </span>
+                <span id="__embedme" class="icon hideonmicro" title="embed mscgen in your html">
+                    <span class="icon-embed nav-icon"></span>
+                    <span class="underline-on-hover">embed</span>
+                </span>
+                <span id="__helpme" class="question icon" title="Show cheat sheet">
+                    <span class="icon-question nav-icon"></span>
+                    <span class="underline-on-hover">learn</span>
+                </span>
             </nav>            
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 0.9.100</div>
-                <div><em>build-date:</em> 20150905 14:12</div>
-                <div><em>commit:</em> db138e0254b4f523</div>
+                <div><em>version:</em> 0.9.101</div>
+                <div><em>build-date:</em> 20150906 16:49</div>
+                <div><em>commit:</em> 0a380f9ed57f85d3</div>
             </div>
         </header>
         <article>
@@ -359,9 +363,9 @@ Note: !! removes comments and reformats your source!!">B&amp;W = remove all colo
                 <div id="__animcontrolswrapper" style="display:none">
                     <nav>
                         <button id="__btn_anim_home" class="icon-first" title="go to first frame"></button>
-                        <button id="__btn_anim_dec" class="icon-previous2" title="one step back"></button>
-                        <button id="__btn_anim_playpause" class="icon-play3" title="play/ pause"></button>
-                        <button id="__btn_anim_inc" class="icon-next2" title="one step forward"></button>
+                        <button id="__btn_anim_dec" class="icon-previous" title="one step back"></button>
+                        <button id="__btn_anim_playpause" class="icon-play" title="play/ pause"></button>
+                        <button id="__btn_anim_inc" class="icon-next" title="one step forward"></button>
                         <button id="__btn_anim_end" class="icon-last" title="go to last frame"></button>
                         <div role="progressbar" id="__anim_progress_percentage_wrapper">
                             <div id="__anim_progress_percentage"></div>
