@@ -91,18 +91,23 @@ function initializeUI(pCodeMirror) {
 }
 
 function onInputChanged (pBigChange) {
-    if (pBigChange){ 
-        /* probably a drag/ drop, paste operation or sample replacement
-         * can be rendered without buffering
-         */
-        onBufferTimeout(); 
+    if ("" === getSource()){
+        /* no need to render no input */
+        preRenderReset();
     } else {
-        /* probably editing by typing in the editor - buffer for 
-         * a few ms
-         */
-        if (gAutoRender) {
-            window.clearTimeout(gBufferTimer);
-            gBufferTimer = window.setTimeout(onBufferTimeout, BUFFER_TIMEOUT);
+        if (pBigChange){ 
+            /* probably a drag/ drop, paste operation or sample replacement
+             * can be rendered without buffering
+             */
+            onBufferTimeout(); 
+        } else {
+            /* probably editing by typing in the editor - buffer for 
+             * a few ms
+             */
+            if (gAutoRender) {
+                window.clearTimeout(gBufferTimer);
+                gBufferTimer = window.setTimeout(onBufferTimeout, BUFFER_TIMEOUT);
+            }
         }
     }
 }
