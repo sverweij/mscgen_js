@@ -1,5 +1,5 @@
 .popupsheet {
-  z-index: 1;
+  z-index: 268;
   position: absolute;
   top: 5.3em;
   right: 0;
@@ -123,7 +123,5 @@ div.lightbox a.close::before {
   }
 }
 @media screen and (max-width: 800px) {
-  .popupsheet {
-    z-index: 3;
-  }
+
 }
