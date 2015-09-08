@@ -4,11 +4,38 @@ the sources in [ui-control/](.).
 
 ## Rendering in real time
 When we built the first version of the on line interpreter we parsed and
-rendered the chart at each key-up. It turned out the javascript
-was more than fast enough to keep up, so we kept this approach.
+rendered the chart at each key-up. The javascript was more than fast
+enough to keep up for 'reasonably sized' scripts, so we kept this approach.
 
+### 'reasonably sized' is relative
+In version 0.9.103 we changed the key-up => render approach: 
+- Customers switched off 'auto render' sometimes. 
+- Some of our own - very reasonable - scripts became 'unreasonably sized'.
+
+The interpreter now politely waits until you pause your typing for more 
+than 500ms:
+- It sets a timeout to ~500ms on each key-up. 
+- When the timeout expires it renders the chart.
+- To prevent unnecessary renders, each key-up cancels the current 
+  timeout before setting a new one.
+
+For bigger sized scripts the interpreter feels a lot faster than the
+render-per-keystroke approach.
+ 
+### why 500ms?
+- It is close to the average typing speed (see 
+  [wikipedia](https://en.wikipedia.org/wiki/Words_per_minute)).
+- Longer timeouts felt too slow.
+- Shorter timeouts have less of an effect, although still noticeable.
+
+> We experimented with 10ms timeouts with the relatively big
+[test01_all_possible_arcs](../../samples/test01_all_possible_arcs.mscin). 
+It surprised us this was already a very noticeable improvement over the 
+render-per-keystroke approach.
+
+### pre-rending rastergrahpics? Nope
 In our enthusiasm we also started pre-rendering the raster graphics
-versions, but that turned out to be too slow (data below), so
+versions. That turned out to be too slow (data below), so
 these are now generated when you actually click the button.
 
 Our findings from that experiment:

@@ -2,7 +2,7 @@
 /* global define */
 define(["./interpreter-uistate",
         "../../lib/codemirror/lib/codemirror",
-        "../utl/maps", "../utl/gaga",
+        "../utl/maps", "../utl/gaga", "../render/text/utensils",
         "../../lib/codemirror/addon/edit/closebrackets",
         "../../lib/codemirror/addon/edit/matchbrackets",
         "../../lib/codemirror/addon/display/placeholder",
@@ -23,6 +23,7 @@ define(["./interpreter-uistate",
         gCodeMirror = codemirror.fromTextArea(pElement, {
             lineNumbers       : true,
             autoCloseBrackets : true,
+            autofocus         : true,
             matchBrackets     : true,
             styleActiveLine   : true,
             theme             : "blackboard",
@@ -30,12 +31,25 @@ define(["./interpreter-uistate",
             placeholder       : "Type your text. Or drag a file to this area....",
             lineWrapping      : false
         });
-    }    
+    }
+    
+    function summedLength (pArray){
+        return pArray.reduce(
+            function(pSum, pCur){
+                return pSum + pCur.length;
+            }, 
+            0
+        );
+    }
+    
+    function isBigChange(pChange){
+        return Math.max(summedLength(pChange.text), summedLength(pChange.removed)) > 1;
+    }
     
     function setupEditorEvents(){
       gCodeMirror.on ("change",
-          function() {
-              uistate.msc_inputKeyup();
+          function(pUnused, pChange) {
+              uistate.onInputChanged(isBigChange(pChange));
               if (gGaKeyCount > 17) {
                   gGaKeyCount = 0;
                   gaga.g('send', 'event', '17 characters typed', uistate.getLanguage());
@@ -50,7 +64,7 @@ define(["./interpreter-uistate",
                * otherwise do default handling for drop events (whatever it is)
                */
               if (pEvent.dataTransfer.files.length > 0) {
-                  uistate.setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name));
+                  uistate.setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name), false);
                   uistate.setSource("");
                   gaga.g('send', 'event', 'drop', uistate.getLanguage());
               }
