@@ -9,7 +9,7 @@
     "requirejs": "2.1.20"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "0.1.0",
+    "codeclimate-test-reporter": "0.1.1",
     "codecov.io": "0.1.6",
     "csslint": "0.10.0",
     "istanbul": "0.3.19",
