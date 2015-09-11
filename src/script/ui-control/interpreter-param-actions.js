@@ -2,7 +2,7 @@
 /* global define */
 define(["./interpreter-uistate",
         "../utl/paramslikker",
-        "../utl/domquery",
+        "../utl/domutl",
         "../utl/gaga",
         "../render/text/textutensils"
         ],

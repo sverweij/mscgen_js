@@ -3,7 +3,7 @@
 define(["./interpreter-uistate",
         "./controller-animator",
         "./controller-exporter",
-        "../utl/domquery",
+        "../utl/domutl",
         "../utl/gaga"
         ],
         function(

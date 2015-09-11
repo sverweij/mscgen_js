@@ -75,7 +75,7 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/ui-control/controller-raster-exporter.js \
 	src/script/ui-control/store.js \
 	src/script/utl/gaga.js \
-	src/script/utl/domquery.js \
+	src/script/utl/domutl.js \
 	src/script/mscgen-interpreter.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \

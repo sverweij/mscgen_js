@@ -42,7 +42,7 @@ msc {
 define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
         "../render/text/ast2msgenny", "../render/text/ast2xu",
         "../utl/gaga", "../utl/maps",
-        "../utl/domquery",
+        "../utl/domutl",
         "./controller-exporter"
         ],
         function(mscparser, msgennyparser, msc_render,
