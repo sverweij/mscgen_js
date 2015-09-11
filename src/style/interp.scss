@@ -1,5 +1,6 @@
 @import "./snippets/fonts";
-@import "../lib/codemirror/codemirror";
+@import "../lib/codemirror/lib/codemirror";
+@import "../lib/codemirror/addon/dialog/dialog";
 @import "../lib/codemirror/theme/blackboard";
 @import "./snippets/_generics";
 @import "./snippets/_header";
