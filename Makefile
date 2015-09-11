@@ -43,9 +43,12 @@ REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
 PRODDIRS=$(BUILDDIR) \
 		 $(REMOVABLEPRODDIRS)
 LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
+	src/lib/codemirror/addon/dialog/dialog.js \
+	src/lib/codemirror/addon/display/placeholder.js \
 	src/lib/codemirror/addon/edit/closebrackets.js \
 	src/lib/codemirror/addon/edit/matchbrackets.js \
-	src/lib/codemirror/addon/display/placeholder.js \
+	src/lib/codemirror/addon/search/search.js \
+	src/lib/codemirror/addon/search/searchcursor.js \
 	src/lib/codemirror/addon/selection/active-line.js \
 	src/lib/codemirror/mode/mscgen/mscgen.js \
 	src/lib/codemirror/mode/javascript/javascript.js \
@@ -177,7 +180,8 @@ $(PRODDIRS):
 # file targets dev
 
 src/style/interp.css: src/style/interp.scss \
-	src/lib/codemirror/_codemirror.scss \
+	src/lib/codemirror/lib/_codemirror.scss \
+	src/lib/codemirror/addon/dialog/_dialog.scss \
 	src/lib/codemirror/theme/_blackboard.scss \
 	src/style/snippets/_interpreter.scss \
 	src/style/snippets/_anim.scss \
