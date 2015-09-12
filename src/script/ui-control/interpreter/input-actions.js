@@ -1,9 +1,9 @@
 /* jshint browser:true */
 /* global define */
-define(["./interpreter-uistate",
-        "./store",
+define(["./uistate",
+        "../utl/store",
         "../utl/gaga",
-        "../render/text/colorize"
+        "../../render/text/colorize"
         ],
         function(
             uistate,

@@ -1,9 +1,9 @@
 /* global define */
 /* jshint browser:true */
-define(["./interpreter-uistate",
-        "./controller-animator",
-        "./controller-exporter",
-        "./controller-raster-exporter",
+define(["./uistate",
+        "./animator",
+        "../utl/exporter",
+        "./raster-exporter",
         "../utl/domutl",
         "../utl/gaga"
         ],

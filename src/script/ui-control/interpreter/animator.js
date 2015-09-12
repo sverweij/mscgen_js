@@ -1,7 +1,7 @@
 /* jshint browser:true */
 /* global define */
 
-define(["../render/graphics/renderast", "../render/text/ast2animate", "../utl/gaga", "../utl/domutl"],
+define(["../../render/graphics/renderast", "../../render/text/ast2animate", "../utl/gaga", "../utl/domutl"],
 function(msc_render, ast2animate, gaga, dq) {
     "use strict";
 

@@ -1,10 +1,10 @@
 /* jshint browser:true */
 /* global define */
-define(["./interpreter-uistate",
+define(["./uistate",
         "../utl/paramslikker",
         "../utl/domutl",
         "../utl/gaga",
-        "../render/text/textutensils"
+        "../../render/text/textutensils"
         ],
         function(
             uistate,

@@ -39,11 +39,11 @@ msc {
 /* jshint unused:true */
 /* global define */
 
-define(["../parse/xuparser", "../parse/msgennyparser", "../render/graphics/renderast",
-        "../render/text/ast2msgenny", "../render/text/ast2xu",
+define(["../../parse/xuparser", "../../parse/msgennyparser", "../../render/graphics/renderast",
+        "../../render/text/ast2msgenny", "../../render/text/ast2xu",
         "../utl/gaga", "../utl/maps",
         "../utl/domutl",
-        "./controller-exporter"
+        "../utl/exporter"
         ],
         function(mscparser, msgennyparser, msc_render,
             tomsgenny, tomscgen,

@@ -7,10 +7,10 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../render/text/ast2dot",
-        "../render/text/ast2mscgen",
-        "../render/text/ast2doxygen",
-        "../utl/paramslikker",
+define(["../../render/text/ast2dot",
+        "../../render/text/ast2mscgen",
+        "../../render/text/ast2doxygen",
+        "./paramslikker",
         ],
         function(ast2dot, ast2mscgen, ast2doxygen, par) {
     "use strict";

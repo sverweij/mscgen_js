@@ -39,7 +39,7 @@ To **translate** between the three sequence chart languages it supports and to
 **generate** and **manipulate** other languages.
 
 ### Raster graphics?
-:page_with_curl: code in [ui-control/controller-exporter.js](ui-control/controller-exporter.js)
+:page_with_curl: code in [ui-control/utl/exporter.js](ui-control/utl/exporter.js)
 
 You might have noticed the [interpreter](https://sverweij.github.io/mscgen_js)
 also renders to jpeg and png. It's so simple we've put the few lines of
@@ -55,14 +55,14 @@ The controller for embedding is actually very simple. Details on how it works
 and what design choices we made you can find [here](embedding-controller.md).
 
 ### Interactive interpreter
-:page_with_curl: code in [ui-control/](ui-control)
+:page_with_curl: code in [ui-control/interpreter](ui-control/interpreter)
 
 The controller for the interpreter UI is less trivial.
 
 ## Testing
 :page_with_curl: code in [test/](test)
 
-About 250 automated tests (and counting) make sure refactoring most of
+About 265 automated tests (and counting) make sure refactoring most of
 the back end code (parsing and rendering) can be done safely.
 
 The ui controller tests are inherently harder to test automated. This

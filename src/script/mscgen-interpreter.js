@@ -1,10 +1,10 @@
 /* jshint browser:true */
 /* global require */
-require(["ui-control/interpreter-input-actions",
-        "ui-control/interpreter-output-actions",
-        "ui-control/interpreter-nav-actions",
-        "ui-control/interpreter-param-actions",
-        "ui-control/interpreter-editor-events"
+require(["ui-control/interpreter/input-actions",
+        "ui-control/interpreter/output-actions",
+        "ui-control/interpreter/nav-actions",
+        "ui-control/interpreter/param-actions",
+        "ui-control/interpreter/editor-events"
         ],
         function(
             iactions,

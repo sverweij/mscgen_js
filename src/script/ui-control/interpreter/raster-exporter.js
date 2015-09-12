@@ -1,9 +1,9 @@
 /* jshint nonstandard:true */
 /* global canvg, define */
 
-define(["../../lib/canvg/canvg",
-        "../../lib/canvg/StackBlur",
-        "../../lib/canvg/rgbcolor"
+define(["../../../lib/canvg/canvg",
+        "../../../lib/canvg/StackBlur",
+        "../../../lib/canvg/rgbcolor"
         ],
         function() {
     "use strict";

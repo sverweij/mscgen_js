@@ -1,5 +1,5 @@
 /* jshint nonstandard: true */
-var par = require("../utl/paramslikker");
+var par = require("../ui-control/utl/paramslikker");
 var utl = require("./testutensils");
 
 describe('textutensils', function() {

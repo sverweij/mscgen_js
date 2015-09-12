@@ -1,5 +1,5 @@
 /* global localStorage */
-var store = require("../ui-control/store");
+var store = require("../ui-control/utl/store");
 var assert = require("assert");
 
 describe('store', function() {

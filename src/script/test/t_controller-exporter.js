@@ -1,6 +1,6 @@
 /* jshint unused: false */
 var assert = require("assert");
-var xport = require("../ui-control/controller-exporter");
+var xport = require("../ui-control/utl/exporter");
 
 var gAST = {
   "meta": {
@@ -41,7 +41,7 @@ var gAST = {
 var gSVG = '<svg>just a dummy thing</svg>';
 var gMsc = 'msc{a[label="💩"],b[label="序"],c [label="💩"]; a => b[label="things"], c => b;}';
 
-describe('controller-exporter', function(){
+describe('exporter', function(){
     describe('#toVectorURI', function(){
         it('Should render an URI encoded svg', function(){
             var lWindow = {
