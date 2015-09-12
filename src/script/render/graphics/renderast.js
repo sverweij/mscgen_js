@@ -489,14 +489,19 @@ define(["./svgelementfactory",
             var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - C.LINE_WIDTH), lWidth);
             var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, pKind !== "::");
             lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
-            lMiddleTurn.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom) + "stroke:transparent;");
+            mark.getAttributes(id.get(), pKind, pLineColor, pFrom, pFrom).forEach(function(pAttribute){
+                lMiddleTurn.setAttribute(pAttribute.name, pAttribute.value);
+            });
+            lMiddleTurn.setAttribute("style", "stroke:transparent;");
             lOuterTurn.setAttribute("style", "stroke:" + pLineColor);
             lRetval.appendChild(lInnerTurn);
             lRetval.appendChild(lOuterTurn);
             lRetval.appendChild(lMiddleTurn);
         } else {
             lRetval = fact.createUTurn({x:pFrom, y:lHeight / 2}, (pYTo + lHeight), lWidth, pKind === "-x");
-            lRetval.setAttribute("style", mark.getLineStyle(id.get(), pKind, pLineColor, pFrom, pFrom));
+            mark.getAttributes(id.get(), pKind, pLineColor, pFrom, pFrom).forEach(function(pAttribute){
+                lRetval.setAttribute(pAttribute.name, pAttribute.value);
+            });
         }
 
         return lRetval;
@@ -555,7 +560,9 @@ define(["./svgelementfactory",
             );
         } else {
             var lLine = fact.createLine({xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient}, lClass, lDoubleLine);
-            lLine.setAttribute("style", mark.getLineStyle(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo));
+            mark.getAttributes(id.get(), pArc.kind, pArc.linecolor, pFrom, pTo).forEach(function(pAttribute){
+                lLine.setAttribute(pAttribute.name, pAttribute.value);
+            });
             lGroup.appendChild(lLine);
             
             /* create a label centered on the arc */

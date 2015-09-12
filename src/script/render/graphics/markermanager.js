@@ -12,26 +12,40 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
 
     var KINDS = {
         "->"    : {
-            style: "marker-end:url(#{{id}}{{signal-marker-end}}-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}}"},
+                { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"}
+            ],
             marker : {
                 name : "signal",
             }
         },
         "<->"   : {
-            style: "marker-end:url(#{{id}}{{signal-marker-end}}-{{color}});marker-start:url(#{{id}}{{signal-marker-start}}-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}}"},
+                { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"},
+                { name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})"}
+            ],
             marker : {
                 name : "signal",
             }
         },
         "=>>"   : {
-            style: "marker-end:url(#{{id}}callback-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}}"},
+                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
+            ],
             marker: {
                 name : "callback",
                 end : ""
             }
         },
         "<<=>>" : {
-            style: "marker-end:url(#{{id}}callback-{{color}});marker-start:url(#{{id}}callback-l-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}}"},
+                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
+                { name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
+            ],
             marker: {
                 name : "callback",
                 end : "",
@@ -39,14 +53,21 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
             }
         },
         ">>"    : {
-            style: "stroke-dasharray:5,2;marker-end:url(#{{id}}callback-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}};stroke-dasharray:5,2;"},
+                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
+            ],
             marker: {
                 name : "callback",
                 end : ""
             }
         },
         "<<>>"  : {
-            style: "stroke-dasharray:5,2;marker-end:url(#{{id}}callback-{{color}});marker-start:url(#{{id}}callback-l-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}};stroke-dasharray:5,2;"},
+                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
+                { name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
+            ],
             marker: {
                 name : "callback",
                 end : "",
@@ -54,32 +75,63 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
             }
         },
         ".."    : {
-            style: "stroke-dasharray:5,2;"
+            attributes : [
+                { name: "style", value: "stroke:{{color}};stroke-dasharray:5,2;"}
+            ]
+        },
+        "--"    : {
+            attributes : [
+                { name: "style", value: "stroke:{{color}};"}
+            ]
+        },
+        "=="    : {
+            attributes : [
+                { name: "style", value: "stroke:{{color}};"}
+            ]
+        },
+        "::"    : {
+            attributes : [
+                { name: "style", value: "stroke:{{color}};"}
+            ]
         },
         "=>"    : {
-            style: "marker-end:url(#{{id}}method-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}}"},
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}, 
+            ],
             marker: {
                 name : "method",
                 end : "",
             }
         },
         "<=>"   : {
-            style: "marker-end:url(#{{id}}method-{{color}});marker-start:url(#{{id}}method-l-{{color}});",
-            marker: {
-                name : "method",
-                end : "",
-                start : "-l"
-            }
+            attributes : [
+                { name: "style", value: "stroke:{{color}}"},
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
+                { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
+             ],
+             marker: {
+                 name : "method",
+                 end : "",
+                 start : "-l"
+             }
         },
         ":>"    : {
-            style: "marker-end:url(#{{id}}method-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke:{{color}};"},
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}, 
+            ],
             marker: {
                 name : "method",
                 end : "",
             }
         },
         "<:>"   : {
-            style: "marker-end:url(#{{id}}method-{{color}});marker-start:url(#{{id}}method-l-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke: {{color}}"},
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
+                { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
+            ],
             marker: {
                 name : "method",
                 end : "",
@@ -87,7 +139,10 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
             }
         },
         "-x"    : {
-            style: "marker-end:url(#{{id}}lost-{{color}});",
+            attributes : [
+                { name: "style", value: "stroke: {{color}}"},
+                { name: "marker-end", value: "url(#{{id}}lost-{{color}})"}, 
+            ],
             marker: {
                 name : "lost",
                 end : "",
@@ -98,27 +153,36 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
     var MARKERPATHS = { 
         "signal" : { 
             "variants" : [ 
-                {name : "",   path : "M 9 3 l -8 2"},
-                {name : "-u",  path : "M 9 3 l -8 -2"},
-                {name : "-l",  path : "M 9 3 l 8 2"},
-                {name : "-lu", path : "M 9 3 l 8 -2"}
+                // {name : "",   path : "M 0 0 l -8 2"},
+                // {name : "-u",  path : "M 0 0 l -8 -2"},
+                // {name : "-l",  path : "M 0 0 l 8 2"},
+                // {name : "-lu", path : "M 0 0 l 8 -2"}
+                {name : "",    path : "M9,3 l-8, 2"},
+                {name : "-u",  path : "M9,3 l-8,-2"},
+                {name : "-l",  path : "M9,3 l 8, 2"},
+                {name : "-lu", path : "M9,3 l 8,-2"}
             ]   
         },  
         "method" : { 
             "variants" : [ 
-                {name : "",  path : "1,1 9,3 1,5"},
+                // {name : "",  path : "-8,-2 0,0 -8,2"},
+                // {name : "-l", path : "8,-2 0,0 8,2"}
+                {name : "",   path : "1,1  9,3  1,5"},
                 {name : "-l", path : "17,1 9,3 17,5"}
-            ]   
+            ]
         },  
         "callback" : { 
             "variants" : [ 
-                {name : "",  path : "M 1 1 l 8 2 l -8 2"},
-                {name : "-l", path : "M 17 1 l -8 2 l 8 2"}
+                // {name : "",   path : "M-8,-2 l 8,2 l-8,2"},
+                // {name : "-l", path : "M 8,-2 l-8,2 l 8,2"}
+                {name : "",  path :  "M 1,1 l 8,2 l-8,2"},
+                {name : "-l", path : "M17,1 l-8,2 l 8,2"}
             ]   
         },  
         "lost" : { 
             "variants" : [ 
-                {name : "",  path : "M7,0 L12,6 M7,6 L12,0"}
+                // {name : "",  path : "M-2,-3 l5,6 M-2,3 l5,-6"}
+                {name : "",  path : "M7,0 l5,6 M7,6 l5,-6"}
             ]   
         }   
     };
@@ -138,22 +202,20 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
         }
     }
     
-    function getStyleString(pKind, pFrom, pTo){
-        var lRetval = "stroke: {{color}};";
-        if(KINDS[pKind]){
-            lRetval += KINDS[pKind].style;
-        }
-        return lRetval.replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
-                      .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo));
-    }
-    
-    function _getLineStyle(pId, pKind, pLineColor, pFrom, pTo){
-        var lRetval = "";
+    function _getAttributes(pId, pKind, pLineColor , pFrom, pTo){
+        var lRetval = [];
         
-        if (!!pKind) {
-            lRetval = getStyleString(pKind, pFrom, pTo)
-                        .replace(/\{\{id\}\}/g, pId)
-                        .replace(/\{\{color\}\}/g, pLineColor||"black");
+        if(KINDS[pKind] && KINDS[pKind].attributes){
+            lRetval = KINDS[pKind].attributes.map(function(pAttribute){
+                return {
+                    name: pAttribute.name,
+                    value: pAttribute.value
+                            .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
+                            .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
+                            .replace(/\{\{id\}\}/g, pId)
+                            .replace(/\{\{color\}\}/g, pLineColor||"black")
+                };
+            });
         }
         return lRetval;
     }
@@ -201,7 +263,7 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
     }
 
     return {
-        getLineStyle: _getLineStyle,
+        getAttributes: _getAttributes,
 
         getMarkerDefs : function (pId, pAST) {
             return _.flatten(extractKindColorCombis(pAST).map(function(pCombi){
