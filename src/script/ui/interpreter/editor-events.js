@@ -50,6 +50,7 @@ define(["./uistate",
     }
     
     function setupEditorEvents(){
+
       gCodeMirror.on ("change",
           function(pUnused, pChange) {
               uistate.onInputChanged(isBigChange(pChange));
@@ -72,9 +73,9 @@ define(["./uistate",
                   gaga.g('send', 'event', 'drop', uistate.getLanguage());
               }
       });
-      
-      
+
     }
+
     return {
         init: function(pElement) {
             init(pElement);
