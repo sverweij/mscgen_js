@@ -1,6 +1,6 @@
-var flatten = require("../render/text/flatten");
-var fix = require("./astfixtures");
-var utl = require("./testutensils");
+var flatten = require("../../../render/text/flatten");
+var fix = require("../../astfixtures");
+var utl = require("../../testutensils");
 
 describe('flatten', function() {
     describe('unwind', function() {

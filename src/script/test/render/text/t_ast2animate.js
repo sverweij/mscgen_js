@@ -1,8 +1,8 @@
 var assert = require("assert");
-var ast2animate = require("../render/text/ast2animate");
-var parser = require("../parse/xuparser_node");
-var fix = require("./astfixtures");
-var utl = require("./testutensils");
+var ast2animate = require("../../../render/text/ast2animate");
+var parser = require("../../../parse/xuparser_node");
+var fix = require("../../astfixtures");
+var utl = require("../../testutensils");
 var fs = require("fs");
 
 describe('ast2ani', function() {

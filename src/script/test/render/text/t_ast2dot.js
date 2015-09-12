@@ -1,6 +1,6 @@
 var assert = require("assert");
-var renderer = require("../render/text/ast2dot");
-var fix = require("./astfixtures");
+var renderer = require("../../../render/text/ast2dot");
+var fix = require("../../astfixtures");
 var fs = require("fs");
 
 describe('ast2dot', function() {

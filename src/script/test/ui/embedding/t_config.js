@@ -1,5 +1,5 @@
-var conf = require("../ui/embedding/config");
-var utl = require("./testutensils");
+var conf = require("../../../ui/embedding/config");
+var utl = require("../../testutensils");
 
 describe('embed-config', function() {
     describe('#getConfig - merges with the global mscgen_js_config', function() {

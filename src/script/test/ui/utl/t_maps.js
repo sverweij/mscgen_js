@@ -1,5 +1,5 @@
 var assert = require("assert");
-var txt = require("../ui/utl/maps");
+var txt = require("../../../ui/utl/maps");
 
 describe('maps', function() {
 

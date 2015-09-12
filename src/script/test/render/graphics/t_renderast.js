@@ -1,6 +1,6 @@
 /* jshint unused: true */
-var renderer = require("../render/graphics/renderast");
-var tst = require ("./testutensils");
+var renderer = require("../../../render/graphics/renderast");
+var tst = require ("../../testutensils");
 var jsdom = require("jsdom");
 
 function ast2svg(pASTString, pWindow, pIncludeSource, pUseOwnElement) {

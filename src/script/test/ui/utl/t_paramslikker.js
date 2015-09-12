@@ -1,6 +1,6 @@
 /* jshint nonstandard: true */
-var par = require("../ui/utl/paramslikker");
-var utl = require("./testutensils");
+var par = require("../../../ui/utl/paramslikker");
+var utl = require("../../testutensils");
 
 describe('textutensils', function() {
     describe('#getParams - empty', function() {

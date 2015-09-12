@@ -1,5 +1,5 @@
-var mark = require("../render/graphics/markermanager");
-var utl = require("./testutensils");
+var mark = require("../../../render/graphics/markermanager");
+var utl = require("../../testutensils");
 var fs = require("fs");
 var gMarkerDefs = 
     [ { name: '481callback-#00FF00',

@@ -1,9 +1,9 @@
 var assert = require("assert");
-var renderer = require("../render/text/ast2xu");
-var fix = require("./astfixtures");
+var renderer = require("../../../render/text/ast2xu");
+var fix = require("../../astfixtures");
 var fs = require("fs");
-var parser = require("../parse/xuparser_node");
-var utl = require("./testutensils");
+var parser = require("../../../parse/xuparser_node");
+var utl = require("../../testutensils");
 
 describe('ast2xu', function() {
     describe('#renderAST() - simple syntax tree', function() {

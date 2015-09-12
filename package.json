@@ -22,8 +22,8 @@
     "plato": "1.5.0"
   },
   "scripts": {
-    "test": "mocha -R dot src/script/test/",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha src/script/test",
+    "test": "mocha -R dot --recursive src/script/test/",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
     "nsp": "nsp package",
     "plato": "plato -r -d platoreports -x \"parser|test|cli|attic\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",

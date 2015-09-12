@@ -1,8 +1,8 @@
 var assert = require("assert");
-var renderer = require("../render/text/ast2mscgen");
-var parser = require("../parse/mscgenparser_node");
-var fix = require("./astfixtures");
-var utl = require("./testutensils");
+var renderer = require("../../../render/text/ast2mscgen");
+var parser = require("../../../parse/mscgenparser_node");
+var fix = require("../../astfixtures");
+var utl = require("../../testutensils");
 var fs = require("fs");
 
 describe('ast2mscgen', function() {
