@@ -10,7 +10,7 @@ a picture:
   [_controler_](#the-controllers) program that handles interaction with the user.
   We have two of them:
   - for [_embedding_](embedding-controller.md) textual descriptions in html
-  - for the interactive [_interpreter_](ui-control/README.md)
+  - for the interactive [_interpreter_](ui/README.md)
 
 ## Lexical analysis and parsing
 :page_with_curl: code in [parse/peg](parse/peg)
@@ -39,7 +39,7 @@ To **translate** between the three sequence chart languages it supports and to
 **generate** and **manipulate** other languages.
 
 ### Raster graphics?
-:page_with_curl: code in [ui-control/controller-exporter.js](ui-control/controller-exporter.js)
+:page_with_curl: code in [ui/utl/exporter.js](ui/utl/exporter.js)
 
 You might have noticed the [interpreter](https://sverweij.github.io/mscgen_js)
 also renders to jpeg and png. It's so simple we've put the few lines of
@@ -55,14 +55,14 @@ The controller for embedding is actually very simple. Details on how it works
 and what design choices we made you can find [here](embedding-controller.md).
 
 ### Interactive interpreter
-:page_with_curl: code in [ui-control/](ui-control)
+:page_with_curl: code in [ui/interpreter](ui/interpreter)
 
 The controller for the interpreter UI is less trivial.
 
 ## Testing
 :page_with_curl: code in [test/](test)
 
-About 250 automated tests (and counting) make sure refactoring most of
+About 265 automated tests (and counting) make sure refactoring most of
 the back end code (parsing and rendering) can be done safely.
 
 The ui controller tests are inherently harder to test automated. This

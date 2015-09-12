@@ -33,7 +33,7 @@ SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
 	src/script/render/text/flatten.js \
 	src/script/render/text/colorize.js \
 	src/script/render/text/utensils.js \
-	src/script/utl/paramslikker.js
+	src/script/ui/utl/paramslikker.js
 SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
 BUILDDIR=build
 REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
@@ -67,23 +67,23 @@ SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
 	src/script/render/graphics/renderskeleton.js \
 	src/script/render/graphics/renderast.js \
 	src/script/render/graphics/entities.js \
-	src/script/ui-control/interpreter-param-actions.js \
-	src/script/ui-control/interpreter-editor-events.js \
-	src/script/ui-control/interpreter-uistate.js \
-	src/script/ui-control/interpreter-input-actions.js \
-	src/script/ui-control/interpreter-output-actions.js \
-	src/script/ui-control/interpreter-nav-actions.js \
-	src/script/ui-control/controller-animator.js \
-	src/script/ui-control/controller-exporter.js \
-	src/script/ui-control/controller-raster-exporter.js \
-	src/script/ui-control/store.js \
-	src/script/utl/gaga.js \
-	src/script/utl/domutl.js \
+	src/script/ui/interpreter/param-actions.js \
+	src/script/ui/interpreter/editor-events.js \
+	src/script/ui/interpreter/uistate.js \
+	src/script/ui/interpreter/input-actions.js \
+	src/script/ui/interpreter/output-actions.js \
+	src/script/ui/interpreter/nav-actions.js \
+	src/script/ui/interpreter/animator.js \
+	src/script/ui/utl/exporter.js \
+	src/script/ui/interpreter/raster-exporter.js \
+	src/script/ui/utl/store.js \
+	src/script/ui/utl/gaga.js \
+	src/script/ui/utl/domutl.js \
 	src/script/mscgen-interpreter.js 
 SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
 EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \
 	src/script/mscgen-inpage.js \
-	src/script/ui-control/embed-config.js
+	src/script/ui/embedding/config.js
 FONT_SOURCES=src/fonts/controls.eot \
 	src/fonts/controls.svg \
 	src/fonts/controls.ttf \
