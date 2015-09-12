@@ -4,8 +4,8 @@ require(["parse/xuparser",
          "parse/msgennyparser",
          "render/graphics/renderast",
          "render/text/textutensils",
-         "ui-control/utl/exporter",
-         "ui-control/embedding/config"], 
+         "ui/utl/exporter",
+         "ui/embedding/config"], 
         function(mscparser, msgennyparser, msc_render, utl, exp, conf) {
     "use strict";
 

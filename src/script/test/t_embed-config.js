@@ -1,4 +1,4 @@
-var conf = require("../ui-control/embedding/config");
+var conf = require("../ui/embedding/config");
 var utl = require("./testutensils");
 
 describe('embed-config', function() {

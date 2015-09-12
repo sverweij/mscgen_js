@@ -1,6 +1,6 @@
 # interactive interpreter
 :page_with_curl: code in [../mscgen-interpreter.js](../mscgen-interpreter.js) and
-the sources in [ui-control/](.).
+the sources in [ui/](.).
 
 ## Rendering in real time
 When we built the first version of the on line interpreter we parsed and

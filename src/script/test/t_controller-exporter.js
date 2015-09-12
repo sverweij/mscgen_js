@@ -1,6 +1,6 @@
 /* jshint unused: false */
 var assert = require("assert");
-var xport = require("../ui-control/utl/exporter");
+var xport = require("../ui/utl/exporter");
 
 var gAST = {
   "meta": {
