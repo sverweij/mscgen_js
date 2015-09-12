@@ -292,8 +292,25 @@ define(["./constants"], function(C) {
         lMarker.setAttribute("class", pClass);
         /* TODO: externalize or make these attributes explicit. */
         lMarker.setAttribute("viewBox", "0 0 10 10");
+        
+        /* so, why not start at refX=0, refY=0? It would simplify reasoning 
+         * about marker paths significantly...
+         * 
+         * TL;DR: canvg doesn't seem to handle this very well. 
+         * - Don't know yet why. 
+         * - Suspicion: with (0,0) the marker paths we use would end up having
+         *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
+         *   signal)
+         */
         lMarker.setAttribute("refX", "9");
         lMarker.setAttribute("refY", "3");
+        
+        /* for scaling to the lineWidth of the line the marker is attached to, 
+         * userSpaceOnUse looks like a good plan, but it is not only the 
+         * paths that don't scale, it's also the linewidth (which makes sense).
+         * We'll have to roll our own path transformation algorithm if we want 
+         * to change only the linewidth and not the rest
+         */
         lMarker.setAttribute("markerUnits", "strokeWidth");
         lMarker.setAttribute("markerWidth", "10");
         lMarker.setAttribute("markerHeight", "10");
