@@ -128,7 +128,7 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
         },
         "<:>"   : {
             attributes : [
-                { name: "style", value: "stroke: {{color}}"},
+                { name: "style", value: "stroke:{{color}}"},
                 { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
                 { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
             ],
@@ -140,7 +140,7 @@ define(["../text/utensils", "../text/dotmap"], function(_, map) {
         },
         "-x"    : {
             attributes : [
-                { name: "style", value: "stroke: {{color}}"},
+                { name: "style", value: "stroke:{{color}}"},
                 { name: "marker-end", value: "url(#{{id}}lost-{{color}})"}, 
             ],
             marker: {
