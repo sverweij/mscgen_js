@@ -10,7 +10,6 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-DOC=node node_modules/jsdoc/jsdoc.js --destination jsdoc
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
@@ -183,6 +182,7 @@ src/style/interp.css: src/style/interp.scss \
 	src/lib/codemirror/lib/_codemirror.scss \
 	src/lib/codemirror/addon/dialog/_dialog.scss \
 	src/lib/codemirror/theme/_blackboard.scss \
+	src/style/snippets/_colors.scss \
 	src/style/snippets/_interpreter.scss \
 	src/style/snippets/_anim.scss \
 	src/style/snippets/_header.scss \
@@ -198,6 +198,7 @@ src/style/interp.css: src/style/interp.scss \
 
 src/style/doc.css: src/style/doc.scss \
 	src/style/snippets/_header.scss \
+	src/style/snippets/_colors.scss \
 	src/style/snippets/_documentation.scss \
 	src/style/snippets/_generics.scss \
 	src/style/snippets/_popup.scss \
@@ -312,9 +313,6 @@ tag:
 
 report: dev-build
 	$(NPM) run plato
-
-doc:
-	$(DOC) $(SCRIPT_SOURCES_WEB) src/script/README.md
 
 test: dev-build
 	$(NPM) run test
