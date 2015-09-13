@@ -1,10 +1,4 @@
-$background-color: white;
-$warning-color: orange;
-$info-color: blue;
-$mark-color: #FFFFAA;
-$line-color: #aaa;
-$demarcation-line: solid 1px $line-color;
-$background-color-code: #F8F8F8;
+@import "./colors";
 body {
     counter-reset: article-counter;
 }
@@ -69,25 +63,9 @@ article h1, h2 {
 article h2, h3 {
   margin: 2em 0 1em 0;
 }
-table.doc {
-    border-collapse: collapse;
-    margin-bottom: 1em;
-}
-.doc td, th {
-    padding: 0.5em;
-    margin: 0;
-    border: solid 1px #DDD;
-}
-.doc td {
-    text-align: left;
-    vertical-align: top;
-}
-.doc tr:nth-child(2n+0) {
-    background-color: #F8F8F8;
-}
 code, .code {
   border: $demarcation-line;
-  background-color: $background-color-code;
+  background-color: $code-background-color;
   border-radius: 3px;
 }
 .code {
@@ -122,7 +100,7 @@ img, svg, .mscgen_js {
   font-weight: bold;
 }
 .shadow {
-  box-shadow: 0.0 0.0 1em -0.2em gray;
+  box-shadow: 0.0 0.0 1em -0.2em $shadow-color;
   border-collapse: separate; /* apparently needed for IE */   
 }
 mark {
