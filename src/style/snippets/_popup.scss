@@ -1,3 +1,4 @@
+@import "./colors";
 .popupsheet {
   z-index: 268;
   position: absolute;
@@ -13,18 +14,18 @@
   max-width: 28em;
   max-height: 80%;
   border-collapse: separate; /* apparently needed for IE */
-  background-color: white;
+  background-color: $background-color;
   overflow: auto;
   border-radius: 2px;
   opacity: .97;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px $shadow-color;
   margin: 0 0 0 0;
   border: 0;
   padding: 0;
 }
 .popup .header {
   padding: .7em .5em 0 .5em;
-  border-bottom: solid lightgray 1px;
+  border-bottom: $demarcation-line;
 }
 .popup h1 {
   margin: 0.5em 0 0.5em 0.7em;
@@ -74,6 +75,7 @@
   width: 4em;
 }
 .popup .about-box-icon {
+    /* OK to not use the general colors here - logo */
     cursor: default;
     color: white;
     text-shadow: black 0px 0px 6px;

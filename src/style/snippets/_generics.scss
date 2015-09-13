@@ -1,8 +1,9 @@
+@import "./colors";
 body {
-  color: black;
+  color: $color;
   font-family: sans-serif;
   font-weight: normal;
-  font-size: 12pt;
+  font-size: 16px; // 12pt
   margin:0;
 }
 h1, h2, h3, h4, h5 {
@@ -19,8 +20,8 @@ article {
 }
 .browsehappy {
     margin: 0.2em 0;
-    background: yellow;
-    color: black;
+    background: $browsehappy-background-color;
+    color: $browsehappy-color;
     padding: 0.2em 0;
 }
 @-webkit-keyframes fadeout {
