@@ -4,7 +4,7 @@ PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
 GIT=git
 GIT_CURRENT_BRANCH=$(shell git branch | grep "*" | cut -c 3-)
-GIT_DEPLOY_FROM_BRANCH=release
+GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
@@ -54,35 +54,40 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/favicon-195.png \
 	$(BUILDDIR)/favicon-228.png
 
-.PHONY: help dev-build install build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
+.PHONY: help dev-build install deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
 
 help:
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-	@echo \| Just downloaded the mscgen_js sources? \ \|
-	@echo \| \ First run \'make prerequisites\'  \ \ \ \ \ \ \ \ \|
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo " --------------------------------------------------------"
+	@echo "| Just downloaded the mscgen_js sources?                 |"
+	@echo "|  First run 'make prerequisites'                        |"
+	@echo " --------------------------------------------------------"
 	@echo
-	@echo Most important build targets:
+	@echo "Most important build targets:"
 	@echo
-	@echo dev-build
-	@echo \ \(re\)enerates stuff needed to develop \(pegjs \-\> js, css smashing etc\)
+	@echo "dev-build"
+	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
+	@echo " smashing etc)"
 	@echo
-	@echo check
-	@echo \ runs the linter and executes all unit tests
-	@echo 
-	@echo install
-	@echo \ creates the production version \(minified js, images, html\)
-	@echo \ \-\> this is probably the target you want when hosting mscgen_js
-	@echo 
-	@echo clean
-	@echo \ removes everything created by either install or dev-build
+	@echo "check"
+	@echo " runs the linter and executes all unit tests"
 	@echo
-	@echo deploy-gh-pages
-	@echo \ merges main to gh-pages, runs an install and pushes it to origin
+	@echo "install"
+	@echo " -> this is probably the target you want when"
+	@echo "    hosting mscgen_js"
 	@echo
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-	@echo \|\ More information and other targets: see wikum\\build.md \|
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo " creates the production version (minified js, images,"
+	@echo " html)"
+	@echo
+	@echo "clean"
+	@echo " removes everything created by either install or dev-build"
+	@echo
+	@echo "deploy-gh-pages"
+	@echo " deploys the build to gh-pages (only works in the"
+	@echo " '$(GIT_DEPLOY_FROM_BRANCH)' branch)"
+	@echo
+	@echo " --------------------------------------------------------"
+	@echo "| More information and other targets: see wikum/build.md |"
+	@echo " --------------------------------------------------------"
 	@echo
 
 
@@ -96,7 +101,6 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
 	$(SEDVERSION) < $< > $@
-
 
 %.css: %.scss
 	$(SASS) $< $@
@@ -207,10 +211,7 @@ lint:
 cover: dev-build
 	$(NPM) run cover
 
-install: \
-	$(BUILDDIR)/index.html \
-	$(BUILDDIR)/embed.html \
-	$(BUILDDIR)/tutorial.html
+install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
 deploy-gh-pages: install
 ifeq ($(GIT_DEPLOY_FROM_BRANCH),$(GIT_CURRENT_BRANCH))
@@ -220,9 +221,11 @@ ifeq ($(GIT_DEPLOY_FROM_BRANCH),$(GIT_CURRENT_BRANCH))
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
 else
+	@echo
 	@echo Not deploying
 	@echo "  To prevent booboos deploying only works from the '$(GIT_DEPLOY_FROM_BRANCH)' branch."
 	@echo "  Current branch: '$(GIT_CURRENT_BRANCH)'"
+	@echo
 endif
 
 tag: 
