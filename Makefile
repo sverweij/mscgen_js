@@ -3,6 +3,8 @@
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
 GIT=git
+GIT_CURRENT_BRANCH=$(shell git branch | grep "*" | cut -c 3-)
+GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
@@ -21,19 +23,7 @@ GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
 	src/script/parse/msgennyparser_node.js \
 	src/script/parse/xuparser_node.js 
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE) $(GENERATED_STYLESHEETS)
-SCRIPT_SOURCES_NODE=src/script/render/text/ast2thing.js \
-	src/script/render/text/ast2mscgen.js \
-	src/script/render/text/ast2xu.js \
-	src/script/render/text/ast2msgenny.js \
-	src/script/render/text/ast2dot.js \
-	src/script/render/text/ast2animate.js \
-	src/script/render/text/dotmap.js \
-	src/script/render/text/asttransform.js \
-	src/script/render/text/flatten.js \
-	src/script/render/text/colorize.js \
-	src/script/render/text/utensils.js \
-	src/script/ui/utl/paramslikker.js
-SOURCES_NODE=$(GENERATED_SOURCES_NODE) $(SCRIPT_SOURCES_NODE)
+SOURCES_NODE=$(GENERATED_SOURCES_NODE)
 BUILDDIR=build
 REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
 	$(BUILDDIR)/style \
@@ -41,52 +31,6 @@ REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
 	$(BUILDDIR)/fonts
 PRODDIRS=$(BUILDDIR) \
 		 $(REMOVABLEPRODDIRS)
-LIB_SOURCES_WEB=src/lib/codemirror/lib/codemirror.js \
-	src/lib/codemirror/addon/dialog/dialog.js \
-	src/lib/codemirror/addon/display/placeholder.js \
-	src/lib/codemirror/addon/edit/closebrackets.js \
-	src/lib/codemirror/addon/edit/matchbrackets.js \
-	src/lib/codemirror/addon/search/search.js \
-	src/lib/codemirror/addon/search/searchcursor.js \
-	src/lib/codemirror/addon/selection/active-line.js \
-	src/lib/codemirror/mode/mscgen/mscgen.js \
-	src/lib/codemirror/mode/javascript/javascript.js \
-	src/lib/canvg/canvg.js \
-	src/lib/canvg/StackBlur.js \
-	src/lib/canvg/rgbcolor.js 
-SCRIPT_SOURCES_WEB=$(SCRIPT_SOURCES_NODE) \
-	src/script/render/graphics/svgelementfactory.js \
-	src/script/render/graphics/svgutensils.js \
-	src/script/render/graphics/renderutensils.js \
-	src/script/render/graphics/constants.js \
-	src/script/render/graphics/rowmemory.js \
-	src/script/render/graphics/idmanager.js \
-	src/script/render/graphics/markermanager.js \
-	src/script/render/text/textutensils.js \
-	src/script/render/graphics/renderskeleton.js \
-	src/script/render/graphics/renderast.js \
-	src/script/render/graphics/entities.js \
-	src/script/ui/interpreter/param-actions.js \
-	src/script/ui/interpreter/editor-events.js \
-	src/script/ui/interpreter/uistate.js \
-	src/script/ui/interpreter/input-actions.js \
-	src/script/ui/interpreter/output-actions.js \
-	src/script/ui/interpreter/nav-actions.js \
-	src/script/ui/interpreter/animator.js \
-	src/script/ui/utl/exporter.js \
-	src/script/ui/interpreter/raster-exporter.js \
-	src/script/ui/utl/store.js \
-	src/script/ui/utl/gaga.js \
-	src/script/ui/utl/domutl.js \
-	src/script/mscgen-interpreter.js 
-SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(LIB_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) 
-EMBED_SOURCES_WEB=$(GENERATED_SOURCES_WEB) $(SCRIPT_SOURCES_WEB) \
-	src/script/mscgen-inpage.js \
-	src/script/ui/embedding/config.js
-FONT_SOURCES=src/fonts/controls.eot \
-	src/fonts/controls.svg \
-	src/fonts/controls.ttf \
-	src/fonts/controls.woff
 FONTS=$(BUILDDIR)/fonts/controls.eot \
 	$(BUILDDIR)/fonts/controls.svg \
 	$(BUILDDIR)/fonts/controls.ttf \
@@ -109,37 +53,41 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-152.png \
 	$(BUILDDIR)/favicon-195.png \
 	$(BUILDDIR)/favicon-228.png
-VERSIONEMBEDDABLESOURCES=$(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
-.PHONY: help dev-build install build-gh-pages deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
+.PHONY: help dev-build install deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
 
 help:
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-	@echo \| Just downloaded the mscgen_js sources? \ \|
-	@echo \| \ First run \'make prerequisites\'  \ \ \ \ \ \ \ \ \|
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo " --------------------------------------------------------"
+	@echo "| Just downloaded the mscgen_js sources?                 |"
+	@echo "|  First run 'make prerequisites'                        |"
+	@echo " --------------------------------------------------------"
 	@echo
-	@echo Most important build targets:
+	@echo "Most important build targets:"
 	@echo
-	@echo dev-build
-	@echo \ \(re\)enerates stuff needed to develop \(pegjs \-\> js, css smashing etc\)
+	@echo "dev-build"
+	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
+	@echo " smashing etc)"
 	@echo
-	@echo check
-	@echo \ runs the linter and executes all unit tests
-	@echo 
-	@echo install
-	@echo \ creates the production version \(minified js, images, html\)
-	@echo \ \-\> this is probably the target you want when hosting mscgen_js
-	@echo 
-	@echo clean
-	@echo \ removes everything created by either install or dev-build
+	@echo "check"
+	@echo " runs the linter and executes all unit tests"
 	@echo
-	@echo deploy-gh-pages
-	@echo \ merges main to gh-pages, runs an install and pushes it to origin
+	@echo "install"
+	@echo " -> this is probably the target you want when"
+	@echo "    hosting mscgen_js"
 	@echo
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-	@echo \|\ More information and other targets: see wikum\\build.md \|
-	@echo \ \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+	@echo " creates the production version (minified js, images,"
+	@echo " html)"
+	@echo
+	@echo "clean"
+	@echo " removes everything created by either install or dev-build"
+	@echo
+	@echo "deploy-gh-pages"
+	@echo " deploys the build to gh-pages (only works in the"
+	@echo " '$(GIT_DEPLOY_FROM_BRANCH)' branch)"
+	@echo
+	@echo " --------------------------------------------------------"
+	@echo "| More information and other targets: see wikum/build.md |"
+	@echo " --------------------------------------------------------"
 	@echo
 
 
@@ -153,7 +101,6 @@ src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
 	$(SEDVERSION) < $< > $@
-
 
 %.css: %.scss
 	$(SASS) $< $@
@@ -174,41 +121,10 @@ $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 	$(IOSRESIZE) $< $@ 
 
 $(PRODDIRS):
-	mkdir $@
+	mkdir -p $@
 
-# file targets dev
-
-src/style/interp.css: src/style/interp.scss \
-	src/lib/codemirror/lib/_codemirror.scss \
-	src/lib/codemirror/addon/dialog/_dialog.scss \
-	src/lib/codemirror/theme/_blackboard.scss \
-	src/style/snippets/_colors.scss \
-	src/style/snippets/_interpreter.scss \
-	src/style/snippets/_anim.scss \
-	src/style/snippets/_header.scss \
-	src/style/snippets/_fonts.scss \
-	src/style/snippets/_generics.scss \
-	src/style/snippets/_popup.scss \
-	src/style/snippets/_slidingpanel.scss \
-	src/style/snippets/_mediagenerics.scss \
-	src/fonts/controls.eot \
-	src/fonts/controls.svg \
-	src/fonts/controls.ttf \
-	src/fonts/controls.woff
-
-src/style/doc.css: src/style/doc.scss \
-	src/style/snippets/_header.scss \
-	src/style/snippets/_colors.scss \
-	src/style/snippets/_documentation.scss \
-	src/style/snippets/_generics.scss \
-	src/style/snippets/_popup.scss \
-	src/style/snippets/_mediagenerics.scss
-
-src/index.html: src/style/interp.css $(SOURCES_WEB) $(FONT_SOURCES)
-
-src/embed.html: src/style/doc.css $(FONT_SOURCES)
-
-src/tutorial.html: src/style/doc.css $(FONT_SOURCES)
+# dependencies 
+include src/dependencies.mk
 
 # file targets prod
 $(BUILDDIR)/index.html: $(PRODDIRS) \
@@ -225,7 +141,8 @@ LIVE_DOC_DEPS=$(PRODDIRS) \
 	$(BUILDDIR)/style/doc.css \
 	$(BUILDDIR)/mscgen-inpage.js \
 	$(BUILDDIR)/images/ \
-	$(FAVICONS)
+	$(FAVICONS) \
+	$(FONTS)
 
 $(BUILDDIR)/embed.html: $(LIVE_DOC_DEPS) src/embed.html
 
@@ -252,7 +169,7 @@ $(BUILDDIR)/samples/: src/samples
 $(BUILDDIR)/lib/require.js: src/lib/require.js
 	cp $< $@
 
-$(BUILDDIR)/script/mscgen-interpreter.js: $(SOURCES_WEB)  
+$(BUILDDIR)/script/mscgen-interpreter.js: src/script/mscgen-interpreter.js
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
 			out=$@.tmp \
@@ -260,7 +177,7 @@ $(BUILDDIR)/script/mscgen-interpreter.js: $(SOURCES_WEB)
 	$(SEDVERSION) < $@.tmp > $@
 	rm $@.tmp
 
-$(BUILDDIR)/mscgen-inpage.js: $(EMBED_SOURCES_WEB)
+$(BUILDDIR)/mscgen-inpage.js: src/script/mscgen-inpage.js src/lib/almond.js
 	$(RJS) -o baseUrl=./src/script \
 			name=../lib/almond \
 			include=mscgen-inpage \
@@ -288,7 +205,7 @@ consolecheck:
 csslint:
 	$(CSSLINT) src/style/*.css
 
-lint: $(SCRIPT_SOURCES_WEB) $(SCRIPT_SOURCES_NODE)
+lint:
 	$(NPM) run lint
 
 cover: dev-build
@@ -296,22 +213,26 @@ cover: dev-build
 
 install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
-build-gh-pages: mostlyclean install
-
-add-n-push-gh-pages:
-	cd $(BUILDDIR)
-	$(GIT) add --all .
-	$(GIT) commit -m "build `cat ../VERSION`"
-	$(GIT) push origin gh-pages
-	$(GIT) status
-
-deploy-gh-pages: build-gh-pages add-n-push-gh-pages
+deploy-gh-pages: install
+ifeq ($(GIT_DEPLOY_FROM_BRANCH),$(GIT_CURRENT_BRANCH))
+	@echo Deploying build `cat VERSION` ...
+	$(GIT) -C $(BUILDDIR) add --all .
+	$(GIT) -C $(BUILDDIR) commit -m "build `cat VERSION`"
+	$(GIT) -C $(BUILDDIR) push origin gh-pages
+	$(GIT) -C $(BUILDDIR) status
+else
+	@echo
+	@echo Not deploying
+	@echo "  To prevent booboos deploying only works from the '$(GIT_DEPLOY_FROM_BRANCH)' branch."
+	@echo "  Current branch: '$(GIT_CURRENT_BRANCH)'"
+	@echo
+endif
 
 tag: 
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
 	$(GIT) push --tags
 
-report: dev-build
+report:
 	$(NPM) run plato
 
 test: dev-build
@@ -335,7 +256,6 @@ somewhatclean:
 		$(BUILDDIR)/embed.html \
 		$(BUILDDIR)/tutorial.html \
 		$(BUILDDIR)/mscgen-inpage.js
-	rm -rf jsdoc
 	rm -rf coverage
 	rm -rf testcoverage-report
 
