@@ -5,7 +5,7 @@
   "dependencies": {
     "amdefine": "1.0.0",
     "btoa": "1.1.2",
-    "jsdom": "6.3.0",
+    "jsdom": "6.4.0",
     "requirejs": "2.1.20"
   },
   "devDependencies": {
@@ -16,7 +16,7 @@
     "gulp-autoprefixer": "^3.0.1",
     "gulp-load-plugins": "^0.10.0",
     "gulp-sass": "^2.0.4",
-    "istanbul": "0.3.19",
+    "istanbul": "0.3.20",
     "jshint": "2.8.0",
     "mocha": "2.3.2",
     "node-localstorage": "0.6.0",
