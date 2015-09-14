@@ -1,9 +1,9 @@
-.SUFFIXES:
+
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
 GIT=git
-GIT_CURRENT_BRANCH=$(shell git branch | grep "*" | cut -c 3-)
+GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 CJS2AMD=utl/commonjs2amd.sh
@@ -13,6 +13,12 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
+
+ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
+	BUILDDIR=build
+else
+	BUILDDIR=build/branches/$(GIT_CURRENT_BRANCH)
+endif
 
 GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
 	src/script/parse/msgennyparser.js \
@@ -24,7 +30,6 @@ GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
 	src/script/parse/xuparser_node.js 
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE) $(GENERATED_STYLESHEETS)
 SOURCES_NODE=$(GENERATED_SOURCES_NODE)
-BUILDDIR=build
 REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
 	$(BUILDDIR)/style \
 	$(BUILDDIR)/script \
@@ -42,17 +47,17 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/favicon-32.png \
 	$(BUILDDIR)/favicon-48.png \
 	$(BUILDDIR)/favicon-64.png \
+	$(BUILDDIR)/favicon-128.png \
+	$(BUILDDIR)/favicon-144.png \
+	$(BUILDDIR)/favicon-152.png \
+	$(BUILDDIR)/favicon-195.png \
+	$(BUILDDIR)/favicon-228.png \
 	$(BUILDDIR)/iosfavicon-57.png \
 	$(BUILDDIR)/iosfavicon-72.png \
-	$(BUILDDIR)/favicon-96.png \
 	$(BUILDDIR)/iosfavicon-114.png \
 	$(BUILDDIR)/iosfavicon-120.png \
-	$(BUILDDIR)/favicon-144.png \
 	$(BUILDDIR)/iosfavicon-144.png \
-	$(BUILDDIR)/favicon-152.png \
-	$(BUILDDIR)/iosfavicon-152.png \
-	$(BUILDDIR)/favicon-195.png \
-	$(BUILDDIR)/favicon-228.png
+	$(BUILDDIR)/iosfavicon-152.png
 
 .PHONY: help dev-build install deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
 
@@ -82,8 +87,9 @@ help:
 	@echo " removes everything created by either install or dev-build"
 	@echo
 	@echo "deploy-gh-pages"
-	@echo " deploys the build to gh-pages (only works in the"
-	@echo " '$(GIT_DEPLOY_FROM_BRANCH)' branch)"
+	@echo " deploys the build to gh-pages"
+	@echo "  - 'master' branch: the root of gh-pages"
+	@echo "  - other branches : in branches/branche-name"
 	@echo
 	@echo " --------------------------------------------------------"
 	@echo "| More information and other targets: see wikum/build.md |"
@@ -214,19 +220,11 @@ cover: dev-build
 install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
 deploy-gh-pages: install
-ifeq ($(GIT_DEPLOY_FROM_BRANCH),$(GIT_CURRENT_BRANCH))
-	@echo Deploying build `cat VERSION` ...
+	@echo Deploying build `cat VERSION` to $(BUILDDIR)
 	$(GIT) -C $(BUILDDIR) add --all .
 	$(GIT) -C $(BUILDDIR) commit -m "build `cat VERSION`"
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
-else
-	@echo
-	@echo Not deploying
-	@echo "  To prevent booboos deploying only works from the '$(GIT_DEPLOY_FROM_BRANCH)' branch."
-	@echo "  Current branch: '$(GIT_CURRENT_BRANCH)'"
-	@echo
-endif
 
 tag: 
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
