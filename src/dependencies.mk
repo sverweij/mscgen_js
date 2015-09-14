@@ -114,7 +114,7 @@ src/script/render/text/ast2animate.js: \
 
 src/script/ui/interpreter/raster-exporter.js: \
 	src/lib/canvg/canvg.js \
-	src/lib/canvg/stackblur.js \
+	src/lib/canvg/StackBlur.js \
 	src/lib/canvg/rgbcolor.js
 
 src/script/ui/interpreter/nav-actions.js: \
