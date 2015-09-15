@@ -12,7 +12,7 @@
 - Also
   - talks a [simplified subset of mscgen][5] for lazy bastards.
   - speaks a [superset of mscgen][29] for the feature hungry.
-  - runs in all modern browsers (and in ~~_node.js_~~ _io.js_).
+  - runs in all modern browsers (and in _node.js_/ _io.js_).
   - animates your chart.
 
 ## Sample
@@ -112,7 +112,7 @@ shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/msc
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters _almost_
   like a walk in the park.
-- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in ~~node.js~~ io.js.
+- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in node.js/ io.js.
 - [Audrey M. Roy](http://www.audreymroy.com/) for the excelent ["painfully obsessive cheat sheet to favicon sizes/types."](https://github.com/audreyr/favicon-cheat-sheet).
 
 [1]: http://www.mcternan.me.uk/mscgen
