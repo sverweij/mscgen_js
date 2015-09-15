@@ -8,21 +8,29 @@ Technically, *gh-pages* is an _orphan_ branch
 
 ## Building
 ### Development build
-Run this:
-- `make prerequisites` (or `npm install`) - this installs prerequisite node packages
--  `make dev-build` - this should create the state the *master* branch is in.
-It creates all generated sources, but keeps them in the `src` tree.
+The development build creates all generated sources, but keeps them in the `src` tree.
+```shell
+make prerequisites #  (or 'npm install')
+make dev-build # should create the state the master branch is in.
+```
 
 ### Production build
-Run, this:
-- `make prerequisites` (or `npm install`) - installs prerequisite node packages
--  ```make install```
+```shell
+make prerequisites #  (or 'npm install')
+make install
+```
 
-The result will be in the `build` folder. On *master* and derivative branches _git_ will ignore this folder. 
+When you do this from the _master_ branch `make install` will put the result
+in the `build` folder. For other branches it puts it in 
+`build/branches/{{branch_name}}`.
+
+On *master* and derivative branches _git_ will ignore the `build` folder. 
 
 ### Deployment to github-pages
 #### Preparation (once only)
-After creating a production build, initialize a git repo in the build folder with your repo as remote and gh-pages as an _orphan_ branch. This ensures only the files really needed for production get on github-pages.
+After creating a production build, initialize a git repo in the `build` folder
+with your repo as remote and gh-pages as an _orphan_ branch. This ensures only
+the files really needed for production get on github-pages.
 
 ```shell
 git init
@@ -30,13 +38,17 @@ git remote add origin git@github.com:userororganisation/reponame.git
 git checkout --orphan gh-pages
 ```
 
-#### Deployment itself
-Now a straightforward add/ commit/ push in the build folder: 
+#### Deployment step
+The deployment itself is now a straightforward add/ commit/ push in the `build` folder. The `deploy-gh-pages` make target takes care of this:
 ```shell
-git add .
-git commit -m "build `cat ..\VERSION`"
-git push
+make deploy-gh-pages
 ```
+mscgen_js will now be available from `{{repo_gh-pages_root}}`, e.g. `https://sverweij.github.io/mscgen_js`
+
+#### Branches
+Note that this will also deploy any branches happening to be lying around in `build`, which will be accessible
+from `{{repo_gh-pages_root}}/branches/{{branch_name}}`. 
+E.g  `https://sverweij.github.io/mscgen_js/branches/feature/snazz-the-firp`
 
 ## Cleaning
 - ```make mostlyclean``` removes built production files
@@ -65,7 +77,7 @@ git push
 
 - `make fullcheck` combination target:
     - runs a `make check` and
-    - npm outdated (to check for outdated node_modules)
+    - `npm outdated` (to check for outdated node_modules)
     - `npm run nsp` (see above)
 
 ## Prerequisites
