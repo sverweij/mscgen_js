@@ -1,3 +1,4 @@
+/* jshint node: true, strict: false, unused: false */
 var gulp = require('gulp'),
     p    = require('gulp-load-plugins')();
 
