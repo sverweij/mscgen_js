@@ -5,5 +5,5 @@ if [ $SANE_BRANCH_NAME ]
 then
     echo $BRANCH
 else
-    echo branch-name-too-weird-so-we-took-this-for-a-name
+    echo next
 fi
