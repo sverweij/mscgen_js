@@ -59,7 +59,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 
-.PHONY: help dev-build install deploy-gh-pages check mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies
 
 help:
 	@echo " --------------------------------------------------------"
@@ -245,6 +245,13 @@ outdated:
 check: noconsolestatements lint test
 
 fullcheck: check outdated nsp
+
+update-dependencies: run-update-dependencies test
+	$(GIT) diff package.json
+	
+run-update-dependencies: 
+	$(NPM) run npm-check-updates
+	$(NPM) install
 
 somewhatclean:
 	rm -rf $(REMOVABLEPRODDIRS) \
