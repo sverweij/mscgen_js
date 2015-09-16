@@ -246,14 +246,14 @@ check: noconsolestatements lint test
 
 fullcheck: check outdated nsp
 
-update-dependencies: run-update-dependencies test
+update-dependencies: run-update-dependencies clean-generated-sources dev-build test
 	$(GIT) diff package.json
 	
 run-update-dependencies: 
 	$(NPM) run npm-check-updates
 	$(NPM) install
 
-somewhatclean:
+clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \
 		$(BUILDDIR)/images \
 		$(BUILDDIR)/samples \
@@ -262,10 +262,9 @@ somewhatclean:
 		$(BUILDDIR)/tutorial.html \
 		$(BUILDDIR)/mscgen-inpage.js
 	rm -rf coverage
-	rm -rf testcoverage-report
 
-mostlyclean: somewhatclean
+clean-generated-sources: 
 	rm -rf $(GENERATED_SOURCES)
 
-clean: mostlyclean
+clean: clean-the-build clean-generated-sources
 	rm -rf $(FAVICONS)
