@@ -14,7 +14,7 @@
     "csslint": "0.10.0",
     "gulp": "3.9.0",
     "gulp-autoprefixer": "3.0.1",
-    "gulp-load-plugins": "0.10.0",
+    "gulp-load-plugins": "1.0.0-rc.1",
     "gulp-sass": "2.0.4",
     "istanbul": "0.3.20",
     "jshint": "2.8.0",
