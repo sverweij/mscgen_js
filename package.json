@@ -22,6 +22,7 @@
     "node-localstorage": "0.6.0",
     "node-sass": "3.3.2",
     "nsp": "1.1.0",
+    "npm-check-updates": "2.2.3",
     "pegjs": "0.9.0",
     "plato": "1.5.0"
   },
@@ -32,7 +33,8 @@
     "plato": "plato -r -d platoreports -x \"parser|test|cli|attic\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
-    "codecov-submit": "CODECOV_TOKEN=4abd82b4-6e29-4046-ba2f-a9698d7028ef node node_modules/codecov.io/bin/codecov.io.js < coverage/lcov.info"
+    "codecov-submit": "CODECOV_TOKEN=4abd82b4-6e29-4046-ba2f-a9698d7028ef node node_modules/codecov.io/bin/codecov.io.js < coverage/lcov.info",
+    "npm-check-updates": "ncu --upgrade"
   },
   "repository": {
     "type": "git",
