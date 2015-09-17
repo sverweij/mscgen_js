@@ -125,7 +125,7 @@ define(["./constants", "./idmanager", "../text/utensils"], function(C, id, _) {
     }
 
     function _calculateTextHeight(){
-        return _getBBox(createText("\u00C1jy\u00CE9\u0192@")).height;// + C.LINE_WIDTH;
+        return _getBBox(createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9")).height;// + C.LINE_WIDTH;
     }
     
     
