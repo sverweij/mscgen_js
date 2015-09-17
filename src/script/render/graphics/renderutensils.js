@@ -133,7 +133,13 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
 
         if (pArc.label) {
             var lMiddle = pDims.x + (pDims.width / 2);
-            var lLines = txt.splitLabel(pArc.label, pArc.kind, pDims.width, pOptions ? pOptions.wordWrapArcs: false);
+            var lLines = txt.splitLabel(
+                pArc.label,
+                pArc.kind,
+                pDims.width,
+                C.FONT_SIZE,
+                pOptions ? pOptions.wordWrapArcs: false
+            );
             var lText = {};
             if(!!pOptions){
                 if (pOptions.alignAbove){
@@ -184,7 +190,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         createLabel: _createLabel,
         
         getNoEntityLines : function(pLabel, pWidth){
-            return txt.splitLabel(pLabel, "box", pWidth).length;
+            return txt.splitLabel(pLabel, "box", pWidth, C.FONT_SIZE).length;
         }
     };
 });
