@@ -65,21 +65,22 @@ function(map) {
      *        to be expensive)
      * @param {string} pWidth - the amount to calculate the # characters
      *        to fit in for
-     * @param {number} pMaxLength
-     * @return {array} - an array of strings
+     * @param {number} - pFontSize (in px)
+     * @return {number} - The maxumum number of characters that'll fit
      */
-    function _determineMaxTextWidth (pWidth) {
+    function _determineMaxTextWidthInChars (pWidth, pFontSize) {
         var lAbsWidth = Math.abs(pWidth);
+        var REFERENCE_FONT_SIZE = 12; // px
         
-        if (lAbsWidth <= 160) { return lAbsWidth / 8; } 
-        if (lAbsWidth <= 320) { return lAbsWidth / 6.4; } 
-        if (lAbsWidth <= 480) { return lAbsWidth / 5.9; }
-        return lAbsWidth / 5.6;
+        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*8); } 
+        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*6.4); } 
+        if (lAbsWidth <= 480) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.9); }
+        return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.6);
     }
 
-    function _splitLabel(pLabel, pKind, pWidth, pWordWrapArcs) {
+    function _splitLabel(pLabel, pKind, pWidth, pFontSize, pWordWrapArcs) {
         if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){
-            return _wrap(pLabel, _determineMaxTextWidth(pWidth));
+            return _wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');
         }
@@ -105,6 +106,7 @@ function(map) {
          * @param <string> - pLabel
          * @param <string> - pKind
          * @param <number> - pWidth
+         * @param <number> - pFontSize (in px)
          * @param <bool>   - pWordWrapArcs
          * @return <array of strings> - lLines
          */
