@@ -19,61 +19,57 @@ function cmpFn (pOne, pTwo){
     return pOne.localeCompare(pTwo);
 }
 
-function getFlattenedDeps (pStartDeps, pDepAry, pMagic){
+function getFlatDepString (pStartDeps, pDepAry, pResultDeps){
     pStartDeps.forEach(function(pDep){
-        if (pMagic.indexOf(pDep) < 0) {
-            pMagic.push(pDep);
+        if (pResultDeps.indexOf(pDep) < 0) {
+            pResultDeps.push(pDep);
         }
         if(!!(pDepAry[pDep]) && pDepAry[pDep].length > 0 ){
-            pMagic = getFlattenedDeps(pDepAry[pDep], pDepAry, pMagic);
+            pResultDeps = getFlatDepString(pDepAry[pDep], pDepAry, pResultDeps);
         }
     });
-    return pMagic;
+    return pResultDeps;
 }
 
-function getDepList(pArray, pStartWith){
+function getDepString(pArray, pStartWith){
     return pArray.sort(cmpFn).reduce(function(pSum, pDep){
         return pSum + " \\\n\t" + sourcyfy(pDep);
     }, sourcyfy(pStartWith) + ":");
 }
 
-function printDeps(pFormat){
+function getDeps(pFormat){
     var lDeps = madge(["src/script"], {format: pFormat}).tree;
-    process.stdout.write(
-        Object.keys(lDeps)
+
+    return Object.keys(lDeps)
             .filter(function(pDep){
                 return lDeps[pDep].length > 0;
             })
             .reduce(function(pSum, pDep){
-                return pSum + getDepList(lDeps[pDep], pDep) + "\n\n";
-            }, "")
-    );
+                return pSum + getDepString(lDeps[pDep], pDep) + "\n\n";
+            }, "");
 }
 
-function printFlatSourceList(pStartWith, pVariableName){
-    var lMadge = madge(["src/script"], {format: "amd"});
-    var lDeps = lMadge.tree;
-    
-    process.stdout.write(
-        getFlattenedDeps (lDeps[pStartWith], lDeps,[]).reduce(function(pSum, pDep){
+function getFlatDeps(pStartWith, pVariableName){
+    var lDeps = madge(["src/script"], {format: "amd"}).tree;
+
+    return getFlatDepString (lDeps[pStartWith], lDeps,[]).reduce(function(pSum, pDep){
             return pSum + " \\\n\t" + sourcyfy(pDep);
-        }, pVariableName + "=" + sourcyfy(pStartWith)) + "\n\n"
-    );
+        }, pVariableName + "=" + sourcyfy(pStartWith)) + "\n\n";
 }
 
 process.stdout.write("# To re-generate its contents run 'make depend'\n\n");
 
 process.stdout.write("# all js needed for mscgen embedding (mscgen-inpage.js)\n");
-printFlatSourceList("mscgen-inpage", "EMBED_JS_SOURCES");
+process.stdout.write(getFlatDeps("mscgen-inpage", "EMBED_JS_SOURCES"));
 
 process.stdout.write("# all js needed for online interpreter (mscgen-interpreter.js)\n");
-printFlatSourceList("mscgen-interpreter", "INTERPRETER_JS_SOURCES");
+process.stdout.write(getFlatDeps("mscgen-interpreter", "INTERPRETER_JS_SOURCES"));
 
 process.stdout.write("# amd dependencies\n");
-printDeps("amd");
+process.stdout.write(getDeps("amd"));
 
 process.stdout.write("# commonJS dependencies\n");
-printDeps("cjs");
+process.stdout.write(getDeps("cjs"));
 
 /*
     This file is part of mscgen_js.
