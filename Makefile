@@ -13,6 +13,7 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
+MAKEDEPEND=node utl/makedepend.js
 
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
@@ -59,7 +60,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
 
 help:
 	@echo " --------------------------------------------------------"
@@ -130,6 +131,7 @@ $(PRODDIRS):
 	mkdir -p $@
 
 # dependencies 
+include src/jsdependencies.mk
 include src/dependencies.mk
 
 # file targets prod
@@ -175,7 +177,7 @@ $(BUILDDIR)/samples/: src/samples
 $(BUILDDIR)/lib/require.js: src/lib/require.js
 	cp $< $@
 
-$(BUILDDIR)/script/mscgen-interpreter.js: src/script/mscgen-interpreter.js
+$(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
 	$(RJS) -o baseUrl="./src/script" \
 			name="mscgen-interpreter" \
 			out=$@.tmp \
@@ -183,7 +185,7 @@ $(BUILDDIR)/script/mscgen-interpreter.js: src/script/mscgen-interpreter.js
 	$(SEDVERSION) < $@.tmp > $@
 	rm $@.tmp
 
-$(BUILDDIR)/mscgen-inpage.js: src/script/mscgen-inpage.js src/lib/almond.js
+$(BUILDDIR)/mscgen-inpage.js: $(EMBED_JS_SOURCES) src/lib/almond.js
 	$(RJS) -o baseUrl=./src/script \
 			name=../lib/almond \
 			include=mscgen-inpage \
@@ -252,6 +254,9 @@ update-dependencies: run-update-dependencies clean-generated-sources dev-build t
 run-update-dependencies: 
 	$(NPM) run npm-check-updates
 	$(NPM) install
+	
+depend:
+	$(MAKEDEPEND) >src/jsdependencies.mk
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \

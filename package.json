@@ -18,6 +18,7 @@
     "gulp-sass": "2.0.4",
     "istanbul": "0.3.20",
     "jshint": "2.8.0",
+    "madge": "0.5.0",
     "mocha": "2.3.2",
     "node-localstorage": "0.6.0",
     "node-sass": "3.3.2",
