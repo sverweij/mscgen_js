@@ -1,10 +1,13 @@
 /*
- * takes a simplified message sequence chart program and translates
- * to an mscgen program
+ * generates to stdout:
+ * - all amd and commonjs dependencies in the src/script tree
+ * - a (flat) list of all (js) sources involved in embedding ('mscgen-inpage.js')
+ * - a (flat) list of all (js) sources involved in embedding ('mscgen-interpreter.js')
  */
 /* jshint indent:4 */
 /* jshint node:true */
-/* jshint strict: false */
+/* jshint strict:false */
+
 var path = require('path');
 var madge = require('madge');
 
@@ -13,13 +16,10 @@ function sourcyfy(pString){
 }
 
 function cmpFn (pOne, pTwo){
-    "use strict";
     return pOne.localeCompare(pTwo);
 }
 
 function getFlattenedDeps (pStartDeps, pDepAry, pMagic){
-    "use strict";
-    
     pStartDeps.forEach(function(pDep){
         if (pMagic.indexOf(pDep) < 0) {
             pMagic.push(pDep);
