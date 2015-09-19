@@ -211,7 +211,7 @@ define(["./svgelementfactory",
          var lHighestEntity = pEntities[0];
          var lHWM = 2;
          pEntities.forEach(function(pEntity){
-             var lNoEntityLines = entities.getNoEntityLines(pEntity.label, entities.getDims().width);
+             var lNoEntityLines = entities.getNoEntityLines(pEntity.label);
              if (lNoEntityLines > lHWM){
                  lHWM = lNoEntityLines;
                  lHighestEntity = pEntity;

@@ -72,8 +72,8 @@ define(["../text/textutensils", "./constants"], function(txt, C) {
         setHeight: setHeight,
         getDims: getDims,
         
-        getNoEntityLines : function(pLabel, pWidth){
-            return txt.splitLabel(pLabel, "box", pWidth, C.FONT_SIZE).length;
+        getNoEntityLines : function(pLabel){
+            return txt.splitLabel(pLabel, "box", gEntityDims.width, C.FONT_SIZE).length;
         }
     };
 });
