@@ -211,7 +211,7 @@ define(["./svgelementfactory",
          var lHighestEntity = pEntities[0];
          var lHWM = 2;
          pEntities.forEach(function(pEntity){
-             var lNoEntityLines = utl.getNoEntityLines(pEntity.label, entities.getDims().width);
+             var lNoEntityLines = entities.getNoEntityLines(pEntity.label, entities.getDims().width);
              if (lNoEntityLines > lHWM){
                  lHWM = lNoEntityLines;
                  lHighestEntity = pEntity;
@@ -380,6 +380,8 @@ define(["./svgelementfactory",
     function renderArcRows(pArcRows, pEntities) {
         gInlineExpressionMemory = [];
         gChart.layer.defs.appendChild(renderLifeLines(pEntities, id.get("arcrow")));
+        
+        /* put some space between the entities and the arcs */
         gChart.layer.lifeline.appendChild(fact.createUse(0, rowmemory.get(-1).y, id.get("arcrow")));
 
         if (pArcRows) {
@@ -484,8 +486,8 @@ define(["./svgelementfactory",
         
         if (pDouble) {
             lRetval = fact.createGroup();
-            /* we need a middle turn to attach the arrow to */
             var lInnerTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - 2*C.LINE_WIDTH), lWidth - 2*C.LINE_WIDTH, pKind !== "::");
+            /* we need a middle turn to attach the arrow to */
             var lMiddleTurn = fact.createUTurn({x:pFrom, y:lHeight/ 2}, (pYTo + lHeight - C.LINE_WIDTH), lWidth);
             var lOuterTurn  = fact.createUTurn({x:pFrom, y:lHeight/ 2},     (pYTo + lHeight ), lWidth, pKind !== "::");
             lInnerTurn.setAttribute("style", "stroke:" + pLineColor);
@@ -554,7 +556,11 @@ define(["./svgelementfactory",
             lGroup.appendChild(
                 utl.createLabel(
                     pArc, 
-                    {x:pFrom + 1.5*C.LINE_WIDTH - (lTextWidth/2), y:0 - (gChart.arcRowHeight / 5) - C.LINE_WIDTH/2, width:lTextWidth}, 
+                    {
+                        x:pFrom + 1.5*C.LINE_WIDTH - (lTextWidth/2),
+                        y:0 - (gChart.arcRowHeight / 5) - C.LINE_WIDTH/2, 
+                        width:lTextWidth
+                    }, 
                     {alignLeft: true, alignAbove: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs}
                 )
             );

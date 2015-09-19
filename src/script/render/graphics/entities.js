@@ -9,12 +9,12 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(["../text/textutensils", "./constants"], function(txt, C) {
     "use strict";
     
-    var DEFAULT_INTER_ENTITY_SPACING = 160; // chart only
-    var DEFAULT_ENTITY_WIDTH = 100; // chart only
-    var DEFAULT_ENTITY_HEIGHT = 34; // chart only
+    var DEFAULT_INTER_ENTITY_SPACING = 160; // px
+    var DEFAULT_ENTITY_WIDTH = 100; // px
+    var DEFAULT_ENTITY_HEIGHT = 34; // px
 
     var gEntityDims = {
         interEntitySpacing: DEFAULT_INTER_ENTITY_SPACING,
@@ -70,7 +70,11 @@ define([], function() {
         getOAndD: getOAndD,
         
         setHeight: setHeight,
-        getDims: getDims
+        getDims: getDims,
+        
+        getNoEntityLines : function(pLabel, pWidth){
+            return txt.splitLabel(pLabel, "box", pWidth, C.FONT_SIZE).length;
+        }
     };
 });
 /*
