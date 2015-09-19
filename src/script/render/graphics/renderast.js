@@ -18,8 +18,9 @@ define(["./svgelementfactory",
         "./idmanager", 
         "./markermanager", 
         "./entities",
+        "./renderlabels",
         "./constants"],
-    function(fact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, entities, C) {
+    function(fact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, entities, labels, C) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -230,7 +231,7 @@ define(["./svgelementfactory",
     function renderEntity(pEntity, pBBox) {
         var lGroup = fact.createGroup(id.get(pEntity.name));
         var lTextLabel = 
-            utl.createLabel(
+            labels.createLabel(
                 pEntity,
                 {x:0, y:pBBox.height / 2, width:pBBox.width},
                 {underline: true}
@@ -330,7 +331,7 @@ define(["./svgelementfactory",
                             pArc.label = lLabel;
                             
                             /* creates a label on the current line, smack in the middle */
-                            lElement = utl.createLabel(
+                            lElement = labels.createLabel(
                                         pArc,
                                         {x: 0, y: 0, width: gChart.arcEndX},
                                         {alignAround: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs},
@@ -416,7 +417,7 @@ define(["./svgelementfactory",
         var lStart = (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * C.LINE_WIDTH) / 2) - (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH);
         var lGroup = fact.createGroup(pId);
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
-        var lTextGroup = utl.createLabel(
+        var lTextGroup = labels.createLabel(
             pArc,
             {x:lStart + C.LINE_WIDTH - (lMaxWidth / 2), y:gChart.arcRowHeight / 4, width:lMaxWidth}, 
             {alignLeft: true, ownBackground : false, wordWrapArcs: gChart.wordWrapArcs}
@@ -554,7 +555,7 @@ define(["./svgelementfactory",
             /* creates a label left aligned, a little above the arc*/
             var lTextWidth = 2*entities.getDims().interEntitySpacing/3;
             lGroup.appendChild(
-                utl.createLabel(
+                labels.createLabel(
                     pArc, 
                     {
                         x:pFrom + 1.5*C.LINE_WIDTH - (lTextWidth/2),
@@ -573,7 +574,7 @@ define(["./svgelementfactory",
             
             /* create a label centered on the arc */
             lGroup.appendChild(
-                utl.createLabel(
+                labels.createLabel(
                     pArc,
                     {x: pFrom, y: 0, width: pTo - pFrom},
                     {alignAround: true, ownBackground: true, wordWrapArcs: gChart.wordWrapArcs}
@@ -602,7 +603,7 @@ define(["./svgelementfactory",
             lArcEnd = Math.abs(entities.getX(pArc.to) - entities.getX(pArc.from));
         }
         lGroup.appendChild(
-            utl.createLabel(
+            labels.createLabel(
                 pArc,
                 {x:lArcStart, y:0, width:lArcEnd},
                 {ownBackground:true, wordWrapArcs: gChart.wordWrapArcs},
@@ -667,7 +668,7 @@ define(["./svgelementfactory",
         var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox;
-        var lTextGroup = utl.createLabel(pArc, {x:lStart, y:0, width:lWidth});
+        var lTextGroup = labels.createLabel(pArc, {x:lStart, y:0, width:lWidth});
         var lTextBBox = svgutl.getBBox(lTextGroup);
 
         var lHeight = pHeight ? pHeight : Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);
