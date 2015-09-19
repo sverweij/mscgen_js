@@ -154,16 +154,18 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
                 }
                 lStartY = pDims.y - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
             }            
-            lLines.forEach(function(pLine, pLineNumber){
-                lText = createLabelLine(pLine, lMiddle, lStartY, pArc, pLineNumber, pOptions);
-                if (pLine !== ""){
-                    if (!!pOptions && pOptions.ownBackground){
-                        lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
+            lLines
+                .filter(function(pLine){ return pLine !== "";})
+                .forEach(
+                    function(pLine, pLineNumber){
+                        lText = createLabelLine(pLine, lMiddle, lStartY, pArc, pLineNumber, pOptions);
+                        if (!!pOptions && pOptions.ownBackground){
+                            lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
+                        }
+                        lGroup.appendChild(lText);
+                        lStartY++;
                     }
-                    lGroup.appendChild(lText);
-                }
-                lStartY++;
-            });
+                );
         }
         return lGroup;
     }
