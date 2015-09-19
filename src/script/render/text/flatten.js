@@ -90,7 +90,7 @@ function(transform, map, utl, txt) {
         if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
             lArcSpanningArc = utl.deepCopy(pArcRow[0]);
 
-            if (lArcSpanningArc.arcs) {
+            if (!!(lArcSpanningArc.arcs)) {
                 lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
                 delete lArcSpanningArc.arcs;
                 pAST.arcs.push([lArcSpanningArc]);
@@ -115,13 +115,16 @@ function(transform, map, utl, txt) {
             lArcSpanningArc.depth = pDepth;
         } else {
             if (pFrom && pTo) {
-                pArcRow.forEach(function(pArc) {
-                    if ("emptyarc" === map.getAggregate(pArc.kind)) {
+                pArcRow
+                    .filter(function(pArc){
+                        return "emptyarc" === map.getAggregate(pArc.kind);
+                    })
+                    .forEach(function(pArc) {
                         pArc.from = pFrom;
                         pArc.to = pTo;
                         pArc.depth = pDepth;
                     }
-                });
+                );
             }
             pAST.arcs.push(pArcRow);
         }
@@ -216,7 +219,7 @@ function(transform, map, utl, txt) {
          *    - entities without a label get one (the name of the label)
          *    - arc directions get unified to always go forward
          *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
-         *    - explodes broadcast arcs (TODO)
+         *    - explodes broadcast arcs
          *    - flattens any recursion (see the {@linkcode unwind} function in
          *      in this module)
          *    - distributes arc*color from the entities to the affected arcs
