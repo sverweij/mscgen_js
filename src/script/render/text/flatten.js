@@ -161,9 +161,12 @@ function(transform, map, utl, txt) {
             var lExplodedArcsAry = [];
             var lOriginalBroadcastArc = {};
             pAST.arcs.forEach(function(pArcRow, pArcRowIndex) {
-                pArcRow.forEach(function(pArc, pArcIndex) {
-                    /* assuming swap has been done already and "*" is in no 'from'  anymore */
-                    if (pArc.to === "*") {
+                pArcRow
+                    .filter(function(pArc){
+                        /* assuming swap has been done already and "*" is in no 'from'  anymore */
+                        return pArc.to === "*";
+                    })
+                    .forEach(function(pArc, pArcIndex) {
                         /* save a clone of the broadcast arc attributes
                          * and remove the original bc arc
                          */
@@ -172,8 +175,7 @@ function(transform, map, utl, txt) {
                         lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                         pArcRow[pArcIndex] = lExplodedArcsAry.shift();
                         pAST.arcs[pArcRowIndex] = pArcRow.concat(lExplodedArcsAry);
-                    }
-                });
+                    });
             });
         }
         return pAST;
