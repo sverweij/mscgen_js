@@ -43,12 +43,13 @@ define(["./constants"], function(C) {
      * @param {string} pClass - reference to a css class
      * @return {SVGElement}
      */
-    function _createPath(pD, pClass) {
+    function _createPath(pD, pClass, pColor, pBgColor) {
         var lPath = gDocument.createElementNS(C.SVGNS, "path");
         lPath.setAttribute("d", pD);
         if (pClass) {
             lPath.setAttribute("class", pClass);
         }
+        colorBox(lPath, pColor, pBgColor);
         return lPath;
     }
 
@@ -61,7 +62,7 @@ define(["./constants"], function(C) {
         return lPath;
     }
 
-    function _createRect(pBBox, pClass, pRX, pRY) {
+    function _createRect(pBBox, pClass, pColor, pBgColor, pRX, pRY) {
         var lRect = gDocument.createElementNS(C.SVGNS, "rect");
         lRect.setAttribute("width", pBBox.width);
         lRect.setAttribute("height", pBBox.height);
@@ -80,10 +81,24 @@ define(["./constants"], function(C) {
         if (pClass) {
             lRect.setAttribute("class", pClass);
         }
+        colorBox(lRect, pColor, pBgColor);
         return lRect;
     }
 
-    function _createABox(pBBox, pClass) {
+    function colorBox(pElement, pColor, pBgColor){
+        if (!!pColor || !!pBgColor) {
+            var lStyleString = "";
+            if (pBgColor) {
+                lStyleString += "fill:" + pBgColor + ";";
+            }
+            if (pColor) {
+                lStyleString += "stroke:" + pColor + ";";
+            }
+            pElement.setAttribute("style", lStyleString);
+        }    
+    }
+    
+    function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
         // start
@@ -94,11 +109,10 @@ define(["./constants"], function(C) {
         lPathString += "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 ";
         // bottom line
         lPathString += "l-" + lSlopeOffset + ",-" + pBBox.height / 2;
-
-        return _createPath(lPathString, pClass);
+        return _createPath(lPathString, pClass, pColor, pBgColor);
     }
 
-    function _createNote(pBBox, pClass) {
+    function _createNote(pBBox, pClass, pColor, pBgColor) {
         var lFoldSizeN = Math.max(9,Math.min(4.5*C.LINE_WIDTH, pBBox.height/2));
         var lFoldSize = lFoldSizeN.toString(10);
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
@@ -114,10 +128,10 @@ define(["./constants"], function(C) {
         // back to home:
         lPathString += "l0,-" + (pBBox.height + (C.LINE_WIDTH/2)) + " ";
 
-        return _createPath(lPathString, pClass);
+        return _createPath(lPathString, pClass, pColor, pBgColor);
     }
 
-    function _createEdgeRemark(pBBox, pClass, pFoldSize) {
+    function _createEdgeRemark(pBBox, pClass, pColor, pBgColor, pFoldSize) {
         var lFoldSize = pFoldSize ? pFoldSize : 7;
         // start:
         var lPathString = "M" + pBBox.x + "," + pBBox.y;
@@ -130,7 +144,7 @@ define(["./constants"], function(C) {
         // bottom line:
         lPathString += " l-" + (pBBox.width - lFoldSize) + ",0 ";
 
-        return _createPath(lPathString, pClass);
+        return _createPath(lPathString, pClass, pColor, pBgColor);
     }
 
     function createLink (pURL, pElementToWrap){

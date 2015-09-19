@@ -222,30 +222,30 @@ define(["./svgelementfactory",
          if (lHWM > 2){
              return Math.max(entities.getDims().height, 
                              svgutl.getBBox(
-                                 renderEntity(lHighestEntity, entities.getDims())
+                                 renderEntity(lHighestEntity)
                              ).height
              );
          }
          return entities.getDims().height;
      }
 
-    function renderEntity(pEntity, pBBox) {
+    function renderEntity(pEntity) {
         var lGroup = fact.createGroup(id.get(pEntity.name));
+        var lBBox = entities.getDims();
         var lTextLabel = 
             labels.createLabel(
                 pEntity,
-                {x:0, y:pBBox.height / 2, width:pBBox.width},
+                {x:0, y:lBBox.height / 2, width:lBBox.width},
                 {underline: true}
             );
-        var lRect = fact.createRect(pBBox);
-        utl.colorBox(lRect, pEntity);
+        var lRect = fact.createRect(lBBox, null, pEntity.linecolor, pEntity.textbgcolor);
         lGroup.appendChild(lRect);
         lGroup.appendChild(lTextLabel);
         return lGroup;
     }
 
     function _renderEntity(pEntity, pEntityXPos) {
-        gChart.layer.defs.appendChild(renderEntity(pEntity, entities.getDims()));
+        gChart.layer.defs.appendChild(renderEntity(pEntity));
         gChart.layer.sequence.appendChild(fact.createUse(pEntityXPos, 0, id.get(pEntity.name)));
     }
 
@@ -429,8 +429,7 @@ define(["./svgelementfactory",
         var lHeight = Math.max(lBBox.height + 2 * C.LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * C.LINE_WIDTH);
         var lWidth = Math.min(lBBox.width + 2 * C.LINE_WIDTH, lMaxWidth);
 
-        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", FOLD_SIZE);
-        utl.colorBox(lBox, pArc);
+        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", pArc.linecolor, pArc.textbgcolor, FOLD_SIZE);
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
 
@@ -677,23 +676,22 @@ define(["./svgelementfactory",
 
         switch (pArc.kind) {
             case ("box") :
-                lBox = fact.createRect(lBBox, "box");
+                lBox = fact.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
                 break;
             case ("rbox") :
-                lBox = fact.createRect(lBBox, "box", RBOX_CORNER_RADIUS, RBOX_CORNER_RADIUS);
+                lBox = fact.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor, RBOX_CORNER_RADIUS, RBOX_CORNER_RADIUS);
                 break;
             case ("abox") :
                 lBBox.y = 0;
-                lBox = fact.createABox(lBBox, "box");
+                lBox = fact.createABox(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
                 break;
             case ("note") :
-                lBox = fact.createNote(lBBox, "box");
+                lBox = fact.createNote(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
                 break;
             default :
                 var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * C.LINE_WIDTH;
-                lBox = fact.createRect({width: lWidth + lArcDepthCorrection * 2, height: lHeight, x: lStart - lArcDepthCorrection, y: 0}, "box");
+                lBox = fact.createRect({width: lWidth + lArcDepthCorrection * 2, height: lHeight, x: lStart - lArcDepthCorrection, y: 0}, "box", pArc.linecolor, pArc.textbgcolor);
         }
-        utl.colorBox(lBox, pArc);
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
 

@@ -26,24 +26,6 @@ define([], function() {
         return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
     }
 
-    /**
-     * colorBox() - sets the fill and stroke color of the element to the
-     * textbgcolor and linecolor of the given arc
-     *
-     * @param <svg element> - pElemeent
-     * @param <object> - pArc
-     */
-    function _colorBox(pElement, pArc) {
-        var lStyleString = "";
-        if (pArc.textbgcolor) {
-            lStyleString += "fill:" + pArc.textbgcolor + ";";
-        }
-        if (pArc.linecolor) {
-            lStyleString += "stroke:" + pArc.linecolor + ";";
-        }
-        pElement.setAttribute("style", lStyleString);
-    }
-
     function _determineArcXTo(pKind, pFrom, pTo){
         if ("-x" === pKind) {
             return pFrom + (pTo - pFrom) * (3 / 4);
@@ -51,11 +33,10 @@ define([], function() {
             return pTo;
         }
     }
-    
+
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
         determineDepthCorrection : _determineDepthCorrection,
-        colorBox: _colorBox,
         determineArcXTo: _determineArcXTo,
     };
 });
