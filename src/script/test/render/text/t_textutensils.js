@@ -57,21 +57,4 @@ describe('render/text/textutensils', function() {
         });
     });
 
-    describe('#formatNumber() - ', function() {
-        it('puts two spaces in front of a single digit on max width 3', function() {
-            assert.equal(txt.formatNumber(7, 3), "  7");
-        });
-        it('puts no spaces in front of a single digit on max width 1', function() {
-            assert.equal(txt.formatNumber(7, 1), "7");
-        });
-        it('puts no spaces in front of a single digit on max width 0', function() {
-            assert.equal(txt.formatNumber(7, 0), "7");
-        });
-        it('puts no spaces in front of a single digit on max width < 0', function() {
-            assert.equal(txt.formatNumber(7, -8), "7");
-        });
-        it('puts no spaces in front of a three digit number on max width 3', function() {
-            assert.equal(txt.formatNumber(481, 3), "481");
-        });
-    });
 });
