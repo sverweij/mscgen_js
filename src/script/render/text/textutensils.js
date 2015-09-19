@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./arcmappings"],
+define([],
 /**
  * A hodge podge of functions manipulating text
  *
  * @exports node/textutensils
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(map) {
+function() {
     "use strict";
 
     function _wrap(pText, pMaxLength) {
@@ -54,38 +54,6 @@ function(map) {
         return lRetval;
     }
 
-    /**
-     * Determine the number characters that fit within pWidth amount
-     * of pixels.
-     *
-     * Uses heuristics that work for 9pt/12px Helvetica in svg's.
-     * TODO: make more generic, or use an algorithm that
-     *       uses the real width of the text under discourse
-     *       (e.g. using its BBox; although I fear this
-     *        to be expensive)
-     * @param {string} pWidth - the amount to calculate the # characters
-     *        to fit in for
-     * @param {number} - pFontSize (in px)
-     * @return {number} - The maxumum number of characters that'll fit
-     */
-    function _determineMaxTextWidthInChars (pWidth, pFontSize) {
-        var lAbsWidth = Math.abs(pWidth);
-        var REFERENCE_FONT_SIZE = 12; // px
-        
-        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*8); } 
-        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*6.4); } 
-        if (lAbsWidth <= 480) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.9); }
-        return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.6);
-    }
-
-    function _splitLabel(pLabel, pKind, pWidth, pFontSize, pWordWrapArcs) {
-        if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){
-            return _wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
-        } else {
-            return pLabel.split('\\n');
-        }
-    }
-
     return {
         /**
          * Wraps text on the first space found before pMaxlength,
@@ -96,21 +64,6 @@ function(map) {
          * @return {string}
          */
         wrap : _wrap,
-
-        /**
-         * splitLabel () - splits the given pLabel into an array of strings
-         * - if the arc kind passed is a box the split occurs regardless
-         * - if the arc kind passed is something else, the split occurs
-         *   only if the _word wrap arcs_ option is true.
-         *
-         * @param <string> - pLabel
-         * @param <string> - pKind
-         * @param <number> - pWidth
-         * @param <number> - pFontSize (in px)
-         * @param <bool>   - pWordWrapArcs
-         * @return <array of strings> - lLines
-         */
-         splitLabel: _splitLabel,
 
         /**
          * takes pString and replaces all escaped double quotes with

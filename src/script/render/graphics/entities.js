@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../text/textutensils", "./constants"], function(txt, C) {
+define(["./renderlabels", "./constants"], function(lbl, C) {
     "use strict";
     
     var DEFAULT_INTER_ENTITY_SPACING = 160; // px
@@ -73,7 +73,7 @@ define(["../text/textutensils", "./constants"], function(txt, C) {
         getDims: getDims,
         
         getNoEntityLines : function(pLabel){
-            return txt.splitLabel(pLabel, "box", gEntityDims.width, C.FONT_SIZE).length;
+            return lbl.splitLabel(pLabel, "box", gEntityDims.width, C.FONT_SIZE).length;
         }
     };
 });
