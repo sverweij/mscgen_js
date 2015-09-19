@@ -17,6 +17,12 @@ define([], function() {
         return obj !== null && hasOwnProperty.call(obj, key);
     }
     
+    function swap (pPair, pA, pB){
+        var lTmp = pPair[pA];
+        pPair[pA] = pPair[pB];
+        pPair[pB] = lTmp;
+    }
+
     return {
         /*
          * returns an non-nested array from a nested array
@@ -52,7 +58,15 @@ define([], function() {
             };
             lMemoize.lCache = {};
             return lMemoize;
-          }
+        },
+        
+        /*
+         * swaps the values of the attributes "from" and "two"
+         * in the pPair object with each other
+         */
+        swapfromto : function (pPair){
+            swap(pPair, "from", "to");
+        }
     };
 });
 /*

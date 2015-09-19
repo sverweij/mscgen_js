@@ -44,16 +44,6 @@ define([], function() {
         pElement.setAttribute("style", lStyleString);
     }
 
-    function swap (pPair, pA, pB){
-        var lTmp = pPair[pA];
-        pPair[pA] = pPair[pB];
-        pPair[pB] = lTmp;
-    }
-
-    function _swapfromto(pPair){
-        swap(pPair, "from", "to");
-    }
-    
     function _determineArcXTo(pKind, pFrom, pTo){
         if ("-x" === pKind) {
             return pFrom + (pTo - pFrom) * (3 / 4);
@@ -66,7 +56,6 @@ define([], function() {
         scaleCanvasToWidth : _scaleCanvasToWidth,
         determineDepthCorrection : _determineDepthCorrection,
         colorBox: _colorBox,
-        swapfromto: _swapfromto,
         determineArcXTo: _determineArcXTo,
     };
 });
