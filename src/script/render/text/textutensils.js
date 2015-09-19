@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap"],
+define(["./arcmappings"],
 /**
  * A hodge podge of functions manipulating text
  *

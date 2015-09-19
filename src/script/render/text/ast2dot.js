@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", "./textutensils", "./dotmap", "./utensils"],
+define(["./flatten", "./textutensils", "./arcmappings", "./utensils"],
 function(flatten, txt, map, utl) {
     "use strict";
 

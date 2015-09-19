@@ -129,7 +129,7 @@ define(["./constants", "./idmanager", "../text/utensils"], function(C, id, _) {
          * above/ below the current line and an 'astral codepoint' to
          * determine the text height to use everywhere.
          *  
-         * The astral codepoint mainly makes a difference in gecko based
+         * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
          * browsers. The string in readable form: ÁjyÎ9ƒ@💩
          */
         return _getBBox(createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9")).height;

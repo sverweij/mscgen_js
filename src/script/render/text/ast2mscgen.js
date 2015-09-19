@@ -13,7 +13,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./dotmap", "./textutensils", "./ast2thing"], function(map, utl, thing) {
+define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, thing) {
     "use strict";
 
     var INDENT = "  ";
