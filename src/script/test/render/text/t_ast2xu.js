@@ -5,7 +5,7 @@ var fs = require("fs");
 var parser = require("../../../parse/xuparser_node");
 var utl = require("../../testutensils");
 
-describe('ast2xu', function() {
+describe('render/text/ast2xu', function() {
     describe('#renderAST() - simple syntax tree', function() {
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple);

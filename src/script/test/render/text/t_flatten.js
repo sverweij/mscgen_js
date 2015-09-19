@@ -2,7 +2,7 @@ var flatten = require("../../../render/text/flatten");
 var fix = require("../../astfixtures");
 var utl = require("../../testutensils");
 
-describe('flatten', function() {
+describe('render/text/flatten', function() {
     describe('unwind', function() {
         it('should return an "unwound" version of the simple one alt ', function() {
             utl.assertequalJSON(fix.astOneAltUnwound, flatten.unwind(fix.astOneAlt));

@@ -77,7 +77,7 @@ var gMarkerDefs =
       }
     ];
 
-describe('marker manager', function() {
+describe('render/graphics/markermanager', function() {
     describe('#getConfig - paths not hit in end2end, but that are still important', function() {
     
         it('should return the colors in arcs in inline expressions', function() {

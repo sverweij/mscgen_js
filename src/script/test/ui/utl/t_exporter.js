@@ -41,7 +41,7 @@ var gAST = {
 var gSVG = '<svg>just a dummy thing</svg>';
 var gMsc = 'msc{a[label="💩"],b[label="序"],c [label="💩"]; a => b[label="things"], c => b;}';
 
-describe('exporter', function(){
+describe('ui/utl/exporter', function(){
     describe('#toVectorURI', function(){
         it('Should render an URI encoded svg', function(){
             var lWindow = {

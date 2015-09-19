@@ -1,7 +1,7 @@
 var assert = require("assert");
 var txt = require("../../../ui/utl/maps");
 
-describe('maps', function() {
+describe('ui/utl/maps', function() {
 
     describe('#classifyExtension() - ', function() {
 

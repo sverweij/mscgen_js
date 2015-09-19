@@ -5,7 +5,7 @@ var fix = require("../../astfixtures");
 var utl = require("../../testutensils");
 var fs = require("fs");
 
-describe('ast2ani', function() {
+describe('render/text/ast2ani', function() {
     var astCheatSheet0 = {
         "meta": {
           "extendedOptions": false,

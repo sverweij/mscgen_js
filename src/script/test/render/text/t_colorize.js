@@ -636,7 +636,7 @@ var customMscTestOutput = {
   ]
 };
 
-describe('colorize', function() {
+describe('render/text/colorize', function() {
     describe('#colorize', function() {
         it('should return the input on uncolor(colorize)', function(){
             utl.assertequalJSON(fix.astAltWithinLoop, colorize.uncolor(colorize.applyScheme(clone(fix.astAltWithinLoop))));

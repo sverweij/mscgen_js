@@ -3,7 +3,7 @@ var renderer = require("../../../render/text/ast2dot");
 var fix = require("../../astfixtures");
 var fs = require("fs");
 
-describe('ast2dot', function() {
+describe('render/text/ast2dot', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
 
         it('should, given a simple syntax tree, render a dot script', function() {

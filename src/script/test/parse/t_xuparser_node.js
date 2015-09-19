@@ -3,7 +3,7 @@ var tst = require("../testutensils");
 var fix = require("../astfixtures");
 var fs = require("fs");
 
-describe('xuparser', function() {
+describe('parse/xuparser', function() {
     describe('#parse()', function() {
 
         it('should render a simple AST', function() {

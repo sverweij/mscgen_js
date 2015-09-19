@@ -5,7 +5,7 @@ var fix = require("../../astfixtures");
 var utl = require("../../testutensils");
 var fs = require("fs");
 
-describe('ast2mscgen', function() {
+describe('render/text/ast2mscgen', function() {
     describe('#renderAST() - simple syntax tree', function() {
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple);

@@ -2,7 +2,7 @@ var assert = require("assert");
 var renderer = require("../../../render/text/ast2doxygen");
 var fix = require("../../astfixtures");
 
-describe('ast2doxygen', function() {
+describe('render/text/ast2doxygen', function() {
     describe('#renderAST() - simple syntax tree', function() {
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple);

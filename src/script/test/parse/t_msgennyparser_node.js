@@ -45,7 +45,7 @@ var gCorrectOrderFixture = {
 };
 
 
-describe('msgennyparser', function() {
+describe('parse/msgennyparser', function() {
 
     describe('#parse()', function() {
 

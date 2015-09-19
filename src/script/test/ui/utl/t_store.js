@@ -2,7 +2,7 @@
 var store = require("../../../ui/utl/store");
 var assert = require("assert");
 
-describe('store', function() {
+describe('ui/utl/store', function() {
     var lLanguage = "initial language";
     var lSource = "initial source";
     var lAutoRender = false;

@@ -2,7 +2,7 @@
 var par = require("../../../ui/utl/paramslikker");
 var utl = require("../../testutensils");
 
-describe('textutensils', function() {
+describe('ui/utl/paramslikker', function() {
     describe('#getParams - empty', function() {
         it('should return an empty object when no string passed', function() {
             utl.assertequalJSON({}, par.getParams());
