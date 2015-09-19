@@ -3,10 +3,10 @@
 require(["parse/xuparser", 
          "parse/msgennyparser",
          "render/graphics/renderast",
-         "render/text/textutensils",
+         "utl/utensils",
          "ui/utl/exporter",
          "ui/embedding/config"], 
-        function(mscparser, msgennyparser, msc_render, utl, exp, conf) {
+        function(mscparser, msgennyparser, msc_render, _, exp, conf) {
     "use strict";
 
     start();
@@ -18,7 +18,7 @@ require(["parse/xuparser",
     }
 
     function formatLine(pLine, pLineNo){
-        return utl.formatNumber(pLineNo, 3) + " " + pLine;
+        return _.formatNumber(pLineNo, 3) + " " + pLine;
     }
 
     function underlineCol(pLine, pCol){

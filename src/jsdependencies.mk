@@ -89,9 +89,9 @@ src/script/mscgen-inpage.js: \
 	src/script/parse/msgennyparser.js \
 	src/script/parse/xuparser.js \
 	src/script/render/graphics/renderast.js \
-	src/script/render/text/textutensils.js \
 	src/script/ui/embedding/config.js \
-	src/script/ui/utl/exporter.js
+	src/script/ui/utl/exporter.js \
+	src/script/utl/utensils.js
 
 src/script/mscgen-interpreter.js: \
 	src/script/ui/interpreter/editor-events.js \

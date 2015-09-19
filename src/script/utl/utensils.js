@@ -76,6 +76,24 @@ define([], function() {
          */
         sanitizeBooleanesque: function(pString){
             return (["1", "true", "y", "yes", "on"].indexOf(pString) > -1);
+        },
+
+        /**
+         * Given a Number, emits a String with that number in, left padded so the
+         * string is pMaxWidth long. If the number doesn't fit within pMaxWidth
+         * characters, just returns a String with that number in it
+         *
+         * @param {number} pNumber
+         * @param {number} pMaxWidth
+         * @return {string} - the formatted number
+         */
+        formatNumber : function(pNumber, pMaxWidth) {
+            var lRetval = pNumber.toString();
+            var lPosLeft = pMaxWidth - lRetval.length;
+            for (var i = 0; i < lPosLeft; i++) {
+                lRetval = " " + lRetval;
+            }
+            return lRetval;
         }
     };
 });
