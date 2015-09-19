@@ -141,13 +141,10 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
                 pOptions ? pOptions.wordWrapArcs: false
             );
             var lText = {};
-            if(!!pOptions){
-                if (pOptions.alignAbove){
-                    var lNoLinesToAdd = lLines.length;
-                    for (var i = 0; i <  lNoLinesToAdd ;i++){
-                        lLines.push("");
-                    }
-                }
+            if(!!pOptions && pOptions.alignAbove){
+                lLines.forEach(function(){
+                    lLines.push("");
+                });
             }
 
             var lStartY = pDims.y - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + 1);
