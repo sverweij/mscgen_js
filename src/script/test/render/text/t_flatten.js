@@ -20,7 +20,7 @@ describe('flatten', function() {
             utl.assertequalJSON(fix.astNestedInlinesWithArcColorUnWound, flatten.unwind(fix.astNestedInlinesWithArcColor));
         });
     });
-
+    
     describe('explodeBroadcasts', function() {
         it('leave asts without broadcasts alone', function() {
             utl.assertequalJSON(fix.astAltWithinLoop, flatten.explodeBroadcasts(fix.astAltWithinLoop));
