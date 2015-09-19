@@ -227,11 +227,11 @@ src/script/ui/interpreter/output-actions.js: \
 	src/script/ui/utl/gaga.js
 
 src/script/ui/interpreter/param-actions.js: \
-	src/script/render/text/textutensils.js \
 	src/script/ui/interpreter/uistate.js \
 	src/script/ui/utl/domutl.js \
 	src/script/ui/utl/gaga.js \
-	src/script/ui/utl/paramslikker.js
+	src/script/ui/utl/paramslikker.js \
+	src/script/utl/utensils.js
 
 src/script/ui/interpreter/raster-exporter.js: \
 	src/lib/canvg/canvg.js \
@@ -489,6 +489,10 @@ src/script/test/ui/utl/t_paramslikker.js: \
 src/script/test/ui/utl/t_store.js: \
 	src/script/assert.js \
 	src/script/ui/utl/store.js
+
+src/script/test/utl/t_utensils.js: \
+	src/script/assert.js \
+	src/script/utl/utensils.js
 
 src/script/ui/embedding/config.js: \
 	node_modules/amdefine/amdefine.js

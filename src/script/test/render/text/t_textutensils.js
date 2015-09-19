@@ -1,7 +1,7 @@
 var assert = require("assert");
 var txt = require("../../../render/text/textutensils");
 
-describe('textutensils', function() {
+describe('render/text/textutensils', function() {
     describe('#wrap(x, 10) - string with spaces', function() {
         var lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
         var lWrapAry = txt.wrap(lWrapThis, 10);
@@ -74,20 +74,4 @@ describe('textutensils', function() {
             assert.equal(txt.formatNumber(481, 3), "481");
         });
     });
-
-    describe('#sanitizeBooleanesque() - ', function() {
-        it('sanitize non booleanesque', function() { 
-            assert.equal(false, txt.sanitizeBooleanesque("this is not a booleanesque"));        
-        });
-        it('sanitize non booleanesque', function() { 
-            assert.equal(false, txt.sanitizeBooleanesque(undefined));        
-        });
-        it('sanitize booleanesque', function() {
-            assert.equal(true, txt.sanitizeBooleanesque("1"));
-        });
-        it('sanitize booleanesque', function() {
-            assert.equal(false, txt.sanitizeBooleanesque("0"));
-        });
-    });
-
 });
