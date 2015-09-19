@@ -11,7 +11,7 @@ EMBED_JS_SOURCES=src/script/mscgen-inpage.js \
 	src/script/render/text/arcmappings.js \
 	src/script/render/graphics/idmanager.js \
 	src/script/render/graphics/markermanager.js \
-	src/script/render/text/utensils.js \
+	src/script/utl/utensils.js \
 	src/script/render/graphics/renderlabels.js \
 	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
@@ -41,7 +41,6 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/mode/javascript/javascript.js \
 	src/lib/codemirror/mode/mscgen/mscgen.js \
-	src/script/render/text/utensils.js \
 	src/script/ui/interpreter/uistate.js \
 	src/script/parse/msgennyparser.js \
 	src/script/parse/xuparser.js \
@@ -52,6 +51,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/render/text/arcmappings.js \
 	src/script/render/graphics/idmanager.js \
 	src/script/render/graphics/markermanager.js \
+	src/script/utl/utensils.js \
 	src/script/render/graphics/renderlabels.js \
 	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
@@ -106,7 +106,7 @@ src/script/render/graphics/entities.js: \
 
 src/script/render/graphics/markermanager.js: \
 	src/script/render/text/arcmappings.js \
-	src/script/render/text/utensils.js
+	src/script/utl/utensils.js
 
 src/script/render/graphics/renderast.js: \
 	src/script/render/graphics/constants.js \
@@ -120,7 +120,8 @@ src/script/render/graphics/renderast.js: \
 	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
 	src/script/render/text/arcmappings.js \
-	src/script/render/text/flatten.js
+	src/script/render/text/flatten.js \
+	src/script/utl/utensils.js
 
 src/script/render/graphics/renderlabels.js: \
 	src/script/render/graphics/constants.js \
@@ -138,16 +139,16 @@ src/script/render/graphics/svgelementfactory.js: \
 src/script/render/graphics/svgutensils.js: \
 	src/script/render/graphics/constants.js \
 	src/script/render/graphics/idmanager.js \
-	src/script/render/text/utensils.js
+	src/script/utl/utensils.js
 
 src/script/render/text/ast2animate.js: \
-	src/script/render/text/utensils.js
+	src/script/utl/utensils.js
 
 src/script/render/text/ast2dot.js: \
 	src/script/render/text/arcmappings.js \
 	src/script/render/text/flatten.js \
 	src/script/render/text/textutensils.js \
-	src/script/render/text/utensils.js
+	src/script/utl/utensils.js
 
 src/script/render/text/ast2doxygen.js: \
 	src/script/render/text/arcmappings.js \
@@ -177,7 +178,7 @@ src/script/render/text/flatten.js: \
 	src/script/render/text/arcmappings.js \
 	src/script/render/text/asttransform.js \
 	src/script/render/text/textutensils.js \
-	src/script/render/text/utensils.js
+	src/script/utl/utensils.js
 
 src/script/render/text/textutensils.js: \
 	src/script/render/text/arcmappings.js
@@ -199,10 +200,10 @@ src/script/ui/interpreter/editor-events.js: \
 	src/lib/codemirror/lib/codemirror.js \
 	src/lib/codemirror/mode/javascript/javascript.js \
 	src/lib/codemirror/mode/mscgen/mscgen.js \
-	src/script/render/text/utensils.js \
 	src/script/ui/interpreter/uistate.js \
 	src/script/ui/utl/gaga.js \
-	src/script/ui/utl/maps.js
+	src/script/ui/utl/maps.js \
+	src/script/utl/utensils.js
 
 src/script/ui/interpreter/input-actions.js: \
 	src/script/render/text/colorize.js \
@@ -379,9 +380,6 @@ src/script/render/text/flatten.js: \
 src/script/render/text/textutensils.js: \
 	node_modules/amdefine/amdefine.js
 
-src/script/render/text/utensils.js: \
-	node_modules/amdefine/amdefine.js
-
 src/script/test/parse/t_mscgenparser_node.js: \
 	src/script/fs.js \
 	src/script/parse/mscgenparser_node.js \
@@ -453,9 +451,9 @@ src/script/test/render/text/t_ast2xu.js: \
 
 src/script/test/render/text/t_colorize.js: \
 	src/script/render/text/colorize.js \
-	src/script/render/text/utensils.js \
 	src/script/test/astfixtures.js \
-	src/script/test/testutensils.js
+	src/script/test/testutensils.js \
+	src/script/utl/utensils.js
 
 src/script/test/render/text/t_flatten.js: \
 	src/script/render/text/flatten.js \
@@ -505,5 +503,8 @@ src/script/ui/utl/paramslikker.js: \
 	node_modules/amdefine/amdefine.js
 
 src/script/ui/utl/store.js: \
+	node_modules/amdefine/amdefine.js
+
+src/script/utl/utensils.js: \
 	node_modules/amdefine/amdefine.js
 

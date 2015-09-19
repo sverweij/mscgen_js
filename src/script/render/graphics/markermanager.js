@@ -7,7 +7,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../text/utensils", "../text/arcmappings"], function(_, map) {
+define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
     "use strict";
 
     var KINDS = {

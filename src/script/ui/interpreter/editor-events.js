@@ -2,7 +2,7 @@
 /* global define */
 define(["./uistate",
         "../../../lib/codemirror/lib/codemirror",
-        "../utl/maps", "../utl/gaga", "../../render/text/utensils",
+        "../utl/maps", "../utl/gaga", "../../utl/utensils",
         "../../../lib/codemirror/addon/edit/closebrackets",
         "../../../lib/codemirror/addon/edit/matchbrackets",
         "../../../lib/codemirror/addon/display/placeholder",

@@ -1,7 +1,7 @@
 var colorize = require("../../../render/text/colorize");
 var fix = require("../../astfixtures");
 var utl = require("../../testutensils");
-var clone = require("../../../render/text/utensils").deepCopy;
+var clone = require("../../../utl/utensils").deepCopy;
 
 /*
 var template = {
