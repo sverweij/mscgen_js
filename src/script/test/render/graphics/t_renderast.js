@@ -40,6 +40,10 @@ describe('render/graphics/renderast', function() {
                 processAndCompare('./src/script/test/fixtures/astsimplenosource.svg', //
                 './src/script/test/fixtures/astsimple.json', false);
             });
+            it('should not omit empty lines', function() {
+                processAndCompare('./src/script/test/fixtures/astemptylinesinboxes.svg', //
+                './src/script/test/fixtures/astemptylinesinboxes.json', true);
+            });
             it('should render colors', function() {
                 processAndCompare('./src/script/test/fixtures/rainbow.svg', //
                 './src/script/test/fixtures/rainbow.json', true);
