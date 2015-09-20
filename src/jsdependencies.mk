@@ -510,3 +510,4 @@ src/script/ui/utl/store.js: \
 src/script/utl/utensils.js: \
 	node_modules/amdefine/amdefine.js
 
+# ES6 dependencies

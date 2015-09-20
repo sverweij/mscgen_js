@@ -71,6 +71,9 @@ process.stdout.write(getDeps("amd"));
 process.stdout.write("# commonJS dependencies\n");
 process.stdout.write(getDeps("cjs"));
 
+process.stdout.write("# ES6 dependencies\n");
+process.stdout.write(getDeps("es6"));
+
 /*
     This file is part of mscgen_js.
 
