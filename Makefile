@@ -70,19 +70,19 @@ help:
 	@echo
 	@echo "Most important build targets:"
 	@echo
-	@echo "dev-build"
-	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
-	@echo " smashing etc)"
-	@echo
-	@echo "check"
-	@echo " runs the linter and executes all unit tests"
-	@echo
 	@echo "install"
 	@echo " -> this is probably the target you want when"
 	@echo "    hosting mscgen_js"
 	@echo
 	@echo " creates the production version (minified js, images,"
 	@echo " html)"
+	@echo
+	@echo "dev-build"
+	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
+	@echo " smashing etc)"
+	@echo
+	@echo "check"
+	@echo " runs the linter and executes all unit tests"
 	@echo
 	@echo "clean"
 	@echo " removes everything created by either install or dev-build"
@@ -91,6 +91,11 @@ help:
 	@echo " deploys the build to gh-pages"
 	@echo "  - 'master' branch: the root of gh-pages"
 	@echo "  - other branches : in branches/branche-name"
+	@echo
+	@echo "update-dependencies"
+	@echo " updates all (node) module dependencies in package.json"
+	@echo " installs them, rebuilds all generated sources and runs"
+	@echo " all tests."
 	@echo
 	@echo " --------------------------------------------------------"
 	@echo "| More information and other targets: see wikum/build.md |"
