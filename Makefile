@@ -253,7 +253,7 @@ check: noconsolestatements lint test
 
 fullcheck: check outdated nsp
 
-update-dependencies: run-update-dependencies clean-generated-sources dev-build test
+update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp
 	$(GIT) diff package.json
 	
 run-update-dependencies: 
