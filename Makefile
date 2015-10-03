@@ -229,6 +229,15 @@ deploy-gh-pages: install
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
 
+bump-patch:
+	$(NPM) version patch
+
+bump-minor:
+	$(NPM) version minor
+
+bump-major:
+	$(NPM) version major
+
 tag: 
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
