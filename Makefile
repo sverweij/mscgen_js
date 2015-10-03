@@ -234,7 +234,7 @@ tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
-report:
+static-analysis:
 	$(NPM) run plato
 
 test: dev-build
