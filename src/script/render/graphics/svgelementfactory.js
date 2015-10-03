@@ -100,51 +100,55 @@ define(["./constants"], function(C) {
     
     function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
-        var lPathString = "M" + pBBox.x + "," + pBBox.y;
-        // start
-        lPathString += "l" + lSlopeOffset + ", -" + pBBox.height / 2;
-        lPathString += "l" + (pBBox.width - 2 * lSlopeOffset) + ",0";
-        lPathString += "l" + lSlopeOffset + "," + pBBox.height / 2;
-        lPathString += "l-" + lSlopeOffset + "," + pBBox.height / 2;
-        lPathString += "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 ";
-        // bottom line
-        lPathString += "l-" + lSlopeOffset + ",-" + pBBox.height / 2;
-        return _createPath(lPathString, pClass, pColor, pBgColor);
+        return _createPath(
+            "M" + pBBox.x + "," + pBBox.y +
+            // start
+            "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
+            "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
+            "l" + lSlopeOffset + "," + pBBox.height / 2 +
+            "l-" + lSlopeOffset + "," + pBBox.height / 2 +
+            "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
+            // bottom line
+            "l-" + lSlopeOffset + ",-" + pBBox.height / 2,
+            pClass, pColor, pBgColor
+        );
     }
 
     function _createNote(pBBox, pClass, pColor, pBgColor) {
         var lFoldSizeN = Math.max(9,Math.min(4.5*C.LINE_WIDTH, pBBox.height/2));
         var lFoldSize = lFoldSizeN.toString(10);
-        var lPathString = "M" + pBBox.x + "," + pBBox.y;
 
-        // top line:
-        lPathString += "l" + (pBBox.width - lFoldSizeN) + ",0 ";
-        // fold:
-        lPathString += "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " ";
-        //down:
-        lPathString += "l0," + (pBBox.height - lFoldSizeN) + " ";
-        // bottom line:
-        lPathString += "l-" + pBBox.width + ",0 ";
-        // back to home:
-        lPathString += "l0,-" + (pBBox.height + (C.LINE_WIDTH/2)) + " ";
-
-        return _createPath(lPathString, pClass, pColor, pBgColor);
+        return _createPath(
+            "M" + pBBox.x + "," + pBBox.y +
+            // top line:
+            "l" + (pBBox.width - lFoldSizeN) + ",0 " +
+            // fold:
+            "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
+            //down:
+            "l0," + (pBBox.height - lFoldSizeN) + " " +
+            // bottom line:
+            "l-" + pBBox.width + ",0 " +
+            // back to home:
+            "l0,-" + (pBBox.height + (C.LINE_WIDTH/2)) + " ",
+            pClass, pColor, pBgColor
+        );
     }
 
     function _createEdgeRemark(pBBox, pClass, pColor, pBgColor, pFoldSize) {
         var lFoldSize = pFoldSize ? pFoldSize : 7;
-        // start:
-        var lPathString = "M" + pBBox.x + "," + pBBox.y;
-        // top line:
-        lPathString += " l" + pBBox.width + ",0 ";
-        // down:
-        lPathString += " l0," + (pBBox.height - lFoldSize);
-        // fold:
-        lPathString += " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10);
-        // bottom line:
-        lPathString += " l-" + (pBBox.width - lFoldSize) + ",0 ";
-
-        return _createPath(lPathString, pClass, pColor, pBgColor);
+        return _createPath(
+            // start:
+            "M" + pBBox.x + "," + pBBox.y +
+            // top line:
+            " l" + pBBox.width + ",0 " +
+            // down:
+            " l0," + (pBBox.height - lFoldSize) +
+            // fold:
+            " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10) +
+            // bottom line:
+            " l-" + (pBBox.width - lFoldSize) + ",0 ",
+            pClass, pColor, pBgColor
+        );
     }
 
     function createLink (pURL, pElementToWrap){
@@ -246,16 +250,21 @@ define(["./constants"], function(C) {
         var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
         var lLine = " l" + lLenX + "," + lLenY;
 
-        var lPathString = "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5*C.LINE_WIDTH*lDir.dy).toString();
-        lPathString += lStubble; // left stubble
-        lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString();
-        lPathString += lLine; // upper line
-        lPathString += "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString();
-        lPathString += lLine; // lower line
-        lPathString += "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5*C.LINE_WIDTH*lDir.dy).toString();
-        lPathString += lStubble; // right stubble
-
-        return _createPath(lPathString, pClass);
+        return _createPath(
+            "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5*C.LINE_WIDTH*lDir.dy).toString() +
+            // left stubble:
+            lStubble + 
+            "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString() +
+            // upper line:
+            lLine +
+            "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString() +
+            // lower line
+            lLine +
+            "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5*C.LINE_WIDTH*lDir.dy).toString() +
+            // right stubble
+            lStubble, 
+            pClass
+        );
     }
 
     function _createLine(pLine, pClass, pDouble) {
@@ -270,16 +279,16 @@ define(["./constants"], function(C) {
     function _createUTurn(pPoint, pEndY, pWidth, pDontHitHome) {
         var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
         
-        // point to start from:
-        var lPathString = "M" + pPoint.x.toString() + ", -" + pPoint.y.toString();
-        // curve first to:
-        lPathString += " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y-7.5*C.LINE_WIDTH).toString();
-        // curve back from.:
-        lPathString += " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString();
-        // curve end-pont:
-        lPathString += " " + lEndX.toString() + "," + pEndY.toString();
-        
-        return _createPath(lPathString);
+        return _createPath(
+            // point to start from:
+            "M" + pPoint.x.toString() + ", -" + pPoint.y.toString() +
+            // curve first to:
+            " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y-7.5*C.LINE_WIDTH).toString() +
+            // curve back from.:
+            " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString() +
+            // curve end-pont:
+            " " + lEndX.toString() + "," + pEndY.toString()            
+        );
     }
 
     function _createGroup(pId) {
