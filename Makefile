@@ -13,8 +13,7 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
-MAKEDEPEND=node utl/makedepend.js
-
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
 else
@@ -258,7 +257,9 @@ run-update-dependencies:
 	$(NPM) install
 	
 depend:
-	$(MAKEDEPEND) >src/jsdependencies.mk
+	$(MAKEDEPEND) --system amd,cjs src/script
+	$(MAKEDEPEND) --append --system amd --flat-define EMBED_JS_SOURCES src/script/mscgen-inpage.js
+	$(MAKEDEPEND) --append --system amd --flat-define INTERPRETER_JS_SOURCES src/script/mscgen-interpreter.js
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \
