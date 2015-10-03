@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION=`cat VERSION`
+VERSION=`utl/getver`
 COMMIT=`git rev-parse HEAD | cut -c 1-16`
 DATE=`date "+%Y%m%d %H:%M"`
 HOST=`cat tracking.host`

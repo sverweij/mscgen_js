@@ -111,7 +111,7 @@ src/script/parse/%parser.js: src/script/parse/%parser_node.js
 src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs 
 	$(PEGJS) $< $@
 
-$(BUILDDIR)/%.html: src/%.html tracking.id tracking.host VERSION siteverification.id
+$(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
 	$(SEDVERSION) < $< > $@
 
 %.css: %.scss
@@ -170,9 +170,6 @@ tracking.id:
 tracking.host:
 	@echo auto > $@
 
-VERSION:
-	@echo 0.0.0 > $@
-
 $(BUILDDIR)/images/: src/images
 	cp -R $< $@
 
@@ -227,14 +224,14 @@ cover: dev-build
 install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
 deploy-gh-pages: install
-	@echo Deploying build `cat VERSION` to $(BUILDDIR)
+	@echo Deploying build `utl/getver` to $(BUILDDIR)
 	$(GIT) -C $(BUILDDIR) add --all .
-	$(GIT) -C $(BUILDDIR) commit -m "build `cat VERSION`"
+	$(GIT) -C $(BUILDDIR) commit -m "build `utl/getver`"
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
 
 tag: 
-	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
+	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
 report:
