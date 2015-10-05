@@ -1,39 +1,43 @@
-var getopt = require('posix-getopt');
-var parser, option;
+var program     = require("commander");
+var validations = require("./mscgen_cli/validations");
+var actions     = require("./mscgen_cli/actions");
 
-parser = new getopt.BasicParser('T:(type)i:(infile)o:(outfile)pl', process.argv);
+var VERSION     = require("../../../package.json").version;
 
-while ((option = parser.getopt()) !== undefined && !option.error) {
-    switch (option.option) {
-    case 'T':
-        process.stdout.write('type: ' + option.optarg + '\n');
-        break;
-
-    case 'i':
-        process.stdout.write('input: ' + option.optarg + '\n');
-        break;
-
-    case 'o':
-        process.stdout.write('output: ' + option.optarg + '\n');
-        break;
-
-    case 'p':
-        process.stdout.write('print parsed msc' + '\n');
-        break;
-
-    case 'l':
-        process.stdout.write('license' + '\n');
-        break;
-
-    default:
-        /* error message already emitted by getopt */
-        break;
-    }
+try {
+    program
+        .version(VERSION)
+        .option("-T --output-type <type>", "Output file type. Currently only 'svg'", validations.validType )
+        .option("-i --input-from <file>", "File to read from. use - for stdin.", validations.fileExists)
+        .option("-o --output-to <file>", "File to write to. use - for stdout.")
+        .option("-p --parser-output", "Print parsed msc output")
+        .option("-l --license", "Display license and exit", actions.printLicense)
+        .arguments("[infile]")
+        .parse(process.argv);
+        
+        console.log(JSON.stringify(program, null, " "));
+} catch (e){
+    process.stderr.write(e.message);
 }
-
+// if (!!program.args[0]||!!program.options.inputFrom||!!program.options.license){
+//     process.stdout.write("jeeeee!" + "\n");
+// } else {
+//     // program.help();
+    // console.log(JSON.stringify(program, null, " "));
+// }
 /*
-if (parser.optind() >= process.argv.length)
-    process.stderr.write('missing required argument: "input"\n');
-*/
+    This file is part of mscgen_js.
 
-// process.stdout.write('input = %s', process.argv[parser.optind()]);
+    mscgen_js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    mscgen_js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+*/
