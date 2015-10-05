@@ -16,7 +16,7 @@
     "gulp-autoprefixer": "3.0.2",
     "gulp-load-plugins": "1.0.0-rc.1",
     "gulp-sass": "2.0.4",
-    "istanbul": "0.3.21",
+    "istanbul": "0.3.22",
     "js-makedepend": "0.1.4",
     "jshint": "2.8.0",
     "mocha": "2.3.3",
