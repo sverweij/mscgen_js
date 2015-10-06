@@ -1,3 +1,4 @@
+/* jshint node:true */
 module.exports = (function(){
     "use strict";
     var fs            = require("fs");
@@ -5,24 +6,40 @@ module.exports = (function(){
     
     function isStdout (pFilename) {
         return '-' === pFilename;
-    }    
-    
+    }
+
+    function outputIsSpecified (pArgument, pOutputTo){
+        return !!pArgument || !!pOutputTo;
+    }
+
+    function fileExists (pFilename) {
+        try {
+            if (!isStdout(pFilename)){
+                fs.accessSync(pFilename,fs.R_OK);
+            }
+            return true;
+        } catch (e){
+            return false;
+        }
+    }
+
     return {
         validType: function (pType){
             if (pType.match(VALID_TYPE_RE)){
                 return pType;
             }
-            throw Error("\n  error: '" +pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
+            throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
         },
 
-        fileExists: function (pFilename) {
-            try {
-                if (!isStdout(pFilename)){
-                    fs.accessSync(pFilename,fs.R_OK);
-                }
-                return pFilename;
-            } catch (e){
-                throw Error("\n  error: Failed to open input file '" + pFilename + "'\n\n");
+        validateArguments: function (pArgument, pOptions){
+            if (!outputIsSpecified(pArgument, pOptions.outputTo)){
+                throw Error ("\n  error: Please specify an output file.\n\n");
+            }
+            if (!pOptions.inputFrom){
+                throw Error("\n  error: Please specify an input file\n\n");
+            }
+            if (!fileExists(pOptions.inputFrom)){
+                throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
             }
         }
     };

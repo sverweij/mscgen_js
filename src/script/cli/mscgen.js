@@ -1,6 +1,7 @@
+/* jshint node:true */
 var program     = require("commander");
-var validations = require("./mscgen_cli/validations");
-var actions     = require("./mscgen_cli/actions");
+var validations = require("./validations");
+var actions     = require("./actions");
 
 var VERSION     = require("../../../package.json").version;
 
@@ -8,23 +9,20 @@ try {
     program
         .version(VERSION)
         .option("-T --output-type <type>", "Output file type. Currently only 'svg'", validations.validType )
-        .option("-i --input-from <file>", "File to read from. use - for stdin.", validations.fileExists)
+        .option("-i --input-from <file>", "File to read from. use - for stdin.")
         .option("-o --output-to <file>", "File to write to. use - for stdout.")
         .option("-p --parser-output", "Print parsed msc output")
         .option("-l --license", "Display license and exit", actions.printLicense)
         .arguments("[infile]")
         .parse(process.argv);
         
-        console.log(JSON.stringify(program, null, " "));
+        validations.validateArguments(program.args[0], program);
+        actions.transform(program.args[0], program);
+        // console.log(JSON.stringify(program, null, " "));
 } catch (e){
     process.stderr.write(e.message);
 }
-// if (!!program.args[0]||!!program.options.inputFrom||!!program.options.license){
-//     process.stdout.write("jeeeee!" + "\n");
-// } else {
-//     // program.help();
-    // console.log(JSON.stringify(program, null, " "));
-// }
+
 /*
     This file is part of mscgen_js.
 
