@@ -36,7 +36,7 @@ module.exports = (function(){
                 throw Error ("\n  error: Please specify an output file.\n\n");
             }
             if (!pOptions.inputFrom){
-                throw Error("\n  error: Please specify an input file\n\n");
+                throw Error("\n  error: Please specify an input file.\n\n");
             }
             if (!fileExists(pOptions.inputFrom)){
                 throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
