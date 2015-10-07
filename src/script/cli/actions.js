@@ -40,7 +40,7 @@ module.exports = (function(){
         }
     }
     
-    function transformToAST(pInStream, pOutStream){
+    function transformToAST(pInStream, pOutStream, pCallback){
         var lInput = "";
 
         pInStream.resume();
@@ -53,10 +53,14 @@ module.exports = (function(){
         pInStream.on('end', function() {
             pOutStream.write(JSON.stringify(parser.parse(lInput), null, "  "));
             pInStream.pause();
+            /* istanbul ignore else  */
+            if (!!pCallback && 'function' === typeof pCallback){
+                pCallback();
+            }
         });
     }
     
-    function transformToChart(pInStream, pOutStream, pOutputType){
+    function transformToChart(pInStream, pOutStream, pOutputType, pCallback){
         jsdom.env("<html><body></body></html>", function(err, window) {
             var lInput = "";
 
@@ -71,26 +75,32 @@ module.exports = (function(){
                 render.renderAST(parser.parse(lInput), lInput, "__svg", window);
                 pOutStream.write(window.document.body.innerHTML);
                 pInStream.pause();
+                /* istanbul ignore else  */
+                if (!!pCallback && 'function' === typeof pCallback){
+                    pCallback();
+                }
             });
         });
     }
     
     return {
-        transform: function(pArgument, pOptions){
+        transform: function(pArgument, pOptions, pCallback){
             var lOutStream = getOutStream(pArgument, pOptions.outputTo);
             var lInStream  = getInStream(pOptions.inputFrom);
             
             if (pOptions.parserOutput){
-                transformToAST(lInStream, lOutStream);
+                transformToAST(lInStream, lOutStream, pCallback);
             } else {
-                transformToChart(lInStream, lOutStream, pOptions.outputType);
+                transformToChart(lInStream, lOutStream, pOptions.outputType, pCallback);
             }
         },
         
-        printLicense: function(){
-            process.stdout.write(LICENSE);
-            process.exit(0);
-        }
+        printLicense: 
+        /* istanbul ignore next  */
+            function(){
+                process.stdout.write(LICENSE);
+                process.exit(0);
+            }
     };
 })();
 /*
