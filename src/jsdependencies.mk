@@ -229,6 +229,13 @@ src/script/scriptlets/msc2msc.js: \
 src/script/scriptlets/xu2ast.js: \
 	src/script/parse/xuparser_node.js
 
+src/script/test/cli/t_actions.js: \
+	src/script/cli/actions.js \
+	src/script/test/testutensils.js
+
+src/script/test/cli/t_validations.js: \
+	src/script/cli/validations.js
+
 src/script/test/parse/t_mscgenparser_node.js: \
 	src/script/parse/mscgenparser_node.js \
 	src/script/test/astfixtures.js \
