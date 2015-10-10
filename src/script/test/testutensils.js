@@ -26,6 +26,10 @@ return {
         assert.equal(hashit(pFound), hashit(fs.readFileSync(pExpectedFileName, {"encoding": "utf8"})));
     },
     
+    assertequalFile : function(pFound, pExpectedFileName) {
+        assert.equal(hashit(fs.readFileSync(pFound, {"encoding": "utf8"})), hashit(fs.readFileSync(pExpectedFileName, {"encoding": "utf8"})));
+    },
+    
     assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn){
         var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
         var lInputContents = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});

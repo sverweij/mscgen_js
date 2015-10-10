@@ -171,55 +171,70 @@ src/script/ui/utl/exporter.js: \
 	src/script/ui/utl/paramslikker.js
 
 # cjs dependencies
-src/script/cli/ast2dot.js: \
+src/script/cli/actions.js: \
+	src/script/parse/xuparser_node.js \
+	src/script/render/graphics/renderast.js
+
+src/script/cli/mscgen.js: \
+	src/script/cli/actions.js \
+	src/script/cli/validations.js
+
+src/script/scriptlets/ast2dot.js: \
 	src/script/render/text/ast2dot.js
 
-src/script/cli/ast2doxygen.js: \
+src/script/scriptlets/ast2doxygen.js: \
 	src/script/render/text/ast2doxygen.js
 
-src/script/cli/ast2genny.js: \
+src/script/scriptlets/ast2genny.js: \
 	src/script/render/text/ast2msgenny.js
 
-src/script/cli/ast2msc.js: \
+src/script/scriptlets/ast2msc.js: \
 	src/script/render/text/ast2mscgen.js
 
-src/script/cli/ast2svg.js: \
+src/script/scriptlets/ast2svg.js: \
 	src/script/render/graphics/renderast.js
 
-src/script/cli/ast2svg_nosource.js: \
+src/script/scriptlets/ast2svg_nosource.js: \
 	src/script/render/graphics/renderast.js
 
-src/script/cli/ast2xu.js: \
+src/script/scriptlets/ast2xu.js: \
 	src/script/render/text/ast2xu.js
 
-src/script/cli/genny2ast.js: \
+src/script/scriptlets/genny2ast.js: \
 	src/script/parse/msgennyparser_node.js
 
-src/script/cli/genny2dot.js: \
+src/script/scriptlets/genny2dot.js: \
 	src/script/parse/msgennyparser_node.js \
 	src/script/render/text/ast2dot.js
 
-src/script/cli/genny2msc.js: \
+src/script/scriptlets/genny2msc.js: \
 	src/script/parse/msgennyparser_node.js \
 	src/script/render/text/ast2mscgen.js
 
-src/script/cli/msc2ast.js: \
+src/script/scriptlets/msc2ast.js: \
 	src/script/parse/mscgenparser_node.js
 
-src/script/cli/msc2dot.js: \
+src/script/scriptlets/msc2dot.js: \
 	src/script/parse/mscgenparser_node.js \
 	src/script/render/text/ast2dot.js
 
-src/script/cli/msc2genny.js: \
+src/script/scriptlets/msc2genny.js: \
 	src/script/parse/mscgenparser_node.js \
 	src/script/render/text/ast2msgenny.js
 
-src/script/cli/msc2msc.js: \
+src/script/scriptlets/msc2msc.js: \
 	src/script/parse/mscgenparser_node.js \
 	src/script/render/text/ast2mscgen.js
 
-src/script/cli/xu2ast.js: \
+src/script/scriptlets/xu2ast.js: \
 	src/script/parse/xuparser_node.js
+
+src/script/test/cli/t_actions.js: \
+	src/script/cli/actions.js \
+	src/script/test/testutensils.js
+
+src/script/test/cli/t_validations.js: \
+	src/script/cli/validations.js
 
 src/script/test/parse/t_mscgenparser_node.js: \
 	src/script/parse/mscgenparser_node.js \
@@ -391,3 +406,9 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/ui/utl/paramslikker.js \
 	src/script/ui/utl/store.js \
 	src/script/utl/utensils.js
+# cjs dependencies
+CLI_JS_SOURCES=src/script/cli/mscgen.js \
+	src/script/cli/actions.js \
+	src/script/cli/validations.js \
+	src/script/parse/xuparser_node.js \
+	src/script/render/graphics/renderast.js

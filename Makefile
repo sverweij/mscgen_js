@@ -265,6 +265,7 @@ depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
 	$(MAKEDEPEND) --append --system amd --flat-define EMBED_JS_SOURCES src/script/mscgen-inpage.js
 	$(MAKEDEPEND) --append --system amd --flat-define INTERPRETER_JS_SOURCES src/script/mscgen-interpreter.js
+	$(MAKEDEPEND) --append --system cjs --flat-define CLI_JS_SOURCES src/script/cli/mscgen.js
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \
