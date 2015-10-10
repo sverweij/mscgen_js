@@ -31,7 +31,7 @@ module.exports = (function(){
             return fs.createWriteStream(lOutputTo);
         }
     }
-    
+
     function getInStream(pInputFrom){
         if ('-' === pInputFrom){
             return process.stdin;
@@ -39,7 +39,7 @@ module.exports = (function(){
             return fs.createReadStream(pInputFrom);
         }
     }
-    
+
     function transformToAST(pInStream, pOutStream, pCallback){
         var lInput = "";
 
@@ -82,7 +82,7 @@ module.exports = (function(){
             });
         });
     }
-    
+
     return {
         transform: function(pArgument, pOptions, pCallback){
             var lOutStream = getOutStream(pArgument, pOptions.outputTo);
@@ -94,7 +94,7 @@ module.exports = (function(){
                 transformToChart(lInStream, lOutStream, pOptions.outputType, pCallback);
             }
         },
-        
+
         printLicense: 
         /* istanbul ignore next  */
             function(){
