@@ -59,7 +59,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
 help:
 	@echo " --------------------------------------------------------"
@@ -232,6 +232,11 @@ deploy-gh-pages: install
 tag: 
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
+
+bower-package: $(BUILDDIR)/mscgen-inpage.js
+	mkdir -p bower-package
+	cp src/bower/* bower-package/.
+	cp $(BUILDDIR)/mscgen-inpage.js bower-package/.
 
 static-analysis:
 	$(NPM) run plato

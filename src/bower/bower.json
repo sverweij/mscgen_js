@@ -1,0 +1,23 @@
+{
+  "name": "mscgen_js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/sverweij/mscgen_js",
+  "authors": [
+    "sverweij <sverweij@users.noreply.github.com>"
+  ],
+  "description": "renders sequence charts specified in mscgen, msgenny and xù",
+  "main": "mscgen-inpage.js",
+  "keywords": [
+    "mscgen",
+    "sequence",
+    "chart"
+  ],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
