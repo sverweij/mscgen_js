@@ -1,5 +1,9 @@
 # mscgen_js bower package
-This is the mscgen_js bower package.
+This is an initial version of the mscgen_js bower package.
+- for now only contains `mscgen-inpage.js` (which auto-translates any msgen/ xu/ msgenny in html pages - see usage below)
+- later more will follow
+
+please refer to the main mscgen_js repo [https://github.com/sverweij/mscgen_js](https://github.com/sverweij/mscgen_js)
 
 ## Usage
 1. Reference the mscgen-inpage script in your page head:
@@ -64,7 +68,7 @@ This software is free software [licensed under GPLv3][3]. This means (a.o.) you 
 it as part of other free software, but _not_ as part of non free software.
 
 
-### Commercial use of embedding mscgen
+### Commercial use of embedding mscgen using `mscgen-inpage.js`
 In addition to the GNU public license, for the use of the minified version of the embedding code
 (```mscgen-inpage.js```) as described on [embedding][30] a special exception
 to the GPL is made:  

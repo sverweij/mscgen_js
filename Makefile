@@ -270,6 +270,7 @@ tag:
 bower-package: $(BUILDDIR)/mscgen-inpage.js
 	mkdir -p bower-package
 	cp src/bower/* bower-package/.
+	cp src/bower/.gitignore bower-package/.
 	cp $(BUILDDIR)/mscgen-inpage.js bower-package/mscgen-inpage.js
 
 static-analysis:
