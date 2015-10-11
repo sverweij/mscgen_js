@@ -18,7 +18,6 @@ try {
         
         validations.validateArguments(program.args[0], program);
         actions.transform(program.args[0], program);
-        // console.log(JSON.stringify(program, null, " "));
 } catch (e){
     process.stderr.write(e.message);
 }
