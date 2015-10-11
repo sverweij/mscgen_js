@@ -50,7 +50,7 @@ describe('ui/utl/maps', function() {
     describe('#language2Mode() - ', function() {
 
         it('returns xu when presented with mscgen', function() {
-            assert.equal(txt.language2Mode("mscgen"), "xu");
+            assert.equal(txt.language2Mode("mscgen"), "text/x-xu");
         });
 
         it('returns application/json in case of json', function() {
@@ -58,15 +58,19 @@ describe('ui/utl/maps', function() {
         });
 
         it('returns msgenny in case of msgenny', function() {
-            assert.equal(txt.language2Mode("msgenny"), "msgenny");
+            assert.equal(txt.language2Mode("msgenny"), "text/x-msgenny");
         });
         
         it('returns xu in case of xu', function() {
-            assert.equal(txt.language2Mode("xu"), "xu");
+            assert.equal(txt.language2Mode("xu"), "text/x-xu");
         });
         
         it('returns whatever in case of whatever', function() {
             assert.equal(txt.language2Mode("whatever"), "whatever");
+        });
+        
+        it('returns text/x-mscgen in case of text/x-mscgen', function() {
+            assert.equal(txt.language2Mode("text/x-mscgen"), "text/x-mscgen");
         });
     });
 

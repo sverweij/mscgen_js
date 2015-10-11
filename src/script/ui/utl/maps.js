@@ -53,8 +53,10 @@ define([], function() {
          */
         language2Mode: function(pLanguage){
             var lLang2Mode = {
-                "mscgen" : "xu",
-                "json" : "application/json"
+                "mscgen"  : "text/x-xu",
+                "xu"      : "text/x-xu",
+                "msgenny" : "text/x-msgenny",
+                "json"    : "application/json"
             };
             
             if (lLang2Mode[pLanguage]){
