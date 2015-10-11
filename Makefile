@@ -59,7 +59,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover npm-install prerequisites report test update-codemirror update-dependencies run-update-dependencies depend
 
 help:
 	@echo " --------------------------------------------------------"
@@ -198,8 +198,10 @@ $(BUILDDIR)/script/mscgen-inpage.js: $(BUILDDIR)/mscgen-inpage.js
 	cp $< $@
 
 # "phony" targets
-prerequisites:
+npm-install: 
 	$(NPM) install
+	
+prerequisites: npm-install update-codemirror
 
 dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
 
@@ -248,6 +250,39 @@ outdated:
 check: noconsolestatements lint test
 
 fullcheck: check outdated nsp
+
+CODEMIRROR_ROOT=node_modules/codemirror
+update-codemirror: $(CODEMIRROR_ROOT)/lib/codemirror.css \
+	$(CODEMIRROR_ROOT)/lib/codemirror.js \
+	$(CODEMIRROR_ROOT)/mode/mscgen/mscgen.js \
+	$(CODEMIRROR_ROOT)/theme/blackboard.css \
+	$(CODEMIRROR_ROOT)/addon/dialog \
+	$(CODEMIRROR_ROOT)/addon/display \
+	$(CODEMIRROR_ROOT)/addon/edit \
+	$(CODEMIRROR_ROOT)/addon/search \
+	$(CODEMIRROR_ROOT)/addon/selection
+	mkdir -p src/lib/codemirror/lib
+	cp $(CODEMIRROR_ROOT)/lib/codemirror.css src/lib/codemirror/lib/_codemirror.scss
+	cp $(CODEMIRROR_ROOT)/lib/codemirror.js src/lib/codemirror/lib/codemirror.js
+	mkdir -p src/lib/codemirror/mode/mscgen
+	cp $(CODEMIRROR_ROOT)/mode/mscgen/mscgen.js src/lib/codemirror/mode/mscgen/mscgen.js
+	mkdir -p src/lib/codemirror/mode/javascript
+	cp $(CODEMIRROR_ROOT)/mode/javascript/javascript.js src/lib/codemirror/mode/javascript/javascript.js
+	mkdir -p src/lib/codemirror/theme
+	cp $(CODEMIRROR_ROOT)/theme/blackboard.css src/lib/codemirror/theme/_blackboard.scss
+	mkdir -p src/lib/codemirror/addon/dialog
+	cp $(CODEMIRROR_ROOT)/addon/dialog/dialog.css src/lib/codemirror/addon/dialog/_dialog.scss
+	cp $(CODEMIRROR_ROOT)/addon/dialog/dialog.js src/lib/codemirror/addon/dialog/dialog.js
+	mkdir -p src/lib/codemirror/addon/display
+	cp $(CODEMIRROR_ROOT)/addon/display/placeholder.js src/lib/codemirror/addon/display/placeholder.js
+	mkdir -p src/lib/codemirror/addon/edit
+	cp $(CODEMIRROR_ROOT)/addon/edit/closebrackets.js src/lib/codemirror/addon/edit/closebrackets.js
+	cp $(CODEMIRROR_ROOT)/addon/edit/matchbrackets.js src/lib/codemirror/addon/edit/matchbrackets.js
+	mkdir -p src/lib/codemirror/addon/search
+	cp $(CODEMIRROR_ROOT)/addon/search/search.js src/lib/codemirror/addon/search/search.js
+	cp $(CODEMIRROR_ROOT)/addon/search/searchcursor.js src/lib/codemirror/addon/search/searchcursor.js
+	mkdir -p src/lib/codemirror/addon/selection
+	cp $(CODEMIRROR_ROOT)/addon/selection/active-line.js src/lib/codemirror/addon/selection/active-line.js
 
 update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp
 	$(GIT) diff package.json
