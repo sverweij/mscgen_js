@@ -6,11 +6,11 @@ This is an initial version of the mscgen_js bower package.
 please refer to the main mscgen_js repo [https://github.com/sverweij/mscgen_js](https://github.com/sverweij/mscgen_js)
 
 ## Usage
-1. Reference the mscgen-inpage script in your page head:
+1) Reference the mscgen-inpage script in your page head:
 ```html
 <script src="mscgen-inpage.js" defer></script>
 ```
-2. Put your mscgen script in the page, with a tag around it that has mscgen_js as one of its class attributes. We use pre as element type below, but mscgen_js will behave the same for div, span or any other type of element you'd like to use.
+2) Put your mscgen script in the page, with a tag around it that has mscgen_js as one of its class attributes. We use pre as element type below, but mscgen_js will behave the same for div, span or any other type of element you'd like to use.
 ```html
 <pre class="mscgen_js">
 msc {
@@ -25,8 +25,8 @@ msc {
 }
 </pre>
 ```
-3. You're done. The script replaces all elements in the page with the class mscgen_js by a rendered sequence chart. Result for the above mscgen: 
-![readme.svg](index.svg)
+3) You're done. The script replaces all elements in the page with the class mscgen_js by a rendered sequence chart. Result for the above mscgen: 
+![readme.png](readme.png)
 
 ## more
 - The [mscgen_js embedding page ](https://sverweij.github.io/mscgen_js/embed.html) describes more options:
@@ -34,17 +34,13 @@ msc {
   - support for other sequence chart languages
   - the `<mscgen>` tag
   - error handling
-  - using mscgen_js in confluence
+  - using mscgen_js in Atlassian Confluence
 - http://www.mcternan.me.uk/mscgen
 - The [mscgen_js tutorial ](https://sverweij.github.io/mscgen_js/tutorial.html) describes the features of the sequence charts languages `msgenny` and the more advanced `mscgen` and `xù`
-  - asdf
-  - 
 - mscgen_js [github repo](https://github.com/sverweij/mscgen_js)
-- On line [interpreter](https://sverweij.github.io/mscgen_js) for live editing sequence charts. 
-  - 
+- On line [interpreter](https://sverweij.github.io/mscgen_js) for live editing sequence charts in mscgen (or the other dialects).
 
-## License
-GPLv3 + exception
+
 ## mscgen_js and the mscgen standard
 mscgen_js was made to go both ways:
 
