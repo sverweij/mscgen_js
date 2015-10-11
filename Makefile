@@ -58,6 +58,17 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-120.png \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
+CODEMIRROR_ROOT=node_modules/codemirror
+LIBDIRS=src/lib/canvg \
+		src/lib/codemirror/addon/dialog \
+		src/lib/codemirror/addon/display \
+		src/lib/codemirror/addon/edit \
+		src/lib/codemirror/addon/search \
+		src/lib/codemirror/addon/selection \
+		src/lib/codemirror/lib \
+		src/lib/codemirror/mode/mscgen \
+		src/lib/codemirror/mode/javascript \
+		src/lib/codemirror/theme
 
 .PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
@@ -134,6 +145,27 @@ $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 $(PRODDIRS):
 	mkdir -p $@
 
+bower_components/canvg/%.js:
+	bower install --save gabelerner/canvg
+
+$(LIBDIRS):
+	mkdir -p $@
+
+src/lib/canvg/%.js: bower_components/canvg/%.js src/lib/canvg
+	cp $< $@
+
+src/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(LIBDIRS)
+	cp $< $@
+
+src/lib/codemirror/addon/dialog/_%.scss: $(CODEMIRROR_ROOT)/addon/dialog/%.css $(LIBDIRS)
+	cp $< $@
+
+src/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
+	cp $< $@
+
+src/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
+	cp $< $@
+
 # dependencies 
 include src/jsdependencies.mk
 include src/dependencies.mk
@@ -186,9 +218,9 @@ $(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
 	$(SEDVERSION) < $@.tmp > $@
 	rm $@.tmp
 
-$(BUILDDIR)/mscgen-inpage.js: $(EMBED_JS_SOURCES) src/lib/almond.js
+$(BUILDDIR)/mscgen-inpage.js: $(EMBED_JS_SOURCES) node_modules/almond/almond.js
 	$(RJS) -o baseUrl=./src/script \
-			name=../lib/almond \
+			name=../../node_modules/almond/almond \
 			include=mscgen-inpage \
 			out=$@ \
 			wrap=true \

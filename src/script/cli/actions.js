@@ -1,4 +1,4 @@
-/* jshint node:true */
+/* jshint node:true, unused:true */
 module.exports = (function(){
     "use strict";
     var fs     = require("fs");
