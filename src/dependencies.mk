@@ -14,8 +14,8 @@ src/style/interp.scss: \
 
 src/index.html: \
 	src/style/interp.css \
-	src/script/mscgen-interpreter.js \
 	src/lib/require.js \
+	src/script/mscgen-interpreter.js \
 	src/images/mugshot.jpg \
 	src/images/test14_cheat_sheet.svg \
 	$(SAMPLES)

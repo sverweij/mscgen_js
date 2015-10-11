@@ -1,0 +1,19 @@
+{
+  "name": "mscgen_js",
+  "homepage": "https://github.com/sverweij/mscgen_js",
+  "authors": [
+    "sverweij <sverweij@users.noreply.github.com>"
+  ],
+  "license": "GPL-3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "canvg": "gabelerner/canvg"
+  }
+}
