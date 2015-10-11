@@ -265,15 +265,12 @@ tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
+# a rudimentary bower package with only the (minified) embedding code
+# to be expanded with src, lib & deps
 bower-package: $(BUILDDIR)/mscgen-inpage.js
 	mkdir -p bower-package
 	cp src/bower/* bower-package/.
-	cp $(BUILDDIR)/mscgen-inpage.js bower-package/mscgen-inpage.min.js
-	# ... and copy everything mscgen-inpage.js depends upon to there
-	# ... which also means
-	# ... - requirejs
-	# ... - almond
-	# ... - instructions/ mini-makefile to build the shizle
+	cp $(BUILDDIR)/mscgen-inpage.js bower-package/mscgen-inpage.js
 
 static-analysis:
 	$(NPM) run plato
