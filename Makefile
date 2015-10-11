@@ -236,7 +236,12 @@ tag:
 bower-package: $(BUILDDIR)/mscgen-inpage.js
 	mkdir -p bower-package
 	cp src/bower/* bower-package/.
-	cp $(BUILDDIR)/mscgen-inpage.js bower-package/.
+	cp $(BUILDDIR)/mscgen-inpage.js bower-package/mscgen-inpage.min.js
+	# ... and copy everything mscgen-inpage.js depends upon to there
+	# ... which also means
+	# ... - requirejs
+	# ... - almond
+	# ... - instructions/ mini-makefile to build the shizle
 
 static-analysis:
 	$(NPM) run plato

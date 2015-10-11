@@ -1,9 +1,45 @@
-# Intro
+# mscgen_js bower package
+This is the mscgen_js bower package.
 
-# Usage
+## Usage
+1. Reference the mscgen-inpage script in your page head:
+```html
+<script src="mscgen-inpage.js" defer></script>
+```
+2. Put your mscgen script in the page, with a tag around it that has mscgen_js as one of its class attributes. We use pre as element type below, but mscgen_js will behave the same for div, span or any other type of element you'd like to use.
+```html
+<pre class="mscgen_js">
+msc {
+    a [label="consumer"], b [label="shopfront"], c;
 
+    a =>> b [label="buy (commestible)"];
+    b =>> c [label="lookup_price(commestible)"];
+    c >> b [label="price"];
+    b =>> a [label=""];
+    a =>> b [label="money"];
+    ...;
+}
+</pre>
+```
+3. You're done. The script replaces all elements in the page with the class mscgen_js by a rendered sequence chart. Result for the above mscgen: 
+![readme.svg](index.svg)
 
-# License
+## more
+- The [mscgen_js embedding page ](https://sverweij.github.io/mscgen_js/embed.html) describes more options:
+  - auto-linking to an interpreter
+  - support for other sequence chart languages
+  - the `<mscgen>` tag
+  - error handling
+  - using mscgen_js in confluence
+- http://www.mcternan.me.uk/mscgen
+- The [mscgen_js tutorial ](https://sverweij.github.io/mscgen_js/tutorial.html) describes the features of the sequence charts languages `msgenny` and the more advanced `mscgen` and `xù`
+  - asdf
+  - 
+- mscgen_js [github repo](https://github.com/sverweij/mscgen_js)
+- On line [interpreter](https://sverweij.github.io/mscgen_js) for live editing sequence charts. 
+  - 
+
+## License
 GPLv3 + exception
 ## mscgen_js and the mscgen standard
 mscgen_js was made to go both ways:
@@ -92,7 +128,6 @@ shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/msc
 [24]: http://tmpvar.com/
 [25]: wikum/licenses/license.jsdom.md
 [26]: http://cs.brown.edu/~dap/
-[27]: https://npmjs.org/package/posix-getopt
 [28]: wikum/licenses/license.istanbul.md
 [29]: wikum/xu.md
 [30]: https://sverweij.github.io/mscgen_js/embed.html

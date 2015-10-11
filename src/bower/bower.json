@@ -5,7 +5,7 @@
   "authors": [
     "sverweij <sverweij@users.noreply.github.com>"
   ],
-  "description": "renders sequence charts specified in mscgen, msgenny and xù",
+  "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "main": "mscgen-inpage.js",
   "keywords": [
     "mscgen",
