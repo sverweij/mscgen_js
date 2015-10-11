@@ -134,6 +134,15 @@ $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 $(PRODDIRS):
 	mkdir -p $@
 
+bower_components/canvg/%.js:
+	bower install --save gabelerner/canvg
+
+src/lib/canvg:
+	mkdir -p $@
+
+src/lib/canvg/%.js: bower_components/canvg/%.js src/lib/canvg
+	cp $< $@
+
 # dependencies 
 include src/jsdependencies.mk
 include src/dependencies.mk

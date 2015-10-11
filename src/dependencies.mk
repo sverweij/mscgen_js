@@ -16,6 +16,10 @@ src/index.html: \
 	src/style/interp.css \
 	src/script/mscgen-interpreter.js \
 	src/lib/require.js \
+	src/lib/canvg/canvg.js \
+	src/lib/canvg/rgbcolor.js \
+	src/lib/canvg/StackBlur.js \
+	src/lib/codemirror/lib/codemirror.js \
 	src/images/mugshot.jpg \
 	src/images/test14_cheat_sheet.svg \
 	$(SAMPLES)
