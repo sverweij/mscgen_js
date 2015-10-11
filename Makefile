@@ -186,9 +186,9 @@ $(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
 	$(SEDVERSION) < $@.tmp > $@
 	rm $@.tmp
 
-$(BUILDDIR)/mscgen-inpage.js: $(EMBED_JS_SOURCES) src/lib/almond.js
+$(BUILDDIR)/mscgen-inpage.js: $(EMBED_JS_SOURCES) node_modules/almond/almond.js
 	$(RJS) -o baseUrl=./src/script \
-			name=../lib/almond \
+			name=../../node_modules/almond/almond \
 			include=mscgen-inpage \
 			out=$@ \
 			wrap=true \
