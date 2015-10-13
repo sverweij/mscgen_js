@@ -12,6 +12,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
+BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
@@ -146,7 +147,7 @@ $(PRODDIRS):
 	mkdir -p $@
 
 bower_components/canvg/%.js:
-	bower install --save gabelerner/canvg
+	$(BOWER) install --save gabelerner/canvg
 
 $(LIBDIRS):
 	mkdir -p $@

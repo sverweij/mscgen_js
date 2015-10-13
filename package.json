@@ -11,6 +11,7 @@
     "requirejs": "2.1.20"
   },
   "devDependencies": {
+    "bower": "1.5.3",
     "codeclimate-test-reporter": "0.1.1",
     "codecov.io": "0.1.6",
     "commander": "^2.8.1",
