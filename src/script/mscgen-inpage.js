@@ -32,31 +32,39 @@ require(["parse/xuparser",
 
     function renderElementArray(pMscGenElements, pStartIdAt){
         for (var i = 0; i < pMscGenElements.length; i++) {
-            renderElement(pMscGenElements[i], pStartIdAt + i);
+            processElement(pMscGenElements[i], pStartIdAt + i);
+        }
+    }
+    
+    function processElement(pElement, pIndex) {
+        if (!pElement.hasAttribute('data-renderedby')) {
+            renderElement(pElement, pIndex, pElement.textContent);
         }
     }
 
-    function renderElement(pElement, pIndex) {
-        if (!pElement.hasAttribute('data-renderedby')) {
-            var lLanguage = getLanguage(pElement);
-            var lAST = getAST(pElement.textContent, lLanguage);
-            setElementId(pElement, pIndex);
-            pElement.setAttribute("data-renderedby", "mscgen_js");
-
-            if (lAST.entities) {
-                render(lAST, pElement.id, pElement.textContent, lLanguage);
-            } else {
-                var lErrorIntro = !!lAST.location ? 
-                    "<pre><div style='color: red'># ERROR on line " + lAST.location.start.line + ", column " + lAST.location.start.column + " - " + lAST.message + "</div>" :
-                    "<pre><div style='color: red'># ERROR " + lAST.message + "</div>";
-                    
-                pElement.innerHTML = pElement.textContent.split('\n').reduce(function(pPrev, pLine, pIndex) {
-                    if (!!lAST.location && pIndex === (lAST.location.start.line - 1)) {
-                        return pPrev + "<mark>" + formatLine(underlineCol(pLine, lAST.location.start.column - 1), pIndex + 1) + '\n' + "</mark>";
-                    }
-                    return pPrev + formatLine(pLine, pIndex + 1) + '\n';
-                }, lErrorIntro) + "</pre>";
+    function renderError(pSource, pErrorLocation, pMessage){
+        var lErrorIntro = !!pErrorLocation ? 
+            "<pre><div style='color: red'># ERROR on line " + pErrorLocation.start.line + ", column " + pErrorLocation.start.column + " - " + pMessage + "</div>" :
+            "<pre><div style='color: red'># ERROR " + pMessage + "</div>";
+            
+        return pSource.split('\n').reduce(function(pPrev, pLine, pIndex) {
+            if (!!pErrorLocation && pIndex === (pErrorLocation.start.line - 1)) {
+                return pPrev + "<mark>" + formatLine(underlineCol(pLine, pErrorLocation.start.column - 1), pIndex + 1) + '\n' + "</mark>";
             }
+            return pPrev + formatLine(pLine, pIndex + 1) + '\n';
+        }, lErrorIntro) + "</pre>";
+    }
+    
+    function renderElement(pElement, pIndex, pSource){
+        var lLanguage = getLanguage(pElement);
+        var lAST      = getAST(pSource, lLanguage);
+        setElementId(pElement, pIndex);
+        pElement.setAttribute("data-renderedby", "mscgen_js");
+
+        if (lAST.entities) {
+            render(lAST, pElement.id, pSource, lLanguage);
+        } else {
+            pElement.innerHTML = renderError(pSource, lAST.location, lAST.message);
         }
     }
     
@@ -74,7 +82,7 @@ require(["parse/xuparser",
     }
 
     function setElementId(pElement, pIndex) {
-        if ("" === pElement.id || null === pElement.id || undefined === pElement.id) {
+        if (!pElement.id) {
             pElement.id = conf.getConfig().parentElementPrefix + pIndex.toString();
         }
     }
@@ -82,7 +90,7 @@ require(["parse/xuparser",
     function getLanguage(pElement) {
         /* the way to do it, but doesn't work in IE: lLanguage = pElement.dataset.language; */
         var lLanguage = pElement.getAttribute('data-language');
-        if (undefined === lLanguage || null === lLanguage) {
+        if (!lLanguage) {
             lLanguage = conf.getConfig().defaultLanguage;
         }
         return lLanguage;
