@@ -11,7 +11,7 @@
     "requirejs": "2.1.20"
   },
   "devDependencies": {
-    "bower": "1.5.3",
+    "bower": "1.6.3",
     "chai": "3.3.0",
     "chai-xml": "0.3.0",
     "codeclimate-test-reporter": "0.1.1",
@@ -19,8 +19,8 @@
     "commander": "2.9.0",
     "csslint": "0.10.0",
     "gulp": "3.9.0",
-    "gulp-autoprefixer": "3.0.2",
-    "gulp-load-plugins": "1.0.0-rc.1",
+    "gulp-autoprefixer": "3.1.0",
+    "gulp-load-plugins": "1.0.0",
     "gulp-sass": "2.0.4",
     "istanbul": "0.3.22",
     "js-makedepend": "0.1.6",
