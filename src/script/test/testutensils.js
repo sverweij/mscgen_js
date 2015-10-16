@@ -34,18 +34,25 @@ return {
     },
     assertequalProcessingXML : function(pExpectedFileName, pInputFileName, pProcessingFn){
         var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
-        var lInputContents    = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});
-        var lProcessedInput   = pProcessingFn(lInputContents);
+        var lProcessedInput   = pProcessingFn (
+            fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
+        );
         
         expect(lProcessedInput).xml.to.be.valid();
         expect(lProcessedInput).xml.to.deep.equal(lExpectedContents);
     },
     assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn){
-        var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
-        var lInputContents = fs.readFileSync(pInputFileName, {"encoding" : "utf8"});
-        assert.equal(hashit(pProcessingFn(lInputContents)), hashit(lExpectedContents));
+        assert.equal(
+            hashit(
+                pProcessingFn(
+                    fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
+                )
+            ), 
+            hashit(
+                fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
+            )
+        );
     },
-    
     assertSyntaxError: function(pProgram, pParser, pErrorType){
         if (!pErrorType){
             pErrorType = "SyntaxError";
