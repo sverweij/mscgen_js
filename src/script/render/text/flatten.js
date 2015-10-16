@@ -133,9 +133,9 @@ function(transform, map, utl, txt) {
     function _unwind(pAST) {
         var lAST = {};
         gMaxDepth = 0;
-
-        lAST.options = pAST.options ? utl.deepCopy(pAST.options) : undefined;
-        lAST.entities = pAST.entities ? utl.deepCopy(pAST.entities) : undefined;
+        
+        if (!!pAST.options){ lAST.options = utl.deepCopy(pAST.options); }
+        if (!!pAST.entities){ lAST.entities = utl.deepCopy(pAST.entities); }
         lAST.arcs = [];
 
         if (pAST && pAST.arcs) {
