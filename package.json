@@ -12,6 +12,8 @@
   },
   "devDependencies": {
     "bower": "1.5.3",
+    "chai": "3.3.0",
+    "chai-xml": "0.3.0",
     "codeclimate-test-reporter": "0.1.1",
     "codecov.io": "0.1.6",
     "commander": "2.9.0",
@@ -32,8 +34,8 @@
     "plato": "1.5.0"
   },
   "scripts": {
-    "test": "mocha -R dot --recursive src/script/test/",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
+    "test": "mocha -R dot --timeout 3000 --recursive src/script/test/",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 3000 --recursive src/script/test",
     "nsp": "nsp package",
     "plato": "plato -r -d platoreports -x \"parser|test|scriptlets\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",

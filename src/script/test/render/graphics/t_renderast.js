@@ -24,7 +24,7 @@ describe('render/graphics/renderast', function() {
     jsdom.env("<html><body></body></html>", function(err, pWindow) {
         describe('#renderAST in body', function() {
             function processAndCompare(pExpectedFile, pInputFile, pIncludeSource) {
-                tst.assertequalProcessing(pExpectedFile, pInputFile, function(pInput) {
+                tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
                     return ast2svg(pInput, pWindow, pIncludeSource);
                 });
             }
@@ -73,7 +73,7 @@ describe('render/graphics/renderast', function() {
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
         describe('#renderAST in own element', function() {
             function processAndCompare(pExpectedFile, pInputFile, pIncludeSource, pUseOwnElement) {
-                tst.assertequalProcessing(pExpectedFile, pInputFile, function(pInput) {
+                tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
                     return ast2svg(pInput, pWindow, pIncludeSource, pUseOwnElement);
                 });
             }

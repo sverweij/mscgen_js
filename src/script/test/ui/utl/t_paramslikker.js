@@ -1,55 +1,55 @@
 /* jshint nonstandard: true */
-var par = require("../../../ui/utl/paramslikker");
-var utl = require("../../testutensils");
+var par    = require("../../../ui/utl/paramslikker");
+var expect = require("chai").expect;
 
-describe('ui/utl/paramslikker', function() {
+describe('paramslikker', function() {
     describe('#getParams - empty', function() {
         it('should return an empty object when no string passed', function() {
-            utl.assertequalJSON({}, par.getParams());
+            expect(par.getParams()).to.deep.equal({});
         });
         it('should return an empty object when empty string passed', function() {
-            utl.assertequalJSON({}, par.getParams(""));
+            expect(par.getParams("")).to.deep.equal({});
         });
         it('should return an empty object when only ? passed', function() {
-            utl.assertequalJSON({}, par.getParams("?"));
+            expect(par.getParams("?")).to.deep.equal({});
         });
         it('should return an empty object when no name value pairs passed', function() {
-            utl.assertequalJSON({}, par.getParams("?debug"));
+            expect(par.getParams("?debug")).to.deep.equal({});
         });
         it('should return an empty object when no name value pairs passed', function() {
-            utl.assertequalJSON({}, par.getParams("?debug&donottrack"));
+            expect(par.getParams("?debug&donottrack")).to.deep.equal({});
         });
         it('should return an empty object - invalidly passed stuff', function() {
-            utl.assertequalJSON({}, par.getParams('?msc=msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'));
+            expect(par.getParams('?msc=msc{a,b,c; a->b; c->b; b >> * [label="answer"]}')).to.deep.equal({});
         });
     });
 
     describe('#getParams - happy days', function() {
         it('should return an empty object when no name value pairs passed', function() {
-            utl.assertequalJSON({
+            expect(par.getParams("?debug=")).to.deep.equal({
                 debug : ""
-            }, par.getParams("?debug="));
+            });
         });
         it('should return an object with one property', function() {
-            utl.assertequalJSON({
+            expect(par.getParams("?debug=yep")).to.deep.equal({
                 debug : "yep"
-            }, par.getParams("?debug=yep"));
+            });
         });
         it('should return an object with two properties', function() {
-            utl.assertequalJSON({
+            expect(par.getParams("?debug=yep&donottrack=yes")).to.deep.equal({
                 debug : "yep",
                 donottrack : "yes"
-            }, par.getParams("?debug=yep&donottrack=yes"));
+            });
         });
         it('should return an object with a property that has a value with spaces', function() {
-            utl.assertequalJSON({
+            expect(par.getParams("?withspaces=with spaces")).to.deep.equal({
                 withspaces : "with spaces",
-            }, par.getParams("?withspaces=with spaces"));
+            });
         });
         it('should return an object with an msc program', function() {
-            utl.assertequalJSON({
-                msc : 'msc{a,b,c; a->b; c->b; b >> * [label="💩 - ånswer"]}'
-            }, par.getParams('?msc=' + encodeURIComponent('msc{a,b,c; a->b; c->b; b >> * [label="💩 - ånswer"]}')));
+            expect(par.getParams('?msc=' + escape('msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'))).to.deep.equal({
+                msc : 'msc{a,b,c; a->b; c->b; b >> * [label="answer"]}'
+            });
         });
 
     });

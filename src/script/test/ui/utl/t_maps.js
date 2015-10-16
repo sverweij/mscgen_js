@@ -1,4 +1,4 @@
-var assert = require("assert");
+var assert = require("chai").assert;
 var txt = require("../../../ui/utl/maps");
 
 describe('ui/utl/maps', function() {
