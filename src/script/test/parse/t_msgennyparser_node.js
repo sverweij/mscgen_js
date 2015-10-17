@@ -109,7 +109,7 @@ describe('parse/msgennyparser', function() {
                 }
               ]
             };
-            expect(parser.parse('"序";'), lFixture);
+            expect(parser.parse('"序";')).to.deep.equal(lFixture);
         });
         it("unicode is cool. But not yet for unquoted entity names - neither does it in arcs", function() {
             tst.assertSyntaxError('"序" -> 序;', parser);

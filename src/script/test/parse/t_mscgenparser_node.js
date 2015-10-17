@@ -67,6 +67,21 @@ describe('parse/mscgenparser', function() {
         it("unicode is cool. But not yet for unquoted entity names", function() {
             tst.assertSyntaxError('msc{序;}', parser);
         });
+        it("unicode is cool for quoted entity names", function() {
+            var lFixture = {
+              "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+              },
+              "entities": [
+                {
+                  "name": "序"
+                }
+              ]
+            };
+            expect(parser.parse('msc{"序";}')).to.deep.equal(lFixture);
+        });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('msc{a}', parser);
         });

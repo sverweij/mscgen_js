@@ -74,7 +74,7 @@ describe('parse/xuparser', function() {
                 }
               ]
             };
-            expect(parser.parse('msc{"序";}'), lFixture);
+            expect(parser.parse('msc{"序";}')).to.deep.equal(lFixture);
         });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('msc{a}', parser);
@@ -114,7 +114,7 @@ describe('parse/xuparser', function() {
                 ]
               ]
             };
-            expect(parser.parse('msc{a, b; a opt b{};}'), lFixture);
+            expect(parser.parse('msc{a, b; a opt b{};}')).to.deep.equal(lFixture);
         });
         it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
             tst.assertSyntaxError('msc{a, b; a => b{|||;};}', parser);
