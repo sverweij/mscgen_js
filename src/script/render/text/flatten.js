@@ -88,7 +88,7 @@ function(transform, map, utl, txt) {
     function unwindArcRow(pArcRow, pAST, pDepth, pFrom, pTo) {
         var lArcSpanningArc = {};
         if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
-            lArcSpanningArc = utl.deepCopy(pArcRow[0]);
+            lArcSpanningArc = utl.clone(pArcRow[0]);
 
             if (!!(lArcSpanningArc.arcs)) {
                 lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
@@ -134,8 +134,8 @@ function(transform, map, utl, txt) {
         var lAST = {};
         gMaxDepth = 0;
         
-        if (!!pAST.options){ lAST.options = utl.deepCopy(pAST.options); }
-        if (!!pAST.entities){ lAST.entities = utl.deepCopy(pAST.entities); }
+        if (!!pAST.options){ lAST.options = utl.clone(pAST.options); }
+        if (!!pAST.entities){ lAST.entities = utl.clone(pAST.entities); }
         lAST.arcs = [];
 
         if (pAST && pAST.arcs) {
@@ -152,7 +152,7 @@ function(transform, map, utl, txt) {
             return pArc.from !== pEntity.name;
         }).map(function(pEntity) {
             pArc.to = pEntity.name;
-            return utl.deepCopy(pArc);
+            return utl.clone(pArc);
         });
     }
     
@@ -170,7 +170,7 @@ function(transform, map, utl, txt) {
                         /* save a clone of the broadcast arc attributes
                          * and remove the original bc arc
                          */
-                        lOriginalBroadcastArc = utl.deepCopy(pArc);
+                        lOriginalBroadcastArc = utl.clone(pArc);
                         delete pAST.arcs[pArcRowIndex][pArcIndex];
                         lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                         pArcRow[pArcIndex] = lExplodedArcsAry.shift();

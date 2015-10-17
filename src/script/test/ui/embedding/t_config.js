@@ -1,11 +1,11 @@
-var conf = require("../../../ui/embedding/config");
-var utl = require("../../testutensils");
+var conf   = require("../../../ui/embedding/config");
+var expect = require("chai").expect;
 
 describe('ui/embedding/embed-config', function() {
     describe('#getConfig - merges with the global mscgen_js_config', function() {
 
         it('should return the default configuration when no global mscgen_js_config is present', function() {
-            utl.assertequalJSON(conf.getConfig(),
+            expect(conf.getConfig()).to.deep.equal(
             {
                 defaultLanguage : "mscgen",
                 parentElementPrefix : "mscgen_js-parent_",
@@ -19,7 +19,7 @@ describe('ui/embedding/embed-config', function() {
                 clickable: true,
                 clickURL: "http://localhost/"
             };
-            utl.assertequalJSON(conf.getConfig(),
+            expect(conf.getConfig()).to.deep.equal(
             {
                 defaultLanguage : "mscgen",
                 parentElementPrefix : "mscgen_js-parent_",

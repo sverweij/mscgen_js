@@ -1,7 +1,7 @@
 var colorize = require("../../../render/text/colorize");
-var fix = require("../../astfixtures");
-var utl = require("../../testutensils");
-var clone = require("../../../utl/utensils").deepCopy;
+var fix      = require("../../astfixtures");
+var _        = require("../../../utl/utensils");
+var expect   = require("chai").expect;
 
 /*
 var template = {
@@ -639,38 +639,38 @@ var customMscTestOutput = {
 describe('render/text/colorize', function() {
     describe('#colorize', function() {
         it('should return the input on uncolor(colorize)', function(){
-            utl.assertequalJSON(fix.astAltWithinLoop, colorize.uncolor(colorize.applyScheme(clone(fix.astAltWithinLoop))));
+            expect(colorize.uncolor(colorize.applyScheme(_.clone(fix.astAltWithinLoop)))).to.deep.equal(fix.astAltWithinLoop);
         });
         it('should, leave already textcolored entities alone', function(){
-            utl.assertequalJSON(textColoredEntity, colorize.applyScheme(clone(textColoredEntity)));
+            expect(colorize.applyScheme(_.clone(textColoredEntity))).to.deep.equal(textColoredEntity);
         });
         it('should, leave already textcolored entities alone', function(){
-            utl.assertequalJSON(textColoredEntity, colorize.applyScheme(clone(textColoredEntity), 'auto'));
+            expect(colorize.applyScheme(_.clone(textColoredEntity), 'auto')).to.deep.equal(textColoredEntity);
         });
         it('should, leave already arctextcolored entities alone', function(){
-            utl.assertequalJSON(arcTextColoredEntity, colorize.applyScheme(arcTextColoredEntity));
+            expect(colorize.applyScheme(arcTextColoredEntity)).to.deep.equal(arcTextColoredEntity);
         });
         it('should, leave regular arcs departing from already textcolored entities alone', function(){
-            utl.assertequalJSON(textColoredEntityWithArc, colorize.applyScheme(textColoredEntityWithArc));
+            expect(colorize.applyScheme(textColoredEntityWithArc)).to.deep.equal(textColoredEntityWithArc);
         });
         it('should color box arcs departing from colored entities', function(){
-            utl.assertequalJSON(coloredBoxes, colorize.applyScheme(clone(boxes)));
+            expect(colorize.applyScheme(_.clone(boxes))).to.deep.equal(coloredBoxes);
         });
         it('should not respect any colors when force is applied', function(){
-            utl.assertequalJSON(coloredBoxesForced, colorize.applyScheme(clone(boxes), 'auto', true));
+            expect(colorize.applyScheme(_.clone(boxes), 'auto', true)).to.deep.equal(coloredBoxesForced);
         });
         it('should not respect any colors when force is applied', function(){
-            var lRosedBoxes = colorize.applyScheme(clone(boxes), 'rosy');
-            utl.assertequalJSON(coloredBoxesForced, colorize.applyScheme(lRosedBoxes, 'auto', true));
+            var lRosedBoxes = colorize.applyScheme(_.clone(boxes), 'rosy');
+            expect(colorize.applyScheme(lRosedBoxes, 'auto', true)).to.deep.equal(coloredBoxesForced);
         });
         it('should color box arcs departing from non-colored entities', function(){
-            utl.assertequalJSON(coloredBoxesWithNonColoredEntity, colorize.applyScheme(boxesWithNonColoredEntity));
+            expect(colorize.applyScheme(boxesWithNonColoredEntity)).to.deep.equal(coloredBoxesWithNonColoredEntity);
         });
         it('should not color box arcs already having some color', function(){
-            utl.assertequalJSON(alreadyColoredBoxes, colorize.applyScheme(alreadyColoredBoxes));
+            expect(colorize.applyScheme(alreadyColoredBoxes)).to.deep.equal(alreadyColoredBoxes);
         });
         it('should use custom entity color scheme and arc specifics when passed these', function(){
-            utl.assertequalJSON(customMscTestOutput, colorize.colorize(customMscTestInput, customScheme));
+            expect(colorize.colorize(customMscTestInput, customScheme)).to.deep.equal(customMscTestOutput);
         });
     });
 });

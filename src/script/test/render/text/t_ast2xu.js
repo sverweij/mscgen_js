@@ -1,9 +1,9 @@
-var assert = require("assert");
+var assert   = require("assert");
 var renderer = require("../../../render/text/ast2xu");
-var fix = require("../../astfixtures");
-var fs = require("fs");
-var parser = require("../../../parse/xuparser_node");
-var utl = require("../../testutensils");
+var fix      = require("../../astfixtures");
+var fs       = require("fs");
+var parser   = require("../../../parse/xuparser_node");
+var expect   = require("chai").expect;
 
 describe('render/text/ast2xu', function() {
     describe('#renderAST() - simple syntax tree', function() {
@@ -137,7 +137,7 @@ describe('render/text/ast2xu', function() {
             });
             var lAST = JSON.parse(lASTString);
             var lProgram = renderer.render(lAST);
-            utl.assertequalJSON(parser.parse(lProgram), lAST);
+            expect(parser.parse(lProgram)).to.deep.equal(lAST);
         });
     });
 

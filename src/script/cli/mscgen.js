@@ -1,3 +1,13 @@
+// this uses node and jsdom. Better might be to use phantomjs
+// which is a browser and as such has good support for svg (bbox...)
+// and has rendering to raster graphics out of the box (so no need
+// for canvas/ canvg ...
+//
+// A clean-ish piece of concept code here:
+//    https://github.com/cpettitt/dagre-d3-cli
+//
+// Also a nodejs/ phantomjs bridge exsists:
+//    https://github.com/sgentle/phantomjs-node
 /* jshint node:true */
 var program     = require("commander");
 var validations = require("./validations");

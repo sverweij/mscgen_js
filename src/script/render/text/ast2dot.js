@@ -207,7 +207,7 @@ function(flatten, txt, map, utl) {
 
     return {
         render : function(pAST) {
-            return _renderAST(flatten.dotFlatten(utl.deepCopy(pAST)));
+            return _renderAST(flatten.dotFlatten(utl.clone(pAST)));
         }
     };
 });

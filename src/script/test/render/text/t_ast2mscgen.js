@@ -1,9 +1,9 @@
-var assert = require("assert");
+var assert   = require("assert");
 var renderer = require("../../../render/text/ast2mscgen");
-var parser = require("../../../parse/mscgenparser_node");
-var fix = require("../../astfixtures");
-var utl = require("../../testutensils");
-var fs = require("fs");
+var parser   = require("../../../parse/mscgenparser_node");
+var fix      = require("../../astfixtures");
+var fs       = require("fs");
+var expect   = require("chai").expect;
 
 describe('render/text/ast2mscgen', function() {
     describe('#renderAST() - simple syntax tree', function() {
@@ -107,7 +107,7 @@ describe('render/text/ast2mscgen', function() {
           //var lExpectedProgram = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
           var lProgram = renderer.render(lAST);
           // assert.equal(lProgram,lExpectedProgram);
-          utl.assertequalJSON(parser.parse(lProgram), lAST);
+          expect(parser.parse(lProgram)).to.deep.equal(lAST);
        });
     });
 });

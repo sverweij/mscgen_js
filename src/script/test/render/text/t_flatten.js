@@ -1,38 +1,38 @@
 var flatten = require("../../../render/text/flatten");
-var fix = require("../../astfixtures");
-var utl = require("../../testutensils");
+var fix     = require("../../astfixtures");
+var expect  = require("chai").expect;
 
 describe('render/text/flatten', function() {
     describe('unwind', function() {
         it('should return an "unwound" version of the simple one alt ', function() {
-            utl.assertequalJSON(fix.astOneAltUnwound, flatten.unwind(fix.astOneAlt));
+            expect(flatten.unwind(fix.astOneAlt)).to.deep.equal(fix.astOneAltUnwound);
         });
         it('should return an "unwound" version of an alt within a loop ', function() {
-            utl.assertequalJSON(fix.astAltWithinLoopUnWound, flatten.unwind(fix.astAltWithinLoop));
+            expect(flatten.unwind(fix.astAltWithinLoop)).to.deep.equal(fix.astAltWithinLoopUnWound);
         });
         it('should keep comments within arc spanning arc bounds', function() {
-            utl.assertequalJSON(fix.astOptWithCommentUnWound, flatten.unwind(fix.astOptWithComment));
+            expect(flatten.unwind(fix.astOptWithComment)).to.deep.equal(fix.astOptWithCommentUnWound);
         });
         it('should distribute the arc* colors to underlying arcs (one level)', function() {
-            utl.assertequalJSON(fix.astInlineWithArcColorUnWound, flatten.unwind(fix.astInlineWithArcColor));
+            expect(flatten.unwind(fix.astInlineWithArcColor)).to.deep.equal(fix.astInlineWithArcColorUnWound);
         });
         it('should distribute the arc* colors to underlying arcs (one level, but not more)', function() {
-            utl.assertequalJSON(fix.astNestedInlinesWithArcColorUnWound, flatten.unwind(fix.astNestedInlinesWithArcColor));
+            expect(flatten.unwind(fix.astNestedInlinesWithArcColor)).to.deep.equal(fix.astNestedInlinesWithArcColorUnWound);
         });
     });
     
     describe('explodeBroadcasts', function() {
         it('leave asts without broadcasts alone', function() {
-            utl.assertequalJSON(fix.astAltWithinLoop, flatten.explodeBroadcasts(fix.astAltWithinLoop));
+            expect(flatten.explodeBroadcasts(fix.astAltWithinLoop)).to.deep.equal(fix.astAltWithinLoop);
         });
         it('explode b->* to parallel calls to all other entities', function() {
-            utl.assertequalJSON(fix.astSimpleBroadcastExploded, flatten.explodeBroadcasts(fix.astSimpleBroadcast));
+            expect(flatten.explodeBroadcasts(fix.astSimpleBroadcast)).to.deep.equal(fix.astSimpleBroadcastExploded);
         });
         it('explode a little more complex broadcast ast to parallel calls to all other entities', function() {
-            utl.assertequalJSON(fix.astComplexerBroadcastExploded, flatten.explodeBroadcasts(fix.astComplexerBroadcast));
+            expect(flatten.explodeBroadcasts(fix.astComplexerBroadcast)).to.deep.equal(fix.astComplexerBroadcastExploded);
         });
         it('correctly explode a broadcast that has other arcs in the same arc row', function() {
-            utl.assertequalJSON(fix.astSameArcRowBroadcastExploded, flatten.explodeBroadcasts(fix.astSameArcRowBroadcast));
+            expect(flatten.explodeBroadcasts(fix.astSameArcRowBroadcast)).to.deep.equal(fix.astSameArcRowBroadcastExploded);
         });
     });
 

@@ -1,6 +1,7 @@
-var mark = require("../../../render/graphics/markermanager");
-var utl = require("../../testutensils");
-var fs = require("fs");
+var mark   = require("../../../render/graphics/markermanager");
+var fs     = require("fs");
+var expect = require("chai").expect;
+
 var gMarkerDefs = 
     [
       {
@@ -83,7 +84,7 @@ describe('render/graphics/markermanager', function() {
         it('should return the colors in arcs in inline expressions', function() {
             var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/simpleXuSample.json', {"encoding":"utf8"});
             var lAST = JSON.parse(lTextFromFile.toString());
-            utl.assertequalJSON(mark.getMarkerDefs("481", lAST), gMarkerDefs);
+            expect(mark.getMarkerDefs("481", lAST)).to.deep.equal(gMarkerDefs);
         });
         
     });

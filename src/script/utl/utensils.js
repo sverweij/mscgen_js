@@ -40,7 +40,7 @@ define([], function() {
          *
          * utility function.  
          */
-        deepCopy: function deepCopy(pObject) {
+        clone: function clone(pObject) {
             return JSON.parse(JSON.stringify(pObject));
         },
         

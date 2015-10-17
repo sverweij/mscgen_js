@@ -1,9 +1,10 @@
-var assert = require("assert");
+var assert      = require("assert");
 var ast2animate = require("../../../render/text/ast2animate");
-var parser = require("../../../parse/xuparser_node");
-var fix = require("../../astfixtures");
-var utl = require("../../testutensils");
-var fs = require("fs");
+var parser      = require("../../../parse/xuparser_node");
+var fix         = require("../../astfixtures");
+var fs          = require("fs");
+var tst         = require("../../testutensils");
+var expect      = require("chai").expect;
 
 describe('render/text/ast2ani', function() {
     var astCheatSheet0 = {
@@ -160,7 +161,7 @@ describe('render/text/ast2ani', function() {
     describe('#getFrame(0)', function() {
         it('should return astEmpty for astEmpty', function() {
             var ani = new ast2animate.FrameFactory(fix.astEmpty);
-            utl.assertequalJSON(ani.getFrame(0), fix.astEmpty);
+            expect(ani.getFrame(0)).to.deep.equal(fix.astEmpty);
         });
         it('should return entities for astSimple', function() {
             var ani = new ast2animate.FrameFactory(fix.astSimple);
@@ -177,17 +178,17 @@ describe('render/text/ast2ani', function() {
                 }],
                 arcs : [[{"kind": "|||"}]]
             };
-            utl.assertequalJSON(ani.getFrame(0), astSimpleEntitiesOnly);
+            expect(ani.getFrame(0)).to.deep.equal(astSimpleEntitiesOnly);
         });
 
         it('should return entities for astCheatSheet', function() {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
-            utl.assertequalJSON(ani.getFrame(0), astCheatSheet0);
+            expect(ani.getFrame(0)).to.deep.equal(astCheatSheet0);
         });
 
         it('should return entities for astCheatSheet for length < 0', function() {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
-            utl.assertequalJSON(ani.getFrame(-481), astCheatSheet0);
+            expect(ani.getFrame(-481)).to.deep.equal(astCheatSheet0);
         });
 
     });
@@ -195,19 +196,19 @@ describe('render/text/ast2ani', function() {
     describe('#getFrame(getLength())', function() {
         it('should return astEmpty for astEmpty', function() {
             var ani = new ast2animate.FrameFactory(fix.astEmpty);
-            utl.assertequalJSON(ani.getFrame(ani.getLength()), fix.astEmpty);
+            expect(ani.getFrame(ani.getLength())).to.deep.equal(fix.astEmpty);
         });
         it('should return astSimple for astSimple', function() {
             var ani = new ast2animate.FrameFactory(fix.astSimple);
-            utl.assertequalJSON(ani.getFrame(ani.getLength()), fix.astSimple);
+            expect(ani.getFrame(ani.getLength())).to.deep.equal(fix.astSimple);
         });
         it('should return astCheatSheet for astCheatSheet', function() {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
-            utl.assertequalJSON(ani.getFrame(ani.getLength()), fix.astCheatSheet);
+            expect(ani.getFrame(ani.getLength())).to.deep.equal(fix.astCheatSheet);
         });
         it('should return astCheatSheet for astCheatSheet and length === somethingbig', function() {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet, true);
-            utl.assertequalJSON(ani.getFrame(481), fix.astCheatSheet);
+            expect(ani.getFrame(481)).to.deep.equal(fix.astCheatSheet);
         });
     });
 
@@ -216,15 +217,15 @@ describe('render/text/ast2ani', function() {
         var ani = new ast2animate.FrameFactory(fix.astCheatSheet, true);
 
         it('should return entities and first arc from astCheatSheet for astCheatSheet', function() {
-            utl.assertequalJSON(ani.getFrame(1), astCheatSheet1);
+            expect(ani.getFrame(1)).to.deep.equal(astCheatSheet1);
         });
 
         it('should return entities and first three arcs from astCheatSheet for astCheatSheet', function() {
-            utl.assertequalJSON(ani.getFrame(3), astCheatSheet3);
+            expect(ani.getFrame(3)).to.deep.equal(astCheatSheet3);
         });
 
         it('should return entities and first two arcs from astCheatSheet for astCheatSheet', function() {
-            utl.assertequalJSON(ani.getFrame(2), astCheatSheet2);
+            expect(ani.getFrame(2)).to.deep.equal(astCheatSheet2);
         });
     });
 
@@ -235,21 +236,21 @@ describe('render/text/ast2ani', function() {
             ani.end();
             assert.equal(15, ani.getPosition());
             assert.equal(100, ani.getPercentage());
-            utl.assertequalJSON(ani.getCurrentFrame(), fix.astCheatSheet);
+            expect(ani.getCurrentFrame()).to.deep.equal(fix.astCheatSheet);
         });
         it('getCurrentFrame should return astCheatSheet1 after end() and 14 calls to dec()', function() {
             ani.end();
             ani.dec(14);
             assert.equal(1, ani.getPosition());
             assert.equal(100/15, ani.getPercentage());
-            utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet1);
+            expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet1);
         });
         it('getCurrentFrame should return astCheatSheet2 after call to home() and two calls to inc()', function() {
             ani.home();
             ani.inc(2);
             assert.equal(2, ani.getPosition());
             assert.equal(200/15, ani.getPercentage());
-            utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet2);
+            expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet2);
         });
         it('getCurrentFrame should return entities only after call to home()', function() {
             ani.home();
@@ -257,7 +258,7 @@ describe('render/text/ast2ani', function() {
             ani.dec();
             assert.equal(0, ani.getPosition());
             assert.equal(0, ani.getPercentage());
-            utl.assertequalJSON(ani.getCurrentFrame(), astCheatSheet0);
+            expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet0);
         });
     });
 
@@ -276,25 +277,25 @@ describe('render/text/ast2ani', function() {
         });
 
         it('produces the right frames - 0', function(){
-            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe00.json', ani.getFrame(0));
+            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe00.json', ani.getFrame(0));
         });
 
         it('produces the right frames - 1', function(){
-            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe01.json', ani.getFrame(1));
+            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe01.json', ani.getFrame(1));
         });
 
         it('produces the right frames - 2', function(){
-            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe02.json', ani.getFrame(2));
+            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe02.json', ani.getFrame(2));
         });
 
         /*
         it('produces the right frames - 3', function(){
-            utl.assertequalJSONFile('./src/script/test/fixtures/xuframe03.json', ani.getFrame(3));
+            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe03.json', ani.getFrame(3));
         });
 
         it('produces the right frames - last', function(){
             ani.end();
-            utl.assertequalJSONFile('./src/script/test/fixtures/simpleXuSample.json', ani.getCurrentFrame());
+            tst.assertequalJSONFile('./src/script/test/fixtures/simpleXuSample.json', ani.getCurrentFrame());
         });
         */
     });
