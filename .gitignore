@@ -11,6 +11,7 @@ src/favicon.ico
 src/*favicon-*.png
 src/*tmp*.*
 *tmp*.*
+*tmp*
 tracking.*
 siteverification.id
 tmp_*.md
