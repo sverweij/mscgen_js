@@ -9,7 +9,7 @@ describe('parse/xuparser', function() {
 
         it('should render a simple AST', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
-            expect(lAST).to.deep.equal(fix.astSimple);
+            expect(lAST).to.be.deep.equal(fix.astSimple);
         });
         it('should ignore c++ style one line comments', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored');
@@ -205,6 +205,9 @@ describe('parse/xuparser', function() {
         });
         it("should throw a SyntaxError on a missing a closing bracket after a valid option", function() {
             tst.assertSyntaxError('msc {a,b; a loop b [label="brackets missing"', parser);
+        });
+        it("should throw an EntityNotDefinedError on a missing entity somewhere deeply nested", function() {
+            tst.assertSyntaxError('msc {a,b; a loop b {c => b;};}', parser, "EntityNotDefinedError");
         });
     });
 });

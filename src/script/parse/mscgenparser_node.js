@@ -120,11 +120,11 @@ module.exports = (function() {
           return merge (a, al);
         },
         peg$c44 = function(kind) {return {kind:kind}},
-        peg$c45 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
+        peg$c45 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
         peg$c46 = "*",
         peg$c47 = { type: "literal", value: "*", description: "\"*\"" },
-        peg$c48 = function(kind, to) {return {kind:kind, from: "*", to:to}},
-        peg$c49 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
+        peg$c48 = function(kind, to) {return {kind:kind, from: "*", to:to, location:location()}},
+        peg$c49 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
         peg$c50 = "|||",
         peg$c51 = { type: "literal", value: "|||", description: "\"|||\"" },
         peg$c52 = "...",
@@ -2782,11 +2782,18 @@ module.exports = (function() {
             });
         }
 
+        function buildEntityNotDefinedMessage(pEntityName, pArc){
+            return "Entity '" + pEntityName + "' in arc " +
+                   "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+                   "is not defined.";    
+        }
+
         function EntityNotDefinedError (pEntityName, pArc) {
-            this.message = "Entity '" + pEntityName + "' in arc ";
-            this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-            this.message += "is not defined.";
             this.name = "EntityNotDefinedError";
+            this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+            this.location = pArc.location;
+            this.location.start.line++;
+            this.location.end.line++;
         }
 
         function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -2803,6 +2810,9 @@ module.exports = (function() {
                         }
                         if (pArc.to && !entityExists (pEntities, pArc.to)) {
                             throw new EntityNotDefinedError(pArc.to, pArc);
+                        }
+                        if (!!pArc.location) {
+                            delete pArc.location;
                         }
                     });
                 });

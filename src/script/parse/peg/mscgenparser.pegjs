@@ -62,11 +62,18 @@
         });
     }
 
+    function buildEntityNotDefinedMessage(pEntityName, pArc){
+        return "Entity '" + pEntityName + "' in arc " +
+               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+               "is not defined.";    
+    }
+
     function EntityNotDefinedError (pEntityName, pArc) {
-        this.message = "Entity '" + pEntityName + "' in arc ";
-        this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-        this.message += "is not defined.";
         this.name = "EntityNotDefinedError";
+        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+        this.location = pArc.location;
+        this.location.start.line++;
+        this.location.end.line++;
     }
 
     function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -83,6 +90,9 @@
                     }
                     if (pArc.to && !entityExists (pEntities, pArc.to)) {
                         throw new EntityNotDefinedError(pArc.to, pArc);
+                    }
+                    if (!!pArc.location) {
+                        delete pArc.location;
                     }
                 });
             });
@@ -174,11 +184,11 @@ singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
 commentarc      = _ kind:commenttoken _ {return {kind:kind}}
 dualarc         =
  (_ from:identifier _ kind:dualarctoken _ to:identifier _
-  {return {kind: kind, from:from, to:to}})
+  {return {kind: kind, from:from, to:to, location:location()}})
 /(_ "*" _ kind:bckarrowtoken _ to:identifier _
-  {return {kind:kind, from: "*", to:to}})
+  {return {kind:kind, from: "*", to:to, location:location()}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*"}})
+  {return {kind:kind, from: from, to:"*", location:location()}})
 singlearctoken  = "|||" / "..."
 commenttoken    = "---"
 dualarctoken    = kind:(

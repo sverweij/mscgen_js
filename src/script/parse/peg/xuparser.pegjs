@@ -40,11 +40,18 @@
         });
     }
 
+    function buildEntityNotDefinedMessage(pEntityName, pArc){
+        return "Entity '" + pEntityName + "' in arc " +
+               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+               "is not defined.";    
+    }
+
     function EntityNotDefinedError (pEntityName, pArc) {
-        this.message = "Entity '" + pEntityName + "' in arc ";
-        this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-        this.message += "is not defined.";
         this.name = "EntityNotDefinedError";
+        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+        this.location = pArc.location;
+        this.location.start.line++;
+        this.location.end.line++;
     }
 
     function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -52,7 +59,6 @@
             pEntities = {};
             pEntities.entities = [];
         }
-
         if (pArcLineList && pArcLineList.arcs) {
             pArcLineList.arcs.forEach(function(pArcLine) {
                 pArcLine.forEach(function(pArc) {
@@ -61,6 +67,12 @@
                     }
                     if (pArc.to && !entityExists (pEntities, pArc.to)) {
                         throw new EntityNotDefinedError(pArc.to, pArc);
+                    }
+                    if (!!pArc.location) {
+                        delete pArc.location;
+                    }
+                    if (!!pArc.arcs){
+                        checkForUndeclaredEntities(pEntities, pArc);
                     }
                 });
             });
@@ -96,7 +108,7 @@
         return {
             "extendedOptions" : lHasExtendedOptions,
             "extendedArcTypes": lHasExtendedArcTypes,
-            "extendedFeatures":  lHasExtendedOptions||lHasExtendedArcTypes
+            "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
         }
     }
 }
@@ -179,15 +191,15 @@ singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
 commentarc      = _ kind:commenttoken _ {return {kind:kind}}
 dualarc         =
  (_ from:identifier _ kind:dualarctoken _ to:identifier _
-  {return {kind: kind, from:from, to:to}})
+  {return {kind: kind, from:from, to:to, location:location()}})
 /(_ "*" _ kind:bckarrowtoken _ to:identifier _
-  {return {kind:kind, from: "*", to:to}})
+  {return {kind:kind, from: "*", to:to, location:location()}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*"}})
+  {return {kind:kind, from: from, to:"*", location:location()}})
 spanarc         =
  (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
   {
-    var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
+    var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
     return merge (lRetval, al);
   }
  )

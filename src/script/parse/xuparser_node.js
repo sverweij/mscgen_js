@@ -124,14 +124,14 @@ module.exports = (function() {
           return merge (a, al);
         },
         peg$c46 = function(kind) {return {kind:kind}},
-        peg$c47 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
+        peg$c47 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
         peg$c48 = "*",
         peg$c49 = { type: "literal", value: "*", description: "\"*\"" },
-        peg$c50 = function(kind, to) {return {kind:kind, from: "*", to:to}},
-        peg$c51 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
+        peg$c50 = function(kind, to) {return {kind:kind, from: "*", to:to, location:location()}},
+        peg$c51 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
         peg$c52 = function(from, kind, to, al) {return al},
         peg$c53 = function(from, kind, to, al, arclist) {
-            var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
+            var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
             return merge (lRetval, al);
           },
         peg$c54 = "|||",
@@ -3149,11 +3149,18 @@ module.exports = (function() {
             });
         }
 
+        function buildEntityNotDefinedMessage(pEntityName, pArc){
+            return "Entity '" + pEntityName + "' in arc " +
+                   "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+                   "is not defined.";    
+        }
+
         function EntityNotDefinedError (pEntityName, pArc) {
-            this.message = "Entity '" + pEntityName + "' in arc ";
-            this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-            this.message += "is not defined.";
             this.name = "EntityNotDefinedError";
+            this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+            this.location = pArc.location;
+            this.location.start.line++;
+            this.location.end.line++;
         }
 
         function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -3161,7 +3168,6 @@ module.exports = (function() {
                 pEntities = {};
                 pEntities.entities = [];
             }
-
             if (pArcLineList && pArcLineList.arcs) {
                 pArcLineList.arcs.forEach(function(pArcLine) {
                     pArcLine.forEach(function(pArc) {
@@ -3170,6 +3176,12 @@ module.exports = (function() {
                         }
                         if (pArc.to && !entityExists (pEntities, pArc.to)) {
                             throw new EntityNotDefinedError(pArc.to, pArc);
+                        }
+                        if (!!pArc.location) {
+                            delete pArc.location;
+                        }
+                        if (!!pArc.arcs){
+                            checkForUndeclaredEntities(pEntities, pArc);
                         }
                     });
                 });
@@ -3205,7 +3217,7 @@ module.exports = (function() {
             return {
                 "extendedOptions" : lHasExtendedOptions,
                 "extendedArcTypes": lHasExtendedArcTypes,
-                "extendedFeatures":  lHasExtendedOptions||lHasExtendedArcTypes
+                "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
             }
         }
 
