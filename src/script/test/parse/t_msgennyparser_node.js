@@ -210,7 +210,7 @@ describe('parse/msgennyparser', function() {
         it("should parse all possible arcs", function() {
             var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/script/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
+            tst.assertequalToFileJSON('./src/script/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
         });
     });
 });

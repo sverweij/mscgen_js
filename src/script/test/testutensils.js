@@ -14,9 +14,7 @@ module.exports = (function() {
     function hashit(pString){
         return crypto.createHash(gHashToUse).update(pString).digest('hex');
     }
-    
-return {
-    assertequalJSONFile : function(pExpectedFileName, pFound) {
+    function assertequalToFileJSON(pExpectedFileName, pFound) {
         expect(
             pFound
         ).to.deep.equal(
@@ -24,28 +22,32 @@ return {
                 fs.readFileSync(pExpectedFileName, {"encoding": "utf8"})
             )
         );
-    },
+    }
+return {
+    assertequalToFileJSON : assertequalToFileJSON,
 
-    assertequalToFile : function(pExpectedFileName, pFound) {
-        expect(
-            hashit(pFound)
-        ).to.equal(
-            hashit(fs.readFileSync(pExpectedFileName, {"encoding": "utf8"}))
+    assertequalFileJSON : function(pFoundFileName, pExpectedFileName){
+        assertequalToFileJSON(
+            pExpectedFileName,
+            JSON.parse(
+                fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
+            )
         );
     },
     
-    assertequalFile : function(pFound, pExpectedFileName) {
-        assert.equal(
-            hashit(fs.readFileSync(pFound, {"encoding": "utf8"})), 
-            hashit(fs.readFileSync(pExpectedFileName, {"encoding": "utf8"}))
-        );
+    assertequalFileXML : function (pFoundFileName, pExpectedFileName){
+        var lFound    = fs.readFileSync(pFoundFileName, {"encoding" : "utf8"});
+        var lExpected = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
+        
+        expect(lFound).xml.to.be.valid();
+        expect(lFound).xml.to.deep.equal(lExpected);
     },
 
     assertequalProcessingXML : function(pExpectedFileName, pInputFileName, pProcessingFn){
         var lProcessedInput   = pProcessingFn (
             fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
         );
-        
+
         expect(lProcessedInput).xml.to.be.valid();
         expect(
             lProcessedInput

@@ -277,25 +277,25 @@ describe('render/text/ast2ani', function() {
         });
 
         it('produces the right frames - 0', function(){
-            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe00.json', ani.getFrame(0));
+            tst.assertequalToFileJSON('./src/script/test/fixtures/xuframe00.json', ani.getFrame(0));
         });
 
         it('produces the right frames - 1', function(){
-            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe01.json', ani.getFrame(1));
+            tst.assertequalToFileJSON('./src/script/test/fixtures/xuframe01.json', ani.getFrame(1));
         });
 
         it('produces the right frames - 2', function(){
-            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe02.json', ani.getFrame(2));
+            tst.assertequalToFileJSON('./src/script/test/fixtures/xuframe02.json', ani.getFrame(2));
         });
 
         /*
         it('produces the right frames - 3', function(){
-            tst.assertequalJSONFile('./src/script/test/fixtures/xuframe03.json', ani.getFrame(3));
+            tst.assertequalToFileJSON('./src/script/test/fixtures/xuframe03.json', ani.getFrame(3));
         });
 
         it('produces the right frames - last', function(){
             ani.end();
-            tst.assertequalJSONFile('./src/script/test/fixtures/simpleXuSample.json', ani.getCurrentFrame());
+            tst.assertequalToFileJSON('./src/script/test/fixtures/simpleXuSample.json', ani.getCurrentFrame());
         });
         */
     });

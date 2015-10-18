@@ -21,7 +21,6 @@ var testPairs = [
             options : {
                 inputFrom  : "src/script/test/fixtures/rainbow.mscin",
                 parserOutput : true
-                
             }
         },
         expected : "src/script/test/output/rainbow_mscgen_source.json"
@@ -60,9 +59,13 @@ describe('cli/actions', function() {
                     pPair.input.argument,
                     pPair.input.options,
                     function(){
-                        utl.assertequalFile(pPair.input.argument, pPair.expected);
-                        done();
+                        if ("svg" === pPair.input.options.outputType){
+                            utl.assertequalFileXML(pPair.input.argument, pPair.expected);
+                        } else {
+                            utl.assertequalFileJSON(pPair.input.argument, pPair.expected);
+                        }
                         
+                        done();
                     }
                 );
                 

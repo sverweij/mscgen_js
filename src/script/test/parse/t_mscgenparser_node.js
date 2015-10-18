@@ -138,19 +138,19 @@ describe('parse/mscgenparser', function() {
                 "encoding" : "utf8"
             });
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
+            tst.assertequalToFileJSON('./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json', lAST);
         });
         it("should parse stuff with colors", function() {
             var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/rainbow.mscin', {
                 "encoding" : "utf8"
             });
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/script/test/fixtures/rainbow.json', lAST);
+            tst.assertequalToFileJSON('./src/script/test/fixtures/rainbow.json', lAST);
         });
         it("strings, ids and urls", function() {
             var lTextFromFile = fs.readFileSync('./src/samples/test10_stringsandurls.mscin', {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalJSONFile('./src/samples/test10_stringsandurls.json', lAST);
+            tst.assertequalToFileJSON('./src/samples/test10_stringsandurls.json', lAST);
         });
     }); 
 
