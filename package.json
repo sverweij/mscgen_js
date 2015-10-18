@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "btoa": "1.1.2",
     "codemirror": "5.7.0",
-    "jsdom": "6.5.1",
+    "jsdom": "7.0.0",
     "requirejs": "2.1.20"
   },
   "devDependencies": {
@@ -23,7 +23,7 @@
     "gulp-load-plugins": "1.0.0",
     "gulp-sass": "2.0.4",
     "istanbul": "0.4.0",
-    "js-makedepend": "0.1.6",
+    "js-makedepend": "0.1.7",
     "jshint": "2.8.0",
     "mocha": "2.3.3",
     "node-localstorage": "0.6.0",
@@ -34,7 +34,7 @@
     "plato": "1.5.0"
   },
   "scripts": {
-    "test": "mocha -R dot --timeout 3000 --recursive src/script/test/",
+    "test": "mocha -R dot --timeout 4000 --recursive src/script/test/",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 4000 --recursive src/script/test",
     "nsp": "nsp package",
     "plato": "plato -r -d platoreports -x \"parser|test|scriptlets\" src/script/",
