@@ -3158,9 +3158,12 @@ module.exports = (function() {
         function EntityNotDefinedError (pEntityName, pArc) {
             this.name = "EntityNotDefinedError";
             this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
-            this.location = pArc.location;
-            this.location.start.line++;
-            this.location.end.line++;
+            /* istanbul ignore else  */
+            if(!!pArc.location){
+                this.location = pArc.location;
+                this.location.start.line++;
+                this.location.end.line++;        
+            }
         }
 
         function checkForUndeclaredEntities (pEntities, pArcLineList) {
