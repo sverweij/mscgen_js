@@ -71,16 +71,16 @@ module.exports = (function() {
         },
         peg$c16 = "=",
         peg$c17 = { type: "literal", value: "=", description: "\"=\"" },
-        peg$c18 = function(n, s) {return s},
-        peg$c19 = function(n, i) {return i.toString()},
-        peg$c20 = function(n, b) {return b.toString()},
-        peg$c21 = function(n, v) {
+        peg$c18 = function(name, s) {return s},
+        peg$c19 = function(name, i) {return i.toString()},
+        peg$c20 = function(name, b) {return b.toString()},
+        peg$c21 = function(name, value) {
            var lOption = {};
-           n = n.toLowerCase();
-           if (n === "wordwraparcs"){
-              lOption[n] = flattenBoolean(v);
+           name = name.toLowerCase();
+           if (name === "wordwraparcs"){
+              lOption[name] = flattenBoolean(value);
            } else {
-              lOption[n]=v;
+              lOption[name]=value;
            }
            return lOption;
         },
@@ -102,14 +102,12 @@ module.exports = (function() {
         peg$c34 = { type: "literal", value: "[", description: "\"[\"" },
         peg$c35 = "]",
         peg$c36 = { type: "literal", value: "]", description: "\"]\"" },
-        peg$c37 = function(i, a) {return a},
-        peg$c38 = function(i, al) {
-          if (isKeyword(i)){
+        peg$c37 = function(name, a) {return a},
+        peg$c38 = function(name, attrList) {
+          if (isKeyword(name)){
             error("Keywords aren't allowed as entity names");
           }
-          var lOption = {};
-          lOption["name"] = i;
-          return merge (lOption, al);
+          return merge ({name:name}, attrList);
         },
         peg$c39 = function(a) {return a},
         peg$c40 = function(a) {return [a]},
@@ -189,11 +187,11 @@ module.exports = (function() {
         peg$c108 = { type: "literal", value: "rbox", description: "\"rbox\"" },
         peg$c109 = "box",
         peg$c110 = { type: "literal", value: "box", description: "\"box\"" },
-        peg$c111 = function(n, v) {
+        peg$c111 = function(name, value) {
           var lAttribute = {};
-          n = n.toLowerCase();
-          n = n.replace("colour", "color");
-          lAttribute[n] = v;
+          name = name.toLowerCase();
+          name = name.replace("colour", "color");
+          lAttribute[name] = value;
           return lAttribute
         },
         peg$c112 = { type: "other", description: "attribute name" },

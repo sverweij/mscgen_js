@@ -142,17 +142,17 @@ optionlist      = options:((o:option "," {return o})*
   return optionArray2Object(options);
 }
 
-option          = _ n:optionname _ "=" _
-                  v:(s:string {return s}
+option          = _ name:optionname _ "=" _
+                  value:(s:string {return s}
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _
 {
    var lOption = {};
-   n = n.toLowerCase();
-   if (n === "wordwraparcs"){
-      lOption[n] = flattenBoolean(v);
+   name = name.toLowerCase();
+   if (name === "wordwraparcs"){
+      lOption[name] = flattenBoolean(value);
    } else {
-      lOption[n]=v;
+      lOption[name]=value;
    }
    return lOption;
 }
@@ -163,14 +163,12 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
   el[0].push(el[1]);
   return el[0];
 }
-entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
+entity "entity" =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
 {
-  if (isKeyword(i)){
+  if (isKeyword(name)){
     error("Keywords aren't allowed as entity names");
   }
-  var lOption = {};
-  lOption["name"] = i;
-  return merge (lOption, al);
+  return merge ({name:name}, attrList);
 }
 arclist         = (a:arcline _ ";" {return a})+
 arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
@@ -220,12 +218,12 @@ attributelist   = options:((a:attribute "," {return a})* (a:attribute {return a}
   return optionArray2Object(options);
 }
 
-attribute       = _ n:attributename _ "=" _ v:identifier _
+attribute       = _ name:attributename _ "=" _ value:identifier _
 {
   var lAttribute = {};
-  n = n.toLowerCase();
-  n = n.replace("colour", "color");
-  lAttribute[n] = v;
+  name = name.toLowerCase();
+  name = name.replace("colour", "color");
+  lAttribute[name] = value;
   return lAttribute
 }
 attributename  "attribute name"

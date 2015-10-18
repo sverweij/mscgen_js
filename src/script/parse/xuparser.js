@@ -73,16 +73,16 @@ define ([], function() {
         },
         peg$c16 = "=",
         peg$c17 = { type: "literal", value: "=", description: "\"=\"" },
-        peg$c18 = function(n, s) {return s},
-        peg$c19 = function(n, i) {return i.toString()},
-        peg$c20 = function(n, b) {return b.toString()},
-        peg$c21 = function(n, v) {
+        peg$c18 = function(name, s) {return s},
+        peg$c19 = function(name, i) {return i.toString()},
+        peg$c20 = function(name, b) {return b.toString()},
+        peg$c21 = function(name, value) {
            var lOption = {};
-           n = n.toLowerCase();
-           if (n === "wordwraparcs"){
-              lOption[n] = flattenBoolean(v);
+           name = name.toLowerCase();
+           if (name === "wordwraparcs"){
+              lOption[name] = flattenBoolean(value);
            } else {
-              lOption[n]=v;
+              lOption[name]=value;
            }
            return lOption;
         },
@@ -106,11 +106,9 @@ define ([], function() {
         peg$c36 = { type: "literal", value: "[", description: "\"[\"" },
         peg$c37 = "]",
         peg$c38 = { type: "literal", value: "]", description: "\"]\"" },
-        peg$c39 = function(i, a) {return a},
-        peg$c40 = function(i, al) {
-          var lOption = {};
-          lOption["name"] = i;
-          return merge (lOption, al);
+        peg$c39 = function(name, a) {return a},
+        peg$c40 = function(name, attrList) {
+          return merge ({name:name}, attrList);
         },
         peg$c41 = function(a) {return a},
         peg$c42 = function(a) {return [a]},
@@ -229,11 +227,11 @@ define ([], function() {
         peg$c146 = function(attributes) {
           return optionArray2Object(attributes);
         },
-        peg$c147 = function(n, v) {
+        peg$c147 = function(name, value) {
           var lAttribute = {};
-          n = n.toLowerCase();
-          n = n.replace("colour", "color");
-          lAttribute[n] = v;
+          name = name.toLowerCase();
+          name = name.replace("colour", "color");
+          lAttribute[name] = value;
           return lAttribute
         },
         peg$c148 = { type: "other", description: "attribute name" },

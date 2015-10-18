@@ -160,19 +160,19 @@ optionlist      = options:((o:option "," {return o})*
   return optionArray2Object(options);
 }
 
-option          = _ n:optionname _ "=" _
-                  v:(s:quotedstring {return s}
+option          = _ name:optionname _ "=" _
+                  value:(s:quotedstring {return s}
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _
 {
-   var lOption = {};
-   n = n.toLowerCase();
-   if (n === "wordwraparcs"){
-      lOption[n] = flattenBoolean(v);
-   } else {
-      lOption[n]=v;
-   }
-   return lOption;
+  var lOption = {};
+  name = name.toLowerCase();
+  if (name === "wordwraparcs"){
+    lOption[name] = flattenBoolean(value);
+  } else {
+    lOption[name]=value;
+  }
+  return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
                   /"wordwraparcs"i / "watermark"i
@@ -181,12 +181,12 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
   el[0].push(el[1]);
   return el[0];
 }
-entity "entity" =  _ i:identifier _ l:(":" _ l:string _ {return l})?
+entity "entity" =  _ name:identifier _ label:(":" _ l:string _ {return l})?
 {
   var lEntity = {};
-  lEntity["name"] = i;
-  if (l) {
-    lEntity["label"] = l;
+  lEntity.name = name;
+  if (!!label) {
+    lEntity.label = label;
   }
   return lEntity;
 }
@@ -204,7 +204,7 @@ regulararc      = ra:((sa:singlearc {return sa})
                   label:(":" _ s:string _ {return s})?
 {
   if (label) {
-    ra["label"] = label;
+    ra.label = label;
   }
   return ra;
 }
@@ -223,7 +223,7 @@ spanarc         =
   {
     var retval = {kind: kind, from:from, to:to, arcs:arcs};
     if (label) {
-      retval["label"] = label;
+      retval.label = label;
     }
     return retval;
   })
