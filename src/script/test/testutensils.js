@@ -17,8 +17,13 @@ module.exports = (function() {
     
 return {
     assertequalJSONFile : function(pExpectedFileName, pFound) {
-        var lJSONFromFile = fs.readFileSync(pExpectedFileName, {"encoding": "utf8"});
-        expect(pFound).to.deep.equal(JSON.parse(lJSONFromFile));
+        expect(
+            pFound
+        ).to.deep.equal(
+            JSON.parse(
+                fs.readFileSync(pExpectedFileName, {"encoding": "utf8"})
+            )
+        );
     },
 
     assertequalToFile : function(pExpectedFileName, pFound) {
@@ -37,13 +42,16 @@ return {
     },
 
     assertequalProcessingXML : function(pExpectedFileName, pInputFileName, pProcessingFn){
-        var lExpectedContents = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
         var lProcessedInput   = pProcessingFn (
             fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
         );
         
         expect(lProcessedInput).xml.to.be.valid();
-        expect(lProcessedInput).xml.to.deep.equal(lExpectedContents);
+        expect(
+            lProcessedInput
+        ).xml.to.deep.equal(
+            fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
+        );
     },
 
     assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn){
