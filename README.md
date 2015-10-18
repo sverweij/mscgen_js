@@ -12,7 +12,7 @@
 - Also
   - talks a [simplified subset of mscgen][5] for lazy bastards.
   - speaks a [superset of mscgen][29] for the feature hungry.
-  - runs in all modern browsers (and in _node.js_/ _io.js_).
+  - runs in all modern browsers (and in _node.js_/ _io.js_ ).
   - animates your chart.
 
 ## Sample
@@ -58,16 +58,22 @@ If you find proof to the contrary on any of this [tell us][6].
 
 
 ## Building mscgen_js yourself
-
 See [build.md][7]. If you want to understand how mscgen_js' innards work:
 we try to explain that [in the script folder][33].
 
+## Bower package
+```shell
+bower install mscgen_js-inpage-package
+```
+For now only includes `msgen-inpage.js`. Useful
+if you want to use your own copy for embedding mscgen. Also see [mscgen_js embedding](https://sverweij.github.io/mscgen_js/embed.html#package).
+
 ## License information
 This software is free software [licensed under GPLv3][3]. This means (a.o.) you _can_ use
-it as part of other free software, but _not_ as part of non free software.
+it as part of other free software, but _not_ as part of non free software. We have a slight relaxation for when you'd want to use 
+`mscgen-inpage.js`
 
-
-### Commercial use of embedding mscgen
+### Commercial use of embedding mscgen using mscgen-inpage.js
 In addition to the GNU public license, for the use of the minified version of the embedding code
 (```mscgen-inpage.js```) as described on [embedding][30] a special exception
 to the GPL is made:  
@@ -91,7 +97,7 @@ MIT style):
 - The bare (embedding only) mscgen_js is packaged using requirejs and [almond][31] to be able to run as a stand alone, dependency less package.
 - Parsers are generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13] and [canvg][16].
-- To run in node & iojs (automated tests, command line interface), mscgen_js uses [jsdom][25], [amdefine][20], [node-localstorage][36] and [btoa][37].
+- To run in node & iojs (automated tests, command line interface), mscgen_js uses [jsdom][25], [amdefine][20], [node-localstorage][36], [btoa][37] and [commander][38].
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
@@ -100,7 +106,7 @@ At the time the font was created it was licensed
 [GPLv3](http://www.gnu.org/licenses/gpl.html) or
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-It uses [mocha][21], [istanbul][28], [jshint][22], [plato][23] and
+It uses [mocha][21], [chai][39], [chai-xml][40], [istanbul][28], [jshint][22], [plato][23] and
 [nsp][35] to maintain some modicum of verifiable code quality.
 You can see the build history in [Travis](https://travis-ci.org/sverweij/mscgen_js) and an indication of the
 shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/mscgen_js).
@@ -114,6 +120,8 @@ shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/msc
   like a walk in the park.
 - [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in node.js/ io.js.
 - [Audrey M. Roy](http://www.audreymroy.com/) for the excelent ["painfully obsessive cheat sheet to favicon sizes/types."](https://github.com/audreyr/favicon-cheat-sheet).
+- [Joshua Chaitin-Pollak](https://github.com/jbcpollak), for suggesting to publish mscgen_js as a package.
+
 
 [1]: http://www.mcternan.me.uk/mscgen
 [2]: https://sverweij.github.io/mscgen_js
@@ -149,3 +157,6 @@ shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/msc
 [35]: https://nodesecurity.io/
 [36]: wikum/licenses/license.node-localstorage.md
 [37]: wikum/licenses/license.btoa.md
+[38]: commander
+[39]: https://github.com/chaijs/chai
+[40]: https://github.com/krampstudio/chai-xml

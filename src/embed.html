@@ -233,10 +233,21 @@ msc {
         </ul>
         <h2 id="supported-browsers">Supported browsers: most</h2>
         <p>
-            The in page script has been verified to work in all
+            We have verfied that the in page script works in all
             desktop and mobile versions of Firefox, Safari, Chrome
-            and Opera released since 2013. Internet explorer is
-            verified to work from version 10.
+            and Opera released since 2013. PhantomJS and SlimerJS work
+            fine as well, and Internet explorer is verified to work from
+            version 10.
+        </p>
+        <h2 id="package">Using mscgen-inpage.js in your own projects</h2>
+        <p>
+            You're welcome to use <code>mscgen-inpage.js</code> from 
+            github.io. If you are going to use it in serious volumes though 
+            or don't want to depend on github servers, you can include it
+            in your own software. To ease that process a bit
+            <code>mscgen-inpage.js</code> is available as a <em>bower</em>
+            package.
+            <pre class="code">bower install mscgen_js-inpage-package</pre>
         </p>
 
         <h2 id="other-sequence-chart-languages">Other sequence chart languages: MsGenny, Xù and JSON</h2>
@@ -440,7 +451,7 @@ msc{
 }</pre>
         </article>
 <article>
-    <h1 id="licensing">Licensing</h1>
+    <h1 id="licensing">Licensing: GPL-3.0 with a relaxation</h1>
     <p>As you can read on the
     <a href="https://github.com/sverweij/mscgen_js">mscgen_js github page</a>
     mscgen_js is licensed under the GNU General Public License version 3
