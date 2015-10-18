@@ -17,16 +17,8 @@
  *     to C, as does "C" -> C and "C" -> "C"
  *   mscgen_js does not render the entities as separate ones
  * - in mscgen grammar, only the option list is optional;
- *   empty input (no entities/ no arcs) is apparently not allowed
- *   mscgen_js does allow this
- * - mscgen cannot handle entity names that are also keywords
- *   (box, abox, rbox, not, msc, hscale, width, arcgradient
- *   wordwraparcs, label, color, idurl, id, url
- *   linecolor, linecolour, textcolor, textcolour,
- *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
- *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
- *   arcskip). This grammar does allow them for now. 
- *
+ *   empty input (no entities/ no arcs) is not allowed
+ *   mscgen_js does allow this.
  */
 
 {
@@ -62,6 +54,15 @@
         });
     }
 
+    function isKeyword(pString){
+        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+           "wordwraparcs", "label", "color", "idurl", "id", "url",
+           "linecolor", "linecolour", "textcolor", "textcolour",
+           "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+           "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+           "arcskip"].indexOf(pString) > -1;
+    }
+    
     function buildEntityNotDefinedMessage(pEntityName, pArc){
         return "Entity '" + pEntityName + "' in arc " +
                "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
@@ -164,6 +165,9 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 }
 entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
 {
+  if (isKeyword(i)){
+    error("Keywords aren't allowed as entity names");
+  }
   var lOption = {};
   lOption["name"] = i;
   return merge (lOption, al);

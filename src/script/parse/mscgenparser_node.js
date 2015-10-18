@@ -104,6 +104,9 @@ module.exports = (function() {
         peg$c36 = { type: "literal", value: "]", description: "\"]\"" },
         peg$c37 = function(i, a) {return a},
         peg$c38 = function(i, al) {
+          if (isKeyword(i)){
+            error("Keywords aren't allowed as entity names");
+          }
           var lOption = {};
           lOption["name"] = i;
           return merge (lOption, al);
@@ -2782,6 +2785,15 @@ module.exports = (function() {
             });
         }
 
+        function isKeyword(pString){
+            return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+               "wordwraparcs", "label", "color", "idurl", "id", "url",
+               "linecolor", "linecolour", "textcolor", "textcolour",
+               "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+               "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+               "arcskip"].indexOf(pString) > -1;
+        }
+        
         function buildEntityNotDefinedMessage(pEntityName, pArc){
             return "Entity '" + pEntityName + "' in arc " +
                    "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +

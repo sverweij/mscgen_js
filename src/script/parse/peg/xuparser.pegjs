@@ -5,6 +5,13 @@
  * script is also a valid xù script
  * 
  * see https://github.com/sverweij/mscgen_js/wikum/xu.md for more information
+ * - mscgen cannot handle entity names that are also keywords
+ *   (box, abox, rbox, note, msc, hscale, width, arcgradient,
+ *   wordwraparcs, label, color, idurl, id, url,
+ *   linecolor, linecolour, textcolor, textcolour,
+ *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
+ *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
+ *   arcskip). This grammar does allow them. 
  */
 
 {
