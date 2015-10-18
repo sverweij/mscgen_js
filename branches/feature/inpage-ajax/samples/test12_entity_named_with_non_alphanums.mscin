@@ -1,9 +1,0 @@
-# test12 - quoted entities with only non alphanumericals in them
-#          on translating (with msc2*.js) they should keep their 
-#          quotes (whereas alphanumericals shouldn't)
-
-msc {
-  ".", a;
-
-  a =>> ".";
-}

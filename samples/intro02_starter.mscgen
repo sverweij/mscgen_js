@@ -3,7 +3,7 @@ msc {
   #
   # arcgradient=20, # slopes the arcs. 
   # hscale="0.8", # horizontally squeezes or stretches the chart
-  # width="600", # maximum width of the chart (pixels)
+  # width="600", # sets the maximum width of the chart (pixels)
   # watermark="a watermark", # adds a watermark (xù only!)
   wordwraparcs=on; # automatically wrap labels on arcs. Default: off
 
@@ -11,8 +11,11 @@ msc {
   # 
   # possible attributes
   #   label
-  #   textcolor, textbgcolor, linecolor
+  #   textcolor, textbgcolor, linecolor # as advertised
+  # 
+  # these color the arcs departing from the entity:
   #   arctextcolor, arctextbgcolor, arclinecolor
+  #          
   
   cust [label="Customer"],
   shop,
@@ -22,14 +25,16 @@ msc {
   # arcs
   #
   # attributes: 
-  #   label, textcolor, textbgcolor, linecolor
-  #   arcskip
+  #   label, textcolor, textbgcolor, linecolor # as advertised
+  #   arcskip # arc starts here, ends the specified amount 
+  #           # of lines lower.
+  #           # use e.g. arcskip="1" to end on the next line.
   # 
-  # arc types: ->, =>, =>>, >>, -x, :>
+  # arc types: ->, =>, =>>, >>, -x, :>,
+  #            <->, <=>, <<=>>, <<>>, <:>
+  #            --, ::, ..
   #            note, box, abox, rbox
-  # xù only  : alt, else, opt, break, critical,
-  #            neg, strict, seq, assert, exc
-  #            ref, consider, ignore, loop, par
+
   cust => shop [label="order(thing)"];
   shop -> "delivery service" [label="deliver(thing)"];
   "delivery service" =>> cust [label="thing"];
@@ -39,4 +44,21 @@ msc {
   shop => cust [label="bill"];
   cust => bank [label="pay(bill, shop)"];
   bank => shop [label="€"];
+  
+  # inline expressions (xù only):
+  # xù only  : alt, else, opt, break, critical,
+  #            neg, strict, seq, assert, exc
+  #            ref, consider, ignore, loop, par
+  #
+  # # e.g. to describe to alternatives :
+  # shop alt bank [label="payment OK"]{
+  #
+  #   shop =>> bank [label="Thanks dude!"];
+  # 
+  #   --- [label="payment NOK"]; # split alternatives with ---
+  #
+  #   shop =>> bank [label="that was not enough :-("];
+  #   bank >> shop [label="Sorry. Bye."];
+  #   shop rbox shop [label="payment pending process"];
+  # };
 }
