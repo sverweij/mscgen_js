@@ -5,6 +5,13 @@
  * script is also a valid xù script
  * 
  * see https://github.com/sverweij/mscgen_js/wikum/xu.md for more information
+ * - mscgen cannot handle entity names that are also keywords
+ *   (box, abox, rbox, note, msc, hscale, width, arcgradient,
+ *   wordwraparcs, label, color, idurl, id, url,
+ *   linecolor, linecolour, textcolor, textcolour,
+ *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
+ *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
+ *   arcskip). This grammar does allow them. 
  */
 
 {
@@ -40,11 +47,21 @@
         });
     }
 
+    function buildEntityNotDefinedMessage(pEntityName, pArc){
+        return "Entity '" + pEntityName + "' in arc " +
+               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+               "is not defined.";    
+    }
+
     function EntityNotDefinedError (pEntityName, pArc) {
-        this.message = "Entity '" + pEntityName + "' in arc ";
-        this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-        this.message += "is not defined.";
         this.name = "EntityNotDefinedError";
+        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+        /* istanbul ignore else  */
+        if(!!pArc.location){
+            this.location = pArc.location;
+            this.location.start.line++;
+            this.location.end.line++;        
+        }
     }
 
     function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -52,7 +69,6 @@
             pEntities = {};
             pEntities.entities = [];
         }
-
         if (pArcLineList && pArcLineList.arcs) {
             pArcLineList.arcs.forEach(function(pArcLine) {
                 pArcLine.forEach(function(pArc) {
@@ -61,6 +77,12 @@
                     }
                     if (pArc.to && !entityExists (pEntities, pArc.to)) {
                         throw new EntityNotDefinedError(pArc.to, pArc);
+                    }
+                    if (!!pArc.location) {
+                        delete pArc.location;
+                    }
+                    if (!!pArc.arcs){
+                        checkForUndeclaredEntities(pEntities, pArc);
                     }
                 });
             });
@@ -96,7 +118,7 @@
         return {
             "extendedOptions" : lHasExtendedOptions,
             "extendedArcTypes": lHasExtendedArcTypes,
-            "extendedFeatures":  lHasExtendedOptions||lHasExtendedArcTypes
+            "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
         }
     }
 }
@@ -132,17 +154,17 @@ optionlist      = options:((o:option "," {return o})*
   return optionArray2Object(options);
 }
 
-option          = _ n:optionname _ "=" _
-                  v:(s:string {return s}
+option          = _ name:optionname _ "=" _
+                  value:(s:string {return s}
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _
 {
    var lOption = {};
-   n = n.toLowerCase();
-   if (n === "wordwraparcs"){
-      lOption[n] = flattenBoolean(v);
+   name = name.toLowerCase();
+   if (name === "wordwraparcs"){
+      lOption[name] = flattenBoolean(value);
    } else {
-      lOption[n]=v;
+      lOption[name]=value;
    }
    return lOption;
 }
@@ -153,11 +175,9 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
   el[0].push(el[1]);
   return el[0];
 }
-entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
+entity "entity" =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
 {
-  var lOption = {};
-  lOption["name"] = i;
-  return merge (lOption, al);
+  return merge ({name:name}, attrList);
 }
 arclist         = (a:arcline _ ";" {return a})+
 arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
@@ -179,15 +199,15 @@ singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
 commentarc      = _ kind:commenttoken _ {return {kind:kind}}
 dualarc         =
  (_ from:identifier _ kind:dualarctoken _ to:identifier _
-  {return {kind: kind, from:from, to:to}})
+  {return {kind: kind, from:from, to:to, location:location()}})
 /(_ "*" _ kind:bckarrowtoken _ to:identifier _
-  {return {kind:kind, from: "*", to:to}})
+  {return {kind:kind, from: "*", to:to, location:location()}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*"}})
+  {return {kind:kind, from: from, to:"*", location:location()}})
 spanarc         =
  (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
   {
-    var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
+    var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
     return merge (lRetval, al);
   }
  )
@@ -223,12 +243,12 @@ attributelist   = attributes:((a:attribute "," {return a})* (a:attribute {return
   return optionArray2Object(attributes);
 }
 
-attribute       = _ n:attributename _ "=" _ v:identifier _
+attribute       = _ name:attributename _ "=" _ value:identifier _
 {
   var lAttribute = {};
-  n = n.toLowerCase();
-  n = n.replace("colour", "color");
-  lAttribute[n] = v;
+  name = name.toLowerCase();
+  name = name.replace("colour", "color");
+  lAttribute[name] = value;
   return lAttribute
 }
 attributename  "attribute name"

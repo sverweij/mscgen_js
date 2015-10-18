@@ -74,9 +74,8 @@ return {
             pErrorType = "SyntaxError";
         }
         try {
-            var lAST = pParser.parse(pProgram);
             var lStillRan = false;
-            if (lAST) {
+            if (pParser.parse(pProgram)) {
                 lStillRan = true;
             }
             expect(lStillRan).to.equal(false);

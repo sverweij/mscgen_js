@@ -73,16 +73,16 @@ module.exports = (function() {
         },
         peg$c16 = "=",
         peg$c17 = { type: "literal", value: "=", description: "\"=\"" },
-        peg$c18 = function(n, s) {return s},
-        peg$c19 = function(n, i) {return i.toString()},
-        peg$c20 = function(n, b) {return b.toString()},
-        peg$c21 = function(n, v) {
+        peg$c18 = function(name, s) {return s},
+        peg$c19 = function(name, i) {return i.toString()},
+        peg$c20 = function(name, b) {return b.toString()},
+        peg$c21 = function(name, value) {
            var lOption = {};
-           n = n.toLowerCase();
-           if (n === "wordwraparcs"){
-              lOption[n] = flattenBoolean(v);
+           name = name.toLowerCase();
+           if (name === "wordwraparcs"){
+              lOption[name] = flattenBoolean(value);
            } else {
-              lOption[n]=v;
+              lOption[name]=value;
            }
            return lOption;
         },
@@ -106,11 +106,9 @@ module.exports = (function() {
         peg$c36 = { type: "literal", value: "[", description: "\"[\"" },
         peg$c37 = "]",
         peg$c38 = { type: "literal", value: "]", description: "\"]\"" },
-        peg$c39 = function(i, a) {return a},
-        peg$c40 = function(i, al) {
-          var lOption = {};
-          lOption["name"] = i;
-          return merge (lOption, al);
+        peg$c39 = function(name, a) {return a},
+        peg$c40 = function(name, attrList) {
+          return merge ({name:name}, attrList);
         },
         peg$c41 = function(a) {return a},
         peg$c42 = function(a) {return [a]},
@@ -124,14 +122,14 @@ module.exports = (function() {
           return merge (a, al);
         },
         peg$c46 = function(kind) {return {kind:kind}},
-        peg$c47 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
+        peg$c47 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
         peg$c48 = "*",
         peg$c49 = { type: "literal", value: "*", description: "\"*\"" },
-        peg$c50 = function(kind, to) {return {kind:kind, from: "*", to:to}},
-        peg$c51 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
+        peg$c50 = function(kind, to) {return {kind:kind, from: "*", to:to, location:location()}},
+        peg$c51 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
         peg$c52 = function(from, kind, to, al) {return al},
         peg$c53 = function(from, kind, to, al, arclist) {
-            var lRetval = {kind: kind, from:from, to:to, arcs:arclist};
+            var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
             return merge (lRetval, al);
           },
         peg$c54 = "|||",
@@ -229,11 +227,11 @@ module.exports = (function() {
         peg$c146 = function(attributes) {
           return optionArray2Object(attributes);
         },
-        peg$c147 = function(n, v) {
+        peg$c147 = function(name, value) {
           var lAttribute = {};
-          n = n.toLowerCase();
-          n = n.replace("colour", "color");
-          lAttribute[n] = v;
+          name = name.toLowerCase();
+          name = name.replace("colour", "color");
+          lAttribute[name] = value;
           return lAttribute
         },
         peg$c148 = { type: "other", description: "attribute name" },
@@ -3149,11 +3147,21 @@ module.exports = (function() {
             });
         }
 
+        function buildEntityNotDefinedMessage(pEntityName, pArc){
+            return "Entity '" + pEntityName + "' in arc " +
+                   "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+                   "is not defined.";    
+        }
+
         function EntityNotDefinedError (pEntityName, pArc) {
-            this.message = "Entity '" + pEntityName + "' in arc ";
-            this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-            this.message += "is not defined.";
             this.name = "EntityNotDefinedError";
+            this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+            /* istanbul ignore else  */
+            if(!!pArc.location){
+                this.location = pArc.location;
+                this.location.start.line++;
+                this.location.end.line++;        
+            }
         }
 
         function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -3161,7 +3169,6 @@ module.exports = (function() {
                 pEntities = {};
                 pEntities.entities = [];
             }
-
             if (pArcLineList && pArcLineList.arcs) {
                 pArcLineList.arcs.forEach(function(pArcLine) {
                     pArcLine.forEach(function(pArc) {
@@ -3170,6 +3177,12 @@ module.exports = (function() {
                         }
                         if (pArc.to && !entityExists (pEntities, pArc.to)) {
                             throw new EntityNotDefinedError(pArc.to, pArc);
+                        }
+                        if (!!pArc.location) {
+                            delete pArc.location;
+                        }
+                        if (!!pArc.arcs){
+                            checkForUndeclaredEntities(pEntities, pArc);
                         }
                     });
                 });
@@ -3205,7 +3218,7 @@ module.exports = (function() {
             return {
                 "extendedOptions" : lHasExtendedOptions,
                 "extendedArcTypes": lHasExtendedArcTypes,
-                "extendedFeatures":  lHasExtendedOptions||lHasExtendedArcTypes
+                "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
             }
         }
 

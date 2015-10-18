@@ -65,18 +65,18 @@ module.exports = (function() {
         },
         peg$c10 = "=",
         peg$c11 = { type: "literal", value: "=", description: "\"=\"" },
-        peg$c12 = function(n, s) {return s},
-        peg$c13 = function(n, i) {return i.toString()},
-        peg$c14 = function(n, b) {return b.toString()},
-        peg$c15 = function(n, v) {
-           var lOption = {};
-           n = n.toLowerCase();
-           if (n === "wordwraparcs"){
-              lOption[n] = flattenBoolean(v);
-           } else {
-              lOption[n]=v;
-           }
-           return lOption;
+        peg$c12 = function(name, s) {return s},
+        peg$c13 = function(name, i) {return i.toString()},
+        peg$c14 = function(name, b) {return b.toString()},
+        peg$c15 = function(name, value) {
+          var lOption = {};
+          name = name.toLowerCase();
+          if (name === "wordwraparcs"){
+            lOption[name] = flattenBoolean(value);
+          } else {
+            lOption[name]=value;
+          }
+          return lOption;
         },
         peg$c16 = "hscale",
         peg$c17 = { type: "literal", value: "hscale", description: "\"hscale\"" },
@@ -96,12 +96,12 @@ module.exports = (function() {
         peg$c28 = { type: "other", description: "entity" },
         peg$c29 = ":",
         peg$c30 = { type: "literal", value: ":", description: "\":\"" },
-        peg$c31 = function(i, l) {return l},
-        peg$c32 = function(i, l) {
+        peg$c31 = function(name, l) {return l},
+        peg$c32 = function(name, label) {
           var lEntity = {};
-          lEntity["name"] = i;
-          if (l) {
-            lEntity["label"] = l;
+          lEntity.name = name;
+          if (!!label) {
+            lEntity.label = label;
           }
           return lEntity;
         },
@@ -118,7 +118,7 @@ module.exports = (function() {
         peg$c39 = function(ra, s) {return s},
         peg$c40 = function(ra, label) {
           if (label) {
-            ra["label"] = label;
+            ra.label = label;
           }
           return ra;
         },
@@ -136,7 +136,7 @@ module.exports = (function() {
         peg$c52 = function(from, kind, to, label, arcs) {
             var retval = {kind: kind, from:from, to:to, arcs:arcs};
             if (label) {
-              retval["label"] = label;
+              retval.label = label;
             }
             return retval;
           },

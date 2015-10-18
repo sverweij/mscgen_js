@@ -17,16 +17,8 @@
  *     to C, as does "C" -> C and "C" -> "C"
  *   mscgen_js does not render the entities as separate ones
  * - in mscgen grammar, only the option list is optional;
- *   empty input (no entities/ no arcs) is apparently not allowed
- *   mscgen_js does allow this
- * - mscgen cannot handle entity names that are also keywords
- *   (box, abox, rbox, not, msc, hscale, width, arcgradient
- *   wordwraparcs, label, color, idurl, id, url
- *   linecolor, linecolour, textcolor, textcolour,
- *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
- *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
- *   arcskip). This grammar does allow them for now. 
- *
+ *   empty input (no entities/ no arcs) is not allowed
+ *   mscgen_js does allow this.
  */
 
 {
@@ -62,11 +54,30 @@
         });
     }
 
+    function isKeyword(pString){
+        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+           "wordwraparcs", "label", "color", "idurl", "id", "url",
+           "linecolor", "linecolour", "textcolor", "textcolour",
+           "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+           "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+           "arcskip"].indexOf(pString) > -1;
+    }
+    
+    function buildEntityNotDefinedMessage(pEntityName, pArc){
+        return "Entity '" + pEntityName + "' in arc " +
+               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+               "is not defined.";    
+    }
+
     function EntityNotDefinedError (pEntityName, pArc) {
-        this.message = "Entity '" + pEntityName + "' in arc ";
-        this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-        this.message += "is not defined.";
         this.name = "EntityNotDefinedError";
+        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+        /* istanbul ignore else  */
+        if(!!pArc.location){
+            this.location = pArc.location;
+            this.location.start.line++;
+            this.location.end.line++;        
+        }
     }
 
     function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -83,6 +94,9 @@
                     }
                     if (pArc.to && !entityExists (pEntities, pArc.to)) {
                         throw new EntityNotDefinedError(pArc.to, pArc);
+                    }
+                    if (!!pArc.location) {
+                        delete pArc.location;
                     }
                 });
             });
@@ -128,17 +142,17 @@ optionlist      = options:((o:option "," {return o})*
   return optionArray2Object(options);
 }
 
-option          = _ n:optionname _ "=" _
-                  v:(s:string {return s}
+option          = _ name:optionname _ "=" _
+                  value:(s:string {return s}
                      / i:number {return i.toString()}
                      / b:boolean {return b.toString()}) _
 {
    var lOption = {};
-   n = n.toLowerCase();
-   if (n === "wordwraparcs"){
-      lOption[n] = flattenBoolean(v);
+   name = name.toLowerCase();
+   if (name === "wordwraparcs"){
+      lOption[name] = flattenBoolean(value);
    } else {
-      lOption[n]=v;
+      lOption[name]=value;
    }
    return lOption;
 }
@@ -149,11 +163,12 @@ entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
   el[0].push(el[1]);
   return el[0];
 }
-entity "entity" =  _ i:identifier _ al:("[" a:attributelist  "]" {return a})? _
+entity "entity" =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
 {
-  var lOption = {};
-  lOption["name"] = i;
-  return merge (lOption, al);
+  if (isKeyword(name)){
+    error("Keywords aren't allowed as entity names");
+  }
+  return merge ({name:name}, attrList);
 }
 arclist         = (a:arcline _ ";" {return a})+
 arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
@@ -174,11 +189,11 @@ singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
 commentarc      = _ kind:commenttoken _ {return {kind:kind}}
 dualarc         =
  (_ from:identifier _ kind:dualarctoken _ to:identifier _
-  {return {kind: kind, from:from, to:to}})
+  {return {kind: kind, from:from, to:to, location:location()}})
 /(_ "*" _ kind:bckarrowtoken _ to:identifier _
-  {return {kind:kind, from: "*", to:to}})
+  {return {kind:kind, from: "*", to:to, location:location()}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*"}})
+  {return {kind:kind, from: from, to:"*", location:location()}})
 singlearctoken  = "|||" / "..."
 commenttoken    = "---"
 dualarctoken    = kind:(
@@ -203,12 +218,12 @@ attributelist   = options:((a:attribute "," {return a})* (a:attribute {return a}
   return optionArray2Object(options);
 }
 
-attribute       = _ n:attributename _ "=" _ v:identifier _
+attribute       = _ name:attributename _ "=" _ value:identifier _
 {
   var lAttribute = {};
-  n = n.toLowerCase();
-  n = n.replace("colour", "color");
-  lAttribute[n] = v;
+  name = name.toLowerCase();
+  name = name.replace("colour", "color");
+  lAttribute[name] = value;
   return lAttribute
 }
 attributename  "attribute name"

@@ -71,16 +71,16 @@ module.exports = (function() {
         },
         peg$c16 = "=",
         peg$c17 = { type: "literal", value: "=", description: "\"=\"" },
-        peg$c18 = function(n, s) {return s},
-        peg$c19 = function(n, i) {return i.toString()},
-        peg$c20 = function(n, b) {return b.toString()},
-        peg$c21 = function(n, v) {
+        peg$c18 = function(name, s) {return s},
+        peg$c19 = function(name, i) {return i.toString()},
+        peg$c20 = function(name, b) {return b.toString()},
+        peg$c21 = function(name, value) {
            var lOption = {};
-           n = n.toLowerCase();
-           if (n === "wordwraparcs"){
-              lOption[n] = flattenBoolean(v);
+           name = name.toLowerCase();
+           if (name === "wordwraparcs"){
+              lOption[name] = flattenBoolean(value);
            } else {
-              lOption[n]=v;
+              lOption[name]=value;
            }
            return lOption;
         },
@@ -102,11 +102,12 @@ module.exports = (function() {
         peg$c34 = { type: "literal", value: "[", description: "\"[\"" },
         peg$c35 = "]",
         peg$c36 = { type: "literal", value: "]", description: "\"]\"" },
-        peg$c37 = function(i, a) {return a},
-        peg$c38 = function(i, al) {
-          var lOption = {};
-          lOption["name"] = i;
-          return merge (lOption, al);
+        peg$c37 = function(name, a) {return a},
+        peg$c38 = function(name, attrList) {
+          if (isKeyword(name)){
+            error("Keywords aren't allowed as entity names");
+          }
+          return merge ({name:name}, attrList);
         },
         peg$c39 = function(a) {return a},
         peg$c40 = function(a) {return [a]},
@@ -120,11 +121,11 @@ module.exports = (function() {
           return merge (a, al);
         },
         peg$c44 = function(kind) {return {kind:kind}},
-        peg$c45 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
+        peg$c45 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
         peg$c46 = "*",
         peg$c47 = { type: "literal", value: "*", description: "\"*\"" },
-        peg$c48 = function(kind, to) {return {kind:kind, from: "*", to:to}},
-        peg$c49 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
+        peg$c48 = function(kind, to) {return {kind:kind, from: "*", to:to, location:location()}},
+        peg$c49 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
         peg$c50 = "|||",
         peg$c51 = { type: "literal", value: "|||", description: "\"|||\"" },
         peg$c52 = "...",
@@ -186,11 +187,11 @@ module.exports = (function() {
         peg$c108 = { type: "literal", value: "rbox", description: "\"rbox\"" },
         peg$c109 = "box",
         peg$c110 = { type: "literal", value: "box", description: "\"box\"" },
-        peg$c111 = function(n, v) {
+        peg$c111 = function(name, value) {
           var lAttribute = {};
-          n = n.toLowerCase();
-          n = n.replace("colour", "color");
-          lAttribute[n] = v;
+          name = name.toLowerCase();
+          name = name.replace("colour", "color");
+          lAttribute[name] = value;
           return lAttribute
         },
         peg$c112 = { type: "other", description: "attribute name" },
@@ -2782,11 +2783,30 @@ module.exports = (function() {
             });
         }
 
+        function isKeyword(pString){
+            return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+               "wordwraparcs", "label", "color", "idurl", "id", "url",
+               "linecolor", "linecolour", "textcolor", "textcolour",
+               "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+               "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+               "arcskip"].indexOf(pString) > -1;
+        }
+        
+        function buildEntityNotDefinedMessage(pEntityName, pArc){
+            return "Entity '" + pEntityName + "' in arc " +
+                   "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+                   "is not defined.";    
+        }
+
         function EntityNotDefinedError (pEntityName, pArc) {
-            this.message = "Entity '" + pEntityName + "' in arc ";
-            this.message += "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' ";
-            this.message += "is not defined.";
             this.name = "EntityNotDefinedError";
+            this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+            /* istanbul ignore else  */
+            if(!!pArc.location){
+                this.location = pArc.location;
+                this.location.start.line++;
+                this.location.end.line++;        
+            }
         }
 
         function checkForUndeclaredEntities (pEntities, pArcLineList) {
@@ -2803,6 +2823,9 @@ module.exports = (function() {
                         }
                         if (pArc.to && !entityExists (pEntities, pArc.to)) {
                             throw new EntityNotDefinedError(pArc.to, pArc);
+                        }
+                        if (!!pArc.location) {
+                            delete pArc.location;
                         }
                     });
                 });

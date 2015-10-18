@@ -130,6 +130,9 @@ describe('parse/mscgenparser', function() {
         it ("should complain about an undeclared entity in a to", function(){
             tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });
+        it("should throw a SyntaxError when a keyword is used for an entityt name", function(){
+            tst.assertSyntaxError("msc{a,note,b,c; a => note;}", parser);
+        });
     });
 
     describe('#parse() - file based tests', function() {
