@@ -6,8 +6,8 @@
     "almond": "0.3.1",
     "amdefine": "1.0.0",
     "btoa": "1.1.2",
-    "codemirror": "5.7.0",
-    "jsdom": "7.0.0",
+    "codemirror": "5.8.0",
+    "jsdom": "7.0.1",
     "requirejs": "2.1.20"
   },
   "devDependencies": {
