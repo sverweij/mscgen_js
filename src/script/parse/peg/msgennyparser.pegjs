@@ -259,8 +259,22 @@ stringcontent   = (!'"' c:('\\"'/ .) {return c})*
 unquotedstring  = s:nonsep {return s.join("").trim()}
 nonsep          = (!(',' /';' /'{') c:(.) {return c})*
 
+/*
+ * These unicode code pointranges come from
+ * http://www.unicode.org/Public/UCD/latest/ucd/Scripts.txt
+ *
+ * var HAN_CHAR  = "\u2E80-\u2E99|\u2E9B-\u2EF3|\u2F00-\u2FD5|\u3005|\u3007|\u3021-\u3029|\u3038-\u303A|\u303B|\u3400-\u4DB5|\u4E00-\u9FCC|\uF900-\uFA6D|\uFA70-\uFAD9";
+ * var YI_CHAR   = "\uA000-\uA014|\uA015|\uA016-\uA48C|\uA490-\uA4C6";
+ * var HANGUL_CHAR = "\u1100-\u11FF|\u302E-\u302F|\u3131-\u318E|\u3200-\u321E|\u3260-\u327E|\uA960-\uA97C|\uAC00-\uD7A3|\uD7B0-\uD7C6|\uD7CB-\uD7FB|\uFFA0-\uFFBE|\uFFC2-\uFFC7|\uFFCA-\uFFCF|\uFFD2-\uFFD7|\uFFDA-\uFFDC";
+ * var HIRAGANA_CHAR = "\u3041-\u3096|\u309D-\u309E|\u309F"; // also the astral points 1B001 and 1F200
+ * var KATAKANA_CHAR = "\u30A1-\u30FA|\u30FD-\u30FE|\u30FF|\u31F0-\u31FF|\u32D0-\u32FE|\u3300-\u3357|\uFF66-\uFF6F|\uFF71-\uFF9D"; // also astral 1B000
+
+1B000         ; Katakana # Lo       KATAKANA LETTER ARCHAIC E
+// = (letters:([A-Za-z_0-9|\u2E80-\u2E99|\u2E9B-\u2EF3|\u2F00-\u2FD5|\u3005|\u3007|\u3021-\u3029|\u3038-\u303A|\u303B|\u3400-\u4DB5|\u4E00-\u9FCC|\uF900-\uFA6D|\uFA70-\uFAD9|\uA000-\uA014|\uA015|\uA016-\uA48C|\uA490-\uA4C6|\u1100-\u11FF|\u302E-\u302F|\u3131-\u318E|\u3200-\u321E|\u3260-\u327E|\uA960-\uA97C|\uAC00-\uD7A3|\uD7B0-\uD7C6|\uD7CB-\uD7FB|\uFFA0-\uFFBE|\uFFC2-\uFFC7|\uFFCA-\uFFCF|\uFFD2-\uFFD7|\uFFDA-\uFFDC|\u3041-\u3096|\u309D-\u309E|\u309F|\u30A1-\u30FA|\u30FD-\u30FE|\u30FF|\u31F0-\u31FF|\u32D0-\u32FE|\u3300-\u3357|\uFF66-\uFF6F|\uFF71-\uFF9D])+ {return letters.join("")})
+ */
+
 identifier "identifier"
- = (letters:([A-Za-z_0-9])+ {return letters.join("")})
+   = (letters:([^;, \"\t\n\r=\-><:\{\*])+ {return letters.join("")})
   / quotedstring
 
 whitespace "whitespace"

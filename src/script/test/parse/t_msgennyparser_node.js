@@ -45,6 +45,53 @@ var gCorrectOrderFixture = {
     }]]
 };
 
+var gUnicodeEntityFixture = {
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "entities": [
+    {
+      "name": "序"
+    }
+  ]
+};
+var gUnicodeEntityInArcFixture = {
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "entities": [
+    {
+      "name": "序"
+    },
+    {
+      "name": "🏭"
+    },
+    {
+      "name": "👳"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "->",
+        "from": "序",
+        "to": "序"
+      }
+    ],
+    [
+      {
+        "kind": "=>>",
+        "from": "🏭",
+        "to": "👳",
+        "label": "👷+🔧"
+      }
+    ]
+  ]
+};
 
 describe('parse/msgennyparser', function() {
 
@@ -93,26 +140,26 @@ describe('parse/msgennyparser', function() {
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
         });
-        it("unicode is cool. But not yet for unquoted entity names", function() {
-            tst.assertSyntaxError('序;', parser);
+        it("should throw a SyntaxError on invalid characters in an unquoted entity", function() {
+            tst.assertSyntaxError('-;', parser);
         });
-        it("unicode is cool for quoted entity names", function() {
-            var lFixture = {
-              "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": false,
-                "extendedFeatures": false
-              },
-              "entities": [
-                {
-                  "name": "序"
-                }
-              ]
-            };
-            expect(parser.parse('"序";')).to.deep.equal(lFixture);
+        it("should throw a SyntaxError on invalid characters in an unquoted entity", function() {
+            tst.assertSyntaxError('a => -;', parser);
         });
-        it("unicode is cool. But not yet for unquoted entity names - neither does it in arcs", function() {
-            tst.assertSyntaxError('"序" -> 序;', parser);
+        it("should throw a SyntaxError on invalid characters in an unquoted entity", function() {
+            tst.assertSyntaxError('hscale=1; - => b;', parser);
+        });
+        it("should throw a SyntaxError on invalid characters in an unquoted entity", function() {
+            tst.assertSyntaxError('a,b; a: => b;', parser);
+        });
+        it("unicode is cool. Also for unquoted entity names", function() {
+            expect(parser.parse('序;')).to.deep.equal(gUnicodeEntityFixture);
+        });
+        it("unicode is also cool for quoted entity names", function() {
+            expect(parser.parse('"序";')).to.deep.equal(gUnicodeEntityFixture);
+        });
+        it("unicode is cool. Also for unquoted entity names in arcs", function() {
+            expect(parser.parse('"序" -> 序;🏭 =>> 👳 : 👷+🔧;')).to.deep.equal(gUnicodeEntityInArcFixture);
         });
         it("should throw a SyntaxError on an invalid arc type", function() {
             tst.assertSyntaxError('a, b; a xx b;', parser);
