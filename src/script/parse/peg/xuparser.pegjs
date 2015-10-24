@@ -204,6 +204,8 @@ dualarc         =
   {return {kind:kind, from: "*", to:to, location:location()}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to:"*", location:location()}})
+/(_ from:identifier _ kind:bidiarrowtoken _ "*" _
+  {return {kind:kind, from: from, to:"*", location:location()}})
 spanarc         =
  (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
   {

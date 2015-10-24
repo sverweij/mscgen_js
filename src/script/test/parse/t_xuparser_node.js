@@ -47,6 +47,14 @@ describe('parse/xuparser', function() {
 }');
             expect(lAST).to.deep.equal(fix.astAllAttributes);
         });
+        it("should generate arcs to all other arcs with both bare and quoted *", function(){
+            expect(
+                parser.parse('msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> * [label="ɑ -> *"]; * <- "β" [label="* <- β"]; "ɣ" <-> * [label="ɣ <-> *"];}')
+            ).to.deep.equal(fix.astAsteriskBoth);
+            expect(
+                parser.parse('msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> "*" [label="ɑ -> *"]; "*" <- "β" [label="* <- β"]; "ɣ" <-> "*" [label="ɣ <-> *"];}')
+            ).to.deep.equal(fix.astAsteriskBoth);
+        });
         it("should produce only 'true' or 'false' for all variants of wordwraparcs", function() {
             expect(parser.parse('msc { wordwraparcs=true;}')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('msc { wordwraparcs="true";}')).to.deep.equal(fix.astWorwraparcstrue);
@@ -78,6 +86,16 @@ describe('parse/xuparser', function() {
         });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('msc{a}', parser);
+        });
+        it("should throw a SyntaxError on asterisks on both sides for uni-directional arrows", function(){
+            tst.assertSyntaxError('msc{a,b,c; * -> *;}', parser);
+            tst.assertSyntaxError('msc{a,b,c; * <- *;}', parser);
+        });
+        it("should throw a SyntaxError on asterisks on both sides for bi-directional arrows", function(){
+            tst.assertSyntaxError('msc{a,b,c; * <-> *;}', parser);
+        });
+        it("should throw a SyntaxError for asterisks on LHS on bi-directional arrows", function(){
+            tst.assertSyntaxError('msc{a,b,c; * <-> a;}', parser);
         });
         it("should throw a SyntaxError on a program with only the start token", function() {
             tst.assertSyntaxError('msc', parser);

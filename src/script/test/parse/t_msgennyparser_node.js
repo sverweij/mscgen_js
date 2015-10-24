@@ -125,10 +125,15 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse('"實體": This is the label for 實體;');
             expect(lAST).to.deep.equal(fix.astLabeledEntity);
         });
-        it("should generate arcs to all other arcs with bare *", function(){
-            var lAST = parser.parse('a;"實體" -> *;* << b;');
-            expect(lAST).to.deep.equal(fix.astAsterisk);
+        it("should generate arcs to all other arcs with both bare and quoted *", function(){
+            expect(
+                parser.parse('arcgradient=18; ω; ɑ -> * : ɑ -> *; * <- β : * <- β; ɣ <-> * : ɣ <-> *;')
+            ).to.deep.equal(fix.astAsteriskBoth);
+            expect(
+                parser.parse('arcgradient=18; ω; ɑ -> "*" : ɑ -> *; "*" <- β : * <- β; ɣ <-> "*" : ɣ <-> *;')
+            ).to.deep.equal(fix.astAsteriskBoth);
         });
+
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
             expect(parser.parse('wordwraparcs=true;')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs="true";')).to.deep.equal(fix.astWorwraparcstrue);
@@ -151,6 +156,16 @@ describe('parse/msgennyparser', function() {
         });
         it("should throw a SyntaxError on invalid characters in an unquoted entity", function() {
             tst.assertSyntaxError('a,b; a: => b;', parser);
+        });
+        it("should throw a SyntaxError on asterisks on both sides for uni-directional arrows", function(){
+            tst.assertSyntaxError('a,b,c; * -> *;', parser);
+            tst.assertSyntaxError('a,b,c; * <- *;', parser);
+        });
+        it("should throw a SyntaxError on asterisks on both sides for bi-directional arrows", function(){
+            tst.assertSyntaxError('a,b,c; * <-> *;', parser);
+        });
+        it("should throw a SyntaxError for asterisks on LHS on bi-directional arrows", function(){
+            tst.assertSyntaxError('a,b,c; * <-> a;', parser);
         });
         it("unicode is cool. Also for unquoted entity names", function() {
             expect(parser.parse('序;')).to.deep.equal(gUnicodeEntityFixture);

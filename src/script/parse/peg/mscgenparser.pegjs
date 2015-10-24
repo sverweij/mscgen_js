@@ -194,6 +194,8 @@ dualarc         =
   {return {kind:kind, from: "*", to:to, location:location()}})
 /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
   {return {kind:kind, from: from, to:"*", location:location()}})
+ /(_ from:identifier _ kind:bidiarrowtoken _ "*" _
+  {return {kind:kind, from: from, to:"*", location:location()}})
 singlearctoken  = "|||" / "..."
 commenttoken    = "---"
 dualarctoken    = kind:(
