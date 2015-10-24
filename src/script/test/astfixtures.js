@@ -40,40 +40,56 @@ module.exports = (function() {
                 }
             ]
         },
-        astAsterisk : {
+      astAsteriskBoth : {
           "meta": {
             "extendedOptions": false,
             "extendedArcTypes": false,
             "extendedFeatures": false
           },
+          "options": {
+            "arcgradient": "18"
+          },
           "entities": [
             {
-              "name": "a"
+              "name": "ω"
             },
             {
-              "name": "實體"
+              "name": "ɑ"
             },
             {
-              "name": "b"
+              "name": "β"
+            },
+            {
+              "name": "ɣ"
             }
           ],
           "arcs": [
             [
               {
                 "kind": "->",
-                "from": "實體",
-                "to": "*"
+                "from": "ɑ",
+                "to": "*",
+                "label": "ɑ -> *"
               }
             ],
             [
               {
-                "kind": "<<",
+                "kind": "<-",
                 "from": "*",
-                "to": "b"
+                "to": "β",
+                "label": "* <- β"
+              }
+            ],
+            [
+              {
+                "kind": "<->",
+                "from": "ɣ",
+                "to": "*",
+                "label": "ɣ <-> *"
               }
             ]
           ]
-      },
+        },
         astSimpleExtended : {
             "meta" : {
                 "extendedOptions": false,

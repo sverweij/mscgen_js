@@ -115,21 +115,21 @@ msc {
   0 -- a  [label="broadcasts"];
   a -> *      [label="a -> *"];
   * <- c      [label="* <- c"];
-  b <-> "*"   [label="b <-> *"];
+  b <-> *     [label="b <-> *"];
   d => *      [label="d => *"];
   * <= e      [label="* <= e"];
-  d <=> "*"   [label="d <=> *"];
+  d <=> *     [label="d <=> *"];
   f >> *      [label="f >> *"];
   * << g      [label="* << g"];
-  f <<>> "*"  [label="f <<>> *"];
+  f <<>> *    [label="f <<>> *"];
   h =>> *     [label="h =>> *"];
   * <<= i     [label="* <<= i"];
-  h <<=>> "*" [label="h <<=>> *"];
+  h <<=>> *   [label="h <<=>> *"];
   j -x *      [label="j -x *"];
   * x- k      [label="* x- k"];
   a :> *      [label="a :> *"];
   * <: c      [label="* <: c"];
-  b <:> "*"   [label="b <:> *"];
+  b <:> *     [label="b <:> *"];
 
 # not supported by mscgen (and not by xù either):
 #  "*" <-> b, "*" <=> e, "*" <<>> g, "*" <<=>> i, "*" <:> b

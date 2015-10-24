@@ -28,6 +28,19 @@ define(['./ast2thing'], function(thing) {
 
         return isQuotable(pString) ? "\"" + pString + "\"" : pString.trim();
     }
+    
+    function renderEntityName(pString) {
+        function isQuotable(pString) {
+            var lMatchResult = pString.match(/[^;, \"\t\n\r=\-><:\{\*]+/gi);
+            if (!!lMatchResult) {
+                return lMatchResult.length !== 1;
+            } else {
+                return true && pString !== "*";
+            }
+        }
+
+        return isQuotable(pString) ? "\"" + pString + "\"" : pString;
+    }
 
     function renderAttribute(pAttribute) {
         var lRetVal = "";
@@ -40,7 +53,8 @@ define(['./ast2thing'], function(thing) {
     return {
         render : function(pAST) {
             return thing.render(pAST, {
-                "renderAttributefn" : renderAttribute
+                "renderAttributefn" : renderAttribute,
+                "renderEntityNamefn" : renderEntityName
             });
         }
     };

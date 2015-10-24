@@ -124,7 +124,7 @@ define(["./textutensils"], function(utl) {
             if (!!lMatchResult) {
                 return lMatchResult.length !== 1;
             } else {
-                return true;
+                return true && pString !== "*";
             }
         }
 
