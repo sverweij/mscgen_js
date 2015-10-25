@@ -96,6 +96,16 @@ Note: obviously features not supported by *ms genny* get lost in translation.
         <td>supported</td>
     </tr>
     <tr>
+        <td>Characters allowed in unquoted entity names</td>
+        <td><code>A-Z0-9</code></td>
+        <td>Every unicode character, except<code>;,"=-><:*{}</code> and spaces (<code> \t\n\r</code>)</td>
+    </tr>
+    <tr>
+        <td>Characters allowed in quoted entity names</td>
+        <td>Every unicode character</td>
+        <td>same as mscgen</td>
+    </tr>
+    <tr>
         <td>labels on entities</td>
         <td><code>entity_name [label="this is the label"]</code></td>
         <td><code>entity_name : this is the label</code></td>
