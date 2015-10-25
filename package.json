@@ -1,6 +1,6 @@
 {
   "name": "mscgen_js",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "dependencies": {
     "almond": "0.3.1",
