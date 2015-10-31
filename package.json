@@ -36,7 +36,7 @@
   },
   "scripts": {
     "test": "mocha -R dot --timeout 4000 --recursive src/script/test/",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 4000 --recursive src/script/test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive src/script/test",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|scriptlets\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",
