@@ -71,7 +71,7 @@ LIBDIRS=src/lib/canvg \
 		src/lib/codemirror/mode/javascript \
 		src/lib/codemirror/theme
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
+.PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
 help:
 	@echo " --------------------------------------------------------"
@@ -250,6 +250,9 @@ csslint:
 lint:
 	$(NPM) run lint
 
+stylecheck:
+	$(NPM) run jscs
+
 cover: dev-build
 	$(NPM) run cover
 
@@ -286,7 +289,7 @@ nsp:
 outdated:
 	$(NPM) outdated
 	
-check: noconsolestatements lint test
+check: noconsolestatements lint stylecheck test
 
 fullcheck: check outdated nsp
 

@@ -5,24 +5,23 @@
 /* jshint indent:4 */
 /* jshint node:true */
 
-var parser = require ("../parse/msgennyparser_node");
-var ast2mscgen = require ("../render/text/ast2mscgen");
+var parser = require("../parse/msgennyparser_node");
+var ast2mscgen = require("../render/text/ast2mscgen");
 
 var gInput = "";
 
 process.stdin.resume();
-process.stdin.setEncoding('utf8');
+process.stdin.setEncoding("utf8");
 
-process.stdin.on('data', function(chunk) {
-    gInput += chunk;
+process.stdin.on("data", function(chunk) {
+  gInput += chunk;
 });
 
-process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    process.stdout.write(ast2mscgen.render (lAST));
-    process.stdin.pause();
+process.stdin.on("end", function() {
+  var lAST = parser.parse(gInput);
+  process.stdout.write(ast2mscgen.render(lAST));
+  process.stdin.pause();
 });
-
 
 /*
 fs.readFile('input.msc', function (err, data) {

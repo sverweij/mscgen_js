@@ -5,23 +5,22 @@
 /* jshint indent:4 */
 /* jshint node:true */
 
-var parser = require ("../parse/msgennyparser_node");
+var parser = require("../parse/msgennyparser_node");
 
 var gInput = "";
 
 process.stdin.resume();
-process.stdin.setEncoding('utf8');
+process.stdin.setEncoding("utf8");
 
-process.stdin.on('data', function(chunk) {
-    gInput += chunk;
+process.stdin.on("data", function(chunk) {
+  gInput += chunk;
 });
 
-process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    process.stdout.write(JSON.stringify(lAST));
-    process.stdin.pause();
+process.stdin.on("end", function() {
+  var lAST = parser.parse(gInput);
+  process.stdout.write(JSON.stringify(lAST));
+  process.stdin.pause();
 });
-
 
 /*
 fs.readFile('input.msc', function (err, data) {

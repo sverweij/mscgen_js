@@ -1,48 +1,52 @@
 /* jshint node:true */
-module.exports = (function(){
-    "use strict";
-    var fs            = require("fs");
-    var VALID_TYPE_RE = /^(svg|png|eps)$/;
-    
-    function isStdout (pFilename) {
-        return '-' === pFilename;
+module.exports = (function() {
+  "use strict";
+  var fs              = require("fs");
+  const VALID_TYPE_RE = /^(svg|png|eps)$/;
+
+  function isStdout(pFilename) {
+    return "-" === pFilename;
+  }
+
+  function outputIsSpecified(pArgument, pOutputTo) {
+    return !!pArgument || !!pOutputTo;
+  }
+
+  function fileExists(pFilename) {
+    try {
+      if (!isStdout(pFilename)) {
+        fs.accessSync(pFilename, fs.R_OK);
+      }
+
+      return true;
+    } catch (e) {
+      return false;
     }
+  }
 
-    function outputIsSpecified (pArgument, pOutputTo){
-        return !!pArgument || !!pOutputTo;
-    }
+  return {
+    validType: function(pType) {
+      if (pType.match(VALID_TYPE_RE)) {
+        return pType;
+      }
 
-    function fileExists (pFilename) {
-        try {
-            if (!isStdout(pFilename)){
-                fs.accessSync(pFilename,fs.R_OK);
-            }
-            return true;
-        } catch (e){
-            return false;
-        }
-    }
+      throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
+    },
 
-    return {
-        validType: function (pType){
-            if (pType.match(VALID_TYPE_RE)){
-                return pType;
-            }
-            throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
-        },
+    validateArguments: function(pArgument, pOptions) {
+      if (!outputIsSpecified(pArgument, pOptions.outputTo)) {
+        throw Error("\n  error: Please specify an output file.\n\n");
+      }
 
-        validateArguments: function (pArgument, pOptions){
-            if (!outputIsSpecified(pArgument, pOptions.outputTo)){
-                throw Error ("\n  error: Please specify an output file.\n\n");
-            }
-            if (!pOptions.inputFrom){
-                throw Error("\n  error: Please specify an input file.\n\n");
-            }
-            if (!fileExists(pOptions.inputFrom)){
-                throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
-            }
-        }
-    };
+      if (!pOptions.inputFrom) {
+        throw Error("\n  error: Please specify an input file.\n\n");
+      }
+
+      if (!fileExists(pOptions.inputFrom)) {
+        throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
+      }
+    },
+  };
 })();
 /*
     This file is part of mscgen_js.

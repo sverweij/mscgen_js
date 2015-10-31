@@ -13,23 +13,23 @@ var program     = require("commander");
 var validations = require("./validations");
 var actions     = require("./actions");
 
-var VERSION     = require("../../../package.json").version;
+const VERSION   = require("../../../package.json").version;
 
 try {
-    program
-        .version(VERSION)
-        .option("-T --output-type <type>", "Output file type. Currently only 'svg'", validations.validType )
-        .option("-i --input-from <file>", "File to read from. use - for stdin.")
-        .option("-o --output-to <file>", "File to write to. use - for stdout.")
-        .option("-p --parser-output", "Print parsed msc output")
-        .option("-l --license", "Display license and exit", actions.printLicense)
-        .arguments("[infile]")
-        .parse(process.argv);
-        
-        validations.validateArguments(program.args[0], program);
-        actions.transform(program.args[0], program);
-} catch (e){
-    process.stderr.write(e.message);
+  program
+      .version(VERSION)
+      .option("-T --output-type <type>", "Output file type. Currently only 'svg'", validations.validType)
+      .option("-i --input-from <file>", "File to read from. use - for stdin.")
+      .option("-o --output-to <file>", "File to write to. use - for stdout.")
+      .option("-p --parser-output", "Print parsed msc output")
+      .option("-l --license", "Display license and exit", actions.printLicense)
+      .arguments("[infile]")
+      .parse(process.argv);
+
+  validations.validateArguments(program.args[0], program);
+  actions.transform(program.args[0], program);
+} catch (e) {
+  process.stderr.write(e.message);
 }
 
 /*

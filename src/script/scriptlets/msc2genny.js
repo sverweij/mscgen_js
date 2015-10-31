@@ -4,22 +4,22 @@
  */
 /* jshint indent:4 */
 /* jshint node:true */
-var parser = require ("../parse/mscgenparser_node");
-var ast2genny = require ("../render/text/ast2msgenny");
+var parser = require("../parse/mscgenparser_node");
+var ast2genny = require("../render/text/ast2msgenny");
 
 var gInput = "";
 
 process.stdin.resume();
-process.stdin.setEncoding('utf8');
+process.stdin.setEncoding("utf8");
 
-process.stdin.on('data', function(chunk) {
-    gInput += chunk;
+process.stdin.on("data", function(chunk) {
+  gInput += chunk;
 });
 
-process.stdin.on('end', function() {
-    var lAST = parser.parse(gInput);
-    process.stdout.write(ast2genny.render (lAST));
-    process.stdin.pause();
+process.stdin.on("end", function() {
+  var lAST = parser.parse(gInput);
+  process.stdout.write(ast2genny.render(lAST));
+  process.stdin.pause();
 });
 
 /*

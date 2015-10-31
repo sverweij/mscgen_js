@@ -24,6 +24,7 @@
     "gulp-sass": "2.1.0",
     "istanbul": "0.4.0",
     "js-makedepend": "0.1.7",
+    "jscs": "2.5.0",
     "jshint": "2.8.0",
     "mocha": "2.3.3",
     "node-localstorage": "0.6.0",
@@ -41,7 +42,9 @@
     "lint": "jshint src/script --verbose --show-non-errors",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "codecov-submit": "CODECOV_TOKEN=4abd82b4-6e29-4046-ba2f-a9698d7028ef node node_modules/codecov.io/bin/codecov.io.js < coverage/lcov.info",
-    "npm-check-updates": "ncu --upgrade"
+    "npm-check-updates": "ncu --upgrade",
+    "jscs": "jscs src/script",
+    "jscs-fix": "jscs --fix src/script"
   },
   "repository": {
     "type": "git",

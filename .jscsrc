@@ -1,0 +1,16 @@
+{
+	"preset": "airbnb",
+	"disallowYodaConditions": false,
+	"validateQuoteMarks": "\"",
+	"disallowMultipleLineStrings": false,
+	"requireTrailingComma": false,
+	"excludeFiles": [
+		"src/script/parse/**",
+		"src/script/render/**",
+		"src/script/test/**",
+		"src/script/ui/**",
+		"src/script/utl/**",
+		"src/script/mscgen-inpage.js",
+		"src/script/mscgen-interpreter.js"
+	]
+}

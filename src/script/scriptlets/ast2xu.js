@@ -4,21 +4,21 @@
  */
 /* jshint indent:4 */
 /* jshint node:true */
-var ast2xu = require ("../render/text/ast2xu");
+var ast2xu = require("../render/text/ast2xu");
 
 var gInput = "";
 
 process.stdin.resume();
-process.stdin.setEncoding('utf8');
+process.stdin.setEncoding("utf8");
 
-process.stdin.on('data', function(chunk) {
-    gInput += chunk;
+process.stdin.on("data", function(chunk) {
+  gInput += chunk;
 });
 
-process.stdin.on('end', function() {
-    var lAST = JSON.parse(gInput);
-    process.stdout.write(ast2xu.render (lAST));
-    process.stdin.pause();
+process.stdin.on("end", function() {
+  var lAST = JSON.parse(gInput);
+  process.stdout.write(ast2xu.render(lAST));
+  process.stdin.pause();
 });
 
 /*
