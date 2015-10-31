@@ -27,12 +27,12 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
 
     /**
      * Makes the text color blue if there is an url and no text color
-     * 
+     *
      * @param <svgElement> pElement
      * @param <string> pUrl
      * @param <string> pTextColor
-     */ 
-     function colorLink(pElement, pUrl, pTextColor){
+     */
+    function colorLink(pElement, pUrl, pTextColor){
          colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
      }
 
@@ -53,7 +53,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         }
         return lText;
     }
-    
+
     function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
         var lY = pStartY + ((pPosition + 1/4) * svgutl.calculateTextHeight());
         var lClass;
@@ -101,7 +101,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
                     lLines.push("");
                 }
                 lStartY = pDims.y - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
-            }            
+            }
             lLines
                 .forEach(
                     function(pLine, pLineNumber){
@@ -118,7 +118,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         }
         return lGroup;
     }
-    
+
     /**
      * Determine the number characters that fit within pWidth amount
      * of pixels.
@@ -136,9 +136,9 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
     function _determineMaxTextWidthInChars (pWidth, pFontSize) {
         var lAbsWidth = Math.abs(pWidth);
         var REFERENCE_FONT_SIZE = 12; // px
-        
-        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*8); } 
-        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*6.4); } 
+
+        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*8); }
+        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*6.4); }
         if (lAbsWidth <= 480) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.9); }
         return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.6);
     }
@@ -163,7 +163,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
          * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
          */
         createLabel: _createLabel,
-        
+
         /**
          * splitLabel () - splits the given pLabel into an array of strings
          * - if the arc kind passed is a box the split occurs regardless
@@ -177,7 +177,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
          * @param <bool>   - pWordWrapArcs
          * @return <array of strings> - lLines
          */
-         splitLabel: _splitLabel
+        splitLabel: _splitLabel
 
     };
 });

@@ -12,21 +12,21 @@ var jsdom = require("jsdom");
 var renderast = require("../render/graphics/renderast");
 
 jsdom.env("<html><body></body></html>", function(err, window) {
-  var gInput = "";
+    var gInput = "";
 
-  process.stdin.resume();
-  process.stdin.setEncoding("utf8");
+    process.stdin.resume();
+    process.stdin.setEncoding("utf8");
 
-  process.stdin.on("data", function(pChunk) {
-    gInput += pChunk;
-  });
+    process.stdin.on("data", function(pChunk) {
+        gInput += pChunk;
+    });
 
-  process.stdin.on("end", function() {
-    var lAST = JSON.parse(gInput);
-    renderast.renderAST(lAST, gInput, "__svg", window);
-    process.stdout.write(window.document.body.innerHTML);
-    process.stdin.pause();
-  });
+    process.stdin.on("end", function() {
+        var lAST = JSON.parse(gInput);
+        renderast.renderAST(lAST, gInput, "__svg", window);
+        process.stdout.write(window.document.body.innerHTML);
+        process.stdin.pause();
+    });
 
 });
 /*

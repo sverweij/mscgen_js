@@ -10,7 +10,7 @@ var gHashToUse = [ 'ripemd160', 'md5', 'sha1'].filter(function(h){
 })[0];
 
 module.exports = (function() {
-    
+
     function hashit(pString){
         return crypto.createHash(gHashToUse).update(pString).digest('hex');
     }
@@ -23,7 +23,7 @@ module.exports = (function() {
             )
         );
     }
-return {
+    return {
     assertequalToFileJSON : assertequalToFileJSON,
 
     assertequalFileJSON : function(pFoundFileName, pExpectedFileName){
@@ -34,11 +34,11 @@ return {
             )
         );
     },
-    
+
     assertequalFileXML : function (pFoundFileName, pExpectedFileName){
         var lFound    = fs.readFileSync(pFoundFileName, {"encoding" : "utf8"});
         var lExpected = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
-        
+
         expect(lFound).xml.to.be.valid();
         expect(lFound).xml.to.deep.equal(lExpected);
     },

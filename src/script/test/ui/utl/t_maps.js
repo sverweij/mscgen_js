@@ -25,7 +25,7 @@ describe('ui/utl/maps', function() {
             assert.equal(txt.classifyExtension('test01_all_arcs.json'), "json");
         });
     });
-    
+
     describe('#correctLanguage() - ', function() {
 
         it('returns xu in case of mscgen with extensions ', function() {
@@ -46,7 +46,7 @@ describe('ui/utl/maps', function() {
             assert.equal(txt.correctLanguage(null, 'xu'), "xu");
         });
     });
-    
+
     describe('#language2Mode() - ', function() {
 
         it('returns xu when presented with mscgen', function() {
@@ -60,15 +60,15 @@ describe('ui/utl/maps', function() {
         it('returns msgenny in case of msgenny', function() {
             assert.equal(txt.language2Mode("msgenny"), "text/x-msgenny");
         });
-        
+
         it('returns xu in case of xu', function() {
             assert.equal(txt.language2Mode("xu"), "text/x-xu");
         });
-        
+
         it('returns whatever in case of whatever', function() {
             assert.equal(txt.language2Mode("whatever"), "whatever");
         });
-        
+
         it('returns text/x-mscgen in case of text/x-mscgen', function() {
             assert.equal(txt.language2Mode("text/x-mscgen"), "text/x-mscgen");
         });

@@ -44,7 +44,7 @@ define([], function() {
         },
         /**
          * Given a language in pLanguage, returns the codemirror mode to use
-         * 
+         *
          * When not known returns pLanguage
          *
          * @param {string} pLangauge
@@ -58,11 +58,11 @@ define([], function() {
                 "msgenny" : "text/x-msgenny",
                 "json"    : "application/json"
             };
-            
+
             if (lLang2Mode[pLanguage]){
                 return lLang2Mode[pLanguage];
             }
-            
+
             return pLanguage;
         },
         correctLanguage: function (pExtendedFeatures, pLanguage){

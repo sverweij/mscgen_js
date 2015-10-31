@@ -47,14 +47,14 @@ describe('cli/actions', function() {
     before("set up", function(){
         resetOutputDir();
     });
-    
+
     after("tear down", function(){
         resetOutputDir();
     });
-    
+
     describe('#transform()', function() {
         testPairs.forEach(function(pPair){
-            it(pPair.title, function(done) { 
+            it(pPair.title, function(done) {
                 actions.transform(
                     pPair.input.argument,
                     pPair.input.options,
@@ -64,13 +64,13 @@ describe('cli/actions', function() {
                         } else {
                             utl.assertequalFileJSON(pPair.input.argument, pPair.expected);
                         }
-                        
+
                         done();
                     }
                 );
-                
+
             });
         });
     });
-    
+
 });

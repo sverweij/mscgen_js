@@ -25,7 +25,7 @@ function(transform, map, utl, txt) {
             pEntity.label = pEntity.name;
         }
     }
-    
+
     function unescapeLabels(pArcOrEntity){
         if(!!pArcOrEntity.label) {
             pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
@@ -34,9 +34,9 @@ function(transform, map, utl, txt) {
             pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
         }
     }
-    
-    /** 
-     * 
+
+    /**
+     *
      */
     function emptyStringForNoLabel(pArc){
         pArc.label = !!pArc.label ? pArc.label : "";
@@ -133,7 +133,7 @@ function(transform, map, utl, txt) {
     function _unwind(pAST) {
         var lAST = {};
         gMaxDepth = 0;
-        
+
         if (!!pAST.options){ lAST.options = utl.clone(pAST.options); }
         if (!!pAST.entities){ lAST.entities = utl.clone(pAST.entities); }
         lAST.arcs = [];
@@ -155,7 +155,7 @@ function(transform, map, utl, txt) {
             return utl.clone(pArc);
         });
     }
-    
+
     function _explodeBroadcasts(pAST) {
         if (pAST.entities && pAST.arcs) {
             var lExplodedArcsAry = [];
@@ -230,8 +230,8 @@ function(transform, map, utl, txt) {
          */
         flatten : function(pAST) {
             return transform.transform(
-                _unwind(pAST), 
-                [nameAsLabel, unescapeLabels], 
+                _unwind(pAST),
+                [nameAsLabel, unescapeLabels],
                 [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
             );
         },

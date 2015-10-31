@@ -1,52 +1,52 @@
 /* jshint node:true */
 module.exports = (function() {
-  "use strict";
-  var fs              = require("fs");
-  const VALID_TYPE_RE = /^(svg|png|eps)$/;
+    "use strict";
+    var fs              = require("fs");
+    const VALID_TYPE_RE = /^(svg|png|eps)$/;
 
-  function isStdout(pFilename) {
-    return "-" === pFilename;
-  }
-
-  function outputIsSpecified(pArgument, pOutputTo) {
-    return !!pArgument || !!pOutputTo;
-  }
-
-  function fileExists(pFilename) {
-    try {
-      if (!isStdout(pFilename)) {
-        fs.accessSync(pFilename, fs.R_OK);
-      }
-
-      return true;
-    } catch (e) {
-      return false;
+    function isStdout(pFilename) {
+        return "-" === pFilename;
     }
-  }
 
-  return {
-    validType: function(pType) {
-      if (pType.match(VALID_TYPE_RE)) {
-        return pType;
-      }
+    function outputIsSpecified(pArgument, pOutputTo) {
+        return !!pArgument || !!pOutputTo;
+    }
 
-      throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
-    },
+    function fileExists(pFilename) {
+        try {
+            if (!isStdout(pFilename)) {
+                fs.accessSync(pFilename, fs.R_OK);
+            }
 
-    validateArguments: function(pArgument, pOptions) {
-      if (!outputIsSpecified(pArgument, pOptions.outputTo)) {
-        throw Error("\n  error: Please specify an output file.\n\n");
-      }
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 
-      if (!pOptions.inputFrom) {
-        throw Error("\n  error: Please specify an input file.\n\n");
-      }
+    return {
+        validType: function(pType) {
+            if (pType.match(VALID_TYPE_RE)) {
+                return pType;
+            }
 
-      if (!fileExists(pOptions.inputFrom)) {
-        throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
-      }
-    },
-  };
+            throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
+        },
+
+        validateArguments: function(pArgument, pOptions) {
+            if (!outputIsSpecified(pArgument, pOptions.outputTo)) {
+                throw Error("\n  error: Please specify an output file.\n\n");
+            }
+
+            if (!pOptions.inputFrom) {
+                throw Error("\n  error: Please specify an input file.\n\n");
+            }
+
+            if (!fileExists(pOptions.inputFrom)) {
+                throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
+            }
+        },
+    };
 })();
 /*
     This file is part of mscgen_js.

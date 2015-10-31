@@ -65,7 +65,7 @@ describe('render/text/ast2mscgen', function() {
   b -- c;\n\
     b => c;\n\
     c >> b;\n\
-#;\n\
+//\n\
 }';
             assert.equal(lProgram, lExpectedProgram);
         });
@@ -84,7 +84,7 @@ describe('render/text/ast2mscgen', function() {
       c >> b [label=">> within alt"];\n\
   #;\n\
     b >> a [label=">> within loop"];\n\
-#;\n\
+//\n\
   a =>> a [label="happy-the-peppy - outside"];\n\
   ...;\n\
 }';
@@ -101,13 +101,13 @@ describe('render/text/ast2mscgen', function() {
         });
     });
     describe('#renderAST() - file based tests', function(){
-       it('should render all arcs', function(){
-          var lASTString = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
-          var lAST = JSON.parse(lASTString);
-          //var lExpectedProgram = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
-          var lProgram = renderer.render(lAST);
-          // assert.equal(lProgram,lExpectedProgram);
-          expect(parser.parse(lProgram)).to.deep.equal(lAST);
-       });
+        it('should render all arcs', function(){
+            var lASTString = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
+            var lAST = JSON.parse(lASTString);
+            //var lExpectedProgram = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
+            var lProgram = renderer.render(lAST);
+            // assert.equal(lProgram,lExpectedProgram);
+            expect(parser.parse(lProgram)).to.deep.equal(lAST);
+        });
     });
 });

@@ -16,12 +16,12 @@ define([], function(){
                           pId.style.display = "none";
                       },
                 toggle: function(){
-                          if(pId.style.display === "none") {
-                            pId.removeAttribute("style");
-                          } else {
-                            pId.style.display = "none";
-                          }
-                       }
+                    if(pId.style.display === "none") {
+                        pId.removeAttribute("style");
+                    } else {
+                        pId.style.display = "none";
+                    }
+                }
             };
         },
         attachEventHandler: function (pQuerySelector, pEvent, pFunction) {

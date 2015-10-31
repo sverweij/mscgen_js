@@ -71,14 +71,14 @@ describe('parse/xuparser', function() {
         });
         it("unicode is cool for quoted entity names", function() {
             var lFixture = {
-              "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": false,
-                "extendedFeatures": false
-              },
-              "entities": [
+                "meta": {
+                    "extendedOptions": false,
+                    "extendedArcTypes": false,
+                    "extendedFeatures": false
+                },
+                "entities": [
                 {
-                  "name": "序"
+                    "name": "序"
                 }
               ]
             };
@@ -108,26 +108,26 @@ describe('parse/xuparser', function() {
         });
         it("should throw a SyntaxError on empty inline expression", function() {
             var lFixture = {
-              "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": true,
-                "extendedFeatures": true
-              },
-              "entities": [
+                "meta": {
+                    "extendedOptions": false,
+                    "extendedArcTypes": true,
+                    "extendedFeatures": true
+                },
+                "entities": [
                 {
-                  "name": "a"
+                    "name": "a"
                 },
                 {
-                  "name": "b"
+                    "name": "b"
                 }
               ],
-              "arcs": [
-                [
+                "arcs": [
+                  [
                   {
-                    "kind": "opt",
-                    "from": "a",
-                    "to": "b",
-                    "arcs": null
+                      "kind": "opt",
+                      "from": "a",
+                      "to": "b",
+                      "arcs": null
                   }
                 ]
               ]
@@ -177,7 +177,7 @@ describe('parse/xuparser', function() {
             tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });
     });
-    
+
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
             var lTextFromFile = fs.readFileSync('./src/script/test/fixtures/test01_all_possible_arcs.xu', {"encoding":"utf8"});

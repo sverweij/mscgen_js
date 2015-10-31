@@ -9,20 +9,20 @@ if ( typeof define !== 'function') {
 
 define([],function() {
     "use strict";
-    
+
     var gConfig = {
         defaultLanguage : "mscgen",
         parentElementPrefix : "mscgen_js-parent_",
         clickable : false,
         clickURL : "https://sverweij.github.io/mscgen_js/",
     };
-    
+
     function mergeConfig (pConfigBase, pConfigToMerge){
         Object.getOwnPropertyNames(pConfigToMerge).forEach(function(pAttribute){
             pConfigBase[pAttribute] = pConfigToMerge[pAttribute];
         });
     }
-    
+
     return {
         getConfig: function(){
             if ('undefined' !== typeof(mscgen_js_config) && mscgen_js_config &&

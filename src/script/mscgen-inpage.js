@@ -1,12 +1,12 @@
 /* jshint browser:true */
 /* global require */
-require(["parse/xuparser", 
+require(["parse/xuparser",
          "parse/msgennyparser",
          "render/graphics/renderast",
          "utl/utensils",
          "ui/utl/exporter",
-         "ui/embedding/config"], 
-        function(mscparser, msgennyparser, msc_render, _, exp, conf) {
+         "ui/embedding/config"],
+        function(mscparser, msgennyparser, mscrender, _, exp, conf) {
     "use strict";
 
     start();
@@ -35,7 +35,7 @@ require(["parse/xuparser",
             processElement(pMscGenElements[i], pStartIdAt + i);
         }
     }
-    
+
     function processElement(pElement, pIndex) {
         if (!pElement.hasAttribute('data-renderedby')) {
             renderElement(pElement, pIndex, pElement.textContent);
@@ -43,10 +43,10 @@ require(["parse/xuparser",
     }
 
     function renderError(pSource, pErrorLocation, pMessage){
-        var lErrorIntro = !!pErrorLocation ? 
+        var lErrorIntro = !!pErrorLocation ?
             "<pre><div style='color: red'># ERROR on line " + pErrorLocation.start.line + ", column " + pErrorLocation.start.column + " - " + pMessage + "</div>" :
             "<pre><div style='color: red'># ERROR " + pMessage + "</div>";
-            
+
         return pSource.split('\n').reduce(function(pPrev, pLine, pIndex) {
             if (!!pErrorLocation && pIndex === (pErrorLocation.start.line - 1)) {
                 return pPrev + "<mark>" + formatLine(underlineCol(pLine, pErrorLocation.start.column - 1), pIndex + 1) + '\n' + "</mark>";
@@ -54,7 +54,7 @@ require(["parse/xuparser",
             return pPrev + formatLine(pLine, pIndex + 1) + '\n';
         }, lErrorIntro) + "</pre>";
     }
-    
+
     function renderElement(pElement, pIndex, pSource){
         var lLanguage = getLanguage(pElement);
         var lAST      = getAST(pSource, lLanguage);
@@ -67,12 +67,12 @@ require(["parse/xuparser",
             pElement.innerHTML = renderError(pSource, lAST.location, lAST.message);
         }
     }
-    
+
     function renderLink(pSource, pLanguage, pId){
         var lLocation = {
             pathname: "index.html"
         };
-        
+
         var lLink = document.createElement("a");
         lLink.setAttribute("href", conf.getConfig().clickURL + exp.toLocationString(lLocation, pSource, pLanguage));
         lLink.setAttribute("id", pId + "link");
@@ -115,13 +115,13 @@ require(["parse/xuparser",
     function render(pAST, pElementId, pSource, pLanguage) {
         var lElement = document.getElementById(pElementId);
         lElement.innerHTML = "";
-        
+
         if (true === conf.getConfig().clickable){
             lElement.appendChild(renderLink(pSource, pLanguage, pElementId));
             pElementId = pElementId + "link";
         }
-        msc_render.clean(pElementId, window);
-        msc_render.renderAST(pAST, pSource, pElementId, window);
+        mscrender.clean(pElementId, window);
+        mscrender.renderAST(pAST, pSource, pElementId, window);
     }
 
 });

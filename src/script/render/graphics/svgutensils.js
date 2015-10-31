@@ -17,7 +17,7 @@ define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) 
 
     var gDocument;
     var gSvgBBoxerId = id.get("bboxer");
-    
+
     /* istanbul ignore next */
     function _createBBoxerSVG(pId){
         var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
@@ -28,7 +28,7 @@ define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) 
         lSvg.setAttribute("width", 0);
         lSvg.setAttribute("height", 0);
         gDocument.body.appendChild(lSvg);
-        
+
         return lSvg;
     }
 
@@ -37,25 +37,24 @@ define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) 
         /* getNativeBBoxWithCache */
         var lSvg = gDocument.getElementById(gSvgBBoxerId);
         lSvg = lSvg ? lSvg : _createBBoxerSVG (gSvgBBoxerId);
-        
+
         lSvg.appendChild(pElement);
         var lRetval = pElement.getBBox();
         lSvg.removeChild(pElement);
 
         return lRetval;
     }
-    // ttl: 824ms, 
+    // ttl: 824ms,
     // renderAST:     -, 747  , 643, 614, 560
     // bbox time: 194ms, 244ms, 184, 190, 197
     /*
     function getNativeBBoxWithoutCache(pElement){
         var lSvg = _createBBoxerSVG (gSvgBBoxerId);
-        
+
         lSvg.appendChild(pElement);
         var lRetval = pElement.getBBox();
         lSvg.removeChild(pElement);
         gDocument.body.removeChild(lSvg);
-
         return lRetval;
     }
     */
@@ -64,7 +63,7 @@ define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) 
     // bbox time: 332ms,  227ms, 252ms, 262
 
 
-    
+
     // function getNativeBBox(pElement){
     //     // return getNativeBBoxWithoutCache(pElement);
     //     return getNativeBBoxWithCache(pElement);
@@ -78,10 +77,10 @@ define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) 
      * To counter this, manually set the return value to 0x0
      * if height or width has a wacky value:
      */
-     /* istanbul ignore next */
+    /* istanbul ignore next */
     function sanitizeBBox(pBBox){
         var INSANELYBIG = 100000;
-        
+
         if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG ) {
             return {
                 height : 0,
@@ -128,14 +127,14 @@ define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) 
         /* Uses a string with some characters that tend to stick out
          * above/ below the current line and an 'astral codepoint' to
          * determine the text height to use everywhere.
-         *  
+         *
          * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
          * browsers. The string in readable form: ÁjyÎ9ƒ@💩
          */
         return _getBBox(createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9")).height;
     }
-    
-    
+
+
     function _removeRenderedSVGFromElement(pElementId){
         id.setPrefix(pElementId);
         var lChildElement = gDocument.getElementById(id.get());

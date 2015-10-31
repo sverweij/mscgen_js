@@ -94,31 +94,31 @@ describe('render/text/ast2xu', function() {
         it("should correctly render empty inline expressions", function() {
             var lFixture = {
               "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": true,
-                "extendedFeatures": true
+                  "extendedOptions": false,
+                  "extendedArcTypes": true,
+                  "extendedFeatures": true
               },
               "entities": [
                 {
-                  "name": "a"
+                    "name": "a"
                 },
                 {
-                  "name": "b"
+                    "name": "b"
                 }
               ],
               "arcs": [
                 [
                   {
-                    "kind": "opt",
-                    "from": "a",
-                    "to": "b",
-                    "arcs": null
+                      "kind": "opt",
+                      "from": "a",
+                      "to": "b",
+                      "arcs": null
                   }
                 ]
               ]
           };
             var lProgram = renderer.render(lFixture);
-            var lExpectedProgram = 
+            var lExpectedProgram =
 'msc {\n\
   a,\n\
   b;\n\

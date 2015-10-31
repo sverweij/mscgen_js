@@ -9,9 +9,9 @@ var expect      = require("chai").expect;
 describe('render/text/ast2ani', function() {
     var astCheatSheet0 = {
         "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
+            "extendedOptions": false,
+            "extendedArcTypes": false,
+            "extendedFeatures": false
         },
         "entities" : [{
             "name" : "a"
@@ -35,9 +35,9 @@ describe('render/text/ast2ani', function() {
     };
     var astCheatSheet1 = {
         "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
+            "extendedOptions": false,
+            "extendedArcTypes": false,
+            "extendedFeatures": false
         },
         "entities" : [{
             "name" : "a"
@@ -65,9 +65,9 @@ describe('render/text/ast2ani', function() {
     };
     var astCheatSheet2 = {
         "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
+            "extendedOptions": false,
+            "extendedArcTypes": false,
+            "extendedFeatures": false
         },
         "entities" : [{
             "name" : "a"
@@ -99,9 +99,9 @@ describe('render/text/ast2ani', function() {
     };
     var astCheatSheet3 = {
         "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
+            "extendedOptions": false,
+            "extendedArcTypes": false,
+            "extendedFeatures": false
         },
         "entities" : [{
             "name" : "a"
@@ -136,7 +136,7 @@ describe('render/text/ast2ani', function() {
         ]
     };
 
-/*
+    /*
 */
     describe('#getLength()', function() {
         it('should return a length of 1 for astEmpty', function() {
@@ -167,9 +167,9 @@ describe('render/text/ast2ani', function() {
             var ani = new ast2animate.FrameFactory(fix.astSimple);
             var astSimpleEntitiesOnly = {
                 "meta": {
-                  "extendedOptions": false,
-                  "extendedArcTypes": false,
-                  "extendedFeatures": false
+                    "extendedOptions": false,
+                    "extendedArcTypes": false,
+                    "extendedFeatures": false
                 },
                 "entities" : [{
                     "name" : "a"

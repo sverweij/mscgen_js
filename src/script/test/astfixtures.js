@@ -40,52 +40,52 @@ module.exports = (function() {
                 }
             ]
         },
-      astAsteriskBoth : {
-          "meta": {
-            "extendedOptions": false,
-            "extendedArcTypes": false,
-            "extendedFeatures": false
-          },
-          "options": {
-            "arcgradient": "18"
-          },
-          "entities": [
+        astAsteriskBoth : {
+            "meta": {
+                "extendedOptions": false,
+                "extendedArcTypes": false,
+                "extendedFeatures": false
+            },
+            "options": {
+                "arcgradient": "18"
+            },
+            "entities": [
             {
-              "name": "ω"
+                "name": "ω"
             },
             {
-              "name": "ɑ"
+                "name": "ɑ"
             },
             {
-              "name": "β"
+                "name": "β"
             },
             {
-              "name": "ɣ"
+                "name": "ɣ"
             }
           ],
-          "arcs": [
-            [
+            "arcs": [
+              [
               {
-                "kind": "->",
-                "from": "ɑ",
-                "to": "*",
-                "label": "ɑ -> *"
+                  "kind": "->",
+                  "from": "ɑ",
+                  "to": "*",
+                  "label": "ɑ -> *"
               }
             ],
             [
               {
-                "kind": "<-",
-                "from": "*",
-                "to": "β",
-                "label": "* <- β"
+                  "kind": "<-",
+                  "from": "*",
+                  "to": "β",
+                  "label": "* <- β"
               }
             ],
             [
               {
-                "kind": "<->",
-                "from": "ɣ",
-                "to": "*",
-                "label": "ɣ <-> *"
+                  "kind": "<->",
+                  "from": "ɣ",
+                  "to": "*",
+                  "label": "ɣ <-> *"
               }
             ]
           ]

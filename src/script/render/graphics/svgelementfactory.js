@@ -95,9 +95,9 @@ define(["./constants"], function(C) {
                 lStyleString += "stroke:" + pColor + ";";
             }
             pElement.setAttribute("style", lStyleString);
-        }    
+        }
     }
-    
+
     function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
         return _createPath(
@@ -221,7 +221,7 @@ define(["./constants"], function(C) {
             dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
         };
     }
-    
+
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass !== "nodi"){
@@ -229,7 +229,7 @@ define(["./constants"], function(C) {
         }
         return lRetval;
     }
-    
+
     function determineStartCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass !== "nodi"){
@@ -237,14 +237,14 @@ define(["./constants"], function(C) {
         }
         return lRetval;
     }
-    
+
     function createDoubleLine(pLine, pClass) {
         var lSpace = C.LINE_WIDTH;
-        
+
         var lDir = determineDirection(pLine);
         var lEndCorr = determineEndCorrection(pLine, pClass);
         var lStartCorr = determineStartCorrection(pLine, pClass);
-        
+
         var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
         var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
@@ -253,7 +253,7 @@ define(["./constants"], function(C) {
         return _createPath(
             "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5*C.LINE_WIDTH*lDir.dy).toString() +
             // left stubble:
-            lStubble + 
+            lStubble +
             "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString() +
             // upper line:
             lLine +
@@ -262,7 +262,7 @@ define(["./constants"], function(C) {
             lLine +
             "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5*C.LINE_WIDTH*lDir.dy).toString() +
             // right stubble
-            lStubble, 
+            lStubble,
             pClass
         );
     }
@@ -278,7 +278,7 @@ define(["./constants"], function(C) {
     // TODO: accept coords (or even a bbox?)
     function _createUTurn(pPoint, pEndY, pWidth, pDontHitHome) {
         var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
-        
+
         return _createPath(
             // point to start from:
             "M" + pPoint.x.toString() + ", -" + pPoint.y.toString() +
@@ -287,14 +287,14 @@ define(["./constants"], function(C) {
             // curve back from.:
             " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString() +
             // curve end-pont:
-            " " + lEndX.toString() + "," + pEndY.toString()            
+            " " + lEndX.toString() + "," + pEndY.toString()
         );
     }
 
     function _createGroup(pId) {
         var lGroup = gDocument.createElementNS(C.SVGNS, "g");
         if (!!pId) {
-          lGroup.setAttribute("id", pId);
+            lGroup.setAttribute("id", pId);
         }
 
         return lGroup;
@@ -315,23 +315,23 @@ define(["./constants"], function(C) {
         lMarker.setAttribute("class", pClass);
         /* TODO: externalize or make these attributes explicit. */
         lMarker.setAttribute("viewBox", "0 0 10 10");
-        
-        /* so, why not start at refX=0, refY=0? It would simplify reasoning 
+
+        /* so, why not start at refX=0, refY=0? It would simplify reasoning
          * about marker paths significantly...
-         * 
-         * TL;DR: canvg doesn't seem to handle this very well. 
-         * - Don't know yet why. 
+         *
+         * TL;DR: canvg doesn't seem to handle this very well.
+         * - Don't know yet why.
          * - Suspicion: with (0,0) the marker paths we use would end up having
          *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
          *   signal)
          */
         lMarker.setAttribute("refX", "9");
         lMarker.setAttribute("refY", "3");
-        
-        /* for scaling to the lineWidth of the line the marker is attached to, 
-         * userSpaceOnUse looks like a good plan, but it is not only the 
+
+        /* for scaling to the lineWidth of the line the marker is attached to,
+         * userSpaceOnUse looks like a good plan, but it is not only the
          * paths that don't scale, it's also the linewidth (which makes sense).
-         * We'll have to roll our own path transformation algorithm if we want 
+         * We'll have to roll our own path transformation algorithm if we want
          * to change only the linewidth and not the rest
          */
         lMarker.setAttribute("markerUnits", "strokeWidth");
@@ -346,8 +346,8 @@ define(["./constants"], function(C) {
         var lPath = _createPath(pD, "arrow-style");
         /* stroke-dasharray: 'none' should work to override any dashes (like in
          * return messages (a >> b;)) and making sure the marker end gets
-         * lines 
-         * This, however, does not work in webkit, hence the curious 
+         * lines
+         * This, however, does not work in webkit, hence the curious
          * value for the stroke-dasharray
          */
         lPath.setAttribute("style", "stroke-dasharray:100,1; stroke : " + pColor||"black");

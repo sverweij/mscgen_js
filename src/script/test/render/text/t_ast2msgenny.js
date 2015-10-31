@@ -84,25 +84,25 @@ a =>> a : happy-the-peppy - outside;\n\
         it("should correctly render empty inline expressions", function() {
             var lFixture = {
               "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": true,
-                "extendedFeatures": true
+                  "extendedOptions": false,
+                  "extendedArcTypes": true,
+                  "extendedFeatures": true
               },
               "entities": [
                 {
-                  "name": "a"
+                    "name": "a"
                 },
                 {
-                  "name": "b"
+                    "name": "b"
                 }
               ],
               "arcs": [
                 [
                   {
-                    "kind": "opt",
-                    "from": "a",
-                    "to": "b",
-                    "arcs": null
+                      "kind": "opt",
+                      "from": "a",
+                      "to": "b",
+                      "arcs": null
                   }
                 ]
               ]
@@ -116,8 +116,8 @@ a =>> a : happy-the-peppy - outside;\n\
     describe('#renderAST() - file based tests', function() {
         it('should render all arcs', function() {
             utl.assertequalProcessing(
-                "./src/script/test/fixtures/test01_all_possible_arcs_msgenny.msgenny", 
-                "./src/script/test/fixtures/test01_all_possible_arcs_msgenny.json", 
+                "./src/script/test/fixtures/test01_all_possible_arcs_msgenny.msgenny",
+                "./src/script/test/fixtures/test01_all_possible_arcs_msgenny.json",
                 function(pFileContent) {
                     return renderer.render(JSON.parse(pFileContent));
                 }

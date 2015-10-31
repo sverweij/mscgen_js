@@ -1,6 +1,6 @@
 /* jshint undef:true, unused:strict, browser:false, node:true, indent:4 */
 /*
- * Note: there will be a moment when using a real library (like lodash, 
+ * Note: there will be a moment when using a real library (like lodash,
  * underscore or ramda) will be more beneficial than these local
  * implementations.
  */
@@ -12,11 +12,11 @@ if ( typeof define !== 'function') {
 
 define([], function() {
     "use strict";
-    
+
     function has (obj, key) {
         return obj !== null && hasOwnProperty.call(obj, key);
     }
-    
+
     function swap (pPair, pA, pB){
         var lTmp = pPair[pA];
         pPair[pA] = pPair[pB];
@@ -38,28 +38,28 @@ define([], function() {
          * (uses stringify, so it is limited to objects that
          * survive stringification roundtrips)
          *
-         * utility function.  
+         * utility function.
          */
         clone: function clone(pObject) {
             return JSON.parse(JSON.stringify(pObject));
         },
-        
+
         /*
          * Caches the called function
          */
         memoize : function(pFunction) {
             var lMemoize = function(pKey) {
-              var lCache = lMemoize.lCache;
-              var lAddress = '' + pKey;
-              if (!has(lCache, lAddress)) {
-                  lCache[lAddress] = pFunction.apply(this, arguments);
-              }
-              return lCache[lAddress];
+                var lCache = lMemoize.lCache;
+                var lAddress = '' + pKey;
+                if (!has(lCache, lAddress)) {
+                    lCache[lAddress] = pFunction.apply(this, arguments);
+                }
+                return lCache[lAddress];
             };
             lMemoize.lCache = {};
             return lMemoize;
         },
-        
+
         /*
          * swaps the values of the attributes "from" and "two"
          * in the pPair object with each other
@@ -67,8 +67,8 @@ define([], function() {
         swapfromto : function (pPair){
             swap(pPair, "from", "to");
         },
-        
-        /** 
+
+        /**
          * returns true if pString equals "1", "true", "y", "yes" or "on"
          * ... false in all other cases
          * @param {string} pString

@@ -37,9 +37,9 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
         }
         return lRetVal;
     }
-    
+
     function renderComments() {
-        /* rendering comments within comments, that are eventually output 
+        /* rendering comments within comments, that are eventually output
          * to doxygen html - don't think that's going to be necessary
          * or desired functionality. If it is remember to be able to
          * - have a solution for nested comments (otherwise: interesting results)

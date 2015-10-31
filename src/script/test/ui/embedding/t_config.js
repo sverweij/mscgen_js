@@ -13,7 +13,7 @@ describe('ui/embedding/embed-config', function() {
                 clickURL : "https://sverweij.github.io/mscgen_js/",
             });
         });
-        
+
         it('should return a changed configuration when a mscgen_js_config is present', function(){
             global.mscgen_js_config = {
                 clickable: true,

@@ -7,7 +7,7 @@ describe('ui/utl/store', function() {
     var lSource = "initial source";
     var lAutoRender = false;
     var lDebug = false;
-    
+
     var lState = {
         getLanguage: function(){return "other language";},
         setLanguage: function(pLanguage){lLanguage = pLanguage;},
@@ -27,7 +27,7 @@ describe('ui/utl/store', function() {
             assert.equal(lAutoRender, false);
             assert.equal(lDebug, false);
         });
-        
+
         it('silently fail on save', function(){
             store.save(lState);
             store.load(lState);
@@ -37,17 +37,17 @@ describe('ui/utl/store', function() {
             assert.equal(lDebug, false);
         });
     });
-    
-    describe('#load and save', function() {        
+
+    describe('#load and save', function() {
         before(function(){
             global.localStorage = new require('node-localstorage').LocalStorage('./throwmeaway');
             localStorage.clear();
         });
-        
+
         after(function(){
             localStorage._deleteLocation();
         });
-        
+
         it('leaves the state as is when localStorage has no item', function() {
             store.load(lState);
             assert.equal(lLanguage, "initial language");
@@ -55,7 +55,7 @@ describe('ui/utl/store', function() {
             assert.equal(lAutoRender, false);
             assert.equal(lDebug, false);
         });
-        
+
         it('saves the passed state', function(){
             store.save(lState);
             store.load(lState);
@@ -64,6 +64,6 @@ describe('ui/utl/store', function() {
             assert.equal(lAutoRender, true);
             assert.equal(lDebug, true);
         });
-        
+
     });
 });

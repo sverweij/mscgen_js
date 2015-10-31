@@ -58,11 +58,11 @@ function(flatten, txt, map, utl) {
         lString += lStringAry.slice(-1);
         return lString;
     }
-    
+
     function renderAttribute(pAttr, pString){
         return pString + "=\"" + renderString(pAttr) + "\"";
     }
-    
+
     function pushAttribute(pArray, pAttr, pString) {
         if (!!pAttr) {
             pArray.push(renderAttribute(pAttr, pString));
@@ -94,7 +94,7 @@ function(flatten, txt, map, utl) {
     }
 
     function renderEntity(pEntity) {
-        return renderEntityName(pEntity.name) + 
+        return renderEntityName(pEntity.name) +
                renderAttributeBlock(translateAttributes(pEntity));
     }
 
@@ -196,7 +196,7 @@ function(flatten, txt, map, utl) {
         return lRetVal;
 
     }
-    
+
     function renderArcLines(pArcLines, pIndent) {
         return pArcLines.reduce(function(pPrevArcLine, pNextArcLine){
             return pPrevArcLine + pNextArcLine.reduce(function(pPrevArc, pNextArc){

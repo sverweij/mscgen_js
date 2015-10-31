@@ -7,9 +7,9 @@ var expect = require("chai").expect;
 var gCorrectOrderFixture = {
     "precomment":["# A,a, c, d, b, B;", "\n"],
     "meta": {
-      "extendedOptions": false,
-      "extendedArcTypes": true,
-      "extendedFeatures": true
+        "extendedOptions": false,
+        "extendedArcTypes": true,
+        "extendedFeatures": true
     },
     "entities" : [{
         "name" : "A"
@@ -46,48 +46,48 @@ var gCorrectOrderFixture = {
 };
 
 var gUnicodeEntityFixture = {
-  "meta": {
-    "extendedOptions": false,
-    "extendedArcTypes": false,
-    "extendedFeatures": false
-  },
-  "entities": [
+    "meta": {
+        "extendedOptions": false,
+        "extendedArcTypes": false,
+        "extendedFeatures": false
+    },
+    "entities": [
     {
-      "name": "序"
+        "name": "序"
     }
   ]
 };
 var gUnicodeEntityInArcFixture = {
-  "meta": {
-    "extendedOptions": false,
-    "extendedArcTypes": false,
-    "extendedFeatures": false
-  },
-  "entities": [
+    "meta": {
+        "extendedOptions": false,
+        "extendedArcTypes": false,
+        "extendedFeatures": false
+    },
+    "entities": [
     {
-      "name": "序"
+        "name": "序"
     },
     {
-      "name": "🏭"
+        "name": "🏭"
     },
     {
-      "name": "👳"
+        "name": "👳"
     }
   ],
-  "arcs": [
-    [
+    "arcs": [
+      [
       {
-        "kind": "->",
-        "from": "序",
-        "to": "序"
+          "kind": "->",
+          "from": "序",
+          "to": "序"
       }
     ],
     [
       {
-        "kind": "=>>",
-        "from": "🏭",
-        "to": "👳",
-        "label": "👷+🔧"
+          "kind": "=>>",
+          "from": "🏭",
+          "to": "👳",
+          "label": "👷+🔧"
       }
     ]
   ]
@@ -181,26 +181,26 @@ describe('parse/msgennyparser', function() {
         });
         it("should allow empty inline expressions", function() {
             var lFixture = {
-              "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": true,
-                "extendedFeatures": true
-              },
-              "entities": [
+                "meta": {
+                    "extendedOptions": false,
+                    "extendedArcTypes": true,
+                    "extendedFeatures": true
+                },
+                "entities": [
                 {
-                  "name": "a"
+                    "name": "a"
                 },
                 {
-                  "name": "b"
+                    "name": "b"
                 }
               ],
-              "arcs": [
-                [
+                "arcs": [
+                  [
                   {
-                    "kind": "opt",
-                    "from": "a",
-                    "to": "b",
-                    "arcs": null
+                      "kind": "opt",
+                      "from": "a",
+                      "to": "b",
+                      "arcs": null
                   }
                 ]
               ]

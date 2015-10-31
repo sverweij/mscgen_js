@@ -38,13 +38,13 @@ define([], function() {
             });
         }
     }
-    
+
     function transformArcRow(pEntities, pArcRow, pFunctionAry) {
         pArcRow.forEach(function(pArc){
             transformArc(pEntities, pArcRow, pArc, pFunctionAry);
             if (pArc.arcs) {
                 transformArcRows(pEntities, pArc.arcs, pFunctionAry);
-            }            
+            }
         });
     }
 

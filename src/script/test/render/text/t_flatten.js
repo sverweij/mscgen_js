@@ -20,7 +20,7 @@ describe('render/text/flatten', function() {
             expect(flatten.unwind(fix.astNestedInlinesWithArcColor)).to.deep.equal(fix.astNestedInlinesWithArcColorUnWound);
         });
     });
-    
+
     describe('explodeBroadcasts', function() {
         it('leave asts without broadcasts alone', function() {
             expect(flatten.explodeBroadcasts(fix.astAltWithinLoop)).to.deep.equal(fix.astAltWithinLoop);

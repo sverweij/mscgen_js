@@ -1,14 +1,14 @@
-var assert = require("assert");
+var assert   = require("assert");
 var renderer = require("../../../render/text/ast2dot");
-var fix = require("../../astfixtures");
-var fs = require("fs");
+var fix      = require("../../astfixtures");
+var fs       = require("fs");
 
 describe('render/text/ast2dot', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
 
         it('should, given a simple syntax tree, render a dot script', function() {
             var lProgram = renderer.render(fix.astSimple);
-            var lExpectedProgram = 
+            var lExpectedProgram =
 '/* Sequence chart represented as a directed graph\n\
  * in the graphviz dot language (http://graphviz.org/)\n\
  *\n\
@@ -33,7 +33,7 @@ graph {\n\
         });
         it('should, given a syntax tree with boxes, render a dot script', function() {
             var lProgram = renderer.render(fix.astBoxArcs);
-            var lExpectedProgram = 
+            var lExpectedProgram =
 '/* Sequence chart represented as a directed graph\n\
  * in the graphviz dot language (http://graphviz.org/)\n\
  *\n\
@@ -71,7 +71,7 @@ graph {\n\
     describe('#renderAST() - xu compatible', function() {
         it('alt only - render correct script', function() {
             var lProgram = renderer.render(fix.astOneAlt);
-            var lExpectedProgram = 
+            var lExpectedProgram =
 '/* Sequence chart represented as a directed graph\n\
  * in the graphviz dot language (http://graphviz.org/)\n\
  *\n\
@@ -140,14 +140,14 @@ graph {\n\
             assert.equal(lProgram, lExpectedProgram);
         });
     });
-    
+
     describe('#renderAST() - file based tests', function(){
-       it('should render all arcs', function(){
-          var lASTString = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
-          var lAST = JSON.parse(lASTString);
-          var lExpectedProgram = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.dot", {"encoding":"utf8"});
-          var lProgram = renderer.render(lAST);
-          assert.equal(lProgram,lExpectedProgram); 
-       });
+        it('should render all arcs', function(){
+            var lASTString = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
+            var lAST = JSON.parse(lASTString);
+            var lExpectedProgram = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.dot", {"encoding":"utf8"});
+            var lProgram = renderer.render(lAST);
+            assert.equal(lProgram,lExpectedProgram);
+        });
     });
 });

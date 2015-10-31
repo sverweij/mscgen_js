@@ -14,13 +14,13 @@ process.stdin.resume();
 process.stdin.setEncoding("utf8");
 
 process.stdin.on("data", function(chunk) {
-  gInput += chunk;
+    gInput += chunk;
 });
 
 process.stdin.on("end", function() {
-  var lAST = parser.parse(gInput);
-  process.stdout.write(ast2mscgen.render(lAST));
-  process.stdin.pause();
+    var lAST = parser.parse(gInput);
+    process.stdout.write(ast2mscgen.render(lAST));
+    process.stdin.pause();
 });
 
 /*

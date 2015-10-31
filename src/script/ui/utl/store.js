@@ -8,13 +8,13 @@ if ( typeof define !== 'function') {
 
 define([],function() {
     "use strict";
-    
+
     var STORAGE_KEY = "state";
-    
+
     function localStorageOK (){
         return (typeof localStorage !== 'undefined');
     }
-        
+
     function getState(){
         if (localStorageOK()){
             try {
@@ -25,10 +25,10 @@ define([],function() {
         }
         return null;
     }
-    
+
     function save(pState){
         if (localStorageOK()){
-            localStorage.setItem(STORAGE_KEY, 
+            localStorage.setItem(STORAGE_KEY,
                                  JSON.stringify({
                                     language: pState.getLanguage(),
                                     source: pState.getSource(),

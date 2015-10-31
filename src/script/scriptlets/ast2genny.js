@@ -12,13 +12,13 @@ process.stdin.resume();
 process.stdin.setEncoding("utf8");
 
 process.stdin.on("data", function(chunk) {
-  gInput += chunk;
+    gInput += chunk;
 });
 
 process.stdin.on("end", function() {
-  var lAST = JSON.parse(gInput);
-  process.stdout.write(ast2genny.render(lAST));
-  process.stdin.pause();
+    var lAST = JSON.parse(gInput);
+    process.stdout.write(ast2genny.render(lAST));
+    process.stdin.pause();
 });
 
 /*

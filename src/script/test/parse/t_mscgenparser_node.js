@@ -87,14 +87,14 @@ describe('parse/mscgenparser', function() {
         });
         it("unicode is cool for quoted entity names", function() {
             var lFixture = {
-              "meta": {
-                "extendedOptions": false,
-                "extendedArcTypes": false,
-                "extendedFeatures": false
-              },
-              "entities": [
+                "meta": {
+                    "extendedOptions": false,
+                    "extendedArcTypes": false,
+                    "extendedFeatures": false
+                },
+                "entities": [
                 {
-                  "name": "序"
+                    "name": "序"
                 }
               ]
             };
@@ -144,7 +144,7 @@ describe('parse/mscgenparser', function() {
         });
         it ("should complain about an undeclared entity in a from", function(){
             tst.assertSyntaxError("msc{a,b,c;d=>a;}", parser, "EntityNotDefinedError");
-        });        
+        });
         it ("should complain about an undeclared entity in a to", function(){
             tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });
@@ -173,6 +173,6 @@ describe('parse/mscgenparser', function() {
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON('./src/samples/test10_stringsandurls.json', lAST);
         });
-    }); 
+    });
 
 });

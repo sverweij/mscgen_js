@@ -11,7 +11,7 @@ if ( typeof define !== 'function') {
 
 define(["./renderlabels", "./constants"], function(labels, C) {
     "use strict";
-    
+
     var DEFAULT_INTER_ENTITY_SPACING = 160; // px
     var DEFAULT_ENTITY_WIDTH = 100; // px
     var DEFAULT_ENTITY_HEIGHT = 34; // px
@@ -21,21 +21,21 @@ define(["./renderlabels", "./constants"], function(labels, C) {
         height: DEFAULT_ENTITY_HEIGHT,
         width: DEFAULT_ENTITY_WIDTH
     };
-    
+
     var gEntity2X = {};
-    
+
     function init(pOptions){
         gEntityDims.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
         gEntityDims.height = DEFAULT_ENTITY_HEIGHT;
         gEntityDims.width = DEFAULT_ENTITY_WIDTH;
-        
+
         if (pOptions && pOptions.hscale) {
             gEntityDims.interEntitySpacing = pOptions.hscale * DEFAULT_INTER_ENTITY_SPACING;
             gEntityDims.width = pOptions.hscale * DEFAULT_ENTITY_WIDTH;
         }
         gEntity2X = {};
     }
-    
+
     function getOAndD (pFrom, pTo){
         return {
             from: getX(pFrom),
@@ -48,15 +48,15 @@ define(["./renderlabels", "./constants"], function(labels, C) {
     function getX(pName){
         return gEntity2X[pName];
     }
-        
+
     function setX(pEntity, pX){
         gEntity2X[pEntity.name] = pX + (gEntityDims.width / 2);
     }
-    
+
     function getDims(){
         return gEntityDims;
     }
-    
+
     function setHeight(pHeight){
         gEntityDims.height = pHeight;
     }
@@ -64,14 +64,14 @@ define(["./renderlabels", "./constants"], function(labels, C) {
     return {
         // render: render,
         init: init,
-        
+
         getX: getX,
         setX: setX,
         getOAndD: getOAndD,
-        
+
         setHeight: setHeight,
         getDims: getDims,
-        
+
         getNoEntityLines : function(pLabel){
             return labels.splitLabel(pLabel, "box", gEntityDims.width, C.FONT_SIZE).length;
         }

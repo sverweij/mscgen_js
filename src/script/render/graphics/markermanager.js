@@ -97,7 +97,7 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         "=>"    : {
             attributes : [
                 { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}, 
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
             ],
             marker: {
                 name : "method",
@@ -110,7 +110,7 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
                 { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
                 { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
              ],
-             marker: {
+            marker: {
                  name : "method",
                  end : "",
                  start : "-l"
@@ -119,7 +119,7 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         ":>"    : {
             attributes : [
                 { name: "style", value: "stroke:{{color}};"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}, 
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
             ],
             marker: {
                 name : "method",
@@ -141,7 +141,7 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         "-x"    : {
             attributes : [
                 { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}lost-{{color}})"}, 
+                { name: "marker-end", value: "url(#{{id}}lost-{{color}})"},
             ],
             marker: {
                 name : "lost",
@@ -150,9 +150,9 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         }
     };
 
-    var MARKERPATHS = { 
-        "signal" : { 
-            "variants" : [ 
+    var MARKERPATHS = {
+        "signal" : {
+            "variants" : [
                 // {name : "",   path : "M 0 0 l -8 2"},
                 // {name : "-u",  path : "M 0 0 l -8 -2"},
                 // {name : "-l",  path : "M 0 0 l 8 2"},
@@ -161,39 +161,39 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
                 {name : "-u",  path : "M9,3 l-8,-2"},
                 {name : "-l",  path : "M9,3 l 8, 2"},
                 {name : "-lu", path : "M9,3 l 8,-2"}
-            ]   
-        },  
-        "method" : { 
-            "variants" : [ 
+            ]
+        },
+        "method" : {
+            "variants" : [
                 // {name : "",  path : "-8,-2 0,0 -8,2"},
                 // {name : "-l", path : "8,-2 0,0 8,2"}
                 {name : "",   path : "1,1  9,3  1,5"},
                 {name : "-l", path : "17,1 9,3 17,5"}
             ]
-        },  
-        "callback" : { 
-            "variants" : [ 
+        },
+        "callback" : {
+            "variants" : [
                 // {name : "",   path : "M-8,-2 l 8,2 l-8,2"},
                 // {name : "-l", path : "M 8,-2 l-8,2 l 8,2"}
                 {name : "",  path :  "M 1,1 l 8,2 l-8,2"},
                 {name : "-l", path : "M17,1 l-8,2 l 8,2"}
-            ]   
-        },  
-        "lost" : { 
-            "variants" : [ 
+            ]
+        },
+        "lost" : {
+            "variants" : [
                 // {name : "",  path : "M-2,-3 l5,6 M-2,3 l5,-6"}
                 {name : "",  path : "M7,0 l5,6 M7,6 l5,-6"}
-            ]   
-        }   
+            ]
+        }
     };
-    
-    
+
+
     function getSignalend(pKind, pFrom, pTo){
         if (pFrom && pTo && (["<->", "->"].indexOf(pKind > -1))) {
             return (pFrom < pTo)? "signal" : "signal-u";
-        }        
+        }
     }
-    
+
     function getSignalstart(pKind, pFrom, pTo){
         if("<->" === pKind && pFrom <= pTo){
             return "signal-l";
@@ -201,10 +201,10 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
             return "signal-lu";
         }
     }
-    
+
     function _getAttributes(pId, pKind, pLineColor , pFrom, pTo){
         var lRetval = [];
-        
+
         if(KINDS[pKind] && KINDS[pKind].attributes){
             lRetval = KINDS[pKind].attributes.map(function(pAttribute){
                 return {
@@ -219,19 +219,19 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         }
         return lRetval;
     }
-    
+
     function makeKindColorCombi (pKind, pColor) {
-        return  KINDS[map.getNormalizedKind(pKind)].marker.name + 
+        return  KINDS[map.getNormalizedKind(pKind)].marker.name +
                 ((!!pColor ) ? " " + pColor : " black");
     }
-    
+
     function extractKindColorCombisFromArc(pKindColorCombis, pArc){
         function _extractKindColorCombis (pArcElt){
             extractKindColorCombisFromArc(pKindColorCombis, pArcElt);
         }
         if (Array.isArray(pArc)){
             pArc.forEach(_extractKindColorCombis);
-        } 
+        }
         if (!!pArc.arcs){
             pArc.arcs.forEach(_extractKindColorCombis);
         }
@@ -242,16 +242,16 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         }
         return pKindColorCombis;
     }
-    
+
     function toColorCombiObject(pColorCombi){
         return {kind: pColorCombi.split(" ")[0], color: pColorCombi.split(" ")[1]};
     }
 
     /*
      * We only run through the arcs, while entities
-     * also define colors for arcs with their arclinecolor. 
-     * So why does this work? 
-     * Because the pAST that is passed here, is usually "flattened" 
+     * also define colors for arcs with their arclinecolor.
+     * So why does this work?
+     * Because the pAST that is passed here, is usually "flattened"
      * with the ast flattening module (flatten.js), which already distributes
      * the arclinecolors from the entities to linecolors in the arc.
      *

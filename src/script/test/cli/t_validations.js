@@ -4,7 +4,7 @@ var val    = require("../../cli/validations");
 describe('cli/validations', function() {
 
     describe('#validType() - ', function() {
-        it("'notavalidtype' is not a valid type", function() { 
+        it("'notavalidtype' is not a valid type", function() {
             var lFoundError = "";
             try {
                 val.validType("notavalidtype");
@@ -13,16 +13,16 @@ describe('cli/validations', function() {
             }
             assert.equal(lFoundError, "\n  error: 'notavalidtype' is not a valid output type. mscgen_js can only emit svg.\n\n");
         });
-        it("'svg' is a valid type", function() { 
-            assert.equal(val.validType("svg"), "svg");        
+        it("'svg' is a valid type", function() {
+            assert.equal(val.validType("svg"), "svg");
         });
     });
-    
+
     describe('#validateArguments() - ', function() {
         it("'-T svg -i src/script/test/fixtures/rainbow.mscin -' is oki", function() {
             try {
                 val.validateArguments(
-                    "-", 
+                    "-",
                     {
                         inputFrom: "src/script/test/fixtures/rainbow.mscin",
                         outputType: "svg"
@@ -37,7 +37,7 @@ describe('cli/validations', function() {
         it("'-T svg -i - -' is oki", function() {
             try {
                 val.validateArguments(
-                    "-", 
+                    "-",
                     {
                         inputFrom: "-",
                         outputType: "svg"
@@ -48,7 +48,7 @@ describe('cli/validations', function() {
                 assert.equal(e.message, "should not be an exception");
             }
         });
-        
+
         it("'-T svg -i - -o -' is oki", function() {
             try {
                 val.validateArguments(
@@ -68,7 +68,7 @@ describe('cli/validations', function() {
         it("'-T svg -i input-doesnot-exists -' complains about non existing file", function() {
             try {
                 val.validateArguments(
-                    "-", 
+                    "-",
                     {
                         inputFrom: "input-doesnot-exist",
                         outputTo : "-"
@@ -91,7 +91,7 @@ describe('cli/validations', function() {
                 assert.equal(e.message, "\n  error: Please specify an input file.\n\n");
             }
         });
-        
+
         it("'-T svg -i -' complains about non specified output file", function() {
             try {
                 val.validateArguments(

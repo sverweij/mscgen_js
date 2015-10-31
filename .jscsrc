@@ -1,16 +1,22 @@
 {
-	"preset": "airbnb",
-	"disallowYodaConditions": false,
-	"validateQuoteMarks": "\"",
+	"disallowEmptyBlocks": true,
+	"disallowMixedSpacesAndTabs": true,
 	"disallowMultipleLineStrings": false,
+	"disallowMultipleVarDecl": true,
+	"disallowTrailingWhitespace": true,
+	"disallowYodaConditions": false,
+	"esnext": false,
+	"requireCamelCaseOrUpperCaseIdentifiers": true,
+	"requireSemicolons": true,
 	"requireTrailingComma": false,
+    "validateIndentation": 4,
+	"validateQuoteMarks": false,
 	"excludeFiles": [
 		"src/script/parse/**",
-		"src/script/render/**",
-		"src/script/test/**",
-		"src/script/ui/**",
-		"src/script/utl/**",
-		"src/script/mscgen-inpage.js",
-		"src/script/mscgen-interpreter.js"
+		"src/script/ui/interpreter/**",
+		"src/script/mscgen-interpreter.js",
+		"src/script/ui/embedding/config.js",
+		"src/script/test/ui/embedding/t_config.js"
+		
 	]
 }
