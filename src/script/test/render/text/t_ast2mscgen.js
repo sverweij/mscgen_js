@@ -65,9 +65,9 @@ describe('render/text/ast2mscgen', function() {
   b -- c;\n\
     b => c;\n\
     c >> b;\n\
-//\n\
+#;\n\
 }';
-            assert.equal(lProgram, lExpectedProgram);
+            assert.equal(lExpectedProgram, lProgram);
         });
         it('alt within loop - render correct script', function() {
             var lProgram = renderer.render(fix.astAltWithinLoop);
@@ -84,7 +84,7 @@ describe('render/text/ast2mscgen', function() {
       c >> b [label=">> within alt"];\n\
   #;\n\
     b >> a [label=">> within loop"];\n\
-//\n\
+#;\n\
   a =>> a [label="happy-the-peppy - outside"];\n\
   ...;\n\
 }';
