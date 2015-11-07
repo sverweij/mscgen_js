@@ -533,7 +533,6 @@ define(["./svgelementfactory",
 
     function determineArcYTo(pArc){
         if (pArc.arcskip) {
-            /* TODO: derive from hashmap */
             return pArc.arcskip * gChart.arcRowHeight;
         } else {
             return 0;
