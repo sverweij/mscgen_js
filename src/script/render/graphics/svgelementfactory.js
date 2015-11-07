@@ -275,7 +275,6 @@ define(["./constants"], function(C) {
         }
     }
 
-    // TODO: accept coords (or even a bbox?)
     function _createUTurn(pPoint, pEndY, pWidth, pDontHitHome) {
         var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
 
