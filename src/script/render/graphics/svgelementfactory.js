@@ -308,13 +308,13 @@ define(["./constants"], function(C) {
         return lUse;
     }
 
-    function _createMarker(pId, pClass, pOrient) {
+    function _createMarker(pId, pClass, pOrient, pViewBox) {
+        var lViewBox = !!pViewBox ? pViewBox : "0 0 10 10";
         var lMarker = gDocument.createElementNS(C.SVGNS, "marker");
         lMarker.setAttribute("orient", pOrient);
         lMarker.setAttribute("id", pId);
         lMarker.setAttribute("class", pClass);
-        /* TODO: externalize or make these attributes explicit. */
-        lMarker.setAttribute("viewBox", "0 0 10 10");
+        lMarker.setAttribute("viewBox", lViewBox);
 
         /* so, why not start at refX=0, refY=0? It would simplify reasoning
          * about marker paths significantly...
