@@ -36,16 +36,24 @@ define([], function(){
                 pFunction(lNodes[i]);
             }
         },
-        ajax : function (pURL, pSuccessFunction) {
+        ajax : function (pURL, pSuccessFunction, pErrorFunction) {
             var lHttpRequest = new XMLHttpRequest();
             lHttpRequest.onreadystatechange = function (pEvent) {
-                if(pEvent.target.readyState === 4) {
-                    pSuccessFunction(pEvent);
+                if(pEvent.target.readyState === XMLHttpRequest.DONE) {
+                    if (200 === lHttpRequest.status) {
+                        pSuccessFunction(pEvent);    
+                    } else {
+                        pErrorFunction(pEvent);
+                    }
                 }
             };
             lHttpRequest.open('GET', pURL);
             lHttpRequest.responseType = "text";
-            lHttpRequest.send();
+            try {
+                lHttpRequest.send();
+            } catch (e) {
+                pErrorFunction();
+            }
         },
         // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
         // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:

@@ -214,11 +214,16 @@ function setSample(pURL) {
     if ("none" === pURL || !pURL){
         clear();
     } else {
-        dq.ajax (pURL, function(pEvent){
-            setLanguage(txt.classifyExtension(pURL), false);
-            setSource(pEvent.target.response);
-            
-        });
+        dq.ajax (
+            pURL,
+            function onSuccess (pEvent){
+                setLanguage(txt.classifyExtension(pURL), false);
+                setSource(pEvent.target.response);
+            },
+            function onError (){
+                setSource("# could not find or open '" + pURL + "'");
+            }
+        );
     }
 }
 
