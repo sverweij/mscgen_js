@@ -65,9 +65,9 @@ require(["parse/xuparser",
                 pElement.getAttribute("src"),
                 function onSuccess(pEvent) {
                     parseAndRender(pElement, pEvent.target.response);
-                }, 
+                },
                 function onError() {
-                    pElement.innerHTML = 
+                    pElement.innerHTML =
                           "<code><div style='color: red'>" +
                           "ERROR: Could not find or open the URL '" +
                           pElement.getAttribute("src") +
