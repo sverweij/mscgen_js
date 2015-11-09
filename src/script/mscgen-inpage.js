@@ -5,8 +5,9 @@ require(["parse/xuparser",
          "render/graphics/renderast",
          "utl/utensils",
          "ui/utl/exporter",
-         "ui/embedding/config"],
-        function(mscparser, msgennyparser, mscrender, _, exp, conf) {
+         "ui/embedding/config",
+         "ui/utl/domutl"],
+        function(mscparser, msgennyparser, mscrender, _, exp, conf, $) {
     "use strict";
 
     start();
@@ -38,7 +39,7 @@ require(["parse/xuparser",
 
     function processElement(pElement, pIndex) {
         if (!pElement.hasAttribute('data-renderedby')) {
-            renderElement(pElement, pIndex, pElement.textContent);
+            renderElement(pElement, pIndex);
         }
     }
 
@@ -55,11 +56,32 @@ require(["parse/xuparser",
         }, lErrorIntro) + "</pre>";
     }
 
-    function renderElement(pElement, pIndex, pSource){
-        var lLanguage = getLanguage(pElement);
-        var lAST      = getAST(pSource, lLanguage);
+    function renderElement (pElement, pIndex){
         setElementId(pElement, pIndex);
         pElement.setAttribute("data-renderedby", "mscgen_js");
+
+        if (conf.getConfig().loadFromSrcAttribute && !!pElement.getAttribute("src")){
+            $.ajax(
+                pElement.getAttribute("src"),
+                function onSuccess(pEvent) {
+                    parseAndRender(pElement, pEvent.target.response);
+                }, 
+                function onError() {
+                    pElement.innerHTML = 
+                          "<code><div style='color: red'>" +
+                          "ERROR: Could not find or open the URL '" +
+                          pElement.getAttribute("src") +
+                          "' specified in the <code>src</code> attribute.</div></code>";
+                }
+            );
+        } else {
+            parseAndRender(pElement, pElement.textContent);
+        }
+    }
+
+    function parseAndRender(pElement, pSource){
+        var lLanguage = getLanguage(pElement);
+        var lAST      = getAST(pSource, lLanguage);
 
         if (lAST.entities) {
             render(lAST, pElement.id, pSource, lLanguage);

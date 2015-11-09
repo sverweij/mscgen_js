@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <script>
+          var mscgen_js_config = {
+            clickable: true,
+            clickURL: "http://localhost:8666/",
+            loadFromSrcAttribute: true
+          }
+        </script>
+        <script data-main="../script/mscgen-inpage.js"
+        src="../lib/require.js" defer></script>
+        
+    </head>
+    <body>
+        <h2>Read from an external file</h2>
+        <mscgen src="./test21_unicode_colored.mscin"></mscgen>
+        
+        <h2>Read from a non-existing external file</h2>
+        <mscgen src="thisfiledoesnotexist.mscin"></mscgen>
+        
+        <h2>Embedded in the page</h2>
+        <pre class="mscgen_js">
+            msc {
+                a,b,c;
+                b => * [label="hello world"];
+                a >> b [label="hello b"],
+                c >> b [label="hello b"];
+            }
+        </pre>
+        
+        <h2>Embedded in the page and a src attribute</h2>
+        <p>
+            The stuff in the src attribute wins. In
+            this case means we see a cross word puzzle.
+        </p>
+        <mscgen src="./test21a_unicode_serious.msgenny" data-language="msgenny">
+            msc {
+                a,b,c;
+                b => * [label="hello world"];
+                a >> b [label="hello b"],
+                c >> b [label="hello b"];
+            }
+        </mscgen>
+    </body>
+</html>

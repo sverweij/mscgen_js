@@ -11,6 +11,7 @@ describe('ui/embedding/embed-config', function() {
                 parentElementPrefix : "mscgen_js-parent_",
                 clickable : false,
                 clickURL : "https://sverweij.github.io/mscgen_js/",
+                loadFromSrcAttribute: false
             });
         });
 
@@ -25,6 +26,7 @@ describe('ui/embedding/embed-config', function() {
                 parentElementPrefix : "mscgen_js-parent_",
                 clickable : true,
                 clickURL : "http://localhost/",
+                loadFromSrcAttribute: false
             });
         });
     });

@@ -15,6 +15,7 @@ define([],function() {
         parentElementPrefix : "mscgen_js-parent_",
         clickable : false,
         clickURL : "https://sverweij.github.io/mscgen_js/",
+        loadFromSrcAttribute: false
     };
 
     function mergeConfig (pConfigBase, pConfigToMerge){
