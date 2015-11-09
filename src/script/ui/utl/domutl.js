@@ -41,7 +41,7 @@ define([], function(){
             lHttpRequest.onreadystatechange = function (pEvent) {
                 if(pEvent.target.readyState === XMLHttpRequest.DONE) {
                     if (200 === lHttpRequest.status) {
-                        pSuccessFunction(pEvent);    
+                        pSuccessFunction(pEvent);
                     } else {
                         pErrorFunction(pEvent);
                     }
