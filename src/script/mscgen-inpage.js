@@ -56,6 +56,12 @@ require(["parse/xuparser",
         }, lErrorIntro) + "</pre>";
     }
 
+    function renderElementError(pElement, pString) {
+        pElement.innerHTML =
+            "<div style='color: red'>" +
+            pString + "</div>";
+    }
+
     function renderElement (pElement, pIndex){
         setElementId(pElement, pIndex);
         pElement.setAttribute("data-renderedby", "mscgen_js");
@@ -67,12 +73,24 @@ require(["parse/xuparser",
                     parseAndRender(pElement, pEvent.target.response);
                 },
                 function onError() {
-                    pElement.innerHTML =
-                          "<code><div style='color: red'>" +
-                          "ERROR: Could not find or open the URL '" +
-                          pElement.getAttribute("src") +
-                          "' specified in the <code>data-src</code> attribute.</div></code>";
+                    renderElementError(
+                        pElement,
+                        "ERROR: Could not find or open the URL '" +
+                        pElement.getAttribute("data-src") +
+                        "' specified in the <code>data-src</code> attribute."
+                    );
                 }
+            );
+        } else if (!conf.getConfig().loadFromSrcAttribute && !!pElement.getAttribute("data-src")){
+            renderElementError(
+                pElement,
+                "ERROR: Won't load the chart specified in <code>data-src='" +
+                pElement.getAttribute("data-src") + "'</code>, "+
+                "because loading from separate files is switched off in the " +
+                "mscgen_js configuration." +
+                "<br><br>See " +
+                "<a href='https://sverweij.github.io/mscgen_js/embed.html#loading-from-separate-files'>Loading charts from separate files</a>" +
+                " in the mscgen_js embedding guide how to enable it."
             );
         } else {
             parseAndRender(pElement, pElement.textContent);
