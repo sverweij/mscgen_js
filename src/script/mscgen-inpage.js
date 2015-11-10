@@ -71,7 +71,7 @@ require(["parse/xuparser",
                           "<code><div style='color: red'>" +
                           "ERROR: Could not find or open the URL '" +
                           pElement.getAttribute("src") +
-                          "' specified in the <code>src</code> attribute.</div></code>";
+                          "' specified in the <code>data-src</code> attribute.</div></code>";
                 }
             );
         } else {
