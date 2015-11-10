@@ -1,9 +1,0 @@
-a -> b : ab();
-a => c : automatically declares entities used in arcs;
-c =>> c : process(1);
-b <<= c : Has all mscgen arc types... ;
-b note b: ...notes + boxes ...;
-|||;
---- : Labels usually don't need enclosing quotes;
---- : "except when they contain , or ;";
-...;
