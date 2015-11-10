@@ -60,9 +60,9 @@ require(["parse/xuparser",
         setElementId(pElement, pIndex);
         pElement.setAttribute("data-renderedby", "mscgen_js");
 
-        if (conf.getConfig().loadFromSrcAttribute && !!pElement.getAttribute("src")){
+        if (conf.getConfig().loadFromSrcAttribute && !!pElement.getAttribute("data-src")){
             $.ajax(
-                pElement.getAttribute("src"),
+                pElement.getAttribute("data-src"),
                 function onSuccess(pEvent) {
                     parseAndRender(pElement, pEvent.target.response);
                 },
