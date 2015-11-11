@@ -3,11 +3,11 @@
 require(["parse/xuparser",
          "parse/msgennyparser",
          "render/graphics/renderast",
-         "utl/utensils",
          "ui/utl/exporter",
          "ui/embedding/config",
+         "ui/embedding/error-rendering",
          "ui/utl/domutl"],
-        function(mscparser, msgennyparser, mscrender, _, exp, conf, $) {
+        function(mscparser, msgennyparser, mscrender, exp, conf, err, $) {
     "use strict";
 
     start();
@@ -16,19 +16,6 @@ require(["parse/xuparser",
         var lClassElements = document.getElementsByClassName("mscgen_js");
         renderElementArray(lClassElements, 0);
         renderElementArray(document.getElementsByTagName("mscgen"), lClassElements.length);
-    }
-
-    function formatLine(pLine, pLineNo){
-        return _.formatNumber(pLineNo, 3) + " " + pLine;
-    }
-
-    function underlineCol(pLine, pCol){
-        return pLine.split("").reduce(function(pPrev, pChar, pIndex){
-            if (pIndex === pCol) {
-                return pPrev + "<span style='text-decoration:underline'>" + _.deHTMLize(pChar) + "</span>";
-            }
-            return pPrev + _.deHTMLize(pChar);
-        }, "");
     }
 
     function renderElementArray(pMscGenElements, pStartIdAt){
@@ -41,19 +28,6 @@ require(["parse/xuparser",
         if (!pElement.hasAttribute('data-renderedby')) {
             renderElement(pElement, pIndex);
         }
-    }
-
-    function renderError(pSource, pErrorLocation, pMessage){
-        var lErrorIntro = !!pErrorLocation ?
-            "<pre><div style='color: red'># ERROR on line " + pErrorLocation.start.line + ", column " + pErrorLocation.start.column + " - " + pMessage + "</div>" :
-            "<pre><div style='color: red'># ERROR " + pMessage + "</div>";
-
-        return pSource.split('\n').reduce(function(pPrev, pLine, pIndex) {
-            if (!!pErrorLocation && pIndex === (pErrorLocation.start.line - 1)) {
-                return pPrev + "<mark>" + formatLine(underlineCol(pLine, pErrorLocation.start.column - 1), pIndex + 1) + '\n' + "</mark>";
-            }
-            return pPrev + _.deHTMLize(formatLine(pLine, pIndex + 1)) + '\n';
-        }, lErrorIntro) + "</pre>";
     }
 
     function renderElementError(pElement, pString) {
@@ -102,7 +76,7 @@ require(["parse/xuparser",
         if (lAST.entities) {
             render(lAST, pElement.id, pSource, lLanguage);
         } else {
-            pElement.innerHTML = renderError(pSource, lAST.location, lAST.message);
+            pElement.innerHTML = err.renderError(pSource, lAST.location, lAST.message);
         }
     }
 
