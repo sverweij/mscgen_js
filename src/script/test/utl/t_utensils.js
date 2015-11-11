@@ -18,21 +18,21 @@ describe('utl/utensils', function() {
             assert.equal(false, _.sanitizeBooleanesque("0"));
         });
     });
-    
+
     describe('#deHTMLize() - ', function(){
         it(
-            "replaces < with &lt;", 
+            "replaces < with &lt;",
             () => assert.equal("&lt;", _.deHTMLize("<"))
         );
         it(
-            "replaces all < with &lt;", 
+            "replaces all < with &lt;",
             () => assert.equal(
                 "&lt;bla>hello&lt;/bla>",
                 _.deHTMLize("<bla>hello</bla>")
             )
         );
         it(
-            "leaves strings without < alone", 
+            "leaves strings without < alone",
             () => assert.equal(
                 "In Dutch, Huey, Louis and Dewy translate => Kwik, Kwek en Kwak",
                 _.deHTMLize(
