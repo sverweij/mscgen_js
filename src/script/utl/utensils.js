@@ -60,12 +60,23 @@ define([], function() {
             return lMemoize;
         },
 
-        /*
+        /**
          * swaps the values of the attributes "from" and "two"
          * in the pPair object with each other
          */
         swapfromto : function (pPair){
             swap(pPair, "from", "to");
+        },
+
+        /**
+         * returns a 'sanitized' version of the passed
+         * string. Sanitization is <em>very barebones</em> at the moment
+         * - it replaces < by &lt; so the browser won't start interpreting it
+         * as html. I'd rather use something standard for this, but haven't
+         * found it yet...
+         */
+        deHTMLize : function(pString){
+            return pString.replace(/</g, "&lt;");
         },
 
         /**

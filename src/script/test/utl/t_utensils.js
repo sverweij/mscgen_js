@@ -1,3 +1,4 @@
+/* jshint esnext:true */
 var assert = require("assert");
 var _ = require("../../utl/utensils");
 
@@ -16,6 +17,29 @@ describe('utl/utensils', function() {
         it('sanitize booleanesque', function() {
             assert.equal(false, _.sanitizeBooleanesque("0"));
         });
+    });
+    
+    describe('#deHTMLize() - ', function(){
+        it(
+            "replaces < with &lt;", 
+            () => assert.equal("&lt;", _.deHTMLize("<"))
+        );
+        it(
+            "replaces all < with &lt;", 
+            () => assert.equal(
+                "&lt;bla>hello&lt;/bla>",
+                _.deHTMLize("<bla>hello</bla>")
+            )
+        );
+        it(
+            "leaves strings without < alone", 
+            () => assert.equal(
+                "In Dutch, Huey, Louis and Dewy translate => Kwik, Kwek en Kwak",
+                _.deHTMLize(
+                    "In Dutch, Huey, Louis and Dewy translate => Kwik, Kwek en Kwak"
+                )
+            )
+        );
     });
 
     describe('#formatNumber() - ', function() {

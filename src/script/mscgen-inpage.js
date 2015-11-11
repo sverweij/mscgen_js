@@ -25,9 +25,9 @@ require(["parse/xuparser",
     function underlineCol(pLine, pCol){
         return pLine.split("").reduce(function(pPrev, pChar, pIndex){
             if (pIndex === pCol) {
-                return pPrev + "<span style='text-decoration:underline'>" + pChar + "</span>";
+                return pPrev + "<span style='text-decoration:underline'>" + _.deHTMLize(pChar) + "</span>";
             }
-            return pPrev + pChar;
+            return pPrev + _.deHTMLize(pChar);
         }, "");
     }
 
@@ -52,14 +52,12 @@ require(["parse/xuparser",
             if (!!pErrorLocation && pIndex === (pErrorLocation.start.line - 1)) {
                 return pPrev + "<mark>" + formatLine(underlineCol(pLine, pErrorLocation.start.column - 1), pIndex + 1) + '\n' + "</mark>";
             }
-            return pPrev + formatLine(pLine, pIndex + 1) + '\n';
+            return pPrev + _.deHTMLize(formatLine(pLine, pIndex + 1)) + '\n';
         }, lErrorIntro) + "</pre>";
     }
 
     function renderElementError(pElement, pString) {
-        pElement.innerHTML =
-            "<div style='color: red'>" +
-            pString + "</div>";
+        pElement.innerHTML = "<div style='color: red'>" + pString + "</div>";
     }
 
     function renderElement (pElement, pIndex){
