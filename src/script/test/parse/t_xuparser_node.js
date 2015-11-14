@@ -11,6 +11,14 @@ describe('parse/xuparser', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
             expect(lAST).to.be.deep.equal(fix.astSimple);
         });
+        it('should render a simple AST - regardless of start marker case', function() {
+            var lAST = parser.parse('MsC { a,"b space"; a => "b space" [label="a simple script"];}');
+            expect(lAST).to.be.deep.equal(fix.astSimple);
+        });
+        it('should render a simple AST - also with xu as start marker', function() {
+            var lAST = parser.parse('xu { a,"b space"; a => "b space" [label="a simple script"];}');
+            expect(lAST).to.be.deep.equal(fix.astSimple);
+        });
         it('should ignore c++ style one line comments', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored');
             expect(lAST).to.deep.equal(fix.astSimple);
@@ -106,7 +114,7 @@ describe('parse/xuparser', function() {
         it("should throw a SyntaxError on an invalid arc type", function() {
             tst.assertSyntaxError('msc{a, b; a xx b;}', parser);
         });
-        it("should throw a SyntaxError on empty inline expression", function() {
+        it("should accept empty inline expressions", function() {
             var lFixture = {
                 "meta": {
                     "extendedOptions": false,
@@ -132,7 +140,7 @@ describe('parse/xuparser', function() {
                 ]
               ]
             };
-            expect(parser.parse('msc{a, b; a opt b{};}')).to.deep.equal(lFixture);
+            expect(parser.parse('Xu{a, b; a opt b{};}')).to.deep.equal(lFixture);
         });
         it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
             tst.assertSyntaxError('msc{a, b; a => b{|||;};}', parser);

@@ -143,7 +143,7 @@ program         =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
     return lRetval;
 }
 
-starttoken      = "msc"i
+starttoken      = "msc"i / "xu"i
 
 declarationlist = (o:optionlist {return {options:o}})?
                   (e:entitylist {return {entities:e}})?

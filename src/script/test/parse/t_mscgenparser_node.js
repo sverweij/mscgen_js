@@ -11,6 +11,10 @@ describe('parse/mscgenparser', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}');
             expect(lAST).to.deep.equal(fix.astSimple);
         });
+        it('should render a simple AST - regardless of start marker case', function() {
+            var lAST = parser.parse('MsC { a,"b space"; a => "b space" [label="a simple script"];}');
+            expect(lAST).to.be.deep.equal(fix.astSimple);
+        });
         it('should ignore c++ style one line comments', function() {
             var lAST = parser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored');
             expect(lAST).to.deep.equal(fix.astSimple);
