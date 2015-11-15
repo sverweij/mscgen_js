@@ -56,7 +56,7 @@ Rendered (e.g. with the [online interpreter](https://sverweij.github.io/mscgen_j
 
 ## Syntax
 As you can see, the syntax of the inline expressions is very similar to that
-of regular arcs, the only difference being that inline expressions have a (mandatory)
+of regular arcs, the only difference being that inline expressions have a
 section of arcs, enclosed by curly brackets.
 
 ```peg
