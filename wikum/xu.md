@@ -21,7 +21,7 @@ This is an example of a xù script describing an interaction that loops over
 a list of changes and sorts the old ones to a deletion queue, and the
 rest to a birth queue:
 
-```mscgen
+```xu
 msc {
   width=700, hscale=0.8;
   a, b [label="change store"], c, d [label="necro queue"],
@@ -55,23 +55,25 @@ Rendered (e.g. with the [online interpreter](https://sverweij.github.io/mscgen_j
 ![rendered](xusample.png)
 
 ## Syntax
+
+### Inline expression syntax
 As you can see, the syntax of the inline expressions is very similar to that
 of regular arcs, the only difference being that inline expressions have a
 section of arcs, enclosed by curly brackets.
 
-```peg
+```pegjs
 spanarc         =
  _ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _ ";"
 ```
 
 To compare, this is how a regular arc looks:
-```peg
+```pegjs
 regulararc      =
 _ from:identifier _ kind:arctoken      _ to:identifier _                       ("[" attributelist "]")? _ ";"
 ```
 
 Some more examples
-```mscgen
+```xu
 break {
    a => b [label="Can you do this?"];
    b >> a [label="Fatal error"];
@@ -79,14 +81,14 @@ break {
 ```
 
 Arguments go into the label as free text.
-```mscgen
+```xu
 loop [label="for each grain of sand on the beach"] {
   a => beach [label="get grain"];
   a => progeny [label="add"];
 };
 ```
 
-```mscgen
+```xu
 msc {
   john, shed,  bike;
 
@@ -101,7 +103,7 @@ msc {
 ```
 
 To separate sections to execute in parallel you can use a comment line, like so:
-```mscgen
+```xu
 par {
   a => b;
   b >> a;
@@ -114,8 +116,33 @@ par {
 If you're interested in the complete grammar: the parsing expression grammar we
 use to generate the parser is [included in the source][4].
 
-## ms genny
-ms genny also has support for inline expressions, the if-then-else construct above
+### start token
+MscGen uses `msc` as a start token. As Xù was designed as an extension
+to MscGen the same goes for Xù. If you want to be expressly clear your
+script is a Xù script you can also use `xu` as a start token:
+```xu
+xu {
+  arcgradient=20;
+
+  a,b,c;
+
+  a par c [label="Saying hello"] {
+    a =>> * [label="hi"];
+    ---;
+    b =>> * [label="hi"];
+    ---; 
+    c =>> * [label="hi"];
+  };
+  a aboxc [label="Now we know each other a bit"];
+}
+```
+
+### watermark
+Just like msgenny, Xù supports a "watermark" _option_: ```watermark="xù rocks!"```; that puts a watermark diagonally on the rendered chart.
+
+
+## MsGenny
+[MsGenny](./msgenny.md) also has support for inline expressions, the if-then-else construct above
 would look something like this:
 
 ```msgenny
@@ -130,12 +157,13 @@ john alt bike: weather is nice {
 };
 ```
 
-## compatibility with mscgen
-```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---")
+## translating back to MscGen
+- ```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---")
+- The on line interpreter, in debug mode, has an _Export this chart to Vanilla MscGen_ option behind the `...` button. - e.g. for the [Johnny, bike, shed example](https://sverweij.github.io/mscgen_js//index.html?lang=xu&debug=true&msc=msc%20{%0A%20%20john%2C%0A%20%20shed%2C%0A%20%20bike%3B%0A%0A%20%20john%20alt%20bike%20[label%3D%22weather%20is%20nice%22]%20{%0A%20%20%20%20john%20%3D%3E%3E%20shed%20[label%3D%22get%28bike%29%22]%3B%0A%20%20%20%20shed%20%3E%3E%20john%20[label%3D%22bike%22]%3B%0A%20%20%20%20john%20%3D%3E%3E%20bike%20[label%3D%22use%22]%3B%0A%20%20%20%20---%20[label%3D%22else%22]%3B%0A%20%20%20%20|||%20[label%3D%22john%20stays%20at%20home%22]%3B%0A%20%20}%3B%0A})
 
-## watermark
-Just like msgenny, xù supports a "watermark" _option_: ```watermark="xù rocks!"```;
 
+To start the interpreter in debug mode, pass `debug=true` to the url:
+[https://sverweij.github.io/mscgen_js/index.html?debug=true](https://sverweij.github.io/mscgen_js/index.html?debug=true)
 
 ## Supported inline expressions
 
