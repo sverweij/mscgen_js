@@ -9,7 +9,7 @@
 - Implementation of the super easy [mscgen][1] in javascript.
 - [Embeddable][30] in your html.
 - Try it in the [on line interactive interpreter][2].
-- Or in [atom](https://atom.io) with the [atom mscgen-preview package](https://atom.io/packages/mscgen-preview)
+- Or in [atom](https://atom.io) with the [atom mscgen-preview package](https://atom.io/packages/mscgen-preview).
 - Also
   - talks a [simplified subset of mscgen][5] for lazy bastards.
   - speaks a [superset of mscgen][29] for the feature hungry.
