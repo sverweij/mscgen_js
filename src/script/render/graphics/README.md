@@ -48,6 +48,6 @@ We use the following structure for the svg
 
 TODO. Subjects to be covered:
 - renderast/ and the svg element factory (:page_with_curl: code in [renderast.js](renderast.js) and [svgelementfactory.js](svgelementfactory.js) )
-- flattening (:page_with_curl: code in [../text/flatten.js](text/flatten.js))
+- flattening (:page_with_curl: code in [../text/flatten.js](../text/flatten.js))
 - text wrapping (html vs text/tspans) (:page_with_curl: code in [../text/textutensils.js](../text/textutensils.js))
   & BBox (in [svgutensils.js](svgutensils.js) iircc)
