@@ -27,7 +27,7 @@ analysis and parsing together. In the [parser folder](parse/peg/README.md) we de
 :page_with_curl: code in [render/graphics/](render/graphics)
 
 *mscgen_js* by default renders its graphics to _scalable vector graphics_ (SVG).
-In the [render folder](render/README.md) we
+In the [render folder](render/graphics/README.md) we
 - motivate this choice,
 - describe how our SVG is structured and
 - how the rendering programs fill it.
