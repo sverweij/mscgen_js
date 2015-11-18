@@ -8,11 +8,12 @@
 [![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
 - Implementation of the super easy [mscgen][1] in javascript.
 - [Embeddable][30] in your html.
-- Try it in the [interactive interpreter][2].
+- Try it in the [on line interactive interpreter][2].
+- Or in [atom](https://atom.io) with the [atom mscgen-preview package](https://atom.io/packages/mscgen-preview)
 - Also
   - talks a [simplified subset of mscgen][5] for lazy bastards.
   - speaks a [superset of mscgen][29] for the feature hungry.
-  - runs in all modern browsers (and in _node.js_/ _io.js_ ).
+  - runs in all modern browsers (and in _node.js_).
   - animates your chart.
 
 ## Sample
