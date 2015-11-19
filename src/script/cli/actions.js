@@ -1,10 +1,11 @@
 /* jshint node:true, unused:true */
 module.exports = (function() {
     "use strict";
-    var fs     = require("fs");
-    var parser = require("../parse/xuparser_node");
-    var jsdom  = require("jsdom");
-    var render = require("../render/graphics/renderast");
+    var fs        = require("fs");
+    var mscgenjs  = require("..");
+    var parser    = mscgenjs.getParser("xu");
+    var render    = mscgenjs.getGraphicsRenderer();
+    var jsdom     = require("jsdom");
 
     const LICENSE = "\n" +
     "   mscgen_js - turns text into sequence charts\n" +
