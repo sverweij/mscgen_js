@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textutensils","../text/arcmappings"], function(fact, svgutl, C, txt, map) {
+define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textutensils", "../text/arcmappings"], function(fact, svgutl, C, txt, map) {
     "use strict";
 
     /**

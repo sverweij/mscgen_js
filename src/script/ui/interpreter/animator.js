@@ -1,8 +1,11 @@
 /* jshint browser:true */
 /* global define */
 
-define(["../../render/graphics/renderast", "../../render/text/ast2animate", "../utl/gaga", "../utl/domutl"],
-function(msc_render, ast2animate, gaga, dq) {
+define(["../../render/graphics/renderast",
+        "../../render/text/ast2animate",
+        "../utl/gaga",
+        "../utl/domutl"],
+        function(msc_render, ast2animate, gaga, dq) {
     "use strict";
 
     var ICON_PLAY            = "icon-play";
@@ -31,13 +34,13 @@ function(msc_render, ast2animate, gaga, dq) {
         }
 
         gInitializationTimer = window.setTimeout(showAnimationControls, 1100);
-        
+
         msc_render.clean("__animsvg", window);
         anim.init(pAST, true);
         msc_render.renderAST(anim.getCurrentFrame(), "", "__animsvg", window);
         gInitialized = true;
     }
-    
+
     function animate(){
         if (gTimer) {
             window.clearTimeout(gTimer);

@@ -147,7 +147,7 @@ graph {\n\
             var lAST = JSON.parse(lASTString);
             var lExpectedProgram = fs.readFileSync("./src/script/test/fixtures/test01_all_possible_arcs_mscgen.dot", {"encoding":"utf8"});
             var lProgram = renderer.render(lAST);
-            assert.equal(lProgram,lExpectedProgram);
+            assert.equal(lProgram, lExpectedProgram);
         });
     });
 });

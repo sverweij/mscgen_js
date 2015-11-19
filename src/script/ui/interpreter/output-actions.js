@@ -7,19 +7,13 @@ define(["./uistate",
         "../utl/domutl",
         "../utl/gaga"
         ],
-        function(
-            uistate,
-            animctrl,
-            xport,
-            rxport,
-            dq,
-            gaga) {
+        function(uistate, animctrl, xport, rxport, dq, gaga) {
     "use strict";
-    
+
     function _closeExportPanel(){
         window.__output_panel.style.height = '0';
     }
-    
+
     return {
         svgOnDblClick: function() {
             window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
@@ -54,7 +48,7 @@ define(["./uistate",
             gaga.g('send', 'event', 'show_doxygen', 'button');
         },
         urlOnClick: function() {
-            window.history.replaceState({},"", xport.toLocationString(window.location, uistate.getSource(), uistate.getLanguage()));
+            window.history.replaceState({}, "", xport.toLocationString(window.location, uistate.getSource(), uistate.getLanguage()));
             gaga.g('send', 'event', 'show_url', 'button');
         },
         animOnClick: function() {

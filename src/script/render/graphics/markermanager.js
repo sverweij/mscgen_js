@@ -202,7 +202,7 @@ define(["../../utl/utensils", "../text/arcmappings"], function(_, map) {
         }
     }
 
-    function _getAttributes(pId, pKind, pLineColor , pFrom, pTo){
+    function _getAttributes(pId, pKind, pLineColor, pFrom, pTo){
         var lRetval = [];
 
         if(KINDS[pKind] && KINDS[pKind].attributes){

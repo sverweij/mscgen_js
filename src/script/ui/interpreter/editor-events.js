@@ -13,15 +13,12 @@ define(["./uistate",
         "../../../lib/codemirror/mode/mscgen/mscgen",
         "../../../lib/codemirror/mode/javascript/javascript"
         ],
-        function(
-            uistate,
-            codemirror,
-            txt, gaga) {
+        function(uistate, codemirror, txt, gaga) {
     "use strict";
-    
+
     var gGaKeyCount = 0;
     var gCodeMirror = {};
-    
+
     function init (pElement){
         gCodeMirror = codemirror.fromTextArea(pElement, {
             lineNumbers       : true,
@@ -35,45 +32,41 @@ define(["./uistate",
             lineWrapping      : false
         });
     }
-    
+
     function summedLength (pArray){
         return pArray.reduce(
             function(pSum, pCur){
                 return pSum + pCur.length;
-            }, 
+            },
             0
         );
     }
-    
+
     function isBigChange(pChange){
         return Math.max(summedLength(pChange.text), summedLength(pChange.removed)) > 1;
     }
-    
+
     function setupEditorEvents(){
+        gCodeMirror.on ("change", function(pUnused, pChange) {
+            uistate.onInputChanged(isBigChange(pChange));
+            if (gGaKeyCount > 17) {
+                gGaKeyCount = 0;
+                gaga.g('send', 'event', '17 characters typed', uistate.getLanguage());
+            } else {
+                gGaKeyCount++;
+            }
+        });
 
-      gCodeMirror.on ("change",
-          function(pUnused, pChange) {
-              uistate.onInputChanged(isBigChange(pChange));
-              if (gGaKeyCount > 17) {
-                  gGaKeyCount = 0;
-                  gaga.g('send', 'event', '17 characters typed', uistate.getLanguage());
-              } else {
-                  gGaKeyCount++;
-              }
-      });
-
-      gCodeMirror.on ("drop",
-          function(pUnused, pEvent) {
-              /* if there is a file in the drop event clear the textarea,
-               * otherwise do default handling for drop events (whatever it is)
-               */
-              if (pEvent.dataTransfer.files.length > 0) {
-                  uistate.setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name), false);
-                  uistate.setSource("");
-                  gaga.g('send', 'event', 'drop', uistate.getLanguage());
-              }
-      });
-
+        gCodeMirror.on ("drop", function(pUnused, pEvent) {
+            /* if there is a file in the drop event clear the textarea,
+             * otherwise do default handling for drop events (whatever it is)
+             */
+            if (pEvent.dataTransfer.files.length > 0) {
+                uistate.setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name), false);
+                uistate.setSource("");
+                gaga.g('send', 'event', 'drop', uistate.getLanguage());
+            }
+        });
     }
 
     return {
@@ -81,7 +74,7 @@ define(["./uistate",
             init(pElement);
             uistate.init(gCodeMirror);
             setupEditorEvents();
-            
+
         }
     };
 });
