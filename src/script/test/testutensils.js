@@ -37,9 +37,6 @@ module.exports = (function() {
     },
 
     assertequalToFile: function assertequalToFile(pExpectedFileName, pFoundFileName){
-        // var djzoef = fs.readFileSync(pFoundFileName, {"encoding":"utf8"});
-        // console.log('here', djzoef);
-        // expect('bop').to.equal('bop');
         expect(
             fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
         ).to.equal(

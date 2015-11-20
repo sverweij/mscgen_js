@@ -83,10 +83,10 @@ module.exports = (function() {
             });
         });
     }
-    
+
     function transformToText(pInStream, pOutStream, pOutputType, pCallback){
         var lInput = "";
-        
+
         pInStream.resume();
         pInStream.setEncoding("utf8");
 
@@ -104,7 +104,7 @@ module.exports = (function() {
             }
         });
     }
-    
+
     function transform (pInStream, pOutStream, pOutputType, pCallback) {
         var GRAPHICSFORMATS = ['svg'];
         if (GRAPHICSFORMATS.indexOf(pOutputType) > -1){
