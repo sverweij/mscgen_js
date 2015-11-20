@@ -15,6 +15,7 @@ NPM=npm
 BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
+MINIFY=node_modules/.bin/uglifyjs
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
 else
@@ -151,6 +152,9 @@ bower_components/canvg/%.js:
 
 $(LIBDIRS):
 	mkdir -p $@
+
+src/lib/require.js: node_modules/requirejs/require.js
+	$(MINIFY) $< -m -c > $@
 
 src/lib/canvg/%.js: bower_components/canvg/%.js src/lib/canvg
 	cp $< $@

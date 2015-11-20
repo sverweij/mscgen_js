@@ -32,7 +32,8 @@
     "npm-check-updates": "2.5.1",
     "nsp": "2.0.2",
     "pegjs": "0.9.0",
-    "plato": "1.5.0"
+    "plato": "1.5.0",
+    "uglify-js": "2.6.1"
   },
   "scripts": {
     "test": "mocha -R dot --timeout 4000 --recursive src/script/test/",
