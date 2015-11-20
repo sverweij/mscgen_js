@@ -83,6 +83,36 @@ module.exports = (function() {
             });
         });
     }
+    
+    function transformToText(pInStream, pOutStream, pOutputType, pCallback){
+        var lInput = "";
+        
+        pInStream.resume();
+        pInStream.setEncoding("utf8");
+
+        pInStream.on("data", function(pChunk) {
+            lInput += pChunk;
+        });
+
+        pInStream.on("end", function() {
+            render = mscgenjs.getTextRenderer(pOutputType);
+            pOutStream.write(render.render(parser.parse(lInput)));
+            pInStream.pause();
+            /* istanbul ignore else  */
+            if (!!pCallback && "function" === typeof pCallback) {
+                pCallback();
+            }
+        });
+    }
+    
+    function transform (pInStream, pOutStream, pOutputType, pCallback) {
+        var GRAPHICSFORMATS = ['svg'];
+        if (GRAPHICSFORMATS.indexOf(pOutputType) > -1){
+            transformToChart (pInStream, pOutStream, pOutputType, pCallback);
+        } else {
+            transformToText (pInStream, pOutStream, pOutputType, pCallback);
+        }
+    }
 
     return {
         transform: function(pArgument, pOptions, pCallback) {
@@ -92,7 +122,7 @@ module.exports = (function() {
             if (pOptions.parserOutput) {
                 transformToAST(lInStream, lOutStream, pCallback);
             } else {
-                transformToChart(lInStream, lOutStream, pOptions.outputType, pCallback);
+                transform(lInStream, lOutStream, pOptions.outputType, pCallback);
             }
         },
 

@@ -11,7 +11,7 @@ describe('cli/validations', function() {
             } catch (e) {
                 lFoundError = e.message;
             }
-            assert.equal(lFoundError, "\n  error: 'notavalidtype' is not a valid output type. mscgen_js can only emit svg.\n\n");
+            assert.equal(lFoundError, "\n  error: 'notavalidtype' is not a valid output type. mscgen_js can only emit svg and text formats (dot, doxygen, mscgen, msgenny, xu).\n\n");
         });
         it("'svg' is a valid type", function() {
             assert.equal(val.validType("svg"), "svg");

@@ -24,7 +24,29 @@ var testPairs = [
             }
         },
         expected : "src/script/test/output/rainbow_mscgen_source.json"
-    }
+    },
+    {
+        title : "'-T dot -i rainbow.mscin rainbow_mscgen_source.dot' - produces dot",
+        input : {
+            argument : "src/script/test/output/rainbow_mscgen_source.dot",
+            options : {
+                outputType : "dot",
+                inputFrom  : "src/script/test/fixtures/rainbow.mscin"
+            }
+        },
+        expected : "src/script/test/fixtures/rainbow_mscgen_source.dot"
+    },
+    {
+        title : "'-T doxygen -i rainbow.mscin rainbow_mscgen_source.doxygen' - produces doxygen",
+        input : {
+            argument : "src/script/test/output/rainbow_mscgen_source.doxygen",
+            options : {
+                outputType : "doxygen",
+                inputFrom  : "src/script/test/fixtures/rainbow.mscin"
+            }
+        },
+        expected : "src/script/test/fixtures/rainbow_mscgen_source.doxygen"
+    },
 ];
 
 function resetOutputDir(){
@@ -53,6 +75,13 @@ describe('cli/actions', function() {
     });
 
     describe('#transform()', function() {
+        var TEXTTYPES = [
+            "dot",
+            "doxygen",
+            "mscgen",
+            "msgenny",
+            "xu"
+        ];
         testPairs.forEach(function(pPair){
             it(pPair.title, function(done) {
                 actions.transform(
@@ -61,6 +90,8 @@ describe('cli/actions', function() {
                     function(){
                         if ("svg" === pPair.input.options.outputType){
                             utl.assertequalFileXML(pPair.input.argument, pPair.expected);
+                        } else if (TEXTTYPES.indexOf(pPair.input.options.outputType) > -1) {
+                            utl.assertequalToFile(pPair.input.argument, pPair.expected);
                         } else {
                             utl.assertequalFileJSON(pPair.input.argument, pPair.expected);
                         }

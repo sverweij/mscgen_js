@@ -14,6 +14,7 @@ module.exports = (function() {
     function hashit(pString){
         return crypto.createHash(gHashToUse).update(pString).digest('hex');
     }
+
     function assertequalToFileJSON(pExpectedFileName, pFound) {
         expect(
             pFound
@@ -32,6 +33,17 @@ module.exports = (function() {
             JSON.parse(
                 fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
             )
+        );
+    },
+
+    assertequalToFile: function assertequalToFile(pExpectedFileName, pFoundFileName){
+        // var djzoef = fs.readFileSync(pFoundFileName, {"encoding":"utf8"});
+        // console.log('here', djzoef);
+        // expect('bop').to.equal('bop');
+        expect(
+            fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
+        ).to.equal(
+            fs.readFileSync(pExpectedFileName, {"encoding":"utf8"})
         );
     },
 

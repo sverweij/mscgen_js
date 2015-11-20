@@ -2,7 +2,7 @@
 module.exports = (function() {
     "use strict";
     var fs              = require("fs");
-    const VALID_TYPE_RE = /^(svg|png|eps)$/;
+    const VALID_TYPE_RE = /^(svg|mscgen|msgenny|xu|dot|doxygen)$/;
 
     function isStdout(pFilename) {
         return "-" === pFilename;
@@ -30,7 +30,7 @@ module.exports = (function() {
                 return pType;
             }
 
-            throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg.\n\n");
+            throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg and text formats (dot, doxygen, mscgen, msgenny, xu).\n\n");
         },
 
         validateArguments: function(pArgument, pOptions) {

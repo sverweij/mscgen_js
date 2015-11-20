@@ -18,7 +18,7 @@ const VERSION   = require("../../../package.json").version;
 try {
     program
         .version(VERSION)
-        .option("-T --output-type <type>", "Output file type. Currently only 'svg'", validations.validType)
+        .option("-T --output-type <type>", "Output file type: svg|mscgen|msgenny|xu|dot|doxygen", validations.validType)
         .option("-i --input-from <file>", "File to read from. use - for stdin.")
         .option("-o --output-to <file>", "File to write to. use - for stdout.")
         .option("-p --parser-output", "Print parsed msc output")
