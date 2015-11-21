@@ -3,10 +3,9 @@ module.exports = (function() {
     "use strict";
     var fs        = require("fs");
     var mscgenjs  = require("..");
-    var parser    = mscgenjs.getParser("xu");
-    var render    = mscgenjs.getGraphicsRenderer();
     var jsdom     = require("jsdom");
 
+    const GRAPHICSFORMATS = ['svg'];
     const LICENSE = "\n" +
     "   mscgen_js - turns text into sequence charts\n" +
     "   Copyright (C) 2015  Sander Verweij\n" +
@@ -24,12 +23,11 @@ module.exports = (function() {
     "   You should have received a copy of the GNU General Public License\n" +
     "   along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\n";
 
-    function getOutStream(pArgument, pOutputTo) {
-        var lOutputTo = pArgument ? pArgument : pOutputTo;
-        if ("-" === lOutputTo) {
+    function getOutStream(pOutputTo) {
+        if ("-" === pOutputTo) {
             return process.stdout;
         } else {
-            return fs.createWriteStream(lOutputTo);
+            return fs.createWriteStream(pOutputTo);
         }
     }
 
@@ -41,19 +39,11 @@ module.exports = (function() {
         }
     }
 
-    function transformToAST(pInStream, pOutStream, pCallback) {
-        var lInput = "";
-
-        pInStream.resume();
-        pInStream.setEncoding("utf8");
-
-        pInStream.on("data", function(chunk) {
-            lInput += chunk;
-        });
-
-        pInStream.on("end", function() {
-            pOutStream.write(JSON.stringify(parser.parse(lInput), null, "  "));
-            pInStream.pause();
+    function renderGraphics(pAST, pInput, pOutStream, pCallback) {
+        jsdom.env("<html><body></body></html>", function(err, window) {
+            var renderer = mscgenjs.getGraphicsRenderer();
+            renderer.renderAST(pAST, pInput, "__svg", window);
+            pOutStream.write(window.document.body.innerHTML);
             /* istanbul ignore else  */
             if (!!pCallback && "function" === typeof pCallback) {
                 pCallback();
@@ -61,30 +51,11 @@ module.exports = (function() {
         });
     }
 
-    function transformToChart(pInStream, pOutStream, pOutputType, pCallback) {
-        jsdom.env("<html><body></body></html>", function(err, window) {
-            var lInput = "";
-
-            pInStream.resume();
-            pInStream.setEncoding("utf8");
-
-            pInStream.on("data", function(pChunk) {
-                lInput += pChunk;
-            });
-
-            pInStream.on("end", function() {
-                render.renderAST(parser.parse(lInput), lInput, "__svg", window);
-                pOutStream.write(window.document.body.innerHTML);
-                pInStream.pause();
-                /* istanbul ignore else  */
-                if (!!pCallback && "function" === typeof pCallback) {
-                    pCallback();
-                }
-            });
-        });
+    function renderText(pAST, pOutStream, pOutputType){
+        pOutStream.write(mscgenjs.getTextRenderer(pOutputType).render(pAST));
     }
 
-    function transformToText(pInStream, pOutStream, pOutputType, pCallback){
+    function transform(pInStream, pOutStream, pOptions, pRenderFn, pCallback){
         var lInput = "";
 
         pInStream.resume();
@@ -95,35 +66,39 @@ module.exports = (function() {
         });
 
         pInStream.on("end", function() {
-            render = mscgenjs.getTextRenderer(pOutputType);
-            pOutStream.write(render.render(parser.parse(lInput)));
             pInStream.pause();
-            /* istanbul ignore else  */
-            if (!!pCallback && "function" === typeof pCallback) {
-                pCallback();
-            }
+            var lAST = 'json' === pOptions.inputType ?
+                JSON.parse(lInput) :
+                mscgenjs.getParser(pOptions.inputType).parse(lInput);
+            pRenderFn(lAST, lInput, pOutStream, pOptions, pCallback);
         });
     }
 
-    function transform (pInStream, pOutStream, pOutputType, pCallback) {
-        var GRAPHICSFORMATS = ['svg'];
-        if (GRAPHICSFORMATS.indexOf(pOutputType) > -1){
-            transformToChart (pInStream, pOutStream, pOutputType, pCallback);
+    function render(pAST, pInput, pOutStream, pOptions, pCallback) {
+        if (pOptions.parserOutput){
+            pOutStream.write(JSON.stringify(pAST, null, "  "));
+        } else if (GRAPHICSFORMATS.indexOf(pOptions.outputType) > -1) {
+            renderGraphics (pAST, pInput, pOutStream, pCallback);
+            return;
         } else {
-            transformToText (pInStream, pOutStream, pOutputType, pCallback);
+            renderText (pAST, pOutStream, pOptions.outputType);
+        }
+        /* istanbul ignore else  */
+        if (!!pCallback && "function" === typeof pCallback) {
+            pCallback();
         }
     }
 
-    return {
-        transform: function(pArgument, pOptions, pCallback) {
-            var lOutStream = getOutStream(pArgument, pOptions.outputTo);
-            var lInStream  = getInStream(pOptions.inputFrom);
 
-            if (pOptions.parserOutput) {
-                transformToAST(lInStream, lOutStream, pCallback);
-            } else {
-                transform(lInStream, lOutStream, pOptions.outputType, pCallback);
-            }
+    return {
+        transform: function(pOptions, pCallback) {
+            transform(
+                getInStream(pOptions.inputFrom),
+                getOutStream(pOptions.outputTo),
+                pOptions,
+                render,
+                pCallback
+            );
         },
 
         printLicense:

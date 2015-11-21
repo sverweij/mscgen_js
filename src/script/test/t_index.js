@@ -15,8 +15,8 @@ var gExpectedMscGenOutput = 'msc {\n\
 #;\n\
 }';
 
-/* 
- * NOTE: the cli/t_actions.js already excercises index.js for most scenarios. 
+/*
+ * NOTE: the cli/t_actions.js already excercises index.js for most scenarios.
  *       These tests cover the rest
  */
 
@@ -29,9 +29,9 @@ describe('index', function() {
             fix.astSimple
         );
     }
-    
+
     function isMscGenTextRenderer(pRenderer){
-        expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);        
+        expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);
     }
 
     describe('#getParser()', function() {
@@ -42,12 +42,12 @@ describe('index', function() {
             isMscGenParser(mscgenjs.getParser("c++"));
         });
     });
-    
+
     describe('#getTextRenderer()', function(){
         it('Returns the ast2mscgen renderer when not provided with arguments', function(){
             isMscGenTextRenderer(mscgenjs.getTextRenderer());
         });
-        
+
         it('Returns the ast2mscgen renderer when not with a valid argument', function(){
             isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
         });

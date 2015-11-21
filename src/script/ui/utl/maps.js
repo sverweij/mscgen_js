@@ -32,6 +32,10 @@ define([], function() {
                 "json" : "json",
                 "ast" : "json"
             };
+            if (!pString) {
+                return "mscgen";
+            }
+
             var lPos = pString.lastIndexOf(".");
             if (lPos > -1) {
                 var lExt = pString.slice(lPos + 1);

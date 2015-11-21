@@ -9,25 +9,27 @@
 // Also a nodejs/ phantomjs bridge exsists:
 //    https://github.com/sgentle/phantomjs-node
 /* jshint node:true */
-var program     = require("commander");
-var validations = require("./validations");
-var actions     = require("./actions");
+var program        = require("commander");
+var validations    = require("./validations");
+var actions        = require("./actions");
+var normalizations = require("./normalizations");
 
 const VERSION   = require("../../../package.json").version;
 
 try {
     program
         .version(VERSION)
-        .option("-T --output-type <type>", "Output file type: svg|mscgen|msgenny|xu|dot|doxygen", validations.validType)
+        .option("-T --output-type <type>", "Output file type: svg|mscgen|msgenny|xu|dot|doxygen", validations.validOutputType)
+        .option("-I --input-type <type>", "Input file type: mscgen|xu|msgenny|ast", validations.validInputType)
         .option("-i --input-from <file>", "File to read from. use - for stdin.")
         .option("-o --output-to <file>", "File to write to. use - for stdout.")
         .option("-p --parser-output", "Print parsed msc output")
         .option("-l --license", "Display license and exit", actions.printLicense)
         .arguments("[infile]")
         .parse(process.argv);
-
-    validations.validateArguments(program.args[0], program);
-    actions.transform(program.args[0], program);
+    normalizations.normalize(program.args[0], program);
+    validations.validateArguments(program);
+    actions.transform(program);
 } catch (e) {
     process.stderr.write(e.message);
 }

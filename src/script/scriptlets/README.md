@@ -1,28 +1,28 @@
-# Node command line scripts
-This folder contains a truckload of fairly trivial command line scripts
-that read from standard input and write to standard output. For example:
+# Node command line scriptlets
+This folder contained a truckload of fairly trivial command line scriptlets
+that read from standard input and wrote to standard output.
 
+The command line interface [`src/script/cli`](../cli) now replaces most of these scripts.
+
+To convert MsGenny to MscGen via stdin and stdout via that:
 ```sh
-# converts the input program bob_and_alice.msc to an
-# abstract syntax tree
-node msc2ast.js < bob_and_alice.msc > bob_and_alice.json
-
-# converts cool.msc to an abstract syntax tree and feeds
-# the result to the script that transforms these into
-# a picture
-node msc2ast.js < cool.msc | node ast2svg.js > cool.svg
+   node mscgen.js -I msgenny -T mscgen -i - -o - < simplesample.msgenny > simplesample.mscgen
 ```
 
+... or simpler, directly
+```sh
+   node mscgen.js -T mscgen -o simplesample.mscgen simplesample.msgenny 
+```
 
-## ast2svg.js
-Where mscgen_js usually renders SVG graphics through the browser engine,
-ast2svg.js uses `jsdom` - a node only implementation of the DOM. This works
-but has a few drawbacks:
-- Boxes and background colors might seem out of whack. This is
-  because the `getBBox` function - which is quite essential
-  when you need to know how big something is in an svg -  doesn't work.
-- It won't run in node versions higher than 0.10.x. This is
-  because jsdom supports to node version 0.10.x and continued
-  development against `iojs`.
+### `ast2svg_nosource`
+The only script remaining here. It takes an abstract syntax tree and renders 
+the SVG _without_ embedding the original source in it.
 
-Hence, we're looking for a replacement for jsdom.
+```sh
+    node ast2svg_nosource < funkysyntaxtree.json > vectorgraphicswitoutsource.svg
+```
+
+or in combination with the command line interface:
+```sh
+    node mscgen.js -p -i hello.mscin -o - | ast2svg_nosource > hello_without_source.svg
+```

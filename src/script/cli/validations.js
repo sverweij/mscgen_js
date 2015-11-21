@@ -2,14 +2,11 @@
 module.exports = (function() {
     "use strict";
     var fs              = require("fs");
-    const VALID_TYPE_RE = /^(svg|mscgen|msgenny|xu|dot|doxygen)$/;
+    const VALID_OUTPUT_TYPE_RE = /^(svg|mscgen|msgenny|xu|dot|doxygen)$/;
+    const VALID_INPUT_TYPE_RE = /^(mscgen|xu|msgenny|ast|json)$/;
 
     function isStdout(pFilename) {
         return "-" === pFilename;
-    }
-
-    function outputIsSpecified(pArgument, pOutputTo) {
-        return !!pArgument || !!pOutputTo;
     }
 
     function fileExists(pFilename) {
@@ -25,21 +22,29 @@ module.exports = (function() {
     }
 
     return {
-        validType: function(pType) {
-            if (pType.match(VALID_TYPE_RE)) {
+        validOutputType: function(pType) {
+            if (pType.match(VALID_OUTPUT_TYPE_RE)) {
                 return pType;
             }
 
             throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg and text formats (dot, doxygen, mscgen, msgenny, xu).\n\n");
         },
 
-        validateArguments: function(pArgument, pOptions) {
-            if (!outputIsSpecified(pArgument, pOptions.outputTo)) {
-                throw Error("\n  error: Please specify an output file.\n\n");
+        validInputType: function(pType) {
+            if (pType.match(VALID_INPUT_TYPE_RE)) {
+                return pType;
             }
 
+            throw Error("\n  error: '" + pType + "' is not a valid intput type. mscgen_js can only read mscgen, msgenny, xu and ast).\n\n");
+        },
+
+        validateArguments: function(pOptions) {
             if (!pOptions.inputFrom) {
                 throw Error("\n  error: Please specify an input file.\n\n");
+            }
+
+            if (!pOptions.outputTo) {
+                throw Error("\n  error: Please specify an output file.\n\n");
             }
 
             if (!fileExists(pOptions.inputFrom)) {
