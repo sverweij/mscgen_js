@@ -9,7 +9,7 @@
     "btoa": "1.1.2",
     "codemirror": "5.8.0",
     "jsdom": "7.0.2",
-    "requirejs": "2.1.21"
+    "requirejs": "2.1.22"
   },
   "devDependencies": {
     "bower": "1.6.5",
