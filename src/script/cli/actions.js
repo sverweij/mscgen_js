@@ -3,9 +3,9 @@ module.exports = (function() {
     "use strict";
     var fs        = require("fs");
     var mscgenjs  = require("..");
-    var jsdom     = require("jsdom");
+    // var jsdom     = require("jsdom");
 
-    const GRAPHICSFORMATS = ['svg'];
+    const GRAPHICSFORMATS = ['svg', 'png', 'jpeg'];
     const LICENSE = "\n" +
     "   mscgen_js - turns text into sequence charts\n" +
     "   Copyright (C) 2015  Sander Verweij\n" +
@@ -39,17 +39,51 @@ module.exports = (function() {
         }
     }
 
-    function renderGraphics(pAST, pInput, pOutStream, pCallback) {
-        jsdom.env("<html><body></body></html>", function(err, window) {
-            var renderer = mscgenjs.getGraphicsRenderer();
-            renderer.renderAST(pAST, pInput, "__svg", window);
-            pOutStream.write(window.document.body.innerHTML);
+    function renderGraphics(pAST, pInput, pOutputTo, pOutputType, pCallback){
+        var childProcess = require('child_process');
+        var path         = require('path');
+        var phantomjs    = require('phantomjs');
+        var binPath      = phantomjs.path;
+        var args         = [];
+
+        if ('svg' === pOutputType){
+            args.push(path.join(__dirname, '.', 'cli-phantom-vector.js'));
+        } else {
+            args.push(path.join(__dirname, '.', 'cli-phantom.js'));
+        }
+        args.push(path.join(__dirname, '.', 'cli-phantom.html'));
+        args.push(JSON.stringify(pAST, null, ''));
+        args.push(pOutputType);
+        args.push(pOutputTo);
+        args.push(pInput);
+
+        childProcess.execFile(binPath, args, function(pErr, pStdout, pStderr) {
+            if (pStdout) {
+                process.stdout.write(pStdout);
+            }
+            if (pStderr) {
+                process.stdout.write(pStderr);
+            }
             /* istanbul ignore else  */
             if (!!pCallback && "function" === typeof pCallback) {
                 pCallback();
             }
         });
     }
+
+    // function renderJSDOMGraphics(pAST, pInput, pOutputTo, pOutputType, pCallback) {
+    //     if ('svg' === pOutputType) {
+    //         jsdom.env("<html><body></body></html>", function(err, window) {
+    //             var renderer = mscgenjs.getGraphicsRenderer();
+    //             renderer.renderAST(pAST, pInput, "__svg", window);
+    //             getOutStream(pOutputTo).write(window.document.body.innerHTML);
+    //             /* istanbul ignore else  */
+    //             if (!!pCallback && "function" === typeof pCallback) {
+    //                 pCallback();
+    //             }
+    //         });
+    //     }
+    // }
 
     function renderText(pAST, pOutStream, pOutputType){
         pOutStream.write(mscgenjs.getTextRenderer(pOutputType).render(pAST));
@@ -78,7 +112,7 @@ module.exports = (function() {
         if (pOptions.parserOutput){
             pOutStream.write(JSON.stringify(pAST, null, "  "));
         } else if (GRAPHICSFORMATS.indexOf(pOptions.outputType) > -1) {
-            renderGraphics (pAST, pInput, pOutStream, pCallback);
+            renderGraphics (pAST, pInput, pOptions.outputTo, pOptions.outputType, pCallback);
             return;
         } else {
             renderText (pAST, pOutStream, pOptions.outputType);

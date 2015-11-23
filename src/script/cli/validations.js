@@ -2,7 +2,7 @@
 module.exports = (function() {
     "use strict";
     var fs              = require("fs");
-    const VALID_OUTPUT_TYPE_RE = /^(svg|mscgen|msgenny|xu|dot|doxygen)$/;
+    const VALID_OUTPUT_TYPE_RE = /^(svg|png|jpeg|mscgen|msgenny|xu|dot|doxygen)$/;
     const VALID_INPUT_TYPE_RE = /^(mscgen|xu|msgenny|ast|json)$/;
 
     function isStdout(pFilename) {
