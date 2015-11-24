@@ -1,3 +1,26 @@
+# javascript that can't get makedepended because it loads its
+# dependencies conditionally
+src/script/index.js: \
+	src/script/parse/mscgenparser_node \
+	src/script/parse/xuparser_node \
+	src/script/parse/msgennyparser_node \
+	src/script/render/text/ast2mscgen \
+	src/script/render/text/ast2msgenny \
+	src/script/render/text/ast2xu \
+	src/script/render/text/ast2dot \
+	src/script/render/text/ast2doxygen \
+	src/script/render/graphics/renderast
+
+src/script/cli/actions.js: \
+	src/script/cli/cli-phantom-vector.js \
+	src/script/cli/cli-phantom.js
+
+src/script/cli/cli-phantom-vector.js: \
+	src/script/cli/cli-phantom.html
+
+src/script/cli/cli-phantom.js: \
+	src/script/cli/cli-phantom.html
+
 src/style/interp.scss: \
 	src/lib/codemirror/lib/_codemirror.scss \
 	src/lib/codemirror/addon/dialog/_dialog.scss \
