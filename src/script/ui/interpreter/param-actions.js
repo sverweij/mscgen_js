@@ -6,12 +6,7 @@ define(["./uistate",
         "../utl/gaga",
         "../../utl/utensils"
         ],
-        function(
-            uistate,
-            params,
-            dq,
-            gaga,
-            _) {
+        function(uistate, params, dq, gaga, _) {
     "use strict";
 
     function setupGA (pDoNotTrack){
@@ -23,7 +18,7 @@ define(["./uistate",
     function processParams(){
         var lParams = params.getParams (window.location.search);
         setupGA(_.sanitizeBooleanesque(lParams.donottrack));
-        
+
         uistate.setDebug(false);
         if (_.sanitizeBooleanesque(lParams.debug)) {
             dq.doForAllOfClass("debug", function(pDomNode){
@@ -32,12 +27,12 @@ define(["./uistate",
             uistate.setDebug(true);
             gaga.g('send', 'event', 'debug', 'true');
         }
-        
+
         if (lParams.lang){
             uistate.setLanguage(lParams.lang);
             gaga.g('send', 'event', 'params.lang', lParams.lang);
         }
-        
+
         if (lParams.msc) {
             uistate.setSource(lParams.msc);
             gaga.g('send', 'event', 'params.msc');
@@ -47,15 +42,15 @@ define(["./uistate",
     }
 
     function tagAllLinks(){
-      dq.attachEventHandler("a[href]", "click", function(e){
-        var lTarget = "unknown";
+        dq.attachEventHandler("a[href]", "click", function(e){
+            var lTarget = "unknown";
 
-        if (e.currentTarget && e.currentTarget.href){
-            lTarget = e.currentTarget.href;
-        }
+            if (e.currentTarget && e.currentTarget.href){
+                lTarget = e.currentTarget.href;
+            }
 
-        gaga.g('send', 'event', 'link', lTarget);
-      });
+            gaga.g('send', 'event', 'link', lTarget);
+        });
     }
 
     return {

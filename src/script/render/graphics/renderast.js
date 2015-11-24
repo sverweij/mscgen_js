@@ -277,7 +277,7 @@ define(["./svgelementfactory",
         var lRowMemory = [];
 
         rowmemory.set(pRowNumber);
-        pArcRow.forEach(function(pArc,pArcNumber){
+        pArcRow.forEach(function(pArc, pArcNumber){
             var lCurrentId = id.get(pRowNumber.toString() + "_" + pArcNumber.toString());
             var lElement;
 

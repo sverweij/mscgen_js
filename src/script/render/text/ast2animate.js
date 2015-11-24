@@ -209,7 +209,7 @@ define(["../../utl/utensils"], function(utl) {
                  * drawing the bottom), but for one frame)
                  */
                 return pSum + (!!pArcRow[0].arcs ? _calculateLength(pArcRow[0]) : pArcRow.length);
-            },lRetval);
+            }, lRetval);
         }
         return lRetval;
     }

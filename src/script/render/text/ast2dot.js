@@ -52,7 +52,7 @@ function(flatten, txt, map, utl) {
     /* Attribute handling */
     function renderString(pString) {
         var lStringAry = txt.wrap(pString.replace(/\"/g, "\\\""), 40);
-        var lString = lStringAry.slice(0,-1).reduce(function(pPrev, pString){
+        var lString = lStringAry.slice(0, -1).reduce(function(pPrev, pString){
             return pPrev + pString + "\n";
         }, "");
         lString += lStringAry.slice(-1);
@@ -80,7 +80,7 @@ function(flatten, txt, map, utl) {
     function renderAttributeBlock(pAttrs) {
         var lRetVal = "";
         if (pAttrs.length > 0) {
-            lRetVal = pAttrs.slice(0,-1).reduce(function (pPrev, pAttr){
+            lRetVal = pAttrs.slice(0, -1).reduce(function (pPrev, pAttr){
                 return pPrev + pAttr + ", ";
             }, " [");
             lRetVal += pAttrs.slice(-1) + "]";
@@ -202,7 +202,7 @@ function(flatten, txt, map, utl) {
             return pPrevArcLine + pNextArcLine.reduce(function(pPrevArc, pNextArc){
                 return pPrevArc + renderArc(pNextArc, pIndent);
             }, "");
-        },"");
+        }, "");
     }
 
     return {

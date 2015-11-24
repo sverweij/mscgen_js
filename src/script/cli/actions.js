@@ -1,11 +1,11 @@
 /* jshint node:true, unused:true */
 module.exports = (function() {
     "use strict";
-    var fs     = require("fs");
-    var parser = require("../parse/xuparser_node");
-    var jsdom  = require("jsdom");
-    var render = require("../render/graphics/renderast");
+    var fs        = require("fs");
+    var mscgenjs  = require("..");
+    // var jsdom     = require("jsdom");
 
+    const GRAPHICSFORMATS = ['svg', 'png', 'jpeg'];
     const LICENSE = "\n" +
     "   mscgen_js - turns text into sequence charts\n" +
     "   Copyright (C) 2015  Sander Verweij\n" +
@@ -23,12 +23,11 @@ module.exports = (function() {
     "   You should have received a copy of the GNU General Public License\n" +
     "   along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\n";
 
-    function getOutStream(pArgument, pOutputTo) {
-        var lOutputTo = pArgument ? pArgument : pOutputTo;
-        if ("-" === lOutputTo) {
+    function getOutStream(pOutputTo) {
+        if ("-" === pOutputTo) {
             return process.stdout;
         } else {
-            return fs.createWriteStream(lOutputTo);
+            return fs.createWriteStream(pOutputTo);
         }
     }
 
@@ -40,19 +39,31 @@ module.exports = (function() {
         }
     }
 
-    function transformToAST(pInStream, pOutStream, pCallback) {
-        var lInput = "";
+    function renderGraphics(pAST, pInput, pOutputTo, pOutputType, pCallback){
+        var childProcess = require('child_process');
+        var path         = require('path');
+        var phantomjs    = require('phantomjs');
+        var binPath      = phantomjs.path;
+        var args         = [];
 
-        pInStream.resume();
-        pInStream.setEncoding("utf8");
+        if ('svg' === pOutputType){
+            args.push(path.join(__dirname, '.', 'cli-phantom-vector.js'));
+        } else {
+            args.push(path.join(__dirname, '.', 'cli-phantom.js'));
+        }
+        args.push(path.join(__dirname, '.', 'cli-phantom.html'));
+        args.push(JSON.stringify(pAST, null, ''));
+        args.push(pOutputType);
+        args.push(pOutputTo);
+        args.push(pInput);
 
-        pInStream.on("data", function(chunk) {
-            lInput += chunk;
-        });
-
-        pInStream.on("end", function() {
-            pOutStream.write(JSON.stringify(parser.parse(lInput), null, "  "));
-            pInStream.pause();
+        childProcess.execFile(binPath, args, function(pErr, pStdout, pStderr) {
+            if (pStdout) {
+                process.stdout.write(pStdout);
+            }
+            if (pStderr) {
+                process.stdout.write(pStderr);
+            }
             /* istanbul ignore else  */
             if (!!pCallback && "function" === typeof pCallback) {
                 pCallback();
@@ -60,39 +71,68 @@ module.exports = (function() {
         });
     }
 
-    function transformToChart(pInStream, pOutStream, pOutputType, pCallback) {
-        jsdom.env("<html><body></body></html>", function(err, window) {
-            var lInput = "";
+    // function renderJSDOMGraphics(pAST, pInput, pOutputTo, pOutputType, pCallback) {
+    //     if ('svg' === pOutputType) {
+    //         jsdom.env("<html><body></body></html>", function(err, window) {
+    //             var renderer = mscgenjs.getGraphicsRenderer();
+    //             renderer.renderAST(pAST, pInput, "__svg", window);
+    //             getOutStream(pOutputTo).write(window.document.body.innerHTML);
+    //             /* istanbul ignore else  */
+    //             if (!!pCallback && "function" === typeof pCallback) {
+    //                 pCallback();
+    //             }
+    //         });
+    //     }
+    // }
 
-            pInStream.resume();
-            pInStream.setEncoding("utf8");
+    function renderText(pAST, pOutStream, pOutputType){
+        pOutStream.write(mscgenjs.getTextRenderer(pOutputType).render(pAST));
+    }
 
-            pInStream.on("data", function(pChunk) {
-                lInput += pChunk;
-            });
+    function transform(pInStream, pOutStream, pOptions, pRenderFn, pCallback){
+        var lInput = "";
 
-            pInStream.on("end", function() {
-                render.renderAST(parser.parse(lInput), lInput, "__svg", window);
-                pOutStream.write(window.document.body.innerHTML);
-                pInStream.pause();
-                /* istanbul ignore else  */
-                if (!!pCallback && "function" === typeof pCallback) {
-                    pCallback();
-                }
-            });
+        pInStream.resume();
+        pInStream.setEncoding("utf8");
+
+        pInStream.on("data", function(pChunk) {
+            lInput += pChunk;
+        });
+
+        pInStream.on("end", function() {
+            pInStream.pause();
+            var lAST = 'json' === pOptions.inputType ?
+                JSON.parse(lInput) :
+                mscgenjs.getParser(pOptions.inputType).parse(lInput);
+            pRenderFn(lAST, lInput, pOutStream, pOptions, pCallback);
         });
     }
 
-    return {
-        transform: function(pArgument, pOptions, pCallback) {
-            var lOutStream = getOutStream(pArgument, pOptions.outputTo);
-            var lInStream  = getInStream(pOptions.inputFrom);
+    function render(pAST, pInput, pOutStream, pOptions, pCallback) {
+        if (pOptions.parserOutput){
+            pOutStream.write(JSON.stringify(pAST, null, "  "));
+        } else if (GRAPHICSFORMATS.indexOf(pOptions.outputType) > -1) {
+            renderGraphics (pAST, pInput, pOptions.outputTo, pOptions.outputType, pCallback);
+            return;
+        } else {
+            renderText (pAST, pOutStream, pOptions.outputType);
+        }
+        /* istanbul ignore else  */
+        if (!!pCallback && "function" === typeof pCallback) {
+            pCallback();
+        }
+    }
 
-            if (pOptions.parserOutput) {
-                transformToAST(lInStream, lOutStream, pCallback);
-            } else {
-                transformToChart(lInStream, lOutStream, pOptions.outputType, pCallback);
-            }
+
+    return {
+        transform: function(pOptions, pCallback) {
+            transform(
+                getInStream(pOptions.inputFrom),
+                getOutStream(pOptions.outputTo),
+                pOptions,
+                render,
+                pCallback
+            );
         },
 
         printLicense:

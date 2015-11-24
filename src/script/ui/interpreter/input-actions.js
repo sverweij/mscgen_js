@@ -5,13 +5,9 @@ define(["./uistate",
         "../utl/gaga",
         "../../render/text/colorize"
         ],
-        function(
-            uistate,
-            store,
-            gaga,
-            colorize) {
+        function(uistate, store, gaga, colorize) {
     "use strict";
-    
+
     function _applyColorScheme(pSchemeName, pForce){
         uistate.manipulateSource(function(pAST){
             return colorize.applyScheme(pAST, pSchemeName, pForce);
@@ -19,16 +15,16 @@ define(["./uistate",
         _closeColorPanel();
         gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? "_force" : ""), 'button');
     }
-    
+
     function _switchLanguage(pLanguage){
         uistate.switchLanguage(pLanguage);
         gaga.g('send', 'event', 'toggle_ms_genny', pLanguage);
     }
-    
+
     function _closeColorPanel(){
         window.__color_panel.style.height = '0';
     }
-    
+
     return {
         autorenderOnClick: function() {
             uistate.setAutoRender(!(uistate.getAutoRender()));

@@ -6,12 +6,7 @@ define(["./uistate",
         "../utl/domutl",
         "../utl/gaga"
         ],
-        function(
-            uistate,
-            animctrl,
-            xport,
-            dq,
-            gaga) {
+        function(uistate, animctrl, xport, dq, gaga) {
     "use strict";
 
     var ESC_KEY   = 27;
@@ -44,7 +39,7 @@ define(["./uistate",
         },
         linkToInterpreterOnClick: function() {
             uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
-            window.__embedsnippet.textContent = 
+            window.__embedsnippet.textContent =
                     xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
             uistate.showAutorenderState (uistate.getAutoRender());
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
@@ -56,14 +51,14 @@ define(["./uistate",
             gaga.g('send', 'event', 'link', "about");
         },
         keyDown: function (e) {
-           if(ESC_KEY === e.keyCode) {
+            if(ESC_KEY === e.keyCode) {
                 dq.SS(window.__cheatsheet).hide();
                 dq.SS(window.__embedsheet).hide();
                 dq.SS(window.__aboutsheet).hide();
                 animctrl.close();
                 window.__color_panel.style.height = '0';
                 window.__output_panel.style.height = '0';
-           }
+            }
         }
     };
 });

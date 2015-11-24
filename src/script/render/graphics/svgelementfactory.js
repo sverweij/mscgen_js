@@ -115,7 +115,7 @@ define(["./constants"], function(C) {
     }
 
     function _createNote(pBBox, pClass, pColor, pBgColor) {
-        var lFoldSizeN = Math.max(9,Math.min(4.5*C.LINE_WIDTH, pBBox.height/2));
+        var lFoldSizeN = Math.max(9, Math.min(4.5*C.LINE_WIDTH, pBBox.height/2));
         var lFoldSize = lFoldSizeN.toString(10);
 
         return _createPath(
