@@ -13,6 +13,7 @@ src/script/mscgen-inpage.js: \
 
 src/script/mscgen-interpreter.js: \
 	src/script/ui/interpreter/editor-events.js \
+	src/script/ui/interpreter/general-actions.js \
 	src/script/ui/interpreter/input-actions.js \
 	src/script/ui/interpreter/nav-actions.js \
 	src/script/ui/interpreter/output-actions.js \
@@ -121,14 +122,20 @@ src/script/ui/interpreter/editor-events.js: \
 	src/script/ui/utl/maps.js \
 	src/script/utl/utensils.js
 
+src/script/ui/interpreter/general-actions.js: \
+	src/script/ui/interpreter/animator.js \
+	src/script/ui/utl/domutl.js
+
 src/script/ui/interpreter/input-actions.js: \
 	src/script/render/text/colorize.js \
+	src/script/ui/interpreter/general-actions.js \
 	src/script/ui/interpreter/uistate.js \
 	src/script/ui/utl/gaga.js \
 	src/script/ui/utl/store.js
 
 src/script/ui/interpreter/nav-actions.js: \
 	src/script/ui/interpreter/animator.js \
+	src/script/ui/interpreter/general-actions.js \
 	src/script/ui/interpreter/uistate.js \
 	src/script/ui/utl/domutl.js \
 	src/script/ui/utl/exporter.js \
@@ -136,6 +143,7 @@ src/script/ui/interpreter/nav-actions.js: \
 
 src/script/ui/interpreter/output-actions.js: \
 	src/script/ui/interpreter/animator.js \
+	src/script/ui/interpreter/general-actions.js \
 	src/script/ui/interpreter/raster-exporter.js \
 	src/script/ui/interpreter/uistate.js \
 	src/script/ui/utl/domutl.js \
@@ -360,6 +368,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/render/text/textutensils.js \
 	src/script/ui/interpreter/animator.js \
 	src/script/ui/interpreter/editor-events.js \
+	src/script/ui/interpreter/general-actions.js \
 	src/script/ui/interpreter/input-actions.js \
 	src/script/ui/interpreter/nav-actions.js \
 	src/script/ui/interpreter/output-actions.js \

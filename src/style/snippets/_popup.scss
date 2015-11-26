@@ -74,13 +74,6 @@
 .popup img.aboutpic {
   width: 4em;
 }
-.popup .about-box-icon {
-    /* OK to not use the general colors here - logo */
-    cursor: default;
-    color: white;
-    text-shadow: black 0px 0px 6px;
-    font-size: 4em;
-}
 div.lightbox {
   display: none;
   top: 0;
@@ -107,6 +100,13 @@ div.lightbox a.close::before {
   height: 100%;
   opacity: 0;
   z-index: -1;
+}
+.popupsheet .about-box-icon {
+    /* OK to not use the general colors here - logo */
+    cursor: default;
+    color: white;
+    text-shadow: black 0px 0px 6px;
+    font-size: 3.5em;
 }
 @media screen and (max-width: 480px) {
   .popupsheet {

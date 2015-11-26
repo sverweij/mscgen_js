@@ -4,8 +4,9 @@ require(["ui/interpreter/input-actions",
          "ui/interpreter/output-actions",
          "ui/interpreter/nav-actions",
          "ui/interpreter/param-actions",
+         "ui/interpreter/general-actions",
          "ui/interpreter/editor-events"],
-        function(iactions, oactions, nactions, par, edit) {
+        function(iactions, oactions, nactions, par, gactions, edit) {
     "use strict";
 
     function setupInputEvents(){
@@ -52,7 +53,7 @@ require(["ui/interpreter/input-actions",
         window.__embedme.addEventListener("click", nactions.embedMeOnClick, false);
         window.__link_to_interpreter.addEventListener("click", nactions.linkToInterpreterOnClick, false);
         window.__about.addEventListener("click", nactions.aboutOnClick, false);
-        window.document.body.addEventListener("keydown", nactions.keyDown, false);
+        window.document.body.addEventListener("keydown", gactions.keyDown, false);
     }
 
     function setupEvents(){
