@@ -1,4 +1,4 @@
-/* jshint phantom:true */
+/* jshint phantom:true, strict: false */
 /* globals renderVectorInThePage */
 var system = require('system');
 var fs     = require('fs');

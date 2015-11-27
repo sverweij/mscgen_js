@@ -1,4 +1,4 @@
-/* jshint phantom:true */
+/* jshint phantom:true, strict: false */
 /* globals renderInThePage */
 var system = require('system');
 
