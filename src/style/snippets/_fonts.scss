@@ -1,16 +1,17 @@
 @font-face {
 	font-family: 'controls';
-	src:url('../fonts/controls.eot?k8caba');
-	src:url('../fonts/controls.eot?#iefixk8caba') format('embedded-opentype'),
-		url('../fonts/controls.ttf?k8caba') format('truetype'),
-		url('../fonts/controls.woff?k8caba') format('woff'),
-		url('../fonts/controls.svg?k8caba#controls') format('svg');
+	src:url('../fonts/controls.eot?idnwqz');
+	src:url('../fonts/controls.eot?idnwqz#iefix') format('embedded-opentype'),
+		url('../fonts/controls.ttf?idnwqz') format('truetype'),
+		url('../fonts/controls.woff?idnwqz') format('woff'),
+		url('../fonts/controls.svg?idnwqz#controls') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'controls';
+    /* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'controls' !important;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -39,3 +40,4 @@
 .icon-embed:before { content: "\e601"; }
 .icon-interpreter:before { content: "\e602"; }
 .icon-question:before { content: "\e603"; }
+.icon-opensource:before { content: "\e900"; }

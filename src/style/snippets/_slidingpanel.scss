@@ -21,7 +21,7 @@
     justify-content: space-between;
     -webkit-justify-content: space-between;
 }
-.sliding-panel > span {
+.sliding-panel > span.row {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -29,8 +29,8 @@
     justify-content: space-around;
     -webkit-justify-content: space-around;
 }
-.sliding-panel > a, .sliding-panel > span {
-    padding: 10px;
+.sliding-panel > a, .sliding-panel > span.row {
+    padding: 8px;
     border-bottom: $demarcation-line;
 }
 .sliding-panel a:hover {
@@ -49,4 +49,28 @@
   padding: 1em;
   color: inherit;
   background-color: transparent;
+}
+.sliding-panel .about-box-icon {
+    /* OK to not use the general colors here - logo */
+    cursor: default;
+    color: white;
+    text-shadow: black 0px 0px 6px;
+    font-size: 3.5em;
+}
+.sliding-panel .column-picture {
+    width: 4em;
+    margin: 0 0.5em 0 0.5em;
+}
+.sliding-panel .column-text {
+    width: 25%;
+}
+.sliding-panel h2 {
+    margin: 0.5em 0 0 0.5em;
+}
+.sliding-panel h3 {
+    margin: 0;
+}
+.sliding-panel p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }

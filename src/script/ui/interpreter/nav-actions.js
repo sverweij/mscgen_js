@@ -4,12 +4,11 @@ define(["./uistate",
         "./animator",
         "../utl/exporter",
         "../utl/domutl",
+        "./general-actions",
         "../utl/gaga"
         ],
-        function(uistate, animctrl, xport, dq, gaga) {
+        function(uistate, animctrl, xport, dq, gactions, gaga) {
     "use strict";
-
-    var ESC_KEY   = 27;
 
     return {
         closeCheatSheet: function() {
@@ -21,20 +20,19 @@ define(["./uistate",
             gaga.g('send', 'event', 'close_embedsheet', 'button');
         },
         closeAboutSheet: function() {
-            dq.SS(window.__aboutsheet).hide();
+            gactions.hideAllPanels();
+            // _closeAboutPanel();
             gaga.g('send', 'event', 'close_aboutsheet', 'button');
         },
         helpMeOnClick: function() {
-            dq.SS(window.__embedsheet).hide();
+            gactions.hideAllPanels();
             dq.SS(window.__cheatsheet).toggle();
-            dq.SS(window.__aboutsheet).hide();
             gaga.g('send', 'event', 'link', "helpme");
         },
         embedMeOnClick: function() {
-            dq.SS(window.__cheatsheet).hide();
+            gactions.hideAllPanels();
             window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
             dq.SS(window.__embedsheet).toggle();
-            dq.SS(window.__aboutsheet).hide();
             gaga.g('send', 'event', 'link', "embedme");
         },
         linkToInterpreterOnClick: function() {
@@ -44,22 +42,17 @@ define(["./uistate",
             uistate.showAutorenderState (uistate.getAutoRender());
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
-        aboutOnClick: function() {
-            dq.SS(window.__embedsheet).hide();
-            dq.SS(window.__cheatsheet).hide();
-            dq.SS(window.__aboutsheet).toggle();
-            gaga.g('send', 'event', 'link', "about");
+        aboutOnClick: function(){
+            gactions.togglePanel(
+                window.__aboutsheet,
+                function(){
+                    gaga.g('send', 'event', 'link', 'about');
+                },
+                function(){
+                    gaga.g('send', 'event', 'close_aboutsheet', 'button');
+                }
+            );
         },
-        keyDown: function (e) {
-            if(ESC_KEY === e.keyCode) {
-                dq.SS(window.__cheatsheet).hide();
-                dq.SS(window.__embedsheet).hide();
-                dq.SS(window.__aboutsheet).hide();
-                animctrl.close();
-                window.__color_panel.style.height = '0';
-                window.__output_panel.style.height = '0';
-            }
-        }
     };
 });
 /*

@@ -5,14 +5,11 @@ define(["./uistate",
         "../utl/exporter",
         "./raster-exporter",
         "../utl/domutl",
+        "./general-actions",
         "../utl/gaga"
         ],
-        function(uistate, animctrl, xport, rxport, dq, gaga) {
+        function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
     "use strict";
-
-    function _closeExportPanel(){
-        window.__output_panel.style.height = '0';
-    }
 
     return {
         svgOnDblClick: function() {
@@ -65,17 +62,14 @@ define(["./uistate",
             gaga.g('send', 'event', 'link', "error");
         },
         moreExportOptionsOnClick: function(){
-            var lHeight = window.__output_panel.style.height.toString();
-            if ( lHeight === '0px' || lHeight === ""){
-                window.__output_panel.style.height = '250px';
-                gaga.g('send', 'event', 'export.open', 'button');
-            } else {
-                _closeExportPanel();
-                gaga.g('send', 'event', 'export.close', 'button');
-            }
+            gactions.togglePanel(
+                window.__output_panel,
+                function(){gaga.g('send', 'event', 'export.open', 'button');},
+                function(){gaga.g('send', 'event', 'export.close', 'button');}
+            );
         },
         closeExportOptions: function(){
-            _closeExportPanel();
+            gactions.hideAllPanels();
             gaga.g('send', 'event', 'exportPanel.close', 'button');
         }
     };

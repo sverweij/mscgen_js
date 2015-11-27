@@ -1,7 +1,16 @@
+.showontablet {
+  display: none;
+}
+.showonmobile {
+  display: none;
+}
 @media screen {
     @media (max-width: 1164px) {
       .hideontablet {
         display: none;
+      }
+      .showontablet {
+        display: block;
       }
     }
     @media (max-width: 639px) {

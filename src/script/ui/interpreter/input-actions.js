@@ -3,26 +3,23 @@
 define(["./uistate",
         "../utl/store",
         "../utl/gaga",
-        "../../render/text/colorize"
+        "../../render/text/colorize",
+        "./general-actions"
         ],
-        function(uistate, store, gaga, colorize) {
+        function(uistate, store, gaga, colorize, gactions) {
     "use strict";
 
     function _applyColorScheme(pSchemeName, pForce){
         uistate.manipulateSource(function(pAST){
             return colorize.applyScheme(pAST, pSchemeName, pForce);
         });
-        _closeColorPanel();
+        gactions.hideAllPanels();
         gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? "_force" : ""), 'button');
     }
 
     function _switchLanguage(pLanguage){
         uistate.switchLanguage(pLanguage);
         gaga.g('send', 'event', 'toggle_ms_genny', pLanguage);
-    }
-
-    function _closeColorPanel(){
-        window.__color_panel.style.height = '0';
     }
 
     return {
@@ -45,7 +42,7 @@ define(["./uistate",
         colorRoseFOnClick: function(){ _applyColorScheme("rosy", true); },
         uncolorizeOnClick: function() {
             uistate.manipulateSource(colorize.uncolor);
-            _closeColorPanel();
+            gactions.hideAllPanels();
             gaga.g('send', 'event', 'color.remove', 'button');
         },
         renderOnClick: function() {
@@ -65,17 +62,14 @@ define(["./uistate",
             gaga.g('send', 'event', 'load', 'button');
         },
         moreColorSchemesOnClick: function(){
-            var lHeight = window.__color_panel.style.height.toString();
-            if ( lHeight === '0px' || lHeight === ""){
-                window.__color_panel.style.height = '250px';
-                gaga.g('send', 'event', 'more_color_schemes.open', 'button');
-            } else {
-                _closeColorPanel();
-                gaga.g('send', 'event', 'more_color_schemes.close', 'button');
-            }
+            gactions.togglePanel(
+                window.__color_panel,
+                function(){gaga.g('send', 'event', 'more_color_schemes.open', 'button');},
+                function(){gaga.g('send', 'event', 'more_color_schemes.close', 'button');}
+            );
         },
         closeColorPanel: function(){
-            _closeColorPanel();
+            gactions.hideAllPanels();
             gaga.g('send', 'event', 'color.close', 'button');
         }
     };
