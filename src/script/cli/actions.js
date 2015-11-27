@@ -1,9 +1,8 @@
-/* jshint node:true, unused:true */
+/* jshint node:true, unused:true, esnext: true */
 module.exports = (function() {
     "use strict";
     var fs        = require("fs");
     var mscgenjs  = require("..");
-    // var jsdom     = require("jsdom");
 
     const GRAPHICSFORMATS = ['svg', 'png', 'jpeg'];
     const LICENSE = "\n" +
@@ -62,7 +61,7 @@ module.exports = (function() {
                 process.stdout.write(pStdout);
             }
             if (pStderr) {
-                process.stdout.write(pStderr);
+                process.stderr.write(pStderr);
             }
             /* istanbul ignore else  */
             if (!!pCallback && "function" === typeof pCallback) {
@@ -70,20 +69,6 @@ module.exports = (function() {
             }
         });
     }
-
-    // function renderJSDOMGraphics(pAST, pInput, pOutputTo, pOutputType, pCallback) {
-    //     if ('svg' === pOutputType) {
-    //         jsdom.env("<html><body></body></html>", function(err, window) {
-    //             var renderer = mscgenjs.getGraphicsRenderer();
-    //             renderer.renderAST(pAST, pInput, "__svg", window);
-    //             getOutStream(pOutputTo).write(window.document.body.innerHTML);
-    //             /* istanbul ignore else  */
-    //             if (!!pCallback && "function" === typeof pCallback) {
-    //                 pCallback();
-    //             }
-    //         });
-    //     }
-    // }
 
     function renderText(pAST, pOutStream, pOutputType){
         pOutStream.write(mscgenjs.getTextRenderer(pOutputType).render(pAST));

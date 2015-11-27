@@ -1,4 +1,4 @@
-/* jshint node:true */
+/* jshint node:true, esnext:true */
 module.exports = (function() {
     "use strict";
     var fs              = require("fs");

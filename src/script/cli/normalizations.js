@@ -1,3 +1,4 @@
+/* jshint node:true */
 module.exports = (function() {
     "use strict";
     var path = require("path");
