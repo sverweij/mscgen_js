@@ -62,15 +62,11 @@ define(["./uistate",
             gaga.g('send', 'event', 'link', "error");
         },
         moreExportOptionsOnClick: function(){
-            var lHeight = window.__output_panel.style.height.toString();
-            if ( lHeight === '0px' || lHeight === ""){
-                gactions.hideAllPanels();
-                window.__output_panel.style.height = '250px';
-                gaga.g('send', 'event', 'export.open', 'button');
-            } else {
-                gactions.hideAllPanels();
-                gaga.g('send', 'event', 'export.close', 'button');
-            }
+            gactions.togglePanel(
+                window.__output_panel,
+                function(){gaga.g('send', 'event', 'export.open', 'button');},
+                function(){gaga.g('send', 'event', 'export.close', 'button');}
+            );
         },
         closeExportOptions: function(){
             gactions.hideAllPanels();

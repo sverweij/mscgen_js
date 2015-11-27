@@ -17,10 +17,24 @@ define(["./animator", "../utl/domutl"],
         window.__color_panel.style.height = '0';
         window.__output_panel.style.height = '0';
         window.__aboutsheet.style.height = '0';
+        // window.__cheatsheet.style.height = '0';
+    }
+
+    function _togglePanel(pPanelElement, pOpenFn, pCloseFn){
+        var lHeight = pPanelElement.style.height.toString();
+        if ( lHeight === '0px' || lHeight === ""){
+            _hideAllPanels();
+            pPanelElement.style.height = '250px';
+            pOpenFn();
+        } else {
+            _hideAllPanels();
+            pCloseFn();
+        }
     }
 
     return {
         hideAllPanels: _hideAllPanels,
+        togglePanel: _togglePanel,
         keyDown: function (e) {
             if(ESC_KEY === e.keyCode) {
                 _hideAllPanels();

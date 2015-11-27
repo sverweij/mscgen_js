@@ -43,15 +43,15 @@ define(["./uistate",
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
         aboutOnClick: function(){
-            var lHeight = window.__aboutsheet.style.height.toString();
-            if ( lHeight === '0px' || lHeight === ""){
-                gactions.hideAllPanels();
-                window.__aboutsheet.style.height = '250px';
-                gaga.g('send', 'event', 'link', 'about');
-            } else {
-                gactions.hideAllPanels();
-                gaga.g('send', 'event', 'close_aboutsheet', 'button');
-            }
+            gactions.togglePanel(
+                window.__aboutsheet,
+                function(){
+                    gaga.g('send', 'event', 'link', 'about');
+                },
+                function(){
+                    gaga.g('send', 'event', 'close_aboutsheet', 'button');
+                }
+            );
         },
     };
 });
