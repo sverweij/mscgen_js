@@ -1,5 +1,5 @@
-# xù - a mscgen super set
-_**It is mscgen, but not as we know it**_
+# xù - an MscGen super set
+_**It is MscGen, but not as we know it**_
 
 ## Inline expressions
 [SDL][2] has a feature called _inline expressions_. They allow you to group a bunch of
@@ -10,11 +10,11 @@ paragraph 14.3.3 of the linked document for details).
 
 Behaviour specification is not a particularly strong suit of interaction diagrams
 (sequence charts/ diagrams/ collaboration diagrams), as Martin Fowler
-correctly notes in [UML distilled][1]. At this time (December 2013) mscgen does not
+correctly notes in [UML distilled][1]. At this time (November 2015) MscGen does not
 support them.
 
-Nonetheless inline expressions are damn handy. Hence xù, a superset of mscgen
-including them.
+Nonetheless inline expressions are damn handy. Hence xù, a superset
+of MscGen that does include them.
 
 ## An example
 This is an example of a xù script describing an interaction that loops over
@@ -130,7 +130,7 @@ xu {
     a =>> * [label="hi"];
     ---;
     b =>> * [label="hi"];
-    ---; 
+    ---;
     c =>> * [label="hi"];
   };
   a aboxc [label="Now we know each other a bit"];
@@ -158,7 +158,11 @@ john alt bike: weather is nice {
 ```
 
 ## translating back to MscGen
-- ```ast2mscgen``` handles by translating inline expressions to horizontal lines ("---")
+- The [command line interface][5] handles by translating inline expressions to horizontal lines ("---")
+```sh
+# translate Xù back to MscGen
+mscgen_js --output-type mscgen --input-fron funkyInlineThings.xu --output-to funkyFlattenedInlineThings.mscgen
+```
 - The on line interpreter, in debug mode, has an _Export this chart to Vanilla MscGen_ option behind the `...` button. - e.g. for the [Johnny, bike, shed example](https://sverweij.github.io/mscgen_js//index.html?lang=xu&debug=true&msc=msc%20{%0A%20%20john%2C%0A%20%20shed%2C%0A%20%20bike%3B%0A%0A%20%20john%20alt%20bike%20[label%3D%22weather%20is%20nice%22]%20{%0A%20%20%20%20john%20%3D%3E%3E%20shed%20[label%3D%22get%28bike%29%22]%3B%0A%20%20%20%20shed%20%3E%3E%20john%20[label%3D%22bike%22]%3B%0A%20%20%20%20john%20%3D%3E%3E%20bike%20[label%3D%22use%22]%3B%0A%20%20%20%20---%20[label%3D%22else%22]%3B%0A%20%20%20%20|||%20[label%3D%22john%20stays%20at%20home%22]%3B%0A%20%20}%3B%0A})
 
 
@@ -252,3 +256,4 @@ To start the interpreter in debug mode, pass `debug=true` to the url:
 [2]: http://www.sdl-rt.org/standard/V2.3/html/index.htm
 [3]: http://www.omg.org/spec/UML/2.4.1/Superstructure/PDF/
 [4]: ../src/script/parse/peg/xuparser.pegjs
+[5]: ../src/script/cli/README.md
