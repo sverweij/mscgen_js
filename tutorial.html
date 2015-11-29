@@ -50,7 +50,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - learn</title>
-<link rel="stylesheet" href="style/doc.css?6f7336beb1b66d94" type="text/css" media="screen, print">
+<link rel="stylesheet" href="style/doc.css?07f63aa13448cb4f" type="text/css" media="screen, print">
 <script>
     /**
      * The mscgen_js_config is optional, as are the options
@@ -62,7 +62,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         clickURL: "./"   // default: https://sverweij.github.io/mscgen_js/
     };
 </script>
-<script src="mscgen-inpage.js?6f7336beb1b66d94" defer></script>
+<script src="mscgen-inpage.js?07f63aa13448cb4f" defer></script>
 <script>
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -109,11 +109,11 @@ ga ('send', 'pageview');
     <h1 class="first-title-on-page">Introduction</h1>
     <p>
         This is a short (but complete) tutorial on creating sequence charts in plain text.
-        It covers 
+        It covers
         <nav>
         <ul>
             <li>the <a href="#mscgen">MsGenny</a> language,</li>
-            <li><a href="#mscgen">MscGen</a> and</li>
+            <li><a href="#mscgen">MscGen</a> and <a href="#xu">Xù</a></li>
             <li>the <a href="#interpreter">on line interpreter</a>.</li>
         </ul>
         </nav
@@ -121,13 +121,13 @@ ga ('send', 'pageview');
     <h3 class="no-number">Tips</h3>
     <ul>
         <li><b>New? start with MsGenny</b>
-            <p>MsGenny is the simplest of the 
+            <p>MsGenny is the simplest of the
             supported languages and most concepts used in MsGenny apply
             in MscGen too.</p>
         </li>
-        <li><b>Charts are clickable</b> 
-            <p>You can open each chart in this tutorial in the online 
-                interpreter by clicking it. 
+        <li><b>Charts are clickable</b>
+            <p>You can open each chart in this tutorial in the online
+                interpreter by clicking it.
             </p>
         </li>
         <li><b>Cheat sheet</b>
@@ -136,9 +136,9 @@ ga ('send', 'pageview');
         as <a href="images/test14_cheat_sheet.png">png</a>) which is also easily accessible from the
         interpreter.</li>
         <li><b>Fun fact: no pictures</b>
-            <p>This tutorial contains (almost) no pictures. The charts you see on this page are 
-                rendered by your browser, with a little help from the mscgen_js library. 
-                If you want to use this in your own pages as well check out 
+            <p>This tutorial contains (almost) no pictures. The charts you see on this page are
+                rendered by your browser, with a little help from the mscgen_js library.
+                If you want to use this in your own pages as well check out
                 the <a href="embed.html">embedding</a> page.
             </p>
         </li>
@@ -217,10 +217,10 @@ ga ('send', 'pageview');
 a -> b;
 </pre>
 <span class="mscgen_js" data-language="msgenny">a -> b;</span>
-<p>As you can see this creates two entities (a and b), both with a lifeline, 
+<p>As you can see this creates two entities (a and b), both with a lifeline,
     and an arrow from the first to the second lifeline.
 </p>
-<p class="info">Entity names can consist of almost any unicode character, so 
+<p class="info">Entity names can consist of almost any unicode character, so
     you can write things like <code>差出人 -> 受信機;</code>
     <!-- <br><span class="mscgen_js" data-language="msgenny">差出人 -> 受信機;</span> -->
 </p>
@@ -523,9 +523,9 @@ c rbox d : rbox (MSC reference);</span>
     <li>With a few simple lines of text you can create a sequence chart.</li>
     <li>You don't have to bother with layout.</li>
     <li>There's a lot of arcs (/arrows) to choose from; the same as in MscGen.</li>
-</ul>    
+</ul>
 <p>
-    We've thrown the most important ones in 
+    We've thrown the most important ones in
     a cheat sheet (see below). A smaller version of the sheet is available
     as (<a href="images/test14_cheat_sheet.svg" target="_blank">svg</a>,
 <a href="images/test14_cheat_sheet.png" target="_blank">png</a>) and directly
@@ -612,8 +612,9 @@ a =>> b;
 <p class="info">
     <strong>Mimicing this in mscgen</strong> A way to do nesting in mscgen is to
     use arrowless arcs for the top and the bottom of the inline expression.
-    The <code>ast2mscgen</code> (node.js) script will help you do that:
-    <code style="display: block">node msgenny2ast.js &lt; yourscript.msgenny | node ast2mscgen.js > yourscript.mscgen</code>
+    The <a href="https://github.com/sverweij/mscgen_js/tree/master/src/script/cli">command line interface</a>
+    script will help you do that:<br><br>
+    <code style="display: block">mscgen_js --output-type mscgen --input-from yourscript.msgenny --output-to yourscript.mscgen</code>
 </p>
 <h3 id="watermark">Watermark</h3>
 <p>
@@ -637,7 +638,8 @@ Alice => Alice: hihihi;</mscgen>
     <strong>Mimicing this in mscgen</strong> There are several ways to get a similar
     message accross in mscgen. The simplest one is to put the text in an
     empty row somewhere (<code>||| [label="Watermark", textcolor="gray"];</code>).
-    For now <code>ast2mscgen</code> ignores the watermark option.
+    For now the command line interface ignores the watermark option when translating
+    back to MscGen
 </p>
 </section>
 </article>
@@ -687,14 +689,14 @@ these will get lost in the translation.
 <h3>Color</h3>
 <p>When you hit the <em>color</em> button you can either:
     <ul>
-        <li>Pick one of three color schemes which adds coloring attributes 
+        <li>Pick one of three color schemes which adds coloring attributes
             to the mscgen source code.
         </li>
         <li>Remove any colors from the source.
         </li>
     </ul>
 </p>
-<p>For example, here is what the what applying the 'Automatic' color scheme 
+<p>For example, here is what the what applying the 'Automatic' color scheme
     will get you:
 </p>
 <div>
@@ -728,7 +730,7 @@ these will get lost in the translation.
     Each color scheme has two variants:
     <ul>
         <li><b>respect existing colors</b>
-            <p>If an element already has a color attribute <em>of any kind</em> 
+            <p>If an element already has a color attribute <em>of any kind</em>
                 applying the scheme will not change the colors for that element.</p>
         </li>
         <li><b>forced</b>
@@ -755,7 +757,7 @@ these will get lost in the translation.
 </p>
 
 <h3>The little film camera icon</h3>
-<p>Animates the current sequence chart. When you click it, a light 
+<p>Animates the current sequence chart. When you click it, a light
     box opens:</p>
 <img itemprop="image" class="shadow" src="images/animation-sample.gif" alt="a simple sequence chart - animated">
 <p>
@@ -766,7 +768,7 @@ these will get lost in the translation.
 <p>The animation feature is an attempt to capture the feeling of seeing
     a sequence chart grow on a whiteboard. We noticed that when we <em>draw</em>
     sequence charts, even people who have never seen one immediately grasp
-    what is going on. 
+    what is going on.
 </p>
 
 <h3>Bookmarkable url</h3>
@@ -776,7 +778,7 @@ program currently in the editor e.g.
 <ul>
     <li>Usefull for bookmarking a chart you're working on</li>
     <li>Works for programs up till a size of approximately 2k.</li>
-    <li>When 'Auto render' is on, mscgen_js updates the url as you type.</li> 
+    <li>When 'Auto render' is on, mscgen_js updates the url as you type.</li>
 </ul></p>
 </li>
 
@@ -798,8 +800,8 @@ you'll notice the interpreter grows some extra features:
     <li><b>Extra export options</b>
         <p><ul>
             <li><em>Doxygen</em>
-                <p>Opens a new window with the current chart translated into vanilla mscgen, 
-                    
+                <p>Opens a new window with the current chart translated into vanilla mscgen,
+
                     embedded in a comment that plays nice with <a href="https://www.stack.nl/~dimitri/doxygen/">doxygen</a>.
                 </p>
             </li>
@@ -819,8 +821,8 @@ you'll notice the interpreter grows some extra features:
         </ul></p>
     </li>
     <li><b><em>save</em> and <em>load</em> buttons</b>
-        <p>These buttons respectively save and load the current chart to 
-            and from local storage, so you can keep working on the 
+        <p>These buttons respectively save and load the current chart to
+            and from local storage, so you can keep working on the
             same chart even after closing the browser.
         </p>
     </li>
@@ -949,13 +951,13 @@ you have two options:
         <pre class="code mscgen">msc {
     <mark>"</mark>差出人<mark>"</mark>,
     <mark>"</mark>受信機<mark>"</mark>;
-    
+
     <mark>"</mark>差出人<mark>"</mark> -> <mark>"</mark>受信機<mark>"</mark> [label="信息"];
 }</pre>
         <span class="mscgen_js">msc{
     "差出人",
     "受信機";
-    
+
     "差出人" -> "受信機" [label="信息"];
 }</span>
         </p>
@@ -965,13 +967,13 @@ you have two options:
             <pre class="code mscgen">msc {
     sender <mark>[label="差出人"]</mark>,
     receiver <mark>[label="受信機"]</mark>;
-    
+
     sender -> receiver [label="信息"];
 }</pre>
             <span class="mscgen_js">msc {
     sender [label="差出人"],
     receiver[label="受信機"];
-    
+
     sender -> receiver [label="信息"];
 }</span>
         </p>
@@ -1162,6 +1164,146 @@ msc {
               id="id links to about:blank",
               idurl="about:blank"];
 }</mscgen>
+</section>
+</article>
+<article itemscope itemtype="http://schema.org/Article" id="xu">
+<h1 itemprop="name">The Xù language - an superset of MscGen</h1>
+<section>
+    <p>
+        Xù is a little language that combines the features of MscGen and
+        MsGenny:
+        <ul>
+            <li>
+                <b>Superset of MscGen</b>
+                <p>
+                    All features of MscGen work in Xù, using the same syntax.
+                </p>
+            </li>
+            <li>
+                <b>Inline expressions</b> and <b>watermarks</b>
+                <p>
+                    Xù and MsGenny were developed in parallel and support
+                    the same 'extra' features: so all inline expressions
+                    and watermarks work in Xù as well.
+                </p>
+                <p>
+                    The syntax for inline expressions is more close to
+                    MscGen syntax to allow for color attributes. 
+                    <pre class="code msgenny"># MsGenny
+a alt b: a label {
+    ...;
+};
+                    </pre>
+                    <pre class="code msgenny"># Xù
+a alt b [label="a label"] {
+    ...;
+};
+                    </pre>
+                </p>
+            </li>
+            <li>
+                <b>Coloring inline expressions</b>
+                <p>
+                    MscGen features extend to inline expressions:
+                    <ul>
+                        <li>
+                            You can color their lines and text with
+                            linecolor, textcolor and textbgcolor.
+                        </li>
+                        <li>
+                            You can color the lines and text of all arcs
+                            <em>within</em> the inline expression with
+                            arclinecolor, arctextcolor and arctextbgcolor.
+                        </li>
+                    </ul>
+                </p>
+            </li>
+        </ul>
+    </p>
+</section>
+<section>
+    <h2>An example</h2>
+    <span class="mscgen_js" data-language="xu">
+        # facebook authentication
+        # adopted from http://www.uml-diagrams.org/sequence-diagrams-examples.html#facebook-authentication
+        msc {
+          wordwraparcs=on,
+          hscale="0.85",
+          watermark="序 sample: FaceBook auth";
+
+          act [label="Actor", linecolor="darkgreen", textcolor="white", textbgcolor="darkgreen", arclinecolor="darkgreen", arctextcolor="darkgreen"],
+          browser [label=":WebBrowser", linecolor="darkgreen", textcolor="white", textbgcolor="darkgreen", arclinecolor="darkgreen", arctextcolor="darkgreen"],
+          app [label="Application", linecolor="maroon", textcolor="white", textbgcolor="maroon", arclinecolor="maroon", arctextcolor="maroon"],
+          fbauth [label="Facebook Authorization Server", linecolor="#3a5795", textcolor="white", textbgcolor="#3a5795", arclinecolor="#3a5795", arctextcolor="#3a5795"],
+          fbcont [label="Facebook Content Server", linecolor="#3a5795", textcolor="white", textbgcolor="#3a5795", arclinecolor="#3a5795", arctextcolor="#3a5795"];
+
+          act => browser [label="get FB resource"];
+          browser => app [label="request FB access"];
+          app >> browser [label="&lt;&lt;http redirect>>"];
+          browser => fbauth [label="authorize"];
+          fbauth >> browser [label="permission form"];
+          browser >> act [label="permission form"];
+
+          act => browser [label="user permission"];
+          browser => fbauth [label="process permission"];
+          fbauth >> browser [label="&lt;&lt;http redirect>>"];
+
+          act alt fbcont [label="permission granted", linecolor="grey", textcolor="black"] {
+            browser => app [label="FB authorization code"];
+            app => fbauth [label="FB authorization code"];
+            fbauth >> app [label="access token"];
+            app => fbcont [label="access FB user protected resource"];
+            fbcont >> app [label="protected resource"];
+            app >> browser [label="protected resource"];
+            browser >> act [label="protected resource"];
+            --- [label="no permission", linecolor="grey", textbgcolor="white", textcolor="black"];
+            browser => app [label="no authorization"];
+            app >> browser [label="FB resource not available"];
+            browser >> act [label="FB resource not available"];
+          };
+        }
+    </span>
+    <p>
+        The source for this:
+    </p>
+    <pre class="code mscgen"># facebook authentication
+# adopted from http://www.uml-diagrams.org/sequence-diagrams-examples.html#facebook-authentication
+msc {
+  wordwraparcs=on,
+  hscale="0.85",
+  watermark="序 sample: FaceBook auth";
+
+  act [label="Actor", linecolor="darkgreen", textcolor="white", textbgcolor="darkgreen", arclinecolor="darkgreen", arctextcolor="darkgreen"],
+  browser [label=":WebBrowser", linecolor="darkgreen", textcolor="white", textbgcolor="darkgreen", arclinecolor="darkgreen", arctextcolor="darkgreen"],
+  app [label="Application", linecolor="maroon", textcolor="white", textbgcolor="maroon", arclinecolor="maroon", arctextcolor="maroon"],
+  fbauth [label="Facebook Authorization Server", linecolor="#3a5795", textcolor="white", textbgcolor="#3a5795", arclinecolor="#3a5795", arctextcolor="#3a5795"],
+  fbcont [label="Facebook Content Server", linecolor="#3a5795", textcolor="white", textbgcolor="#3a5795", arclinecolor="#3a5795", arctextcolor="#3a5795"];
+
+  act => browser [label="get FB resource"];
+  browser => app [label="request FB access"];
+  app >> browser [label="&lt;&lt;http redirect>>"];
+  browser => fbauth [label="authorize"];
+  fbauth >> browser [label="permission form"];
+  browser >> act [label="permission form"];
+
+  act => browser [label="user permission"];
+  browser => fbauth [label="process permission"];
+  fbauth >> browser [label="&lt;&lt;http redirect>>"];
+
+  act alt fbcont [label="permission granted", linecolor="grey", textcolor="black"] {
+    browser => app [label="FB authorization code"];
+    app => fbauth [label="FB authorization code"];
+    fbauth >> app [label="access token"];
+    app => fbcont [label="access FB user protected resource"];
+    fbcont >> app [label="protected resource"];
+    app >> browser [label="protected resource"];
+    browser >> act [label="protected resource"];
+    --- [label="no permission", linecolor="grey", textbgcolor="white", textcolor="black"];
+    browser => app [label="no authorization"];
+    app >> browser [label="FB resource not available"];
+    browser >> act [label="FB resource not available"];
+  };
+}</pre>
 </section>
 </article>
 <div id="about" class="popupsheet lightbox">

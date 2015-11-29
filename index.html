@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?6f7336beb1b66d94"
+        <link rel="stylesheet" href="style/interp.css?07f63aa13448cb4f"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?6f7336beb1b66d94"
-        src="lib/require.js?6f7336beb1b66d94" defer></script>
+        <script data-main="script/mscgen-interpreter.js?07f63aa13448cb4f"
+        src="lib/require.js?07f63aa13448cb4f" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -77,7 +77,6 @@
                 60% { transform: rotateZ(0deg); }
                 100% { transform: rotateZ(0deg); }
             }
-
         </style>
     </head>
     <body>
@@ -95,8 +94,8 @@ Likely nobody will read them, though.
 
 mscgen_js
     version: 1.2.1
-    build-date: 20151120 21:33
-    commit: 6f7336beb1b66d94">mscgen_js</h1>
+    build-date: 20151129 16:06
+    commit: 07f63aa13448cb4f">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -120,8 +119,8 @@ mscgen_js
             </nav>            
             <div class="debug hideontablet" style="display: none">
                 <div><em>version:</em> 1.2.1</div>
-                <div><em>build-date:</em> 20151120 21:33</div>
-                <div><em>commit:</em> 6f7336beb1b66d94</div>
+                <div><em>build-date:</em> 20151129 16:06</div>
+                <div><em>commit:</em> 07f63aa13448cb4f</div>
             </div>
         </header>
         <article>
@@ -306,12 +305,89 @@ Note: !! removes comments and reformats your source!!">color</button>
                 type="text/plain"
                 title="Generates an html page with the chart embedded">HTML, with the chart embedded</a>
         </div>
+        <div id="__aboutsheet" class="sliding-panel">
+            <div class="header">
+                <h2>About</h2>
+
+                <span><button id="__close_aboutsheet" class="icon-cross close-button" title="close about panel"></button></span>
+            </div>
+        <span class="row">
+        <span class="column-picture hideonmobile">
+            <span class="icon-xu about-box-icon" alt="mscgen_js logo" title="Logo
+
+It's the Chinese letter 序 (xù).
+
+According to Google it means 'sequence'.
+
+According to Chinese people it's more akin
+to the 'intr' in 'introduction'.
+
+According to Sander it's an angry little man
+drawing a sequence chart. On a sloped
+whiteboard. Under a roof."></span>
+        </span>
+        <span class="column-text">
+            <h3>mscgen_js</h3>
+            <p>
+                <span class="hideontablet">The engine for this interpreter.</span> Transforms <span class="hideontablet">descriptions in</span>
+                <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
+                <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a> and
+                <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> into sequence charts.
+            </p>
+            <p>
+                <a href="https://github.com/sverweij/mscgen_js/issues"
+                                   target="_blank">
+                    <button type="button" class="btn-primary">
+                        Report <span class="hideonmobile">an</span> issue
+                    </button>
+                </a>                
+            </p>
+        </span>
+        <span class="column-picture hideonmobile">
+            <a href="https://sverweij.github.io/">
+              <img class="aboutpic" style="border-radius: 50%; width: 3.5em;" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
+
+The Netherlands forbids smiling
+on photos that go on official
+documents."></img></a>
+        </span>
+        <span class="column-text">
+            <h3>Author</h3>
+            <p class="hideontablet">
+              When Sander first used <a
+              href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
+              he thought it was awesome. Annoyed he
+              couldn't use it <em>just</em> everywhere, he spent his next
+              spring holiday correcting that.
+            </p>
+            <p class="showontablet">
+                Sander Verweij
+            </p>
+            <p>
+                <a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
+                <a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
+                <a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
+            </p>
+        </span>
+        <span class="column-picture hideonmobile">
+            <span class="icon-opensource about-box-icon"></span>
+        </span>
+        <span class="column-text">
+            <h3>License</h3>
+            <p>open source (<a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/licenses/license.mscgen_js.md" target="_blank">GPLv3</a>).</p>
+            <p>
+                <a href="https://github.com/sverweij/mscgen_js" target="_blank">Source</a>
+                <a href="https://github.com/sverweij/mscgen_js/tree/master/wikum/licenses">Licenses</a>
+            </p>
+        </span>
+    </span>
+    </div>
         <div id="__color_panel" class="sliding-panel">
             <div class="header">
                 <h2>Apply a color scheme</h2>
                 <span><button id="__btn_color_panel_close" class="icon-cross close-button" title="close color scheme panel"></button></span>
             </div>
-            <span>
+            <span class="row">
                 <a id="__color_minimal"
                     title="applies a minimal color scheme; notes get colored, inline expressions get grey lines
 leaves existing colors in place
@@ -323,7 +399,7 @@ replaces existing colors
 
 Note: !! removes comments and reformats your source!!">Minimal (forced)</a>
             </span>
-            <span>
+            <span class="row">
                 <a id="__color_rose"
                     type="text/dot"
                     title="applies a scheme with dark-red, yellow and black
@@ -337,7 +413,7 @@ replaces existing colors
 
 Note: !! removes comments and reformats your source!!">Rosy (forced)</a>
             </span>
-            <span>
+            <span class="row">
                 <a id="__color_auto" 
                         title="Auto colors the sequence chart
 leaves existing colors in place
@@ -349,7 +425,7 @@ replaces existing colors
 
 Note: !! removes comments and reformats your source!!">Automatic (forced)</a>
             </span>
-            <span>
+            <span class="row">
                 <a id="__color_remove" 
                         title="Removes all color from the sequence chart
 
@@ -416,86 +492,6 @@ Note: !! removes comments and reformats your source!!">B&amp;W = remove all colo
                     </div>
                 </div>
             </div>
-            <div id="__aboutsheet" class="popupsheet" style="display:none">
-                <div class="popup">
-                    <div class="header">
-                        <button id="__close_aboutsheet" class="close icon-cross" title="close about popup"></button>
-                        <h1>About</h1>
-                    </div>
-                    <div class="content">
-    <table>
-    <tr>
-        <td>
-<span class="icon-xu about-box-icon" alt="mscgen_js logo" title="Logo
-
-It's the Chinese letter 序 (xù).
-
-According to Google it means 'sequence'.
-
-According to Chinese people it's more akin
-to the 'intr' in 'introduction'.
-
-According to Sander it's an angry little man
-drawing a sequence chart. On a sloped
-whiteboard. Under a roof."></span>
-        </td>
-        <td>
-        <p>
-        The mscgen_js javascript library transforms  descriptions in
-        <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
-        <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a> and
-        <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> into sequence charts.
-        </p>
-        <p>
-        It is the engine for this interpreter. It also makes
-        <a href="embed.html" target="_blank">embedding sequence charts</a>
-        in html easy as eating a banana.
-        </p>
-        <p>mscgen_js is open source (GPLv3).
-        <ul>
-        <li>source on <a href="https://github.com/sverweij/mscgen_js" target="_blank">
-        GitHub</a>
-        <li><a href="https://github.com/sverweij/mscgen_js/issues"
-        target="_blank">report issues</a>
-        <li><a href="https://github.com/sverweij/mscgen_js/tree/master/wikum/licenses">licenses</a>
-        </ul>
-        </p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-      <a href="https://sverweij.github.io/">
-        <img class="aboutpic" style="border-radius: 50%" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
-
-The Netherlands forbids smiling
-on photos that go on official
-documents."></img></a>
-      </td>
-      <td>
-      <p>
-          <strong>Author</strong>
-      </p>
-      <p>
-        When Sander first got in touch with <a
-        href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>
-        at the end of 2012, he thought it was awesome. Annoyed he
-        couldn't use it <em>just</em> everywhere, he spent his next
-        spring holiday correcting that.
-      </p>
-      <p>
-        Sander lives in The Netherlands and brews a wicked tea.
-      </p>
-      <p>
-      <a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
-      <a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
-      <a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
-      </p>
-    </td>
-    </tr>
-    </table>
-                    </div> <!-- content -->
-                </div> <!-- popup -->
-            </div> <!-- popupsheet -->
             </section>
         </article>
         <div id="__loading"

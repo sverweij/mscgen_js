@@ -1,10 +1,13 @@
-# facebook authentication 
+# facebook authentication
 # adopted from http://www.uml-diagrams.org/sequence-diagrams-examples.html#facebook-authentication
-# 
-# Note: as this uses an inline expression ('alt') 
+#
+# Note: as this uses an inline expression ('alt')
 #       which are available in xù, but not in mscgen
 msc {
-  wordwraparcs=on, hscale="0.85";
+  wordwraparcs=on,
+  hscale="0.85",
+  watermark="序 sample: FaceBook auth";
+
   act [label="Actor", linecolor="darkgreen", textcolor="white", textbgcolor="darkgreen", arclinecolor="darkgreen", arctextcolor="darkgreen"],
   browser [label=":WebBrowser", linecolor="darkgreen", textcolor="white", textbgcolor="darkgreen", arclinecolor="darkgreen", arctextcolor="darkgreen"],
   app [label="Application", linecolor="maroon", textcolor="white", textbgcolor="maroon", arclinecolor="maroon", arctextcolor="maroon"],
@@ -17,9 +20,11 @@ msc {
   browser => fbauth [label="authorize"];
   fbauth >> browser [label="permission form"];
   browser >> act [label="permission form"];
+
   act => browser [label="user permission"];
   browser => fbauth [label="process permission"];
   fbauth >> browser [label="<<http redirect>>"];
+
   act alt fbcont [label="permission granted", linecolor="grey", textcolor="black"] {
     browser => app [label="FB authorization code"];
     app => fbauth [label="FB authorization code"];
