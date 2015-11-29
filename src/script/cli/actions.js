@@ -70,11 +70,14 @@ module.exports = (function() {
         });
     }
 
-    function renderText(pAST, pOutStream, pOutputType){
-        pOutStream.write(mscgenjs.getTextRenderer(pOutputType).render(pAST));
+    function renderText(pAST, pOutStream, pOutputType, pCallback){
+        pOutStream.write(
+            mscgenjs.getTextRenderer(pOutputType).render(pAST),
+            pCallback
+        );
     }
 
-    function transform(pInStream, pOutStream, pOptions, pRenderFn, pCallback){
+    function transform(pInStream, pOutStream, pOptions, pCallback){
         var lInput = "";
 
         pInStream.resume();
@@ -89,25 +92,19 @@ module.exports = (function() {
             var lAST = 'json' === pOptions.inputType ?
                 JSON.parse(lInput) :
                 mscgenjs.getParser(pOptions.inputType).parse(lInput);
-            pRenderFn(lAST, lInput, pOutStream, pOptions, pCallback);
+            render(lAST, lInput, pOutStream, pOptions, pCallback);
         });
     }
 
     function render(pAST, pInput, pOutStream, pOptions, pCallback) {
         if (pOptions.parserOutput){
-            pOutStream.write(JSON.stringify(pAST, null, "  "));
+            pOutStream.write(JSON.stringify(pAST, null, "  "), pCallback);
         } else if (GRAPHICSFORMATS.indexOf(pOptions.outputType) > -1) {
             renderGraphics (pAST, pInput, pOptions.outputTo, pOptions.outputType, pCallback);
-            return;
         } else {
-            renderText (pAST, pOutStream, pOptions.outputType);
-        }
-        /* istanbul ignore else  */
-        if (!!pCallback && "function" === typeof pCallback) {
-            pCallback();
+            renderText (pAST, pOutStream, pOptions.outputType, pCallback);
         }
     }
-
 
     return {
         transform: function(pOptions, pCallback) {
@@ -115,7 +112,6 @@ module.exports = (function() {
                 getInStream(pOptions.inputFrom),
                 getOutStream(pOptions.outputTo),
                 pOptions,
-                render,
                 pCallback
             );
         },
