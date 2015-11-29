@@ -16,6 +16,7 @@ BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
 MINIFY=node_modules/.bin/uglifyjs
+MINIFYHTML=node_modules/.bin/html-minifier --config-file .html-minifier-conf
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
 else
@@ -29,7 +30,7 @@ GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
 GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
 	src/script/parse/msgennyparser_node.js \
-	src/script/parse/xuparser_node.js 
+	src/script/parse/xuparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE) $(GENERATED_STYLESHEETS)
 SOURCES_NODE=$(GENERATED_SOURCES_NODE)
 REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
@@ -120,11 +121,11 @@ help:
 src/script/parse/%parser.js: src/script/parse/%parser_node.js
 	$(CJS2AMD) < $< > $@
 
-src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs 
+src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
 	$(PEGJS) $< $@
 
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
-	$(SEDVERSION) < $< > $@
+	$(SEDVERSION) < $< | $(MINIFYHTML) > $@
 
 %.css: %.scss
 	$(SASS) $< $@
@@ -139,10 +140,10 @@ $(BUILDDIR)/favicon.ico: $(FAVICONMASTER)
 	$(PNG2FAVICO) $< $@
 
 $(BUILDDIR)/favicon-%.png: $(FAVICONMASTER)
-	$(RESIZE) $< $@ 
+	$(RESIZE) $< $@
 
 $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
-	$(IOSRESIZE) $< $@ 
+	$(IOSRESIZE) $< $@
 
 $(PRODDIRS):
 	mkdir -p $@
@@ -171,7 +172,7 @@ src/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
 src/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
 	cp $< $@
 
-# dependencies 
+# dependencies
 include src/jsdependencies.mk
 include src/dependencies.mk
 
@@ -269,7 +270,7 @@ deploy-gh-pages: install
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
 
-tag: 
+tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
@@ -292,18 +293,18 @@ nsp:
 
 outdated:
 	$(NPM) outdated
-	
+
 check: noconsolestatements lint stylecheck test
 
 fullcheck: check outdated nsp
 
 update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp
 	$(GIT) diff package.json
-	
-run-update-dependencies: 
+
+run-update-dependencies:
 	$(NPM) run npm-check-updates
 	$(NPM) install
-	
+
 depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
 	$(MAKEDEPEND) --append --system amd --flat-define EMBED_JS_SOURCES src/script/mscgen-inpage.js
@@ -320,7 +321,7 @@ clean-the-build:
 		$(BUILDDIR)/mscgen-inpage.js
 	rm -rf coverage
 
-clean-generated-sources: 
+clean-generated-sources:
 	rm -rf $(GENERATED_SOURCES)
 
 clean: clean-the-build clean-generated-sources

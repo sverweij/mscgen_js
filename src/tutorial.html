@@ -437,8 +437,8 @@ A: Actor, fe:Front end, be: Back end;
 
 A =>> fe: "log me in\n(id, secret)";
 fe => be: "getToken\n(id, secret)";
-fe << be: [OK] token;
-A << fe: Whoop!;</span>
+fe &lt;&lt; be: [OK] token;
+A &lt;&lt; fe: Whoop!;</span>
 
 <p>The msgenny parser puts the entities in the order they occur in your script, e.g. </p>
 <pre class="code msgenny">
@@ -498,11 +498,10 @@ a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
 a :: b, b &lt;:> c ;
 </pre>
-<span class="mscgen_js" data-language="msgenny">hscale=0.6;
-a <-> b, b <=> c;
-a <<=>> b, b <<>> c;
+<span class="mscgen_js" data-language="msgenny">a &lt;-> b, b &lt;=> c;
+a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
-a :: b, b <:> c ;</span>
+a :: b, b &lt;:> c ;</span>
 
 <h3 id="box-rbox-abox">box, rbox, abox</h3>
 <p>Boxes expressing <em>action</em> (box), <em>states</em> or <em>conditions</em> (abox) and
@@ -536,21 +535,21 @@ c rbox d : rbox (MSC reference);</span>
 hscale=0.9;
 
 a -> b   : a -> b  (signal),
-b <-> c  : b <-> c,
+b &lt;-> c  : b &lt;-> c,
 c -- d   : c -- d,
 d -> d   : d -> d;
 
 a => b   : a => b  (method),
-b <=> c  : b <=> c,
+b &lt;=> c  : b &lt;=> c,
 d => d   : d => d;
 
 b >> a   : b >> a (return value),
-b <<>> c : b <<>> c,
+b &lt;&lt;>> c : b &lt;&lt;>> c,
 c .. d   : c .. d (dotted),
 d >> d   : d >> d;
 
 a =>> b   : a =>> b (callback),
-b <<=>> c : b <<=>> c,
+b &lt;&lt;=>> c : b &lt;&lt;=>> c,
 d =>> d   : d =>> d;
 
 a -x b   : a -x b  (lost),
@@ -1094,7 +1093,7 @@ msc {
   c =>> c [label="mangle(Account Data)"];
   c -> e [label="log(id, 'getAccount', 'OK')"];
 
-  ui << c [label="Account data"];
+  ui &lt;&lt; c [label="Account data"];
   ui =>> ui [label="render"];
 }</mscgen>
 </section>
@@ -1188,7 +1187,7 @@ msc {
                 </p>
                 <p>
                     The syntax for inline expressions is more close to
-                    MscGen syntax to allow for color attributes. 
+                    MscGen syntax to allow for color attributes.
                     <pre class="code msgenny"># MsGenny
 a alt b: a label {
     ...;
