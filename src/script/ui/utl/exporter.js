@@ -22,7 +22,7 @@ define(["../../render/text/ast2dot",
     function toHTMLSnippet (pSource, pLanguage, pWithLinkToEditor){
         return gTemplate.replace(/{{config}}/g, pWithLinkToEditor ? gLinkToEditorConfig : "")
                         .replace(/{{language}}/g, pLanguage)
-                        .replace(/{{source}}/g, pSource);
+                        .replace(/{{source}}/g, pSource.replace(/</g, "&lt;"));
     }
 
     function getAdditionalParameters(pLocation){
