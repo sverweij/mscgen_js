@@ -11,7 +11,7 @@ install:
 script:
   - npm run lint
   - npm run jscs
-  - npm run nsp
+ # - npm run nsp
   - npm run cover
   - make install
 
