@@ -9,14 +9,32 @@ const VERSION   = require("../../../package.json").version;
 try {
     program
         .version(VERSION)
-        .option("-T --output-type <type>", "Output file type: svg|mscgen|msgenny|xu|dot|doxygen", validations.validOutputType)
-        .option("-I --input-type <type>", "Input file type: mscgen|xu|msgenny|ast", validations.validInputType)
-        .option("-i --input-from <file>", "File to read from. use - for stdin.")
-        .option("-o --output-to <file>", "File to write to. use - for stdout.")
-        .option("-p --parser-output", "Print parsed msc output")
-        .option("-l --license", "Display license and exit", actions.printLicense)
-        .arguments("[infile]")
-        .parse(process.argv);
+        .option(
+            "-T --output-type <type>",
+            "one of svg|png|jpeg|mscgen|msgenny|xu|dot|doxygen",
+            validations.validOutputType
+        ).option(
+            "-I --input-type <type>",
+            "one of mscgen|xu|msgenny|ast",
+            validations.validInputType
+        ).option(
+            "-i --input-from <file>",
+            "File to read from. use - for stdin."
+        ).option(
+            "-o --output-to <file>",
+            "File to write to. use - for stdout."
+        ).option(
+            "-p --parser-output",
+            "Print parsed msc output"
+        ).option(
+            "-l --license",
+            "Display license and exit",
+            actions.printLicense
+        ).arguments(
+            "[infile]"
+        ).parse(
+            process.argv
+        );
     normalizations.normalize(program.args[0], program);
     validations.validateArguments(program);
     actions.transform(program);
