@@ -98,7 +98,8 @@ MIT style):
 - The bare (embedding only) mscgen_js is packaged using requirejs and [almond][31] to be able to run as a stand alone, dependency less package.
 - Parsers are generated with [pegjs][12].
 - The on line interpreter additionally uses [codemirror][13] and [canvg][16].
-- To run in node & iojs (automated tests, command line interface), mscgen_js uses [jsdom][25], [amdefine][20], [node-localstorage][36], [btoa][37] and [commander][38].
+- The command line interface uses [phantomjs][41], [amdefine][20] and [commander][38]
+- To run automated tests in node mscgen_js uses [jsdom][25], [amdefine][20], [node-localstorage][36], [btoa][37] and [commander][38].
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
 
@@ -113,13 +114,13 @@ You can see the build history in [Travis](https://travis-ci.org/sverweij/mscgen_
 shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/mscgen_js).
 
 ## Thanks
-- [Mike McTernan][1] for creating the wonderful mscgen standard, the accompanying c implementation and for
+- [Mike McTernan][1] for creating the wonderful MscGen standard, the accompanying c implementation and for
   releasing both to the public domain (the last one under a [GPLv2][18] license to be precise).
 - [David Majda][8] for cooking and maintaining the fantastic and lightning fast [PEG.js][9] parser generator.
 - [Marijn Haverbeke][10] for the snazzy [CodeMirror][11] editor component.
 - Gabe Lerner for the [canvg][17] library, which makes converting vector graphics to rasters _almost_
   like a walk in the park.
-- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in node.js/ io.js.
+- [Elijah Insua][24] for [jsdom][34], which makes it possible to render vector graphics in node.js.
 - [Audrey M. Roy](http://www.audreymroy.com/) for the excelent ["painfully obsessive cheat sheet to favicon sizes/types."](https://github.com/audreyr/favicon-cheat-sheet).
 - [Joshua Chaitin-Pollak](https://github.com/jbcpollak), for suggesting to publish mscgen_js as a package.
 
@@ -161,3 +162,4 @@ shape of the code at [Code Climate ](https://codeclimate.com/github/sverweij/msc
 [38]: commander
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml
+[41]: https://www.npmjs.com/package/phantomjs
