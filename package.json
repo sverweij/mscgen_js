@@ -5,19 +5,19 @@
   "main": "src/script/index.js",
   "bin": {
     "mscgen_js": "bin/mscgen_js",
-    "mscgenjs": "bin/mscgen_js"
+    "mscgenjs": "bin/mscgen_js",
+    "mscgen.js": "bin/mscgen_js"
   },
   "dependencies": {
     "amdefine": "1.0.0",
-    "btoa": "1.1.2",
-    "codemirror": "5.8.0",
-    "jsdom": "7.0.2",
-    "phantomjs": "1.9.18",
+    "codemirror": "5.9.0",
+    "phantomjs": "1.9.19",
     "requirejs": "2.1.22"
   },
   "devDependencies": {
     "almond": "0.3.1",
-    "bower": "1.6.5",
+    "bower": "1.6.8",
+    "btoa": "1.1.2",
     "chai": "3.4.1",
     "chai-xml": "0.3.1",
     "codeclimate-test-reporter": "0.1.1",
@@ -30,6 +30,7 @@
     "gulp-sass": "2.1.0",
     "istanbul": "0.4.0",
     "js-makedepend": "0.1.9",
+    "jsdom": "7.1.0",
     "jscs": "2.6.0",
     "jshint": "2.8.0",
     "mocha": "2.3.4",
