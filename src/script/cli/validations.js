@@ -27,7 +27,11 @@ module.exports = (function() {
                 return pType;
             }
 
-            throw Error("\n  error: '" + pType + "' is not a valid output type. mscgen_js can only emit svg and text formats (dot, doxygen, mscgen, msgenny, xu).\n\n");
+            throw Error(
+                "\n  error: '" + pType + "' is not a valid output type. mscgen_js can emit:" +
+                "\n         - the grapics formats svg, jpeg and png" +
+                "\n         - the text formats dot, doxygen, mscgen, msgenny and xu.\n\n"
+            );
         },
 
         validInputType: function(pType) {
@@ -35,7 +39,9 @@ module.exports = (function() {
                 return pType;
             }
 
-            throw Error("\n  error: '" + pType + "' is not a valid intput type. mscgen_js can only read mscgen, msgenny, xu and ast).\n\n");
+            throw Error(
+                "\n  error: '" + pType + "' is not a valid input type." +
+                "\n         mscgen_js can read mscgen, msgenny, xu and ast\n\n");
         },
 
         validateArguments: function(pOptions) {
@@ -49,6 +55,17 @@ module.exports = (function() {
 
             if (!fileExists(pOptions.inputFrom)) {
                 throw Error("\n  error: Failed to open input file '" + pOptions.inputFrom + "'\n\n");
+            }
+
+            if (
+                (['svg', 'png', 'jpeg'].indexOf(pOptions.outputType) > -1) &&
+                (pOptions.outputTo === '-')
+            ){
+                throw Error(
+                    "\n  error: mscgen_js cli can't stream graphics formats to stdout yet." +
+                    "\n         It does support output to files, so if you provide a filename" +
+                    "\n         instead of '-' all will be hunky-dory\n\n"
+                );
             }
         },
     };

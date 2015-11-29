@@ -1,4 +1,6 @@
-var assert = require("assert");
+var chai   = require("chai");
+var assert = chai.assert;
+var expect = chai.expect;
 var val    = require("../../cli/validations");
 
 describe('cli/validations', function() {
@@ -11,7 +13,7 @@ describe('cli/validations', function() {
             } catch (e) {
                 lFoundError = e.message;
             }
-            assert.equal(lFoundError, "\n  error: 'notavalidOutputType' is not a valid output type. mscgen_js can only emit svg and text formats (dot, doxygen, mscgen, msgenny, xu).\n\n");
+            expect(lFoundError).to.contain("error: 'notavalidOutputType' is not a valid output type.");
         });
 
         it("'svg' is a valid type", function() {
@@ -27,7 +29,7 @@ describe('cli/validations', function() {
             } catch (e) {
                 lFoundError = e.message;
             }
-            assert.equal(lFoundError, "\n  error: 'dot' is not a valid intput type. mscgen_js can only read mscgen, msgenny, xu and ast).\n\n");
+            expect(lFoundError).to.contain("error: 'dot' is not a valid input type");
         });
 
         it("'ast' is a valid type", function() {
@@ -36,12 +38,12 @@ describe('cli/validations', function() {
     });
 
     describe('#validateArguments() - ', function() {
-        it("'-T svg -o - src/script/test/fixtures/rainbow.mscin is oki", function() {
+        it("'-T svg -o kaboeki.svg src/script/test/fixtures/rainbow.mscin is oki", function() {
             try {
                 val.validateArguments(
                     {
                         inputFrom: "src/script/test/fixtures/rainbow.mscin",
-                        outputTo: "-",
+                        outputTo: "kaboeki.svg",
                         outputType: "svg"
                     }
                 );
@@ -51,7 +53,37 @@ describe('cli/validations', function() {
             }
         });
 
-        it("'-T svg -o - -' is oki", function() {
+        it("'-T mscgen -o - -' is oki", function() {
+            try {
+                val.validateArguments(
+                    {
+                        inputFrom: "-",
+                        outputTo: "-",
+                        outputType: "mscgen"
+                    }
+                );
+                assert.equal("still here", "still here");
+            } catch (e){
+                assert.equal(e.message, "should not be an exception");
+            }
+        });
+
+        it("'-T dot -i - -o -' is oki", function() {
+            try {
+                val.validateArguments(
+                    {
+                        inputFrom: "-",
+                        outputTo: "-",
+                        outputType: "dot"
+                    }
+                );
+                assert.equal("still here", "still here");
+            } catch (e){
+                assert.equal(e.message, "should not be an exception");
+            }
+        });
+
+        it("'-T svg -i - -o -' is not allowed (no graphics streaming to stdout yet ...)", function() {
             try {
                 val.validateArguments(
                     {
@@ -60,33 +92,34 @@ describe('cli/validations', function() {
                         outputType: "svg"
                     }
                 );
-                assert.equal("still here", "still here");
+                assert.equal("still here", "shouldn't be here");
             } catch (e){
-                assert.equal(e.message, "should not be an exception");
+                expect(e.message).to.contain("error: mscgen_js cli can't stream graphics formats to stdout yet.");
             }
         });
 
-        it("'-T svg -i - -o -' is oki", function() {
+        it("'-T xu -o - input-doesnot-exists' complains about non existing file", function() {
             try {
                 val.validateArguments(
                     {
-                        inputFrom: "-",
-                        outputTo: "-",
-                        outputType: "svg"
+                        inputFrom  : "input-doesnot-exist",
+                        outputTo   : "-",
+                        outputType : "xu"
                     }
                 );
-                assert.equal("still here", "still here");
+                assert.equal("still here", "should not be here!");
             } catch (e){
-                assert.equal(e.message, "should not be an exception");
+                assert.equal(e.message, "\n  error: Failed to open input file 'input-doesnot-exist'\n\n");
             }
         });
 
-        it("'-T svg -o - input-doesnot-exists' complains about non existing file", function() {
+        it("'-T svg -o - ' complains about non existing file", function() {
             try {
                 val.validateArguments(
                     {
-                        inputFrom: "input-doesnot-exist",
-                        outputTo : "-"
+                        inputFrom  : "input-doesnot-exist",
+                        outputTo   : "-",
+                        outputType : "xu"
                     }
                 );
                 assert.equal("still here", "should not be here!");
