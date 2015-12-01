@@ -147,8 +147,8 @@ article {
     -webkit-flex-direction: row;
     padding: 0 3em 0 3em;
     text-align: center;
-    align-items: center; 
-    -webkit-align-items: center; 
+    align-items: center;
+    -webkit-align-items: center;
     transition: $height-transition;
 }
 @mixin resize-editor($min-height, $max-height){
@@ -204,7 +204,10 @@ article {
     @include resize-editor (851px, 900px);
     @include resize-editor (901px, 950px);
     @include resize-editor (951px, 1000px);
-    
+    @include resize-editor (1001px, 1050px);
+    @include resize-editor (1051px, 1100px);
+    @include resize-editor (1101px, 1150px);
+
     @media (min-height: 891px){
         .CodeMirror {
             height: 891px - 176px; // 62em * 16px * 0.7em= 694.9
