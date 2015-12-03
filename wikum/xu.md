@@ -186,7 +186,7 @@ To start the interpreter in debug mode, pass `debug=true` to the url:
         <td><code>opt</code></td>
     </tr>
     <tr>
-        <td>Break - an excpetion occurred. After this nothing happens.</td>
+        <td>Break - an exception occurred. After this nothing happens.</td>
         <td>exc</td>
         <td>break</td>
         <td><code>exc</code><br>
