@@ -1,4 +1,4 @@
-# xù - an MscGen super set
+# Xù - an MscGen super set
 _**It is MscGen, but not as we know it**_
 
 ## Inline expressions
@@ -13,11 +13,11 @@ Behaviour specification is not a particularly strong suit of interaction diagram
 correctly notes in [UML distilled][1]. At this time (November 2015) MscGen does not
 support them.
 
-Nonetheless inline expressions are damn handy. Hence xù, a superset
-of MscGen that does include them.
+Nonetheless inline expressions are damn handy. Hence Xù - a superset
+of MscGen that includes them.
 
 ## An example
-This is an example of a xù script describing an interaction that loops over
+This is an example of a Xù script describing an interaction that loops over
 a list of changes and sorts the old ones to a deletion queue, and the
 rest to a birth queue:
 
@@ -119,7 +119,7 @@ use to generate the parser is [included in the source][4].
 ### start token
 MscGen uses `msc` as a start token. As Xù was designed as an extension
 to MscGen the same goes for Xù. If you want to be expressly clear your
-script is a Xù script you can also use `xu` as a start token:
+script is a Xù script you can also use that:
 ```xu
 xu {
   arcgradient=20;
