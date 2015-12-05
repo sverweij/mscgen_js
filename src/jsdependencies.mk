@@ -188,9 +188,6 @@ src/script/cli/mscgen.js: \
 	src/script/cli/normalizations.js \
 	src/script/cli/validations.js
 
-src/script/cli/normalizations.js: \
-	src/script/ui/utl/maps.js
-
 src/script/index.js: \
 	src/script/render/graphics/renderast.js
 
@@ -387,5 +384,4 @@ CLI_JS_SOURCES=src/script/cli/mscgen.js \
 	src/script/cli/actions.js \
 	src/script/cli/normalizations.js \
 	src/script/cli/validations.js \
-	src/script/index.js \
-	src/script/ui/utl/maps.js
+	src/script/index.js

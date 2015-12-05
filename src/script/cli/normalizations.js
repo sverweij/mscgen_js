@@ -2,7 +2,42 @@
 module.exports = (function() {
     "use strict";
     var path = require("path");
-    var utl = require("../ui/utl/maps");
+
+    /**
+     * Given a filename in pString, returns what language is probably
+     * contained in that file, judging from the extension (the last dot
+     * in the string to end-of-string)
+     *
+     * When in doubt returns "mscgen"
+     *
+     * @param {string} pString
+     * @return  {string} - language. Possible values: "mscgen", "msgenny", "json".
+     */
+    function classifyExtension(pString) {
+        var lExtMap = {
+            "msgenny" : "msgenny",
+            "mscgen"  : "mscgen",
+            "msc"     : "mscgen",
+            "seq"     : "mscgen",
+            "mscin"   : "mscgen",
+            "xu"      : "xu",
+            "json"    : "json",
+            "ast"     : "json"
+        };
+        if (!pString) {
+            return "mscgen";
+        }
+
+        var lPos = pString.lastIndexOf(".");
+        if (lPos > -1) {
+            var lExt = pString.slice(lPos + 1);
+            if (lExtMap[lExt]) {
+                return lExtMap[lExt];
+            }
+        }
+
+        return "mscgen";
+    }
 
     function deriveOutputFromInput(pInputFrom, pOutputType){
         if (!pInputFrom || '-' === pInputFrom){
@@ -22,7 +57,7 @@ module.exports = (function() {
         if (pInputType) {
             return pInputType === 'ast' ? 'json': pInputType;
         }
-        return utl.classifyExtension(pInputFrom);
+        return classifyExtension(pInputFrom);
     }
 
     return {
