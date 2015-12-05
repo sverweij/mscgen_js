@@ -1,9 +1,9 @@
 /* jshint node: true, strict: false, unused: false */
-var gulp = require('gulp'),
-    p    = require('gulp-load-plugins')();
+var gulp = require('gulp');
+var p    = require('gulp-load-plugins')();
 
 gulp.task('default', function() {
-  gulp.start('styles');
+    gulp.start('styles');
 });
 
 gulp.task('styles', function() {
@@ -22,5 +22,5 @@ gulp.task('watch-styles', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.start('watch-styles');
+    gulp.start('watch-styles');
 });

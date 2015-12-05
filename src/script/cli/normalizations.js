@@ -24,6 +24,7 @@ module.exports = (function() {
         }
         return utl.classifyExtension(pInputFrom);
     }
+
     return {
         normalize: function normalize(pArgument, pOptions){
             pOptions.inputFrom  = !!pArgument ? pArgument : pOptions.inputFrom;
