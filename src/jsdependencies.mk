@@ -38,9 +38,9 @@ src/script/render/graphics/renderast.js: \
 	src/script/render/graphics/rowmemory.js \
 	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
+	src/script/render/graphics/swap.js \
 	src/script/render/text/arcmappings.js \
-	src/script/render/text/flatten.js \
-	src/script/utl/utensils.js
+	src/script/render/text/flatten.js
 
 src/script/render/graphics/renderlabels.js: \
 	src/script/render/graphics/constants.js \
@@ -309,6 +309,7 @@ EMBED_JS_SOURCES=src/script/mscgen-inpage.js \
 	src/script/render/graphics/rowmemory.js \
 	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
+	src/script/render/graphics/swap.js \
 	src/script/render/text/arcmappings.js \
 	src/script/render/text/ast2dot.js \
 	src/script/render/text/ast2doxygen.js \
@@ -351,6 +352,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/render/graphics/rowmemory.js \
 	src/script/render/graphics/svgelementfactory.js \
 	src/script/render/graphics/svgutensils.js \
+	src/script/render/graphics/swap.js \
 	src/script/render/text/arcmappings.js \
 	src/script/render/text/ast2animate.js \
 	src/script/render/text/ast2dot.js \

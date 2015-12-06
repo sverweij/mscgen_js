@@ -14,14 +14,14 @@ define(["./svgelementfactory",
         "./renderskeleton",
         "../text/flatten",
         "../text/arcmappings",
-        "../../utl/utensils",
+        "./swap",
         "./rowmemory",
         "./idmanager",
         "./markermanager",
         "./entities",
         "./renderlabels",
         "./constants"],
-    function(fact, svgutl, utl, skel, flatten, map, _, rowmemory, id, mark, entities, labels, C) {
+    function(fact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -410,7 +410,7 @@ define(["./svgelementfactory",
 
         var FOLD_SIZE = 7;
         if (lOnD.from > lOnD.to) {
-            _.swapfromto(lOnD);
+            swap.swapfromto(lOnD);
         }
 
         var lMaxWidth = (lOnD.to - lOnD.from) + (entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) - FOLD_SIZE - C.LINE_WIDTH;
@@ -515,7 +515,7 @@ define(["./svgelementfactory",
 
         if (pArc.from && pArc.to) {
             if (entities.getX(pArc.from) > entities.getX(pArc.to)) {
-                _.swapfromto(pArc);
+                swap.swapfromto(pArc);
             }
         }
 
@@ -657,7 +657,7 @@ define(["./svgelementfactory",
      */
     function createBox(pId, pOAndD, pArc, pHeight) {
         if (pOAndD.from > pOAndD.to) {
-            _.swapfromto(pOAndD);
+            swap.swapfromto(pOAndD);
         }
         var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH);
         // px
