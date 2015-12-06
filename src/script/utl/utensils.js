@@ -3,6 +3,10 @@
  * Note: there will be a moment when using a real library (like lodash,
  * underscore or ramda) will be more beneficial than these local
  * implementations.
+ *
+ * the function names are chosen in such a fashion that drop-in replacement
+ * with lodash is possible. Why we don't do that (yet): lodash is relativvely
+ * big and there is no customized build for AMD (yet)
  */
 
 /* istanbul ignore else */
@@ -23,7 +27,7 @@ define([], function() {
          * only does one level of nesting
          * so [[a,b], [c,d,e]] -> [a,b,c,d,e]
          */
-        flatten : function (pArray){
+        flatten : function flatten(pArray){
             var lRetval = [];
             return lRetval.concat.apply(lRetval, pArray);
         },
@@ -31,17 +35,15 @@ define([], function() {
          * returns a "deep copy" of an object.
          * (uses stringify, so it is limited to objects that
          * survive stringification roundtrips)
-         *
-         * utility function.
          */
-        cloneDeep: function cloneDeep(pObject) {
+        cloneDeep : function cloneDeep(pObject) {
             return JSON.parse(JSON.stringify(pObject));
         },
 
         /*
          * Caches the called function
          */
-        memoize : function(pFunction) {
+        memoize : function memoize(pFunction) {
             var lMemoize = function(pKey) {
                 var lCache = lMemoize.lCache;
                 var lAddress = '' + pKey;
