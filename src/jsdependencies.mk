@@ -154,8 +154,8 @@ src/script/ui/interpreter/param-actions.js: \
 	src/script/ui/interpreter/uistate.js \
 	src/script/ui/utl/domutl.js \
 	src/script/ui/utl/gaga.js \
-	src/script/ui/utl/paramslikker.js \
-	src/script/utl/utensils.js
+	src/script/ui/utl/maps.js \
+	src/script/ui/utl/paramslikker.js
 
 src/script/ui/interpreter/raster-exporter.js: \
 	src/lib/canvg/StackBlur.js \
@@ -290,9 +290,6 @@ src/script/test/ui/utl/t_paramslikker.js: \
 
 src/script/test/ui/utl/t_store.js: \
 	src/script/ui/utl/store.js
-
-src/script/test/utl/t_utensils.js: \
-	src/script/utl/utensils.js
 
 # amd dependencies
 EMBED_JS_SOURCES=src/script/mscgen-inpage.js \

@@ -53,17 +53,6 @@ define([], function() {
             lMemoize.lCache = {};
             return lMemoize;
         },
-
-        /**
-         * returns true if pString equals "1", "true", "y", "yes" or "on"
-         * ... false in all other cases
-         * @param {string} pString
-         * @return {boolean}
-         */
-        sanitizeBooleanesque: function(pString){
-            return (["1", "true", "y", "yes", "on"].indexOf(pString) > -1);
-        }
-
     };
 });
 /*

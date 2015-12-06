@@ -4,9 +4,9 @@ define(["./uistate",
         "../utl/paramslikker",
         "../utl/domutl",
         "../utl/gaga",
-        "../../utl/utensils"
+        "../utl/maps"
         ],
-        function(uistate, params, dq, gaga, _) {
+        function(uistate, params, dq, gaga, map) {
     "use strict";
 
     function setupGA (pDoNotTrack){
@@ -17,10 +17,10 @@ define(["./uistate",
 
     function processParams(){
         var lParams = params.getParams (window.location.search);
-        setupGA(_.sanitizeBooleanesque(lParams.donottrack));
+        setupGA(map.sanitizeBooleanesque(lParams.donottrack));
 
         uistate.setDebug(false);
-        if (_.sanitizeBooleanesque(lParams.debug)) {
+        if (map.sanitizeBooleanesque(lParams.debug)) {
             dq.doForAllOfClass("debug", function(pDomNode){
                 dq.SS(pDomNode).show();
             });
