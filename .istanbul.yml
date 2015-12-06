@@ -1,2 +1,2 @@
 instrumentation:
-    excludes: [src/lib/lodash/lodash.custom.js]
+    excludes: [src/lib/**/*]
