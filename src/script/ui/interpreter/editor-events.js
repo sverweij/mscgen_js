@@ -2,7 +2,7 @@
 /* global define */
 define(["./uistate",
         "../../../lib/codemirror/lib/codemirror",
-        "../utl/maps", "../utl/gaga", "../../utl/utensils",
+        "../utl/maps", "../utl/gaga",
         "../../../lib/codemirror/addon/edit/closebrackets",
         "../../../lib/codemirror/addon/edit/matchbrackets",
         "../../../lib/codemirror/addon/display/placeholder",
@@ -13,7 +13,7 @@ define(["./uistate",
         "../../../lib/codemirror/mode/mscgen/mscgen",
         "../../../lib/codemirror/mode/javascript/javascript"
         ],
-        function(uistate, codemirror, txt, gaga) {
+        function(uistate, codemirror, map, gaga) {
     "use strict";
 
     var gGaKeyCount = 0;
@@ -62,7 +62,7 @@ define(["./uistate",
              * otherwise do default handling for drop events (whatever it is)
              */
             if (pEvent.dataTransfer.files.length > 0) {
-                uistate.setLanguage(txt.classifyExtension(pEvent.dataTransfer.files[0].name), false);
+                uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name), false);
                 uistate.setSource("");
                 gaga.g('send', 'event', 'drop', uistate.getLanguage());
             }
