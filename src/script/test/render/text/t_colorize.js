@@ -1,6 +1,6 @@
 var colorize = require("../../../render/text/colorize");
 var fix      = require("../../astfixtures");
-var _        = require("../../../render/utl/utensils");
+var _        = require("../../../../lib/lodash/lodash.custom");
 var expect   = require("chai").expect;
 
 /*

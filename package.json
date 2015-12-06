@@ -34,6 +34,7 @@
     "jscs": "2.6.0",
     "jsdom": "7.1.1",
     "jshint": "2.8.0",
+    "lodash-cli": "3.10.1",
     "mocha": "2.3.4",
     "node-localstorage": "0.6.0",
     "node-sass": "3.4.2",

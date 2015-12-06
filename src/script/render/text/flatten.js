@@ -8,14 +8,14 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./arcmappings", "../utl/utensils", "./textutensils"],
+define(["./asttransform", "./arcmappings", "../../../lib/lodash/lodash.custom", "./textutensils"],
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, map, utl, txt) {
+function(transform, map, _, txt) {
     "use strict";
 
     var gMaxDepth = 0;
@@ -88,7 +88,7 @@ function(transform, map, utl, txt) {
     function unwindArcRow(pArcRow, pAST, pDepth, pFrom, pTo) {
         var lArcSpanningArc = {};
         if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
-            lArcSpanningArc = utl.cloneDeep(pArcRow[0]);
+            lArcSpanningArc = _.cloneDeep(pArcRow[0]);
 
             if (!!(lArcSpanningArc.arcs)) {
                 lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
@@ -134,8 +134,8 @@ function(transform, map, utl, txt) {
         var lAST = {};
         gMaxDepth = 0;
 
-        if (!!pAST.options){ lAST.options = utl.cloneDeep(pAST.options); }
-        if (!!pAST.entities){ lAST.entities = utl.cloneDeep(pAST.entities); }
+        if (!!pAST.options){ lAST.options = _.cloneDeep(pAST.options); }
+        if (!!pAST.entities){ lAST.entities = _.cloneDeep(pAST.entities); }
         lAST.arcs = [];
 
         if (pAST && pAST.arcs) {
@@ -152,7 +152,7 @@ function(transform, map, utl, txt) {
             return pArc.from !== pEntity.name;
         }).map(function(pEntity) {
             pArc.to = pEntity.name;
-            return utl.cloneDeep(pArc);
+            return _.cloneDeep(pArc);
         });
     }
 
@@ -170,7 +170,7 @@ function(transform, map, utl, txt) {
                         /* save a cloneDeep of the broadcast arc attributes
                          * and remove the original bc arc
                          */
-                        lOriginalBroadcastArc = utl.cloneDeep(pArc);
+                        lOriginalBroadcastArc = _.cloneDeep(pArc);
                         delete pAST.arcs[pArcRowIndex][pArcIndex];
                         lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                         pArcRow[pArcIndex] = lExplodedArcsAry.shift();

@@ -17,6 +17,8 @@ SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
 MINIFY=node_modules/.bin/uglifyjs
 MINIFYHTML=node_modules/.bin/html-minifier --config-file .html-minifier-conf
+LODASH=node_modules/.bin/lodash
+
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
 else
@@ -71,7 +73,8 @@ LIBDIRS=src/lib/canvg \
 		src/lib/codemirror/lib \
 		src/lib/codemirror/mode/mscgen \
 		src/lib/codemirror/mode/javascript \
-		src/lib/codemirror/theme
+		src/lib/codemirror/theme \
+		src/lib/lodash
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
@@ -171,6 +174,9 @@ src/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
 
 src/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
 	cp $< $@
+
+src/lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
+	$(LODASH) compat exports=umd include=memoize,cloneDeep,flatten --development --output $@
 
 # dependencies
 include src/jsdependencies.mk
