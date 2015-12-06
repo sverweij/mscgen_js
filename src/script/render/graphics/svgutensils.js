@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./idmanager", "../../utl/utensils"], function(C, id, _) {
+define(["./constants", "./idmanager", "../utl/utensils"], function(C, id, _) {
     /**
      * Some SVG specific calculations & workarounds
      */

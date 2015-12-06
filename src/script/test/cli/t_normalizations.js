@@ -1,6 +1,6 @@
 var expect = require("chai").expect;
 var norm   = require("../../cli/normalizations");
-var cloneDeep  = require("../../utl/utensils").cloneDeep;
+var cloneDeep  = require("../../render/utl/utensils").cloneDeep;
 
 var TESTPAIRS = [
     {
