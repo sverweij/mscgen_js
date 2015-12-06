@@ -59,18 +59,18 @@ define(["../../utl/utensils"], function(utl) {
      */
     FrameFactory.prototype.init = function (pAST, pPreCalculate){
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.AST          = utl.clone(pAST);
+        this.AST          = utl.cloneDeep(pAST);
         this.len          = _calculateLength(pAST);
         this.noRows       = _calcNumberOfRows(pAST);
         this.position     = 0;
         if (this.AST.arcs) {
-            this.arcs     = utl.clone(this.AST.arcs);
+            this.arcs     = utl.cloneDeep(this.AST.arcs);
             this.AST.arcs = [];
         }
         this.frames = [];
         if (this.preCalculate) {
             for (var i = 0; i < this.len; i++){
-                this.frames.push (utl.clone(this._calculateFrame(i)));
+                this.frames.push (utl.cloneDeep(this._calculateFrame(i)));
             }
         }
     };

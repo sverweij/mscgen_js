@@ -1,6 +1,6 @@
 var expect = require("chai").expect;
 var norm   = require("../../cli/normalizations");
-var clone  = require("../../utl/utensils").clone;
+var cloneDeep  = require("../../utl/utensils").cloneDeep;
 
 var TESTPAIRS = [
     {
@@ -158,10 +158,10 @@ describe('cli/normalizations', function() {
     describe('#normalize() - ', function() {
         TESTPAIRS.forEach(function(pPair){
             it(pPair.title, function(){
-                var lInputClone = clone(pPair.input);
-                norm.normalize(lInputClone.argument, lInputClone.options);
+                var lInputcloneDeep = cloneDeep(pPair.input);
+                norm.normalize(lInputcloneDeep.argument, lInputcloneDeep.options);
                 expect(
-                    lInputClone.options
+                    lInputcloneDeep.options
                 ).to.deep.equal(
                     pPair.expected.options
                 );

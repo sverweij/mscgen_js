@@ -34,7 +34,7 @@ define([], function() {
          *
          * utility function.
          */
-        clone: function clone(pObject) {
+        cloneDeep: function cloneDeep(pObject) {
             return JSON.parse(JSON.stringify(pObject));
         },
 
