@@ -188,6 +188,7 @@ src/script/cli/mscgen.js: \
 	src/script/cli/validations.js
 
 src/script/index.js: \
+	src/lib/lodash/lodash.custom.js \
 	src/script/render/graphics/renderast.js
 
 src/script/scriptlets/ast2svg_nosource.js: \

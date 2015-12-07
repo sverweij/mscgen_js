@@ -66,6 +66,12 @@ define(["./svgelementfactory",
         renderASTPre(lAST, pSource, pParentElementId, pWindow);
         renderASTMain(lAST);
         renderASTPost(lAST);
+        var lElement = pWindow.document.getElementById(pParentElementId);
+        if (!!lElement) {
+            return lElement.innerHTML;
+        } else {
+            return pWindow.document.body.innerHTML;
+        }
     }
 
     function renderASTPre(pAST, pSource, pParentElementId, pWindow){
