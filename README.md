@@ -174,7 +174,7 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [mscgenjs.wikum.xu]: wikum/xu.md
 [pegjs]: http://majda.cz/en/
 [pegjs.author]: http://pegjs.majda.cz/
-[pegjs.licsense]: wikum/licenses/license.pegjs.md
+[pegjs.license]: wikum/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: wikum/licenses/license.requirejs.md
 [travis.mscgenjs]: https://travis-ci.org/sverweij/mscgen_js
