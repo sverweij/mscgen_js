@@ -1,7 +1,7 @@
 /**
  * @license
  * lodash 3.10.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash compat exports="umd" include="memoize,cloneDeep,flatten" --development --output src/lib/lodash/lodash.custom.js`
+ * Build: `lodash compat exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output src/lib/lodash/lodash.custom.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -173,7 +173,8 @@
 
   /* Native method references for those with the same name as other `lodash` methods. */
   var nativeIsArray = getNative(Array, 'isArray'),
-      nativeKeys = getNative(Object, 'keys');
+      nativeKeys = getNative(Object, 'keys'),
+      nativeMax = Math.max;
 
   /**
    * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
@@ -521,6 +522,47 @@
   }
 
   /**
+   * Used by `_.defaults` to customize its `_.assign` use.
+   *
+   * @private
+   * @param {*} objectValue The destination object property value.
+   * @param {*} sourceValue The source object property value.
+   * @returns {*} Returns the value to assign to the destination object.
+   */
+  function assignDefaults(objectValue, sourceValue) {
+    return objectValue === undefined ? sourceValue : objectValue;
+  }
+
+  /**
+   * A specialized version of `_.assign` for customizing assigned values without
+   * support for argument juggling, multiple sources, and `this` binding `customizer`
+   * functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @param {Function} customizer The function to customize assigned values.
+   * @returns {Object} Returns `object`.
+   */
+  function assignWith(object, source, customizer) {
+    var index = -1,
+        props = keys(source),
+        length = props.length;
+
+    while (++index < length) {
+      var key = props[index],
+          value = object[key],
+          result = customizer(value, source[key], key, object, source);
+
+      if ((result === result ? (result !== value) : (value === value)) ||
+          (value === undefined && !(key in object))) {
+        object[key] = result;
+      }
+    }
+    return object;
+  }
+
+  /**
    * The base implementation of `_.assign` without support for argument juggling,
    * multiple sources, and `customizer` functions.
    *
@@ -753,6 +795,42 @@
   }
 
   /**
+   * Creates a `_.assign`, `_.defaults`, or `_.merge` function.
+   *
+   * @private
+   * @param {Function} assigner The function to assign values.
+   * @returns {Function} Returns the new assigner function.
+   */
+  function createAssigner(assigner) {
+    return restParam(function(object, sources) {
+      var index = -1,
+          length = object == null ? 0 : sources.length,
+          customizer = length > 2 ? sources[length - 2] : undefined,
+          guard = length > 2 ? sources[2] : undefined,
+          thisArg = length > 1 ? sources[length - 1] : undefined;
+
+      if (typeof customizer == 'function') {
+        customizer = bindCallback(customizer, thisArg, 5);
+        length -= 2;
+      } else {
+        customizer = typeof thisArg == 'function' ? thisArg : undefined;
+        length -= (customizer ? 1 : 0);
+      }
+      if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+        customizer = length < 3 ? undefined : customizer;
+        length = 1;
+      }
+      while (++index < length) {
+        var source = sources[index];
+        if (source) {
+          assigner(object, source, customizer);
+        }
+      }
+      return object;
+    });
+  }
+
+  /**
    * Creates a base function for `_.forIn` or `_.forInRight`.
    *
    * @private
@@ -774,6 +852,25 @@
       }
       return object;
     };
+  }
+
+  /**
+   * Creates a `_.defaults` or `_.defaultsDeep` function.
+   *
+   * @private
+   * @param {Function} assigner The function to assign values.
+   * @param {Function} customizer The function to customize assigned values.
+   * @returns {Function} Returns the new defaults function.
+   */
+  function createDefaults(assigner, customizer) {
+    return restParam(function(args) {
+      var object = args[0];
+      if (object == null) {
+        return object;
+      }
+      args.push(customizer);
+      return assigner.apply(undefined, args);
+    });
   }
 
   /**
@@ -1091,6 +1188,57 @@
     return memoized;
   }
 
+  /**
+   * Creates a function that invokes `func` with the `this` binding of the
+   * created function and arguments from `start` and beyond provided as an array.
+   *
+   * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/Web/JavaScript/Reference/Functions/rest_parameters).
+   *
+   * @static
+   * @memberOf _
+   * @category Function
+   * @param {Function} func The function to apply a rest parameter to.
+   * @param {number} [start=func.length-1] The start position of the rest parameter.
+   * @returns {Function} Returns the new function.
+   * @example
+   *
+   * var say = _.restParam(function(what, names) {
+   *   return what + ' ' + _.initial(names).join(', ') +
+   *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+   * });
+   *
+   * say('hello', 'fred', 'barney', 'pebbles');
+   * // => 'hello fred, barney, & pebbles'
+   */
+  function restParam(func, start) {
+    if (typeof func != 'function') {
+      throw new TypeError(FUNC_ERROR_TEXT);
+    }
+    start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
+    return function() {
+      var args = arguments,
+          index = -1,
+          length = nativeMax(args.length - start, 0),
+          rest = Array(length);
+
+      while (++index < length) {
+        rest[index] = args[start + index];
+      }
+      switch (start) {
+        case 0: return func.call(this, rest);
+        case 1: return func.call(this, args[0], rest);
+        case 2: return func.call(this, args[0], args[1], rest);
+      }
+      var otherArgs = Array(start + 1);
+      index = -1;
+      while (++index < start) {
+        otherArgs[index] = args[index];
+      }
+      otherArgs[start] = rest;
+      return func.apply(this, otherArgs);
+    };
+  }
+
   /*------------------------------------------------------------------------*/
 
   /**
@@ -1284,6 +1432,64 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * Assigns own enumerable properties of source object(s) to the destination
+   * object. Subsequent sources overwrite property assignments of previous sources.
+   * If `customizer` is provided it's invoked to produce the assigned values.
+   * The `customizer` is bound to `thisArg` and invoked with five arguments:
+   * (objectValue, sourceValue, key, object, source).
+   *
+   * **Note:** This method mutates `object` and is based on
+   * [`Object.assign`](http://ecma-international.org/ecma-262/6.0/#sec-object.assign).
+   *
+   * @static
+   * @memberOf _
+   * @alias extend
+   * @category Object
+   * @param {Object} object The destination object.
+   * @param {...Object} [sources] The source objects.
+   * @param {Function} [customizer] The function to customize assigned values.
+   * @param {*} [thisArg] The `this` binding of `customizer`.
+   * @returns {Object} Returns `object`.
+   * @example
+   *
+   * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+   * // => { 'user': 'fred', 'age': 40 }
+   *
+   * // using a customizer callback
+   * var defaults = _.partialRight(_.assign, function(value, other) {
+   *   return _.isUndefined(value) ? other : value;
+   * });
+   *
+   * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+   * // => { 'user': 'barney', 'age': 36 }
+   */
+  var assign = createAssigner(function(object, source, customizer) {
+    return customizer
+      ? assignWith(object, source, customizer)
+      : baseAssign(object, source);
+  });
+
+  /**
+   * Assigns own enumerable properties of source object(s) to the destination
+   * object for all destination properties that resolve to `undefined`. Once a
+   * property is set, additional values of the same property are ignored.
+   *
+   * **Note:** This method mutates `object`.
+   *
+   * @static
+   * @memberOf _
+   * @category Object
+   * @param {Object} object The destination object.
+   * @param {...Object} [sources] The source objects.
+   * @returns {Object} Returns `object`.
+   * @example
+   *
+   * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+   * // => { 'user': 'barney', 'age': 36 }
+   */
+  var defaults = createDefaults(assign, assignDefaults);
+
+  /**
    * Creates an array of the own enumerable property names of `object`.
    *
    * **Note:** Non-object values are coerced to objects. See the
@@ -1431,10 +1637,16 @@
   memoize.Cache = MapCache;
 
   // Add functions that return wrapped values when chaining.
+  lodash.assign = assign;
+  lodash.defaults = defaults;
   lodash.flatten = flatten;
   lodash.keys = keys;
   lodash.keysIn = keysIn;
   lodash.memoize = memoize;
+  lodash.restParam = restParam;
+
+  // Add aliases.
+  lodash.extend = assign;
 
   /*------------------------------------------------------------------------*/
 
