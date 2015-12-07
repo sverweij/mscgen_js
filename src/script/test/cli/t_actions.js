@@ -18,6 +18,17 @@ var testPairs = [
         expected : "src/script/test/fixtures/rainbow_mscgen_source.svg"
     },
     {
+        title : "'-T png -i rainbow.mscin tmp_rainbow.png' - produces png",
+        input : {
+            options : {
+                outputTo: "src/script/test/output/rainbow_mscgen_source.png",
+                outputType : "png",
+                inputFrom  : "src/script/test/fixtures/rainbow.mscin"
+            }
+        },
+        expected : "src/script/test/fixtures/rainbow_mscgen_source.png"
+    },
+    {
         title : "'-p -i rainbow.mscin tmp_rainbow.json' - produces AST",
         input : {
             options : {
@@ -124,6 +135,9 @@ describe('cli/actions', function() {
                              * check.
                              */
                             // utl.assertequalFileXML(pPair.input.options.outputTo, pPair.expected);
+                        } else if ("png" === pPair.input.options.outputType){
+                            var lFoundPng = fs.readFileSync(pPair.input.options.outputTo, {"encoding" : "utf8"});
+                            expect(lFoundPng).to.contain("PNG");
                         } else if (TEXTTYPES.indexOf(pPair.input.options.outputType) > -1) {
                             utl.assertequalToFile(pPair.input.options.outputTo, pPair.expected);
                         } else {
