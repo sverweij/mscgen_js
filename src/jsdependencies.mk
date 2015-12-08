@@ -191,9 +191,6 @@ src/script/index.js: \
 	src/script/lib/lodash/lodash.custom.js \
 	src/script/render/graphics/renderast.js
 
-src/script/scriptlets/ast2svg_nosource.js: \
-	src/script/render/graphics/renderast.js
-
 src/script/test/cli/t_actions.js: \
 	src/script/cli/actions.js \
 	src/script/test/testutensils.js

@@ -3,6 +3,6 @@ languages:
 exclude_paths:
   - utl/*
   - src/lib/*
-  - src/script/scriptlets/*
+  - src/script/lib/*
   - src/script/parse/*
   - src/script/test/*

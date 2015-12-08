@@ -46,7 +46,7 @@
     "gulpfile.js",
     "src/lib/**",
     "src/script/parse/**",
-    "src/script/scriptlets/**",
+    "src/script/lib/**",
     "src/script/test/**"
   ],
   "test": [
