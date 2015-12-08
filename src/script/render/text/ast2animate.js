@@ -18,7 +18,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../../lib/lodash/lodash.custom"], function(utl) {
+define(["../../lib/lodash/lodash.custom"], function(_) {
     "use strict";
 
     var EMPTY_ARC     = [{kind:"|||"}];
@@ -59,18 +59,18 @@ define(["../../../lib/lodash/lodash.custom"], function(utl) {
      */
     FrameFactory.prototype.init = function (pAST, pPreCalculate){
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.AST          = utl.cloneDeep(pAST);
+        this.AST          = _.cloneDeep(pAST);
         this.len          = _calculateLength(pAST);
         this.noRows       = _calcNumberOfRows(pAST);
         this.position     = 0;
         if (this.AST.arcs) {
-            this.arcs     = utl.cloneDeep(this.AST.arcs);
+            this.arcs     = _.cloneDeep(this.AST.arcs);
             this.AST.arcs = [];
         }
         this.frames = [];
         if (this.preCalculate) {
             for (var i = 0; i < this.len; i++){
-                this.frames.push (utl.cloneDeep(this._calculateFrame(i)));
+                this.frames.push (_.cloneDeep(this._calculateFrame(i)));
             }
         }
     };

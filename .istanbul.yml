@@ -1,2 +1,2 @@
 instrumentation:
-    excludes: [src/lib/**/*]
+    excludes: [src/lib/**/* src/script/lib/**/*]

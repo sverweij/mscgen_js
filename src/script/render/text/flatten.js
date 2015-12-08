@@ -8,7 +8,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./arcmappings", "../../../lib/lodash/lodash.custom", "./textutensils"],
+define(["./asttransform", "./arcmappings", "../../lib/lodash/lodash.custom", "./textutensils"],
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *

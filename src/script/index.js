@@ -1,7 +1,7 @@
 /* jshint node:true, browser:true */
 var DEFAULT_PARSER = "./parse/mscgenparser_node";
 var DEFAULT_TEXT_RENDERER = "./render/text/ast2mscgen";
-var _ = require("../lib/lodash/lodash.custom");
+var _ = require("./lib/lodash/lodash.custom");
 
 var gLang2Parser = {
     mscgen: "./parse/mscgenparser_node",

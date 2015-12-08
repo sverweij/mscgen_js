@@ -12,7 +12,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", "./textutensils", "./arcmappings", "../../../lib/lodash/lodash.custom"],
+define(["./flatten", "./textutensils", "./arcmappings", "../../lib/lodash/lodash.custom"],
 function(flatten, txt, map, utl) {
     "use strict";
 

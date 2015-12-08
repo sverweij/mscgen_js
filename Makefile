@@ -175,7 +175,7 @@ src/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
 src/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
 	cp $< $@
 
-src/lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
+src/script/lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
 	$(LODASH) compat exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
 
 # dependencies
