@@ -26,5 +26,6 @@
 	"validateQuoteMarks": false,
 	"excludeFiles": [
 		"src/script/parse/**"
+		"src/script/lib/**"
 	]
 }
