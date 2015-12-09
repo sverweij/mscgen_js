@@ -11,7 +11,7 @@
  *  "msc": "msc { a,b,c; a => b [label=\"what is this?\"]; b =>> c [label=\"do you know?\"]; c >> a [label=\"thos are cool beans\"];}"
  * }
  */
-/* jshint undef:true, unused:strict, browser:true, node:true, indent:4 */
+/* jshint undef:true, unused:strict, browser:true, node:true */
 
 /* istanbul ignore else */
 if ( typeof define !== 'function') {
