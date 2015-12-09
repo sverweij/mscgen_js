@@ -1,4 +1,4 @@
-/* jshint esnext: true */
+/* jshint esnext: true, unused:true */
 /* jshint -W030 */
 var mscgenjs = require("..");
 var tst      = require("./testutensils");
