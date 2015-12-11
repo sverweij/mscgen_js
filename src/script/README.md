@@ -39,11 +39,10 @@ To **translate** between the three sequence chart languages it supports and to
 **generate** and **manipulate** other languages.
 
 ### Raster graphics?
-:page_with_curl: code in [ui/utl/exporter.js](ui/utl/exporter.js)
+:page_with_curl: code in [ui/interpreter/raster-exporter.js](ui/interpreter/raster-exporter.js)
 
 You might have noticed the [interpreter](https://sverweij.github.io/mscgen_js)
-also renders to jpeg and png. It's so simple we've put the few lines of
-code in an exporter controller.
+also renders to jpeg and png. It uses the canvg library and it is _really_ trivial.
 
 
 ## The controllers
