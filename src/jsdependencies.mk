@@ -2,6 +2,17 @@
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
+src/script/indexAMD.js: \
+	src/script/lib/lodash/lodash.custom.js \
+	src/script/parse/msgennyparser.js \
+	src/script/parse/xuparser.js \
+	src/script/render/graphics/renderast.js \
+	src/script/render/text/ast2dot.js \
+	src/script/render/text/ast2doxygen.js \
+	src/script/render/text/ast2mscgen.js \
+	src/script/render/text/ast2msgenny.js \
+	src/script/render/text/ast2xu.js
+
 src/script/mscgen-inpage.js: \
 	src/script/parse/msgennyparser.js \
 	src/script/parse/xuparser.js \
