@@ -48,6 +48,12 @@ define([], function() {
         ">>" : "directional",
         ":>" : "directional",
         "-x" : "directional",
+        "<-" : "directional",
+        "<=" : "directional",
+        "<<=" : "directional",
+        "<<" : "directional",
+        "<:" : "directional",
+        "x-" : "directional",
         "note" : "box",
         "box" : "box",
         "abox" : "box",
@@ -93,7 +99,7 @@ define([], function() {
         getStyle : function(pKey) { return KIND2STYLE[pKey]; },
         getAggregate : function(pKey) { return KIND2AGGREGATE[pKey]; },
         getNormalizedKind : function(pKey){
-            return KIND2NORMALIZEDKIND[pKey] ? KIND2NORMALIZEDKIND[pKey]: pKey;
+            return KIND2NORMALIZEDKIND[pKey]||pKey;
         }
     };
 });
