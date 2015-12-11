@@ -76,6 +76,54 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
                 }
             }
         },
+        "074": {
+            "entityColors": [
+          {
+              "linecolor": "#00A1DE",
+              "textbgcolor": "#00A1DE",
+              "textcolor": "white"
+          }
+        ],
+            "arcColors": {
+                "note": {
+                    "linecolor": "white",
+                    "textbgcolor": "#E77B2F",
+                    "textcolor": "white"
+                },
+                "---": {
+                    "linecolor": "#00A1DE",
+                    "textcolor": "#005B82",
+                    "textbgcolor": "white"
+                },
+            },
+            "aggregateArcColors": {
+                "inline_expression": {
+                    "linecolor": "#00A1DE",
+                    "textcolor": "#005B82"
+                },
+                "box": {
+                    "linecolor": "#00A1DE",
+                    "textbgcolor": "white",
+                    "textcolor": "#005B82"
+                },
+                "emptyarc": {
+                    "textcolor":  "#005B82",
+                    "linecolor":  "#005B82"
+                },
+                "directional": {
+                    "textcolor":  "#005B82",
+                    "linecolor":  "#005B82"
+                },
+                "bidirectional": {
+                    "textcolor":  "#005B82",
+                    "linecolor":  "#005B82"
+                },
+                "nondirectional": {
+                    "textcolor":  "#005B82",
+                    "linecolor":  "#005B82"
+                },
+            }
+        },
         "auto": {
             "entityColors": [
           {
