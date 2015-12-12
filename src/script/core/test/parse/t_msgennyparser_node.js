@@ -2,6 +2,7 @@ var parser = require("../../parse/msgennyparser_node");
 var tst    = require("../testutensils");
 var fix    = require("../astfixtures");
 var fs     = require("fs");
+var path   = require("path");
 var expect = require("chai").expect;
 
 var gCorrectOrderFixture = {
@@ -270,9 +271,9 @@ describe('parse/msgennyparser', function() {
     });
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync('./src/script/core/test/fixtures/test01_all_possible_arcs_msgenny.msgenny', {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.msgenny'), {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/test01_all_possible_arcs_msgenny.json', lAST);
+            tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.json'), lAST);
         });
     });
 });

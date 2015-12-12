@@ -3,6 +3,7 @@ var ast2animate = require("../../../render/text/ast2animate");
 var parser      = require("../../../parse/xuparser_node");
 var fix         = require("../../astfixtures");
 var fs          = require("fs");
+var path        = require("path");
 var tst         = require("../../testutensils");
 var expect      = require("chai").expect;
 
@@ -263,7 +264,7 @@ describe('render/text/ast2ani', function() {
     });
 
     describe('inline expressions', function(){
-        var lTextFromFile = fs.readFileSync('./src/script/core/test/fixtures/simpleXuSample.xu', {"encoding":"utf8"});
+        var lTextFromFile = fs.readFileSync(path.join(__dirname, '../../fixtures/simpleXuSample.xu'), {"encoding":"utf8"});
         var lAST = parser.parse(lTextFromFile.toString());
 
         var ani = new ast2animate.FrameFactory(lAST, false);
@@ -277,25 +278,25 @@ describe('render/text/ast2ani', function() {
         });
 
         it('produces the right frames - 0', function(){
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/xuframe00.json', ani.getFrame(0));
+            tst.assertequalToFileJSON(path.join(__dirname, '../../fixtures/xuframe00.json'), ani.getFrame(0));
         });
 
         it('produces the right frames - 1', function(){
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/xuframe01.json', ani.getFrame(1));
+            tst.assertequalToFileJSON(path.join(__dirname, '../../fixtures/xuframe01.json'), ani.getFrame(1));
         });
 
         it('produces the right frames - 2', function(){
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/xuframe02.json', ani.getFrame(2));
+            tst.assertequalToFileJSON(path.join(__dirname, '../../fixtures/xuframe02.json'), ani.getFrame(2));
         });
 
         /*
         it('produces the right frames - 3', function(){
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/xuframe03.json', ani.getFrame(3));
+            tst.assertequalToFileJSON('../../xuframe03.json', ani.getFrame(3));
         });
 
         it('produces the right frames - last', function(){
             ani.end();
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/simpleXuSample.json', ani.getCurrentFrame());
+            tst.assertequalToFileJSON('../../simpleXuSample.json', ani.getCurrentFrame());
         });
         */
     });

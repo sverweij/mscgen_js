@@ -2,6 +2,7 @@ var assert   = require("assert");
 var renderer = require("../../../render/text/ast2dot");
 var fix      = require("../../astfixtures");
 var fs       = require("fs");
+var path     = require("path");
 
 describe('render/text/ast2dot', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
@@ -143,9 +144,9 @@ graph {\n\
 
     describe('#renderAST() - file based tests', function(){
         it('should render all arcs', function(){
-            var lASTString = fs.readFileSync("./src/script/core/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
+            var lASTString = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.json"), {"encoding":"utf8"});
             var lAST = JSON.parse(lASTString);
-            var lExpectedProgram = fs.readFileSync("./src/script/core/test/fixtures/test01_all_possible_arcs_mscgen.dot", {"encoding":"utf8"});
+            var lExpectedProgram = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.dot"), {"encoding":"utf8"});
             var lProgram = renderer.render(lAST);
             assert.equal(lProgram, lExpectedProgram);
         });

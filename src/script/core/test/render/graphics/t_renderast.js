@@ -2,6 +2,7 @@
 var renderer = require("../../../render/graphics/renderast");
 var tst = require ("../../testutensils");
 var jsdom = require("jsdom");
+var path = require('path');
 
 function ast2svg(pASTString, pWindow, pIncludeSource, pUseOwnElement) {
     // make a deep copy first, as renderAST actively modifies its input
@@ -29,44 +30,44 @@ describe('render/graphics/renderast', function() {
                 });
             }
             it('should be ok with an empty AST', function(){
-                processAndCompare('./src/script/core/test/fixtures/astempty.svg', //
-                './src/script/core/test/fixtures/astempty.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
+                path.join(__dirname, '../../fixtures/astempty.json'), true);
             });
             it ('should given given a simple syntax tree, render an svg', function() {
-                processAndCompare('./src/script/core/test/fixtures/astsimple.svg', //
-                './src/script/core/test/fixtures/astsimple.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
+                path.join(__dirname, '../../fixtures/astsimple.json'), true);
             });
             it ('should given given a simple syntax tree, render an svg - with source omitted from svg', function() {
-                processAndCompare('./src/script/core/test/fixtures/astsimplenosource.svg', //
-                './src/script/core/test/fixtures/astsimple.json', false);
+                processAndCompare(path.join(__dirname, '../../fixtures/astsimplenosource.svg'), //
+                path.join(__dirname, '../../fixtures/astsimple.json'), false);
             });
             it('should not omit empty lines', function() {
-                processAndCompare('./src/script/core/test/fixtures/astemptylinesinboxes.svg', //
-                './src/script/core/test/fixtures/astemptylinesinboxes.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astemptylinesinboxes.svg'), //
+                path.join(__dirname, '../../fixtures/astemptylinesinboxes.json'), true);
             });
             it('should render colors', function() {
-                processAndCompare('./src/script/core/test/fixtures/rainbow.svg', //
-                './src/script/core/test/fixtures/rainbow.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/rainbow.svg'), //
+                path.join(__dirname, '../../fixtures/rainbow.json'), true);
             });
             it('should render ids & urls', function() {
-                processAndCompare('./src/script/core/test/fixtures/idsnurls.svg', //
-                './src/script/core/test/fixtures/idsnurls.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/idsnurls.svg'), //
+                path.join(__dirname, '../../fixtures/idsnurls.json'), true);
             });
             it('should wrap text in boxes well', function(){
-                processAndCompare('./src/script/core/test/fixtures/test19_multiline_lipsum.svg',//
-                './src/script/core/test/fixtures/test19_multiline_lipsum.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test19_multiline_lipsum.svg'),//
+                path.join(__dirname, '../../fixtures/test19_multiline_lipsum.json'), true);
             });
             it('should render empty inline expressions correctly', function(){
-                processAndCompare('./src/script/core/test/fixtures/test20_empty_inline_expression.svg',//
-                './src/script/core/test/fixtures/test20_empty_inline_expression.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test20_empty_inline_expression.svg'),//
+                path.join(__dirname, '../../fixtures/test20_empty_inline_expression.json'), true);
             });
             it('should render "alt" lines in inline expressions correctly', function(){
-                processAndCompare('./src/script/core/test/fixtures/test21_inline_expression_alt_lines.svg',//
-                './src/script/core/test/fixtures/test21_inline_expression_alt_lines.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.svg'),//
+                path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.json'), true);
             });
             it('should render all possible arcs', function() {
-                processAndCompare('./src/script/core/test/fixtures/test01_all_possible_arcs.svg', //
-                './src/script/core/test/fixtures/test01_all_possible_arcs.json', true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test01_all_possible_arcs.svg'), //
+                path.join(__dirname, '../../fixtures/test01_all_possible_arcs.json'), true);
             });
         });
     });
@@ -78,12 +79,12 @@ describe('render/graphics/renderast', function() {
                 });
             }
             it('should be ok with an empty AST', function(){
-                processAndCompare('./src/script/core/test/fixtures/astempty.svg', //
-                './src/script/core/test/fixtures/astempty.json', true, true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
+                path.join(__dirname, '../../fixtures/astempty.json'), true, true);
             });
             it ('should given given a simple syntax tree, render an svg', function() {
-                processAndCompare('./src/script/core/test/fixtures/astsimple.svg', //
-                './src/script/core/test/fixtures/astsimple.json', true, true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
+                path.join(__dirname, '../../fixtures/astsimple.json'), true, true);
             });
         });
     });

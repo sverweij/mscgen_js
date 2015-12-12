@@ -3,6 +3,7 @@ var renderer = require("../../../render/text/ast2mscgen");
 var parser   = require("../../../parse/mscgenparser_node");
 var fix      = require("../../astfixtures");
 var fs       = require("fs");
+var path     = require("path");
 var expect   = require("chai").expect;
 
 describe('render/text/ast2mscgen', function() {
@@ -102,9 +103,9 @@ describe('render/text/ast2mscgen', function() {
     });
     describe('#renderAST() - file based tests', function(){
         it('should render all arcs', function(){
-            var lASTString = fs.readFileSync("./src/script/core/test/fixtures/test01_all_possible_arcs_mscgen.json", {"encoding":"utf8"});
+            var lASTString = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.json"), {"encoding":"utf8"});
             var lAST = JSON.parse(lASTString);
-            //var lExpectedProgram = fs.readFileSync("./src/script/core/test/fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
+            //var lExpectedProgram = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
             var lProgram = renderer.render(lAST);
             // assert.equal(lProgram,lExpectedProgram);
             expect(parser.parse(lProgram)).to.deep.equal(lAST);

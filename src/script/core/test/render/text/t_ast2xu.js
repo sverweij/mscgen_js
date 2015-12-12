@@ -2,6 +2,7 @@ var assert   = require("assert");
 var renderer = require("../../../render/text/ast2xu");
 var fix      = require("../../astfixtures");
 var fs       = require("fs");
+var path     = require('path');
 var parser   = require("../../../parse/xuparser_node");
 var expect   = require("chai").expect;
 
@@ -132,7 +133,7 @@ describe('render/text/ast2xu', function() {
 
     describe('#renderAST() - file based tests', function() {
         it('should render all arcs', function() {
-            var lASTString = fs.readFileSync("./src/script/core/test/fixtures/test01_all_possible_arcs.json", {
+            var lASTString = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs.json"), {
                 "encoding" : "utf8"
             });
             var lAST = JSON.parse(lASTString);

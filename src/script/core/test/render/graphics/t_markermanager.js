@@ -1,5 +1,6 @@
 var mark   = require("../../../render/graphics/markermanager");
 var fs     = require("fs");
+var path   = require("path");
 var expect = require("chai").expect;
 
 var gMarkerDefs =
@@ -79,10 +80,10 @@ var gMarkerDefs =
     ];
 
 describe('render/graphics/markermanager', function() {
-    describe('#getConfig - paths not hit in end2end, but that are still important', function() {
+    describe('#getMarkerDefs - paths not hit in end2end, but that are still important', function() {
 
         it('should return the colors in arcs in inline expressions', function() {
-            var lTextFromFile = fs.readFileSync('./src/script/core/test/fixtures/simpleXuSample.json', {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../../fixtures/simpleXuSample.json'), {"encoding":"utf8"});
             var lAST = JSON.parse(lTextFromFile.toString());
             expect(mark.getMarkerDefs("481", lAST)).to.deep.equal(gMarkerDefs);
         });

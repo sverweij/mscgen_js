@@ -2,6 +2,7 @@ var assert = require("assert");
 var renderer = require("../../../render/text/ast2msgenny");
 var fix = require("../../astfixtures");
 var utl = require("../../testutensils");
+var path = require('path');
 
 describe('render/text/ast2msgenny', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
@@ -116,13 +117,12 @@ a =>> a : happy-the-peppy - outside;\n\
     describe('#renderAST() - file based tests', function() {
         it('should render all arcs', function() {
             utl.assertequalProcessing(
-                "./src/script/core/test/fixtures/test01_all_possible_arcs_msgenny.msgenny",
-                "./src/script/core/test/fixtures/test01_all_possible_arcs_msgenny.json",
+                path.join(__dirname, "../../fixtures/test01_all_possible_arcs_msgenny.msgenny"),
+                path.join(__dirname, "../../fixtures/test01_all_possible_arcs_msgenny.json"),
                 function(pFileContent) {
                     return renderer.render(JSON.parse(pFileContent));
                 }
             );
         });
     });
-
 });

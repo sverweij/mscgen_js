@@ -106,6 +106,15 @@ describe('index', function() {
                     expect(pResult).to.equal(gExpectedMscGenOutput);
                 });
         });
+        it('translating a raw javascript object works', function(){
+            mscgenjs.translateMsc(
+                fix.astOneAlt,
+                {inputType: "json", outputType: "mscgen"},
+                function(pError, pResult){
+                    expect(pError).to.be.null;
+                    expect(pResult).to.equal(gExpectedMscGenOutput);
+                });
+        });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
         describe('#renderMsc()', function() {

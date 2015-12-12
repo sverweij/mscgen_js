@@ -2,6 +2,7 @@ var parser = require("../../parse/xuparser_node");
 var tst    = require("../testutensils");
 var fix    = require("../astfixtures");
 var fs     = require("fs");
+var path   = require("path");
 var expect = require("chai").expect;
 
 describe('parse/xuparser', function() {
@@ -188,19 +189,19 @@ describe('parse/xuparser', function() {
 
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync('./src/script/core/test/fixtures/test01_all_possible_arcs.xu', {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test01_all_possible_arcs.xu'), {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/test01_all_possible_arcs.json', lAST);
+            tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs.json'), lAST);
         });
         it("should parse stuff with colors", function() {
-            var lTextFromFile = fs.readFileSync('./src/script/core/test/fixtures/rainbow.mscin', {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/rainbow.mscin'), {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalToFileJSON('./src/script/core/test/fixtures/rainbow.json', lAST);
+            tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/rainbow.json'), lAST);
         });
         it("strings, ids and urls", function() {
-            var lTextFromFile = fs.readFileSync('./src/samples/test10_stringsandurls.mscin', {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test10_stringsandurls.mscin'), {"encoding":"utf8"});
             var lAST = parser.parse(lTextFromFile.toString());
-            tst.assertequalToFileJSON('./src/samples/test10_stringsandurls.json', lAST);
+            tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test10_stringsandurls.json'), lAST);
         });
     });
 
