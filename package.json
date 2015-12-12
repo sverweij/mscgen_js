@@ -6,7 +6,8 @@
   "dependencies": {
     "amdefine": "1.0.0",
     "codemirror": "5.9.0",
-    "requirejs": "2.1.22"
+    "requirejs": "2.1.22",
+    "mscgenjs": "sverweij/mscgenjs-core"
   },
   "devDependencies": {
     "almond": "0.3.1",
