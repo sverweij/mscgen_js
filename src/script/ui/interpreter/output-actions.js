@@ -4,7 +4,7 @@ define(["./uistate",
         "./animator",
         "../utl/exporter",
         "./raster-exporter",
-        "../utl/domutl",
+        "../../core/render/svgutensils",
         "./general-actions",
         "../utl/gaga"
         ],
