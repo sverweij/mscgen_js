@@ -4,5 +4,7 @@ exclude_paths:
   - utl/*
   - src/lib/*
   - src/script/lib/*
-  - src/script/parse/*
-  - src/script/test/*
+  - src/script/core/parse/*
+  - src/script/core/test/*
+  - src/script/cli/test/*
+  - src/script/ui/test/*

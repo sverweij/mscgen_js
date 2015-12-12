@@ -7,9 +7,9 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../render/text/ast2dot",
-        "../../render/text/ast2mscgen",
-        "../../render/text/ast2doxygen",
+define(["../../core/render/text/ast2dot",
+        "../../core/render/text/ast2mscgen",
+        "../../core/render/text/ast2doxygen",
         "./paramslikker",
         ],
         function(ast2dot, ast2mscgen, ast2doxygen, par) {

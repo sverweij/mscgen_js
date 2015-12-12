@@ -1,8 +1,8 @@
 /* jshint browser:true */
 /* global define */
 
-define(["../../render/graphics/renderast",
-        "../../render/text/ast2animate",
+define(["../../core/render/graphics/renderast",
+        "../../core/render/text/ast2animate",
         "../utl/gaga",
         "../utl/domutl"],
         function(msc_render, ast2animate, gaga, dq) {

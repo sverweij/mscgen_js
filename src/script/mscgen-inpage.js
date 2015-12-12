@@ -1,8 +1,8 @@
 /* jshint browser:true */
 /* global require */
-require(["parse/xuparser",
-         "parse/msgennyparser",
-         "render/graphics/renderast",
+require(["core/parse/xuparser",
+         "core/parse/msgennyparser",
+         "core/render/graphics/renderast",
          "ui/utl/exporter",
          "ui/embedding/config",
          "ui/embedding/error-rendering",

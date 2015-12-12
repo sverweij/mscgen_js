@@ -3,7 +3,7 @@
 define(["./uistate",
         "../utl/store",
         "../utl/gaga",
-        "../../render/text/colorize",
+        "../../core/render/text/colorize",
         "./general-actions"
         ],
         function(uistate, store, gaga, colorize, gactions) {

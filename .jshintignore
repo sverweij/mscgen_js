@@ -1,2 +1,2 @@
-src/script/parse
-src/script/lib
+src/script/core/parse
+src/script/core/lib

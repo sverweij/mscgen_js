@@ -45,9 +45,9 @@
     "uglify-js": "2.6.1"
   },
   "scripts": {
-    "test": "mocha -R dot --timeout 4000 --recursive src/script/test/",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive src/script/test",
-    "nsp": "nsp check",
+    "test": "mocha -R dot --timeout 4000 --recursive src/script/core/test src/script/cli/test/ src/script/ui/test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive src/script/core/test src/script/cli/test/ src/script/ui/test",
+   "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",

@@ -25,14 +25,14 @@ else
 	BUILDDIR=build/branches/$(GIT_CURRENT_BRANCH)
 endif
 
-GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
-	src/script/parse/msgennyparser.js \
-	src/script/parse/xuparser.js
+GENERATED_SOURCES_WEB=src/script/core/parse/mscgenparser.js \
+	src/script/core/parse/msgennyparser.js \
+	src/script/core/parse/xuparser.js
 GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
-GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
-	src/script/parse/msgennyparser_node.js \
-	src/script/parse/xuparser_node.js
+GENERATED_SOURCES_NODE=src/script/core/parse/mscgenparser_node.js \
+	src/script/core/parse/msgennyparser_node.js \
+	src/script/core/parse/xuparser_node.js
 GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE) $(GENERATED_STYLESHEETS)
 SOURCES_NODE=$(GENERATED_SOURCES_NODE)
 REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
@@ -74,7 +74,7 @@ LIBDIRS=src/lib/canvg \
 		src/lib/codemirror/mode/mscgen \
 		src/lib/codemirror/mode/javascript \
 		src/lib/codemirror/theme \
-		src/lib/lodash
+		src/script/core/lib/lodash
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
@@ -121,10 +121,10 @@ help:
 
 
 # production rules
-src/script/parse/%parser.js: src/script/parse/%parser_node.js
+src/script/core/parse/%parser.js: src/script/core/parse/%parser_node.js
 	$(CJS2AMD) < $< > $@
 
-src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
+src/script/core/parse/%parser_node.js: src/script/core/parse/peg/%parser.pegjs
 	$(PEGJS) $< $@
 
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
@@ -175,7 +175,7 @@ src/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
 src/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
 	cp $< $@
 
-src/script/lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
+src/script/core/lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
 	$(LODASH) compat exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
 
 # dependencies

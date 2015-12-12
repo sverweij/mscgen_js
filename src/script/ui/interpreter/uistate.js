@@ -39,8 +39,8 @@ msc {
 /* jshint unused:true */
 /* global define */
 
-define(["../../parse/xuparser", "../../parse/msgennyparser", "../../render/graphics/renderast",
-        "../../render/text/ast2msgenny", "../../render/text/ast2xu",
+define(["../../core/parse/xuparser", "../../core/parse/msgennyparser", "../../core/render/graphics/renderast",
+        "../../core/render/text/ast2msgenny", "../../core/render/text/ast2xu",
         "../utl/gaga", "../utl/maps",
         "../utl/domutl",
         "../utl/exporter"

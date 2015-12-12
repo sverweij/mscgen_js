@@ -1,15 +1,15 @@
 # javascript that can't get makedepended because it loads its
 # dependencies conditionally
-src/script/index.js: \
-	src/script/parse/mscgenparser_node \
-	src/script/parse/xuparser_node \
-	src/script/parse/msgennyparser_node \
-	src/script/render/text/ast2mscgen \
-	src/script/render/text/ast2msgenny \
-	src/script/render/text/ast2xu \
-	src/script/render/text/ast2dot \
-	src/script/render/text/ast2doxygen \
-	src/script/render/graphics/renderast
+src/script/core/index.js: \
+	src/script/core/parse/mscgenparser_node \
+	src/script/core/parse/xuparser_node \
+	src/script/core/parse/msgennyparser_node \
+	src/script/core/render/text/ast2mscgen \
+	src/script/core/render/text/ast2msgenny \
+	src/script/core/render/text/ast2xu \
+	src/script/core/render/text/ast2dot \
+	src/script/core/render/text/ast2doxygen \
+	src/script/core/render/graphics/renderast
 
 src/script/cli/actions.js: \
 	src/script/cli/cli-phantom-vector.js \
@@ -43,7 +43,7 @@ src/index.html: \
 	src/images/test14_cheat_sheet.svg \
 	$(SAMPLES)
 
-# documentation 
+# documentation
 src/style/doc.scss: \
 	src/style/snippets/_colors.scss \
 	src/style/snippets/_fonts.scss \

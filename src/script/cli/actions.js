@@ -2,7 +2,7 @@
 module.exports = (function() {
     "use strict";
     var fs        = require("fs");
-    var mscgenjs  = require("..");
+    var mscgenjs  = require("../core");
 
     const GRAPHICSFORMATS = ['svg', 'png', 'jpeg'];
     const LICENSE = "\n" +
