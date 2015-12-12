@@ -1,0 +1,3 @@
+instrumentation:
+    excludes: [lib/**/* indexAMD.js parse/msgennyparser.js parse/mscgenparser.js parse/xuparser.js]
+    include-all-sources: true
