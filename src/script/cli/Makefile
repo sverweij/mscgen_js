@@ -81,7 +81,7 @@ run-update-dependencies:
 
 depend:
 	$(MAKEDEPEND) --system cjs src/
-	$(MAKEDEPEND) --append --system cjs --flat-define CLI_JS_SOURCES bin/mscgen_js
+	$(MAKEDEPEND) --append --system cjs --flat-define CLI_JS_SOURCES src/mscgen.js
 
 clean-the-build:
 

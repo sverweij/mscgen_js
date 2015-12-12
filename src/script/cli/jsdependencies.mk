@@ -11,3 +11,8 @@ src/mscgen.js: \
 	src/validations.js
 
 # cjs dependencies
+CLI_JS_SOURCES=src/mscgen.js \
+	../core/index.js \
+	src/actions.js \
+	src/normalizations.js \
+	src/validations.js

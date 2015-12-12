@@ -190,25 +190,6 @@ src/script/ui/utl/exporter.js: \
 	src/script/ui/utl/paramslikker.js
 
 # cjs dependencies
-src/script/cli/actions.js: \
-	src/script/core/index.js
-
-src/script/cli/mscgen.js: \
-	src/script/cli/actions.js \
-	src/script/cli/normalizations.js \
-	src/script/cli/validations.js
-
-src/script/cli/test/t_actions.js: \
-	src/script/cli/actions.js \
-	src/script/cli/test/testutensils.js
-
-src/script/cli/test/t_normalizations.js: \
-	src/script/cli/normalizations.js \
-	src/script/core/lib/lodash/lodash.custom.js
-
-src/script/cli/test/t_validations.js: \
-	src/script/cli/validations.js
-
 src/script/core/index.js: \
 	src/script/core/lib/lodash/lodash.custom.js \
 	src/script/core/render/graphics/renderast.js
@@ -386,9 +367,3 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/ui/utl/maps.js \
 	src/script/ui/utl/paramslikker.js \
 	src/script/ui/utl/store.js
-# cjs dependencies
-CLI_JS_SOURCES=src/script/cli/mscgen.js \
-	src/script/cli/actions.js \
-	src/script/cli/normalizations.js \
-	src/script/cli/validations.js \
-	src/script/core/index.js
