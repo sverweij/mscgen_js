@@ -68,9 +68,9 @@ define(["./svgelementfactory",
         renderASTPost(lAST);
         var lElement = pWindow.document.getElementById(pParentElementId);
         if (!!lElement) {
-            return lElement.innerHTML;
+            return svgutl.webkitNamespaceBugWorkaround(lElement.innerHTML);
         } else {
-            return pWindow.document.body.innerHTML;
+            return svgutl.webkitNamespaceBugWorkaround(pWindow.document.body.innerHTML);
         }
     }
 
