@@ -1,5 +1,0 @@
-languages:
-  JavaScript: true
-exclude_paths:
-  - test/*
-  - bin/*

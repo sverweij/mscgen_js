@@ -1,3 +1,0 @@
-instrumentation:
-    excludes: [src/cli-phantom*.js]
-    include-all-sources: true
