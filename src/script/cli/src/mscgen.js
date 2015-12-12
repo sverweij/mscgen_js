@@ -4,7 +4,7 @@ var validations    = require("./validations");
 var actions        = require("./actions");
 var normalizations = require("./normalizations");
 
-const VERSION   = require("../../../package.json").version;
+const VERSION   = require("../package.json").version;
 
 try {
     program

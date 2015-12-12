@@ -19,12 +19,12 @@
             margin: 0;
         }
     </style>
-    <script src="../../lib/require.js"></script>
+    <script src="../../../lib/require.js"></script>
 </head>
 <body><pre id="__svg">Rendering failed, apparently</pre>
 <script>
     function renderInThePage(pASTString){
-        require(['../core/render/graphics/renderast'], function(renderer){
+        require(['../../core/render/graphics/renderast'], function(renderer){
             window.__svg.innerHTML = "";
             renderer.clean('__svg', window);
             renderer.renderAST(JSON.parse(pASTString), '', '__svg', window);
@@ -33,7 +33,7 @@
     }
 
     function renderVectorInThePage(pASTString){
-        require(['../core/render/graphics/renderast', '../ui/utl/domutl'], function(renderer, dutl){
+        require(['../../core/render/graphics/renderast', '../../ui/utl/domutl'], function(renderer, dutl){
             window.__svg.innerHTML = "";
             renderer.clean('__svg', window);
             renderer.renderAST(JSON.parse(pASTString), '', '__svg', window);
