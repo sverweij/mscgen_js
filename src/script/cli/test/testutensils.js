@@ -25,22 +25,22 @@ module.exports = (function() {
     }
     return {
 
-    assertequalFileJSON : function(pFoundFileName, pExpectedFileName){
-        assertequalToFileJSON(
-            pExpectedFileName,
-            JSON.parse(
-                fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
-            )
-        );
-    },
+        assertequalFileJSON : function(pFoundFileName, pExpectedFileName){
+            assertequalToFileJSON(
+                pExpectedFileName,
+                JSON.parse(
+                    fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
+                )
+            );
+        },
 
-    assertequalToFile: function assertequalToFile(pExpectedFileName, pFoundFileName){
-        expect(
-            fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
-        ).to.equal(
-            fs.readFileSync(pExpectedFileName, {"encoding":"utf8"})
-        );
-    }
-};
+        assertequalToFile: function assertequalToFile(pExpectedFileName, pFoundFileName){
+            expect(
+                fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
+            ).to.equal(
+                fs.readFileSync(pExpectedFileName, {"encoding":"utf8"})
+            );
+        }
+    };
 
 })();

@@ -1,5 +1,5 @@
 var expect    = require("chai").expect;
-var norm      = require("../normalizations");
+var norm      = require("../src/normalizations");
 var cloneDeep = require("./clone").cloneDeep;
 
 

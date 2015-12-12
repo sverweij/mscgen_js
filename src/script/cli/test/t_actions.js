@@ -1,5 +1,6 @@
 var fs      = require("fs");
-var actions = require("../actions");
+var path    = require("path");
+var actions = require("../src/actions");
 var utl     = require("./testutensils");
 var chai    = require("chai");
 var expect  = chai.expect;
@@ -7,85 +8,90 @@ chai.use(require("chai-xml"));
 
 var testPairs = [
     {
-        title : "'-T svg -i rainbow.mscin tmp_rainbow.svg' - produces svg",
-        input : {
-            options : {
-                outputTo: "src/script/cli/test/output/rainbow_mscgen_source.svg",
-                outputType : "svg",
-                inputFrom  : "src/script/cli/test/fixtures/rainbow.mscin"
-            }
-        },
-        expected : "src/script/cli/test/fixtures/rainbow_mscgen_source.svg"
-    },
-    {
-        title : "'-T png -i rainbow.mscin tmp_rainbow.png' - produces png",
-        input : {
-            options : {
-                outputTo: "src/script/cli/test/output/rainbow_mscgen_source.png",
-                outputType : "png",
-                inputFrom  : "src/script/cli/test/fixtures/rainbow.mscin"
-            }
-        },
-        expected : "src/script/cli/test/fixtures/rainbow_mscgen_source.png"
-    },
-    {
         title : "'-p -i rainbow.mscin tmp_rainbow.json' - produces AST",
         input : {
             options : {
-                inputFrom  : "src/script/cli/test/fixtures/rainbow.mscin",
-                outputTo   : "src/script/cli/test/output/rainbow_mscgen_source.json",
+                inputFrom  : "fixtures/rainbow.mscin",
+                outputTo   : "output/rainbow_mscgen_source.json",
                 parserOutput : true
             }
         },
-        expected : "src/script/cli/test/output/rainbow_mscgen_source.json"
+        expected : "fixtures/rainbow_mscgen_source.json"
     },
     {
         title : "'-T dot -i rainbow.mscin rainbow_mscgen_source.dot' - produces dot",
         input : {
             options : {
                 outputType : "dot",
-                inputFrom  : "src/script/cli/test/fixtures/rainbow.mscin",
-                outputTo   : "src/script/cli/test/output/rainbow_mscgen_source.dot"
+                inputFrom  : "fixtures/rainbow.mscin",
+                outputTo   : "output/rainbow_mscgen_source.dot"
             }
         },
-        expected : "src/script/cli/test/fixtures/rainbow_mscgen_source.dot"
+        expected : "fixtures/rainbow_mscgen_source.dot"
     },
     {
         title : "'-T doxygen -i rainbow.mscin rainbow_mscgen_source.doxygen' - produces doxygen",
         input : {
             options : {
                 outputType : "doxygen",
-                inputFrom  : "src/script/cli/test/fixtures/rainbow.mscin",
-                outputTo   : "src/script/cli/test/output/rainbow_mscgen_source.doxygen"
+                inputFrom  : "fixtures/rainbow.mscin",
+                outputTo   : "output/rainbow_mscgen_source.doxygen"
             }
         },
-        expected : "src/script/cli/test/fixtures/rainbow_mscgen_source.doxygen"
+        expected : "fixtures/rainbow_mscgen_source.doxygen"
     },
     {
         title : "'-T msgenny -i simpleXuSample.xu -o simpleXuSample.msgenny' - produces mscgen",
         input : {
             options : {
-                inputFrom  : "src/script/cli/test/fixtures/simpleXuSample.xu",
+                inputFrom  : "fixtures/simpleXuSample.xu",
                 inputType  : "xu",
-                outputTo   : "src/script/cli/test/output/simpleXuSample.msgenny",
+                outputTo   : "output/simpleXuSample.msgenny",
                 outputType : "msgenny"
             }
         },
-        expected : "src/script/cli/test/fixtures/simpleXuSample.msgenny"
+        expected : "fixtures/simpleXuSample.msgenny"
     },
     {
         title : "'-T msgenny -i rainbow.json -o rainbow.msgenny' - produces mscgen",
         input : {
             options : {
-                inputFrom  : "src/script/cli/test/fixtures/simpleXuSample.json",
+                inputFrom  : "fixtures/simpleXuSample.json",
                 inputType  : "json",
-                outputTo   : "src/script/cli/test/output/simpleXuSampleToo.msgenny",
+                outputTo   : "output/simpleXuSampleToo.msgenny",
                 outputType : "msgenny"
             }
         },
-        expected : "src/script/cli/test/fixtures/simpleXuSample.msgenny"
+        expected : "fixtures/simpleXuSample.msgenny"
+    },
+    {
+        title : "'-T svg -i rainbow.mscin tmp_rainbow.svg' - produces svg",
+        input : {
+            options : {
+                outputTo: "output/rainbow_mscgen_source.svg",
+                outputType : "svg",
+                inputFrom  : "fixtures/rainbow.mscin"
+            }
+        },
+        expected : "fixtures/rainbow_mscgen_source.svg"
+    },
+    {
+        title : "'-T png -i rainbow.mscin tmp_rainbow.png' - produces png",
+        input : {
+            options : {
+                outputTo: "output/rainbow_mscgen_source.png",
+                outputType : "png",
+                inputFrom  : "fixtures/rainbow.mscin"
+            }
+        },
+        expected : "fixtures/rainbow_mscgen_source.png"
     }
-];
+].map(function(pTestPair){
+    pTestPair.input.options.inputFrom = path.join(__dirname, pTestPair.input.options.inputFrom);
+    pTestPair.input.options.outputTo = path.join(__dirname, pTestPair.input.options.outputTo);
+    pTestPair.expected = path.join(__dirname, pTestPair.expected);
+    return pTestPair;
+});
 
 function resetOutputDir(){
     testPairs.forEach(function(pPair){
@@ -139,9 +145,15 @@ describe('cli/actions', function() {
                             var lFoundPng = fs.readFileSync(pPair.input.options.outputTo, {"encoding" : "utf8"});
                             expect(lFoundPng).to.contain("PNG");
                         } else if (TEXTTYPES.indexOf(pPair.input.options.outputType) > -1) {
-                            utl.assertequalToFile(pPair.input.options.outputTo, pPair.expected);
+                            utl.assertequalToFile(
+                                pPair.input.options.outputTo,
+                                pPair.expected
+                            );
                         } else {
-                            utl.assertequalFileJSON(pPair.input.options.outputTo, pPair.expected);
+                            utl.assertequalFileJSON(
+                                pPair.input.options.outputTo,
+                                pPair.expected
+                            );
                         }
 
                         done();

@@ -1,7 +1,8 @@
+var path   = require("path");
 var chai   = require("chai");
 var assert = chai.assert;
 var expect = chai.expect;
-var val    = require("../validations");
+var val    = require("../src/validations");
 
 describe('cli/validations', function() {
 
@@ -38,11 +39,11 @@ describe('cli/validations', function() {
     });
 
     describe('#validateArguments() - ', function() {
-        it("'-T svg -o kaboeki.svg src/script/cli/test/fixtures/rainbow.mscin is oki", function() {
+        it("'-T svg -o kaboeki.svg fixtures/rainbow.mscin is oki", function() {
             try {
                 val.validateArguments(
                     {
-                        inputFrom: "src/script/cli/test/fixtures/rainbow.mscin",
+                        inputFrom: path.join(__dirname, "fixtures/rainbow.mscin"),
                         outputTo: "kaboeki.svg",
                         outputType: "svg"
                     }
