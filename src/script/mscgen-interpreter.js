@@ -19,6 +19,8 @@ require(["ui/interpreter/input-actions",
         window.__color_minimal_force.addEventListener("click", iactions.colorMinimalFOnClick, false);
         window.__color_rose.addEventListener("click", iactions.colorRoseOnClick, false);
         window.__color_rose_force.addEventListener("click", iactions.colorRoseFOnClick, false);
+        window.__color_bluey.addEventListener("click", iactions.colorBlueyOnClick, false);
+        window.__color_bluey_force.addEventListener("click", iactions.colorBlueyFOnClick, false);
         window.__color_auto.addEventListener("click", iactions.colorAutoOnClick, false);
         window.__color_auto_force.addEventListener("click", iactions.colorAutoFOnClick, false);
         window.__color_remove.addEventListener("click", iactions.uncolorizeOnClick, false);

@@ -40,6 +40,8 @@ define(["./uistate",
         colorMinimalFOnClick: function(){ _applyColorScheme("minimal", true); },
         colorRoseOnClick: function(){ _applyColorScheme("rosy", false); },
         colorRoseFOnClick: function(){ _applyColorScheme("rosy", true); },
+        colorBlueyOnClick: function(){ _applyColorScheme("bluey", false); },
+        colorBlueyFOnClick: function(){ _applyColorScheme("bluey", true); },
         uncolorizeOnClick: function() {
             uistate.manipulateSource(colorize.uncolor);
             gactions.hideAllPanels();

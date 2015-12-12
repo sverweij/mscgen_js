@@ -36,6 +36,18 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
                 "---": {
                     "linecolor": "grey",
                     "textbgcolor": "white"
+                },
+                ">>": {
+                    "linecolor": "#555"
+                },
+                "<<": {
+                    "linecolor": "#555"
+                },
+                "-x": {
+                    "linecolor": "#500"
+                },
+                "x-": {
+                    "linecolor": "#500"
                 }
             },
             "aggregateArcColors": {
@@ -76,7 +88,7 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
                 }
             }
         },
-        "074": {
+        "bluey": {
             "entityColors": [
           {
               "linecolor": "#00A1DE",
