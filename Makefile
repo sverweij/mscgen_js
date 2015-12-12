@@ -14,7 +14,7 @@ SEDVERSION=utl/sedversion.sh
 NPM=npm
 BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
-MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules|cli"
 MINIFY=node_modules/.bin/uglifyjs
 MINIFYHTML=node_modules/.bin/html-minifier --config-file .html-minifier-conf
 LODASH=node_modules/.bin/lodash
@@ -249,11 +249,11 @@ dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.
 
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console src/script/* | grep -c console | grep ^0$$
+	grep -r console src/script/mscgen-*.js src/script/ui src/script/core | grep -c console | grep ^0$$
 	@echo ... ok
 
 consolecheck:
-	grep -r console src/script/*
+	grep -r console src/script/mscgen-*.js src/script/ui src/script/core
 
 csslint:
 	$(CSSLINT) src/style/*.css
@@ -315,7 +315,6 @@ depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
 	$(MAKEDEPEND) --append --system amd --flat-define EMBED_JS_SOURCES src/script/mscgen-inpage.js
 	$(MAKEDEPEND) --append --system amd --flat-define INTERPRETER_JS_SOURCES src/script/mscgen-interpreter.js
-	$(MAKEDEPEND) --append --system cjs --flat-define CLI_JS_SOURCES src/script/cli/mscgen.js
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \

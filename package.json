@@ -3,15 +3,9 @@
   "version": "1.2.4",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "main": "src/script/index.js",
-  "bin": {
-    "mscgen_js": "bin/mscgen_js",
-    "mscgenjs": "bin/mscgen_js",
-    "mscgen.js": "bin/mscgen_js"
-  },
   "dependencies": {
     "amdefine": "1.0.0",
     "codemirror": "5.9.0",
-    "phantomjs": "1.9.19",
     "requirejs": "2.1.22"
   },
   "devDependencies": {
@@ -45,8 +39,8 @@
     "uglify-js": "2.6.1"
   },
   "scripts": {
-    "test": "mocha -R dot --timeout 4000 --recursive src/script/core/test src/script/cli/test/ src/script/ui/test",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive src/script/core/test src/script/cli/test/ src/script/ui/test",
+    "test": "mocha -R dot --timeout 4000 --recursive src/script/core/test src/script/ui/test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive src/script/core/test src/script/ui/test",
    "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",

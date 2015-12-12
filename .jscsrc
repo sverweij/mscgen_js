@@ -25,6 +25,7 @@
 	"validateParameterSeparator": ", ",
 	"validateQuoteMarks": false,
 	"excludeFiles": [
+		"src/script/cli/**",
 		"src/script/core/parse/**",
 		"src/script/core/lib/**"
 	]

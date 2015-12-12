@@ -1,2 +1,3 @@
 src/script/core/parse
 src/script/core/lib
+src/script/cli
