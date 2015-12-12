@@ -1,8 +1,8 @@
 /* jshint browser:true */
 /* global require */
-require(["core/parse/xuparser",
-         "core/parse/msgennyparser",
-         "core/render/graphics/renderast",
+require(["../../node_modules/mscgenjs/parse/xuparser",
+         "../../node_modules/mscgenjs/parse/msgennyparser",
+         "../../node_modules/mscgenjs/render/graphics/renderast",
          "ui/utl/exporter",
          "ui/embedding/config",
          "ui/embedding/error-rendering",
