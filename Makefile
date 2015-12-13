@@ -13,7 +13,7 @@ SEDVERSION=utl/sedversion.sh
 NPM=npm
 BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
-MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules|cli"
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules"
 MINIFY=node_modules/.bin/uglifyjs
 MINIFYHTML=node_modules/.bin/html-minifier --config-file .html-minifier-conf
 
@@ -117,12 +117,6 @@ help:
 
 
 # production rules
-src/script/core/parse/%parser.js: src/script/core/parse/%parser_node.js
-	$(CJS2AMD) < $< > $@
-
-src/script/core/parse/%parser_node.js: src/script/core/parse/peg/%parser.pegjs
-	$(PEGJS) $< $@
-
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
 	$(SEDVERSION) < $< | $(MINIFYHTML) > $@
 
@@ -147,11 +141,11 @@ $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 $(PRODDIRS):
 	mkdir -p $@
 
-bower_components/canvg-gabelerner/%.js:
-	$(BOWER) install --save gabelerner/canvg
-
 $(LIBDIRS):
 	mkdir -p $@
+
+bower_components/canvg-gabelerner/%.js:
+	$(BOWER) install
 
 src/script/lib/require.js: node_modules/requirejs/require.js
 	$(MINIFY) $< -m -c > $@
@@ -254,11 +248,11 @@ dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.
 
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console src/script/mscgen-*.js src/script/ui src/script/core | grep -c console | grep ^0$$
+	grep -r console src/script/mscgen-*.js src/script/embedding src/script/interpreter src/script/utl | grep -c console | grep ^0$$
 	@echo ... ok
 
 consolecheck:
-	grep -r console src/script/mscgen-*.js src/script/ui src/script/core
+	grep -r console src/script/mscgen-*.js src/script/embedding src/script/interpreter src/script/utl
 
 csslint:
 	$(CSSLINT) src/style/*.css
