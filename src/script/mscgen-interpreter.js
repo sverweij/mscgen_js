@@ -1,11 +1,11 @@
 /* jshint browser:true */
 /* global require */
-require(["ui/interpreter/input-actions",
-         "ui/interpreter/output-actions",
-         "ui/interpreter/nav-actions",
-         "ui/interpreter/param-actions",
-         "ui/interpreter/general-actions",
-         "ui/interpreter/editor-events"],
+require(["interpreter/input-actions",
+         "interpreter/output-actions",
+         "interpreter/nav-actions",
+         "interpreter/param-actions",
+         "interpreter/general-actions",
+         "interpreter/editor-events"],
         function(iactions, oactions, nactions, par, gactions, edit) {
     "use strict";
 

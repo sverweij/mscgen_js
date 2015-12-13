@@ -1,12 +1,12 @@
 /* jshint browser:true */
 /* global require */
-require(["parse/xuparser",
-         "parse/msgennyparser",
-         "render/graphics/renderast",
-         "ui/utl/exporter",
-         "ui/embedding/config",
-         "ui/embedding/error-rendering",
-         "ui/utl/domutl"],
+require(["lib/mscgenjs-core/parse/xuparser",
+         "lib/mscgenjs-core/parse/msgennyparser",
+         "lib/mscgenjs-core/render/graphics/renderast",
+         "utl/exporter",
+         "embedding/config",
+         "embedding/error-rendering",
+         "utl/domutl"],
         function(mscparser, msgennyparser, mscrender, exp, conf, err, $) {
     "use strict";
 

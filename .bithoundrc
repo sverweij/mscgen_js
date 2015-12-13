@@ -44,8 +44,6 @@
     "**/yui*.js",
     "bower_components/**",
     "gulpfile.js",
-    "src/lib/**",
-    "src/script/parse/**",
     "src/script/lib/**",
     "src/script/test/**"
   ],

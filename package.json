@@ -3,16 +3,11 @@
   "version": "1.2.4",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "main": "src/script/index.js",
-  "bin": {
-    "mscgen_js": "bin/mscgen_js",
-    "mscgenjs": "bin/mscgen_js",
-    "mscgen.js": "bin/mscgen_js"
-  },
   "dependencies": {
     "amdefine": "1.0.0",
     "codemirror": "5.9.0",
-    "phantomjs": "1.9.19",
-    "requirejs": "2.1.22"
+    "requirejs": "2.1.22",
+    "mscgenjs": "sverweij/mscgenjs-core"
   },
   "devDependencies": {
     "almond": "0.3.1",
@@ -32,21 +27,18 @@
     "istanbul": "0.4.1",
     "js-makedepend": "0.1.10",
     "jscs": "2.7.0",
-    "jsdom": "7.2.0",
     "jshint": "2.8.0",
-    "lodash-cli": "3.10.1",
     "mocha": "2.3.4",
     "node-localstorage": "0.6.0",
     "node-sass": "3.4.2",
     "npm-check-updates": "2.5.4",
     "nsp": "2.1.0",
-    "pegjs": "0.9.0",
     "plato": "1.5.0",
     "uglify-js": "2.6.1"
   },
   "scripts": {
-    "test": "mocha -R dot --timeout 4000 --recursive src/script/test/",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive src/script/test",
+    "test": "mocha -R dot --recursive src/script/test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib\" src/script/",
     "lint": "jshint src/script --verbose --show-non-errors",

@@ -1,6 +1,5 @@
 
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
-PEGJS=node_modules/pegjs/bin/pegjs
 RJS=node_modules/requirejs/bin/r.js
 GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
@@ -14,10 +13,9 @@ SEDVERSION=utl/sedversion.sh
 NPM=npm
 BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
-MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude node_modules
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules|cli"
 MINIFY=node_modules/.bin/uglifyjs
 MINIFYHTML=node_modules/.bin/html-minifier --config-file .html-minifier-conf
-LODASH=node_modules/.bin/lodash
 
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
@@ -25,16 +23,9 @@ else
 	BUILDDIR=build/branches/$(GIT_CURRENT_BRANCH)
 endif
 
-GENERATED_SOURCES_WEB=src/script/parse/mscgenparser.js \
-	src/script/parse/msgennyparser.js \
-	src/script/parse/xuparser.js
 GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
-GENERATED_SOURCES_NODE=src/script/parse/mscgenparser_node.js \
-	src/script/parse/msgennyparser_node.js \
-	src/script/parse/xuparser_node.js
-GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE) $(GENERATED_STYLESHEETS)
-SOURCES_NODE=$(GENERATED_SOURCES_NODE)
+GENERATED_SOURCES=$(GENERATED_STYLESHEETS)
 REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
 	$(BUILDDIR)/style \
 	$(BUILDDIR)/script \
@@ -64,17 +55,22 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 CODEMIRROR_ROOT=node_modules/codemirror
-LIBDIRS=src/lib/canvg \
-		src/lib/codemirror/addon/dialog \
-		src/lib/codemirror/addon/display \
-		src/lib/codemirror/addon/edit \
-		src/lib/codemirror/addon/search \
-		src/lib/codemirror/addon/selection \
-		src/lib/codemirror/lib \
-		src/lib/codemirror/mode/mscgen \
-		src/lib/codemirror/mode/javascript \
-		src/lib/codemirror/theme \
-		src/lib/lodash
+MSCGENJS_CORE_ROOT=node_modules/mscgenjs
+LIBDIRS=src/script/lib/canvg \
+		src/script/lib/codemirror/addon/dialog \
+		src/script/lib/codemirror/addon/display \
+		src/script/lib/codemirror/addon/edit \
+		src/script/lib/codemirror/addon/search \
+		src/script/lib/codemirror/addon/selection \
+		src/script/lib/codemirror/lib \
+		src/script/lib/codemirror/mode/mscgen \
+		src/script/lib/codemirror/mode/javascript \
+		src/script/lib/codemirror/theme \
+		src/script/lib/mscgenjs-core/parse \
+		src/script/lib/mscgenjs-core/render/graphics \
+		src/script/lib/mscgenjs-core/render/text \
+		src/script/lib/mscgenjs-core/lib/lodash
+
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
@@ -121,10 +117,10 @@ help:
 
 
 # production rules
-src/script/parse/%parser.js: src/script/parse/%parser_node.js
+src/script/core/parse/%parser.js: src/script/core/parse/%parser_node.js
 	$(CJS2AMD) < $< > $@
 
-src/script/parse/%parser_node.js: src/script/parse/peg/%parser.pegjs
+src/script/core/parse/%parser_node.js: src/script/core/parse/peg/%parser.pegjs
 	$(PEGJS) $< $@
 
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
@@ -151,32 +147,41 @@ $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 $(PRODDIRS):
 	mkdir -p $@
 
-bower_components/canvg/%.js:
+bower_components/canvg-gabelerner/%.js:
 	$(BOWER) install --save gabelerner/canvg
 
 $(LIBDIRS):
 	mkdir -p $@
 
-src/lib/require.js: node_modules/requirejs/require.js
+src/script/lib/require.js: node_modules/requirejs/require.js
 	$(MINIFY) $< -m -c > $@
 
-src/lib/canvg/%.js: bower_components/canvg/%.js src/lib/canvg
+src/script/lib/canvg/%.js: bower_components/canvg-gabelerner/%.js src/script/lib/canvg
 	cp $< $@
 
-src/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(LIBDIRS)
+src/script/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(LIBDIRS)
 	cp $< $@
 
-src/lib/codemirror/addon/dialog/_%.scss: $(CODEMIRROR_ROOT)/addon/dialog/%.css $(LIBDIRS)
+src/script/lib/codemirror/addon/dialog/_%.scss: $(CODEMIRROR_ROOT)/addon/dialog/%.css $(LIBDIRS)
 	cp $< $@
 
-src/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
+src/script/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
 	cp $< $@
 
-src/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
+src/script/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
 	cp $< $@
 
-src/script/lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
-	$(LODASH) compat exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
+src/script/lib/mscgenjs-core/render/graphics/%.js: $(MSCGENJS_CORE_ROOT)/render/graphics/%.js $(LIBDIRS)
+	cp $< $@
+
+src/script/lib/mscgenjs-core/render/text/%.js: $(MSCGENJS_CORE_ROOT)/render/text/%.js $(LIBDIRS)
+	cp $< $@
+
+src/script/lib/mscgenjs-core/parse/%.js: $(MSCGENJS_CORE_ROOT)/parse/%.js $(LIBDIRS)
+	cp $< $@
+
+src/script/lib/mscgenjs-core/lib/lodash/%.js: $(MSCGENJS_CORE_ROOT)/lib/lodash/%.js $(LIBDIRS)
+	cp $< $@
 
 # dependencies
 include src/jsdependencies.mk
@@ -219,7 +224,7 @@ $(BUILDDIR)/images/: src/images
 $(BUILDDIR)/samples/: src/samples
 	cp -R $< $@
 
-$(BUILDDIR)/lib/require.js: src/lib/require.js
+$(BUILDDIR)/lib/require.js: src/script/lib/require.js
 	cp $< $@
 
 $(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
@@ -249,11 +254,11 @@ dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.
 
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console src/script/* | grep -c console | grep ^0$$
+	grep -r console src/script/mscgen-*.js src/script/ui src/script/core | grep -c console | grep ^0$$
 	@echo ... ok
 
 consolecheck:
-	grep -r console src/script/*
+	grep -r console src/script/mscgen-*.js src/script/ui src/script/core
 
 csslint:
 	$(CSSLINT) src/style/*.css
@@ -315,7 +320,6 @@ depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
 	$(MAKEDEPEND) --append --system amd --flat-define EMBED_JS_SOURCES src/script/mscgen-inpage.js
 	$(MAKEDEPEND) --append --system amd --flat-define INTERPRETER_JS_SOURCES src/script/mscgen-interpreter.js
-	$(MAKEDEPEND) --append --system cjs --flat-define CLI_JS_SOURCES src/script/cli/mscgen.js
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \
@@ -331,4 +335,5 @@ clean-generated-sources:
 	rm -rf $(GENERATED_SOURCES)
 
 clean: clean-the-build clean-generated-sources
+	rm -rf $(LIBDIRS)
 	rm -rf $(FAVICONS)

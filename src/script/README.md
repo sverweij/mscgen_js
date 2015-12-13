@@ -8,9 +8,11 @@ a picture:
 - [_rendering_](#rendering-graphics) that abstract syntax tree into a picture.
 - Besides these two steps it is useful to have some sort of
   [_controler_](#the-controllers) program that handles interaction with the user.
-  We have two of them:
+  We have four of them:
   - for [_embedding_](embedding-controller.md) textual descriptions in html
   - for the interactive [_interpreter_](ui/README.md)
+  - for the [_command line interface_](cli/README.md)
+  - for the [atom editor package](https://github.com/sverweij/atom-mscgen-preview)
 
 ## Lexical analysis and parsing
 :page_with_curl: code in [parse/peg](parse/peg)
