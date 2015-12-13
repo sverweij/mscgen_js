@@ -1,17 +1,17 @@
 /* jshint browser:true */
 /* global define */
 define(["./uistate",
-        "../../../lib/codemirror/lib/codemirror",
+        "../lib/codemirror/lib/codemirror",
         "../utl/maps", "../utl/gaga",
-        "../../../lib/codemirror/addon/edit/closebrackets",
-        "../../../lib/codemirror/addon/edit/matchbrackets",
-        "../../../lib/codemirror/addon/display/placeholder",
-        "../../../lib/codemirror/addon/dialog/dialog",
-        "../../../lib/codemirror/addon/search/searchcursor",
-        "../../../lib/codemirror/addon/search/search",
-        "../../../lib/codemirror/addon/selection/active-line",
-        "../../../lib/codemirror/mode/mscgen/mscgen",
-        "../../../lib/codemirror/mode/javascript/javascript"
+        "../lib/codemirror/addon/edit/closebrackets",
+        "../lib/codemirror/addon/edit/matchbrackets",
+        "../lib/codemirror/addon/display/placeholder",
+        "../lib/codemirror/addon/dialog/dialog",
+        "../lib/codemirror/addon/search/searchcursor",
+        "../lib/codemirror/addon/search/search",
+        "../lib/codemirror/addon/selection/active-line",
+        "../lib/codemirror/mode/mscgen/mscgen",
+        "../lib/codemirror/mode/javascript/javascript"
         ],
         function(uistate, codemirror, map, gaga) {
     "use strict";

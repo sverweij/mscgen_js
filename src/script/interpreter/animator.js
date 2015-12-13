@@ -1,8 +1,8 @@
 /* jshint browser:true */
 /* global define */
 
-define(["../../../../node_modules/mscgenjs/render/graphics/renderast",
-        "../../../../node_modules/mscgenjs/render/text/ast2animate",
+define(["../lib/mscgenjs-core/render/graphics/renderast",
+        "../lib/mscgenjs-core/render/text/ast2animate",
         "../utl/gaga",
         "../utl/domutl"],
         function(msc_render, ast2animate, gaga, dq) {

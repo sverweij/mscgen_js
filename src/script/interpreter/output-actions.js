@@ -4,7 +4,7 @@ define(["./uistate",
         "./animator",
         "../utl/exporter",
         "./raster-exporter",
-        "../../../../node_modules/mscgenjs/render/svgutensils",
+        "../lib/mscgenjs-core/render/graphics/svgutensils",
         "./general-actions",
         "../utl/gaga"
         ],

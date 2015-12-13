@@ -1,14 +1,28 @@
-@import "./snippets/fonts";
-@import "../script/lib/codemirror/lib/codemirror";
-@import "../script/lib/codemirror/addon/dialog/dialog";
-@import "../script/lib/codemirror/theme/blackboard";
-@import "./snippets/_generics";
-@import "./snippets/_header";
-@import "./snippets/_interpreter";
-@import "./snippets/_popup";
-@import "./snippets/_slidingpanel";
-@import "./snippets/_anim";
-@import "./snippets/_mediagenerics";
+/* jshint undef:true, unused:strict, browser:false, node:true, indent:4 */
+/* istanbul ignore else */
+if ( typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define([], function() {
+    "use strict";
+
+    function swap (pPair, pA, pB){
+        var lTmp = pPair[pA];
+        pPair[pA] = pPair[pB];
+        pPair[pB] = lTmp;
+    }
+
+    return {
+        /**
+         * swaps the values of the attributes "from" and "two"
+         * in the pPair object with each other
+         */
+        swapfromto : function (pPair){
+            swap(pPair, "from", "to");
+        },
+    };
+});
 /*
  This file is part of mscgen_js.
 

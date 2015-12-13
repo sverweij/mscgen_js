@@ -39,8 +39,8 @@ msc {
 /* jshint unused:true */
 /* global define */
 
-define(["../../../../node_modules/mscgenjs/parse/xuparser", "../../../../node_modules/mscgenjs/parse/msgennyparser", "../../../../node_modules/mscgenjs/render/graphics/renderast",
-        "../../../../node_modules/mscgenjs/render/text/ast2msgenny", "../../../../node_modules/mscgenjs/render/text/ast2xu",
+define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgennyparser", "../lib/mscgenjs-core/render/graphics/renderast",
+        "../lib/mscgenjs-core/render/text/ast2msgenny", "../lib/mscgenjs-core/render/text/ast2xu",
         "../utl/gaga", "../utl/maps",
         "../utl/domutl",
         "../utl/exporter"

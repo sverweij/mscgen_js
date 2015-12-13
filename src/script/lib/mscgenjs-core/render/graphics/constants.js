@@ -1,14 +1,21 @@
-@import "./snippets/fonts";
-@import "../script/lib/codemirror/lib/codemirror";
-@import "../script/lib/codemirror/addon/dialog/dialog";
-@import "../script/lib/codemirror/theme/blackboard";
-@import "./snippets/_generics";
-@import "./snippets/_header";
-@import "./snippets/_interpreter";
-@import "./snippets/_popup";
-@import "./snippets/_slidingpanel";
-@import "./snippets/_anim";
-@import "./snippets/_mediagenerics";
+/* jshint unused:strict */
+/* jshint indent:4 */
+/* jshint node:true */
+
+/* istanbul ignore else */
+if ( typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define([], function() {
+    "use strict";
+    return {
+        SVGNS: "http://www.w3.org/2000/svg",
+        XLINKNS: "http://www.w3.org/1999/xlink",
+        LINE_WIDTH: 2, //px
+        FONT_SIZE: 12 //px
+    };
+});
 /*
  This file is part of mscgen_js.
 

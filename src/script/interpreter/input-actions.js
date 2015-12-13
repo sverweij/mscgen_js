@@ -3,7 +3,7 @@
 define(["./uistate",
         "../utl/store",
         "../utl/gaga",
-        "../../../../node_modules/mscgenjs/render/text/colorize",
+        "../lib/mscgenjs-core/render/text/colorize",
         "./general-actions"
         ],
         function(uistate, store, gaga, colorize, gactions) {

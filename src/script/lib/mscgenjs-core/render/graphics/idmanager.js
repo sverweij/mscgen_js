@@ -1,22 +1,30 @@
-/* jshint nonstandard:true */
-/* global canvg, define */
+/* jshint undef:true */
+/* jshint unused:strict */
+/* jshint browser:true */
+/* jshint node:true */
+/* jshint indent:4 */
 
-define(["../../../lib/canvg/canvg",
-        "../../../lib/canvg/StackBlur",
-        "../../../lib/canvg/rgbcolor"
-        ],
-        function() {
+/* istanbul ignore else */
+if ( typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define([], function() {
     "use strict";
+    var INNERELEMENTPREFIX = "mscgen_js-svg-";
+
+    var gInnerElementId = INNERELEMENTPREFIX;
 
     return {
-        toRasterURI: function (pDocument, pSVGSource, pType){
-            var lCanvas = pDocument.createElement('canvas');
-            lCanvas.setAttribute('style', 'display:none');
-            pDocument.body.appendChild(lCanvas);
-            canvg(lCanvas, pSVGSource);
-            var lRetval = lCanvas.toDataURL(pType, 0.8);
-            pDocument.body.removeChild(lCanvas);
-            return lRetval;
+        setPrefix: function (pPrefix){
+            gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+        },
+        get: function(pElementIdentifierString) {
+            if (pElementIdentifierString){
+                return gInnerElementId + pElementIdentifierString;
+            } else {
+                return gInnerElementId;
+            }
         }
     };
 });

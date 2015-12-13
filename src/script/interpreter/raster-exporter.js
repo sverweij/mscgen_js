@@ -1,14 +1,25 @@
-@import "./snippets/fonts";
-@import "../script/lib/codemirror/lib/codemirror";
-@import "../script/lib/codemirror/addon/dialog/dialog";
-@import "../script/lib/codemirror/theme/blackboard";
-@import "./snippets/_generics";
-@import "./snippets/_header";
-@import "./snippets/_interpreter";
-@import "./snippets/_popup";
-@import "./snippets/_slidingpanel";
-@import "./snippets/_anim";
-@import "./snippets/_mediagenerics";
+/* jshint nonstandard:true */
+/* global canvg, define */
+
+define(["../lib/canvg/canvg",
+        "../lib/canvg/StackBlur",
+        "../lib/canvg/rgbcolor"
+        ],
+        function() {
+    "use strict";
+
+    return {
+        toRasterURI: function (pDocument, pSVGSource, pType){
+            var lCanvas = pDocument.createElement('canvas');
+            lCanvas.setAttribute('style', 'display:none');
+            pDocument.body.appendChild(lCanvas);
+            canvg(lCanvas, pSVGSource);
+            var lRetval = lCanvas.toDataURL(pType, 0.8);
+            pDocument.body.removeChild(lCanvas);
+            return lRetval;
+        }
+    };
+});
 /*
  This file is part of mscgen_js.
 
