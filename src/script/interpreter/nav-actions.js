@@ -52,7 +52,7 @@ define(["./uistate",
                     gaga.g('send', 'event', 'close_aboutsheet', 'button');
                 }
             );
-        },
+        }
     };
 });
 /*

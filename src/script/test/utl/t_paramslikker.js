@@ -43,7 +43,7 @@ describe('paramslikker', function() {
         });
         it('should return an object with a property that has a value with spaces', function() {
             expect(par.getParams("?withspaces=with spaces")).to.deep.equal({
-                withspaces : "with spaces",
+                withspaces : "with spaces"
             });
         });
         it('should return an object with an msc program', function() {

@@ -10,7 +10,7 @@ if ( typeof define !== 'function') {
 define(["../lib/mscgenjs-core/render/text/ast2dot",
         "../lib/mscgenjs-core/render/text/ast2mscgen",
         "../lib/mscgenjs-core/render/text/ast2doxygen",
-        "./paramslikker",
+        "./paramslikker"
         ],
         function(ast2dot, ast2mscgen, ast2doxygen, par) {
     "use strict";

@@ -5,6 +5,7 @@
 	"disallowMultipleVarDecl": true,
 	"disallowSpaceAfterPrefixUnaryOperators": true,
 	"disallowTabs": true,
+	"disallowTrailingComma": true,
 	"disallowTrailingWhitespace": true,
 	"disallowYodaConditions": false,
 	"esnext": false,
