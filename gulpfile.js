@@ -10,7 +10,6 @@ gulp.task('styles', function() {
     return gulp.src('src/style/*.scss')
         .pipe(p.sass({outputStyle: 'compressed'})
                 .on('error', p.sass.logError))
-        // .pipe(p.autoprefixer('last 2 versions'))
         .pipe(gulp.dest('src/style'))
     ;
 });

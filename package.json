@@ -19,7 +19,6 @@
     "codecov.io": "0.1.6",
     "csslint": "0.10.0",
     "gulp": "3.9.0",
-    "gulp-autoprefixer": "3.1.0",
     "gulp-load-plugins": "1.1.0",
     "gulp-sass": "2.1.1",
     "html-minifier": "1.0.0",
