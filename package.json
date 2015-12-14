@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "codemirror": "5.9.0",
     "requirejs": "2.1.22",
-    "mscgenjs": "sverweij/mscgenjs-core"
+    "mscgenjs": "sverweij/mscgenjs-core#1.2.3"
   },
   "devDependencies": {
     "almond": "0.3.1",
@@ -17,7 +17,6 @@
     "chai-xml": "0.3.1",
     "codeclimate-test-reporter": "0.1.1",
     "codecov.io": "0.1.6",
-    "commander": "2.9.0",
     "csslint": "0.10.0",
     "gulp": "3.9.0",
     "gulp-autoprefixer": "3.1.0",
