@@ -76,7 +76,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 "attribute" : {
                     "opener" : SP + "[",
                     "separator" : "," + SP,
-                    "closer" : "]",
+                    "closer" : "]"
 
                 },
                 "arcline" : {
@@ -87,7 +87,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 "inline" : {
                     "opener" : ";" + EOL,
                     "closer" : "#"
-                },
+                }
             });
         }
     };

@@ -64,7 +64,7 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
                 "attribute" : {
                     "opener" : SP + "[",
                     "separator" : "," + SP,
-                    "closer" : "]",
+                    "closer" : "]"
                 },
                 "arcline" : {
                     "opener" : INDENT,

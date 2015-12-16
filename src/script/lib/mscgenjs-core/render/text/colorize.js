@@ -106,7 +106,7 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
                     "linecolor": "#00A1DE",
                     "textcolor": "#005B82",
                     "textbgcolor": "white"
-                },
+                }
             },
             "aggregateArcColors": {
                 "inline_expression": {
@@ -133,7 +133,7 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
                 "nondirectional": {
                     "textcolor":  "#005B82",
                     "linecolor":  "#005B82"
-                },
+                }
             }
         },
         "auto": {

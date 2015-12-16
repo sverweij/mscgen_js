@@ -37,6 +37,6 @@ define([], function() {
     return {
         scaleCanvasToWidth : _scaleCanvasToWidth,
         determineDepthCorrection : _determineDepthCorrection,
-        determineArcXTo: _determineArcXTo,
+        determineArcXTo: _determineArcXTo
     };
 });

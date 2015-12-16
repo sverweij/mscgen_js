@@ -27,7 +27,7 @@ define([], function() {
         "box" : "box",
         "abox" : "hexagon",
         "rbox" : "box",
-        "note" : "note",
+        "note" : "note"
     };
     var KIND2STYLE = {
         ">>" : "dashed",

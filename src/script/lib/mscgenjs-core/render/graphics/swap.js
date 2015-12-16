@@ -20,7 +20,7 @@ define([], function() {
          */
         swapfromto : function (pPair){
             swap(pPair, "from", "to");
-        },
+        }
     };
 });
 /*
