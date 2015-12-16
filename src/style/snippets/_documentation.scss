@@ -8,10 +8,43 @@ footer {
   font-size: 10pt;
   background-color: $background-color;
 }
+nav.sidebar {
+    padding: 8px;
+    position: fixed;
+    overflow-y: scroll;
+    height:80%;
+    width: 240px;
+    color: $header-color;
+}
+nav.sidebar ul {
+    padding: 0 0 0 16px;
+}
+nav.sidebar li {
+    list-style: none;
+}
+nav.sidebar > ul > li {
+    list-style: none;
+    margin-top: 8px;
+    font-weight: bold;
+}
+nav.sidebar > ul > li > ul > li {
+    list-style: none;
+    margin-top: 8px;
+    font-weight: normal;
+}
+nav.sidebar > ul > li > ul > li > ul > li {
+    list-style: circle;
+    font-weight: lighter;
+}
+nav.sidebar a {
+    text-decoration: none;
+    color: inherit;
+}
 article {
   // max-width: 48em;
   // margin: .25em 3em 0 3em;
-  padding: 2em;
+  margin-left: 250px;
+  padding: 16px;
   background-color: $background-color;
   overflow: hidden;
   counter-reset: chapter-counter;
@@ -101,7 +134,7 @@ img, svg, .mscgen_js {
 }
 .shadow {
   box-shadow: 0.0 0.0 1em -0.2em $shadow-color;
-  border-collapse: separate; /* apparently needed for IE */   
+  border-collapse: separate; /* apparently needed for IE */
 }
 mark {
   background-color: $mark-color;
@@ -121,6 +154,9 @@ mark {
     display: block;
     overflow: auto;
   }
+  .sidebar {
+      display: none;
+  }
 }
 @media screen and (min-width: 640px) and (max-width: 767px) {
   body {
@@ -131,5 +167,8 @@ mark {
     border: 0;
     padding: 1em;
     border-radius: 0;
+  }
+  .sidebar {
+      display: none;
   }
 }

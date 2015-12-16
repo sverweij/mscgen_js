@@ -104,8 +104,51 @@
         </a>
     </nav>
 </header>
+<nav class="sidebar">
+<ul>
+    <li>
+        <a href="#">Embedding MscGen: easy</a>
+        <ul>
+            <li>
+                <a href="#embedding-mscgen-in-your-html-is-easy">In plain HTML</a>
+            </li>
+            <li>
+                <a href="#embedding-in-atlassian-confluence">In Atlassian Confluence</a>
+            </li>
+            <li>
+                <a href="#wikimedia-style-tags">Wiki style tags</a>
+            </li>
+            <li>
+                <a href="#error-handling">Error handling</a>
+            </li>
+            <li>
+                <a href="#deeplink-to-interpreter">Deep linking to the interpreter</a>
+            </li>
+            <li>
+                <a href="#loading-from-separate-files">From separate files</a>
+            </li>
+            <li>
+                <a href="#supported-browsers">Supported browsers</a>
+            </li>
+            <li>
+                <a href="#package">Hosting mscgen-inpage.js</a>
+            </li>
+            <li>
+                <a href="#other-sequence-chart-languages">Xù, MsGenny, JSON</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#licensing">Licensing</a>
+        <ul>
+            <li>
+                <a href="#licensing">GPL-3.0 with a relaxation</a>
+            </li>
+        </ul>
+    </li>
+</nav>
         <article>
-        <h1 itemprop="name" class="first-title-on-page">Embedding MscGen in your html is easy:</h1>
+        <h1 itemprop="name" class="first-title-on-page" id="embedding-mscgen-in-your-html-is-easy">Embedding MscGen in your html is easy:</h1>
         <p>
             <ol>
                 <li>
@@ -115,7 +158,7 @@
 </pre>
                 </li>
                 <li>
-                    Put your mscgen script in the page, with
+                    Put your MscGen script in the page, with
                     a tag around it that has <strong><code>mscgen_js</code></strong> as one of its
                     <strong><code>class</code> attribute</strong>s.
                     We use <code>pre</code> as element type below, but
@@ -139,7 +182,7 @@ msc {
 </pre>
                 </li>
         <li><strong>You're done.</strong> The script replaces all elements in the page with the class <code>mscgen_js</code> by
-        a rendered sequence chart. <strong>Result</strong> for the above mscgen:
+        a rendered sequence chart. <strong>Result</strong> for the above MscGen:
         <br/>
         <pre class="mscgen_js" data-clickable="true">msc {
     a [label="consumer"], b [label="shopfront"], c;
@@ -167,7 +210,7 @@ msc {
     a [label="Entity A"], b [label="Entity B"];
 
     a &lt;&lt;=>> b [label="testing (confluence)"];
-    b note b [label="mscgen embedded in a confluence page!"];
+    b note b [label="MscGen embedded in a confluence page!"];
 }
 &lt;/code>
 </pre>
@@ -205,8 +248,8 @@ msc {
 </mscgen>
 
         <h2 id="error-handling">Error handling</h2>
-        <p>If your mscgen code contains an error, instead of a sequence chart, you will see
-             your mscgen code with the offending line highlighted, thusly:</p>
+        <p>If your MscGen code contains an error, instead of a sequence chart, you will see
+             your MscGen code with the offending line highlighted, thusly:</p>
         <pre class="code mscgen_js">msc {
   a, b;
   a -> b[nonexistingattribute="something"];
@@ -298,7 +341,7 @@ msc {
         <h2 id="other-sequence-chart-languages">Other sequence chart languages: MsGenny, Xù and JSON</h2>
         <p>
             Mscgen_js assumes the language of the presented
-            script to be <em>mscgen</em>. If you use one of the other languages
+            script to be <em>MscGen</em>. If you use one of the other languages
             supported by mscgen_js, add a <code>data-language</code>
             attribute to the element with the target language:
             <code>&lt;code class="mscgen_js"<mark> data-language="msgenny"</mark>></code>.

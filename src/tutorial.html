@@ -94,7 +94,7 @@ ga ('send', 'pageview');
             <span class="icon-interpreter nav-icon"></span>
             <span class="underline-on-hover">interpret</span>
         </a>
-        <a href="embed.html" class="embed icon" title="embed mscgen in your html">
+        <a href="embed.html" class="embed icon" title="embed MscGen in your html">
             <span class="icon-embed nav-icon"></span>
             <span class="underline-on-hover">embed</span>
         </a>
@@ -104,7 +104,106 @@ ga ('send', 'pageview');
         </span>
     </nav>
 </header>
-
+<nav class="sidebar">
+<ul>
+    <li>
+        <a href="#">Introduction</a>
+    </li>
+    <li>
+        <a href="#msgenny">MsGenny tutorial</a>
+        <ul>
+            <li>
+                <a href="#basics">Basics</a>
+                <ul>
+                    <li>
+                        <a href="#a-sends-a-signal-to-b">a sends a signal to b</a>
+                    </li>
+                    <li>
+                        <a href="#adding-text">adding text</a>
+                    </li>
+                    <li>
+                        <a href="#b-replies-to-a">b replies to a</a>
+                    </li>
+                    <li>
+                        <a href="#notes">notes</a>
+                    </li>
+                    <li>
+                        <a href="#multiline-text">multiline text</a>
+                    </li>
+                    <li>
+                        <a href="#empty-rows-omitted-rows-comments">empty rows, omitted rows, comments</a>
+                    </li>
+                    <li>
+                        <a href="#ignore-this">ignore this</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#advanced-stuff">Advanced stuff</a>
+                <ul>
+                    <li>
+                        <a href="#options-arcgradient-hscale-width">options: arcgradient, hscale, width</a>
+                    </li>
+                    <li>
+                        <a href="#naming-entities-explicit-order">naming entities, explicit order</a>
+                    </li>
+                    <li>
+                        <a href="#broadcasts-parallel-calls">broadcasts, parallel calls</a>
+                    </li>
+                    <li>
+                        <a href="#both-ways-no-way">both ways, no way</a>
+                    </li>
+                    <li>
+                        <a href="#box-rbox-abox">box, rbox, abox</a>
+                    </li>
+                    <li>
+                        <a href="#basics-advanced-summary">summary</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#extended-stuff">Extended stuff</a>
+                <ul>
+                    <li><a href="#inline-expressions">nesting: inline expressions</a></li>
+                    <li><a href="#watermark">watermark</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#mscgen">MscGen</a>
+        <!-- <ul>
+            <li><a href="#mscgenbasics">Basics</a></li>
+            <li>
+                <a href="#unicode-entity-names-in-mscgen">Non ascii entity names</a>
+            </li>
+            <li><a href="#coloring">Coloring</a></li>
+            <li>
+                <a href="#coloring-everything-departing-from-a-lifeline">
+                    Coloring everyting departing from a lifeline
+                </a>
+            </li>
+        </ul> -->
+    </li>
+    <li>
+        <a href="#xu">Xù - a superset of MscGen</a>
+    </li>
+    <li>
+        <a href="#interpreter">Using the on line interpreter</a>
+        <!-- <ul>
+            <li>
+                <a href="#input">Input</a>
+            </li>
+            <li>
+                <a href="#output">Output</a>
+            </li>
+            <li>
+                <a href="#debug-mode">Debug mode</a>
+            </li>
+        </ul>
+    </li> -->
+</ul>
+</nav>
 <article id="introduction">
     <h1 class="first-title-on-page">Introduction</h1>
     <p>
@@ -147,67 +246,10 @@ ga ('send', 'pageview');
 </article>
 <article itemscope itemtype="http://schema.org/Article" id="msgenny">
 <h1 itemprop="name">MsGenny language tutorial</h1>
-<nav>
-<ul>
-    <li>
-        <a href="#basics">Basics</a>
-        <ul>
-            <li>
-                <a href="#a-sends-a-signal-to-b">a sends a signal to b</a>
-            </li>
-            <li>
-                <a href="#adding-text">adding text</a>
-            </li>
-            <li>
-                <a href="#b-replies-to-a">b replies to a</a>
-            </li>
-            <li>
-                <a href="#notes">notes</a>
-            </li>
-            <li>
-                <a href="#multiline-text">multiline text</a>
-            </li>
-            <li>
-                <a href="#empty-rows-omitted-rows-comments">empty rows, omitted rows, comments</a>
-            </li>
-            <li>
-                <a href="#ignore-this">ignore this</a>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <a href="#advanced-stuff">Advanced stuff</a>
-        <ul>
-            <li>
-                <a href="#options-arcgradient-hscale-width">options: arcgradient, hscale, width</a>
-            </li>
-            <li>
-                <a href="#naming-entities-explicit-order">naming entities, explicit order</a>
-            </li>
-            <li>
-                <a href="#broadcasts-parallel-calls">broadcasts, parallel calls</a>
-            </li>
-            <li>
-                <a href="#both-ways-no-way">both ways, no way</a>
-            </li>
-            <li>
-                <a href="#box-rbox-abox">box, rbox, abox</a>
-            </li>
-            <li>
-                <a href="#basics-advanced-summary">summary</a>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <a href="#extended-stuff">Extended stuff</a>
-        <ul>
-            <li><a href="#inline-expressions">nesting: inline expressions</a></li>
-            <li><a href="#watermark">watermark</a></li>
-        </ul>
-    </li>
-</ul>
-</nav>
-
+<p>
+    MsGenny was designed to make writing sequence charts in text even simpler
+    than it already is in MscGen.
+</p>
 <section>
 <h2 id="basics">Basics</h2>
 
@@ -331,7 +373,7 @@ a =>> b: what's happening here?; <mark>/* don't know */</mark>
 <pre class="mscgen_js" data-language="msgenny"># This line is ignored
 a =>> b: what's happening here? ; /* don't know */
 // ignored line</pre>
-<p class="warning">Caveat: on translating to mscgen most comments
+<p class="warning">Caveat: on translating to MscGen most comments
 (except those at the top of the source) get lost.</p>
 </section>
 
@@ -386,7 +428,7 @@ client => server : ACK;</pre>
 <p>The default behaviour for regular (= not note, box, abox or rbox) arcs is that
 text does <em>not</em> get wrapped. To override this you can use the
 boolean <em>wordwraparcs</em> option. Just like the other options, this one was
-copied from <em>mscgen</em>. <em>mscgen</em> not only accepts <code>true</code> and
+copied from <em>MscGen</em>. <em>MscGen</em> not only accepts <code>true</code> and
 <code>false</code>, but also <code>on</code> and <code>off</code> and <code>1</code>
 and <code>0</code> all with or without quotes.
 
@@ -505,8 +547,8 @@ a :: b, b &lt;:> c ;</pre>
 
 <h3 id="box-rbox-abox">box, rbox, abox</h3>
 <p>Boxes expressing <em>action</em> (box), <em>states</em> or <em>conditions</em> (abox) and
-<em>MSC references</em> (rbox) are part of the original mscgen standard,
-and hence they're supported in ms genny as well. </p>
+<em>MSC references</em> (rbox) are part of the original MscGen standard,
+and hence they're supported in MsGenny as well. </p>
 <pre class="code msgenny">
 a  <mark>box</mark> b :  box (action);
 b <mark>abox</mark> c : abox (state/ condition);
@@ -570,10 +612,10 @@ c abox c : c abox c\n(state/ condition);
 <section>
 <h2 id="extended-stuff">Extended stuff</h2>
 <p>
-    The features described in <em>extended stuff</em> are only supported in xù and msgenny,
-    not in mscgen. If you rely on mscgen to do your rendering in (e.g.) doxygen
+    The features described in <em>extended stuff</em> are only supported in xù and MsGenny,
+    not in MscGen. If you rely on MscGen to do your rendering in (e.g.) doxygen
     you might want to steer clear of these, or rewrite them in a fashion that
-    kind of mimics the behavior in vanilla mscgen (tips below).
+    kind of mimics the behavior in vanilla MscGen (tips below).
 </p>
 
 <h3 id="inline-expressions">Nesting: inline expressions</h3>
@@ -593,8 +635,8 @@ b loop d: 3 times {
    };
 };</pre>
 
-<p> There is no support for that in mscgen, which is why we created xù. All <em>inline
-    expression</em> keywords from xù also work in ms genny. To get the sample above you'd use:</p>
+<p> There is no support for that in MscGen, which is why we created Xù. All <em>inline
+    expression</em> keywords from xù also work in MsGenny. To get the sample above you'd use:</p>
 <pre class="code msgenny">
 a,b,c,d;
 
@@ -609,7 +651,7 @@ a =>> b;
 <mark>};</mark>
 </pre>
 <p class="info">
-    <strong>Mimicing this in mscgen</strong> A way to do nesting in mscgen is to
+    <strong>Mimicing this in MscGen</strong> A way to do nesting in MscGen is to
     use arrowless arcs for the top and the bottom of the inline expression.
     The <a href="https://github.com/sverweij/mscgen_js/tree/master/src/script/cli">command line interface</a>
     script will help you do that:<br><br>
@@ -634,209 +676,11 @@ Bob => pocket : "fetch (nose flute)";
 Bob >> Alice : PHEEE!;
 Alice => Alice: hihihi;</pre>
 <p class="info">
-    <strong>Mimicing this in mscgen</strong> There are several ways to get a similar
-    message accross in mscgen. The simplest one is to put the text in an
+    <strong>Mimicing this in MscGen</strong> There are several ways to get a similar
+    message accross in MscGen. The simplest one is to put the text in an
     empty row somewhere (<code>||| [label="Watermark", textcolor="gray"];</code>).
     For now the command line interface ignores the watermark option when translating
     back to MscGen
-</p>
-</section>
-</article>
-
-<article itemscope itemtype="http://schema.org/Article" id="interpreter">
-<h1 itemprop="name">Using the on line interpreter</h1>
-<p>
-    With the on line interpreter you can write MsGenny and MscGen scripts and see the
-    resulting chart grow in real time.
-</p>
-<p class="info">
-    If you like the on line interpreter, you might also like the (open source)
-    <a href="https://atom.io/packages/mscgen-preview">mscgen-preview</a> package
-    for the <a href="https://atom.io">atom</a> editor. It uses the same render
-    engine, renders charts in real-time, and has out-of-this-world
-    syntax higlighting.
-</p>
-<section>
-<h2>Input</h2>
-<p>The typing area on the right uses <em>codemirror</em>. This means it
-    (a.o.) supports undo history, automatic bracket matching and
-    syntax highlighting, just like you would expect of an off line
-    code editor. You can even drop files directly from
-    your desktop.</p>
-<img itemprop="image" class="shadow" src="images/demo - screenshot - autofaded.png" alt="a screenshot of the mscgen_js interpreter">
-<p>
-<h3>Auto render</h3>
-<p>
-    By default the interpreter renders the chart as you type.
-    However, if you're on
-    a <em>very</em> slow machine, you can switch off this behavior.
-    The interpreter will offer you a <em>Render</em> button that renders
-    the chart only when you click it.
-</p>
-<h3>Language</h3>
-<p>
-With the language radiobox you can switch between the languages
-supported by mscgen_js (mscgen, xù and msgenny). When the interpreter
-is in debug mode, you can also see (and edit) the abstract syntax
-tree, which is in JSON format.
-</p>
-<p>
-When you switch between the languages, you'll see the program in the
-editor is translated to the new language.
-</p>
-<p class="warning">
-When switching between languages the interpreter preserves comments
-preceding the program. Comments <em>within</em> and <em>after</em>
-the program get lost, though.
-</p>
-<p class="warning">
-When your program uses features not available in a target language,
-these will get lost in the translation.
-</p>
-<h3>Color</h3>
-<p>When you hit the <em>color</em> button you can either:
-    <ul>
-        <li>Pick one of three color schemes which adds coloring attributes
-            to the mscgen source code.
-        </li>
-        <li>Remove any colors from the source.
-        </li>
-    </ul>
-</p>
-<p>For example, here is what the what applying the 'Automatic' color scheme
-    will get you:
-</p>
-<div>
-<pre class="mscgen_js">msc {
-  hscale="0.8";
-
-  Co, Mo, Dolores;
-
-  Co =>> Mo [label="Hello"];
-  Dolores =>> Co [label="Is it me you're looking for?"];
-  Mo =>> Dolores [label="I see it in your eyes"];
-}</pre>
-=>
-<pre class="mscgen_js">msc {
-  hscale="0.8";
-
-  Co [linecolor="#008800", textbgcolor="#CCFFCC", arclinecolor="#008800"],
-  Mo [linecolor="#FF0000", textbgcolor="#FFCCCC", arclinecolor="#FF0000"],
-  Dolores [linecolor="#0000FF", textbgcolor="#CCCCFF", arclinecolor="#0000FF"];
-
-  Co =>> Mo [label="Hello"];
-  Dolores =>> Co [label="Is it me you're looking for?"];
-  Mo =>> Dolores [label="I see it in your eyes"];
-}</pre>
-</div>
-<h4>Not for msgenny</h4>
-<p>As msgenny does not support colors, auto color is disabled for that language.
-</p>
-<h4><em>Respect existing colors</em> vs <em>forced</em></h4>
-<p>
-    Each color scheme has two variants:
-    <ul>
-        <li><strong>respect existing colors</strong>
-            <p>If an element already has a color attribute <em>of any kind</em>
-                applying the scheme will not change the colors for that element.</p>
-        </li>
-        <li><strong>forced</strong>
-            <p>Removes all colors from the chart before applying the scheme.</p>
-        </li>
-    </ul>
-</p>
-</section>
-<section>
-<h2>Output</h2>
-<p>The online interpreter supports several output formats.
-</p>
-<h3>Vector graphics: svg</h3>
-<p>Clicking the <em>svg</em> button or
-    double clicking the sequence chart opens the chart in a new window (or tab).
-    In most browsers it's super easy to save the image to your local file
-    system from there (e.g. right click -&gt; save as ...).
-</p>
-
-<h3>Raster graphics: png and jpeg</h3>
-<p>Opens a new window/ tab with the "rasterized" version of the
-    chart in the lossless png or the lossy jpeg formats respectively.
-    Saving is just as easy as saving the vector graphics.
-</p>
-
-<h3>The little film camera icon</h3>
-<p>Animates the current sequence chart. When you click it, a light
-    box opens:</p>
-<img itemprop="image" class="shadow" src="images/animation-sample.gif" alt="a simple sequence chart - animated">
-<p>
-    The multi-media buttons should be pretty self explanatory. To close the
-    lightbox, click the X or hit the ESC key.
-</p>
-<h4>Why is this in?</h4>
-<p>The animation feature is an attempt to capture the feeling of seeing
-    a sequence chart grow on a whiteboard. We noticed that when we <em>draw</em>
-    sequence charts, even people who have never seen one immediately grasp
-    what is going on.
-</p>
-
-<h3>Bookmarkable url</h3>
-    <p>This generates a URL (in your address bar) which would (re-)load the
-program currently in the editor e.g.
-<code>https://sverweij.github.io/mscgen_js/index.html?debug=true&lang=mscgen&msc=msc%7B%0A%20%20a%2Cb%3B%0A%20%20a%3D%3E%20b%3B%0A%7D</code>.
-<ul>
-    <li>Usefull for bookmarking a chart you're working on</li>
-    <li>Works for programs up till a size of approximately 2k.</li>
-    <li>When 'Auto render' is on, mscgen_js updates the url as you type.</li>
-</ul></p>
-</li>
-
-</section>
-<section>
-<h2>Debug mode</h2>
-<p>
-When you start the interpreter is started in "debug" mode (like so: <a href="https://sverweij.github.io/mscgen_js?debug=true">https://sverweij.github.io/mscgen_js?debug=true</a>),
-you'll notice the interpreter grows some extra features:
-</p>
-<p>
-<ul>
-    <li><strong>An extra "language": AST</strong>
-        <p>the abstract syntax tree (JSON)
-    as generated by the parser. If you are so inclined, you can
-    directly edit the syntax tree and see changes reflected in the
-    chart...</p>
-    </li>
-    <li><strong>Extra export options</strong>
-        <p><ul>
-            <li><em>Doxygen</em>
-                <p>Opens a new window with the current chart translated into vanilla mscgen,
-
-                    embedded in a comment that plays nice with <a href="https://www.stack.nl/~dimitri/doxygen/">doxygen</a>.
-                </p>
-            </li>
-            <li><em>GraphViz dot</em>
-                <p>Opens a new window with a graphviz dot
-                    program, that represents the communication diagram version of the sequence chart.
-                </p>
-            </li>
-            <li><em>HTML</em>
-                <p>generates the same sample html as under "embed", only
-            now in a separate window.</p>
-            </li>
-            <li><em>Vanilla MscGen</em>
-                <p>flattens extended features (inline expressions,
-            watermark) to "vanilla" MscGen.</p>
-            </li>
-        </ul></p>
-    </li>
-    <li><strong><em>save</em> and <em>load</em> buttons</strong>
-        <p>These buttons respectively save and load the current chart to
-            and from local storage, so you can keep working on the
-            same chart even after closing the browser.
-        </p>
-    </li>
-    <li><strong>Version information</strong>
-        <p>The interpreter shows version number, build date and the commit hash.</p>
-    </li>
-</ul>
 </p>
 </section>
 </article>
@@ -1131,14 +975,14 @@ msc {
 <section>
 <h2 id="url-id-idurl">Links'n stuff: url, id, idurl</h2>
 <p>
-   It is possible to define actual <em>links</em>. The original mscgen
+   It is possible to define actual <em>links</em>. The original MscGen
    command line version processed them by generating an <em>image map</em>.
    mscgen_js instead embeds the links directly within the
    vector graphics it creates. The attribute name for this magic is
    <code>url</code>.
 </p>
 <p>
-    Besides, mscgen enables you to attach an <code>id</code> to entities
+    Besides, MscGen enables you to attach an <code>id</code> to entities
     and arcs. And actually define links on these as well.
 </p>
 <p>
@@ -1174,7 +1018,7 @@ msc {
 </section>
 </article>
 <article itemscope itemtype="http://schema.org/Article" id="xu">
-<h1 itemprop="name">The Xù language - an superset of MscGen</h1>
+<h1 itemprop="name">Xù - a superset of MscGen</h1>
 <section>
     <p>
         Xù is a little language that combines the features of MscGen and
@@ -1226,6 +1070,38 @@ a alt b [label="a label"] {
                 </p>
             </li>
         </ul>
+    </p>
+</section>
+<section>
+    <h2>Using Xù</h2>
+    <h3>In the mscgen_js on line interpreter</h3>
+    <p>
+        The on line interpreter recognizes when you use a feature from Xù.
+        You can recognize it by the little xù marker it displays on the
+        language switch.
+    </p>
+    <h3>In the atom package</h3>
+    <p>
+        The <a href="https://atom.io/packages/mscgen-preview">mscgen-preview</a>
+        package for the <a href="https://atom.io">atom</a> editor shows a
+        live preview of the chart inside the editor.
+    </p>
+    <p>
+        It shoots into 'Xù-mode' when presented with a file that ends in
+        <code>.xu</code>.
+    </p>
+    <h3>On the command line</h3>
+    <p>
+        The <a href="https://github.com/sverweij/mscgenjs-cli">mscgen_js
+        command line interface</a> also recognizes the <code>.xu</code>
+        extension:
+        <pre>
+# .xu is automatically recognized as Xù
+mscgenjs supercoolchart.xu
+
+# other extensions aren't. in that case specify xu
+mscgenjs --input-type xu anothercoolchart.seq
+        </pre>
     </p>
 </section>
 <section>
@@ -1311,6 +1187,203 @@ msc {
 }</pre>
 </section>
 </article>
+<article itemscope itemtype="http://schema.org/Article" id="interpreter">
+<h1 itemprop="name">Using the on line interpreter</h1>
+<p>
+    With the on line interpreter you can write MsGenny and MscGen scripts and see the
+    resulting chart grow in real time.
+</p>
+<p class="info">
+    If you like the on line interpreter, you might also like the (open source)
+    <a href="https://atom.io/packages/mscgen-preview">mscgen-preview</a> package
+    for the <a href="https://atom.io">atom</a> editor. It uses the same render
+    engine, renders charts in real-time, and has out-of-this-world
+    syntax higlighting.
+</p>
+<section>
+<h2 id="input">Input</h2>
+<p>The typing area on the right uses <em>codemirror</em>. This means it
+    (a.o.) supports undo history, automatic bracket matching and
+    syntax highlighting, just like you would expect of an off line
+    code editor. You can even drop files directly from
+    your desktop.</p>
+<img itemprop="image" class="shadow" src="images/demo - screenshot - autofaded.png" alt="a screenshot of the mscgen_js interpreter">
+<p>
+<h3>Auto render</h3>
+<p>
+    By default the interpreter renders the chart as you type.
+    However, if you're on
+    a <em>very</em> slow machine, you can switch off this behavior.
+    The interpreter will offer you a <em>Render</em> button that renders
+    the chart only when you click it.
+</p>
+<h3>Language</h3>
+<p>
+With the language radiobox you can switch between the languages
+supported by mscgen_js (MscGen, Xù and MsGenny). When the interpreter
+is in debug mode, you can also see (and edit) the abstract syntax
+tree, which is in JSON format.
+</p>
+<p>
+When you switch between the languages, you'll see the program in the
+editor is translated to the new language.
+</p>
+<p class="warning">
+When switching between languages the interpreter preserves comments
+preceding the program. Comments <em>within</em> and <em>after</em>
+the program get lost, though.
+</p>
+<p class="warning">
+When your program uses features not available in a target language,
+these will get lost in the translation.
+</p>
+<h3>Color</h3>
+<p>When you hit the <em>color</em> button you can either:
+    <ul>
+        <li>Pick one of three color schemes which adds coloring attributes
+            to the MscGen source code.
+        </li>
+        <li>Remove any colors from the source.
+        </li>
+    </ul>
+</p>
+<p>For example, here is what the what applying the 'Automatic' color scheme
+    will get you:
+</p>
+<div>
+<pre class="mscgen_js">msc {
+  hscale="0.8";
+
+  Co, Mo, Dolores;
+
+  Co =>> Mo [label="Hello"];
+  Dolores =>> Co [label="Is it me you're looking for?"];
+  Mo =>> Dolores [label="I see it in your eyes"];
+}</pre>
+=>
+<pre class="mscgen_js">msc {
+  hscale="0.8";
+
+  Co [linecolor="#008800", textbgcolor="#CCFFCC", arclinecolor="#008800"],
+  Mo [linecolor="#FF0000", textbgcolor="#FFCCCC", arclinecolor="#FF0000"],
+  Dolores [linecolor="#0000FF", textbgcolor="#CCCCFF", arclinecolor="#0000FF"];
+
+  Co =>> Mo [label="Hello"];
+  Dolores =>> Co [label="Is it me you're looking for?"];
+  Mo =>> Dolores [label="I see it in your eyes"];
+}</pre>
+</div>
+<h4>Not for MsGenny</h4>
+<p>As MsGenny does not support colors, auto color is disabled for that language.
+</p>
+<h4><em>Respect existing colors</em> vs <em>forced</em></h4>
+<p>
+    Each color scheme has two variants:
+    <ul>
+        <li><strong>respect existing colors</strong>
+            <p>If an element already has a color attribute <em>of any kind</em>
+                applying the scheme will not change the colors for that element.</p>
+        </li>
+        <li><strong>forced</strong>
+            <p>Removes all colors from the chart before applying the scheme.</p>
+        </li>
+    </ul>
+</p>
+</section>
+<section>
+<h2 id="output">Output</h2>
+<p>The online interpreter supports several output formats.
+</p>
+<h3>Vector graphics: svg</h3>
+<p>Clicking the <em>svg</em> button or
+    double clicking the sequence chart opens the chart in a new window (or tab).
+    In most browsers it's super easy to save the image to your local file
+    system from there (e.g. right click -&gt; save as ...).
+</p>
+
+<h3>Raster graphics: png and jpeg</h3>
+<p>Opens a new window/ tab with the "rasterized" version of the
+    chart in the lossless png or the lossy jpeg formats respectively.
+    Saving is just as easy as saving the vector graphics.
+</p>
+
+<h3>The little film camera icon</h3>
+<p>Animates the current sequence chart. When you click it, a light
+    box opens:</p>
+<img itemprop="image" class="shadow" src="images/animation-sample.gif" alt="a simple sequence chart - animated">
+<p>
+    The multi-media buttons should be pretty self explanatory. To close the
+    lightbox, click the X or hit the ESC key.
+</p>
+<h4>Why is this in?</h4>
+<p>The animation feature is an attempt to capture the feeling of seeing
+    a sequence chart grow on a whiteboard. We noticed that when we <em>draw</em>
+    sequence charts, even people who have never seen one immediately grasp
+    what is going on.
+</p>
+
+<h3>Bookmarkable url</h3>
+    <p>This generates a URL (in your address bar) which would (re-)load the
+program currently in the editor e.g.
+<code>https://sverweij.github.io/mscgen_js/index.html?debug=true&lang=mscgen&msc=msc%7B%0A%20%20a%2Cb%3B%0A%20%20a%3D%3E%20b%3B%0A%7D</code>.
+<ul>
+    <li>Usefull for bookmarking a chart you're working on</li>
+    <li>Works for programs up till a size of approximately 2k.</li>
+    <li>When 'Auto render' is on, mscgen_js updates the url as you type.</li>
+</ul></p>
+</li>
+
+</section>
+<section>
+<h2 id="debug-mode">Debug mode</h2>
+<p>
+When you start the interpreter is started in "debug" mode (like so: <a href="https://sverweij.github.io/mscgen_js?debug=true">https://sverweij.github.io/mscgen_js?debug=true</a>),
+you'll notice the interpreter grows some extra features:
+</p>
+<p>
+<ul>
+    <li><strong>An extra "language": AST</strong>
+        <p>the abstract syntax tree (JSON)
+    as generated by the parser. If you are so inclined, you can
+    directly edit the syntax tree and see changes reflected in the
+    chart...</p>
+    </li>
+    <li><strong>Extra export options</strong>
+        <p><ul>
+            <li><em>Doxygen</em>
+                <p>Opens a new window with the current chart translated into vanilla MscGen,
+
+                    embedded in a comment that plays nice with <a href="https://www.stack.nl/~dimitri/doxygen/">doxygen</a>.
+                </p>
+            </li>
+            <li><em>GraphViz dot</em>
+                <p>Opens a new window with a graphviz dot
+                    program, that represents the communication diagram version of the sequence chart.
+                </p>
+            </li>
+            <li><em>HTML</em>
+                <p>generates the same sample html as under "embed", only
+            now in a separate window.</p>
+            </li>
+            <li><em>Vanilla MscGen</em>
+                <p>flattens extended features (inline expressions,
+            watermark) to "vanilla" MscGen.</p>
+            </li>
+        </ul></p>
+    </li>
+    <li><strong><em>save</em> and <em>load</em> buttons</strong>
+        <p>These buttons respectively save and load the current chart to
+            and from local storage, so you can keep working on the
+            same chart even after closing the browser.
+        </p>
+    </li>
+    <li><strong>Version information</strong>
+        <p>The interpreter shows version number, build date and the commit hash.</p>
+    </li>
+</ul>
+</p>
+</section>
+</article>
 <div id="about" class="popupsheet lightbox">
     <div class="popup">
         <div class="header">
@@ -1323,7 +1396,7 @@ msc {
     <td>
 <span class="icon-xu about-box-icon" alt="mscgen_js logo" title="Logo
 
-It's the Chinese letter 序 (xù).
+It's the Chinese letter 序 (Xù).
 
 According to Google it means 'sequence'.
 
