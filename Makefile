@@ -26,7 +26,7 @@ endif
 GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
 GENERATED_SOURCES=$(GENERATED_STYLESHEETS)
-REMOVABLEPRODDIRS=$(BUILDDIR)/lib \
+REMOVABLEPRODDIRS=$(BUILDDIR)/script/lib \
 	$(BUILDDIR)/style \
 	$(BUILDDIR)/script \
 	$(BUILDDIR)/fonts
@@ -185,7 +185,7 @@ include src/dependencies.mk
 $(BUILDDIR)/index.html: $(PRODDIRS) \
 	src/index.html \
 	$(BUILDDIR)/style/interp.css \
-	$(BUILDDIR)/lib/require.js \
+	$(BUILDDIR)/script/lib/require.js \
 	$(BUILDDIR)/script/mscgen-interpreter.js \
 	$(BUILDDIR)/images/ \
 	$(BUILDDIR)/samples/ \
@@ -218,7 +218,7 @@ $(BUILDDIR)/images/: src/images
 $(BUILDDIR)/samples/: src/samples
 	cp -R $< $@
 
-$(BUILDDIR)/lib/require.js: src/script/lib/require.js
+$(BUILDDIR)/script/lib/require.js: src/script/lib/require.js
 	cp $< $@
 
 $(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
