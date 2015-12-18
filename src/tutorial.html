@@ -201,7 +201,7 @@ ga ('send', 'pageview');
                 <a href="#output">Output</a>
             </li>
             <li>
-                <a href="#debug-mode">Debug mode</a>
+                <a href="#debug-mode">Beta feature mode</a>
             </li>
         </ul>
     </li> -->
@@ -233,22 +233,26 @@ ga ('send', 'pageview');
             </p>
         </li>
         <li><strong>Cheat sheet</strong>
-            <p>If you just occasionally write sequence charts with either language, you might benefit
-        from the <a href="images/test14_cheat_sheet.svg">cheat sheet</a> (also available
-        as <a href="images/test14_cheat_sheet.png">png</a>) which is also easily accessible from the
-        interpreter.</li>
+        <p>
+            If you just occasionally write sequence charts with either language,
+            you might benefit from the <a href="#msc-cheat-sheet">cheat
+            sheet</a>. You can access a simplified variant directly in the
+            interpreter.
+        </p>
+        </li>
         <li><strong>Fun fact: no pictures</strong>
-            <p>This tutorial contains (almost) no pictures. The charts you see on this page are
-                rendered by your browser, with a little help from the mscgen_js library.
-                If you want to use this in your own pages as well check out
-                the <a href="embed.html">embedding</a> page.
-            </p>
+        <p>
+            This tutorial contains (almost) no pictures. The charts you see on
+            this page are rendered by your browser, with a little help from the
+            mscgen_js library. If you want to use this in your own pages as well
+            check out the <a href="embed.html">embedding</a> page.
+        </p>
         </li>
     </ul>
 
 </article>
 <article itemscope itemtype="http://schema.org/Article" id="msc-cheat-sheet">
-    <h1 itemprop="name">Cheat sheet</h1>
+    <h1 itemprop="name">Msc Cheat sheet</h1>
     <pre class="mscgen_js hideonmobile" data-language="msgenny"># MsGenny: a cheat sheet
 hscale=0.9;
 
@@ -804,7 +808,9 @@ Alice => Alice: hihihi;</pre>
 
 <section>
 <h2 id="mscgenbasics">Basics</h2>
-<p>MscGen scripts are surrounded by an opening and closing statements:</p>
+<p>
+    MscGen scripts are surrounded by an opening and closing statements:
+</p>
 <pre class="code mscgen">
 msc {
 
@@ -813,27 +819,31 @@ msc {
 <p>In between go, in this order:
     <ul>
         <li><strong>options</strong>
-      <p>these are optional. MscGen uses the same options as
-      MsGenny
-      (see <a href="#options-arcgradient-hscale-width">above</a>),
-        taking <em>exactly</em> the same syntax (no
-        wonder as MsGenny shamelessly copied it from
-        MscGen).</p></li>
-      <li><strong>entities</strong>
-	    <p>mandatory. Note that you <em>must</em> define entities
-	    before
-		you can use them within arcs. Just like in MsGenny
-		you can use labels on them. The syntax, however,
-		is slightly different. To define an entity <em>mike</em>
-		and have it show up in the chart as <em>Michael
-		McTernan</em>, you'd use this: <code>mike [label="Michael
-		McTernan"]</code></p>.</li>
+        <p>
+            these are optional. MscGen uses the same options as MsGenny (see <a
+            href="#options-arcgradient-hscale-width">above</a>), taking
+            <em>exactly</em> the same syntax (no wonder as MsGenny shamelessly
+            copied it from MscGen).
+        </p>
+        </li>
+        <li><strong>entities</strong>
+	    <p>
+            mandatory. You <em>must</em> define entities before you can use them
+            within arcs. Just like in MsGenny you can use labels on them. The
+            syntax, however, is slightly different. To define an entity
+            <em>mike</em> and have it show up in the chart as <em>Michael
+            McTernan</em>, you'd use this: <code>mike [label="Michael
+            McTernan"]</code>.
+        </p>
+        </li>
         <li><strong>arcs</strong>
-            <p>MscGen supports the same arc types as MsGenny does.
-                    To label them, you can use the same sytax as used for labeling entities, e.g.
-                    <code>a -> b [label="async call"]</code></p></li>
+        <p>
+            MscGen supports the same arc types as MsGenny does. To label them,
+            you can use the same sytax as used for labeling entities, e.g.
+            <code>a -> b [label="async call"]</code>
+        </p>
+        </li>
     </ul>
-
     Putting these together (larded with some <code># comments</code>):
 </p>
 <pre class="code mscgen">
@@ -1497,10 +1507,13 @@ whiteboard. Under a roof."></span>
     </td>
     <td>
     <p>
-    The mscgen_js javascript library transforms  descriptions in
-    <a href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
-    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md" target="_blank">MsGenny</a> and
-    <a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md" target="_blank">xù</a> into sequence charts.
+    The <a href="https://github.com/sverweij/mscgenjs-core">mscgen_js</a>
+    javascript library transforms  descriptions in <a
+    href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>, <a
+    href="https://github.com/sverweij/mscgen_js/blob/master/wikum/msgenny.md"
+    target="_blank">MsGenny</a> and <a
+    href="https://github.com/sverweij/mscgen_js/blob/master/wikum/xu.md"
+    target="_blank">xù</a> into sequence charts.
     </p>
     <p>
     It is the engine for an <a href="index.html">interpreter</a> and it
@@ -1508,14 +1521,23 @@ whiteboard. Under a roof."></span>
     <a href="embed.html">embedding sequence charts</a>
     in html easy as falling off a log.
     </p>
-    <p>mscgen_js is open source (GPLv3).
+    <p>mscgen_js is open source (GPL-3.0).
     <ul>
     <li>source on <a href="https://github.com/sverweij/mscgen_js" target="_blank">
     GitHub</a>
-    <li><a href="https://github.com/sverweij/mscgen_js/issues"
-    target="_blank">report issues</a>
-    <li><a href="https://github.com/sverweij/mscgen_js/tree/master/wikum/licenses">licenses</a>
+    </li>
+    <li>
+        <a href="https://github.com/sverweij/mscgen_js/tree/master/wikum/licenses">licenses</a>
+    </li>
     </ul>
+    </p>
+    <p>
+        <a href="https://github.com/sverweij/mscgen_js/issues"
+                           target="_blank">
+            <button type="button" class="btn-primary">
+                Report <span class="hideonmobile">an</span> issue
+            </button>
+        </a>
     </p>
     </td>
 </tr>
