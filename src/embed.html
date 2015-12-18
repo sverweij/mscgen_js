@@ -158,14 +158,9 @@
 </pre>
                 </li>
                 <li>
-                    Put your MscGen script in the page, with
-                    a tag around it that has <strong><code>mscgen_js</code></strong> as one of its
+                    Put your MscGen script in the page, surrounded by a a tag
+                    with <strong><code>mscgen_js</code></strong> as one of its
                     <strong><code>class</code> attribute</strong>s.
-                    We use <code>pre</code> as element type below, but
-                    mscgen_js will behave the same for <code>div</code>,
-                    <code>span</code> or any other type of element
-                    you'd like to use.
-                    <br>
 <pre class="code">
 <mark>&lt;pre class="mscgen_js"&gt;</mark>
 msc {
@@ -180,6 +175,10 @@ msc {
 }
 <mark>&lt;/pre></mark>
 </pre>
+                    <p>
+                        We've used a <code>pre</code> element here, but
+                        mscgen_js works with any element type.
+                    </p>
                 </li>
         <li><strong>You're done.</strong> The script replaces all elements in the page with the class <code>mscgen_js</code> by
         a rendered sequence chart. <strong>Result</strong> for the above MscGen:
