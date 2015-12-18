@@ -110,19 +110,22 @@ ga ('send', 'pageview');
         <a href="#">Introduction</a>
     </li>
     <li>
+        <a href="#msc-cheat-sheet">Cheat sheet</a>
+    </li>
+    <li>
         <a href="#msgenny">MsGenny tutorial</a>
         <ul>
             <li>
                 <a href="#basics">Basics</a>
                 <ul>
                     <li>
-                        <a href="#a-sends-a-signal-to-b">a sends a signal to b</a>
+                        <a href="#a-sends-a-signal-to-b"><code>a</code> sends a signal to <code>b</code></a>
                     </li>
                     <li>
                         <a href="#adding-text">adding text</a>
                     </li>
                     <li>
-                        <a href="#b-replies-to-a">b replies to a</a>
+                        <a href="#b-replies-to-a"><code>b</code> replies to <code>a</code></a>
                     </li>
                     <li>
                         <a href="#notes">notes</a>
@@ -164,7 +167,7 @@ ga ('send', 'pageview');
             <li>
                 <a href="#extended-stuff">Extended stuff</a>
                 <ul>
-                    <li><a href="#inline-expressions">nesting: inline expressions</a></li>
+                    <li><a href="#inline-expressions">alt, loop, par &amp; family</a></li>
                     <li><a href="#watermark">watermark</a></li>
                 </ul>
             </li>
@@ -244,6 +247,62 @@ ga ('send', 'pageview');
     </ul>
 
 </article>
+<article itemscope itemtype="http://schema.org/Article" id="msc-cheat-sheet">
+    <h1 itemprop="name">Cheat sheet</h1>
+    <pre class="mscgen_js hideonmobile" data-language="msgenny"># MsGenny: a cheat sheet
+hscale=0.9;
+
+a -> b   : a -> b  (signal),
+b &lt;-> c  : b &lt;-> c,
+c -- d   : c -- d,
+d -> d   : d -> d;
+
+a => b   : a => b  (method),
+b &lt;=> c  : b &lt;=> c,
+d => d   : d => d;
+
+b >> a   : b >> a (return value),
+b &lt;&lt;>> c : b &lt;&lt;>> c,
+c .. d   : c .. d (dotted),
+d >> d   : d >> d;
+
+a =>> b   : a =>> b (callback),
+b &lt;&lt;=>> c : b &lt;&lt;=>> c,
+d =>> d   : d =>> d;
+
+a -x b   : a -x b  (lost),
+d -x d   : d -x d;
+
+a :> b   : a :> b  (emphasis),
+b &lt;:> c  : b &lt;:> c,
+d :> d   : d :> d;
+
+b note b : b note b \n(note),
+c box c  : c box c\n(action);
+
+b rbox b : b rbox b\n(reference),
+c abox c : c abox c\n(state/ condition);
+
+|||      : ||| (empty row);
+...      : ... (omitted row);
+ ---      : --- (comment);</pre>
+<pre class="mscgen_js showonmobile" data-language="msgenny">a, b;
+
+a -> b   : a -> b  (signal);
+a => b   : a => b  (method);
+b >> a   : b >> a  (return value);
+a =>> b  : a =>> b (callback);
+a -x b   : a -x b  (lost);
+a :> b   : a :> b  (emphasis);
+a .. b   : a .. b  (dotted);
+a note a : a note a\n(note),
+b box b  : b box b\n(action);
+a rbox a : a rbox a\n(reference),
+b abox b : b abox b\n(state/ condition);
+|||      : ||| (empty row);
+...      : ... (omitted row);
+---      : --- (comment);</pre>
+</article>
 <article itemscope itemtype="http://schema.org/Article" id="msgenny">
 <h1 itemprop="name">MsGenny language tutorial</h1>
 <p>
@@ -305,7 +364,9 @@ a note a: we're not done yet...;</pre>
 
 <h3 id="multiline-text">Multiline text</h3>
 <p>The mscgen_js render engine automatically breaks long lines into
-multiple lines. However, you can break a long label in pieces
+multiple lines.
+</p>
+<p>However, you can break a long label in pieces
 manually by putting the (c-style) escape code
 <code>\n</code> on the spots you want to split the label. This works for
 <em>all</em> labels.</p>
@@ -597,6 +658,10 @@ d =>> d   : d =>> d;
 a -x b   : a -x b  (lost),
 d -x d   : d -x d;
 
+a :> b   : a :> b  (emphasis),
+b &lt;:> c  : b &lt;:> c,
+d :> d   : d :> d;
+
 b note b : b note b \n(note),
 c box c  : c box c\n(action);
 
@@ -605,26 +670,26 @@ c abox c : c abox c\n(state/ condition);
 
 |||      : ||| (empty row);
 ...      : ... (omitted row);
- ---      : --- (comment);</pre>
+---      : --- (comment);</pre>
 </center>
 </section>
 
 <section>
 <h2 id="extended-stuff">Extended stuff</h2>
 <p>
-    The features described in <em>extended stuff</em> are only supported in xù and MsGenny,
-    not in MscGen. If you rely on MscGen to do your rendering in (e.g.) doxygen
-    you might want to steer clear of these, or rewrite them in a fashion that
-    kind of mimics the behavior in vanilla MscGen (tips below).
+    The features described in <em>extended stuff</em> are only supported in Xù
+    and MsGenny, not in MscGen. If you rely on MscGen to do your rendering in
+    (e.g.) doxygen you might want to steer clear of these, or rewrite them in a
+    fashion that kind of mimics the behavior in vanilla MscGen (tips below).
 </p>
 
-<h3 id="inline-expressions">Nesting: inline expressions</h3>
-<p>If you're a sequence diagram regular, you probably need to express alternatives
-    and loops 'n stuff once in a while, like this:</p>
+<h3 id="inline-expressions"><code>alt</code>, <code>loop</code>, <code>par</code> &amp; family</h3>
+<p>
+    If you're a sequence diagram regular, you probably feel the need to express
+    alternatives and loops 'n stuff once in a while, like this:
+</p>
 
 <pre class="mscgen_js" data-language="msgenny">hscale=0.8;
-a,b,c,d;
-
 a =>> b;
 b loop d: 3 times {
    b =>> c: knock;
@@ -635,11 +700,24 @@ b loop d: 3 times {
    };
 };</pre>
 
-<p> There is no support for that in MscGen, which is why we created Xù. All <em>inline
-    expression</em> keywords from xù also work in MsGenny. To get the sample above you'd use:</p>
+<p>
+    In sequence chart land these things are called <em>inline expressions</em>
+    (SDL) or <em>combined fragments</em> (UML).
+    There is no support for it in MscGen, which is why we created Xù and
+    included them in MsGenny at the same time.
+</p>
+<p>
+    All <em>inline expression</em>
+    keywords (<code>alt</code>, <code>opt</code>, <code>loop</code>,
+    <code>par</code> and the more excotic <code>exc</code>,
+    <code>break</code>, <code>seq</code>, <code>strict</code>, <code>neg</code>,
+    <code>ignore</code>, <code>consider</code> and <code>assert</code>) work in
+    both languages.
+</p>
+<p>
+    To get the sample above you'd use:
+</p>
 <pre class="code msgenny">
-a,b,c,d;
-
 a =>> b;
 <mark>b loop d: 3 times {</mark>
    b =>> c: knock;
@@ -653,13 +731,18 @@ a =>> b;
 <p class="info">
     <strong>Mimicing this in MscGen</strong> A way to do nesting in MscGen is to
     use arrowless arcs for the top and the bottom of the inline expression.
+    <br><br>
     The <a href="https://github.com/sverweij/mscgen_js/tree/master/src/script/cli">command line interface</a>
-    script will help you do that:<br><br>
-    <code style="display: block">mscgen_js --output-type mscgen --input-from yourscript.msgenny --output-to yourscript.mscgen</code>
+    script will help you do that: (<code>mscgen_js yourscript.msgenny -o yourscript.mscgen</code>).
+    <br><br>
+    In <a href="#debug-mode">beta feature mode</a> the interpreter can do this
+    as well. Use the <code>...</code> button and pick <em>Vanilla MscGen</em>
+    from the menu.
 </p>
 <h3 id="watermark">Watermark</h3>
 <p>
-    To put a watermark text through your chart, add a <em>watermark</em> option, like so:
+    To put a watermark text through your chart, add a <em>watermark</em> option,
+    like so:
 </p>
 <pre class="code msgenny">
 hscale="0.7", <mark>watermark="Watermark";</mark>
@@ -709,9 +792,10 @@ Alice => Alice: hihihi;</pre>
   </p>
     </li>
     <li><strong>Free lunch in one click</strong>
-  <p>You can bang out your sequence chart with
-     MsGenny and with one click in the online interpreter get
-     its MscGen counterpart.</p>
+        <p>
+            You can bang out your sequence chart with MsGenny and with one click
+            in the online interpreter get its MscGen counterpart.
+        </p>
     </li>
 </ul>
 
@@ -1043,13 +1127,11 @@ msc {
                     <pre class="code msgenny"># MsGenny
 a alt b: a label {
     ...;
-};
-                    </pre>
+};</pre>
                     <pre class="code msgenny"># Xù
 a alt b [label="a label"] {
     ...;
-};
-                    </pre>
+};</pre>
                 </p>
             </li>
             <li>
@@ -1077,8 +1159,7 @@ a alt b [label="a label"] {
     <h3>In the mscgen_js on line interpreter</h3>
     <p>
         The on line interpreter recognizes when you use a feature from Xù.
-        You can recognize it by the little xù marker it displays on the
-        language switch.
+        It shows by displaying a little xù marker on the language switch.
     </p>
     <h3>In the atom package</h3>
     <p>
@@ -1335,9 +1416,10 @@ program currently in the editor e.g.
 
 </section>
 <section>
-<h2 id="debug-mode">Debug mode</h2>
+<h2 id="debug-mode">Beta feature mode</h2>
 <p>
-When you start the interpreter is started in "debug" mode (like so: <a href="https://sverweij.github.io/mscgen_js?debug=true">https://sverweij.github.io/mscgen_js?debug=true</a>),
+When you start the interpreter in "beta feature" (/ "debug") mode
+(like so: <a href="https://sverweij.github.io/mscgen_js?debug=true">https://sverweij.github.io/mscgen_js?debug=true</a>),
 you'll notice the interpreter grows some extra features:
 </p>
 <p>
@@ -1351,19 +1433,25 @@ you'll notice the interpreter grows some extra features:
     <li><strong>Extra export options</strong>
         <p><ul>
             <li><em>Doxygen</em>
-                <p>Opens a new window with the current chart translated into vanilla MscGen,
-
-                    embedded in a comment that plays nice with <a href="https://www.stack.nl/~dimitri/doxygen/">doxygen</a>.
+                <p>
+                    Opens a new window with the current chart translated into
+                    vanilla MscGen, embedded in a comment that plays nice with <a
+                    href="https://www.stack.nl/~dimitri/doxygen/">doxygen</a>.
                 </p>
             </li>
-            <li><em>GraphViz dot</em>
-                <p>Opens a new window with a graphviz dot
-                    program, that represents the communication diagram version of the sequence chart.
+            <li>
+                <em>GraphViz dot</em>
+                <p>
+                    Opens a new window with a graphviz dot program, that
+                    represents the communication diagram version of the sequence
+                    chart.
                 </p>
             </li>
             <li><em>HTML</em>
-                <p>generates the same sample html as under "embed", only
-            now in a separate window.</p>
+                <p>
+                    generates the same sample html as under "embed", only
+                    now in a separate window.
+        </p>
             </li>
             <li><em>Vanilla MscGen</em>
                 <p>flattens extended features (inline expressions,
