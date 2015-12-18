@@ -56,21 +56,22 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-152.png
 CODEMIRROR_ROOT=node_modules/codemirror
 MSCGENJS_CORE_ROOT=node_modules/mscgenjs
-LIBDIRS=src/script/lib/canvg \
-		src/script/lib/codemirror/addon/dialog \
-		src/script/lib/codemirror/addon/display \
-		src/script/lib/codemirror/addon/edit \
-		src/script/lib/codemirror/addon/search \
-		src/script/lib/codemirror/addon/selection \
-		src/script/lib/codemirror/lib \
-		src/script/lib/codemirror/mode/mscgen \
-		src/script/lib/codemirror/mode/javascript \
-		src/script/lib/codemirror/theme \
-		src/script/lib/mscgenjs-core/parse \
-		src/script/lib/mscgenjs-core/render/graphics \
-		src/script/lib/mscgenjs-core/render/text \
-		src/script/lib/mscgenjs-core/lib/lodash
+CANVG_LIBDIRS=src/script/lib/canvg
+CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
+	src/script/lib/codemirror/addon/display \
+	src/script/lib/codemirror/addon/edit \
+	src/script/lib/codemirror/addon/search \
+	src/script/lib/codemirror/addon/selection \
+	src/script/lib/codemirror/lib \
+	src/script/lib/codemirror/mode/mscgen \
+	src/script/lib/codemirror/mode/javascript \
+	src/script/lib/codemirror/theme
+MSCGENJS_LIBDIRS=src/script/lib/mscgenjs-core/parse \
+	src/script/lib/mscgenjs-core/render/graphics \
+	src/script/lib/mscgenjs-core/render/text \
+	src/script/lib/mscgenjs-core/lib/lodash
 
+LIBDIRS=$(CANVG_LIBDIRS) $(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
@@ -150,31 +151,31 @@ bower_components/canvg-gabelerner/%.js:
 src/script/lib/require.js: node_modules/requirejs/require.js
 	$(MINIFY) $< -m -c > $@
 
-src/script/lib/canvg/%.js: bower_components/canvg-gabelerner/%.js src/script/lib/canvg
+src/script/lib/canvg/%.js: bower_components/canvg-gabelerner/%.js $(CANVG_LIBDIRS)
 	cp $< $@
 
-src/script/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(LIBDIRS)
+src/script/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(CODEMIRROR_LIBDIRS)
 	cp $< $@
 
-src/script/lib/codemirror/addon/dialog/_%.scss: $(CODEMIRROR_ROOT)/addon/dialog/%.css $(LIBDIRS)
+src/script/lib/codemirror/addon/dialog/_%.scss: $(CODEMIRROR_ROOT)/addon/dialog/%.css $(CODEMIRROR_LIBDIRS)
 	cp $< $@
 
-src/script/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(LIBDIRS)
+src/script/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(CODEMIRROR_LIBDIRS)
 	cp $< $@
 
-src/script/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(LIBDIRS)
+src/script/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(CODEMIRROR_LIBDIRS)
 	cp $< $@
 
-src/script/lib/mscgenjs-core/render/graphics/%.js: $(MSCGENJS_CORE_ROOT)/render/graphics/%.js $(LIBDIRS)
+src/script/lib/mscgenjs-core/render/graphics/%.js: $(MSCGENJS_CORE_ROOT)/render/graphics/%.js $(MSCGENJS_LIBDIRS)
 	cp $< $@
 
-src/script/lib/mscgenjs-core/render/text/%.js: $(MSCGENJS_CORE_ROOT)/render/text/%.js $(LIBDIRS)
+src/script/lib/mscgenjs-core/render/text/%.js: $(MSCGENJS_CORE_ROOT)/render/text/%.js $(MSCGENJS_LIBDIRS)
 	cp $< $@
 
-src/script/lib/mscgenjs-core/parse/%.js: $(MSCGENJS_CORE_ROOT)/parse/%.js $(LIBDIRS)
+src/script/lib/mscgenjs-core/parse/%.js: $(MSCGENJS_CORE_ROOT)/parse/%.js $(MSCGENJS_LIBDIRS)
 	cp $< $@
 
-src/script/lib/mscgenjs-core/lib/lodash/%.js: $(MSCGENJS_CORE_ROOT)/lib/lodash/%.js $(LIBDIRS)
+src/script/lib/mscgenjs-core/lib/lodash/%.js: $(MSCGENJS_CORE_ROOT)/lib/lodash/%.js $(MSCGENJS_LIBDIRS)
 	cp $< $@
 
 # dependencies
