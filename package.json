@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "codemirror": "5.9.0",
     "requirejs": "2.1.22",
-    "mscgenjs": "1.2.5"
+    "mscgenjs": "1.2.6"
   },
   "devDependencies": {
     "almond": "0.3.1",
