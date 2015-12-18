@@ -161,7 +161,7 @@ john alt bike: weather is nice {
 - The [command line interface][5] handles by translating inline expressions to horizontal lines ("---")
 ```sh
 # translate Xù back to MscGen
-mscgen_js --output-type mscgen --input-fron funkyInlineThings.xu --output-to funkyFlattenedInlineThings.mscgen
+mscgenjs funkyInlineThings.xu --output-to funkyFlattenedInlineThings.mscgen
 ```
 - The on line interpreter, in debug mode, has an _Export this chart to Vanilla MscGen_ option behind the `...` button. - e.g. for the [Johnny, bike, shed example](https://sverweij.github.io/mscgen_js//index.html?lang=xu&debug=true&msc=msc%20{%0A%20%20john%2C%0A%20%20shed%2C%0A%20%20bike%3B%0A%0A%20%20john%20alt%20bike%20[label%3D%22weather%20is%20nice%22]%20{%0A%20%20%20%20john%20%3D%3E%3E%20shed%20[label%3D%22get%28bike%29%22]%3B%0A%20%20%20%20shed%20%3E%3E%20john%20[label%3D%22bike%22]%3B%0A%20%20%20%20john%20%3D%3E%3E%20bike%20[label%3D%22use%22]%3B%0A%20%20%20%20---%20[label%3D%22else%22]%3B%0A%20%20%20%20|||%20[label%3D%22john%20stays%20at%20home%22]%3B%0A%20%20}%3B%0A})
 
