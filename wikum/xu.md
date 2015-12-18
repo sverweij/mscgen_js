@@ -146,8 +146,6 @@ Just like msgenny, Xù supports a "watermark" _option_: ```watermark="xù rocks!
 would look something like this:
 
 ```msgenny
-john, shed, bike;
-
 john alt bike: weather is nice {
   john =>> shed : get(bike);
   shed >> john : bike;
