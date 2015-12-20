@@ -247,11 +247,11 @@ dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.
 
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console src/script/mscgen-*.js src/script/embedding src/script/interpreter src/script/utl | grep -c console | grep ^0$$
+	grep -r console src/script/mscgen-*.js src/script/interpreter src/script/utl | grep -c console | grep ^0$$
 	@echo ... ok
 
 consolecheck:
-	grep -r console src/script/mscgen-*.js src/script/embedding src/script/interpreter src/script/utl
+	grep -r console src/script/mscgen-*.js src/script/interpreter src/script/utl
 
 csslint:
 	$(CSSLINT) src/style/*.css
