@@ -32,12 +32,12 @@ src/style/doc.scss: \
 
 src/embed.html: \
 	src/style/doc.css \
-	src/script/mscgen-inpage.js \
+	src/mscgen-inpage.js \
 	src/images/mugshot.jpg
 
 src/tutorial.html: \
 	src/style/doc.css \
-	src/script/mscgen-inpage.js \
+	src/mscgen-inpage.js \
 	src/images/mugshot.jpg \
 	src/images/demo\ -\ screenshot\ -\ autofaded.png
 

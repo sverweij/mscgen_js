@@ -56,6 +56,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-152.png
 CODEMIRROR_ROOT=node_modules/codemirror
 MSCGENJS_CORE_ROOT=node_modules/mscgenjs
+MSCGENJS_INPAGE_ROOT=node_modules/mscgenjs-inpage
 CANVG_LIBDIRS=src/script/lib/canvg
 CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
 	src/script/lib/codemirror/addon/display \
@@ -73,7 +74,7 @@ MSCGENJS_LIBDIRS=src/script/lib/mscgenjs-core/parse \
 
 LIBDIRS=$(CANVG_LIBDIRS) $(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
 
-.PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
+.PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
 
 help:
 	@echo " --------------------------------------------------------"
@@ -114,7 +115,6 @@ help:
 	@echo "| More information and other targets: see wikum/build.md |"
 	@echo " --------------------------------------------------------"
 	@echo
-
 
 
 # production rules
@@ -164,6 +164,9 @@ src/script/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(CODEMI
 	cp $< $@
 
 src/script/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(CODEMIRROR_LIBDIRS)
+	cp $< $@
+
+src/mscgen-inpage.js: $(MSCGENJS_INPAGE_ROOT)/dist/mscgen-inpage.js
 	cp $< $@
 
 src/script/lib/mscgenjs-core/render/graphics/%.js: $(MSCGENJS_CORE_ROOT)/render/graphics/%.js $(MSCGENJS_LIBDIRS)
@@ -230,13 +233,8 @@ $(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
 	$(SEDVERSION) < $@.tmp > $@
 	rm $@.tmp
 
-$(BUILDDIR)/mscgen-inpage.js: $(EMBED_JS_SOURCES) node_modules/almond/almond.js
-	$(RJS) -o baseUrl=./src/script \
-			name=../../node_modules/almond/almond \
-			include=mscgen-inpage \
-			out=$@ \
-			wrap=true \
-			preserveLicenseComments=true
+$(BUILDDIR)/mscgen-inpage.js: src/mscgen-inpage.js
+	cp $< $@
 
 $(BUILDDIR)/script/mscgen-inpage.js: $(BUILDDIR)/mscgen-inpage.js
 	cp $< $@
@@ -280,14 +278,6 @@ tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
-# a rudimentary bower package with only the (minified) embedding code
-# to be expanded with src, lib & deps
-bower-package: $(BUILDDIR)/mscgen-inpage.js
-	mkdir -p bower-package
-	cp src/bower/* bower-package/.
-	cp src/bower/.gitignore bower-package/.
-	cp $(BUILDDIR)/mscgen-inpage.js bower-package/mscgen-inpage.js
-
 static-analysis:
 	$(NPM) run plato
 
@@ -313,7 +303,6 @@ run-update-dependencies:
 
 depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
-	$(MAKEDEPEND) --append --system amd --flat-define EMBED_JS_SOURCES src/script/mscgen-inpage.js
 	$(MAKEDEPEND) --append --system amd --flat-define INTERPRETER_JS_SOURCES src/script/mscgen-interpreter.js
 
 clean-the-build:
