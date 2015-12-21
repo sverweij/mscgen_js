@@ -118,7 +118,7 @@ Icons courtesy of Dmitry Baranovskiy [license][15].
 At the time the font was created it was licensed[GPLv3][license.gpl-3.0] or
 [CC BY 4.0][license.ccby4]
 
-It uses [mocha][21], [chai][39], [chai-xml][40],
+It uses [mocha][21], [chai][39],
 [istanbul][28], [jshint][22], [plato][23] and
 [nsp][35] to maintain some modicum of verifiable code quality.
 You can see the build history in [Travis][travis.mscgenjs] and an indication
@@ -187,4 +187,3 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [36]: wikum/licenses/license.node-localstorage.md
 [37]: wikum/licenses/license.btoa.md
 [39]: https://github.com/chaijs/chai
-[40]: https://github.com/krampstudio/chai-xml
