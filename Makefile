@@ -5,7 +5,6 @@ GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
-CJS2AMD=utl/commonjs2amd.sh
 PNG2FAVICO=utl/png2favico.sh
 RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
