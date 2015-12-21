@@ -45,7 +45,8 @@
     "bower_components/**",
     "gulpfile.js",
     "src/script/lib/**",
-    "src/script/test/**"
+    "src/script/test/**",
+    "src/mscgen-inpage.js"
   ],
   "test": [
     "**/test/**",

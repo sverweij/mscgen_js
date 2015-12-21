@@ -26,6 +26,7 @@
 	"validateParameterSeparator": ", ",
 	"validateQuoteMarks": false,
 	"excludeFiles": [
-		"src/script/lib/**"
+		"src/script/lib/**",
+		"src/mscgen-inpage.js"
 	]
 }
