@@ -33,6 +33,9 @@ To make this as easy as possible for you, here's some simple guidelines:
 - Plan to do something drastic?     
   Contact @SanderSpeaks on Twitter, or leave an
   [issue](https://github.com/sverweij/mscgen_js/issues/new) on GitHub
+- mscgen_js is released with a [code of conduct](CODE_OF_CONDUCT.md), adapted
+  from the [contributor covenant](http://contributor-covenant.org/).
+
 
 ### Legal
 - the code you add will be subject to
