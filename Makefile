@@ -14,7 +14,6 @@ BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules"
 MINIFY=node_modules/.bin/uglifyjs
-MINIFYHTML=node_modules/.bin/html-minifier --config-file .html-minifier-conf
 
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
@@ -118,7 +117,7 @@ help:
 
 # production rules
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
-	$(SEDVERSION) < $< | $(MINIFYHTML) > $@
+	$(SEDVERSION) < $< > $@
 
 %.css: %.scss
 	$(SASS) $< $@

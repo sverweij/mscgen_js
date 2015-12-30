@@ -20,7 +20,6 @@
     "gulp": "3.9.0",
     "gulp-load-plugins": "1.1.0",
     "gulp-sass": "2.1.1",
-    "html-minifier": "1.0.1",
     "istanbul": "0.4.1",
     "js-makedepend": "0.1.10",
     "jscs": "2.7.0",
