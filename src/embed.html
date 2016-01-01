@@ -119,6 +119,9 @@
                 <a href="#wikimedia-style-tags">Wiki style tags</a>
             </li>
             <li>
+                <a href="#script-tag">Script tags</a>
+            </li>
+            <li>
                 <a href="#error-handling">Error handling</a>
             </li>
             <li>
@@ -216,6 +219,7 @@ msc {
         <p>Pre-condition for this to work is that your Confluence
         admin has enabled the HTML macro functionality.
         </p>
+
         <h2 id="wikimedia-style-tags">Wikimedia style tags</h2>
         <p>
         From version 0.9.37 mscgen_js supports wikimedia style
@@ -245,6 +249,33 @@ msc {
    Mo =>> Dolores [label="I see it in your eyes"];
 }
 </mscgen>
+        <h2 id="script-tag">Script tags</h2>
+        <p>
+            For those who think it is more semantically correct to use
+            <code>&lt;script></code> tags for embedding MscGen scripts:
+        </p>
+<pre class="code">&lt;script type="text/x-mscgen">
+msc {
+  hscale=1.2, wordwraparcs=on;
+
+  alice [label="Alice"], bob [label="Bob"];
+
+  alice =>> bob [label="you can embed MscGen"];
+  bob >> alice [label="That is FANTASTIC!"];
+}
+&lt;/script>
+</pre>
+<script type="text/x-mscgen">
+msc {
+  hscale=1.2, wordwraparcs=on;
+
+  alice [label="Alice"], bob [label="Bob"];
+
+  alice =>> bob [label="you can embed MscGen"];
+  bob >> alice [label="That is FANTASTIC!"];
+}
+</script>
+
 
         <h2 id="error-handling">Error handling</h2>
         <p>If your MscGen code contains an error, instead of a sequence chart, you will see
