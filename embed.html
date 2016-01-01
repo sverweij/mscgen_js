@@ -18,9 +18,9 @@
         along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 
          mscgen_js
-            version: 1.2.5
-            build-date: 20151230 14:52
-            commit: e021934eaff9e25a
+            version: 1.2.6
+            build-date: 20160101 19:51
+            commit: 132fadf0e71adc9b
         -->
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -54,13 +54,13 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - embed</title>
-        <link rel="stylesheet" href="./style/doc.css?e021934eaff9e25a" type="text/css" media="screen, print">
+        <link rel="stylesheet" href="./style/doc.css?132fadf0e71adc9b" type="text/css" media="screen, print">
         <script>
         var mscgen_js_config = {
             loadFromSrcAttribute: true
         };
         </script>
-        <script src="mscgen-inpage.js?e021934eaff9e25a" defer></script>
+        <script src="mscgen-inpage.js?132fadf0e71adc9b" defer></script>
         <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -117,6 +117,9 @@
             </li>
             <li>
                 <a href="#wikimedia-style-tags">Wiki style tags</a>
+            </li>
+            <li>
+                <a href="#script-tag">Script tags</a>
             </li>
             <li>
                 <a href="#error-handling">Error handling</a>
@@ -216,6 +219,7 @@ msc {
         <p>Pre-condition for this to work is that your Confluence
         admin has enabled the HTML macro functionality.
         </p>
+
         <h2 id="wikimedia-style-tags">Wikimedia style tags</h2>
         <p>
         From version 0.9.37 mscgen_js supports wikimedia style
@@ -245,6 +249,33 @@ msc {
    Mo =>> Dolores [label="I see it in your eyes"];
 }
 </mscgen>
+        <h2 id="script-tag">Script tags</h2>
+        <p>
+            For those who think it is more semantically correct to use
+            <code>&lt;script></code> tags for embedding MscGen scripts:
+        </p>
+<pre class="code">&lt;script type="text/x-mscgen">
+msc {
+  hscale=1.2, wordwraparcs=on;
+
+  alice [label="Alice"], bob [label="Bob"];
+
+  alice =>> bob [label="you can embed MscGen"];
+  bob >> alice [label="That is FANTASTIC!"];
+}
+&lt;/script>
+</pre>
+<script type="text/x-mscgen">
+msc {
+  hscale=1.2, wordwraparcs=on;
+
+  alice [label="Alice"], bob [label="Bob"];
+
+  alice =>> bob [label="you can embed MscGen"];
+  bob >> alice [label="That is FANTASTIC!"];
+}
+</script>
+
 
         <h2 id="error-handling">Error handling</h2>
         <p>If your MscGen code contains an error, instead of a sequence chart, you will see
