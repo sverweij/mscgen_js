@@ -107,11 +107,11 @@ code, .code {
   display: inline-block;
   vertical-align: top;
 }
-img, svg, .mscgen_js {
+img, .mscgen_js {
   max-width: 100%;
 }
 .mscgen_js {
-  overflow: auto;
+  overflow: scroll;
   display: inline-block;
 }
 .info {
