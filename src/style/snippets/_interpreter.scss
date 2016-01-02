@@ -13,6 +13,9 @@
   text-overflow:ellipsis;
   overflow-x: scroll;
 }
+html {
+  overflow-x: hidden;
+}
 article h2 {
   font-size: 1.16979375em;
   margin: 0;
@@ -103,7 +106,8 @@ article {
     display: -webkit-flex;
     flex-direction: column;
     -webkit-flex-direction: column;
-    overflow: scroll;
+    overflow: auto;
+    padding-right: 22px; /* to fit in a scrollbar on msdos platforms */
 }
 #__placeholder {
     display: flex;
@@ -134,7 +138,7 @@ article {
     }
 }
 
-@media screen and (orientation: landscape) {
+@media screen and (orientation: landscape) and (min-width: 769px) {
     @media (min-width: 640px) and (max-width: 1024px) {
       #__input_area{
         width: 448px;
@@ -149,16 +153,7 @@ article {
          transition: $width-transition;
       }
     }
-    @media (min-height: 0px) and (max-height: 400px){
-        .CodeMirror {
-            height: 269px;
-            transition: $height-transition;
-        }
-        #__placeholder {
-            height: 269px - 32px;
-            transition: $height-transition;
-        }
-    }
+
     @include resize-editor (0px  , 400px);
     @include resize-editor (401px, 450px);
     @include resize-editor (451px, 500px);
@@ -176,13 +171,13 @@ article {
     @include resize-editor (1051px, 1100px);
     @include resize-editor (1101px, 1150px);
 
-    @media (min-height: 891px){
+    @media (min-height: 1151px){
         .CodeMirror {
-            height: 891px - 176px; // 62em * 16px * 0.7em= 694.9
+            height: 1151px - 176px; // 62em * 16px * 0.7em= 694.9
             transition: $height-transition;
         }
         #__placeholder {
-            height: 891px - 176px - 32px; // 35em * 16px = 650
+            height: 1151px - 176px - 32px; // 35em * 16px = 650
             transition: $height-transition;
         }
     }
@@ -209,9 +204,6 @@ article {
       margin: 0 0 0.7em 0;
       order: 1;
       -webkit-order: 1;
-  }
-  #__output_content_area {
-      overflow: scroll;
   }
   .CodeMirror {
       min-height: 269px;
