@@ -93,6 +93,7 @@ article {
     flex-direction: column;
     -webkit-flex-direction: column;
     padding: 0 0.3em 0 0.3em;
+    overflow: hidden;
 }
 #__output_controls_area{
     margin: 0 0 1.1em 2em;
@@ -102,6 +103,7 @@ article {
     display: -webkit-flex;
     flex-direction: column;
     -webkit-flex-direction: column;
+    overflow: scroll;
 }
 #__placeholder {
     display: flex;
@@ -125,6 +127,9 @@ article {
         #__placeholder {
             height: $editor-height - 32px;
             // transition: $height-transition;
+        }
+        #__output_content_area {
+            height: $editor-height + 32px;
         }
     }
 }
@@ -204,6 +209,9 @@ article {
       margin: 0 0 0.7em 0;
       order: 1;
       -webkit-order: 1;
+  }
+  #__output_content_area {
+      overflow: scroll;
   }
   .CodeMirror {
       min-height: 269px;
