@@ -11,7 +11,7 @@ footer {
 nav.sidebar {
     padding: 8px;
     position: fixed;
-    overflow-y: scroll;
+    overflow-y: auto;
     height:80%;
     width: 240px;
     color: $header-color;
@@ -102,16 +102,16 @@ code, .code {
   border-radius: 3px;
 }
 .code {
-  overflow: scroll;
+  overflow: auto;
   padding: 6px 10px;
   display: inline-block;
   vertical-align: top;
 }
-img, .mscgen_js {
+img, .mscgen_js, mscgen {
   max-width: 100%;
 }
-.mscgen_js {
-  overflow: scroll;
+.mscgen_js, mscgen {
+  overflow: auto;
   display: inline-block;
 }
 .info {
