@@ -19,16 +19,13 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
     var INDENT = "  ";
     var SP = " ";
     var EOL = "\n";
-    var gMinimal = false;
 
     function init(pMinimal) {
         if (true === pMinimal) {
-            gMinimal = true;
             INDENT = "";
             SP = "";
             EOL = "";
         } else {
-            gMinimal = false;
             INDENT = "  ";
             SP = " ";
             EOL = "\n";
@@ -65,7 +62,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 },
                 "option" : {
                     "opener" : INDENT,
-                    "separator" : "," + EOL,
+                    "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL + EOL
                 },
                 "entity" : {
@@ -81,7 +78,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 },
                 "arcline" : {
                     "opener" : INDENT,
-                    "separator" : "," + EOL,
+                    "separator" : "," + EOL + INDENT,
                     "closer" : ";" + EOL
                 },
                 "inline" : {
