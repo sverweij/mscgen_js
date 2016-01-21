@@ -109,7 +109,7 @@ license (incidentally all MIT style):
 - The command line interface uses [phantomjs][phantomjs],
   [amdefine][amdefine.license] and [commander][commander.license]
 - To run automated tests in node mscgen_js uses [jsdom][jsdom.license],
-  [amdefine][amdefine.license], [node-localstorage][36], [btoa][37] and
+  [amdefine][amdefine.license], [node-localstorage][36] and
   [commander][commander.license].
 
 Icons courtesy of Dmitry Baranovskiy [license][15].
@@ -185,5 +185,4 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [28]: wikum/licenses/license.istanbul.md
 [35]: https://nodesecurity.io/
 [36]: wikum/licenses/license.node-localstorage.md
-[37]: wikum/licenses/license.btoa.md
 [39]: https://github.com/chaijs/chai

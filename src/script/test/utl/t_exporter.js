@@ -44,15 +44,8 @@ var gMsc = 'msc{a[label="💩"],b[label="序"],c [label="💩"]; a => b[label="t
 describe('ui/utl/exporter', function(){
     describe('#toVectorURI', function(){
         it('Should render an URI encoded svg', function(){
-            var lWindow = {
-                btoa : require ('btoa')
-            };
-            try {
-                assert.equal(xport.toVectorURI(gSVG, lWindow),
-                             "data:image/svg+xml;charset=utf-8;base64,PHN2Zz5qdXN0IGEgZHVtbXkgdGhpbmc8L3N2Zz4=");
-            } catch(e){
-                return false;
-            }
+            assert.equal(xport.toVectorURI(gSVG),
+                         "data:image/svg+xml;charset=utf-8,%3Csvg%3Ejust%20a%20dummy%20thing%3C%2Fsvg%3E");
         });
 
     });

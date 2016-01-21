@@ -1,5 +1,4 @@
 /* jshint nonstandard:true */
-/* jshint browser: true */ // for btoa. Alternative: https://github.com/node-browser-compat/btoa/blob/master/index.js
 /* jshint node: true */
 
 /* istanbul ignore else */
@@ -51,10 +50,8 @@ define(["../lib/mscgenjs-core/render/text/ast2dot",
     }
 
     return {
-        toVectorURI: function (pSVGSource, pWindow) {
-            pWindow = pWindow ? pWindow : window;
-            var lb64 = pWindow.btoa(unescape(encodeURIComponent(pSVGSource)));
-            return "data:image/svg+xml;charset=utf-8;base64,"+lb64;
+        toVectorURI: function (pSVGSource) {
+            return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(pSVGSource);
         },
         toHTMLSnippet: toHTMLSnippet,
         toHTMLSnippetURI: function(pSource, pLanguage, pWithLinkToEditor){

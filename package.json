@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "bower": "1.7.2",
-    "btoa": "1.1.2",
     "chai": "3.4.1",
     "codeclimate-test-reporter": "0.1.1",
     "codecov.io": "0.1.6",
