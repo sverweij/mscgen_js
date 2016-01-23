@@ -1,22 +1,24 @@
-/* jshint nonstandard:true */
-/* global canvg, define */
+/* global define */
 
-define(["../lib/canvg/canvg",
-        "../lib/canvg/StackBlur",
-        "../lib/canvg/rgbcolor"
-        ],
-        function() {
+define([], function() {
     "use strict";
 
     return {
-        toRasterURI: function (pDocument, pSVGSource, pType){
-            var lCanvas = pDocument.createElement('canvas');
-            lCanvas.setAttribute('style', 'display:none');
-            pDocument.body.appendChild(lCanvas);
-            canvg(lCanvas, pSVGSource);
-            var lRetval = lCanvas.toDataURL(pType, 0.8);
-            pDocument.body.removeChild(lCanvas);
-            return lRetval;
+        toRasterURI: function (pDocument, pSVGSource, pType, pCallback){
+            var lImg = pDocument.createElement('img');
+
+            lImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pSVGSource);
+            lImg.addEventListener('load', function(pEvent){
+                var lCanvas        = pDocument.createElement('canvas');
+                var lCanvasContext = lCanvas.getContext('2d');
+                var lImg           = pEvent.target;
+
+                lCanvas.width  = lImg.width;
+                lCanvas.height = lImg.height;
+                lCanvasContext.drawImage(lImg, 0, 0);
+
+                pCallback(lCanvas.toDataURL(pType, 0.8));
+            });
         }
     };
 });

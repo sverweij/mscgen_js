@@ -8,29 +8,29 @@ rendered the chart at each key-up. The javascript was more than fast
 enough to keep up for 'reasonably sized' scripts, so we kept this approach.
 
 ### 'reasonably sized' is relative
-In version 0.9.103 we changed the key-up => render approach: 
-- Customers switched off 'auto render' sometimes. 
+In version 0.9.103 we changed the key-up => render approach:
+- Customers switched off 'auto render' sometimes.
 - Some of our own - very reasonable - scripts became 'unreasonably sized'.
 
-The interpreter now politely waits until you pause your typing for more 
+The interpreter now politely waits until you pause your typing for more
 than 500ms:
-- It sets a timeout to ~500ms on each key-up. 
+- It sets a timeout to ~500ms on each key-up.
 - When the timeout expires it renders the chart.
-- To prevent unnecessary renders, each key-up cancels the current 
+- To prevent unnecessary renders, each key-up cancels the current
   timeout before setting a new one.
 
 For bigger sized scripts the interpreter feels a lot faster than the
 render-per-keystroke approach.
- 
+
 ### why 500ms?
-- It is close to the average typing speed (see 
+- It is close to the average typing speed (see
   [wikipedia](https://en.wikipedia.org/wiki/Words_per_minute)).
 - Longer timeouts felt too slow.
 - Shorter timeouts have less of an effect, although still noticeable.
 
 > We experimented with 10ms timeouts with the relatively big
-[test01_all_possible_arcs](../../samples/test01_all_possible_arcs.mscin). 
-It surprised us this was already a very noticeable improvement over the 
+[test01_all_possible_arcs](../../samples/test01_all_possible_arcs.mscin).
+It surprised us this was already a very noticeable improvement over the
 render-per-keystroke approach.
 
 ### pre-rending rastergrahpics? Nope
@@ -40,7 +40,7 @@ these are now generated when you actually click the button.
 
 Our findings from that experiment:
 > - rendering base64 encoded strings on each keystroke is too slow:
-  - canvg is called twice for doing exactly the same (svg => canvas)
+  - vector to canvas processing is done twice
   - it inserts relatively big amounts of data in the DOM tree
     (typically 20k for svg, 60k for png, somewhat more for jpeg,
     not even corrected for the base64 penalty)
@@ -56,10 +56,8 @@ Our findings from that experiment:
      cases, but is noticeable in test01.
 
 ## Raster graphics - png and jpeg
-For rendering raster graphics we use the `canvg` library, which takes
-a piece of svg and renders it on a canvas. When that has happened, a
-call to the canvas's `toDataURL` function suffices to return the base64
-encoded version of the chart.
+For rendering raster graphics we use the (HTML) canvas methods `drawImage()`
+(to render it on the canvas) and `toDataURL` to extract the raster.
 
 ## The editor: code mirror
 - choosing code mirror

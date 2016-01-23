@@ -11,21 +11,48 @@ define(["./uistate",
         function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
     "use strict";
 
+    var IMAGE_EXPORT_WINDOW_NAME = "mscgenjsimages";
+    function rasterExport(pType){
+        /*
+         * first open a window directly as opening windows from the img.load
+         * (as the anonymous function will do) is blocked by many browsers
+         * (safari: hard, firefox: asks the user for for permission)
+         */
+        window.open("about:blank", IMAGE_EXPORT_WINDOW_NAME);
+        rxport.toRasterURI(
+            document,
+            dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML),
+            pType,
+            function(pRasterURI){
+                window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
+            }
+        );
+    }
+
+    function vectorExport() {
+        window.open(
+            xport.toVectorURI(
+                dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
+            ),
+            IMAGE_EXPORT_WINDOW_NAME
+        );
+    }
+
     return {
         svgOnDblClick: function() {
-            window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
+            vectorExport();
             gaga.g('send', 'event', 'show_svg_base64', 'svg dblcick');
         },
         svgOnClick: function() {
-            window.open(xport.toVectorURI(dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)));
+            vectorExport();
             gaga.g('send', 'event', 'show_svg_base64', 'button');
         },
         pngOnClick: function() {
-            window.open(rxport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/png"), "_blank");
+            rasterExport("image/png");
             gaga.g('send', 'event', 'show_png_base64', 'button');
         },
         jpegOnClick: function() {
-            window.open(rxport.toRasterURI(document, dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML), "image/jpeg"), "_blank");
+            rasterExport("image/jpeg");
             gaga.g('send', 'event', 'show_jpeg_base64', 'button');
         },
         htmlOnClick: function() {

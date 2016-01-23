@@ -10,7 +10,6 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-BOWER=node_modules/bower/bin/bower
 SASS=node_modules/node-sass/bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules"
 MINIFY=node_modules/.bin/uglifyjs
@@ -55,7 +54,6 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 CODEMIRROR_ROOT=node_modules/codemirror
 MSCGENJS_CORE_ROOT=node_modules/mscgenjs
 MSCGENJS_INPAGE_ROOT=node_modules/mscgenjs-inpage
-CANVG_LIBDIRS=src/script/lib/canvg
 CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
 	src/script/lib/codemirror/addon/display \
 	src/script/lib/codemirror/addon/edit \
@@ -70,7 +68,7 @@ MSCGENJS_LIBDIRS=src/script/lib/mscgenjs-core/parse \
 	src/script/lib/mscgenjs-core/render/text \
 	src/script/lib/mscgenjs-core/lib/lodash
 
-LIBDIRS=$(CANVG_LIBDIRS) $(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
+LIBDIRS=$(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
 
@@ -143,14 +141,8 @@ $(PRODDIRS):
 $(LIBDIRS):
 	mkdir -p $@
 
-bower_components/canvg-gabelerner/%.js:
-	$(BOWER) install
-
 src/script/lib/require.js: node_modules/requirejs/require.js
 	$(MINIFY) $< -m -c > $@
-
-src/script/lib/canvg/%.js: bower_components/canvg-gabelerner/%.js $(CANVG_LIBDIRS)
-	cp $< $@
 
 src/script/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(CODEMIRROR_LIBDIRS)
 	cp $< $@

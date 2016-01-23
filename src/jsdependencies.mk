@@ -58,11 +58,6 @@ src/script/interpreter/param-actions.js: \
 	src/script/utl/maps.js \
 	src/script/utl/paramslikker.js
 
-src/script/interpreter/raster-exporter.js: \
-	src/script/lib/canvg/StackBlur.js \
-	src/script/lib/canvg/canvg.js \
-	src/script/lib/canvg/rgbcolor.js
-
 src/script/interpreter/uistate.js: \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
@@ -251,9 +246,6 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/interpreter/param-actions.js \
 	src/script/interpreter/raster-exporter.js \
 	src/script/interpreter/uistate.js \
-	src/script/lib/canvg/StackBlur.js \
-	src/script/lib/canvg/canvg.js \
-	src/script/lib/canvg/rgbcolor.js \
 	src/script/lib/codemirror/addon/dialog/dialog.js \
 	src/script/lib/codemirror/addon/display/placeholder.js \
 	src/script/lib/codemirror/addon/edit/closebrackets.js \

@@ -105,8 +105,7 @@ license (incidentally all MIT style):
   [almond][almond] to be able to run as a stand alone, dependency-less
   package.
 - Parsers are generated with [pegjs][pegjs.license].
-- The on line interpreter additionally uses [codemirror][codemirror.license]
-  and [canvg][canvg.license].
+- The on line interpreter additionally uses [codemirror][codemirror.license].
 - The command line interface uses [phantomjs][phantomjs],
   [amdefine][amdefine.license] and [commander][commander.license]
 - To run automated tests in node mscgen_js uses [jsdom][jsdom.license],
@@ -133,8 +132,6 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
   and lightning fast [PEG.js][pegjs] parser generator.
 - [Marijn Haverbeke][codemirror.author] for the snazzy
   [CodeMirror][codemirror] editor component.
-- Gabe Lerner for the [canvg][canvg] library, which makes converting vector
-  graphics to rasters _almost_ like a walk in the park.
 - [Elijah Insua][jsdom.author] for [jsdom][jsdom], which makes it possible
   to render vector graphics in node.js.
 - [Audrey M. Roy][favicon.author] for the excelent
@@ -145,8 +142,6 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [almond]: https://github.com/jrburke/almond
 [amdefine.license]: wikum/licenses/license.amdefine.md
 [atom]: https://atom.io
-[canvg]: https://github.com/gabelerner/canvg
-[canvg.license]: wikum/licenses/license.canvg.md
 [codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgen_js
 [codemirror]: http://codemirror.net
 [codemirror.author]: http://marijnhaverbeke.nl

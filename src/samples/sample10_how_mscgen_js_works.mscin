@@ -1,7 +1,7 @@
-/*  
+/*
   how mscgen_js works internally, roughly
- 
-  The Colors were added by applying the 'Automatic' 
+
+  The Colors were added by applying the 'Automatic'
   color scheme in the interpreter
 */
 msc {
@@ -11,7 +11,7 @@ msc {
   controler [linecolor="#FF0000", textbgcolor="#FFCCCC", arclinecolor="#FF0000"],
   parser    [label="parser (PEGjs)", linecolor="#0000FF", textbgcolor="#CCCCFF", arclinecolor="#0000FF"],
   renderer  [linecolor="#FF00FF", textbgcolor="#FFCCFF", arclinecolor="#FF00FF"],
-  canvg     [linecolor="black", textbgcolor="#DDDDDD", arclinecolor="black"],
+  rast_exp  [label="raster exporter", linecolor="black", textbgcolor="#DDDDDD", arclinecolor="black"],
   comments  [label=" ", linecolor="transparent"];
 
   you       =>   controler [label="some text"];
@@ -25,8 +25,8 @@ msc {
   controler >>   you       [label="vector picture"];
   ---;
   you       =>   controler [label="raster graphics?"];
-  controler =>   canvg     [label="vector picture"],
-   comments note comments  [label="With canvg rendering svg as raster graphics is one (1) line of code.", linecolor="black", textbgcolor="#FFFFCC"];
-  canvg     >>   controler [label="raster picture"];
+  controler =>   rast_exp  [label="vector picture"];
+   rast_exp rbox comments   [label="paint the vector graphic on a canvas with drawImage() and return the dataURL of that canvas", linecolor="black", textbgcolor="#FFFFCC"];
+  rast_exp  >>   controler [label="raster picture"];
   controler >>   you       [label="raster picture"];
 }

@@ -11,7 +11,6 @@
     "mscgenjs-inpage": "1.2.5"
   },
   "devDependencies": {
-    "bower": "1.7.2",
     "chai": "3.4.1",
     "codeclimate-test-reporter": "0.3.0",
     "codecov.io": "0.1.6",

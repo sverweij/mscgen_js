@@ -44,7 +44,8 @@ To **translate** between the three sequence chart languages it supports and to
 :page_with_curl: code in [ui/interpreter/raster-exporter.js](ui/interpreter/raster-exporter.js)
 
 You might have noticed the [interpreter](https://sverweij.github.io/mscgen_js)
-also renders to jpeg and png. It uses the canvg library and it is _really_ trivial.
+also renders to jpeg and png. It uses the canvas methods `drawImage()` (to
+render it on the canvas) and `toDataURL` to extract the raster.
 
 
 ## The controllers
