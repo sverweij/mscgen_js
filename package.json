@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "codemirror": "5.11.0",
     "requirejs": "2.1.22",
-    "mscgenjs": "1.2.8",
+    "mscgenjs": "1.2.9",
     "mscgenjs-inpage": "1.2.5"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "js-makedepend": "0.1.11",
     "jscs": "2.9.0",
     "jshint": "2.9.1",
-    "mocha": "2.4.4",
+    "mocha": "2.4.5",
     "node-localstorage": "1.1.2",
     "node-sass": "3.4.2",
     "npm-check-updates": "2.5.7",
