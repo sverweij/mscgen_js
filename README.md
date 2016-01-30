@@ -66,19 +66,37 @@ See [build.md][mscgenjs.docbuild]. If you want to understand how mscgen_js'
 innards work: we try to explain that
 [in the script folder][mscgenjs.docsource].
 
-## Bower package
-```shell
-bower install mscgen_js-inpage-package
-```
-For now only includes `msgen-inpage.js`. Useful
-if you want to use your own copy for embedding mscgen. Also see
-[mscgen_js embedding][mscgenjs.embedpackage].
+## More mscgen_js
+
+- Embedding MscGen in HTML: [mscgenjs-inpage][mscgenjs.inpage]
+  - Tight, standalone front end library that renders MscGen (and the two
+   derivative languages) within any HTML. As used in the tutorial and the
+   embedding guide.   
+  - `npm install mscgenjs-inpage`
+  - (This replaces the provisional bower package with the same
+     purpose).
+
+- Command line interface: [mscgenjs-cli][mscgenjs.cli]
+  - Option syntax is similar to the original `mscgen`, so
+    in theory you could use it as a drop-in replacement for that.
+  - `npm install mscgenjs-cli`
+
+- MscGen package for the atom editor
+  - Has real-time rendering, W00t syntax highlighting, svg & png export
+    and some other cool stuff. Check it out on [github][mscgenjs.atom.preview]
+    or on [atom.io][https://atom.io/packages/mscgen-preview].
+  - Installing: directly from within Atom or with the atom package manager
+    (`apm install mscgen-preview`).
+
+- [mscgenjs-core][mscgenjs.core]
+  - Library package. Contains the parsing and rendering logic for all mscgenjs.
+  - `npm install mscgenjs`
 
 ## License information
 This software is free software [licensed under GPLv3][mscgenjs.license].
 This means (a.o.) you _can_ use it as part of other free software, but
 _not_ as part of non free software. We have a slight relaxation for when
-you'd want to use `mscgen-inpage.js`
+you'd want to use `mscgen-inpage.js`.
 
 ### Commercial use of embedding mscgen using mscgen-inpage.js
 In addition to the GNU public license, for the use of the minified version
@@ -168,6 +186,10 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [mscgenjs.license]: wikum/licenses/license.mscgen_js.md
 [mscgenjs.wikum.msgenny]: wikum/msgenny.md
 [mscgenjs.wikum.xu]: wikum/xu.md
+[mscgenjs.core]: https://github.com/sverweij/mscgenjs-core
+[mscgenjs.inpage]: https://github.com/sverweij/mscgenjs-inpage
+[mscgenjs.cli]: https://github.com/sverweij/mscgenjs-cli
+[mscgenjs.atom.preview]: https://github.com/sverweij/atom-mscgen-preview
 [pegjs]: http://majda.cz/en/
 [pegjs.author]: http://pegjs.majda.cz/
 [pegjs.license]: wikum/licenses/license.pegjs.md
