@@ -84,7 +84,7 @@ innards work: we try to explain that
 - MscGen package for the atom editor
   - Has real-time rendering, W00t syntax highlighting, svg & png export
     and some other cool stuff. Check it out on [github][mscgenjs.atom.preview]
-    or on [atom.io][https://atom.io/packages/mscgen-preview].
+    or on [atom.io][mscgenjs.atom.preview].
   - Installing: directly from within Atom or with the atom package manager
     (`apm install mscgen-preview`).
 
