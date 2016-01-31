@@ -268,8 +268,19 @@ tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
-push-mirrors:
+.git/refs/remotes/bitbkucket-mirror:
+	$(GIT) remote add bitbucket-mirror git@bitbucket.org:sverweij/mscgen_js.git
+
+.git/refs/remotes/gitlab-mirror:
+	$(GIT) remote add gitlab-mirror https://gitlab.com/sverweij/mscgen_js.git
+
+mirrors: .git/refs/remotes/bitbucket-mirror \
+	.git/refs/remotes/gitlab-mirror
+
+push-mirrors: mirrors
 	$(GIT) push bitbucket-mirror
+	$(GIT) push gitlab-mirror
+
 
 static-analysis:
 	$(NPM) run plato
