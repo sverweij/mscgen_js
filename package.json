@@ -12,12 +12,12 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "codeclimate-test-reporter": "0.3.0",
+    "codeclimate-test-reporter": "0.3.1",
     "codecov.io": "0.1.6",
     "csslint": "0.10.0",
     "gulp": "3.9.0",
     "gulp-load-plugins": "1.2.0",
-    "gulp-sass": "2.1.1",
+    "gulp-sass": "2.2.0",
     "istanbul": "0.4.2",
     "js-makedepend": "0.1.11",
     "jscs": "2.9.0",
@@ -25,7 +25,7 @@
     "mocha": "2.4.5",
     "node-localstorage": "1.1.2",
     "node-sass": "3.4.2",
-    "npm-check-updates": "2.5.7",
+    "npm-check-updates": "2.5.8",
     "nsp": "2.2.0",
     "plato": "1.5.0",
     "uglify-js": "2.6.1"
