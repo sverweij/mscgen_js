@@ -187,7 +187,7 @@ function(flatten, txt, map, utl) {
             if (pArc.arcs) {
                 lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
                 if (pArc.label) {
-                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArc.kind + ": " + pArc.label + '" labeljust="l" \n';
+                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArc.kind + ": " + pArc.label + '" labeljust="l"\n';
                 }
                 lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
                 lRetVal += INDENT + pIndent + "}\n";

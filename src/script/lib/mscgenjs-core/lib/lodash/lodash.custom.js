@@ -1,6 +1,6 @@
 /**
  * @license
- * lodash 4.0.1 (Custom Build) <https://lodash.com/>
+ * lodash 4.2.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output lib/lodash/lodash.custom.js`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.0.1';
+  var VERSION = '4.2.1';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -171,11 +171,11 @@
    * @private
    * @param {Function} func The function to invoke.
    * @param {*} thisArg The `this` binding of `func`.
-   * @param {...*} [args] The arguments to invoke `func` with.
+   * @param {...*} args The arguments to invoke `func` with.
    * @returns {*} Returns the result of `func`.
    */
   function apply(func, thisArg, args) {
-    var length = args ? args.length : 0;
+    var length = args.length;
     switch (length) {
       case 0: return func.call(thisArg);
       case 1: return func.call(thisArg, args[0]);
@@ -465,20 +465,21 @@
    * `differenceBy`, `differenceWith`, `drop`, `dropRight`, `dropRightWhile`,
    * `dropWhile`, `fill`, `filter`, `flatten`, `flattenDeep`, `flip`, `flow`,
    * `flowRight`, `fromPairs`, `functions`, `functionsIn`, `groupBy`, `initial`,
-   * `intersection`, `intersectionBy`, `intersectionWith`, `invert`, `invokeMap`,
-   * `iteratee`, `keyBy`, `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`,
-   * `matches`, `matchesProperty`, `memoize`, `merge`, `mergeWith`, `method`,
-   * `methodOf`, `mixin`, `negate`, `nthArg`, `omit`, `omitBy`, `once`, `orderBy`,
-   * `over`, `overArgs`, `overEvery`, `overSome`, `partial`, `partialRight`,
-   * `partition`, `pick`, `pickBy`, `plant`, `property`, `propertyOf`, `pull`,
-   * `pullAll`, `pullAllBy`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`,
-   * `reject`, `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`,
-   * `shuffle`, `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`,
-   * `takeRight`, `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`,
-   * `toArray`, `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`,
-   * `unary`, `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`,
-   * `unset`, `unshift`, `unzip`, `unzipWith`, `values`, `valuesIn`, `without`,
-   * `wrap`, `xor`, `xorBy`, `xorWith`, `zip`, `zipObject`, and `zipWith`
+   * `intersection`, `intersectionBy`, `intersectionWith`, `invert`, `invertBy`,
+   * `invokeMap`, `iteratee`, `keyBy`, `keys`, `keysIn`, `map`, `mapKeys`,
+   * `mapValues`, `matches`, `matchesProperty`, `memoize`, `merge`, `mergeWith`,
+   * `method`, `methodOf`, `mixin`, `negate`, `nthArg`, `omit`, `omitBy`, `once`,
+   * `orderBy`, `over`, `overArgs`, `overEvery`, `overSome`, `partial`,
+   * `partialRight`, `partition`, `pick`, `pickBy`, `plant`, `property`,
+   * `propertyOf`, `pull`, `pullAll`, `pullAllBy`, `pullAt`, `push`, `range`,
+   * `rangeRight`, `rearg`, `reject`, `remove`, `rest`, `reverse`, `sampleSize`,
+   * `set`, `setWith`, `shuffle`, `slice`, `sort`, `sortBy`, `splice`, `spread`,
+   * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, `tap`, `throttle`,
+   * `thru`, `toArray`, `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`,
+   * `transform`, `unary`, `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`,
+   * `uniqWith`, `unset`, `unshift`, `unzip`, `unzipWith`, `values`, `valuesIn`,
+   * `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`, `zipObject`,
+   * `zipObjectDeep`, and `zipWith`
    *
    * The wrapper methods that are **not** chainable by default are:
    * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
@@ -516,11 +517,11 @@
    *
    * var wrapped = _([1, 2, 3]);
    *
-   * // returns an unwrapped value
+   * // Returns an unwrapped value.
    * wrapped.reduce(_.add);
    * // => 6
    *
-   * // returns a wrapped value
+   * // Returns a wrapped value.
    * var squares = wrapped.map(square);
    *
    * _.isArray(squares);
@@ -1449,6 +1450,9 @@
    * @returns {Object} Returns the initialized clone.
    */
   function initCloneObject(object) {
+    if (isPrototype(object)) {
+      return {};
+    }
     var Ctor = object.constructor;
     return baseCreate(isFunction(Ctor) ? Ctor.prototype : undefined);
   }
@@ -1508,9 +1512,11 @@
    */
   function indexKeys(object) {
     var length = object ? object.length : undefined;
-    return (isLength(length) && (isArray(object) || isString(object) || isArguments(object)))
-      ? baseTimes(length, String)
-      : null;
+    if (isLength(length) &&
+        (isArray(object) || isString(object) || isArguments(object))) {
+      return baseTimes(length, String);
+    }
+    return null;
   }
 
   /**
@@ -1618,12 +1624,12 @@
    * values(object);
    * // => [1, 2]
    *
-   * // modifying the result cache
+   * // Modify the result cache.
    * values.cache.set(object, ['a', 'b']);
    * values(object);
    * // => ['a', 'b']
    *
-   * // replacing `_.memoize.Cache`
+   * // Replace `_.memoize.Cache`.
    * _.memoize.Cache = WeakMap;
    */
   function memoize(func, resolver) {
@@ -1934,8 +1940,6 @@
    * // => false
    */
   function isObject(value) {
-    // Avoid a V8 JIT bug in Chrome 19-20.
-    // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
     var type = typeof value;
     return !!value && (type == 'object' || type == 'function');
   }
