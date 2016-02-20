@@ -1,13 +1,42 @@
 /* global define */
 
-define([], function() {
+define(["../lib/mscgenjs-core/render/graphics/svgutensils",], function(utl) {
     "use strict";
+    function doMagic(pString, pViewBox) {
+        /* the ugly replace is to be sure gecko
+         * actualy renders a picture when using the
+         * 'autosize' feature. Not necessary in webkit &
+         *  blink.
+         *  Depends on the assumption 'autoscale' is
+         *  implemented with 100%
+         */
+        if (!!pViewBox && !!pViewBox.baseVal) {
+            return pString
+                    .replace(
+                        'width="100%"',
+                        'width="'+ pViewBox.baseVal.width + '"'
+                    )
+                    .replace(
+                        'height="100%"',
+                        'height="'+ pViewBox.baseVal.height + '"'
+                    );
+        }
+        return pString;
 
+    }
     return {
-        toRasterURI: function (pDocument, pSVGSource, pType, pCallback){
+        toRasterURI: function (pDocument, pSVGParent, pType, pCallback){
             var lImg = pDocument.createElement('img');
 
-            lImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pSVGSource);
+            lImg.src = 'data:image/svg+xml;charset=utf-8,' +
+                        encodeURIComponent(
+                            doMagic(
+                                utl.webkitNamespaceBugWorkaround(
+                                    pSVGParent.innerHTML
+                                ),
+                                pSVGParent.firstElementChild.viewBox
+                            )
+                        );
             lImg.addEventListener('load', function(pEvent){
                 var lCanvas        = pDocument.createElement('canvas');
                 var lCanvasContext = lCanvas.getContext('2d');
@@ -15,8 +44,8 @@ define([], function() {
 
                 lCanvas.width  = lImg.width;
                 lCanvas.height = lImg.height;
-                lCanvasContext.drawImage(lImg, 0, 0);
 
+                lCanvasContext.drawImage(lImg, 0, 0);
                 pCallback(lCanvas.toDataURL(pType, 0.8));
             });
         }

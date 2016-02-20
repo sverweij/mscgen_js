@@ -21,7 +21,7 @@ define(["./uistate",
         window.open("about:blank", IMAGE_EXPORT_WINDOW_NAME);
         rxport.toRasterURI(
             document,
-            dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML),
+            window.__svg,
             pType,
             function(pRasterURI){
                 window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
