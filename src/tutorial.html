@@ -169,6 +169,7 @@ ga ('send', 'pageview');
                 <ul>
                     <li><a href="#inline-expressions">alt, loop, par &amp; family</a></li>
                     <li><a href="#watermark">watermark</a></li>
+                    <li><a href="#autoscale">autoscaling</a></li>
                 </ul>
             </li>
         </ul>
@@ -768,6 +769,28 @@ Alice => Alice: hihihi;</pre>
     empty row somewhere (<code>||| [label="Watermark", textcolor="gray"];</code>).
     For now the command line interface ignores the watermark option when translating
     back to MscGen
+</p>
+<h3 id="autoscale">autoscaling</h3>
+<p>
+    To make the generated svg match the space it is put in,
+</p>
+<pre class="code msgenny">
+width=<mark>auto</mark>, arcgradient=25;
+
+a,b,c,d,e,f,g;
+
+d =>> *: "A wide chart, but no wories - it'll autoscale";
+</pre>
+<div class="mscgen_js" data-language="msgenny" style="width: 100%;">width=auto, arcgradient=25;
+
+a,b,c,d,e,f,g;
+
+d =>> *: "A wide chart, but no wories, because it autoscales to the provided width.";
+</div>
+<p class="info">
+    <strong>Mimicing this in MscGen</strong> You can manually enter the
+    required width (e.g. <code>width=800</code>), or you can open up the
+    generated svg and modify the width and height to relative ones.
 </p>
 </section>
 </article>
