@@ -2,7 +2,7 @@
 
 define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
     "use strict";
-    function doMagic(pString, pViewBox) {
+    function geckoRelativeSizeWorkaround(pString, pViewBox) {
         /* the ugly replace is to be sure gecko
          * actualy renders a picture when using the
          * 'autosize' feature. Not necessary in webkit &
@@ -30,7 +30,7 @@ define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
 
             lImg.src = 'data:image/svg+xml;charset=utf-8,' +
                         encodeURIComponent(
-                            doMagic(
+                            geckoRelativeSizeWorkaround(
                                 utl.webkitNamespaceBugWorkaround(
                                     pSVGParent.innerHTML
                                 ),
