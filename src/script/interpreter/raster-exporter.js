@@ -1,6 +1,6 @@
 /* global define */
 
-define(["../lib/mscgenjs-core/render/graphics/svgutensils",], function(utl) {
+define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
     "use strict";
     function doMagic(pString, pViewBox) {
         /* the ugly replace is to be sure gecko
