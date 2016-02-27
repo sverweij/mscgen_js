@@ -5,11 +5,8 @@
  */
 
 /* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
+
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -38,6 +35,13 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
         return lRetVal;
     }
 
+    function optionIsValid(pOption) {
+        if (!!pOption.value && typeof(pOption.value) === "string" ){
+            return pOption.value.toLowerCase() !== "auto";
+        }
+        return true;
+    }
+
     function renderComments() {
         /* rendering comments within comments, that are eventually output
          * to doxygen html - don't think that's going to be necessary
@@ -56,6 +60,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
             return thing.render(pAST, {
                 "renderCommentfn" : renderComments,
                 "renderAttributefn" : renderAttribute,
+                "optionIsValidfn": optionIsValid,
                 "renderKindfn" : renderKind,
                 "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs"],
                 "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],

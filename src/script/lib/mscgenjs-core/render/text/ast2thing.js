@@ -24,6 +24,7 @@ define(["./textutensils"], function(utl) {
     var CONFIG = {
         "renderCommentfn" : renderComments,
         "renderOptionfn" : renderOption,
+        "optionIsValidfn": optionIsValid,
         "renderEntityNamefn" : renderEntityName,
         "renderKindfn" : renderKind,
         "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
@@ -105,11 +106,13 @@ define(["./textutensils"], function(utl) {
     }
 
     function extractSupportedOptions(pOptions, pSupportedOptions) {
-        return pSupportedOptions.filter(function(pSupportedOption){
-            return !!pOptions[pSupportedOption];
-        }).map(function(pSupportedOption){
-            return {name: pSupportedOption, value: pOptions[pSupportedOption]};
-        });
+        return pSupportedOptions
+            .filter(function(pSupportedOption){
+                return undefined !== pOptions[pSupportedOption];
+            })
+            .map(function(pSupportedOption){
+                return {name: pSupportedOption, value: pOptions[pSupportedOption]};
+            });
     }
 
     function renderComments(pArray) {
@@ -118,13 +121,22 @@ define(["./textutensils"], function(utl) {
         }, "");
     }
 
+    function isMscGenKeyword(pString){
+        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+           "wordwraparcs", "label", "color", "idurl", "id", "url",
+           "linecolor", "textcolor",
+           "textbgcolor", "arclinecolor",
+           "arctextcolor", "arctextbgcolor",
+           "arcskip"].indexOf(pString) > -1;
+    }
+
     function renderEntityName(pString) {
         function isQuotable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
             if (!!lMatchResult) {
-                return lMatchResult.length !== 1;
+                return (lMatchResult.length !== 1)||isMscGenKeyword(pString);
             } else {
-                return true && pString !== "*";
+                return pString !== "*";
             }
         }
 
@@ -132,11 +144,20 @@ define(["./textutensils"], function(utl) {
     }
 
     function renderOption(pOption) {
-        return pOption.name + "=\"" + utl.escapeString(pOption.value) + "\"";
+        return pOption.name + "=" +
+               (typeof pOption.value === "string"?
+                    "\"" + utl.escapeString(pOption.value) + "\"":
+                    pOption.value.toString());
+    }
+
+    function optionIsValid(/*pOption*/){
+        return true;
     }
 
     function renderOptions(pOptions) {
-        var lOptions = extractSupportedOptions(pOptions, gConfig.supportedOptions);
+        var lOptions =
+             extractSupportedOptions(pOptions, gConfig.supportedOptions)
+            .filter(gConfig.optionIsValidfn);
         var lRetVal = "";
         if (lOptions.length > 0){
             var lLastOption = lOptions.pop();

@@ -47,11 +47,19 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
         return lRetVal;
     }
 
+    function optionIsValid(pOption) {
+        if (!!pOption.value && typeof(pOption.value) === "string" ){
+            return pOption.value.toLowerCase() !== "auto";
+        }
+        return true;
+    }
+
     return {
         render : function(pAST, pMinimal) {
             init(pMinimal);
             return thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
+                "optionIsValidfn": optionIsValid,
                 "renderKindfn" : renderKind,
                 "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs"],
                 "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
