@@ -50,7 +50,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - learn</title>
-<link rel="stylesheet" href="style/doc.css?c5dee41303ccbceb" type="text/css" media="screen, print">
+<link rel="stylesheet" href="style/doc.css?f3178eea7bbf1a06" type="text/css" media="screen, print">
 <script>
     /**
      * The mscgen_js_config is optional, as are the options
@@ -62,7 +62,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         clickURL: "./"   // default: https://sverweij.github.io/mscgen_js/
     };
 </script>
-<script src="mscgen-inpage.js?c5dee41303ccbceb" defer></script>
+<script src="mscgen-inpage.js?f3178eea7bbf1a06" defer></script>
 <script>
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -169,6 +169,7 @@ ga ('send', 'pageview');
                 <ul>
                     <li><a href="#inline-expressions">alt, loop, par &amp; family</a></li>
                     <li><a href="#watermark">watermark</a></li>
+                    <li><a href="#autoscale">autoscaling</a></li>
                 </ul>
             </li>
         </ul>
@@ -768,6 +769,28 @@ Alice => Alice: hihihi;</pre>
     empty row somewhere (<code>||| [label="Watermark", textcolor="gray"];</code>).
     For now the command line interface ignores the watermark option when translating
     back to MscGen
+</p>
+<h3 id="autoscale">autoscaling</h3>
+<p>
+    To make the generated svg match the space it is put in,
+</p>
+<pre class="code msgenny">
+width=<mark>auto</mark>, arcgradient=25;
+
+a,b,c,d,e,f,g;
+
+d =>> *: "A wide chart, but no wories - it'll autoscale";
+</pre>
+<div class="mscgen_js" data-language="msgenny" style="width: 100%;">width=auto, arcgradient=25;
+
+a,b,c,d,e,f,g;
+
+d =>> *: "A wide chart, but no wories - it'll autoscale";
+</div>
+<p class="info">
+    <strong>Mimicing this in MscGen</strong> You can manually enter the
+    required width (e.g. <code>width=800</code>), or you can open up the
+    generated svg and modify the width and height to relative ones.
 </p>
 </section>
 </article>
