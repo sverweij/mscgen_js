@@ -139,7 +139,6 @@ rect.textbg{\
   fill:white;\
   stroke:white;\
   stroke-width:0;\
-  opacity:0.9;\
 }\
 line{\
   stroke:black;\
@@ -183,11 +182,6 @@ path{\
 .box{\
   /* fill: #ffc;  no-inherit */\
   fill:white;\
-  opacity:0.9;\
-}\
-.boxtext, .arctext{\
-  font-size:0.8em;\
-  text-anchor:middle;\
 }\
 .comment{\
   stroke-dasharray:5,2;\
