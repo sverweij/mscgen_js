@@ -1,6 +1,6 @@
 {
   "name": "mscgen_js",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "dependencies": {
     "abbrev": {
       "version": "1.0.7",
@@ -1848,8 +1848,8 @@
       "from": "ms@0.7.1"
     },
     "mscgenjs": {
-      "version": "1.3.0",
-      "from": "mscgenjs@1.3.0",
+      "version": "1.3.1",
+      "from": "mscgenjs@1.3.1",
       "dependencies": {
         "amdefine": {
           "version": "1.0.0",
@@ -1884,8 +1884,8 @@
       }
     },
     "mscgenjs-inpage": {
-      "version": "1.3.0",
-      "from": "mscgenjs-inpage@1.3.0"
+      "version": "1.3.1",
+      "from": "mscgenjs-inpage@1.3.1"
     },
     "multimatch": {
       "version": "2.0.0",
