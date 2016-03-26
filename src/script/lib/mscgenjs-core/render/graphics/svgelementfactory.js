@@ -9,14 +9,13 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants"], function(C) {
+define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll, math) {
     /**
      * Renders individual elements in sequence charts
-     * @exports renderutensils
+     * @exports svgelementfactory
      * @author {@link https://github.com/sverweij | Sander Verweij}
      * knows of:
      *  gDocument
-     *  linewidth (implicit
      *
      * defines:
      *  defaults for
@@ -28,12 +27,31 @@ define(["./constants"], function(C) {
 
     var gDocument;
 
-    /* superscript style could also be super or a number (1em) or a % (100%) */
-    var lSuperscriptStyle = "vertical-align : text-top;";
-    lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
+    function _createSVG(pId) {
+        return factll.createElement(
+            "svg",
+            {
+                version: "1.1",
+                id: pId,
+                xmlns: C.SVGNS,
+                "xmlns:xlink": C.XLINKNS,
+                width: 0,
+                height: 0
+            }
+        );
+    }
 
-    function _createTextNode(pText){
-        return gDocument.createTextNode(pText);
+    function _createDesc(pId) {
+        return factll.createElement(
+            "desc",
+            {
+                "id": pId
+            }
+        );
+    }
+
+    function _createDefs(){
+        return factll.createElement("defs");
     }
 
     /**
@@ -44,59 +62,105 @@ define(["./constants"], function(C) {
      * @return {SVGElement}
      */
     function _createPath(pD, pClass, pColor, pBgColor) {
-        var lPath = gDocument.createElementNS(C.SVGNS, "path");
-        lPath.setAttribute("d", pD);
-        if (pClass) {
-            lPath.setAttribute("class", pClass);
-        }
-        colorBox(lPath, pColor, pBgColor);
-        return lPath;
+        return colorBox(
+            factll.createElement(
+                "path",
+                {
+                    d: pD,
+                    class: pClass
+                }
+            ),
+            pColor,
+            pBgColor
+        );
     }
 
     function _createPolygon(pPoints, pClass) {
-        var lPath = gDocument.createElementNS(C.SVGNS, "polygon");
-        lPath.setAttribute("points", pPoints);
-        if (pClass) {
-            lPath.setAttribute("class", pClass);
-        }
-        return lPath;
+        return factll.createElement(
+            "polygon",
+            {
+                points: pPoints,
+                class: pClass
+            }
+        );
     }
 
     function _createRect(pBBox, pClass, pColor, pBgColor, pRX, pRY) {
-        var lRect = gDocument.createElementNS(C.SVGNS, "rect");
-        lRect.setAttribute("width", pBBox.width);
-        lRect.setAttribute("height", pBBox.height);
-        if (pBBox.x) {
-            lRect.setAttribute("x", pBBox.x);
-        }
-        if (pBBox.y) {
-            lRect.setAttribute("y", pBBox.y);
-        }
-        if (pRX) {
-            lRect.setAttribute("rx", pRX);
-        }
-        if (pRY) {
-            lRect.setAttribute("ry", pRY);
-        }
-        if (pClass) {
-            lRect.setAttribute("class", pClass);
-        }
-        colorBox(lRect, pColor, pBgColor);
-        return lRect;
+        return colorBox(
+            factll.createElement(
+                "rect",
+                {
+                    width: pBBox.width,
+                    height: pBBox.height,
+                    x: pBBox.x,
+                    y: pBBox.y,
+                    rx: pRX,
+                    ry: pRY,
+                    class: pClass
+                }
+            ),
+            pColor,
+            pBgColor
+        );
+    }
+
+    function _createGroup(pId) {
+        return factll.createElement(
+            "g",
+            {
+                id: pId
+            }
+        );
+    }
+
+    function _createUse(pCoords, pLink) {
+        var lUse = factll.createElement(
+            "use",
+            {
+                x: pCoords.x.toString(),
+                y: pCoords.y.toString()
+            }
+        );
+        lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
+        return lUse;
     }
 
     function colorBox(pElement, pColor, pBgColor){
-        if (!!pColor || !!pBgColor) {
-            var lStyleString = "";
-            if (pBgColor) {
-                lStyleString += "fill:" + pBgColor + ";";
-            }
-            if (pColor) {
-                lStyleString += "stroke:" + pColor + ";";
-            }
-            pElement.setAttribute("style", lStyleString);
+        var lStyleString = "";
+        if (pBgColor) {
+            lStyleString += "fill:" + pBgColor + ";";
         }
+        if (pColor) {
+            lStyleString += "stroke:" + pColor + ";";
+        }
+        return factll.setAttribute(pElement, "style", lStyleString);
     }
+
+    function createSingleLine(pLine, pClass) {
+        return factll.createElement(
+            "line",
+            {
+                x1: pLine.xFrom.toString(),
+                y1: pLine.yFrom.toString(),
+                x2: pLine.xTo.toString(),
+                y2: pLine.yTo.toString(),
+                class: pClass
+            }
+        );
+    }
+
+    function createLink (pURL, pElementToWrap){
+        var lA = gDocument.createElementNS(C.SVGNS, "a");
+        lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
+        lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
+        lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
+        lA.appendChild(pElementToWrap);
+        return lA;
+    }
+
+    /* superscript style could also be super or a number (1em) or a % (100%) */
+    var lSuperscriptStyle = "vertical-align:text-top;";
+    lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 
     function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
@@ -151,15 +215,6 @@ define(["./constants"], function(C) {
         );
     }
 
-    function createLink (pURL, pElementToWrap){
-        var lA = gDocument.createElementNS(C.SVGNS, "a");
-        lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
-        lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
-        lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
-        lA.appendChild(pElementToWrap);
-        return lA;
-    }
-
     function createTSpan(pLabel, pURL){
         var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
         var lContent = gDocument.createTextNode(pLabel);
@@ -171,60 +226,43 @@ define(["./constants"], function(C) {
         }
     }
 
-    // TODO: accept coords object i.o x, y
-    function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        var lText = gDocument.createElementNS(C.SVGNS, "text");
-        if (!!pLabel && pLabel !== ""){
-            lText.setAttribute("x", pX.toString());
-            lText.setAttribute("y", pY.toString());
-
-            if (pClass) {
-                lText.setAttribute("class", pClass);
+    function _createText(pLabel, pCoords, pClass, pURL, pID, pIDURL) {
+        var lText = factll.createElement(
+            "text",
+            {
+                x: pCoords.x.toString(),
+                y: pCoords.y.toString(),
+                class: pClass
             }
-            lText.appendChild(createTSpan(pLabel, pURL));
+        );
 
-            if (pID) {
-                var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
-                lTSpanID.setAttribute("style", lSuperscriptStyle);
-                lText.appendChild(lTSpanID);
-            }
+        lText.appendChild(createTSpan(pLabel, pURL));
+
+        if (pID) {
+            var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
+            lTSpanID.setAttribute("style", lSuperscriptStyle);
+            lText.appendChild(lTSpanID);
         }
         return lText;
     }
 
     function _createDiagonalText (pText, pCanvas){
-        var lRetval = _createText(pText, pCanvas.width / 2, pCanvas.height / 2, "watermark");
-        var lAngle = 0 - (Math.atan(pCanvas.height / pCanvas.width) * 360 / (2 * Math.PI));
-        lRetval.setAttribute("transform", "rotate(" + lAngle.toString() + " " + ((pCanvas.width) / 2).toString() + " " + ((pCanvas.height) / 2).toString() + ")");
-        return lRetval;
-    }
-
-    function createSingleLine(pLine, pClass) {
-        var lLine = gDocument.createElementNS(C.SVGNS, "line");
-        lLine.setAttribute("x1", pLine.xFrom.toString());
-        lLine.setAttribute("y1", pLine.yFrom.toString());
-        lLine.setAttribute("x2", pLine.xTo.toString());
-        lLine.setAttribute("y2", pLine.yTo.toString());
-        if (pClass) {
-            lLine.setAttribute("class", pClass);
-        }
-        return lLine;
-    }
-
-    function determineDirection(pLine){
-        var ldx = -1;
-        if (pLine.xTo > pLine.xFrom){
-            ldx = 1;
-        }
-        return {
-            dx: ldx,
-            dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
-        };
+        return factll.setAttributes(
+            _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, "watermark"),
+            {
+                "transform":
+                    "rotate(" +
+                         math.getDiagonalAngle(pCanvas).toString() + " " +
+                        ((pCanvas.width) / 2).toString() + " " +
+                        ((pCanvas.height) / 2).toString() +
+                    ")"
+            }
+        );
     }
 
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;
-        if (pClass !== "nodi"){
+        if (pClass.indexOf("nodi") < 0){
             lRetval = pLine.xTo > pLine.xFrom ? -7.5*C.LINE_WIDTH : 7.5*C.LINE_WIDTH;
         }
         return lRetval;
@@ -232,8 +270,8 @@ define(["./constants"], function(C) {
 
     function determineStartCorrection(pLine, pClass){
         var lRetval = 0;
-        if (pClass !== "nodi"){
-            lRetval = (pClass === "bidi") ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
+        if (pClass.indexOf("nodi") < 0){
+            lRetval = (pClass.indexOf("bidi") > -1) ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
         }
         return lRetval;
     }
@@ -241,7 +279,7 @@ define(["./constants"], function(C) {
     function createDoubleLine(pLine, pClass) {
         var lSpace = C.LINE_WIDTH;
 
-        var lDir = determineDirection(pLine);
+        var lDir = math.getDirection(pLine);
         var lEndCorr = determineEndCorrection(pLine, pClass);
         var lStartCorr = determineStartCorrection(pLine, pClass);
 
@@ -275,7 +313,7 @@ define(["./constants"], function(C) {
         }
     }
 
-    function _createUTurn(pPoint, pEndY, pWidth, pDontHitHome) {
+    function _createUTurn(pPoint, pEndY, pWidth, pClass, pDontHitHome) {
         var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
 
         return _createPath(
@@ -286,35 +324,12 @@ define(["./constants"], function(C) {
             // curve back from.:
             " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString() +
             // curve end-pont:
-            " " + lEndX.toString() + "," + pEndY.toString()
+            " " + lEndX.toString() + "," + pEndY.toString(),
+            pClass
         );
     }
 
-    function _createGroup(pId) {
-        var lGroup = gDocument.createElementNS(C.SVGNS, "g");
-        if (!!pId) {
-            lGroup.setAttribute("id", pId);
-        }
-
-        return lGroup;
-    }
-
-    function _createUse(pX, pY, pLink) {
-        var lUse = gDocument.createElementNS(C.SVGNS, "use");
-        lUse.setAttribute("x", pX.toString());
-        lUse.setAttribute("y", pY.toString());
-        lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
-        return lUse;
-    }
-
     function _createMarker(pId, pClass, pOrient, pViewBox) {
-        var lViewBox = !!pViewBox ? pViewBox : "0 0 10 10";
-        var lMarker = gDocument.createElementNS(C.SVGNS, "marker");
-        lMarker.setAttribute("orient", pOrient);
-        lMarker.setAttribute("id", pId);
-        lMarker.setAttribute("class", pClass);
-        lMarker.setAttribute("viewBox", lViewBox);
-
         /* so, why not start at refX=0, refY=0? It would simplify reasoning
          * about marker paths significantly...
          *
@@ -324,42 +339,59 @@ define(["./constants"], function(C) {
          *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
          *   signal)
          */
-        lMarker.setAttribute("refX", "9");
-        lMarker.setAttribute("refY", "3");
-
+        return factll.createElement(
+            "marker",
+            {
+                orient: pOrient,
+                id: pId,
+                class: pClass,
+                viewBox: !!pViewBox ? pViewBox : "0 0 10 10",
+                refX: "9",
+                refY: "3",
+                markerUnits: "strokeWidth",
+                markerWidth: "10",
+                markerHeight: "10"
+            }
+        );
         /* for scaling to the lineWidth of the line the marker is attached to,
          * userSpaceOnUse looks like a good plan, but it is not only the
          * paths that don't scale, it's also the linewidth (which makes sense).
          * We'll have to roll our own path transformation algorithm if we want
          * to change only the linewidth and not the rest
          */
-        lMarker.setAttribute("markerUnits", "strokeWidth");
-        lMarker.setAttribute("markerWidth", "10");
-        lMarker.setAttribute("markerHeight", "10");
 
-        return lMarker;
     }
 
     function _createMarkerPath(pId, pD, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
-        var lPath = _createPath(pD, "arrow-style");
         /* stroke-dasharray: 'none' should work to override any dashes (like in
          * return messages (a >> b;)) and making sure the marker end gets
          * lines
          * This, however, does not work in webkit, hence the curious
          * value for the stroke-dasharray
          */
-        lPath.setAttribute("style", "stroke-dasharray:100,1; stroke : " + pColor||"black");
-        lMarker.appendChild(lPath);
+        lMarker.appendChild(
+            factll.setAttributes(
+                _createPath(pD, "arrow-style"),
+                {
+                    style: "stroke-dasharray:100,1;stroke:" + pColor||"black"
+                }
+            )
+        );
         return lMarker;
     }
 
     function _createMarkerPolygon(pId, pPoints, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
-        var lPolygon = _createPolygon(pPoints, "arrow-style");
-        lPolygon.setAttribute("stroke", pColor||"black");
-        lPolygon.setAttribute("fill", pColor||"black");
-        lMarker.appendChild(lPolygon);
+        lMarker.appendChild(
+            factll.setAttributes(
+                _createPolygon(pPoints, "arrow-style"),
+                {
+                    "stroke": pColor||"black",
+                    "fill": pColor||"black"
+                }
+            )
+        );
         return lMarker;
     }
 
@@ -370,16 +402,32 @@ define(["./constants"], function(C) {
          *
          * @param {document} pDocument
          */
-        init : function(pDocument) {
+        init: function(pDocument) {
             gDocument = pDocument;
+            factll.init(pDocument);
         },
 
         /**
-         * creates an svg textNode in the document with the given pText
-         *
-         * @param {string} pText
+         * Creates a basic SVG with id pId, and size 0x0
+         * @param {string} pId
+         * @return {Element} an SVG element
          */
-        createTextNode: _createTextNode,
+        createSVG: _createSVG,
+
+        /**
+         * Creates a desc element with id pId
+         *
+         * @param {string} pID
+         * @returns {Element}
+         */
+        createDesc: _createDesc,
+
+        /**
+         * Creates an empty 'defs' element
+         *
+         * @returns {Element}
+         */
+        createDefs: _createDefs,
 
         /**
          * Creates an svg rectangle of width x height, with the top left
@@ -436,8 +484,7 @@ define(["./constants"], function(C) {
          * (pX, pY).
          *
          * @param {string} pLabel
-         * @param {number} pX
-         * @param {number} pY
+         * @param {object} pCoords
          * @param {string} pClass - reference to the css class to be applied
          * @param {string=} pURL - link to render
          * @param {string=} pID - (small) id text to render
@@ -468,8 +515,7 @@ define(["./constants"], function(C) {
          * Creates a u-turn, departing on pStartX, pStarty and
          * ending on pStartX, pEndY with a width of pWidth
          *
-         * @param {number} pStartX
-         * @param {number} pStartY
+         * @param {object} pPoint
          * @param {number} pEndY
          * @param {number} pWidth
          * @param {string} pClass - reference to the css class to be applied
@@ -486,8 +532,7 @@ define(["./constants"], function(C) {
 
         /**
          * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
-         * @param {number} pX
-         * @param {number} pY
+         * @param {object} pCoords
          * @param {number} pLink
          * @return {SVGElement}
          */

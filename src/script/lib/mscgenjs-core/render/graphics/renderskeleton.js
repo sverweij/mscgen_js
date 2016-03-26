@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./constants"], function(fact, C) {
+define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, C, csstemplates) {
     /**
      * sets up a skeleton svg, with the skeleton for rendering an msc ready
      *
@@ -52,30 +52,15 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return lStyle;
     }
 
-    function setupSkeletonSvg(pSvgElementId) {
-        var lRetVal = gDocument.createElementNS(C.SVGNS, "svg");
-        lRetVal.setAttribute("version", "1.1");
-        lRetVal.setAttribute("id", pSvgElementId);
-        lRetVal.setAttribute("xmlns", C.SVGNS);
-        lRetVal.setAttribute("xmlns:xlink", C.XLINKNS);
-        return lRetVal;
-    }
-
     function setupDefs(pElementId, pMarkerDefs) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
-        var lDefs = gDocument.createElementNS(C.SVGNS, "defs");
+        var lDefs = fact.createDefs();
         lDefs.appendChild(setupStyle());
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
-    }
-
-    function setupDesc(pElementId) {
-        var lDesc = gDocument.createElementNS(C.SVGNS, "desc");
-        lDesc.setAttribute("id", pElementId + "__msc_source");
-        return lDesc;
     }
 
     function setupBody(pElementId) {
@@ -103,8 +88,8 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = setupSkeletonSvg(pSvgElementId);
-        lSkeletonSvg.appendChild(setupDesc(pSvgElementId));
+        var lSkeletonSvg = fact.createSVG(pSvgElementId);
+        lSkeletonSvg.appendChild(fact.createDesc(pSvgElementId + "__msc_source"));
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
@@ -113,94 +98,10 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
     }
 
     function setupStyleElement() {
-/*jshint multistr:true */
-/* jshint -W030 */ /* jshint -W033 */
-        return "svg{\
-  font-family:Helvetica,sans-serif;\
-  font-size:" + C.FONT_SIZE + "px;\
-  font-weight:normal;\
-  font-style:normal;\
-  text-decoration:none;\
-  background-color:white;\
-  stroke:black;\
-  color:black;\
-}\
-rect{\
-  fill:none;\
-  stroke:black;\
-  stroke-width:"+ C.LINE_WIDTH + ";\
-}\
-.bglayer{\
-  fill:white;\
-  stroke:white;\
-  stroke-width:0;\
-}\
-rect.textbg{\
-  fill:white;\
-  stroke:white;\
-  stroke-width:0;\
-}\
-line{\
-  stroke:black;\
-  stroke-width:"+ C.LINE_WIDTH + ";\
-}\
-.arcrowomit{\
-  stroke-dasharray:2,2;\
-}\
-text{\
-  color:inherit;\
-  stroke:none;\
-  text-anchor:middle;\
-}\
-text.entity{\
-  text-decoration:underline;\
-}\
-text.anchor-start{\
-  text-anchor:start;\
-}\
-path{\
-  stroke:black;\
-  color:black;\
-  stroke-width:"+ C.LINE_WIDTH + ";\
-  fill:none;\
-}\
-.dotted{\
-  stroke-dasharray:5,2;\
-}\
-.striped{\
-  stroke-dasharray:10,5;\
-}\
-.arrow-marker{\
-  overflow:visible;\
-}\
-.arrow-style{\
-  stroke-width:1;\
-}\
-.arcrowomit{\
-  stroke-dasharray:2,2;\
-}\
-.box{\
-  /* fill: #ffc;  no-inherit */\
-  fill:white;\
-}\
-.comment{\
-  stroke-dasharray:5,2;\
-}\
- .inherit{\
-  stroke:inherit;\
-  color:inherit;\
-}\
- .inherit-fill{\
-  fill:inherit;\
-}\
-.watermark{\
-  stroke:black;\
-  color:black;\
-  fill:black;\
-  font-size: 48pt;\
-  font-weight:bold;\
-  opacity:0.14;}";
-/* jshint +W030 */ /* jshint +W033 */
+        return csstemplates.baseTemplate({
+            fontSize : C.FONT_SIZE,
+            lineWidth: C.LINE_WIDTH
+        });
     }
     return {
         /**

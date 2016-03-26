@@ -52,7 +52,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         ">>"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};stroke-dasharray:5,2;"},
+                { name: "style", value: "stroke:{{color}}"},
                 { name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
             ],
             marker: {
@@ -62,7 +62,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "<<>>"  : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};stroke-dasharray:5,2;"},
+                { name: "style", value: "stroke:{{color}}"},
                 { name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
                 { name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
             ],
@@ -74,22 +74,22 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         ".."    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};stroke-dasharray:5,2;"}
+                { name: "style", value: "stroke:{{color}}"}
             ]
         },
         "--"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};"}
+                { name: "style", value: "stroke:{{color}}"}
             ]
         },
         "=="    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};"}
+                { name: "style", value: "stroke:{{color}}"}
             ]
         },
         "::"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};"}
+                { name: "style", value: "stroke:{{color}}"}
             ]
         },
         "=>"    : {
