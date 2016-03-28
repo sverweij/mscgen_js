@@ -101,9 +101,6 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
-src/script/lib/mscgenjs-core/render/graphics/csstemplates.js: \
-	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
-
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
@@ -122,6 +119,7 @@ src/script/lib/mscgenjs-core/render/graphics/renderast.js: \
 	src/script/lib/mscgenjs-core/render/graphics/renderutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/rowmemory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/swap.js \
 	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
@@ -136,17 +134,22 @@ src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
 
 src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js
+
+src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgutensils.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js
 
 src/script/lib/mscgenjs-core/render/text/ast2animate.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
@@ -268,8 +271,8 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/entities.js \
+	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
 	src/script/lib/mscgenjs-core/render/graphics/markermanager.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderast.js \
@@ -278,6 +281,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/rowmemory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/swap.js \
 	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
