@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./svglowlevelfactory", "./geometry.js"], function(C, factll, math) {
+define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll, math) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -159,8 +159,8 @@ define(["./constants", "./svglowlevelfactory", "./geometry.js"], function(C, fac
     }
 
     /* superscript style could also be super or a number (1em) or a % (100%) */
-    var lSuperscriptStyle = "vertical-align : text-top;";
-    lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
+    var lSuperscriptStyle = "vertical-align:text-top;";
+    lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 
     function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
@@ -374,7 +374,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry.js"], function(C, fac
             factll.setAttributes(
                 _createPath(pD, "arrow-style"),
                 {
-                    style: "stroke-dasharray:100,1; stroke : " + pColor||"black"
+                    style: "stroke-dasharray:100,1;stroke:" + pColor||"black"
                 }
             )
         );

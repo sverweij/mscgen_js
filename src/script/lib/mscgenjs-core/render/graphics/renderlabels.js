@@ -39,7 +39,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
     function renderArcLabelLineBackground(lLabelElement, pTextbgcolor){
         var lRect = fact.createRect(svgutl.getBBox(lLabelElement), "label-text-background");
         if (pTextbgcolor) {
-            lRect.setAttribute("style", "fill: " + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
+            lRect.setAttribute("style", "fill:" + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
         }
         return lRect;
     }

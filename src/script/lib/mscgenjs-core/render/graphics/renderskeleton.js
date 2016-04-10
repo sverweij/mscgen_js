@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./constants"], function(fact, C) {
+define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, C, csstemplates) {
     /**
      * sets up a skeleton svg, with the skeleton for rendering an msc ready
      *
@@ -45,19 +45,19 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return pDefs;
     }
 
-    function setupStyle() {
+    function setupStyle(pStyleAdditions) {
         var lStyle = gDocument.createElement("style");
         lStyle.setAttribute("type", "text/css");
-        lStyle.appendChild(gDocument.createTextNode(setupStyleElement()));
+        lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pStyleAdditions)));
         return lStyle;
     }
 
-    function setupDefs(pElementId, pMarkerDefs) {
+    function setupDefs(pElementId, pMarkerDefs, pStyleAdditions) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
         var lDefs = fact.createDefs();
-        lDefs.appendChild(setupStyle());
+        lDefs.appendChild(setupStyle(pStyleAdditions));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
@@ -80,7 +80,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return pWindow.document;
     }
 
-    function _bootstrap(pParentElementId, pSvgElementId, pMarkerDefs, pWindow) {
+    function _bootstrap(pParentElementId, pSvgElementId, pMarkerDefs, pStyleAdditions, pWindow) {
 
         gDocument = _init(pWindow);
 
@@ -90,106 +90,18 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         }
         var lSkeletonSvg = fact.createSVG(pSvgElementId);
         lSkeletonSvg.appendChild(fact.createDesc(pSvgElementId + "__msc_source"));
-        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs));
+        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pStyleAdditions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
 
         return gDocument;
     }
 
-    function setupStyleElement(pVerbose) {
-        /*jshint multistr:true */
-        /* jshint -W030 */ /* jshint -W033 */
-        var lRetval = "\
-            svg{\
-              font-family:Helvetica,sans-serif;\
-              font-size:" + C.FONT_SIZE + "px;\
-              font-weight:normal;\
-              font-style:normal;\
-              text-decoration:none;\
-              background-color:white;\
-              stroke:black;\
-              color:black;\
-            }\
-            rect{\
-              fill:none;\
-              stroke:black;\
-              stroke-width:"+ C.LINE_WIDTH + ";\
-            }\
-            rect.entity{\
-              fill:white;\
-            }\
-            rect.label-text-background{\
-              fill:white;\
-              stroke:white;\
-              stroke-width:0;\
-            }\
-            rect.bglayer{\
-              fill:white;\
-              stroke:white;\
-              stroke-width:0;\
-            }\
-            line{\
-              stroke:black;\
-              stroke-width:"+ C.LINE_WIDTH + ";\
-            }\
-            line.return{\
-              stroke-dasharray:5,2;\
-            }\
-            line.comment{\
-              stroke-dasharray:5,2;\
-            }\
-            line.inline_expression_divider{\
-              stroke-dasharray:10,5;\
-            }\
-            text{\
-              color:inherit;\
-              stroke:none;\
-              text-anchor:middle;\
-            }\
-            text.entity-text{\
-              text-decoration:underline;\
-            }\
-            text.anchor-start{\
-              text-anchor:start;\
-            }\
-            text.box-text{\
-            }\
-            path{\
-              stroke:black;\
-              color:black;\
-              stroke-width:"+ C.LINE_WIDTH + ";\
-              fill:none;\
-            }\
-            .arrow-marker{\
-              overflow:visible;\
-            }\
-            .arrow-style{\
-              stroke-width:1;\
-            }\
-            .arcrowomit{\
-              stroke-dasharray:2,2;\
-            }\
-            rect.box, path.box{\
-              fill:white;\
-            }\
-            .inherit{\
-              stroke:inherit;\
-              color:inherit;\
-            }\
-            .inherit-fill{\
-              fill:inherit;\
-            }\
-            .watermark{\
-              stroke:black;\
-              color:black;\
-              fill:black;\
-              font-size: 48pt;\
-              font-weight:bold;\
-              opacity:0.14;\
-            }";
-        /* jshint +W030 */ /* jshint +W033 */
-        return !!pVerbose ? lRetval.replace(/[\ ]{12}/g, "\n      ") : lRetval.replace(/[\ ]+/g, "");
+    function setupStyleElement(pStyleAdditions) {
+        return csstemplates.baseTemplate({
+            fontSize : C.FONT_SIZE,
+            lineWidth: C.LINE_WIDTH
+        }) + (!!pStyleAdditions ? pStyleAdditions : "");
     }
     return {
         /**
@@ -199,6 +111,8 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
          *
          * @param {string} pParentElementId
          * @param {string} pSvgElementId
+         * @param {object} pMarkerDefs
+         * @param {string} pStyleAdditions
          * @param {window} pWindow
          */
         bootstrap : _bootstrap,

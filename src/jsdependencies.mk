@@ -133,6 +133,7 @@ src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
 	src/script/lib/mscgenjs-core/render/text/textutensils.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
+	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js
 
@@ -271,6 +272,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/entities.js \
 	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \

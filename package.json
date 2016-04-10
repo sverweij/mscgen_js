@@ -5,10 +5,10 @@
   "main": "src/script/index.js",
   "dependencies": {
     "amdefine": "1.0.0",
-    "codemirror": "5.13.2",
+    "codemirror": "5.13.4",
     "requirejs": "2.2.0",
-    "mscgenjs": "1.3.2",
-    "mscgenjs-inpage": "1.3.2"
+    "mscgenjs": "1.3.5",
+    "mscgenjs-inpage": "1.3.5"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -18,15 +18,15 @@
     "gulp": "3.9.1",
     "gulp-load-plugins": "1.2.0",
     "gulp-sass": "2.2.0",
-    "istanbul": "0.4.2",
-    "js-makedepend": "0.2.1",
+    "istanbul": "0.4.3",
+    "js-makedepend": "0.2.3",
     "jscs": "2.11.0",
     "jshint": "2.9.1",
     "mocha": "2.4.5",
-    "node-localstorage": "1.1.2",
+    "node-localstorage": "1.2.0",
     "node-sass": "3.4.2",
     "npm-check-updates": "2.6.1",
-    "nsp": "2.2.1",
+    "nsp": "2.3.0",
     "plato": "1.5.0",
     "uglify-js": "2.6.2"
   },

@@ -1,11 +1,11 @@
 /**
  * @license
- * lodash 4.6.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output lib/lodash/lodash.custom.js`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 4.9.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults,template" --development --output lib/lodash/lodash.custom.js`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 ;(function() {
 
@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.6.1';
+  var VERSION = '4.9.0';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -41,6 +41,7 @@
       mapTag = '[object Map]',
       numberTag = '[object Number]',
       objectTag = '[object Object]',
+      promiseTag = '[object Promise]',
       regexpTag = '[object RegExp]',
       setTag = '[object Set]',
       stringTag = '[object String]',
@@ -48,6 +49,7 @@
       weakMapTag = '[object WeakMap]';
 
   var arrayBufferTag = '[object ArrayBuffer]',
+      dataViewTag = '[object DataView]',
       float32Tag = '[object Float32Array]',
       float64Tag = '[object Float64Array]',
       int8Tag = '[object Int8Array]',
@@ -58,11 +60,34 @@
       uint16Tag = '[object Uint16Array]',
       uint32Tag = '[object Uint32Array]';
 
-  /** Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns). */
+  /** Used to match empty string literals in compiled template source. */
+  var reEmptyStringLeading = /\b__p \+= '';/g,
+      reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
+      reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to match template delimiters. */
+  var reEscape = /<%-([\s\S]+?)%>/g,
+      reEvaluate = /<%([\s\S]+?)%>/g,
+      reInterpolate = /<%=([\s\S]+?)%>/g;
+
+  /**
+   * Used to match `RegExp`
+   * [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns).
+   */
   var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 
   /** Used to match leading and trailing whitespace. */
   var reTrim = /^\s+|\s+$/g;
+
+  /**
+   * Used to match
+   * [ES template delimiters](http://ecma-international.org/ecma-262/6.0/#sec-template-literal-lexical-components).
+   */
+  var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
   /** Used to match `RegExp` flags from their coerced string values. */
   var reFlags = /\w*$/;
@@ -73,7 +98,7 @@
   /** Used to detect binary string values. */
   var reIsBinary = /^0b[01]+$/i;
 
-  /** Used to detect host constructors (Safari > 5). */
+  /** Used to detect host constructors (Safari). */
   var reIsHostCtor = /^\[object .+?Constructor\]$/;
 
   /** Used to detect octal string values. */
@@ -82,26 +107,55 @@
   /** Used to detect unsigned integer values. */
   var reIsUint = /^(?:0|[1-9]\d*)$/;
 
+  /** Used to ensure capturing order of template delimiters. */
+  var reNoMatch = /($^)/;
+
+  /** Used to match unescaped characters in compiled string literals. */
+  var reUnescapedString = /['\n\r\u2028\u2029\\]/g;
+
+  /** Used to make template sourceURLs easier to identify. */
+  var templateCounter = -1;
+
   /** Used to identify `toStringTag` values supported by `_.clone`. */
   var cloneableTags = {};
   cloneableTags[argsTag] = cloneableTags[arrayTag] =
-  cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
-  cloneableTags[dateTag] = cloneableTags[float32Tag] =
-  cloneableTags[float64Tag] = cloneableTags[int8Tag] =
-  cloneableTags[int16Tag] = cloneableTags[int32Tag] =
-  cloneableTags[mapTag] = cloneableTags[numberTag] =
-  cloneableTags[objectTag] = cloneableTags[regexpTag] =
-  cloneableTags[setTag] = cloneableTags[stringTag] =
-  cloneableTags[symbolTag] = cloneableTags[uint8Tag] =
-  cloneableTags[uint8ClampedTag] = cloneableTags[uint16Tag] =
-  cloneableTags[uint32Tag] = true;
+  cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] =
+  cloneableTags[boolTag] = cloneableTags[dateTag] =
+  cloneableTags[float32Tag] = cloneableTags[float64Tag] =
+  cloneableTags[int8Tag] = cloneableTags[int16Tag] =
+  cloneableTags[int32Tag] = cloneableTags[mapTag] =
+  cloneableTags[numberTag] = cloneableTags[objectTag] =
+  cloneableTags[regexpTag] = cloneableTags[setTag] =
+  cloneableTags[stringTag] = cloneableTags[symbolTag] =
+  cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
+  cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
   cloneableTags[errorTag] = cloneableTags[funcTag] =
   cloneableTags[weakMapTag] = false;
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
 
   /** Used to determine if values are of the language type `Object`. */
   var objectTypes = {
     'function': true,
     'object': true
+  };
+
+  /** Used to escape characters for inclusion in compiled string literals. */
+  var stringEscapes = {
+    '\\': '\\',
+    "'": "'",
+    '\n': 'n',
+    '\r': 'r',
+    '\u2028': 'u2028',
+    '\u2029': 'u2029'
   };
 
   /** Built-in method references without a dependency on `root`. */
@@ -180,7 +234,7 @@
    * @private
    * @param {Function} func The function to invoke.
    * @param {*} thisArg The `this` binding of `func`.
-   * @param {...*} args The arguments to invoke `func` with.
+   * @param {Array} args The arguments to invoke `func` with.
    * @returns {*} Returns the result of `func`.
    */
   function apply(func, thisArg, args) {
@@ -216,6 +270,26 @@
   }
 
   /**
+   * A specialized version of `_.map` for arrays without support for iteratee
+   * shorthands.
+   *
+   * @private
+   * @param {Array} array The array to iterate over.
+   * @param {Function} iteratee The function invoked per iteration.
+   * @returns {Array} Returns the new mapped array.
+   */
+  function arrayMap(array, iteratee) {
+    var index = -1,
+        length = array.length,
+        result = Array(length);
+
+    while (++index < length) {
+      result[index] = iteratee(array[index], index, array);
+    }
+    return result;
+  }
+
+  /**
    * Appends the elements of `values` to `array`.
    *
    * @private
@@ -242,7 +316,8 @@
    * @param {Array} array The array to iterate over.
    * @param {Function} iteratee The function invoked per iteration.
    * @param {*} [accumulator] The initial value.
-   * @param {boolean} [initAccum] Specify using the first element of `array` as the initial value.
+   * @param {boolean} [initAccum] Specify using the first element of `array` as
+   *  the initial value.
    * @returns {*} Returns the accumulated value.
    */
   function arrayReduce(array, iteratee, accumulator, initAccum) {
@@ -278,6 +353,22 @@
   }
 
   /**
+   * The base implementation of `_.values` and `_.valuesIn` which creates an
+   * array of `object` property values corresponding to the property names
+   * of `props`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @param {Array} props The property names to get values for.
+   * @returns {Object} Returns the array of property values.
+   */
+  function baseValues(object, props) {
+    return arrayMap(props, function(key) {
+      return object[key];
+    });
+  }
+
+  /**
    * Checks if `value` is a global object.
    *
    * @private
@@ -286,6 +377,28 @@
    */
   function checkGlobal(value) {
     return (value && value.Object === Object) ? value : null;
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /**
+   * Used by `_.template` to escape characters for inclusion in compiled string literals.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeStringChar(chr) {
+    return '\\' + stringEscapes[chr];
   }
 
   /**
@@ -385,7 +498,8 @@
   var hasOwnProperty = objectProto.hasOwnProperty;
 
   /**
-   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
    * of values.
    */
   var objectToString = objectProto.toString;
@@ -402,18 +516,20 @@
       Symbol = root.Symbol,
       Uint8Array = root.Uint8Array,
       enumerate = Reflect ? Reflect.enumerate : undefined,
-      getPrototypeOf = Object.getPrototypeOf,
       getOwnPropertySymbols = Object.getOwnPropertySymbols,
       objectCreate = Object.create,
       propertyIsEnumerable = objectProto.propertyIsEnumerable,
       splice = arrayProto.splice;
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeKeys = Object.keys,
+  var nativeGetPrototype = Object.getPrototypeOf,
+      nativeKeys = Object.keys,
       nativeMax = Math.max;
 
   /* Built-in method references that are verified to be native. */
-  var Map = getNative(root, 'Map'),
+  var DataView = getNative(root, 'DataView'),
+      Map = getNative(root, 'Map'),
+      Promise = getNative(root, 'Promise'),
       Set = getNative(root, 'Set'),
       WeakMap = getNative(root, 'WeakMap'),
       nativeCreate = getNative(Object, 'create');
@@ -422,37 +538,40 @@
   var realNames = {};
 
   /** Used to detect maps, sets, and weakmaps. */
-  var mapCtorString = Map ? funcToString.call(Map) : '',
-      setCtorString = Set ? funcToString.call(Set) : '',
-      weakMapCtorString = WeakMap ? funcToString.call(WeakMap) : '';
+  var dataViewCtorString = toSource(DataView),
+      mapCtorString = toSource(Map),
+      promiseCtorString = toSource(Promise),
+      setCtorString = toSource(Set),
+      weakMapCtorString = toSource(WeakMap);
 
   /** Used to convert symbols to primitives and strings. */
   var symbolProto = Symbol ? Symbol.prototype : undefined,
-      symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+      symbolValueOf = symbolProto ? symbolProto.valueOf : undefined,
+      symbolToString = symbolProto ? symbolProto.toString : undefined;
 
   /*------------------------------------------------------------------------*/
 
   /**
    * Creates a `lodash` object which wraps `value` to enable implicit method
-   * chaining. Methods that operate on and return arrays, collections, and
-   * functions can be chained together. Methods that retrieve a single value or
-   * may return a primitive value will automatically end the chain sequence and
-   * return the unwrapped value. Otherwise, the value must be unwrapped with
-   * `_#value`.
+   * chain sequences. Methods that operate on and return arrays, collections,
+   * and functions can be chained together. Methods that retrieve a single value
+   * or may return a primitive value will automatically end the chain sequence
+   * and return the unwrapped value. Otherwise, the value must be unwrapped
+   * with `_#value`.
    *
-   * Explicit chaining, which must be unwrapped with `_#value` in all cases,
-   * may be enabled using `_.chain`.
+   * Explicit chain sequences, which must be unwrapped with `_#value`, may be
+   * enabled using `_.chain`.
    *
    * The execution of chained methods is lazy, that is, it's deferred until
    * `_#value` is implicitly or explicitly called.
    *
-   * Lazy evaluation allows several methods to support shortcut fusion. Shortcut
-   * fusion is an optimization to merge iteratee calls; this avoids the creation
-   * of intermediate arrays and can greatly reduce the number of iteratee executions.
-   * Sections of a chain sequence qualify for shortcut fusion if the section is
-   * applied to an array of at least two hundred elements and any iteratees
-   * accept only one argument. The heuristic for whether a section qualifies
-   * for shortcut fusion is subject to change.
+   * Lazy evaluation allows several methods to support shortcut fusion.
+   * Shortcut fusion is an optimization to merge iteratee calls; this avoids
+   * the creation of intermediate arrays and can greatly reduce the number of
+   * iteratee executions. Sections of a chain sequence qualify for shortcut
+   * fusion if the section is applied to an array of at least `200` elements
+   * and any iteratees accept only one argument. The heuristic for whether a
+   * section qualifies for shortcut fusion is subject to change.
    *
    * Chaining is supported in custom builds as long as the `_#value` method is
    * directly or indirectly included in the build.
@@ -477,48 +596,49 @@
    * `curry`, `debounce`, `defaults`, `defaultsDeep`, `defer`, `delay`,
    * `difference`, `differenceBy`, `differenceWith`, `drop`, `dropRight`,
    * `dropRightWhile`, `dropWhile`, `extend`, `extendWith`, `fill`, `filter`,
-   * `flatten`, `flattenDeep`, `flattenDepth`, `flip`, `flow`, `flowRight`,
-   * `fromPairs`, `functions`, `functionsIn`, `groupBy`, `initial`, `intersection`,
-   * `intersectionBy`, `intersectionWith`, `invert`, `invertBy`, `invokeMap`,
-   * `iteratee`, `keyBy`, `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`,
-   * `matches`, `matchesProperty`, `memoize`, `merge`, `mergeWith`, `method`,
-   * `methodOf`, `mixin`, `negate`, `nthArg`, `omit`, `omitBy`, `once`, `orderBy`,
-   * `over`, `overArgs`, `overEvery`, `overSome`, `partial`, `partialRight`,
-   * `partition`, `pick`, `pickBy`, `plant`, `property`, `propertyOf`, `pull`,
-   * `pullAll`, `pullAllBy`, `pullAllWith`, `pullAt`, `push`, `range`,
-   * `rangeRight`, `rearg`, `reject`, `remove`, `rest`, `reverse`, `sampleSize`,
-   * `set`, `setWith`, `shuffle`, `slice`, `sort`, `sortBy`, `splice`, `spread`,
-   * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, `tap`, `throttle`,
-   * `thru`, `toArray`, `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`,
-   * `transform`, `unary`, `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`,
-   * `uniqWith`, `unset`, `unshift`, `unzip`, `unzipWith`, `update`, `values`,
-   * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`, `zipObject`,
-   * `zipObjectDeep`, and `zipWith`
+   * `flatMap`, `flatMapDeep`, `flatMapDepth`, `flatten`, `flattenDeep`,
+   * `flattenDepth`, `flip`, `flow`, `flowRight`, `fromPairs`, `functions`,
+   * `functionsIn`, `groupBy`, `initial`, `intersection`, `intersectionBy`,
+   * `intersectionWith`, `invert`, `invertBy`, `invokeMap`, `iteratee`, `keyBy`,
+   * `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
+   * `memoize`, `merge`, `mergeWith`, `method`, `methodOf`, `mixin`, `negate`,
+   * `nthArg`, `omit`, `omitBy`, `once`, `orderBy`, `over`, `overArgs`,
+   * `overEvery`, `overSome`, `partial`, `partialRight`, `partition`, `pick`,
+   * `pickBy`, `plant`, `property`, `propertyOf`, `pull`, `pullAll`, `pullAllBy`,
+   * `pullAllWith`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`, `reject`,
+   * `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`, `shuffle`,
+   * `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`, `takeRight`,
+   * `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`, `toArray`,
+   * `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`, `unary`,
+   * `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`, `unset`,
+   * `unshift`, `unzip`, `unzipWith`, `update`, `updateWith`, `values`,
+   * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`,
+   * `zipObject`, `zipObjectDeep`, and `zipWith`
    *
    * The wrapper methods that are **not** chainable by default are:
    * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
-   * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `deburr`, `each`, `eachRight`,
-   * `endsWith`, `eq`, `escape`, `escapeRegExp`, `every`, `find`, `findIndex`,
-   * `findKey`, `findLast`, `findLastIndex`, `findLastKey`, `first`, `floor`,
-   * `forEach`, `forEachRight`, `forIn`, `forInRight`, `forOwn`, `forOwnRight`,
-   * `get`, `gt`, `gte`, `has`, `hasIn`, `head`, `identity`, `includes`,
-   * `indexOf`, `inRange`, `invoke`, `isArguments`, `isArray`, `isArrayBuffer`,
-   * `isArrayLike`, `isArrayLikeObject`, `isBoolean`, `isBuffer`, `isDate`,
-   * `isElement`, `isEmpty`, `isEqual`, `isEqualWith`, `isError`, `isFinite`,
-   * `isFunction`, `isInteger`, `isLength`, `isMap`, `isMatch`, `isMatchWith`,
-   * `isNaN`, `isNative`, `isNil`, `isNull`, `isNumber`, `isObject`, `isObjectLike`,
-   * `isPlainObject`, `isRegExp`, `isSafeInteger`, `isSet`, `isString`,
-   * `isUndefined`, `isTypedArray`, `isWeakMap`, `isWeakSet`, `join`, `kebabCase`,
-   * `last`, `lastIndexOf`, `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`,
-   * `maxBy`, `mean`, `min`, `minBy`, `noConflict`, `noop`, `now`, `pad`,
-   * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
-   * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
-   * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
-   * `sortedLastIndexBy`, `startCase`, `startsWith`, `subtract`, `sum`, `sumBy`,
-   * `template`, `times`, `toInteger`, `toJSON`, `toLength`, `toLower`,
-   * `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`, `trimEnd`,
-   * `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`, `upperFirst`,
-   * `value`, and `words`
+   * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `deburr`, `divide`, `each`,
+   * `eachRight`, `endsWith`, `eq`, `escape`, `escapeRegExp`, `every`, `find`,
+   * `findIndex`, `findKey`, `findLast`, `findLastIndex`, `findLastKey`, `first`,
+   * `floor`, `forEach`, `forEachRight`, `forIn`, `forInRight`, `forOwn`,
+   * `forOwnRight`, `get`, `gt`, `gte`, `has`, `hasIn`, `head`, `identity`,
+   * `includes`, `indexOf`, `inRange`, `invoke`, `isArguments`, `isArray`,
+   * `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`, `isBoolean`, `isBuffer`,
+   * `isDate`, `isElement`, `isEmpty`, `isEqual`, `isEqualWith`, `isError`,
+   * `isFinite`, `isFunction`, `isInteger`, `isLength`, `isMap`, `isMatch`,
+   * `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`, `isNumber`,
+   * `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`, `isSafeInteger`,
+   * `isSet`, `isString`, `isUndefined`, `isTypedArray`, `isWeakMap`, `isWeakSet`,
+   * `join`, `kebabCase`, `last`, `lastIndexOf`, `lowerCase`, `lowerFirst`,
+   * `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`, `min`, `minBy`, `multiply`,
+   * `noConflict`, `noop`, `now`, `pad`, `padEnd`, `padStart`, `parseInt`,
+   * `pop`, `random`, `reduce`, `reduceRight`, `repeat`, `result`, `round`,
+   * `runInContext`, `sample`, `shift`, `size`, `snakeCase`, `some`, `sortedIndex`,
+   * `sortedIndexBy`, `sortedLastIndex`, `sortedLastIndexBy`, `startCase`,
+   * `startsWith`, `subtract`, `sum`, `sumBy`, `template`, `times`, `toInteger`,
+   * `toJSON`, `toLength`, `toLower`, `toNumber`, `toSafeInteger`, `toString`,
+   * `toUpper`, `trim`, `trimEnd`, `trimStart`, `truncate`, `unescape`,
+   * `uniqueId`, `upperCase`, `upperFirst`, `value`, and `words`
    *
    * @name _
    * @constructor
@@ -550,10 +670,71 @@
     // No operation performed.
   }
 
+  /**
+   * By default, the template delimiters used by lodash are like those in
+   * embedded Ruby (ERB). Change the following template settings to use
+   * alternative delimiters.
+   *
+   * @static
+   * @memberOf _
+   * @type {Object}
+   */
+  lodash.templateSettings = {
+
+    /**
+     * Used to detect `data` property values to be HTML-escaped.
+     *
+     * @memberOf _.templateSettings
+     * @type {RegExp}
+     */
+    'escape': reEscape,
+
+    /**
+     * Used to detect code to be evaluated.
+     *
+     * @memberOf _.templateSettings
+     * @type {RegExp}
+     */
+    'evaluate': reEvaluate,
+
+    /**
+     * Used to detect `data` property values to inject.
+     *
+     * @memberOf _.templateSettings
+     * @type {RegExp}
+     */
+    'interpolate': reInterpolate,
+
+    /**
+     * Used to reference the data object in the template text.
+     *
+     * @memberOf _.templateSettings
+     * @type {string}
+     */
+    'variable': '',
+
+    /**
+     * Used to import variables into the compiled template.
+     *
+     * @memberOf _.templateSettings
+     * @type {Object}
+     */
+    'imports': {
+
+      /**
+       * A reference to the `lodash` function.
+       *
+       * @memberOf _.templateSettings.imports
+       * @type {Function}
+       */
+      '_': lodash
+    }
+  };
+
   /*------------------------------------------------------------------------*/
 
   /**
-   * Creates an hash object.
+   * Creates a hash object.
    *
    * @private
    * @constructor
@@ -612,6 +793,9 @@
   function hashSet(hash, key, value) {
     hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
   }
+
+  // Avoid inheriting from `Object.prototype` when possible.
+  Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
 
   /*------------------------------------------------------------------------*/
 
@@ -707,7 +891,7 @@
    * @memberOf MapCache
    * @param {string} key The key of the value to set.
    * @param {*} value The value to set.
-   * @returns {Object} Returns the map cache object.
+   * @returns {Object} Returns the map cache instance.
    */
   function mapSet(key, value) {
     var data = this.__data__;
@@ -720,6 +904,13 @@
     }
     return this;
   }
+
+  // Add methods to `MapCache`.
+  MapCache.prototype.clear = mapClear;
+  MapCache.prototype['delete'] = mapDelete;
+  MapCache.prototype.get = mapGet;
+  MapCache.prototype.has = mapHas;
+  MapCache.prototype.set = mapSet;
 
   /*------------------------------------------------------------------------*/
 
@@ -808,7 +999,7 @@
    * @memberOf Stack
    * @param {string} key The key of the value to set.
    * @param {*} value The value to set.
-   * @returns {Object} Returns the stack cache object.
+   * @returns {Object} Returns the stack cache instance.
    */
   function stackSet(key, value) {
     var data = this.__data__,
@@ -829,13 +1020,20 @@
     return this;
   }
 
+  // Add methods to `Stack`.
+  Stack.prototype.clear = stackClear;
+  Stack.prototype['delete'] = stackDelete;
+  Stack.prototype.get = stackGet;
+  Stack.prototype.has = stackHas;
+  Stack.prototype.set = stackSet;
+
   /*------------------------------------------------------------------------*/
 
   /**
    * Removes `key` and its value from the associative array.
    *
    * @private
-   * @param {Array} array The array to query.
+   * @param {Array} array The array to modify.
    * @param {string} key The key of the value to remove.
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
@@ -879,8 +1077,7 @@
   }
 
   /**
-   * Gets the index at which the first occurrence of `key` is found in `array`
-   * of key-value pairs.
+   * Gets the index at which the `key` is found in `array` of key-value pairs.
    *
    * @private
    * @param {Array} array The array to search.
@@ -1009,14 +1206,13 @@
         }
         result = initCloneObject(isFunc ? {} : value);
         if (!isDeep) {
-          result = baseAssign(result, value);
-          return isFull ? copySymbols(value, result) : result;
+          return copySymbols(value, baseAssign(result, value));
         }
       } else {
         if (!cloneableTags[tag]) {
           return object ? value : {};
         }
-        result = initCloneByTag(value, tag, isDeep);
+        result = initCloneByTag(value, tag, baseClone, isDeep);
       }
     }
     // Check for circular references and return its corresponding clone.
@@ -1027,11 +1223,18 @@
     }
     stack.set(value, result);
 
+    if (!isArr) {
+      var props = isFull ? getAllKeys(value) : keys(value);
+    }
     // Recursively populate clone (susceptible to call stack limits).
-    (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
+    arrayEach(props || value, function(subValue, key) {
+      if (props) {
+        key = subValue;
+        subValue = value[key];
+      }
       assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
     });
-    return (isFull && !isArr) ? copySymbols(value, result) : result;
+    return result;
   }
 
   /**
@@ -1052,23 +1255,24 @@
    * @private
    * @param {Array} array The array to flatten.
    * @param {number} depth The maximum recursion depth.
-   * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
+   * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+   * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
    * @param {Array} [result=[]] The initial result value.
    * @returns {Array} Returns the new flattened array.
    */
-  function baseFlatten(array, depth, isStrict, result) {
-    result || (result = []);
-
+  function baseFlatten(array, depth, predicate, isStrict, result) {
     var index = -1,
         length = array.length;
 
+    predicate || (predicate = isFlattenable);
+    result || (result = []);
+
     while (++index < length) {
       var value = array[index];
-      if (depth > 0 && isArrayLikeObject(value) &&
-          (isStrict || isArray(value) || isArguments(value))) {
+      if (depth > 0 && predicate(value)) {
         if (depth > 1) {
           // Recursively flatten arrays (susceptible to call stack limits).
-          baseFlatten(value, depth - 1, isStrict, result);
+          baseFlatten(value, depth - 1, predicate, isStrict, result);
         } else {
           arrayPush(result, value);
         }
@@ -1080,29 +1284,21 @@
   }
 
   /**
-   * The base implementation of `baseForIn` and `baseForOwn` which iterates
-   * over `object` properties returned by `keysFunc` invoking `iteratee` for
-   * each property. Iteratee functions may exit iteration early by explicitly
-   * returning `false`.
+   * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
+   * `keysFunc` and `symbolsFunc` to get the enumerable property names and
+   * symbols of `object`.
    *
    * @private
-   * @param {Object} object The object to iterate over.
-   * @param {Function} iteratee The function invoked per iteration.
+   * @param {Object} object The object to query.
    * @param {Function} keysFunc The function to get the keys of `object`.
-   * @returns {Object} Returns `object`.
+   * @param {Function} symbolsFunc The function to get the symbols of `object`.
+   * @returns {Array} Returns the array of property names and symbols.
    */
-  var baseFor = createBaseFor();
-
-  /**
-   * The base implementation of `_.forOwn` without support for iteratee shorthands.
-   *
-   * @private
-   * @param {Object} object The object to iterate over.
-   * @param {Function} iteratee The function invoked per iteration.
-   * @returns {Object} Returns `object`.
-   */
-  function baseForOwn(object, iteratee) {
-    return object && baseFor(object, iteratee, keys);
+  function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+    var result = keysFunc(object);
+    return isArray(object)
+      ? result
+      : arrayPush(result, symbolsFunc(object));
   }
 
   /**
@@ -1118,7 +1314,7 @@
     // that are composed entirely of index properties, return `false` for
     // `hasOwnProperty` checks of them.
     return hasOwnProperty.call(object, key) ||
-      (typeof object == 'object' && key in object && getPrototypeOf(object) === null);
+      (typeof object == 'object' && key in object && getPrototype(object) === null);
   }
 
   /**
@@ -1202,14 +1398,30 @@
   }
 
   /**
+   * Creates a clone of `dataView`.
+   *
+   * @private
+   * @param {Object} dataView The data view to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the cloned data view.
+   */
+  function cloneDataView(dataView, isDeep) {
+    var buffer = isDeep ? cloneArrayBuffer(dataView.buffer) : dataView.buffer;
+    return new dataView.constructor(buffer, dataView.byteOffset, dataView.byteLength);
+  }
+
+  /**
    * Creates a clone of `map`.
    *
    * @private
    * @param {Object} map The map to clone.
+   * @param {Function} cloneFunc The function to clone values.
+   * @param {boolean} [isDeep] Specify a deep clone.
    * @returns {Object} Returns the cloned map.
    */
-  function cloneMap(map) {
-    return arrayReduce(mapToArray(map), addMapEntry, new map.constructor);
+  function cloneMap(map, isDeep, cloneFunc) {
+    var array = isDeep ? cloneFunc(mapToArray(map), true) : mapToArray(map);
+    return arrayReduce(array, addMapEntry, new map.constructor);
   }
 
   /**
@@ -1230,10 +1442,13 @@
    *
    * @private
    * @param {Object} set The set to clone.
+   * @param {Function} cloneFunc The function to clone values.
+   * @param {boolean} [isDeep] Specify a deep clone.
    * @returns {Object} Returns the cloned set.
    */
-  function cloneSet(set) {
-    return arrayReduce(setToArray(set), addSetEntry, new set.constructor);
+  function cloneSet(set, isDeep, cloneFunc) {
+    var array = isDeep ? cloneFunc(setToArray(set), true) : setToArray(set);
+    return arrayReduce(array, addSetEntry, new set.constructor);
   }
 
   /**
@@ -1284,7 +1499,7 @@
    *
    * @private
    * @param {Object} source The object to copy properties from.
-   * @param {Array} props The property names to copy.
+   * @param {Array} props The property identifiers to copy.
    * @param {Object} [object={}] The object to copy properties to.
    * @returns {Object} Returns `object`.
    */
@@ -1298,7 +1513,7 @@
    *
    * @private
    * @param {Object} source The object to copy properties from.
-   * @param {Array} props The property names to copy.
+   * @param {Array} props The property identifiers to copy.
    * @param {Object} [object={}] The object to copy properties to.
    * @param {Function} [customizer] The function to customize copied values.
    * @returns {Object} Returns `object`.
@@ -1367,34 +1582,22 @@
   }
 
   /**
-   * Creates a base function for methods like `_.forIn`.
+   * Creates an array of own enumerable property names and symbols of `object`.
    *
    * @private
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {Function} Returns the new base function.
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names and symbols.
    */
-  function createBaseFor(fromRight) {
-    return function(object, iteratee, keysFunc) {
-      var index = -1,
-          iterable = Object(object),
-          props = keysFunc(object),
-          length = props.length;
-
-      while (length--) {
-        var key = props[fromRight ? length : ++index];
-        if (iteratee(iterable[key], key, iterable) === false) {
-          break;
-        }
-      }
-      return object;
-    };
+  function getAllKeys(object) {
+    return baseGetAllKeys(object, keys, getSymbols);
   }
 
   /**
    * Gets the "length" property value of `object`.
    *
-   * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
-   * that affects Safari on at least iOS 8.1-8.3 ARM64.
+   * **Note:** This function is used to avoid a
+   * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
+   * Safari on at least iOS 8.1-8.3 ARM64.
    *
    * @private
    * @param {Object} object The object to query.
@@ -1416,15 +1619,35 @@
   }
 
   /**
-   * Creates an array of the own symbol properties of `object`.
+   * Gets the `[[Prototype]]` of `value`.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {null|Object} Returns the `[[Prototype]]`.
+   */
+  function getPrototype(value) {
+    return nativeGetPrototype(Object(value));
+  }
+
+  /**
+   * Creates an array of the own enumerable symbol properties of `object`.
    *
    * @private
    * @param {Object} object The object to query.
    * @returns {Array} Returns the array of symbols.
    */
-  var getSymbols = getOwnPropertySymbols || function() {
-    return [];
-  };
+  function getSymbols(object) {
+    // Coerce `object` to an object to avoid non-object errors in V8.
+    // See https://bugs.chromium.org/p/v8/issues/detail?id=3443 for more details.
+    return getOwnPropertySymbols(Object(object));
+  }
+
+  // Fallback for IE < 11.
+  if (!getOwnPropertySymbols) {
+    getSymbols = function() {
+      return [];
+    };
+  }
 
   /**
    * Gets the `toStringTag` of `value`.
@@ -1437,18 +1660,23 @@
     return objectToString.call(value);
   }
 
-  // Fallback for IE 11 providing `toStringTag` values for maps, sets, and weakmaps.
-  if ((Map && getTag(new Map) != mapTag) ||
+  // Fallback for data views, maps, sets, and weak maps in IE 11,
+  // for data views in Edge, and promises in Node.js.
+  if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+      (Map && getTag(new Map) != mapTag) ||
+      (Promise && getTag(Promise.resolve()) != promiseTag) ||
       (Set && getTag(new Set) != setTag) ||
       (WeakMap && getTag(new WeakMap) != weakMapTag)) {
     getTag = function(value) {
       var result = objectToString.call(value),
-          Ctor = result == objectTag ? value.constructor : null,
-          ctorString = typeof Ctor == 'function' ? funcToString.call(Ctor) : '';
+          Ctor = result == objectTag ? value.constructor : undefined,
+          ctorString = Ctor ? toSource(Ctor) : undefined;
 
       if (ctorString) {
         switch (ctorString) {
+          case dataViewCtorString: return dataViewTag;
           case mapCtorString: return mapTag;
+          case promiseCtorString: return promiseTag;
           case setCtorString: return setTag;
           case weakMapCtorString: return weakMapTag;
         }
@@ -1485,7 +1713,7 @@
    */
   function initCloneObject(object) {
     return (typeof object.constructor == 'function' && !isPrototype(object))
-      ? baseCreate(getPrototypeOf(object))
+      ? baseCreate(getPrototype(object))
       : {};
   }
 
@@ -1498,10 +1726,11 @@
    * @private
    * @param {Object} object The object to clone.
    * @param {string} tag The `toStringTag` of the object to clone.
+   * @param {Function} cloneFunc The function to clone values.
    * @param {boolean} [isDeep] Specify a deep clone.
    * @returns {Object} Returns the initialized clone.
    */
-  function initCloneByTag(object, tag, isDeep) {
+  function initCloneByTag(object, tag, cloneFunc, isDeep) {
     var Ctor = object.constructor;
     switch (tag) {
       case arrayBufferTag:
@@ -1511,13 +1740,16 @@
       case dateTag:
         return new Ctor(+object);
 
+      case dataViewTag:
+        return cloneDataView(object, isDeep);
+
       case float32Tag: case float64Tag:
       case int8Tag: case int16Tag: case int32Tag:
       case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
         return cloneTypedArray(object, isDeep);
 
       case mapTag:
-        return cloneMap(object);
+        return cloneMap(object, isDeep, cloneFunc);
 
       case numberTag:
       case stringTag:
@@ -1527,7 +1759,7 @@
         return cloneRegExp(object);
 
       case setTag:
-        return cloneSet(object);
+        return cloneSet(object, isDeep, cloneFunc);
 
       case symbolTag:
         return cloneSymbol(object);
@@ -1552,13 +1784,25 @@
   }
 
   /**
+   * Checks if `value` is a flattenable `arguments` object or array.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+   */
+  function isFlattenable(value) {
+    return isArrayLikeObject(value) && (isArray(value) || isArguments(value));
+  }
+
+  /**
    * Checks if the given arguments are from an iteratee call.
    *
    * @private
    * @param {*} value The potential iteratee value argument.
    * @param {*} index The potential iteratee index or key argument.
    * @param {*} object The potential iteratee object argument.
-   * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+   * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+   *  else `false`.
    */
   function isIterateeCall(value, index, object) {
     if (!isObject(object)) {
@@ -1566,8 +1810,9 @@
     }
     var type = typeof index;
     if (type == 'number'
-        ? (isArrayLike(object) && isIndex(index, object.length))
-        : (type == 'string' && index in object)) {
+          ? (isArrayLike(object) && isIndex(index, object.length))
+          : (type == 'string' && index in object)
+        ) {
       return eq(object[index], value);
     }
     return false;
@@ -1600,6 +1845,25 @@
     return value === proto;
   }
 
+  /**
+   * Converts `func` to its source code.
+   *
+   * @private
+   * @param {Function} func The function to process.
+   * @returns {string} Returns the source code.
+   */
+  function toSource(func) {
+    if (func != null) {
+      try {
+        return funcToString.call(func);
+      } catch (e) {}
+      try {
+        return (func + '');
+      } catch (e) {}
+    }
+    return '';
+  }
+
   /*------------------------------------------------------------------------*/
 
   /**
@@ -1607,6 +1871,7 @@
    *
    * @static
    * @memberOf _
+   * @since 0.1.0
    * @category Array
    * @param {Array} array The array to flatten.
    * @returns {Array} Returns the new flattened array.
@@ -1624,18 +1889,20 @@
 
   /**
    * Creates a function that memoizes the result of `func`. If `resolver` is
-   * provided it determines the cache key for storing the result based on the
+   * provided, it determines the cache key for storing the result based on the
    * arguments provided to the memoized function. By default, the first argument
    * provided to the memoized function is used as the map cache key. The `func`
    * is invoked with the `this` binding of the memoized function.
    *
    * **Note:** The cache is exposed as the `cache` property on the memoized
    * function. Its creation may be customized by replacing the `_.memoize.Cache`
-   * constructor with one whose instances implement the [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
+   * constructor with one whose instances implement the
+   * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
    * method interface of `delete`, `get`, `has`, and `set`.
    *
    * @static
    * @memberOf _
+   * @since 0.1.0
    * @category Function
    * @param {Function} func The function to have its output memoized.
    * @param {Function} [resolver] The function to resolve the cache key.
@@ -1680,18 +1947,24 @@
       memoized.cache = cache.set(key, result);
       return result;
     };
-    memoized.cache = new memoize.Cache;
+    memoized.cache = new (memoize.Cache || MapCache);
     return memoized;
   }
 
+  // Assign cache to `_.memoize`.
+  memoize.Cache = MapCache;
+
   /**
    * Creates a function that invokes `func` with the `this` binding of the
-   * created function and arguments from `start` and beyond provided as an array.
+   * created function and arguments from `start` and beyond provided as
+   * an array.
    *
-   * **Note:** This method is based on the [rest parameter](https://mdn.io/rest_parameters).
+   * **Note:** This method is based on the
+   * [rest parameter](https://mdn.io/rest_parameters).
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Function
    * @param {Function} func The function to apply a rest parameter to.
    * @param {number} [start=func.length-1] The start position of the rest parameter.
@@ -1742,6 +2015,7 @@
    *
    * @static
    * @memberOf _
+   * @since 1.0.0
    * @category Lang
    * @param {*} value The value to recursively clone.
    * @returns {*} Returns the deep cloned value.
@@ -1758,11 +2032,13 @@
   }
 
   /**
-   * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+   * Performs a
+   * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
    * comparison between two values to determine if they are equivalent.
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to compare.
    * @param {*} other The other value to compare.
@@ -1796,9 +2072,11 @@
    *
    * @static
    * @memberOf _
+   * @since 0.1.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+   * @returns {boolean} Returns `true` if `value` is correctly classified,
+   *  else `false`.
    * @example
    *
    * _.isArguments(function() { return arguments; }());
@@ -1818,10 +2096,12 @@
    *
    * @static
    * @memberOf _
+   * @since 0.1.0
    * @type {Function}
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+   * @returns {boolean} Returns `true` if `value` is correctly classified,
+   *  else `false`.
    * @example
    *
    * _.isArray([1, 2, 3]);
@@ -1845,6 +2125,7 @@
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
    * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
@@ -1872,9 +2153,11 @@
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+   * @returns {boolean} Returns `true` if `value` is an array-like object,
+   *  else `false`.
    * @example
    *
    * _.isArrayLikeObject([1, 2, 3]);
@@ -1898,6 +2181,7 @@
    *
    * @static
    * @memberOf _
+   * @since 4.3.0
    * @category Lang
    * @param {*} value The value to check.
    * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
@@ -1914,13 +2198,42 @@
   };
 
   /**
+   * Checks if `value` is an `Error`, `EvalError`, `RangeError`, `ReferenceError`,
+   * `SyntaxError`, `TypeError`, or `URIError` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an error object,
+   *  else `false`.
+   * @example
+   *
+   * _.isError(new Error);
+   * // => true
+   *
+   * _.isError(Error);
+   * // => false
+   */
+  function isError(value) {
+    if (!isObjectLike(value)) {
+      return false;
+    }
+    return (objectToString.call(value) == errorTag) ||
+      (typeof value.message == 'string' && typeof value.name == 'string');
+  }
+
+  /**
    * Checks if `value` is classified as a `Function` object.
    *
    * @static
    * @memberOf _
+   * @since 0.1.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+   * @returns {boolean} Returns `true` if `value` is correctly classified,
+   *  else `false`.
    * @example
    *
    * _.isFunction(_);
@@ -1940,13 +2253,16 @@
   /**
    * Checks if `value` is a valid array-like length.
    *
-   * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+   * **Note:** This function is loosely based on
+   * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+   * @returns {boolean} Returns `true` if `value` is a valid length,
+   *  else `false`.
    * @example
    *
    * _.isLength(3);
@@ -1967,11 +2283,13 @@
   }
 
   /**
-   * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-   * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+   * Checks if `value` is the
+   * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+   * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
    *
    * @static
    * @memberOf _
+   * @since 0.1.0
    * @category Lang
    * @param {*} value The value to check.
    * @returns {boolean} Returns `true` if `value` is an object, else `false`.
@@ -2000,6 +2318,7 @@
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to check.
    * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
@@ -2026,9 +2345,11 @@
    *
    * @static
    * @memberOf _
+   * @since 3.0.0
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+   * @returns {boolean} Returns `true` if `value` is a native function,
+   *  else `false`.
    * @example
    *
    * _.isNative(Array.prototype.push);
@@ -2038,24 +2359,23 @@
    * // => false
    */
   function isNative(value) {
-    if (value == null) {
+    if (!isObject(value)) {
       return false;
     }
-    if (isFunction(value)) {
-      return reIsNative.test(funcToString.call(value));
-    }
-    return isObjectLike(value) &&
-      (isHostObject(value) ? reIsNative : reIsHostCtor).test(value);
+    var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+    return pattern.test(toSource(value));
   }
 
   /**
    * Checks if `value` is classified as a `String` primitive or object.
    *
    * @static
+   * @since 0.1.0
    * @memberOf _
    * @category Lang
    * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+   * @returns {boolean} Returns `true` if `value` is correctly classified,
+   *  else `false`.
    * @example
    *
    * _.isString('abc');
@@ -2070,12 +2390,37 @@
   }
 
   /**
-   * Converts `value` to an integer.
-   *
-   * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+   * Checks if `value` is classified as a `Symbol` primitive or object.
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is correctly classified,
+   *  else `false`.
+   * @example
+   *
+   * _.isSymbol(Symbol.iterator);
+   * // => true
+   *
+   * _.isSymbol('abc');
+   * // => false
+   */
+  function isSymbol(value) {
+    return typeof value == 'symbol' ||
+      (isObjectLike(value) && objectToString.call(value) == symbolTag);
+  }
+
+  /**
+   * Converts `value` to an integer.
+   *
+   * **Note:** This function is loosely based on
+   * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to convert.
    * @returns {number} Returns the converted integer.
@@ -2111,6 +2456,7 @@
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @category Lang
    * @param {*} value The value to process.
    * @returns {number} Returns the number.
@@ -2129,6 +2475,12 @@
    * // => 3
    */
   function toNumber(value) {
+    if (typeof value == 'number') {
+      return value;
+    }
+    if (isSymbol(value)) {
+      return NAN;
+    }
     if (isObject(value)) {
       var other = isFunction(value.valueOf) ? value.valueOf() : value;
       value = isObject(other) ? (other + '') : other;
@@ -2143,18 +2495,55 @@
       : (reIsBadHex.test(value) ? NAN : +value);
   }
 
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` and `undefined` values. The sign of `-0` is preserved.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   * @example
+   *
+   * _.toString(null);
+   * // => ''
+   *
+   * _.toString(-0);
+   * // => '-0'
+   *
+   * _.toString([1, 2, 3]);
+   * // => '1,2,3'
+   */
+  function toString(value) {
+    // Exit early for strings to avoid a performance hit in some environments.
+    if (typeof value == 'string') {
+      return value;
+    }
+    if (value == null) {
+      return '';
+    }
+    if (isSymbol(value)) {
+      return symbolToString ? symbolToString.call(value) : '';
+    }
+    var result = (value + '');
+    return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+  }
+
   /*------------------------------------------------------------------------*/
 
   /**
-   * This method is like `_.assignIn` except that it accepts `customizer` which
-   * is invoked to produce the assigned values. If `customizer` returns `undefined`
-   * assignment is handled by the method instead. The `customizer` is invoked
-   * with five arguments: (objValue, srcValue, key, object, source).
+   * This method is like `_.assignIn` except that it accepts `customizer`
+   * which is invoked to produce the assigned values. If `customizer` returns
+   * `undefined`, assignment is handled by the method instead. The `customizer`
+   * is invoked with five arguments: (objValue, srcValue, key, object, source).
    *
    * **Note:** This method mutates `object`.
    *
    * @static
    * @memberOf _
+   * @since 4.0.0
    * @alias extendWith
    * @category Object
    * @param {Object} object The destination object.
@@ -2177,14 +2566,15 @@
   });
 
   /**
-   * Assigns own and inherited enumerable properties of source objects to the
-   * destination object for all destination properties that resolve to `undefined`.
-   * Source objects are applied from left to right. Once a property is set,
-   * additional values of the same property are ignored.
+   * Assigns own and inherited enumerable string keyed properties of source
+   * objects to the destination object for all destination properties that
+   * resolve to `undefined`. Source objects are applied from left to right.
+   * Once a property is set, additional values of the same property are ignored.
    *
    * **Note:** This method mutates `object`.
    *
    * @static
+   * @since 0.1.0
    * @memberOf _
    * @category Object
    * @param {Object} object The destination object.
@@ -2208,6 +2598,7 @@
    * for more details.
    *
    * @static
+   * @since 0.1.0
    * @memberOf _
    * @category Object
    * @param {Object} object The object to query.
@@ -2254,6 +2645,7 @@
    *
    * @static
    * @memberOf _
+   * @since 3.0.0
    * @category Object
    * @param {Object} object The object to query.
    * @returns {Array} Returns the array of property names.
@@ -2292,10 +2684,295 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional
+   * characters use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value. See
+   * [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in IE < 9, they can break out of
+   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the
+   * [HTML5 Security Cheatsheet](https://html5sec.org/) for more details.
+   *
+   * When working with HTML you should always
+   * [quote attribute values](http://wonko.com/post/html-escaping) to reduce
+   * XSS vectors.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    string = toString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  /**
+   * Creates a compiled template function that can interpolate data properties
+   * in "interpolate" delimiters, HTML-escape interpolated data properties in
+   * "escape" delimiters, and execute JavaScript in "evaluate" delimiters. Data
+   * properties may be accessed as free variables in the template. If a setting
+   * object is given, it takes precedence over `_.templateSettings` values.
+   *
+   * **Note:** In the development build `_.template` utilizes
+   * [sourceURLs](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl)
+   * for easier debugging.
+   *
+   * For more information on precompiling templates see
+   * [lodash's custom builds documentation](https://lodash.com/custom-builds).
+   *
+   * For more information on Chrome extension sandboxes see
+   * [Chrome's extensions documentation](https://developer.chrome.com/extensions/sandboxingEval).
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The template string.
+   * @param {Object} [options={}] The options object.
+   * @param {RegExp} [options.escape=_.templateSettings.escape]
+   *  The HTML "escape" delimiter.
+   * @param {RegExp} [options.evaluate=_.templateSettings.evaluate]
+   *  The "evaluate" delimiter.
+   * @param {Object} [options.imports=_.templateSettings.imports]
+   *  An object to import into the template as free variables.
+   * @param {RegExp} [options.interpolate=_.templateSettings.interpolate]
+   *  The "interpolate" delimiter.
+   * @param {string} [options.sourceURL='lodash.templateSources[n]']
+   *  The sourceURL of the compiled template.
+   * @param {string} [options.variable='obj']
+   *  The data object variable name.
+   * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+   * @returns {Function} Returns the compiled template function.
+   * @example
+   *
+   * // Use the "interpolate" delimiter to create a compiled template.
+   * var compiled = _.template('hello <%= user %>!');
+   * compiled({ 'user': 'fred' });
+   * // => 'hello fred!'
+   *
+   * // Use the HTML "escape" delimiter to escape data property values.
+   * var compiled = _.template('<b><%- value %></b>');
+   * compiled({ 'value': '<script>' });
+   * // => '<b>&lt;script&gt;</b>'
+   *
+   * // Use the "evaluate" delimiter to execute JavaScript and generate HTML.
+   * var compiled = _.template('<% _.forEach(users, function(user) { %><li><%- user %></li><% }); %>');
+   * compiled({ 'users': ['fred', 'barney'] });
+   * // => '<li>fred</li><li>barney</li>'
+   *
+   * // Use the internal `print` function in "evaluate" delimiters.
+   * var compiled = _.template('<% print("hello " + user); %>!');
+   * compiled({ 'user': 'barney' });
+   * // => 'hello barney!'
+   *
+   * // Use the ES delimiter as an alternative to the default "interpolate" delimiter.
+   * var compiled = _.template('hello ${ user }!');
+   * compiled({ 'user': 'pebbles' });
+   * // => 'hello pebbles!'
+   *
+   * // Use custom template delimiters.
+   * _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+   * var compiled = _.template('hello {{ user }}!');
+   * compiled({ 'user': 'mustache' });
+   * // => 'hello mustache!'
+   *
+   * // Use backslashes to treat delimiters as plain text.
+   * var compiled = _.template('<%= "\\<%- value %\\>" %>');
+   * compiled({ 'value': 'ignored' });
+   * // => '<%- value %>'
+   *
+   * // Use the `imports` option to import `jQuery` as `jq`.
+   * var text = '<% jq.each(users, function(user) { %><li><%- user %></li><% }); %>';
+   * var compiled = _.template(text, { 'imports': { 'jq': jQuery } });
+   * compiled({ 'users': ['fred', 'barney'] });
+   * // => '<li>fred</li><li>barney</li>'
+   *
+   * // Use the `sourceURL` option to specify a custom sourceURL for the template.
+   * var compiled = _.template('hello <%= user %>!', { 'sourceURL': '/basic/greeting.jst' });
+   * compiled(data);
+   * // => Find the source of "greeting.jst" under the Sources tab or Resources panel of the web inspector.
+   *
+   * // Use the `variable` option to ensure a with-statement isn't used in the compiled template.
+   * var compiled = _.template('hi <%= data.user %>!', { 'variable': 'data' });
+   * compiled.source;
+   * // => function(data) {
+   * //   var __t, __p = '';
+   * //   __p += 'hi ' + ((__t = ( data.user )) == null ? '' : __t) + '!';
+   * //   return __p;
+   * // }
+   *
+   * // Use the `source` property to inline compiled templates for meaningful
+   * // line numbers in error messages and stack traces.
+   * fs.writeFileSync(path.join(cwd, 'jst.js'), '\
+   *   var JST = {\
+   *     "main": ' + _.template(mainText).source + '\
+   *   };\
+   * ');
+   */
+  function template(string, options, guard) {
+    // Based on John Resig's `tmpl` implementation
+    // (http://ejohn.org/blog/javascript-micro-templating/)
+    // and Laura Doktorova's doT.js (https://github.com/olado/doT).
+    var settings = lodash.templateSettings;
+
+    if (guard && isIterateeCall(string, options, guard)) {
+      options = undefined;
+    }
+    string = toString(string);
+    options = assignInWith({}, options, settings, assignInDefaults);
+
+    var imports = assignInWith({}, options.imports, settings.imports, assignInDefaults),
+        importsKeys = keys(imports),
+        importsValues = baseValues(imports, importsKeys);
+
+    var isEscaping,
+        isEvaluating,
+        index = 0,
+        interpolate = options.interpolate || reNoMatch,
+        source = "__p += '";
+
+    // Compile the regexp to match each delimiter.
+    var reDelimiters = RegExp(
+      (options.escape || reNoMatch).source + '|' +
+      interpolate.source + '|' +
+      (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + '|' +
+      (options.evaluate || reNoMatch).source + '|$'
+    , 'g');
+
+    // Use a sourceURL for easier debugging.
+    var sourceURL = '//# sourceURL=' +
+      ('sourceURL' in options
+        ? options.sourceURL
+        : ('lodash.templateSources[' + (++templateCounter) + ']')
+      ) + '\n';
+
+    string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
+      interpolateValue || (interpolateValue = esTemplateValue);
+
+      // Escape characters that can't be included in string literals.
+      source += string.slice(index, offset).replace(reUnescapedString, escapeStringChar);
+
+      // Replace delimiters with snippets.
+      if (escapeValue) {
+        isEscaping = true;
+        source += "' +\n__e(" + escapeValue + ") +\n'";
+      }
+      if (evaluateValue) {
+        isEvaluating = true;
+        source += "';\n" + evaluateValue + ";\n__p += '";
+      }
+      if (interpolateValue) {
+        source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
+      }
+      index = offset + match.length;
+
+      // The JS engine embedded in Adobe products needs `match` returned in
+      // order to produce the correct `offset` value.
+      return match;
+    });
+
+    source += "';\n";
+
+    // If `variable` is not specified wrap a with-statement around the generated
+    // code to add the data object to the top of the scope chain.
+    var variable = options.variable;
+    if (!variable) {
+      source = 'with (obj) {\n' + source + '\n}\n';
+    }
+    // Cleanup code by stripping empty strings.
+    source = (isEvaluating ? source.replace(reEmptyStringLeading, '') : source)
+      .replace(reEmptyStringMiddle, '$1')
+      .replace(reEmptyStringTrailing, '$1;');
+
+    // Frame code as the function body.
+    source = 'function(' + (variable || 'obj') + ') {\n' +
+      (variable
+        ? ''
+        : 'obj || (obj = {});\n'
+      ) +
+      "var __t, __p = ''" +
+      (isEscaping
+         ? ', __e = _.escape'
+         : ''
+      ) +
+      (isEvaluating
+        ? ', __j = Array.prototype.join;\n' +
+          "function print() { __p += __j.call(arguments, '') }\n"
+        : ';\n'
+      ) +
+      source +
+      'return __p\n}';
+
+    var result = attempt(function() {
+      return Function(importsKeys, sourceURL + 'return ' + source)
+        .apply(undefined, importsValues);
+    });
+
+    // Provide the compiled function's source by its `toString` method or
+    // the `source` property as a convenience for inlining compiled templates.
+    result.source = source;
+    if (isError(result)) {
+      throw result;
+    }
+    return result;
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Attempts to invoke `func`, returning either the result or the caught error
+   * object. Any additional arguments are provided to `func` when it's invoked.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Util
+   * @param {Function} func The function to attempt.
+   * @param {...*} [args] The arguments to invoke `func` with.
+   * @returns {*} Returns the `func` result or error object.
+   * @example
+   *
+   * // Avoid throwing errors for invalid selectors.
+   * var elements = _.attempt(function(selector) {
+   *   return document.querySelectorAll(selector);
+   * }, '>_>');
+   *
+   * if (_.isError(elements)) {
+   *   elements = [];
+   * }
+   */
+  var attempt = rest(function(func, args) {
+    try {
+      return apply(func, undefined, args);
+    } catch (e) {
+      return isError(e) ? e : new Error(e);
+    }
+  });
+
+  /**
    * Creates a function that returns `value`.
    *
    * @static
    * @memberOf _
+   * @since 2.4.0
    * @category Util
    * @param {*} value The value to return from the new function.
    * @returns {Function} Returns the new function.
@@ -2315,27 +2992,7 @@
 
   /*------------------------------------------------------------------------*/
 
-  // Avoid inheriting from `Object.prototype` when possible.
-  Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
-
-  // Add functions to the `MapCache`.
-  MapCache.prototype.clear = mapClear;
-  MapCache.prototype['delete'] = mapDelete;
-  MapCache.prototype.get = mapGet;
-  MapCache.prototype.has = mapHas;
-  MapCache.prototype.set = mapSet;
-
-  // Add functions to the `Stack` cache.
-  Stack.prototype.clear = stackClear;
-  Stack.prototype['delete'] = stackDelete;
-  Stack.prototype.get = stackGet;
-  Stack.prototype.has = stackHas;
-  Stack.prototype.set = stackSet;
-
-  // Assign cache to `_.memoize`.
-  memoize.Cache = MapCache;
-
-  // Add functions that return wrapped values when chaining.
+  // Add methods that return wrapped values in chain sequences.
   lodash.assignInWith = assignInWith;
   lodash.constant = constant;
   lodash.defaults = defaults;
@@ -2350,22 +3007,28 @@
 
   /*------------------------------------------------------------------------*/
 
-  // Add functions that return unwrapped values when chaining.
+  // Add methods that return unwrapped values in chain sequences.
+  lodash.attempt = attempt;
   lodash.cloneDeep = cloneDeep;
   lodash.eq = eq;
+  lodash.escape = escape;
   lodash.isArguments = isArguments;
   lodash.isArray = isArray;
   lodash.isArrayLike = isArrayLike;
   lodash.isArrayLikeObject = isArrayLikeObject;
   lodash.isBuffer = isBuffer;
+  lodash.isError = isError;
   lodash.isFunction = isFunction;
   lodash.isLength = isLength;
   lodash.isNative = isNative;
   lodash.isObject = isObject;
   lodash.isObjectLike = isObjectLike;
   lodash.isString = isString;
+  lodash.isSymbol = isSymbol;
+  lodash.template = template;
   lodash.toInteger = toInteger;
   lodash.toNumber = toNumber;
+  lodash.toString = toString;
 
   /*------------------------------------------------------------------------*/
 

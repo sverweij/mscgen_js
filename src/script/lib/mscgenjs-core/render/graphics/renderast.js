@@ -61,10 +61,10 @@ define(["./svgelementfactory",
     };
     var gInlineExpressionMemory = [];
 
-    function _renderAST(pAST, pSource, pParentElementId, pWindow) {
+    function _renderAST(pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
         var lAST = flatten.flatten(pAST);
 
-        renderASTPre(lAST, pSource, pParentElementId, pWindow);
+        renderASTPre(lAST, pSource, pParentElementId, pWindow, pStyleAdditions);
         renderASTMain(lAST);
         renderASTPost(lAST);
         var lElement = pWindow.document.getElementById(pParentElementId);
@@ -75,10 +75,16 @@ define(["./svgelementfactory",
         }
     }
 
-    function renderASTPre(pAST, pSource, pParentElementId, pWindow){
+    function renderASTPre(pAST, pSource, pParentElementId, pWindow, pStyleAdditions){
         id.setPrefix(pParentElementId);
 
-        gChart.document = skel.bootstrap(pParentElementId, id.get(), mark.getMarkerDefs(id.get(), pAST), pWindow);
+        gChart.document = skel.bootstrap(
+            pParentElementId,
+            id.get(),
+            mark.getMarkerDefs(id.get(), pAST),
+            pStyleAdditions,
+            pWindow
+        );
         svgutl.init(gChart.document);
         initializeChart(gChart, pAST.depth);
 
@@ -491,7 +497,7 @@ define(["./svgelementfactory",
                                 },
                                 pClass);
             if (pEntity.linecolor) {
-                lLine.setAttribute("style", "stroke : " + pEntity.linecolor + ";");
+                lLine.setAttribute("style", "stroke:" + pEntity.linecolor + ";");
             }
             lGroup.appendChild(lLine);
         });
@@ -666,7 +672,7 @@ define(["./svgelementfactory",
         lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc));
 
         if (pArc.linecolor) {
-            lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+            lLine.setAttribute("style", "stroke:" + pArc.linecolor + ";");
         }
 
         return lGroup;
@@ -718,7 +724,17 @@ define(["./svgelementfactory",
                 break;
             default :
                 var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * C.LINE_WIDTH;
-                lBox = fact.createRect({width: lWidth + lArcDepthCorrection * 2, height: lHeight, x: lStart - lArcDepthCorrection, y: 0}, "box inline_expression " + pArc.kind, pArc.linecolor, pArc.textbgcolor);
+                lBox = fact.createRect(
+                    {
+                        width: lWidth + lArcDepthCorrection * 2,
+                        height: lHeight,
+                        x: lStart - lArcDepthCorrection,
+                        y: 0
+                    },
+                    "box inline_expression " + pArc.kind,
+                    pArc.linecolor,
+                    pArc.textbgcolor
+                );
         }
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
@@ -753,6 +769,7 @@ define(["./svgelementfactory",
          * @param {string} pParentElementId - the id of the parent element in which
          * to put the __svg_output element
          * @param {window} pWindow - the browser window to put the svg in
+         * @param {string} pStyleAdditions - valid css that augments the default style
          */
         renderAST : _renderAST
     };
