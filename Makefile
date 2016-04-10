@@ -299,11 +299,9 @@ check: noconsolestatements lint stylecheck test
 fullcheck: check outdated nsp
 
 update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp
-	$(NPM) shrinkwrap
 	$(GIT) diff package.json
 
 run-update-dependencies:
-	rm -f npm-shrinkwrap.json
 	$(NPM) run npm-check-updates
 	$(NPM) install
 
