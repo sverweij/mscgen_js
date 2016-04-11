@@ -48,7 +48,7 @@ define([], function(){
                 }
             };
             lHttpRequest.open('GET', pURL);
-            lHttpRequest.responseType = !!pResponseType ? pResponseType : "text";
+            lHttpRequest.responseType = pResponseType||"text";
             try {
                 lHttpRequest.send();
             } catch (e) {
