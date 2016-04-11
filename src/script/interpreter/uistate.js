@@ -43,9 +43,10 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
         "../lib/mscgenjs-core/render/text/ast2msgenny", "../lib/mscgenjs-core/render/text/ast2xu",
         "../utl/gaga", "../utl/maps",
         "../utl/domutl",
-        "../utl/exporter"
+        "../utl/exporter",
+        "./sampleListReader"
         ],
-        function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport) {
+        function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport, sampleListReader) {
     "use strict";
 
     var gAutoRender = true;
@@ -80,6 +81,23 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
         gCodeMirror = pCodeMirror;
         showAutorenderState (gAutoRender);
         setLanguage(getLanguage(), false);
+        dq.ajax(
+            "samples/interpreter-samples.json",
+            function(pResult){
+                try {
+                    window.__samples.innerHTML =
+                        '<option value="none" selected="">select an example...</option>' +
+                        sampleListReader.toOptionList(pResult.target.response, gDebug);
+                    dq.SS(window.__samples).show();
+                } catch (e) {
+                    // quietly ignore
+                }
+            },
+            function(){
+                //quietly ignore
+            },
+            "json"
+        );
         if (window.__loading) {
             window.__loading.outerHTML = "";
         }

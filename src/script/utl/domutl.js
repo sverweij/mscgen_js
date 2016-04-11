@@ -36,7 +36,7 @@ define([], function(){
                 pFunction(lNodes[i]);
             }
         },
-        ajax : function (pURL, pSuccessFunction, pErrorFunction) {
+        ajax : function (pURL, pSuccessFunction, pErrorFunction, pResponseType) {
             var lHttpRequest = new XMLHttpRequest();
             lHttpRequest.onreadystatechange = function (pEvent) {
                 if(pEvent.target.readyState === XMLHttpRequest.DONE) {
@@ -48,7 +48,7 @@ define([], function(){
                 }
             };
             lHttpRequest.open('GET', pURL);
-            lHttpRequest.responseType = "text";
+            lHttpRequest.responseType = !!pResponseType ? pResponseType : "text";
             try {
                 lHttpRequest.send();
             } catch (e) {

@@ -1,0 +1,34 @@
+[
+  {
+    "label": "first option group",
+    "values": [
+      {
+        "label": "debug not specified",
+        "value": "samples/debug-not-specified.mscgen"
+      },
+      {
+        "label": "debug false",
+        "value": "samples/debug-false-sample.mscgen",
+        "debug": false
+      },
+      {
+        "label": "debug true",
+        "value": "samples/debug-true-sample.mscgen",
+        "debug": true
+      }
+    ]
+  },
+  {
+      "label": "second option group",
+      "values": [
+          {
+              "label": "mesjogge",
+              "value": "getikt"
+          },
+          {
+              "label": "knetter",
+              "value": "leip"
+          }
+      ]
+  }
+]

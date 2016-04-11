@@ -101,6 +101,9 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
+src/script/lib/mscgenjs-core/render/graphics/csstemplates.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
+
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
@@ -133,8 +136,8 @@ src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
 	src/script/lib/mscgenjs-core/render/text/textutensils.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
-	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
@@ -234,6 +237,10 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
+
+src/script/test/interpreter/t_sampleListReader.js: \
+	src/script/interpreter/sampleListReader.js \
+	src/script/test/interpreter/sampleListReaderFixture.json
 
 src/script/test/utl/t_exporter.js: \
 	src/script/utl/exporter.js
