@@ -87,7 +87,10 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
                 try {
                     window.__samples.innerHTML =
                         '<option value="none" selected="">select an example...</option>' +
-                        sampleListReader.toOptionList(pResult.target.response, gDebug);
+                        sampleListReader.toOptionList(
+                            JSON.parse(pResult.target.response),
+                            gDebug
+                        );
                     dq.SS(window.__samples).show();
                 } catch (e) {
                     // quietly ignore
@@ -95,8 +98,7 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
             },
             function(){
                 //quietly ignore
-            },
-            "json"
+            }
         );
         if (window.__loading) {
             window.__loading.outerHTML = "";
