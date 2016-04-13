@@ -33,6 +33,10 @@
         "value": "samples/3rdparty/fbauth.xu"
       },
       {
+          "label": "reCaptcha",
+          "value": "samples/recaptcha-integration.xu"
+      },
+      {
         "label": "SIP",
         "value": "samples/sample03_sip_(from_wikipedia).mscin"
       },

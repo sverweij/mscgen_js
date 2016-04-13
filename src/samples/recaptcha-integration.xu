@@ -1,0 +1,37 @@
+/*
+ * a possible re-Captcha integration, assuming the client has
+ * the re-Captcha widget embedded in the site
+ *
+ * Please refer to https://developers.google.com/recaptcha/intro
+ * if you're serious about implementing re-Captcha
+ */
+
+xu {
+  wordwraparcs=true;
+
+  customer [linecolor=red,  arclinecolor=red,  textbgcolor="#FFCCCC"],
+  client   [linecolor=blue, arclinecolor=blue, textbgcolor="#CCCCFF"],
+  server   [linecolor=blue, arclinecolor=blue, textbgcolor="#CCCCFF"],
+  google   [label="Google reCaptcha service", linecolor=fuchsia, arclinecolor=fuchsia, textbgcolor="#FFCCFF"];
+
+  customer => client [label="log in with credentials, reCaptcha"];
+  client   => google [label="getResponse(reCaptcha)"];
+  google   >> client [label="reCaptcha response"];
+  client   => server [label="POST credentials, reCaptcha response"];
+  server   => google [label="POST reCaptcha response, secret"];
+  customer alt google [label="reCaptcha valid", linecolor="grey", textbgcolor="white"] {
+    google   >> server [label="OK"];
+    server rbox server [label="check hostname, error codes"];
+    server rbox server [label="do regular login processing"];
+
+    --- [label="reCaptcha not valid", linecolor=grey, textbgcolor=white];
+    google >> server   [label="NOK"];
+    server >> client   [label="HTTP 40x 'reCaptcha'"];
+    client >> customer [label="sorry dude - captcha didn't check out"];
+
+    --- [label="other error and/ or time-out", linecolor=grey, textbgcolor=white];
+    ..., google -x server;
+    server >> client   [label="Error (HTTP 500?)"];
+    client >> customer [label="sorry dude"];
+  };
+}
