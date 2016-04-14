@@ -31,6 +31,7 @@ xu {
 
     --- [label="other error and/ or time-out", linecolor=grey, textbgcolor=white];
     ..., google -x server;
+    server note client [label="Treating this as an error will mean your log in won't work when the reCaptcha service is down.\n\nIt depends on the gig what you actually do here:\n\n- safety before everything shop: throw an error\n- acceptable risk vs revenue shop: do regular login", linecolor="black", textbgcolor="#FFFFCC"];
     server >> client   [label="Error (HTTP 500?)"];
     client >> customer [label="sorry dude"];
   };
