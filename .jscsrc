@@ -8,7 +8,6 @@
 	"disallowTrailingComma": true,
 	"disallowTrailingWhitespace": true,
 	"disallowYodaConditions": false,
-	"esnext": false,
 	"requireCamelCaseOrUpperCaseIdentifiers": false,
 	"requireCurlyBraces": [
 		"if",
