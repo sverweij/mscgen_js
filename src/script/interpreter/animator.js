@@ -163,8 +163,8 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
         );
         window.__anim_progress_percentage_wrapper.addEventListener("click",
              function(pEvent) {
-                 percentageClick(pEvent);
-             },
+                percentageClick(pEvent);
+            },
              false
         );
     }

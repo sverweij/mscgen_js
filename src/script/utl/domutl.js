@@ -7,14 +7,14 @@ define([], function(){
         SS: function SS(pId) {
             return {
                 show: function(pDisplayStyle){
-                          pId.removeAttribute("style");
-                          if (pDisplayStyle){
-                              pId.style.display = pDisplayStyle;
-                          }
-                      },
+                        pId.removeAttribute("style");
+                        if (pDisplayStyle){
+                            pId.style.display = pDisplayStyle;
+                        }
+                    },
                 hide: function(){
-                          pId.style.display = "none";
-                      },
+                        pId.style.display = "none";
+                    },
                 toggle: function(){
                     if(pId.style.display === "none") {
                         pId.removeAttribute("style");

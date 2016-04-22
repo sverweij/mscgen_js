@@ -25,16 +25,16 @@ var gAST = {
     "arcs": [
       [
       {
-          "kind": "=>",
-          "from": "a",
-          "to": "b",
-          "label": "things"
-      },
+        "kind": "=>",
+        "from": "a",
+        "to": "b",
+        "label": "things"
+    },
       {
-          "kind": "=>",
-          "from": "c",
-          "to": "b"
-      }
+        "kind": "=>",
+        "from": "c",
+        "to": "b"
+    }
     ]
   ]
 };
