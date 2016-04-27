@@ -1,30 +1,25 @@
 /* global define */
 /* jshint browser:true */
-define(["./animator", "../utl/domutl"],
-        function(animctrl, dq) {
+define(["./animator"],
+        function(animctrl) {
     "use strict";
 
     var ESC_KEY   = 27;
-    // function _closeAboutPanel(){
-    //     window.__aboutsheet.style.height = '0';
-    // }
 
     function _hideAllPanels(){
-        dq.SS(window.__cheatsheet).hide();
-        dq.SS(window.__embedsheet).hide();
-        // dq.SS(window.__aboutsheet).hide();
         animctrl.close();
-        window.__color_panel.style.height = '0';
-        window.__output_panel.style.height = '0';
-        window.__aboutsheet.style.height = '0';
-        // window.__cheatsheet.style.height = '0';
+        window.__color_panel.style.width  = '0';
+        window.__output_panel.style.width = '0';
+        window.__aboutsheet.style.width   = '0';
+        window.__embed_panel.style.width  = '0';
+        window.__learn_panel.style.width  = '0';
     }
 
     function _togglePanel(pPanelElement, pOpenFn, pCloseFn){
-        var lHeight = pPanelElement.style.height.toString();
+        var lHeight = pPanelElement.style.width.toString();
         if ( lHeight === '0px' || lHeight === ""){
             _hideAllPanels();
-            pPanelElement.style.height = '250px';
+            pPanelElement.style.width = '340px';
             pOpenFn();
         } else {
             _hideAllPanels();
