@@ -98,10 +98,14 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
     }
 
     function setupStyleElement(pStyleAdditions) {
-        return csstemplates.baseTemplate({
-            fontSize : C.FONT_SIZE,
-            lineWidth: C.LINE_WIDTH
-        }) + (!!pStyleAdditions ? pStyleAdditions : "");
+        return csstemplates.baseTemplate
+            .replace(/<%=fontSize%>/g, C.FONT_SIZE)
+            .replace(/<%=lineWidth%>/g, C.LINE_WIDTH) +
+             (!!pStyleAdditions ? pStyleAdditions : "");
+        // return csstemplates.baseTemplate({
+        //     fontSize : C.FONT_SIZE,
+        //     lineWidth: C.LINE_WIDTH
+        // }) + (!!pStyleAdditions ? pStyleAdditions : "");
     }
     return {
         /**

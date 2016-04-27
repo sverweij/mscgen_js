@@ -246,9 +246,9 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         return lText;
     }
 
-    function _createDiagonalText (pText, pCanvas){
+    function _createDiagonalText (pText, pCanvas, pClass){
         return factll.setAttributes(
-            _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, "watermark"),
+            _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, pClass),
             {
                 "transform":
                     "rotate(" +

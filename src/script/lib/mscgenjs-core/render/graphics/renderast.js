@@ -192,7 +192,7 @@ define(["./svgelementfactory",
     }
 
     function renderWatermark(pWatermark, pCanvas) {
-        gChart.layer.watermark.appendChild(fact.createDiagonalText(pWatermark, pCanvas));
+        gChart.layer.watermark.appendChild(fact.createDiagonalText(pWatermark, pCanvas, "watermark"));
     }
 
     function postProcessOptions(pOptions, pCanvas) {
@@ -237,24 +237,24 @@ define(["./svgelementfactory",
      * @return <int> - height - the height of the heighest entity
      */
     function getMaxEntityHeight(pEntities){
-         var lHighestEntity = pEntities[0];
-         var lHWM = 2;
-         pEntities.forEach(function(pEntity){
-             var lNoEntityLines = entities.getNoEntityLines(pEntity.label);
-             if (lNoEntityLines > lHWM){
-                 lHWM = lNoEntityLines;
-                 lHighestEntity = pEntity;
-             }
-         });
-         if (lHWM > 2){
-             return Math.max(entities.getDims().height,
-                             svgutl.getBBox(
-                                 renderEntity(lHighestEntity)
-                             ).height
-             );
-         }
-         return entities.getDims().height;
-     }
+        var lHighestEntity = pEntities[0];
+        var lHWM = 2;
+        pEntities.forEach(function(pEntity){
+            var lNoEntityLines = entities.getNoEntityLines(pEntity.label);
+            if (lNoEntityLines > lHWM){
+                lHWM = lNoEntityLines;
+                lHighestEntity = pEntity;
+            }
+        });
+        if (lHWM > 2){
+            return Math.max(entities.getDims().height,
+                            svgutl.getBBox(
+                                renderEntity(lHighestEntity)
+                            ).height
+            );
+        }
+        return entities.getDims().height;
+    }
 
     function renderEntity(pEntity) {
         var lGroup = fact.createGroup(id.get(pEntity.name));
@@ -456,7 +456,7 @@ define(["./svgelementfactory",
         var lHeight = Math.max(lBBox.height + 2 * C.LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * C.LINE_WIDTH);
         var lWidth = Math.min(lBBox.width + 2 * C.LINE_WIDTH, lMaxWidth);
 
-        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", pArc.linecolor, pArc.textbgcolor, FOLD_SIZE);
+        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box inline_expression_label", pArc.linecolor, pArc.textbgcolor, FOLD_SIZE);
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
 

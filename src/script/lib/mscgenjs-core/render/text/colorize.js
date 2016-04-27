@@ -63,9 +63,9 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         "rosy": {
             "entityColors": [
           {
-              "linecolor": "maroon",
-              "textbgcolor": "#FFFFCC"
-          }
+                "linecolor": "maroon",
+                "textbgcolor": "#FFFFCC"
+            }
         ],
             "arcColors": {
                 "note": {
@@ -91,10 +91,10 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         "bluey": {
             "entityColors": [
           {
-              "linecolor": "#00A1DE",
-              "textbgcolor": "#00A1DE",
-              "textcolor": "white"
-          }
+                "linecolor": "#00A1DE",
+                "textbgcolor": "#00A1DE",
+                "textcolor": "white"
+            }
         ],
             "arcColors": {
                 "note": {
@@ -139,41 +139,41 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         "auto": {
             "entityColors": [
           {
-              "linecolor": "#008800",
-              "textbgcolor": "#CCFFCC"
-          },
+                "linecolor": "#008800",
+                "textbgcolor": "#CCFFCC"
+            },
           {
-              "linecolor": "#FF0000",
-              "textbgcolor": "#FFCCCC"
-          },
+                "linecolor": "#FF0000",
+                "textbgcolor": "#FFCCCC"
+            },
           {
-              "linecolor": "#0000FF",
-              "textbgcolor": "#CCCCFF"
-          },
+                "linecolor": "#0000FF",
+                "textbgcolor": "#CCCCFF"
+            },
           {
-              "linecolor": "#FF00FF",
-              "textbgcolor": "#FFCCFF"
-          },
+                "linecolor": "#FF00FF",
+                "textbgcolor": "#FFCCFF"
+            },
           {
-              "linecolor": "black",
-              "textbgcolor": "#DDDDDD"
-          },
+                "linecolor": "black",
+                "textbgcolor": "#DDDDDD"
+            },
           {
-              "linecolor": "orange",
-              "textbgcolor": "#FFFFCC"
-          },
+                "linecolor": "orange",
+                "textbgcolor": "#FFFFCC"
+            },
           {
-              "linecolor": "#117700",
-              "textbgcolor": "#00FF00"
-          },
+                "linecolor": "#117700",
+                "textbgcolor": "#00FF00"
+            },
           {
-              "linecolor": "purple",
-              "textbgcolor": "violet"
-          },
+                "linecolor": "purple",
+                "textbgcolor": "violet"
+            },
           {
-              "linecolor": "grey",
-              "textbgcolor": "white"
-          }
+                "linecolor": "grey",
+                "textbgcolor": "white"
+            }
         ],
             "arcColors": {
                 "note": {

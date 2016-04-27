@@ -109,10 +109,10 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
                 { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
              ],
             marker: {
-                 name : "method",
-                 end : "",
-                 start : "-l"
-             }
+                name : "method",
+                end : "",
+                start : "-l"
+            }
         },
         ":>"    : {
             attributes : [

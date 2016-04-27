@@ -33,8 +33,8 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
      * @param <string> pTextColor
      */
     function colorLink(pElement, pUrl, pTextColor){
-         colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
-     }
+        colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
+    }
 
     function renderArcLabelLineBackground(lLabelElement, pTextbgcolor){
         var lRect = fact.createRect(svgutl.getBBox(lLabelElement), "label-text-background");
