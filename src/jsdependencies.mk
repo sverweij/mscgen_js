@@ -24,8 +24,7 @@ src/script/interpreter/editor-events.js: \
 	src/script/utl/maps.js
 
 src/script/interpreter/general-actions.js: \
-	src/script/interpreter/animator.js \
-	src/script/utl/domutl.js
+	src/script/interpreter/animator.js
 
 src/script/interpreter/input-actions.js: \
 	src/script/interpreter/general-actions.js \
@@ -62,6 +61,7 @@ src/script/interpreter/raster-exporter.js: \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js
 
 src/script/interpreter/uistate.js: \
+	src/script/interpreter/sampleListReader.js \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderast.js \
@@ -264,6 +264,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/interpreter/output-actions.js \
 	src/script/interpreter/param-actions.js \
 	src/script/interpreter/raster-exporter.js \
+	src/script/interpreter/sampleListReader.js \
 	src/script/interpreter/uistate.js \
 	src/script/lib/codemirror/addon/dialog/dialog.js \
 	src/script/lib/codemirror/addon/display/placeholder.js \

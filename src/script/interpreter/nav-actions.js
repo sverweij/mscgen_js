@@ -12,28 +12,39 @@ define(["./uistate",
 
     return {
         closeCheatSheet: function() {
-            dq.SS(window.__cheatsheet).hide();
+            gactions.hideAllPanels();
             gaga.g('send', 'event', 'close_source_lightbox', 'button');
         },
         closeEmbedSheet: function() {
-            dq.SS(window.__embedsheet).hide();
+            gactions.hideAllPanels();
             gaga.g('send', 'event', 'close_embedsheet', 'button');
         },
         closeAboutSheet: function() {
             gactions.hideAllPanels();
-            // _closeAboutPanel();
             gaga.g('send', 'event', 'close_aboutsheet', 'button');
         },
         helpMeOnClick: function() {
-            gactions.hideAllPanels();
-            dq.SS(window.__cheatsheet).toggle();
-            gaga.g('send', 'event', 'link', "helpme");
+            gactions.togglePanel(
+                window.__learn_panel,
+                function(){
+                    gaga.g('send', 'event', 'link', 'helpme');
+                },
+                function(){
+                    gaga.g('send', 'event', 'close_helpme', 'button');
+                }
+            );
         },
         embedMeOnClick: function() {
-            gactions.hideAllPanels();
             window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
-            dq.SS(window.__embedsheet).toggle();
-            gaga.g('send', 'event', 'link', "embedme");
+            gactions.togglePanel(
+                window.__embed_panel,
+                function(){
+                    gaga.g('send', 'event', 'link', 'embedme');
+                },
+                function(){
+                    gaga.g('send', 'event', 'close_embedsheet', 'button');
+                }
+            );
         },
         linkToInterpreterOnClick: function() {
             uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
