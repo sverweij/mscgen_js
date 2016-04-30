@@ -335,7 +335,7 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
             window.__language_msgenny.checked = true;
             window.__language_json.checked = false;
             dq.SS(window.__btn_more_color_schemes).hide();
-            window.__color_panel.style.height = '0';
+            window.__color_panel.style.width = '0';
         } else if ("json" === pLanguage){
             window.__language_mscgen.checked = false;
             window.__language_msgenny.checked = false;
