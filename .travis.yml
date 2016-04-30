@@ -3,7 +3,8 @@ sudo: false
 language: node_js
 
 node_js:
-  - stable
+  - 5
+  # - not yet the 'stable' (node.js 6) for now bc node-sass can't handle it
 
 install:
   - npm install
