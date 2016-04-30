@@ -8,7 +8,6 @@ src/style/interp.scss: \
 	src/style/snippets/_header.scss \
 	src/style/snippets/_fonts.scss \
 	src/style/snippets/_generics.scss \
-	src/style/snippets/_popup.scss \
 	src/style/snippets/_slidingpanel.scss \
 	src/style/snippets/_mediagenerics.scss
 
@@ -27,7 +26,6 @@ src/style/doc.scss: \
 	src/style/snippets/_generics.scss \
 	src/style/snippets/_documentation.scss \
 	src/style/snippets/_header.scss \
-	src/style/snippets/_popup.scss \
 	src/style/snippets/_mediagenerics.scss
 
 src/embed.html: \
