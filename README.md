@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)][travis.mscgenjs]
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)][codeclimate.mscgenjs]
-[![test coverage (codecov.io)](http://codecov.io/github/sverweij/mscgen_js/coverage.svg?branch=master)](http://codecov.io/github/sverweij/mscgen_js?branch=master)
+[![Test Coverage](https://codeclimate.com/github/sverweij/mscgen_js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgen_js/coverage)
 [![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
 [![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
 [![mscgen.js.org](https://img.shields.io/badge/js.org-mscgen-ffb400.svg?style=flat-squared)](https://mscgen.js.org)
