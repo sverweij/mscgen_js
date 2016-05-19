@@ -3,13 +3,8 @@
  * as an mscgen program.
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -48,7 +43,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
     }
 
     function optionIsValid(pOption) {
-        if (!!pOption.value && typeof(pOption.value) === "string" ){
+        if (Boolean(pOption.value) && typeof (pOption.value) === "string"){
             return pOption.value.toLowerCase() !== "auto";
         }
         return true;
@@ -62,8 +57,12 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 "optionIsValidfn": optionIsValid,
                 "renderKindfn" : renderKind,
                 "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs"],
-                "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
-                "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedEntityAttributes" : ["label", "idurl", "id", "url",
+                                                "linecolor", "textcolor", "textbgcolor",
+                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedArcAttributes" : ["label", "idurl", "id", "url",
+                                                "linecolor", "textcolor", "textbgcolor",
+                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "program" : {
                     "opener" : "msc" + SP + "{" + EOL,
                     "closer" : "}"

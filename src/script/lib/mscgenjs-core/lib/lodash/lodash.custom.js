@@ -1,6 +1,6 @@
 /**
  * @license
- * lodash 4.11.1 (Custom Build) <https://lodash.com/>
+ * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output lib/lodash/lodash.custom.js`
  * Copyright jQuery Foundation and other contributors <https://jquery.org/>
  * Released under MIT license <https://lodash.com/license>
@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.11.1';
+  var VERSION = '4.12.0';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -314,20 +314,6 @@
   }
 
   /**
-   * Checks if `value` is a valid array-like index.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-   * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
-   */
-  function isIndex(value, length) {
-    value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-    length = length == null ? MAX_SAFE_INTEGER : length;
-    return value > -1 && value % 1 == 0 && value < length;
-  }
-
-  /**
    * Converts `iterator` to an array.
    *
    * @private
@@ -345,11 +331,11 @@
   }
 
   /**
-   * Converts `map` to an array.
+   * Converts `map` to its key-value pairs.
    *
    * @private
    * @param {Object} map The map to convert.
-   * @returns {Array} Returns the converted array.
+   * @returns {Array} Returns the key-value pairs.
    */
   function mapToArray(map) {
     var index = -1,
@@ -362,11 +348,11 @@
   }
 
   /**
-   * Converts `set` to an array.
+   * Converts `set` to an array of its values.
    *
    * @private
    * @param {Object} set The set to convert.
-   * @returns {Array} Returns the converted array.
+   * @returns {Array} Returns the values.
    */
   function setToArray(set) {
     var index = -1,
@@ -515,10 +501,10 @@
    * `floor`, `forEach`, `forEachRight`, `forIn`, `forInRight`, `forOwn`,
    * `forOwnRight`, `get`, `gt`, `gte`, `has`, `hasIn`, `head`, `identity`,
    * `includes`, `indexOf`, `inRange`, `invoke`, `isArguments`, `isArray`,
-   * `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`, `isBoolean`, `isBuffer`,
-   * `isDate`, `isElement`, `isEmpty`, `isEqual`, `isEqualWith`, `isError`,
-   * `isFinite`, `isFunction`, `isInteger`, `isLength`, `isMap`, `isMatch`,
-   * `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`, `isNumber`,
+   * `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`, `isBoolean`,
+   * `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`, `isEqualWith`,
+   * `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`, `isMap`,
+   * `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`, `isNumber`,
    * `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`, `isSafeInteger`,
    * `isSet`, `isString`, `isUndefined`, `isTypedArray`, `isWeakMap`, `isWeakSet`,
    * `join`, `kebabCase`, `last`, `lastIndexOf`, `lowerCase`, `lowerFirst`,
@@ -527,9 +513,9 @@
    * `pop`, `random`, `reduce`, `reduceRight`, `repeat`, `result`, `round`,
    * `runInContext`, `sample`, `shift`, `size`, `snakeCase`, `some`, `sortedIndex`,
    * `sortedIndexBy`, `sortedLastIndex`, `sortedLastIndexBy`, `startCase`,
-   * `startsWith`, `subtract`, `sum`, `sumBy`, `template`, `times`, `toInteger`,
-   * `toJSON`, `toLength`, `toLower`, `toNumber`, `toSafeInteger`, `toString`,
-   * `toUpper`, `trim`, `trimEnd`, `trimStart`, `truncate`, `unescape`,
+   * `startsWith`, `subtract`, `sum`, `sumBy`, `template`, `times`, `toFinite`,
+   * `toInteger`, `toJSON`, `toLength`, `toLower`, `toNumber`, `toSafeInteger`,
+   * `toString`, `toUpper`, `trim`, `trimEnd`, `trimStart`, `truncate`, `unescape`,
    * `uniqueId`, `upperCase`, `upperFirst`, `value`, and `words`
    *
    * @name _
@@ -569,64 +555,212 @@
    *
    * @private
    * @constructor
-   * @returns {Object} Returns the new hash object.
+   * @param {Array} [entries] The key-value pairs to cache.
    */
-  function Hash() {}
+  function Hash(entries) {
+    var index = -1,
+        length = entries ? entries.length : 0;
+
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+
+  /**
+   * Removes all key-value entries from the hash.
+   *
+   * @private
+   * @name clear
+   * @memberOf Hash
+   */
+  function hashClear() {
+    this.__data__ = nativeCreate ? nativeCreate(null) : {};
+  }
 
   /**
    * Removes `key` and its value from the hash.
    *
    * @private
+   * @name delete
+   * @memberOf Hash
    * @param {Object} hash The hash to modify.
    * @param {string} key The key of the value to remove.
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
-  function hashDelete(hash, key) {
-    return hashHas(hash, key) && delete hash[key];
+  function hashDelete(key) {
+    return this.has(key) && delete this.__data__[key];
   }
 
   /**
    * Gets the hash value for `key`.
    *
    * @private
-   * @param {Object} hash The hash to query.
+   * @name get
+   * @memberOf Hash
    * @param {string} key The key of the value to get.
    * @returns {*} Returns the entry value.
    */
-  function hashGet(hash, key) {
+  function hashGet(key) {
+    var data = this.__data__;
     if (nativeCreate) {
-      var result = hash[key];
+      var result = data[key];
       return result === HASH_UNDEFINED ? undefined : result;
     }
-    return hasOwnProperty.call(hash, key) ? hash[key] : undefined;
+    return hasOwnProperty.call(data, key) ? data[key] : undefined;
   }
 
   /**
    * Checks if a hash value for `key` exists.
    *
    * @private
-   * @param {Object} hash The hash to query.
+   * @name has
+   * @memberOf Hash
    * @param {string} key The key of the entry to check.
    * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
    */
-  function hashHas(hash, key) {
-    return nativeCreate ? hash[key] !== undefined : hasOwnProperty.call(hash, key);
+  function hashHas(key) {
+    var data = this.__data__;
+    return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
   }
 
   /**
    * Sets the hash `key` to `value`.
    *
    * @private
-   * @param {Object} hash The hash to modify.
+   * @name set
+   * @memberOf Hash
    * @param {string} key The key of the value to set.
    * @param {*} value The value to set.
+   * @returns {Object} Returns the hash instance.
    */
-  function hashSet(hash, key, value) {
-    hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  function hashSet(key, value) {
+    var data = this.__data__;
+    data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+    return this;
   }
 
-  // Avoid inheriting from `Object.prototype` when possible.
-  Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
+  // Add methods to `Hash`.
+  Hash.prototype.clear = hashClear;
+  Hash.prototype['delete'] = hashDelete;
+  Hash.prototype.get = hashGet;
+  Hash.prototype.has = hashHas;
+  Hash.prototype.set = hashSet;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates an list cache object.
+   *
+   * @private
+   * @constructor
+   * @param {Array} [entries] The key-value pairs to cache.
+   */
+  function ListCache(entries) {
+    var index = -1,
+        length = entries ? entries.length : 0;
+
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+
+  /**
+   * Removes all key-value entries from the list cache.
+   *
+   * @private
+   * @name clear
+   * @memberOf ListCache
+   */
+  function listCacheClear() {
+    this.__data__ = [];
+  }
+
+  /**
+   * Removes `key` and its value from the list cache.
+   *
+   * @private
+   * @name delete
+   * @memberOf ListCache
+   * @param {string} key The key of the value to remove.
+   * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+   */
+  function listCacheDelete(key) {
+    var data = this.__data__,
+        index = assocIndexOf(data, key);
+
+    if (index < 0) {
+      return false;
+    }
+    var lastIndex = data.length - 1;
+    if (index == lastIndex) {
+      data.pop();
+    } else {
+      splice.call(data, index, 1);
+    }
+    return true;
+  }
+
+  /**
+   * Gets the list cache value for `key`.
+   *
+   * @private
+   * @name get
+   * @memberOf ListCache
+   * @param {string} key The key of the value to get.
+   * @returns {*} Returns the entry value.
+   */
+  function listCacheGet(key) {
+    var data = this.__data__,
+        index = assocIndexOf(data, key);
+
+    return index < 0 ? undefined : data[index][1];
+  }
+
+  /**
+   * Checks if a list cache value for `key` exists.
+   *
+   * @private
+   * @name has
+   * @memberOf ListCache
+   * @param {string} key The key of the entry to check.
+   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+   */
+  function listCacheHas(key) {
+    return assocIndexOf(this.__data__, key) > -1;
+  }
+
+  /**
+   * Sets the list cache `key` to `value`.
+   *
+   * @private
+   * @name set
+   * @memberOf ListCache
+   * @param {string} key The key of the value to set.
+   * @param {*} value The value to set.
+   * @returns {Object} Returns the list cache instance.
+   */
+  function listCacheSet(key, value) {
+    var data = this.__data__,
+        index = assocIndexOf(data, key);
+
+    if (index < 0) {
+      data.push([key, value]);
+    } else {
+      data[index][1] = value;
+    }
+    return this;
+  }
+
+  // Add methods to `ListCache`.
+  ListCache.prototype.clear = listCacheClear;
+  ListCache.prototype['delete'] = listCacheDelete;
+  ListCache.prototype.get = listCacheGet;
+  ListCache.prototype.has = listCacheHas;
+  ListCache.prototype.set = listCacheSet;
 
   /*------------------------------------------------------------------------*/
 
@@ -635,15 +769,15 @@
    *
    * @private
    * @constructor
-   * @param {Array} [values] The values to cache.
+   * @param {Array} [entries] The key-value pairs to cache.
    */
-  function MapCache(values) {
+  function MapCache(entries) {
     var index = -1,
-        length = values ? values.length : 0;
+        length = entries ? entries.length : 0;
 
     this.clear();
     while (++index < length) {
-      var entry = values[index];
+      var entry = entries[index];
       this.set(entry[0], entry[1]);
     }
   }
@@ -655,10 +789,10 @@
    * @name clear
    * @memberOf MapCache
    */
-  function mapClear() {
+  function mapCacheClear() {
     this.__data__ = {
       'hash': new Hash,
-      'map': Map ? new Map : [],
+      'map': new (Map || ListCache),
       'string': new Hash
     };
   }
@@ -672,12 +806,8 @@
    * @param {string} key The key of the value to remove.
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
-  function mapDelete(key) {
-    var data = this.__data__;
-    if (isKeyable(key)) {
-      return hashDelete(typeof key == 'string' ? data.string : data.hash, key);
-    }
-    return Map ? data.map['delete'](key) : assocDelete(data.map, key);
+  function mapCacheDelete(key) {
+    return getMapData(this, key)['delete'](key);
   }
 
   /**
@@ -689,12 +819,8 @@
    * @param {string} key The key of the value to get.
    * @returns {*} Returns the entry value.
    */
-  function mapGet(key) {
-    var data = this.__data__;
-    if (isKeyable(key)) {
-      return hashGet(typeof key == 'string' ? data.string : data.hash, key);
-    }
-    return Map ? data.map.get(key) : assocGet(data.map, key);
+  function mapCacheGet(key) {
+    return getMapData(this, key).get(key);
   }
 
   /**
@@ -706,12 +832,8 @@
    * @param {string} key The key of the entry to check.
    * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
    */
-  function mapHas(key) {
-    var data = this.__data__;
-    if (isKeyable(key)) {
-      return hashHas(typeof key == 'string' ? data.string : data.hash, key);
-    }
-    return Map ? data.map.has(key) : assocHas(data.map, key);
+  function mapCacheHas(key) {
+    return getMapData(this, key).has(key);
   }
 
   /**
@@ -724,24 +846,17 @@
    * @param {*} value The value to set.
    * @returns {Object} Returns the map cache instance.
    */
-  function mapSet(key, value) {
-    var data = this.__data__;
-    if (isKeyable(key)) {
-      hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
-    } else if (Map) {
-      data.map.set(key, value);
-    } else {
-      assocSet(data.map, key, value);
-    }
+  function mapCacheSet(key, value) {
+    getMapData(this, key).set(key, value);
     return this;
   }
 
   // Add methods to `MapCache`.
-  MapCache.prototype.clear = mapClear;
-  MapCache.prototype['delete'] = mapDelete;
-  MapCache.prototype.get = mapGet;
-  MapCache.prototype.has = mapHas;
-  MapCache.prototype.set = mapSet;
+  MapCache.prototype.clear = mapCacheClear;
+  MapCache.prototype['delete'] = mapCacheDelete;
+  MapCache.prototype.get = mapCacheGet;
+  MapCache.prototype.has = mapCacheHas;
+  MapCache.prototype.set = mapCacheSet;
 
   /*------------------------------------------------------------------------*/
 
@@ -750,17 +865,10 @@
    *
    * @private
    * @constructor
-   * @param {Array} [values] The values to cache.
+   * @param {Array} [entries] The key-value pairs to cache.
    */
-  function Stack(values) {
-    var index = -1,
-        length = values ? values.length : 0;
-
-    this.clear();
-    while (++index < length) {
-      var entry = values[index];
-      this.set(entry[0], entry[1]);
-    }
+  function Stack(entries) {
+    this.__data__ = new ListCache(entries);
   }
 
   /**
@@ -771,7 +879,7 @@
    * @memberOf Stack
    */
   function stackClear() {
-    this.__data__ = { 'array': [], 'map': null };
+    this.__data__ = new ListCache;
   }
 
   /**
@@ -784,10 +892,7 @@
    * @returns {boolean} Returns `true` if the entry was removed, else `false`.
    */
   function stackDelete(key) {
-    var data = this.__data__,
-        array = data.array;
-
-    return array ? assocDelete(array, key) : data.map['delete'](key);
+    return this.__data__['delete'](key);
   }
 
   /**
@@ -800,10 +905,7 @@
    * @returns {*} Returns the entry value.
    */
   function stackGet(key) {
-    var data = this.__data__,
-        array = data.array;
-
-    return array ? assocGet(array, key) : data.map.get(key);
+    return this.__data__.get(key);
   }
 
   /**
@@ -816,10 +918,7 @@
    * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
    */
   function stackHas(key) {
-    var data = this.__data__,
-        array = data.array;
-
-    return array ? assocHas(array, key) : data.map.has(key);
+    return this.__data__.has(key);
   }
 
   /**
@@ -833,21 +932,11 @@
    * @returns {Object} Returns the stack cache instance.
    */
   function stackSet(key, value) {
-    var data = this.__data__,
-        array = data.array;
-
-    if (array) {
-      if (array.length < (LARGE_ARRAY_SIZE - 1)) {
-        assocSet(array, key, value);
-      } else {
-        data.array = null;
-        data.map = new MapCache(array);
-      }
+    var cache = this.__data__;
+    if (cache instanceof ListCache && cache.__data__.length == LARGE_ARRAY_SIZE) {
+      cache = this.__data__ = new MapCache(cache.__data__);
     }
-    var map = data.map;
-    if (map) {
-      map.set(key, value);
-    }
+    cache.set(key, value);
     return this;
   }
 
@@ -857,90 +946,6 @@
   Stack.prototype.get = stackGet;
   Stack.prototype.has = stackHas;
   Stack.prototype.set = stackSet;
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Removes `key` and its value from the associative array.
-   *
-   * @private
-   * @param {Array} array The array to modify.
-   * @param {string} key The key of the value to remove.
-   * @returns {boolean} Returns `true` if the entry was removed, else `false`.
-   */
-  function assocDelete(array, key) {
-    var index = assocIndexOf(array, key);
-    if (index < 0) {
-      return false;
-    }
-    var lastIndex = array.length - 1;
-    if (index == lastIndex) {
-      array.pop();
-    } else {
-      splice.call(array, index, 1);
-    }
-    return true;
-  }
-
-  /**
-   * Gets the associative array value for `key`.
-   *
-   * @private
-   * @param {Array} array The array to query.
-   * @param {string} key The key of the value to get.
-   * @returns {*} Returns the entry value.
-   */
-  function assocGet(array, key) {
-    var index = assocIndexOf(array, key);
-    return index < 0 ? undefined : array[index][1];
-  }
-
-  /**
-   * Checks if an associative array value for `key` exists.
-   *
-   * @private
-   * @param {Array} array The array to query.
-   * @param {string} key The key of the entry to check.
-   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
-   */
-  function assocHas(array, key) {
-    return assocIndexOf(array, key) > -1;
-  }
-
-  /**
-   * Gets the index at which the `key` is found in `array` of key-value pairs.
-   *
-   * @private
-   * @param {Array} array The array to search.
-   * @param {*} key The key to search for.
-   * @returns {number} Returns the index of the matched value, else `-1`.
-   */
-  function assocIndexOf(array, key) {
-    var length = array.length;
-    while (length--) {
-      if (eq(array[length][0], key)) {
-        return length;
-      }
-    }
-    return -1;
-  }
-
-  /**
-   * Sets the associative array `key` to `value`.
-   *
-   * @private
-   * @param {Array} array The array to modify.
-   * @param {string} key The key of the value to set.
-   * @param {*} value The value to set.
-   */
-  function assocSet(array, key, value) {
-    var index = assocIndexOf(array, key);
-    if (index < 0) {
-      array.push([key, value]);
-    } else {
-      array[index][1] = value;
-    }
-  }
 
   /*------------------------------------------------------------------------*/
 
@@ -978,6 +983,24 @@
         (value === undefined && !(key in object))) {
       object[key] = value;
     }
+  }
+
+  /**
+   * Gets the index at which the `key` is found in `array` of key-value pairs.
+   *
+   * @private
+   * @param {Array} array The array to search.
+   * @param {*} key The key to search for.
+   * @returns {number} Returns the index of the matched value, else `-1`.
+   */
+  function assocIndexOf(array, key) {
+    var length = array.length;
+    while (length--) {
+      if (eq(array[length][0], key)) {
+        return length;
+      }
+    }
+    return -1;
   }
 
   /**
@@ -1127,9 +1150,7 @@
    */
   function baseGetAllKeys(object, keysFunc, symbolsFunc) {
     var result = keysFunc(object);
-    return isArray(object)
-      ? result
-      : arrayPush(result, symbolsFunc(object));
+    return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
   }
 
   /**
@@ -1190,7 +1211,7 @@
    *
    * @private
    * @param {string} key The key of the property to get.
-   * @returns {Function} Returns the new function.
+   * @returns {Function} Returns the new accessor function.
    */
   function baseProperty(key) {
     return function(object) {
@@ -1379,7 +1400,7 @@
           customizer = length > 1 ? sources[length - 1] : undefined,
           guard = length > 2 ? sources[2] : undefined;
 
-      customizer = typeof customizer == 'function'
+      customizer = (assigner.length > 3 && typeof customizer == 'function')
         ? (length--, customizer)
         : undefined;
 
@@ -1421,6 +1442,21 @@
    * @returns {*} Returns the "length" value.
    */
   var getLength = baseProperty('length');
+
+  /**
+   * Gets the data for `map`.
+   *
+   * @private
+   * @param {Object} map The map to query.
+   * @param {string} key The reference key.
+   * @returns {*} Returns the map data.
+   */
+  function getMapData(map, key) {
+    var data = map.__data__;
+    return isKeyable(key)
+      ? data[typeof key == 'string' ? 'string' : 'hash']
+      : data.map;
+  }
 
   /**
    * Gets the native function at `key` of `object`.
@@ -1608,7 +1644,22 @@
    * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
    */
   function isFlattenable(value) {
-    return isArrayLikeObject(value) && (isArray(value) || isArguments(value));
+    return isArray(value) || isArguments(value);
+  }
+
+  /**
+   * Checks if `value` is a valid array-like index.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+   * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+   */
+  function isIndex(value, length) {
+    length = length == null ? MAX_SAFE_INTEGER : length;
+    return !!length &&
+      (typeof value == 'number' || reIsUint.test(value)) &&
+      (value > -1 && value % 1 == 0 && value < length);
   }
 
   /**
@@ -1644,8 +1695,9 @@
    */
   function isKeyable(value) {
     var type = typeof value;
-    return type == 'number' || type == 'boolean' ||
-      (type == 'string' && value != '__proto__') || value == null;
+    return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+      ? (value !== '__proto__')
+      : (value === null);
   }
 
   /**
@@ -1723,7 +1775,7 @@
    * @category Function
    * @param {Function} func The function to have its output memoized.
    * @param {Function} [resolver] The function to resolve the cache key.
-   * @returns {Function} Returns the new memoizing function.
+   * @returns {Function} Returns the new memoized function.
    * @example
    *
    * var object = { 'a': 1, 'b': 2 };
@@ -1836,6 +1888,7 @@
    * @category Lang
    * @param {*} value The value to recursively clone.
    * @returns {*} Returns the deep cloned value.
+   * @see _.clone
    * @example
    *
    * var objects = [{ 'a': 1 }, { 'b': 2 }];
@@ -2203,6 +2256,41 @@
   }
 
   /**
+   * Converts `value` to a finite number.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.12.0
+   * @category Lang
+   * @param {*} value The value to convert.
+   * @returns {number} Returns the converted number.
+   * @example
+   *
+   * _.toFinite(3.2);
+   * // => 3.2
+   *
+   * _.toFinite(Number.MIN_VALUE);
+   * // => 5e-324
+   *
+   * _.toFinite(Infinity);
+   * // => 1.7976931348623157e+308
+   *
+   * _.toFinite('3.2');
+   * // => 3.2
+   */
+  function toFinite(value) {
+    if (!value) {
+      return value === 0 ? value : 0;
+    }
+    value = toNumber(value);
+    if (value === INFINITY || value === -INFINITY) {
+      var sign = (value < 0 ? -1 : 1);
+      return sign * MAX_INTEGER;
+    }
+    return value === value ? value : 0;
+  }
+
+  /**
    * Converts `value` to an integer.
    *
    * **Note:** This function is loosely based on
@@ -2216,7 +2304,7 @@
    * @returns {number} Returns the converted integer.
    * @example
    *
-   * _.toInteger(3);
+   * _.toInteger(3.2);
    * // => 3
    *
    * _.toInteger(Number.MIN_VALUE);
@@ -2225,20 +2313,14 @@
    * _.toInteger(Infinity);
    * // => 1.7976931348623157e+308
    *
-   * _.toInteger('3');
+   * _.toInteger('3.2');
    * // => 3
    */
   function toInteger(value) {
-    if (!value) {
-      return value === 0 ? value : 0;
-    }
-    value = toNumber(value);
-    if (value === INFINITY || value === -INFINITY) {
-      var sign = (value < 0 ? -1 : 1);
-      return sign * MAX_INTEGER;
-    }
-    var remainder = value % 1;
-    return value === value ? (remainder ? value - remainder : value) : 0;
+    var result = toFinite(value),
+        remainder = result % 1;
+
+    return result === result ? (remainder ? result - remainder : result) : 0;
   }
 
   /**
@@ -2252,8 +2334,8 @@
    * @returns {number} Returns the number.
    * @example
    *
-   * _.toNumber(3);
-   * // => 3
+   * _.toNumber(3.2);
+   * // => 3.2
    *
    * _.toNumber(Number.MIN_VALUE);
    * // => 5e-324
@@ -2261,8 +2343,8 @@
    * _.toNumber(Infinity);
    * // => Infinity
    *
-   * _.toNumber('3');
-   * // => 3
+   * _.toNumber('3.2');
+   * // => 3.2
    */
   function toNumber(value) {
     if (typeof value == 'number') {
@@ -2304,6 +2386,7 @@
    * @param {...Object} sources The source objects.
    * @param {Function} [customizer] The function to customize assigned values.
    * @returns {Object} Returns `object`.
+   * @see _.assignWith
    * @example
    *
    * function customizer(objValue, srcValue) {
@@ -2334,6 +2417,7 @@
    * @param {Object} object The destination object.
    * @param {...Object} [sources] The source objects.
    * @returns {Object} Returns `object`.
+   * @see _.defaultsDeep
    * @example
    *
    * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
@@ -2445,7 +2529,7 @@
    * @since 2.4.0
    * @category Util
    * @param {*} value The value to return from the new function.
-   * @returns {Function} Returns the new function.
+   * @returns {Function} Returns the new constant function.
    * @example
    *
    * var object = { 'user': 'fred' };
@@ -2492,6 +2576,7 @@
   lodash.isObjectLike = isObjectLike;
   lodash.isString = isString;
   lodash.isSymbol = isSymbol;
+  lodash.toFinite = toFinite;
   lodash.toInteger = toInteger;
   lodash.toNumber = toNumber;
 
@@ -2508,9 +2593,11 @@
 
   /*--------------------------------------------------------------------------*/
 
-  // Expose lodash on the free variable `window` or `self` when available. This
-  // prevents errors in cases where lodash is loaded by a script tag in the presence
-  // of an AMD loader. See http://requirejs.org/docs/errors.html#mismatch for more details.
+  // Expose Lodash on the free variable `window` or `self` when available so it's
+  // globally accessible, even when bundled with Browserify, Webpack, etc. This
+  // also prevents errors in cases where Lodash is loaded by a script tag in the
+  // presence of an AMD loader. See http://requirejs.org/docs/errors.html#mismatch
+  // for more details. Use `_.noConflict` to remove Lodash from the global object.
   (freeWindow || freeSelf || {})._ = lodash;
 
   // Some AMD build optimizers like r.js check for condition patterns like the following:

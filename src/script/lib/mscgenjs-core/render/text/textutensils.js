@@ -1,10 +1,5 @@
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-/* jshint node:true */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -70,7 +65,7 @@ function() {
          * @return {string}
          */
         unescapeString : function(pString) {
-            return pString.replace(/\\\"/g, '"');
+            return pString.replace(/\\"/g, '"');
         },
 
         /**
@@ -80,7 +75,7 @@ function() {
          * @return {string}
          */
         escapeString : function(pString) {
-            return pString.replace(/\\\"/g, "\"").replace(/\"/g, "\\\"");
+            return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
         }
     };
 });

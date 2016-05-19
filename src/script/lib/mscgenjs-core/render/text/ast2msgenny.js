@@ -3,43 +3,37 @@
  * as a simplified mscgen (ms genny)program.
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
 define(['./ast2thing'], function(thing) {
     "use strict";
 
-    function renderMsGennyString(pString) {
-        function isQuotable(pString) {
-            var lMatchResult = pString.match(/[;,{]/);
-            if (lMatchResult) {
-                return lMatchResult.length === 1;
-            } else {
-                return false;
-            }
+    function gennyStringisQuotable(pString) {
+        var lMatchResult = pString.match(/[;,{]/);
+        if (lMatchResult) {
+            return lMatchResult.length === 1;
+        } else {
+            return false;
         }
+    }
+    function renderMsGennyString(pString) {
+        return gennyStringisQuotable(pString) ? "\"" + pString + "\"" : pString.trim();
+    }
 
-        return isQuotable(pString) ? "\"" + pString + "\"" : pString.trim();
+    function entityNameIsQuotable(pString) {
+        var lMatchResult = pString.match(/[^;, "\t\n\r=\-><:\{\*]+/gi);
+        if (Boolean(lMatchResult)) {
+            return lMatchResult.length !== 1;
+        } else {
+            return true && pString !== "*";
+        }
     }
 
     function renderEntityName(pString) {
-        function isQuotable(pString) {
-            var lMatchResult = pString.match(/[^;, \"\t\n\r=\-><:\{\*]+/gi);
-            if (!!lMatchResult) {
-                return lMatchResult.length !== 1;
-            } else {
-                return true && pString !== "*";
-            }
-        }
-
-        return isQuotable(pString) ? "\"" + pString + "\"" : pString;
+        return entityNameIsQuotable(pString) ? "\"" + pString + "\"" : pString;
     }
 
     function renderAttribute(pAttribute) {

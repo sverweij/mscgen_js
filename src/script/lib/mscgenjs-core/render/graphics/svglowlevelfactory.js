@@ -1,18 +1,12 @@
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint browser:true */
-/* jshint node:true */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
 define(["./constants"], function(C) {
     "use strict";
 
-    var gDocument;
+    var gDocument = {};
 
     function _setAttribute(pObject, pAttribute, pValue) {
         if (!!pValue){

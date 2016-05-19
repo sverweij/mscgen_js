@@ -1,11 +1,5 @@
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint browser:true */
-/* jshint node:true */
-/* jshint trailing:true */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -32,7 +26,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
      */
     "use strict";
 
-    var gDocument;
+    var gDocument = {};
 
     function setupMarkers(pDefs, pMarkerDefs) {
         pMarkerDefs.forEach(function(pMarker){
@@ -101,7 +95,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return csstemplates.baseTemplate
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
             .replace(/<%=lineWidth%>/g, C.LINE_WIDTH) +
-             (!!pStyleAdditions ? pStyleAdditions : "");
+             (Boolean(pStyleAdditions) ? pStyleAdditions : "");
         // return csstemplates.baseTemplate({
         //     fontSize : C.FONT_SIZE,
         //     lineWidth: C.LINE_WIDTH

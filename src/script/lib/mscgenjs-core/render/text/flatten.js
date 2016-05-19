@@ -1,10 +1,5 @@
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -21,16 +16,16 @@ function(transform, map, _, txt) {
     var gMaxDepth = 0;
 
     function nameAsLabel(pEntity) {
-        if (pEntity.label === undefined) {
+        if (typeof pEntity.label === 'undefined') {
             pEntity.label = pEntity.name;
         }
     }
 
     function unescapeLabels(pArcOrEntity){
-        if(!!pArcOrEntity.label) {
+        if (Boolean(pArcOrEntity.label)) {
             pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
         }
-        if(!!pArcOrEntity.id){
+        if (Boolean(pArcOrEntity.id)){
             pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
         }
     }
@@ -39,7 +34,7 @@ function(transform, map, _, txt) {
      *
      */
     function emptyStringForNoLabel(pArc){
-        pArc.label = !!pArc.label ? pArc.label : "";
+        pArc.label = Boolean(pArc.label) ? pArc.label : "";
     }
 
     function _swapRTLArc(pArc) {
@@ -80,8 +75,8 @@ function(transform, map, _, txt) {
         }
     }
     function calcNumberOfRows(pArcRow) {
-        return pArcRow.arcs.reduce(function(pSum, pArcRow){
-            return pSum + (!!pArcRow[0].arcs ? calcNumberOfRows(pArcRow[0]) + 1 : 0);
+        return pArcRow.arcs.reduce(function(pSum, pArc){
+            return pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0);
         }, pArcRow.arcs.length);
     }
 
@@ -90,7 +85,7 @@ function(transform, map, _, txt) {
         if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
             lArcSpanningArc = _.cloneDeep(pArcRow[0]);
 
-            if (!!(lArcSpanningArc.arcs)) {
+            if (Boolean(lArcSpanningArc.arcs)) {
                 lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
                 delete lArcSpanningArc.arcs;
                 pAST.arcs.push([lArcSpanningArc]);
@@ -134,8 +129,8 @@ function(transform, map, _, txt) {
         var lAST = {};
         gMaxDepth = 0;
 
-        if (!!pAST.options){ lAST.options = _.cloneDeep(pAST.options); }
-        if (!!pAST.entities){ lAST.entities = _.cloneDeep(pAST.entities); }
+        if (Boolean(pAST.options)){ lAST.options = _.cloneDeep(pAST.options); }
+        if (Boolean(pAST.entities)){ lAST.entities = _.cloneDeep(pAST.entities); }
         lAST.arcs = [];
 
         if (pAST && pAST.arcs) {

@@ -1,9 +1,5 @@
-/* jshint unused:strict */
-/* jshint indent:4 */
-/* jshint node:true */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -61,10 +57,10 @@ define([], function() {
      * @param <int> pY
      */
     function set(pRowNumber, pHeight, pY) {
-        if (pHeight === undefined || pHeight < gDefaultArcRowHeight) {
+        if (typeof pHeight === 'undefined' || pHeight < gDefaultArcRowHeight) {
             pHeight = gDefaultArcRowHeight;
         }
-        if (pY === undefined) {
+        if (typeof pY === 'undefined') {
             var lPreviousRowInfo = get(pRowNumber - 1);
             if (lPreviousRowInfo && lPreviousRowInfo.y > 0) {
                 pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2;

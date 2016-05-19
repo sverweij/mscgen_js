@@ -3,13 +3,8 @@
  * as an mscgen program.
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -45,8 +40,12 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
             init(pMinimal);
             return thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
-                "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
-                "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedEntityAttributes" : ["label", "idurl", "id", "url",
+                                                "linecolor", "textcolor", "textbgcolor",
+                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedArcAttributes" : ["label", "idurl", "id", "url",
+                                                "linecolor", "textcolor", "textbgcolor",
+                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "program" : {
                     "opener" : "msc" + SP + "{" + EOL,
                     "closer" : "}"

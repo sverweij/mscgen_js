@@ -1,15 +1,10 @@
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint browser:true */
-/* jshint node:true */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textutensils", "../text/arcmappings"], function(fact, svgutl, C, txt, map) {
+define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textutensils", "../text/arcmappings"],
+function(fact, svgutl, C, txt, map) {
     "use strict";
 
     /**
@@ -55,17 +50,17 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
     }
 
     function determineClasses(pArcKind, pOptionsKind, pPostFix){
-        var lKind = pOptionsKind||pArcKind;
+        var lKind = pOptionsKind || pArcKind;
         var lClass = map.getClass(lKind);
         var lAggregateClass = map.getAggregateClass(lKind);
 
-        return lClass === lAggregateClass ?
-                            lClass + pPostFix :
-                            lAggregateClass + pPostFix + lClass + pPostFix;
+        return lClass === lAggregateClass
+                          ? lClass + pPostFix
+                          : lAggregateClass + pPostFix + lClass + pPostFix;
     }
 
     function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
-        var lY = pStartY + ((pPosition + 1/4) * svgutl.calculateTextHeight());
+        var lY = pStartY + ((pPosition + 1 / 4) * svgutl.calculateTextHeight());
         var lClass = "";
         lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
         if (!!pOptions){
@@ -73,7 +68,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
                 lClass += "anchor-start ";
             }
             if (pOptions.alignAround){
-                lY = pStartY + ((pPosition + 1/4) * (svgutl.calculateTextHeight() + C.LINE_WIDTH));
+                lY = pStartY + ((pPosition + 1 / 4) * (svgutl.calculateTextHeight() + C.LINE_WIDTH));
             }
         }
         var lText = renderLabelText(pPosition, pLine, pMiddle, lY, lClass, pArc);
@@ -94,21 +89,21 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
                 pArc.kind,
                 pDims.width,
                 C.FONT_SIZE,
-                pOptions ? pOptions.wordWrapArcs: false
+                pOptions ? pOptions.wordWrapArcs : false
             );
             var lText = {};
-            if(!!pOptions && pOptions.alignAbove){
+            if (!!pOptions && pOptions.alignAbove){
                 lLines.forEach(function(){
                     lLines.push("");
                 });
             }
 
-            var lStartY = pDims.y - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + 1);
+            var lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutl.calculateTextHeight() + 1);
             if (!!pOptions && pOptions.alignAround){
                 if (lLines.length === 1) {
                     lLines.push("");
                 }
-                lStartY = pDims.y - (lLines.length - 1)/2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
+                lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
             }
             lLines
                 .forEach(
@@ -145,14 +140,14 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         var lAbsWidth = Math.abs(pWidth);
         var REFERENCE_FONT_SIZE = 12; // px
 
-        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*8); }
-        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*6.4); }
-        if (lAbsWidth <= 480) { return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.9); }
-        return lAbsWidth / ((pFontSize/REFERENCE_FONT_SIZE)*5.6);
+        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 8); }
+        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 6.4); }
+        if (lAbsWidth <= 480) { return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.9); }
+        return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
     }
 
     function _splitLabel(pLabel, pKind, pWidth, pFontSize, pWordWrapArcs) {
-        if ("box" === map.getAggregate(pKind) || undefined===pKind || pWordWrapArcs){
+        if ("box" === map.getAggregate(pKind) || typeof pKind === 'undefined' || pWordWrapArcs){
             return txt.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');

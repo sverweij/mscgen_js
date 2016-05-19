@@ -10,13 +10,8 @@
  *      - light yellow textbgcolor
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -62,11 +57,11 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         },
         "rosy": {
             "entityColors": [
-          {
-                "linecolor": "maroon",
-                "textbgcolor": "#FFFFCC"
-            }
-        ],
+                {
+                    "linecolor": "maroon",
+                    "textbgcolor": "#FFFFCC"
+                }
+            ],
             "arcColors": {
                 "note": {
                     "linecolor": "maroon",
@@ -90,12 +85,12 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         },
         "bluey": {
             "entityColors": [
-          {
-                "linecolor": "#00A1DE",
-                "textbgcolor": "#00A1DE",
-                "textcolor": "white"
-            }
-        ],
+                {
+                    "linecolor": "#00A1DE",
+                    "textbgcolor": "#00A1DE",
+                    "textcolor": "white"
+                }
+            ],
             "arcColors": {
                 "note": {
                     "linecolor": "white",
@@ -138,43 +133,43 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         },
         "auto": {
             "entityColors": [
-          {
-                "linecolor": "#008800",
-                "textbgcolor": "#CCFFCC"
-            },
-          {
-                "linecolor": "#FF0000",
-                "textbgcolor": "#FFCCCC"
-            },
-          {
-                "linecolor": "#0000FF",
-                "textbgcolor": "#CCCCFF"
-            },
-          {
-                "linecolor": "#FF00FF",
-                "textbgcolor": "#FFCCFF"
-            },
-          {
-                "linecolor": "black",
-                "textbgcolor": "#DDDDDD"
-            },
-          {
-                "linecolor": "orange",
-                "textbgcolor": "#FFFFCC"
-            },
-          {
-                "linecolor": "#117700",
-                "textbgcolor": "#00FF00"
-            },
-          {
-                "linecolor": "purple",
-                "textbgcolor": "violet"
-            },
-          {
-                "linecolor": "grey",
-                "textbgcolor": "white"
-            }
-        ],
+                {
+                    "linecolor": "#008800",
+                    "textbgcolor": "#CCFFCC"
+                },
+                {
+                    "linecolor": "#FF0000",
+                    "textbgcolor": "#FFCCCC"
+                },
+                {
+                    "linecolor": "#0000FF",
+                    "textbgcolor": "#CCCCFF"
+                },
+                {
+                    "linecolor": "#FF00FF",
+                    "textbgcolor": "#FFCCFF"
+                },
+                {
+                    "linecolor": "black",
+                    "textbgcolor": "#DDDDDD"
+                },
+                {
+                    "linecolor": "orange",
+                    "textbgcolor": "#FFFFCC"
+                },
+                {
+                    "linecolor": "#117700",
+                    "textbgcolor": "#00FF00"
+                },
+                {
+                    "linecolor": "purple",
+                    "textbgcolor": "violet"
+                },
+                {
+                    "linecolor": "grey",
+                    "textbgcolor": "white"
+                }
+            ],
             "arcColors": {
                 "note": {
                     "linecolor": "black",
@@ -238,8 +233,8 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
     function hasColors(pArcOrEntity) {
         return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
                 .some(function(pColorAttr) {
-            return !!pArcOrEntity[pColorAttr];
-        });
+                    return Boolean(pArcOrEntity[pColorAttr]);
+                });
     }
 
     function colorizeEntity(pEntity) {

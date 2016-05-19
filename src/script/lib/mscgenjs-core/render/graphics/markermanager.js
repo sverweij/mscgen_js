@@ -1,7 +1,5 @@
-/* jshint node:true, undef:true, unused:strict */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -11,8 +9,8 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
     var KINDS = {
         "->"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"}
             ],
             marker : {
                 name : "signal"
@@ -20,9 +18,9 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "<->"   : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"},
-                { name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"},
+                {name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})"}
             ],
             marker : {
                 name : "signal"
@@ -30,8 +28,8 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "=>>"   : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
             ],
             marker: {
                 name : "callback",
@@ -40,9 +38,9 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "<<=>>" : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
-                { name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
+                {name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
             ],
             marker: {
                 name : "callback",
@@ -52,8 +50,8 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         ">>"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}callback-{{color}})"}
             ],
             marker: {
                 name : "callback",
@@ -62,9 +60,9 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "<<>>"  : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
-                { name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}callback-{{color}})"},
+                {name: "marker-start", value: "url(#{{id}}callback-l-{{color}})"}
             ],
             marker: {
                 name : "callback",
@@ -74,28 +72,28 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         ".."    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"}
+                {name: "style", value: "stroke:{{color}}"}
             ]
         },
         "--"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"}
+                {name: "style", value: "stroke:{{color}}"}
             ]
         },
         "=="    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"}
+                {name: "style", value: "stroke:{{color}}"}
             ]
         },
         "::"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"}
+                {name: "style", value: "stroke:{{color}}"}
             ]
         },
         "=>"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}method-{{color}})"}
             ],
             marker: {
                 name : "method",
@@ -104,10 +102,10 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "<=>"   : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
-                { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
-             ],
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}method-{{color}})"},
+                {name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
+            ],
             marker: {
                 name : "method",
                 end : "",
@@ -116,8 +114,8 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         ":>"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}};"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}
+                {name: "style", value: "stroke:{{color}};"},
+                {name: "marker-end", value: "url(#{{id}}method-{{color}})"}
             ],
             marker: {
                 name : "method",
@@ -126,9 +124,9 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "<:>"   : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
-                { name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}method-{{color}})"},
+                {name: "marker-start", value: "url(#{{id}}method-l-{{color}})"}
             ],
             marker: {
                 name : "method",
@@ -138,8 +136,8 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "-x"    : {
             attributes : [
-                { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}lost-{{color}})"}
+                {name: "style", value: "stroke:{{color}}"},
+                {name: "marker-end", value: "url(#{{id}}lost-{{color}})"}
             ],
             marker: {
                 name : "lost",
@@ -179,12 +177,13 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
 
     function getSignalend(pKind, pFrom, pTo){
         if (pFrom && pTo && (["<->", "->"].indexOf(pKind > -1))) {
-            return (pFrom < pTo)? "signal" : "signal-u";
+            return (pFrom < pTo) ? "signal" : "signal-u";
         }
+        return "";
     }
 
     function getSignalstart(pKind, pFrom, pTo){
-        if("<->" === pKind && pFrom <= pTo){
+        if ("<->" === pKind && pFrom <= pTo){
             return "signal-l";
         } else {
             return "signal-lu";
@@ -194,7 +193,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
     function _getAttributes(pId, pKind, pLineColor, pFrom, pTo){
         var lRetval = [];
 
-        if(KINDS[pKind] && KINDS[pKind].attributes){
+        if (KINDS[pKind] && KINDS[pKind].attributes){
             lRetval = KINDS[pKind].attributes.map(function(pAttribute){
                 return {
                     name: pAttribute.name,
@@ -202,7 +201,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
                             .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
                             .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
                             .replace(/\{\{id\}\}/g, pId)
-                            .replace(/\{\{color\}\}/g, pLineColor||"black")
+                            .replace(/\{\{color\}\}/g, pLineColor || "black")
                 };
             });
         }
@@ -211,7 +210,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
 
     function makeKindColorCombi (pKind, pColor) {
         return  KINDS[map.getNormalizedKind(pKind)].marker.name +
-                ((!!pColor ) ? " " + pColor : " black");
+                (Boolean(pColor) ? " " + pColor : " black");
     }
 
     function extractKindColorCombisFromArc(pKindColorCombis, pArc){
@@ -224,7 +223,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         if (!!pArc.arcs){
             pArc.arcs.forEach(_extractKindColorCombis);
         }
-        if(!!pArc.kind && !!KINDS[map.getNormalizedKind(pArc.kind)] &&
+        if (!!pArc.kind && !!KINDS[map.getNormalizedKind(pArc.kind)] &&
             !!(KINDS[map.getNormalizedKind(pArc.kind)].marker) &&
             pKindColorCombis.indexOf(makeKindColorCombi(pArc.kind, pArc.linecolor)) < 0){
             pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));

@@ -4,10 +4,9 @@
  * in a fashion doxygen can pick it up.
  */
 
-/* jshint node:true */
 /* istanbul ignore else */
 
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -36,7 +35,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
     }
 
     function optionIsValid(pOption) {
-        if (!!pOption.value && typeof(pOption.value) === "string" ){
+        if (Boolean(pOption.value) && typeof (pOption.value) === "string"){
             return pOption.value.toLowerCase() !== "auto";
         }
         return true;
@@ -63,8 +62,12 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 "optionIsValidfn": optionIsValid,
                 "renderKindfn" : renderKind,
                 "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs"],
-                "supportedEntityAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
-                "supportedArcAttributes" : ["label", "idurl", "id", "url", "linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedEntityAttributes" : ["label", "idurl", "id", "url",
+                                                "linecolor", "textcolor", "textbgcolor",
+                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedArcAttributes" : ["label", "idurl", "id", "url",
+                                                "linecolor", "textcolor", "textbgcolor",
+                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
                 "program" : {
                     "opener" : LINE_PREFIX + "\\msc" + EOL,
                     "closer" : LINE_PREFIX + "\\endmsc"

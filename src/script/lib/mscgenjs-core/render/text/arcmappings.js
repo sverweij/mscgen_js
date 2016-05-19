@@ -1,9 +1,5 @@
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -171,9 +167,9 @@ define([], function() {
         getShape : function(pKey) { return KIND2SHAPE[pKey]; },
         getStyle : function(pKey) { return KIND2STYLE[pKey]; },
         getAggregate : function(pKey) { return KIND2AGGREGATE[pKey]; },
-        getClass : function(pKey) { return KIND2CLASS[pKey]||pKey; },
-        getAggregateClass : function(pKey) { return KIND2AGGREGATECLASS[pKey]||pKey; },
-        getNormalizedKind : function(pKey) { return KIND2NORMALIZEDKIND[pKey]||pKey; }
+        getClass : function(pKey) { return KIND2CLASS[pKey] || pKey; },
+        getAggregateClass : function(pKey) { return KIND2AGGREGATECLASS[pKey] || pKey; },
+        getNormalizedKind : function(pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; }
     };
 });
 /*

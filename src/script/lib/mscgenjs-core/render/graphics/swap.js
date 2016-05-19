@@ -1,6 +1,5 @@
-/* jshint undef:true, unused:strict, browser:false, node:true, indent:4 */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 

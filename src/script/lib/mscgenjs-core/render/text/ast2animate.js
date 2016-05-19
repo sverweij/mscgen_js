@@ -8,13 +8,8 @@
  *
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -32,7 +27,7 @@ define(["../../lib/lodash/lodash.custom"], function(_) {
         this.frames       = [];
         this.preCalculate = false;
         if (pAST) {
-            if (pAST && undefined !== pPreCalculate){
+            if (pAST && typeof pPreCalculate !== 'undefined'){
                 this.init(pAST, pPreCalculate);
             } else {
                 this.init(pAST);
@@ -70,7 +65,7 @@ define(["../../lib/lodash/lodash.custom"], function(_) {
         this.frames = [];
         if (this.preCalculate) {
             for (var i = 0; i < this.len; i++){
-                this.frames.push (_.cloneDeep(this._calculateFrame(i)));
+                this.frames.push(_.cloneDeep(this._calculateFrame(i)));
             }
         }
     };
@@ -159,7 +154,7 @@ define(["../../lib/lodash/lodash.custom"], function(_) {
      * length or is below 0
      */
     FrameFactory.prototype.getPercentage = function () {
-        return (this.len > 0) && (this.position > 0) ? 100*(Math.min(1, this.position/this.len)) : 0;
+        return (this.len > 0) && (this.position > 0) ? 100 * (Math.min(1, this.position / this.len)) : 0;
     };
 
     /*
@@ -175,14 +170,14 @@ define(["../../lib/lodash/lodash.custom"], function(_) {
         }
 
         while (lFrameCount < lFrameNo) {
-            this.AST.arcs[lRowNo]=[];
-            for(var j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++){
+            this.AST.arcs[lRowNo] = [];
+            for (var j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++){
                 this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
             }
             lRowNo++;
         }
 
-        for (var k=lRowNo; k < this.noRows; k++){
+        for (var k = lRowNo; k < this.noRows; k++){
             this.AST.arcs[k] = EMPTY_ARC;
         }
         return this.AST;
@@ -208,7 +203,7 @@ define(["../../lib/lodash/lodash.custom"], function(_) {
                  * inner itself counts for two arcs (one extra for
                  * drawing the bottom), but for one frame)
                  */
-                return pSum + (!!pArcRow[0].arcs ? _calculateLength(pArcRow[0]) : pArcRow.length);
+                return pSum + (Boolean(pArcRow[0].arcs) ? _calculateLength(pArcRow[0]) : pArcRow.length);
             }, lRetval);
         }
         return lRetval;
@@ -221,7 +216,7 @@ define(["../../lib/lodash/lodash.custom"], function(_) {
         var lRetval = 0;
         if (pThing.arcs){
             lRetval = pThing.arcs.reduce(function(pSum, pArcRow){
-                return pSum + (!!pArcRow[0].arcs ? _calcNumberOfRows(pArcRow[0]) + 2 : 1);
+                return pSum + (Boolean(pArcRow[0].arcs) ? _calcNumberOfRows(pArcRow[0]) + 2 : 1);
             }, lRetval);
         }
         return lRetval;

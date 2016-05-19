@@ -3,14 +3,8 @@
  * as a simplified mscgen (ms genny)program.
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-/* jshint devel:false */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -108,7 +102,7 @@ define(["./textutensils"], function(utl) {
     function extractSupportedOptions(pOptions, pSupportedOptions) {
         return pSupportedOptions
             .filter(function(pSupportedOption){
-                return undefined !== pOptions[pSupportedOption];
+                return typeof pOptions[pSupportedOption] !== 'undefined';
             })
             .map(function(pSupportedOption){
                 return {name: pSupportedOption, value: pOptions[pSupportedOption]};
@@ -130,27 +124,27 @@ define(["./textutensils"], function(utl) {
            "arcskip"].indexOf(pString) > -1;
     }
 
-    function renderEntityName(pString) {
-        function isQuotable(pString) {
-            var lMatchResult = pString.match(/[a-z0-9]+/gi);
-            if (!!lMatchResult) {
-                return (lMatchResult.length !== 1)||isMscGenKeyword(pString);
-            } else {
-                return pString !== "*";
-            }
+    function isQuotable(pString) {
+        var lMatchResult = pString.match(/[a-z0-9]+/gi);
+        if (Boolean(lMatchResult)) {
+            return (lMatchResult.length !== 1) || isMscGenKeyword(pString);
+        } else {
+            return pString !== "*";
         }
+    }
 
+    function renderEntityName(pString) {
         return isQuotable(pString) ? "\"" + pString + "\"" : pString;
     }
 
     function renderOption(pOption) {
         return pOption.name + "=" +
-               (typeof pOption.value === "string"?
-                    "\"" + utl.escapeString(pOption.value) + "\"":
-                    pOption.value.toString());
+               (typeof pOption.value === "string"
+                    ? "\"" + utl.escapeString(pOption.value) + "\""
+                    : pOption.value.toString());
     }
 
-    function optionIsValid(/*pOption*/){
+    function optionIsValid(/* pOption*/){
         return true;
     }
 

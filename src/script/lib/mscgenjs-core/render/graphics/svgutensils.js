@@ -1,22 +1,16 @@
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint browser:true */
-/* jshint node:true */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
 define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfactory", "../../lib/lodash/lodash.custom"],
-        function(C, id, fact, llfact, _) {
+function(C, id, fact, llfact, _) {
     /**
      * Some SVG specific calculations & workarounds
      */
     "use strict";
 
-    var gDocument;
+    var gDocument = {};
     var gSvgBBoxerId = id.get("bboxer");
 
     /* istanbul ignore next */
@@ -31,7 +25,7 @@ define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfacto
     function getNativeBBox(pElement){
         /* getNativeBBoxWithCache */
         var lSvg = gDocument.getElementById(gSvgBBoxerId);
-        lSvg = lSvg ? lSvg : _createBBoxerSVG (gSvgBBoxerId);
+        lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
 
         lSvg.appendChild(pElement);
         var lRetval = pElement.getBBox();
@@ -52,7 +46,7 @@ define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfacto
     function sanitizeBBox(pBBox){
         var INSANELYBIG = 100000;
 
-        if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG ) {
+        if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG) {
             return {
                 height : 0,
                 width : 0,
@@ -66,7 +60,7 @@ define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfacto
 
     function _getBBox(pElement) {
         /* istanbul ignore if */
-        if ( typeof (pElement.getBBox) === 'function') {
+        if (typeof (pElement.getBBox) === 'function') {
             return sanitizeBBox(getNativeBBox(pElement));
         } else {
             return {
@@ -86,7 +80,7 @@ define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfacto
     }
 
     function createText(pLabel) {
-        var lText = llfact.createElement( "text", { x: "0", y: "0" } );
+        var lText = llfact.createElement("text", {x: "0", y: "0"});
         lText.appendChild(createTSpan(pLabel));
         return lText;
     }
@@ -122,33 +116,33 @@ define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfacto
         },
         removeRenderedSVGFromElement : _removeRenderedSVGFromElement,
 
-        /**
-         * Returns the bounding box of the passed element.
-         *
-         * Note: to be able to calculate the actual bounding box of an element it has
-         * to be in a DOM tree first. Hence this function temporarily creates the element,
-         * calculates the bounding box and removes the temporarily created element again.
-         *
-         * @param {SVGElement} pElement - the element to calculate the bounding box for
-         * @return {boundingbox} an object with properties height, width, x and y. If
-         * the function cannot determine the bounding box  be determined, returns 15,15,2,2
-         * as "reasonable default"
-         */
+    /**
+     * Returns the bounding box of the passed element.
+     *
+     * Note: to be able to calculate the actual bounding box of an element it has
+     * to be in a DOM tree first. Hence this function temporarily creates the element,
+     * calculates the bounding box and removes the temporarily created element again.
+     *
+     * @param {SVGElement} pElement - the element to calculate the bounding box for
+     * @return {boundingbox} an object with properties height, width, x and y. If
+     * the function cannot determine the bounding box  be determined, returns 15,15,2,2
+     * as "reasonable default"
+     */
         getBBox : _getBBox,
 
-        /**
-         * Returns the height in pixels necessary for rendering characters
-         */
+    /**
+     * Returns the height in pixels necessary for rendering characters
+     */
         calculateTextHeight: _.memoize(_calculateTextHeight),
 
-        // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
-        // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
-        // namespace prefixes in front of xlink and all hrefs respectively.
-        // this function does a crude global replace to circumvent the
-        // resulting problems. Problem happens for xhtml too
+    // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
+    // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
+    // namespace prefixes in front of xlink and all hrefs respectively.
+    // this function does a crude global replace to circumvent the
+    // resulting problems. Problem happens for xhtml too
         webkitNamespaceBugWorkaround : function (pText){
-            return pText.replace(/\ xlink=/g, " xmlns:xlink=", "g")
-                        .replace(/\ href=/g, " xlink:href=", "g");
+            return pText.replace(/ xlink=/g, " xmlns:xlink=", "g")
+                .replace(/ href=/g, " xlink:href=", "g");
         }
     };
 });

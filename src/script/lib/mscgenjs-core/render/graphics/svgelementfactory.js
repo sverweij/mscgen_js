@@ -1,11 +1,5 @@
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint browser:true */
-/* jshint node:true */
-/* jshint indent:4 */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -25,7 +19,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
      */
     "use strict";
 
-    var gDocument;
+    var gDocument = {};
 
     function _createSVG(pId) {
         return factll.createElement(
@@ -179,7 +173,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
     }
 
     function _createNote(pBBox, pClass, pColor, pBgColor) {
-        var lFoldSizeN = Math.max(9, Math.min(4.5*C.LINE_WIDTH, pBBox.height/2));
+        var lFoldSizeN = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
         var lFoldSize = lFoldSizeN.toString(10);
 
         return _createPath(
@@ -187,13 +181,14 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
             // top line:
             "l" + (pBBox.width - lFoldSizeN) + ",0 " +
             // fold:
-            "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" + lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
-            //down:
+            "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" +
+                    lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
+            // down:
             "l0," + (pBBox.height - lFoldSizeN) + " " +
             // bottom line:
             "l-" + pBBox.width + ",0 " +
             // back to home:
-            "l0,-" + (pBBox.height + (C.LINE_WIDTH/2)) + " ",
+            "l0,-" + (pBBox.height + (C.LINE_WIDTH / 2)) + " ",
             pClass, pColor, pBgColor
         );
     }
@@ -263,7 +258,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass.indexOf("nodi") < 0){
-            lRetval = pLine.xTo > pLine.xFrom ? -7.5*C.LINE_WIDTH : 7.5*C.LINE_WIDTH;
+            lRetval = pLine.xTo > pLine.xFrom ? -7.5 * C.LINE_WIDTH : 7.5 * C.LINE_WIDTH;
         }
         return lRetval;
     }
@@ -271,7 +266,13 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
     function determineStartCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass.indexOf("nodi") < 0){
-            lRetval = (pClass.indexOf("bidi") > -1) ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
+            if (pClass.indexOf("bidi") > -1) {
+                if (pLine.xTo > pLine.xFrom){
+                    lRetval = 7.5 * C.LINE_WIDTH;
+                } else {
+                    lRetval = -7.5 * C.LINE_WIDTH;
+                }
+            }
         }
         return lRetval;
     }
@@ -289,7 +290,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         var lLine = " l" + lLenX + "," + lLenY;
 
         return _createPath(
-            "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5*C.LINE_WIDTH*lDir.dy).toString() +
+            "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy).toString() +
             // left stubble:
             lStubble +
             "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString() +
@@ -298,7 +299,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
             "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString() +
             // lower line
             lLine +
-            "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5*C.LINE_WIDTH*lDir.dy).toString() +
+            "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy).toString() +
             // right stubble
             lStubble,
             pClass
@@ -306,23 +307,23 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
     }
 
     function _createLine(pLine, pClass, pDouble) {
-        if (!pDouble) {
-            return createSingleLine(pLine, pClass);
-        } else {
+        if (Boolean(pDouble)) {
             return createDoubleLine(pLine, pClass);
+        } else {
+            return createSingleLine(pLine, pClass);
         }
     }
 
     function _createUTurn(pPoint, pEndY, pWidth, pClass, pDontHitHome) {
-        var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
+        var lEndX = pDontHitHome ? pPoint.x + 7.5 * C.LINE_WIDTH : pPoint.x;
 
         return _createPath(
             // point to start from:
             "M" + pPoint.x.toString() + ", -" + pPoint.y.toString() +
             // curve first to:
-            " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y-7.5*C.LINE_WIDTH).toString() +
+            " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y - 7.5 * C.LINE_WIDTH).toString() +
             // curve back from.:
-            " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString() +
+            " " + (pPoint.x + pWidth).toString() + "," + (pEndY + 0).toString() +
             // curve end-pont:
             " " + lEndX.toString() + "," + pEndY.toString(),
             pClass
@@ -345,7 +346,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
                 orient: pOrient,
                 id: pId,
                 class: pClass,
-                viewBox: !!pViewBox ? pViewBox : "0 0 10 10",
+                viewBox: Boolean(pViewBox) ? pViewBox : "0 0 10 10",
                 refX: "9",
                 refY: "3",
                 markerUnits: "strokeWidth",
@@ -374,7 +375,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
             factll.setAttributes(
                 _createPath(pD, "arrow-style"),
                 {
-                    style: "stroke-dasharray:100,1;stroke:" + pColor||"black"
+                    style: "stroke-dasharray:100,1;stroke:" + pColor || "black"
                 }
             )
         );
@@ -387,8 +388,8 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
             factll.setAttributes(
                 _createPolygon(pPoints, "arrow-style"),
                 {
-                    "stroke": pColor||"black",
-                    "fill": pColor||"black"
+                    "stroke": pColor || "black",
+                    "fill": pColor || "black"
                 }
             )
         );

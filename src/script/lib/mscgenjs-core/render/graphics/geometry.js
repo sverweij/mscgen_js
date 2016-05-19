@@ -1,6 +1,5 @@
-/* jshint undef:true, unused:strict, browser:false, node:true, indent:4 */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -9,7 +8,7 @@ define([], function() {
 
 
     function rad2deg(pDegrees){
-        return (pDegrees*360)/ (2* Math.PI);
+        return (pDegrees * 360) / (2 * Math.PI);
     }
 
     function _getDiagonalAngle(pBBox) {

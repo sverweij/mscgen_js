@@ -3,12 +3,8 @@
  * as an graphviz dot script.
  */
 
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
-
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -17,6 +13,7 @@ function(flatten, txt, map, utl) {
     "use strict";
 
     var INDENT = "  ";
+    var MAX_TEXT_WIDTH = 40;
     var gCounter = 0;
 
     function _renderAST(pAST) {
@@ -51,9 +48,9 @@ function(flatten, txt, map, utl) {
 
     /* Attribute handling */
     function renderString(pString) {
-        var lStringAry = txt.wrap(pString.replace(/\"/g, "\\\""), 40);
-        var lString = lStringAry.slice(0, -1).reduce(function(pPrev, pString){
-            return pPrev + pString + "\n";
+        var lStringAry = txt.wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
+        var lString = lStringAry.slice(0, -1).reduce(function(pPrev, pLine){
+            return pPrev + pLine + "\n";
         }, "");
         lString += lStringAry.slice(-1);
         return lString;
@@ -64,15 +61,15 @@ function(flatten, txt, map, utl) {
     }
 
     function pushAttribute(pArray, pAttr, pString) {
-        if (!!pAttr) {
+        if (Boolean(pAttr)) {
             pArray.push(renderAttribute(pAttr, pString));
         }
     }
 
     function translateAttributes(pThing) {
         return ["label", "color", "fontcolor", "fillcolor"].filter(function(pSupportedAttr){
-            return !!pThing[pSupportedAttr];
-        }).map (function(pSupportedAttr) {
+            return Boolean(pThing[pSupportedAttr]);
+        }).map(function(pSupportedAttr) {
             return renderAttribute(pThing[pSupportedAttr], pSupportedAttr);
         });
     }
@@ -139,25 +136,27 @@ function(flatten, txt, map, utl) {
         var lAttrs = translateAttributes(pArc);
 
         pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
-        switch(pAggregatedKind) {
-            case ("directional") :
-                {
-                    pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
-                }
-                break;
-            case("bidirectional"):
-                {
-                    pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
-                    pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
-                    pushAttribute(lAttrs, "both", "dir");
-                }
-                break;
-            case ("nondirectional"):
-                {
-                    pushAttribute(lAttrs, "none", "dir");
-                }
-                break;
+        switch (pAggregatedKind) {
+        case ("directional") :
+            {
+                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+            }
+            break;
+        case ("bidirectional"):
+            {
+                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
+                pushAttribute(lAttrs, "both", "dir");
+            }
+            break;
+        case ("nondirectional"):
+            {
+                pushAttribute(lAttrs, "none", "dir");
+            }
+            break;
+        default: break;
         }
+
         if (!pArc.arcs) {
             lRetVal += renderEntityName(pArc.from) + " ";
             lRetVal += "--";
@@ -187,7 +186,8 @@ function(flatten, txt, map, utl) {
             if (pArc.arcs) {
                 lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + '{';
                 if (pArc.label) {
-                    lRetVal += "\n" + INDENT + pIndent + ' label="' + pArc.kind + ": " + pArc.label + '" labeljust="l"\n';
+                    lRetVal +=
+                        "\n" + INDENT + pIndent + ' label="' + pArc.kind + ": " + pArc.label + '" labeljust="l"\n';
                 }
                 lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
                 lRetVal += INDENT + pIndent + "}\n";
