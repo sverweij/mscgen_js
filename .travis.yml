@@ -12,7 +12,7 @@ install:
 script:
   - npm run lint
   - npm run jscs
- # - npm run nsp
+  - npm run nsp
   - npm run cover
   - make install
 
@@ -30,4 +30,3 @@ addons:
 
 after_success:
   - npm run codeclimate-cover-submit
-  - npm run codecov-submit
