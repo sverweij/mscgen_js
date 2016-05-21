@@ -1,10 +1,5 @@
-/* jshint undef:true */
-/* jshint unused:false */
-/* jshint browser:true */
-/* jshint nonstandard:true */
-/* global define */
 /* global ga */
-
+/* eslint max-params:0, dot-notation:0, no-unused-expressions:0, no-sequences:0 */
 define([],
 /**
  * Wrapper for google analytics. Makes it more easy to implement "donottrack"
@@ -21,7 +16,6 @@ function() {
         gTrack = pTrack;
 
         if (true === pTrack) {
-            /* jshint -W030 *//* jshint -W033 *//* jshint -W069 */
             (function(i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;
                 i[r] = i[r] ||
@@ -33,7 +27,6 @@ function() {
                 a.src = g;
                 m.parentNode.insertBefore(a, m);
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            /* jshint +W030 *//* jshint +W033 *//* jshint +W069 */
         }
     }
 

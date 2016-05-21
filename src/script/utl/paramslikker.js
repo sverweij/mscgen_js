@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 /*
  * based on a regular URL search string, returns an object
  * with the key value pairs
@@ -11,10 +12,9 @@
  *  "msc": "msc { a,b,c; a => b [label=\"what is this?\"]; b =>> c [label=\"do you know?\"]; c >> a [label=\"thos are cool beans\"];}"
  * }
  */
-/* jshint undef:true, unused:strict, browser:true, node:true */
-
+/* eslint-env node */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -25,7 +25,8 @@ define([], function() {
         getParams : function (pSearchString) {
             var lRetval = {};
             if (pSearchString) {
-                var lKeyValAry;
+                var lKeyValAry = [];
+
                 //  search string always starts with a "?" - skip this
                 pSearchString.slice(1).split("&").forEach(function(pKeyVal){
                     lKeyValAry = pKeyVal.split("=");

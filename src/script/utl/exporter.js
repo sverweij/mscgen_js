@@ -1,8 +1,7 @@
-/* jshint nonstandard:true */
-/* jshint node: true */
-
+/* eslint-env node */
+/* eslint max-len: 0 */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -11,12 +10,15 @@ define(["../lib/mscgenjs-core/render/text/ast2dot",
         "../lib/mscgenjs-core/render/text/ast2doxygen",
         "./paramslikker"
         ],
-        function(ast2dot, ast2mscgen, ast2doxygen, par) {
+function(ast2dot, ast2mscgen, ast2doxygen, par) {
     "use strict";
 
-    var MAX_LOCATION_LENGTH = 4094;// max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1
-    var gTemplate = "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n{{config}}    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code {{language}} mscgen_js' data-language='{{language}}'>\n{{source}}\n    </pre>\n  </body>\n</html>";
-    var gLinkToEditorConfig = "    <script>\n      var mscgen_js_config = {\n        clickable: true\n      }\n    </script>\n";
+    /* max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1 */
+    var MAX_LOCATION_LENGTH = 4094;
+    var gTemplate =
+        "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n{{config}}    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code {{language}} mscgen_js' data-language='{{language}}'>\n{{source}}\n    </pre>\n  </body>\n</html>";
+    var gLinkToEditorConfig =
+        "    <script>\n      var mscgen_js_config = {\n        clickable: true\n      }\n    </script>\n";
 
     function toHTMLSnippet (pSource, pLanguage, pWithLinkToEditor){
         return gTemplate.replace(/{{config}}/g, pWithLinkToEditor ? gLinkToEditorConfig : "")
@@ -51,20 +53,25 @@ define(["../lib/mscgenjs-core/render/text/ast2dot",
 
     return {
         toVectorURI: function (pSVGSource) {
-            return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(pSVGSource);
+            return "data:image/svg+xml;charset=utf-8," +
+            encodeURIComponent(pSVGSource);
         },
         toHTMLSnippet: toHTMLSnippet,
         toHTMLSnippetURI: function(pSource, pLanguage, pWithLinkToEditor){
-            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pWithLinkToEditor));
+            return 'data:text/plain;charset=utf-8,' +
+                    encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pWithLinkToEditor));
         },
         todotURI: function(pAST){
-            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2dot.render(pAST));
+            return 'data:text/plain;charset=utf-8,' +
+                    encodeURIComponent(ast2dot.render(pAST));
         },
         toVanillaMscGenURI: function(pAST){
-            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2mscgen.render(pAST));
+            return 'data:text/plain;charset=utf-8,' +
+            encodeURIComponent(ast2mscgen.render(pAST));
         },
         toDoxygenURI: function(pAST){
-            return 'data:text/plain;charset=utf-8,'+encodeURIComponent(ast2doxygen.render(pAST));
+            return 'data:text/plain;charset=utf-8,' +
+            encodeURIComponent(ast2doxygen.render(pAST));
         },
         toLocationString: function (pLocation, pSource, pLanguage) {
             var lSource = '# source too long for an URL';

@@ -1,4 +1,3 @@
-/* jshint nonstandard: true */
 var par    = require("../../utl/paramslikker");
 var expect = require("chai").expect;
 

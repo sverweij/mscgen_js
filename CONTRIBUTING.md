@@ -25,7 +25,7 @@ To make this as easy as possible for you, here's some simple guidelines:
   **[pull requests](https://help.github.com/articles/creating-a-pull-request/)**
   based on the most recent version of the **master** branch.
 - Code quality
-    - Additions pass jshint, jscs
+    - Additions pass eslint as configured for this repo
     - Mocha tests prove your code does what it intends.
     - Your code does not introduce regressions - ```make check``` proves this.
     - Code style (you know, petty things like indentations, where brackets go,

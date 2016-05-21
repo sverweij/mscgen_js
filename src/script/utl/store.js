@@ -1,8 +1,6 @@
-/* jshint browser:true */
-/* jshint node:true */
-
+/* eslint-env node */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -28,13 +26,14 @@ define([], function() {
 
     function save(pState){
         if (localStorageOK()){
-            localStorage.setItem(STORAGE_KEY,
-                                 JSON.stringify({
-                                    language: pState.getLanguage(),
-                                    source: pState.getSource(),
-                                    autorender: pState.getAutoRender(),
-                                    debug: pState.getDebug()
-                                })
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify({
+                    language: pState.getLanguage(),
+                    source: pState.getSource(),
+                    autorender: pState.getAutoRender(),
+                    debug: pState.getDebug()
+                })
             );
         }
     }

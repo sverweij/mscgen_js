@@ -1,5 +1,3 @@
-/* jshint browser:true */
-/* global define */
 define(["./uistate",
         "../lib/codemirror/lib/codemirror",
         "../utl/maps", "../utl/gaga",
@@ -14,70 +12,70 @@ define(["./uistate",
         "../lib/codemirror/mode/javascript/javascript"
         ],
         function(uistate, codemirror, map, gaga) {
-    "use strict";
+            "use strict";
 
-    var gGaKeyCount = 0;
-    var gCodeMirror = {};
+            var gGaKeyCount = 0;
+            var gCodeMirror = {};
 
-    function init (pElement){
-        gCodeMirror = codemirror.fromTextArea(pElement, {
-            lineNumbers       : true,
-            autoCloseBrackets : true,
-            autofocus         : true,
-            matchBrackets     : true,
-            styleActiveLine   : true,
-            theme             : "blackboard",
-            mode              : "xu",
-            placeholder       : "Type your text. Or drag a file to this area....",
-            lineWrapping      : false
-        });
-    }
+            function init (pElement){
+                gCodeMirror = codemirror.fromTextArea(pElement, {
+                    lineNumbers       : true,
+                    autoCloseBrackets : true,
+                    autofocus         : true,
+                    matchBrackets     : true,
+                    styleActiveLine   : true,
+                    theme             : "blackboard",
+                    mode              : "xu",
+                    placeholder       : "Type your text. Or drag a file to this area....",
+                    lineWrapping      : false
+                });
+            }
 
-    function summedLength (pArray){
-        return pArray.reduce(
+            function summedLength (pArray){
+                return pArray.reduce(
             function(pSum, pCur){
                 return pSum + pCur.length;
             },
             0
         );
-    }
-
-    function isBigChange(pChange){
-        return Math.max(summedLength(pChange.text), summedLength(pChange.removed)) > 1;
-    }
-
-    function setupEditorEvents(){
-        gCodeMirror.on ("change", function(pUnused, pChange) {
-            uistate.onInputChanged(isBigChange(pChange));
-            if (gGaKeyCount > 17) {
-                gGaKeyCount = 0;
-                gaga.g('send', 'event', '17 characters typed', uistate.getLanguage());
-            } else {
-                gGaKeyCount++;
             }
-        });
 
-        gCodeMirror.on ("drop", function(pUnused, pEvent) {
+            function isBigChange(pChange){
+                return Math.max(summedLength(pChange.text), summedLength(pChange.removed)) > 1;
+            }
+
+            function setupEditorEvents(){
+                gCodeMirror.on("change", function(pUnused, pChange) {
+                    uistate.onInputChanged(isBigChange(pChange));
+                    if (gGaKeyCount > 17) {
+                        gGaKeyCount = 0;
+                        gaga.g('send', 'event', '17 characters typed', uistate.getLanguage());
+                    } else {
+                        gGaKeyCount++;
+                    }
+                });
+
+                gCodeMirror.on("drop", function(pUnused, pEvent) {
             /* if there is a file in the drop event clear the textarea,
              * otherwise do default handling for drop events (whatever it is)
              */
-            if (pEvent.dataTransfer.files.length > 0) {
-                uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name), false);
-                uistate.setSource("");
-                gaga.g('send', 'event', 'drop', uistate.getLanguage());
+                    if (pEvent.dataTransfer.files.length > 0) {
+                        uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name), false);
+                        uistate.setSource("");
+                        gaga.g('send', 'event', 'drop', uistate.getLanguage());
+                    }
+                });
             }
+
+            return {
+                init: function(pElement) {
+                    init(pElement);
+                    uistate.init(gCodeMirror);
+                    setupEditorEvents();
+
+                }
+            };
         });
-    }
-
-    return {
-        init: function(pElement) {
-            init(pElement);
-            uistate.init(gCodeMirror);
-            setupEditorEvents();
-
-        }
-    };
-});
 /*
  This file is part of mscgen_js.
 

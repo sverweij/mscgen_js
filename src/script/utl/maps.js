@@ -1,11 +1,6 @@
-
-/* jshint undef:true */
-/* jshint unused:strict */
-/* jshint indent:4 */
-/* jshint node:true */
-
+/* eslint-env node */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 

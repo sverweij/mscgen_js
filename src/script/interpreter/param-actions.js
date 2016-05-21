@@ -1,5 +1,3 @@
-/* jshint browser:true */
-/* global define */
 define(["./uistate",
         "../utl/paramslikker",
         "../utl/domutl",
@@ -7,57 +5,57 @@ define(["./uistate",
         "../utl/maps"
         ],
         function(uistate, params, dq, gaga, map) {
-    "use strict";
+            "use strict";
 
-    function setupGA (pDoNotTrack){
-        gaga.gaSetup(!pDoNotTrack);
-        gaga.g('create', '{{trackingid}}', '{{host}}');
-        gaga.g('send', 'pageview');
-    }
-
-    function processParams(){
-        var lParams = params.getParams (window.location.search);
-        setupGA(map.sanitizeBooleanesque(lParams.donottrack));
-
-        uistate.setDebug(false);
-        if (map.sanitizeBooleanesque(lParams.debug)) {
-            dq.doForAllOfClass("debug", function(pDomNode){
-                dq.SS(pDomNode).show();
-            });
-            uistate.setDebug(true);
-            gaga.g('send', 'event', 'debug', 'true');
-        }
-
-        if (lParams.lang){
-            uistate.setLanguage(lParams.lang);
-            gaga.g('send', 'event', 'params.lang', lParams.lang);
-        }
-
-        if (lParams.msc) {
-            uistate.setSource(lParams.msc);
-            gaga.g('send', 'event', 'params.msc');
-        } else {
-            uistate.setSample();
-        }
-    }
-
-    function tagAllLinks(){
-        dq.attachEventHandler("a[href]", "click", function(e){
-            var lTarget = "unknown";
-
-            if (e.currentTarget && e.currentTarget.href){
-                lTarget = e.currentTarget.href;
+            function setupGA (pDoNotTrack){
+                gaga.gaSetup(!pDoNotTrack);
+                gaga.g('create', '{{trackingid}}', '{{host}}');
+                gaga.g('send', 'pageview');
             }
 
-            gaga.g('send', 'event', 'link', lTarget);
-        });
-    }
+            function processParams(){
+                var lParams = params.getParams(window.location.search);
+                setupGA(map.sanitizeBooleanesque(lParams.donottrack));
 
-    return {
-        processParams: processParams,
-        tagAllLinks: tagAllLinks
-    };
-});
+                uistate.setDebug(false);
+                if (map.sanitizeBooleanesque(lParams.debug)) {
+                    dq.doForAllOfClass("debug", function(pDomNode){
+                        dq.ss(pDomNode).show();
+                    });
+                    uistate.setDebug(true);
+                    gaga.g('send', 'event', 'debug', 'true');
+                }
+
+                if (lParams.lang){
+                    uistate.setLanguage(lParams.lang);
+                    gaga.g('send', 'event', 'params.lang', lParams.lang);
+                }
+
+                if (lParams.msc) {
+                    uistate.setSource(lParams.msc);
+                    gaga.g('send', 'event', 'params.msc');
+                } else {
+                    uistate.setSample();
+                }
+            }
+
+            function tagAllLinks(){
+                dq.attachEventHandler("a[href]", "click", function(e){
+                    var lTarget = "unknown";
+
+                    if (e.currentTarget && e.currentTarget.href){
+                        lTarget = e.currentTarget.href;
+                    }
+
+                    gaga.g('send', 'event', 'link', lTarget);
+                });
+            }
+
+            return {
+                processParams: processParams,
+                tagAllLinks: tagAllLinks
+            };
+        });
 /*
  This file is part of mscgen_js.
 

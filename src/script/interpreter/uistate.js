@@ -31,22 +31,24 @@ msc {
   ui =>> html [label="show error"];
 
   |||;
-  ui note msc [label="There's a parser for mscgen and a separate one for ms genny.\nFor simplicity only showning one.", textbgcolor="#ffe"];
+  ui note msc [label="There's a parser for mscgen and a separate one for ms genny.\nFor simplicity only showning one.",
+              textbgcolor="#ffe"];
 }
 */
 
-/* jshint browser:true */
-/* jshint unused:true */
-/* global define */
-
-define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgennyparser", "../lib/mscgenjs-core/render/graphics/renderast",
-        "../lib/mscgenjs-core/render/text/ast2msgenny", "../lib/mscgenjs-core/render/text/ast2xu",
-        "../utl/gaga", "../utl/maps",
+/* eslint max-params: 0 */
+define(["../lib/mscgenjs-core/parse/xuparser",
+        "../lib/mscgenjs-core/parse/msgennyparser",
+        "../lib/mscgenjs-core/render/graphics/renderast",
+        "../lib/mscgenjs-core/render/text/ast2msgenny",
+        "../lib/mscgenjs-core/render/text/ast2xu",
+        "../utl/gaga",
+        "../utl/maps",
         "../utl/domutl",
         "../utl/exporter",
         "./sampleListReader"
         ],
-        function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport, sampleListReader) {
+function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport, sampleListReader) {
     "use strict";
 
     var gAutoRender = true;
@@ -62,7 +64,7 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
     };
 
     /*
-     Average typing speeds (source: https://en.wikipedia.org/wiki/Words_per_minute)
+        Average typing speeds (source: https://en.wikipedia.org/wiki/Words_per_minute)
         1 wpm = 5 cpm
         transcription:
           fast        : 40wpm = 200cpm = 200c/60s = 200c/60000ms => 300 ms/character
@@ -73,13 +75,13 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
 
          But: average professional typists can reach 50 - 80 wpm
 
-    So, about 630ms would be good enough for a buffer to timeout.
+        So, about 630ms would be good enough for a buffer to timeout.
     */
     var BUFFER_TIMEOUT = 500;
 
     function initializeUI(pCodeMirror) {
         gCodeMirror = pCodeMirror;
-        showAutorenderState (gAutoRender);
+        showAutorenderState(gAutoRender);
         setLanguage(getLanguage(), false);
         dq.ajax(
             "samples/interpreter-samples.json",
@@ -91,13 +93,13 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
                             JSON.parse(pResult.target.response),
                             gDebug
                         );
-                    dq.SS(window.__samples).show();
+                    dq.ss(window.__samples).show();
                 } catch (e) {
                     // quietly ignore
                 }
             },
             function(){
-                //quietly ignore
+                // quietly ignore
             }
         );
         if (window.__loading) {
@@ -109,21 +111,18 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
         if ("" === getSource()){
             /* no need to render no input */
             preRenderReset();
-        } else {
-            if (pBigChange){
-                /* probably a drag/ drop, paste operation or sample replacement
-                 * can be rendered without buffering
-                 */
-                onBufferTimeout();
-            } else {
-                /* probably editing by typing in the editor - buffer for
-                 * a few ms
-                 */
-                if (gAutoRender) {
-                    window.clearTimeout(gBufferTimer);
-                    gBufferTimer = window.setTimeout(onBufferTimeout, BUFFER_TIMEOUT);
-                }
-            }
+        } else if (pBigChange){
+            /* probably a drag/ drop, paste operation or sample replacement
+             * can be rendered without buffering
+             */
+            onBufferTimeout();
+        } else if (gAutoRender) {
+            /* probably editing by typing in the editor - buffer for
+             * a few ms
+             */
+
+            window.clearTimeout(gBufferTimer);
+            gBufferTimer = window.setTimeout(onBufferTimeout, BUFFER_TIMEOUT);
         }
     }
 
@@ -144,8 +143,8 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
     }
 
     function getAST(pLanguage, pSource) {
-        var lLanguage = pLanguage ? pLanguage: getLanguage();
-        var lSource = pSource ? pSource: getSource();
+        var lLanguage = pLanguage ? pLanguage : getLanguage();
+        var lSource = pSource ? pSource : getSource();
         return getASTBare(lSource, lLanguage);
     }
 
@@ -157,14 +156,14 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
             if (lAST !== {}){
                 setSource(renderSource(lAST, pLanguage));
             }
-        } catch(e) {
-            // do nothing
+        } catch (e) {
+    // do nothing
         }
         setLanguage(pLanguage);
     }
 
     function clear(){
-        if(["mscgen", "xu"].indexOf(getLanguage()) > -1){
+        if (["mscgen", "xu"].indexOf(getLanguage()) > -1){
             setSource("msc{\n  \n}");
             setCursorInSource(1, 3);
         } else {
@@ -181,8 +180,8 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
                 lAST = pFunction(lAST);
                 setSource(renderSource(lAST, getLanguage()));
             }
-        } catch(e) {
-            // do nothing
+        } catch (e) {
+    // do nothing
         }
     }
 
@@ -220,8 +219,8 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
         gLanguage = pLanguage;
         gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
         showLanguageState(pLanguage);
-        if (((undefined === pAutoRender) && gAutoRender) || pAutoRender === true){
-            render (getSource(), pLanguage);
+        if ((('undefined' === typeof pAutoRender) && gAutoRender) || pAutoRender === true){
+            render(getSource(), pLanguage);
         }
     }
 
@@ -229,26 +228,28 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
         if ("none" === pURL || !pURL){
             clear();
         } else {
-            dq.ajax (
-                pURL,
-                function onSuccess (pEvent){
-                    setLanguage(txt.classifyExtension(pURL), false);
-                    setSource(pEvent.target.response);
-                },
-                function onError (){
-                    setSource("# could not find or open '" + pURL + "'");
-                }
-            );
+            dq.ajax(
+        pURL,
+        function onSuccess (pEvent){
+            setLanguage(txt.classifyExtension(pURL), false);
+            setSource(pEvent.target.response);
+        },
+        function onError (){
+            setSource("# could not find or open '" + pURL + "'");
+        }
+    );
         }
     }
 
     function handleRenderException (pException, pSource){
-        if (!!pException.location) {
+        if (Boolean(pException.location)) {
             gErrorCoordinates.line = pException.location.start.line;
             gErrorCoordinates.column = pException.location.start.column;
             displayError(
-             "Line " + pException.location.start.line + ", column " + pException.location.start.column + ": " + pException.message,
-              ">>> " + pSource.split('\n')[pException.location.start.line - 1] + " <<<");
+                "Line " + pException.location.start.line + ", column " +
+                pException.location.start.column + ": " + pException.message,
+                ">>> " + pSource.split('\n')[pException.location.start.line - 1] + " <<<"
+            );
         } else {
             gErrorCoordinates.line = 0;
             gErrorCoordinates.column = 0;
@@ -263,18 +264,18 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
             if (gDebug) {
                 try {
                     window.history.replaceState({}, "",
-                            xport.toLocationString(window.location,
-                                pSource,
-                                txt.correctLanguage(lAST.meta.extendedFeatures,
-                                    pLanguage
-                                )
-                            )
-                    );
+                    xport.toLocationString(window.location,
+                        pSource,
+                        txt.correctLanguage(lAST.meta.extendedFeatures,
+                            pLanguage
+                        )
+                    )
+            );
                 } catch (e) {
-                    // on chrome window.history.replaceState barfs when
-                    // the interpreter runs from a file:// instead of
-                    // from a server. This try/ catch is a crude way
-                    // to handle that without breaking the rest of the flow
+            // on chrome window.history.replaceState barfs when
+            // the interpreter runs from a file:// instead of
+            // from a server. This try/ catch is a crude way
+            // to handle that without breaking the rest of the flow
                 }
             }
             msc_render.renderAST(lAST, pSource, "__svg", window);
@@ -288,16 +289,16 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
 
     function preRenderReset(){
         hideError();
-        dq.SS(window.__output_controls_area).hide();
-        dq.SS(window.__placeholder).show("flex");
-        dq.SS(window.__svg).hide();
+        dq.ss(window.__output_controls_area).hide();
+        dq.ss(window.__placeholder).show("flex");
+        dq.ss(window.__svg).hide();
         msc_render.clean("__svg", window);
     }
 
     function showRenderSuccess(pMeta){
-        dq.SS(window.__output_controls_area).show();
-        dq.SS(window.__placeholder).hide();
-        dq.SS(window.__svg).show();
+        dq.ss(window.__output_controls_area).show();
+        dq.ss(window.__placeholder).hide();
+        dq.ss(window.__svg).show();
         showExtendedArcTypeFeatures(pMeta);
         showExtendedFeatures(pMeta);
         gLanguage = txt.correctLanguage(pMeta.extendedFeatures, getLanguage());
@@ -305,27 +306,27 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
 
     function showExtendedArcTypeFeatures(pMeta){
         if (pMeta && true === pMeta.extendedArcTypes) {
-            dq.SS(window.__show_anim).hide();
+            dq.ss(window.__show_anim).hide();
         } else {
-            dq.SS(window.__show_anim).show();
+            dq.ss(window.__show_anim).show();
         }
     }
 
     function showExtendedFeatures(pMeta){
-        if( pMeta && true === pMeta.extendedFeatures){
-            dq.SS(window.__xu_notify).show();
+        if (pMeta && true === pMeta.extendedFeatures){
+            dq.ss(window.__xu_notify).show();
         } else {
-            dq.SS(window.__xu_notify).hide();
+            dq.ss(window.__xu_notify).hide();
         }
     }
 
     function showAutorenderState (pAutoRender) {
         if (pAutoRender) {
             window.__autorender.checked = true;
-            dq.SS(window.__btn_render).hide();
+            dq.ss(window.__btn_render).hide();
         } else {
             window.__autorender.checked = false;
-            dq.SS(window.__btn_render).show();
+            dq.ss(window.__btn_render).show();
         }
     }
 
@@ -334,30 +335,30 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
             window.__language_mscgen.checked = false;
             window.__language_msgenny.checked = true;
             window.__language_json.checked = false;
-            dq.SS(window.__btn_more_color_schemes).hide();
+            dq.ss(window.__btn_more_color_schemes).hide();
             window.__color_panel.style.width = '0';
         } else if ("json" === pLanguage){
             window.__language_mscgen.checked = false;
             window.__language_msgenny.checked = false;
             window.__language_json.checked = true;
-            dq.SS(window.__btn_more_color_schemes).show();
+            dq.ss(window.__btn_more_color_schemes).show();
         } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
             window.__language_mscgen.checked = true;
             window.__language_msgenny.checked = false;
             window.__language_json.checked = false;
-            dq.SS(window.__btn_more_color_schemes).show();
+            dq.ss(window.__btn_more_color_schemes).show();
         }
     }
 
     function hideError () {
-        dq.SS(window.__error).hide();
+        dq.ss(window.__error).hide();
         window.__error_output.textContent = "";
         window.__error_context.textContent = "";
     }
 
     function displayError (pError, pContext) {
-        dq.SS(window.__error).show();
-        dq.SS(window.__placeholder).hide();
+        dq.ss(window.__error).show();
+        dq.ss(window.__placeholder).hide();
         window.__error_output.textContent = pError;
         window.__error_context.textContent = pContext;
     }
@@ -370,7 +371,7 @@ define(["../lib/mscgenjs-core/parse/xuparser", "../lib/mscgenjs-core/parse/msgen
         setSample: setSample,
 
         errorOnClick: function(){
-            setCursorInSource(gErrorCoordinates.line -1, gErrorCoordinates.column -1);
+            setCursorInSource(gErrorCoordinates.line - 1, gErrorCoordinates.column - 1);
         },
 
         onInputChanged: onInputChanged,

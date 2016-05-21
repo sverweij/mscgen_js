@@ -1,5 +1,4 @@
-/* global define */
-/* jshint browser:true */
+/* eslint max-params: 0 */
 define(["./uistate",
         "./animator",
         "../utl/exporter",
@@ -7,7 +6,7 @@ define(["./uistate",
         "./general-actions",
         "../utl/gaga"
         ],
-        function(uistate, animctrl, xport, dq, gactions, gaga) {
+function(uistate, animctrl, xport, dq, gactions, gaga) {
     "use strict";
 
     return {
@@ -35,7 +34,12 @@ define(["./uistate",
             );
         },
         embedMeOnClick: function() {
-            window.__embedsnippet.textContent = xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
+            window.__embedsnippet.textContent =
+                xport.toHTMLSnippet(
+                    uistate.getSource(),
+                    uistate.getLanguage(),
+                    uistate.getLinkToInterpeter()
+                );
             gactions.togglePanel(
                 window.__embed_panel,
                 function(){
@@ -49,8 +53,8 @@ define(["./uistate",
         linkToInterpreterOnClick: function() {
             uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
             window.__embedsnippet.textContent =
-                    xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
-            uistate.showAutorenderState (uistate.getAutoRender());
+            xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
+            uistate.showAutorenderState(uistate.getAutoRender());
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
         aboutOnClick: function(){

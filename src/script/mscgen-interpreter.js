@@ -1,4 +1,4 @@
-/* jshint browser:true */
+/* eslint max-params: 0 */
 /* global require */
 require(["interpreter/input-actions",
          "interpreter/output-actions",
@@ -6,7 +6,7 @@ require(["interpreter/input-actions",
          "interpreter/param-actions",
          "interpreter/general-actions",
          "interpreter/editor-events"],
-        function(iactions, oactions, nactions, par, gactions, edit) {
+function(iactions, oactions, nactions, par, gactions, edit) {
     "use strict";
 
     function setupInputEvents(){

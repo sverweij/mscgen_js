@@ -1,8 +1,6 @@
-/* jshint browser:true */
-/* jshint node:true */
-
+/* eslint-env node */
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
@@ -18,7 +16,7 @@ define([], function(){
         return pPrev + '<optgroup label="' + pSampleGroup.label + '">' +
             pSampleGroup
                 .values
-                .filter(function(value) {return (!value.debug||gDebug); })
+                .filter(function(value) { return (!value.debug || gDebug); })
                 .reduce(toOptions, "") +
         '</optgroup>';
     }

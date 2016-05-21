@@ -1,4 +1,6 @@
-/* global localStorage */
+/* global localStorage, global */
+/* eslint no-new-require:0, new-cap:0 */
+
 var store = require("../../utl/store");
 var assert = require("assert");
 
@@ -9,14 +11,14 @@ describe('ui/utl/store', function() {
     var lDebug = false;
 
     var lState = {
-        getLanguage: function(){return "other language";},
-        setLanguage: function(pLanguage){lLanguage = pLanguage;},
-        getSource: function(){return "other source";},
-        setSource: function(pSource){lSource = pSource;},
-        getAutoRender: function(){return true;},
-        setAutoRender: function(pAutoRender){lAutoRender = pAutoRender;},
-        getDebug: function(){return true;},
-        setDebug: function(pDebug){lDebug = pDebug;}
+        getLanguage: function(){ return "other language"; },
+        setLanguage: function(pLanguage){ lLanguage = pLanguage; },
+        getSource: function(){ return "other source"; },
+        setSource: function(pSource){ lSource = pSource; },
+        getAutoRender: function(){ return true; },
+        setAutoRender: function(pAutoRender){ lAutoRender = pAutoRender; },
+        getDebug: function(){ return true; },
+        setDebug: function(pDebug){ lDebug = pDebug; }
     };
 
     describe('#load and save with no localStorage available', function() {

@@ -1,22 +1,20 @@
-/* jshint browser:true */
-/* global define */
 define([], function(){
     "use strict";
 
     return {
-        SS: function SS(pId) {
+        ss: function (pId) {
             return {
                 show: function(pDisplayStyle){
-                        pId.removeAttribute("style");
-                        if (pDisplayStyle){
-                            pId.style.display = pDisplayStyle;
-                        }
-                    },
+                    pId.removeAttribute("style");
+                    if (pDisplayStyle){
+                        pId.style.display = pDisplayStyle;
+                    }
+                },
                 hide: function(){
-                        pId.style.display = "none";
-                    },
+                    pId.style.display = "none";
+                },
                 toggle: function(){
-                    if(pId.style.display === "none") {
+                    if (pId.style.display === "none") {
                         pId.removeAttribute("style");
                     } else {
                         pId.style.display = "none";
@@ -39,7 +37,7 @@ define([], function(){
         ajax : function (pURL, pSuccessFunction, pErrorFunction) {
             var lHttpRequest = new XMLHttpRequest();
             lHttpRequest.onreadystatechange = function (pEvent) {
-                if(pEvent.target.readyState === XMLHttpRequest.DONE) {
+                if (pEvent.target.readyState === XMLHttpRequest.DONE) {
                     if (200 === lHttpRequest.status) {
                         pSuccessFunction(pEvent);
                     } else {

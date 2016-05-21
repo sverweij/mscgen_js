@@ -235,20 +235,20 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
-src/script/test/interpreter/t_sampleListReader.js: \
+src/script/test/interpreter/sampleListReader.spec.js: \
 	src/script/interpreter/sampleListReader.js \
 	src/script/test/interpreter/sampleListReaderFixture.json
 
-src/script/test/utl/t_exporter.js: \
+src/script/test/utl/exporter.spec.js: \
 	src/script/utl/exporter.js
 
-src/script/test/utl/t_maps.js: \
+src/script/test/utl/maps.spec.js: \
 	src/script/utl/maps.js
 
-src/script/test/utl/t_paramslikker.js: \
+src/script/test/utl/paramslikker.spec.js: \
 	src/script/utl/paramslikker.js
 
-src/script/test/utl/t_store.js: \
+src/script/test/utl/store.spec.js: \
 	src/script/utl/store.js
 
 # amd dependencies

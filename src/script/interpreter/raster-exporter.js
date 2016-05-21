@@ -14,11 +14,11 @@ define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
             return pString
                     .replace(
                         'width="100%"',
-                        'width="'+ pViewBox.baseVal.width + '"'
+                        'width="' + pViewBox.baseVal.width + '"'
                     )
                     .replace(
                         'height="100%"',
-                        'height="'+ pViewBox.baseVal.height + '"'
+                        'height="' + pViewBox.baseVal.height + '"'
                     );
         }
         return pString;
@@ -40,12 +40,12 @@ define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
             lImg.addEventListener('load', function(pEvent){
                 var lCanvas        = pDocument.createElement('canvas');
                 var lCanvasContext = lCanvas.getContext('2d');
-                var lImg           = pEvent.target;
+                var lImage         = pEvent.target;
 
-                lCanvas.width  = lImg.width;
-                lCanvas.height = lImg.height;
+                lCanvas.width  = lImage.width;
+                lCanvas.height = lImage.height;
 
-                lCanvasContext.drawImage(lImg, 0, 0);
+                lCanvasContext.drawImage(lImage, 0, 0);
                 pCallback(lCanvas.toDataURL(pType, 0.8));
             });
         }

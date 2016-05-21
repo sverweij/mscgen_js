@@ -1,42 +1,40 @@
-/* global define */
-/* jshint browser:true */
 define(["./animator"],
         function(animctrl) {
-    "use strict";
+            "use strict";
 
-    var ESC_KEY   = 27;
+            var ESC_KEY   = 27;
 
-    function _hideAllPanels(){
-        animctrl.close();
-        window.__color_panel.style.width  = '0';
-        window.__output_panel.style.width = '0';
-        window.__aboutsheet.style.width   = '0';
-        window.__embed_panel.style.width  = '0';
-        window.__learn_panel.style.width  = '0';
-    }
-
-    function _togglePanel(pPanelElement, pOpenFn, pCloseFn){
-        var lHeight = pPanelElement.style.width.toString();
-        if ( lHeight === '0px' || lHeight === ""){
-            _hideAllPanels();
-            pPanelElement.style.width = '340px';
-            pOpenFn();
-        } else {
-            _hideAllPanels();
-            pCloseFn();
-        }
-    }
-
-    return {
-        hideAllPanels: _hideAllPanels,
-        togglePanel: _togglePanel,
-        keyDown: function (e) {
-            if(ESC_KEY === e.keyCode) {
-                _hideAllPanels();
+            function _hideAllPanels(){
+                animctrl.close();
+                window.__color_panel.style.width  = '0';
+                window.__output_panel.style.width = '0';
+                window.__aboutsheet.style.width   = '0';
+                window.__embed_panel.style.width  = '0';
+                window.__learn_panel.style.width  = '0';
             }
-        }
-    };
-});
+
+            function _togglePanel(pPanelElement, pOpenFn, pCloseFn){
+                var lHeight = pPanelElement.style.width.toString();
+                if (lHeight === '0px' || lHeight === ""){
+                    _hideAllPanels();
+                    pPanelElement.style.width = '340px';
+                    pOpenFn();
+                } else {
+                    _hideAllPanels();
+                    pCloseFn();
+                }
+            }
+
+            return {
+                hideAllPanels: _hideAllPanels,
+                togglePanel: _togglePanel,
+                keyDown: function (e) {
+                    if (ESC_KEY === e.keyCode) {
+                        _hideAllPanels();
+                    }
+                }
+            };
+        });
 /*
  This file is part of mscgen_js.
 

@@ -1,5 +1,4 @@
-/* global define */
-/* jshint browser:true */
+/* eslint max-params: 0 */
 define(["./uistate",
         "./animator",
         "../utl/exporter",
@@ -8,34 +7,34 @@ define(["./uistate",
         "./general-actions",
         "../utl/gaga"
         ],
-        function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
+function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
     "use strict";
 
     var IMAGE_EXPORT_WINDOW_NAME = "mscgenjsimages";
     function rasterExport(pType){
-        /*
-         * first open a window directly as opening windows from the img.load
-         * (as the anonymous function will do) is blocked by many browsers
-         * (safari: hard, firefox: asks the user for for permission)
-         */
+/*
+ * first open a window directly as opening windows from the img.load
+ * (as the anonymous function will do) is blocked by many browsers
+ * (safari: hard, firefox: asks the user for for permission)
+ */
         window.open("about:blank", IMAGE_EXPORT_WINDOW_NAME);
         rxport.toRasterURI(
-            document,
-            window.__svg,
-            pType,
-            function(pRasterURI){
-                window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
-            }
-        );
+    document,
+    window.__svg,
+    pType,
+    function(pRasterURI){
+        window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
+    }
+);
     }
 
     function vectorExport() {
         window.open(
-            xport.toVectorURI(
-                dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
-            ),
-            IMAGE_EXPORT_WINDOW_NAME
-        );
+    xport.toVectorURI(
+        dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
+    ),
+    IMAGE_EXPORT_WINDOW_NAME
+);
     }
 
     return {
@@ -72,14 +71,18 @@ define(["./uistate",
             gaga.g('send', 'event', 'show_doxygen', 'button');
         },
         urlOnClick: function() {
-            window.history.replaceState({}, "", xport.toLocationString(window.location, uistate.getSource(), uistate.getLanguage()));
+            window.history.replaceState(
+                {},
+                "",
+                xport.toLocationString(window.location, uistate.getSource(), uistate.getLanguage())
+            );
             gaga.g('send', 'event', 'show_url', 'button');
         },
         animOnClick: function() {
             try {
                 animctrl.initialize(uistate.getAST());
-                // dq.SS(window.__animscreen).show();
-            } catch(e) {
+                // dq.ss(window.__animscreen).show();
+            } catch (e) {
                 // do nothing
             }
             gaga.g('send', 'event', 'show_anim', 'button');
@@ -91,8 +94,8 @@ define(["./uistate",
         moreExportOptionsOnClick: function(){
             gactions.togglePanel(
                 window.__output_panel,
-                function(){gaga.g('send', 'event', 'export.open', 'button');},
-                function(){gaga.g('send', 'event', 'export.close', 'button');}
+                function(){ gaga.g('send', 'event', 'export.open', 'button'); },
+                function(){ gaga.g('send', 'event', 'export.close', 'button'); }
             );
         },
         closeExportOptions: function(){
