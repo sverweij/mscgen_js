@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.12.0';
+  var VERSION = '4.13.1';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -103,51 +103,29 @@
   cloneableTags[errorTag] = cloneableTags[funcTag] =
   cloneableTags[weakMapTag] = false;
 
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
   /** Built-in method references without a dependency on `root`. */
   var freeParseInt = parseInt;
 
   /** Detect free variable `exports`. */
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
+  var freeExports = typeof exports == 'object' && exports;
 
   /** Detect free variable `module`. */
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
+  var freeModule = freeExports && typeof module == 'object' && module;
 
   /** Detect the popular CommonJS extension `module.exports`. */
-  var moduleExports = (freeModule && freeModule.exports === freeExports)
-    ? freeExports
-    : undefined;
+  var moduleExports = freeModule && freeModule.exports === freeExports;
 
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+  var freeGlobal = checkGlobal(typeof global == 'object' && global);
 
   /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  /** Detect free variable `window`. */
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+  var freeSelf = checkGlobal(typeof self == 'object' && self);
 
   /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+  var thisGlobal = checkGlobal(typeof this == 'object' && this);
 
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
+  /** Used as a reference to the global object. */
+  var root = freeGlobal || freeSelf || thisGlobal || Function('return this')();
 
   /*--------------------------------------------------------------------------*/
 
@@ -204,13 +182,13 @@
    * iteratee shorthands.
    *
    * @private
-   * @param {Array} array The array to iterate over.
+   * @param {Array} [array] The array to iterate over.
    * @param {Function} iteratee The function invoked per iteration.
    * @returns {Array} Returns `array`.
    */
   function arrayEach(array, iteratee) {
     var index = -1,
-        length = array.length;
+        length = array ? array.length : 0;
 
     while (++index < length) {
       if (iteratee(array[index], index, array) === false) {
@@ -244,7 +222,7 @@
    * iteratee shorthands.
    *
    * @private
-   * @param {Array} array The array to iterate over.
+   * @param {Array} [array] The array to iterate over.
    * @param {Function} iteratee The function invoked per iteration.
    * @param {*} [accumulator] The initial value.
    * @param {boolean} [initAccum] Specify using the first element of `array` as
@@ -253,7 +231,7 @@
    */
   function arrayReduce(array, iteratee, accumulator, initAccum) {
     var index = -1,
-        length = array.length;
+        length = array ? array.length : 0;
 
     if (initAccum && length) {
       accumulator = array[++index];
@@ -292,6 +270,18 @@
    */
   function checkGlobal(value) {
     return (value && value.Object === Object) ? value : null;
+  }
+
+  /**
+   * Gets the value at `key` of `object`.
+   *
+   * @private
+   * @param {Object} [object] The object to query.
+   * @param {string} key The key of the property to get.
+   * @returns {*} Returns the property value.
+   */
+  function getValue(object, key) {
+    return object == null ? undefined : object[key];
   }
 
   /**
@@ -369,6 +359,15 @@
   /** Used for built-in method references. */
   var arrayProto = Array.prototype,
       objectProto = Object.prototype;
+
+  /** Used to detect overreaching core-js shims. */
+  var coreJsData = root['__core-js_shared__'];
+
+  /** Used to detect methods masquerading as native. */
+  var maskSrcKey = (function() {
+    var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+    return uid ? ('Symbol(src)_1.' + uid) : '';
+  }());
 
   /** Used to resolve the decompiled source of functions. */
   var funcToString = Function.prototype.toString;
@@ -504,19 +503,21 @@
    * `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`, `isBoolean`,
    * `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`, `isEqualWith`,
    * `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`, `isMap`,
-   * `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`, `isNumber`,
-   * `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`, `isSafeInteger`,
-   * `isSet`, `isString`, `isUndefined`, `isTypedArray`, `isWeakMap`, `isWeakSet`,
-   * `join`, `kebabCase`, `last`, `lastIndexOf`, `lowerCase`, `lowerFirst`,
-   * `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`, `min`, `minBy`, `multiply`,
-   * `noConflict`, `noop`, `now`, `nth`, `pad`, `padEnd`, `padStart`, `parseInt`,
-   * `pop`, `random`, `reduce`, `reduceRight`, `repeat`, `result`, `round`,
-   * `runInContext`, `sample`, `shift`, `size`, `snakeCase`, `some`, `sortedIndex`,
-   * `sortedIndexBy`, `sortedLastIndex`, `sortedLastIndexBy`, `startCase`,
-   * `startsWith`, `subtract`, `sum`, `sumBy`, `template`, `times`, `toFinite`,
-   * `toInteger`, `toJSON`, `toLength`, `toLower`, `toNumber`, `toSafeInteger`,
-   * `toString`, `toUpper`, `trim`, `trimEnd`, `trimStart`, `truncate`, `unescape`,
-   * `uniqueId`, `upperCase`, `upperFirst`, `value`, and `words`
+   * `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
+   * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
+   * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
+   * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
+   * `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`,
+   * `min`, `minBy`, `multiply`, `noConflict`, `noop`, `now`, `nth`, `pad`,
+   * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
+   * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
+   * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
+   * `sortedLastIndexBy`, `startCase`, `startsWith`, `stubArray`, `stubFalse`,
+   * `stubObject`, `stubString`, `stubTrue`, `subtract`, `sum`, `sumBy`,
+   * `template`, `times`, `toFinite`, `toInteger`, `toJSON`, `toLength`,
+   * `toLower`, `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`,
+   * `trimEnd`, `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`,
+   * `upperFirst`, `value`, and `words`
    *
    * @name _
    * @constructor
@@ -1157,7 +1158,7 @@
    * The base implementation of `_.has` without support for deep paths.
    *
    * @private
-   * @param {Object} object The object to query.
+   * @param {Object} [object] The object to query.
    * @param {Array|string} key The key to check.
    * @returns {boolean} Returns `true` if `key` exists, else `false`.
    */
@@ -1165,8 +1166,25 @@
     // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
     // that are composed entirely of index properties, return `false` for
     // `hasOwnProperty` checks of them.
-    return hasOwnProperty.call(object, key) ||
-      (typeof object == 'object' && key in object && getPrototype(object) === null);
+    return object != null &&
+      (hasOwnProperty.call(object, key) ||
+        (typeof object == 'object' && key in object && getPrototype(object) === null));
+  }
+
+  /**
+   * The base implementation of `_.isNative` without bad shim checks.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a native function,
+   *  else `false`.
+   */
+  function baseIsNative(value) {
+    if (!isObject(value) || isMasked(value)) {
+      return false;
+    }
+    var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+    return pattern.test(toSource(value));
   }
 
   /**
@@ -1467,8 +1485,8 @@
    * @returns {*} Returns the function if it's native, else `undefined`.
    */
   function getNative(object, key) {
-    var value = object[key];
-    return isNative(value) ? value : undefined;
+    var value = getValue(object, key);
+    return baseIsNative(value) ? value : undefined;
   }
 
   /**
@@ -1497,9 +1515,7 @@
 
   // Fallback for IE < 11.
   if (!getOwnPropertySymbols) {
-    getSymbols = function() {
-      return [];
-    };
+    getSymbols = stubArray;
   }
 
   /**
@@ -1698,6 +1714,17 @@
     return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
       ? (value !== '__proto__')
       : (value === null);
+  }
+
+  /**
+   * Checks if `func` has its source masked.
+   *
+   * @private
+   * @param {Function} func The function to check.
+   * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+   */
+  function isMasked(func) {
+    return !!maskSrcKey && (maskSrcKey in func);
   }
 
   /**
@@ -2063,7 +2090,7 @@
    * _.isBuffer(new Uint8Array(2));
    * // => false
    */
-  var isBuffer = !Buffer ? constant(false) : function(value) {
+  var isBuffer = !Buffer ? stubFalse : function(value) {
     return value instanceof Buffer;
   };
 
@@ -2184,32 +2211,6 @@
   }
 
   /**
-   * Checks if `value` is a native function.
-   *
-   * @static
-   * @memberOf _
-   * @since 3.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a native function,
-   *  else `false`.
-   * @example
-   *
-   * _.isNative(Array.prototype.push);
-   * // => true
-   *
-   * _.isNative(_);
-   * // => false
-   */
-  function isNative(value) {
-    if (!isObject(value)) {
-      return false;
-    }
-    var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
-    return pattern.test(toSource(value));
-  }
-
-  /**
    * Checks if `value` is classified as a `String` primitive or object.
    *
    * @static
@@ -2293,7 +2294,7 @@
   /**
    * Converts `value` to an integer.
    *
-   * **Note:** This function is loosely based on
+   * **Note:** This method is loosely based on
    * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
    *
    * @static
@@ -2522,33 +2523,48 @@
   /*------------------------------------------------------------------------*/
 
   /**
-   * Creates a function that returns `value`.
+   * A method that returns a new empty array.
    *
    * @static
    * @memberOf _
-   * @since 2.4.0
+   * @since 4.13.0
    * @category Util
-   * @param {*} value The value to return from the new function.
-   * @returns {Function} Returns the new constant function.
+   * @returns {Array} Returns the new empty array.
    * @example
    *
-   * var object = { 'user': 'fred' };
-   * var getter = _.constant(object);
+   * var arrays = _.times(2, _.stubArray);
    *
-   * getter() === object;
-   * // => true
+   * console.log(arrays);
+   * // => [[], []]
+   *
+   * console.log(arrays[0] === arrays[1]);
+   * // => false
    */
-  function constant(value) {
-    return function() {
-      return value;
-    };
+  function stubArray() {
+    return [];
+  }
+
+  /**
+   * A method that returns `false`.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.13.0
+   * @category Util
+   * @returns {boolean} Returns `false`.
+   * @example
+   *
+   * _.times(2, _.stubFalse);
+   * // => [false, false]
+   */
+  function stubFalse() {
+    return false;
   }
 
   /*------------------------------------------------------------------------*/
 
   // Add methods that return wrapped values in chain sequences.
   lodash.assignInWith = assignInWith;
-  lodash.constant = constant;
   lodash.defaults = defaults;
   lodash.flatten = flatten;
   lodash.keys = keys;
@@ -2571,11 +2587,12 @@
   lodash.isBuffer = isBuffer;
   lodash.isFunction = isFunction;
   lodash.isLength = isLength;
-  lodash.isNative = isNative;
   lodash.isObject = isObject;
   lodash.isObjectLike = isObjectLike;
   lodash.isString = isString;
   lodash.isSymbol = isSymbol;
+  lodash.stubArray = stubArray;
+  lodash.stubFalse = stubFalse;
   lodash.toFinite = toFinite;
   lodash.toInteger = toInteger;
   lodash.toNumber = toNumber;
@@ -2598,7 +2615,7 @@
   // also prevents errors in cases where Lodash is loaded by a script tag in the
   // presence of an AMD loader. See http://requirejs.org/docs/errors.html#mismatch
   // for more details. Use `_.noConflict` to remove Lodash from the global object.
-  (freeWindow || freeSelf || {})._ = lodash;
+  (freeSelf || {})._ = lodash;
 
   // Some AMD build optimizers like r.js check for condition patterns like the following:
   if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
@@ -2609,11 +2626,9 @@
     });
   }
   // Check for `exports` after `define` in case a build optimizer adds an `exports` object.
-  else if (freeExports && freeModule) {
+  else if (freeModule) {
     // Export for Node.js.
-    if (moduleExports) {
-      (freeModule.exports = lodash)._ = lodash;
-    }
+    (freeModule.exports = lodash)._ = lodash;
     // Export for CommonJS support.
     freeExports._ = lodash;
   }
