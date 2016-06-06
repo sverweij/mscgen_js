@@ -140,9 +140,15 @@ function(fact, svgutl, C, txt, map) {
         var lAbsWidth = Math.abs(pWidth);
         var REFERENCE_FONT_SIZE = 12; // px
 
-        if (lAbsWidth <= 160) { return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 8); }
-        if (lAbsWidth <= 320) { return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 6.4); }
-        if (lAbsWidth <= 480) { return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.9); }
+        if (lAbsWidth <= 160) {
+            return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 8);
+        }
+        if (lAbsWidth <= 320) {
+            return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 6.4);
+        }
+        if (lAbsWidth <= 480) {
+            return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.9);
+        }
         return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
     }
 

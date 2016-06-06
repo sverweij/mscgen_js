@@ -129,8 +129,12 @@ function(transform, map, _, txt) {
         var lAST = {};
         gMaxDepth = 0;
 
-        if (Boolean(pAST.options)){ lAST.options = _.cloneDeep(pAST.options); }
-        if (Boolean(pAST.entities)){ lAST.entities = _.cloneDeep(pAST.entities); }
+        if (Boolean(pAST.options)){
+            lAST.options = _.cloneDeep(pAST.options);
+        }
+        if (Boolean(pAST.entities)){
+            lAST.entities = _.cloneDeep(pAST.entities);
+        }
         lAST.arcs = [];
 
         if (pAST && pAST.arcs) {
