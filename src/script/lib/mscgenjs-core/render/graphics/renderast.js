@@ -827,16 +827,17 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
+            var lMaxDepthCorrection = gChart.maxDepth * 1 * C.LINE_WIDTH;
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
 
             lStartX =
                 (entities.getX(pArc.from) -
                 (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) -
-                lArcDepthCorrection;
+                (lArcDepthCorrection - lMaxDepthCorrection);
             lEndX   =
                 (entities.getX(pArc.to) +
                 (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) +
-                lArcDepthCorrection;
+                (lArcDepthCorrection - lMaxDepthCorrection);
             lClass  = "inline_expression_divider";
         }
         var lLine =
