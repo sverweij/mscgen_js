@@ -30,9 +30,6 @@ function(transform, map, _, txt) {
         }
     }
 
-    /**
-     *
-     */
     function emptyStringForNoLabel(pArc){
         pArc.label = Boolean(pArc.label) ? pArc.label : "";
     }
@@ -74,55 +71,65 @@ function(transform, map, _, txt) {
             }
         }
     }
-    function calcNumberOfRows(pArcRow) {
-        return pArcRow.arcs.reduce(function(pSum, pArc){
+    function calcNumberOfRows(pInlineExpression) {
+        return pInlineExpression.arcs.reduce(function(pSum, pArc){
             return pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0);
-        }, pArcRow.arcs.length);
+        }, pInlineExpression.arcs.length);
     }
 
-    function unwindArcRow(pArcRow, pAST, pDepth, pFrom, pTo) {
-        var lArcSpanningArc = {};
-        if ("inline_expression" === map.getAggregate(pArcRow[0].kind)) {
-            lArcSpanningArc = _.cloneDeep(pArcRow[0]);
+    function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
+        var lRetval = [];
+        var lArcRowToPush = [];
+        var lUnWoundSubArcs = [];
 
-            if (Boolean(lArcSpanningArc.arcs)) {
-                lArcSpanningArc.numberofrows = calcNumberOfRows(lArcSpanningArc);
-                delete lArcSpanningArc.arcs;
-                pAST.arcs.push([lArcSpanningArc]);
-                pArcRow[0].arcs.forEach(function(pArcRow0) {
-                    unwindArcRow(pArcRow0, pAST, pDepth + 1, lArcSpanningArc.from, lArcSpanningArc.to);
-                    pArcRow0.forEach(function(pArc) {
-                        overrideColorsFromThing(pArc, lArcSpanningArc);
-                    });
-                });
+        pArcRow.forEach(
+            function(pArc){
+                if ("inline_expression" === map.getAggregate(pArc.kind)) {
+                    pArc.depth = pDepth;
+                    if (Boolean(pArc.arcs)) {
+                        var lInlineExpression = _.cloneDeep(pArc);
+                        lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
+                        delete lInlineExpression.arcs;
+                        lArcRowToPush.push(lInlineExpression);
 
-                if (pDepth > gMaxDepth) {
-                    gMaxDepth = pDepth;
-                }
-            } else {
-                pAST.arcs.push([lArcSpanningArc]);
-            }
-            pAST.arcs.push([{
-                kind : "|||",
-                from : lArcSpanningArc.from,
-                to : lArcSpanningArc.to
-            }]);
-            lArcSpanningArc.depth = pDepth;
-        } else {
-            if (pFrom && pTo) {
-                pArcRow
-                    .filter(function(pArc){
-                        return "emptyarc" === map.getAggregate(pArc.kind);
-                    })
-                    .forEach(function(pArc) {
+                        pArc.arcs.forEach(
+                            function(pSubArcRow) {
+                                lUnWoundSubArcs = lUnWoundSubArcs.concat(
+                                    unwindArcRow(
+                                        pSubArcRow,
+                                        pDepth + 1,
+                                        lInlineExpression.from,
+                                        lInlineExpression.to
+                                    )
+                                );
+                                pSubArcRow.forEach(function(pSubArc) {
+                                    overrideColorsFromThing(pSubArc, lInlineExpression);
+                                });
+                            }
+                        );
+                        if (pDepth > gMaxDepth) {
+                            gMaxDepth = pDepth;
+                        }
+                    } else {
+                        lArcRowToPush.push(pArc);
+                    }
+                    lUnWoundSubArcs.push([{
+                        kind : "|||",
+                        from : pArc.from,
+                        to : pArc.to
+                    }]);
+                } else {
+                    if ((pFrom && pTo) && ("emptyarc" === map.getAggregate(pArc.kind))) {
                         pArc.from = pFrom;
                         pArc.to = pTo;
                         pArc.depth = pDepth;
                     }
-                );
+                    lArcRowToPush.push(pArc);
+                }
             }
-            pAST.arcs.push(pArcRow);
-        }
+        );
+        lRetval.push(lArcRowToPush);
+        return lRetval.concat(lUnWoundSubArcs);
     }
 
     function _unwind(pAST) {
@@ -138,9 +145,13 @@ function(transform, map, _, txt) {
         lAST.arcs = [];
 
         if (pAST && pAST.arcs) {
-            pAST.arcs.forEach(function(pArcRow) {
-                unwindArcRow(pArcRow, lAST, 0);
-            });
+            pAST.arcs
+                .forEach(function(pArcRow) {
+                    unwindArcRow(pArcRow, 0)
+                        .forEach(function(pUnwoundArcRow){
+                            lAST.arcs.push(pUnwoundArcRow);
+                        });
+                });
         }
         lAST.depth = gMaxDepth + 1;
         return lAST;
@@ -162,7 +173,8 @@ function(transform, map, _, txt) {
             pAST.arcs.forEach(function(pArcRow, pArcRowIndex) {
                 pArcRow
                     .filter(function(pArc){
-                        /* assuming swap has been done already and "*" is in no 'from'  anymore */
+                        /* assuming swap has been done already and "*"
+                           is in no 'from'  anymore */
                         return pArc.to === "*";
                     })
                     .forEach(function(pArc, pArcIndex) {
