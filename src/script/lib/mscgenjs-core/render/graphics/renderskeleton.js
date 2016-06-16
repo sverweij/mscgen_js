@@ -51,7 +51,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
          * to put "dynamic" definitions in
          */
         var lDefs = fact.createDefs();
-        lDefs.appendChild(setupStyle(pStyleAdditions));
+        lDefs.appendChild(setupStyle(pElementId, pStyleAdditions));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
@@ -66,6 +66,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         lBody.appendChild(fact.createGroup(pElementId + "__sequencelayer"));
         lBody.appendChild(fact.createGroup(pElementId + "__notelayer"));
         lBody.appendChild(fact.createGroup(pElementId + "__watermark"));
+        lBody.appendChild(fact.createGroup(pElementId + "__onionskin", "onionskin"));
         return lBody;
     }
 
@@ -82,7 +83,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = fact.createSVG(pSvgElementId);
+        var lSkeletonSvg = fact.createSVG(pSvgElementId, C.CSS_FENCE_CLASS);
         lSkeletonSvg.appendChild(fact.createDesc(pSvgElementId + "__msc_source"));
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pStyleAdditions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
@@ -91,15 +92,11 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return gDocument;
     }
 
-    function setupStyleElement(pStyleAdditions) {
+    function setupStyleElement(pSvgElementId, pStyleAdditions) {
         return csstemplates.baseTemplate
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
             .replace(/<%=lineWidth%>/g, C.LINE_WIDTH) +
              (Boolean(pStyleAdditions) ? pStyleAdditions : "");
-        // return csstemplates.baseTemplate({
-        //     fontSize : C.FONT_SIZE,
-        //     lineWidth: C.LINE_WIDTH
-        // }) + (!!pStyleAdditions ? pStyleAdditions : "");
     }
     return {
         /**

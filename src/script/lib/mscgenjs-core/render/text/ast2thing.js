@@ -21,7 +21,7 @@ define(["./textutensils"], function(utl) {
         "optionIsValidfn": optionIsValid,
         "renderEntityNamefn" : renderEntityName,
         "renderKindfn" : renderKind,
-        "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
+        "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark", "mirrorentitiesonbottom"],
         "supportedEntityAttributes" : ["label"],
         "supportedArcAttributes" : ["label"],
         // "renderAttributefn" : renderAttribute

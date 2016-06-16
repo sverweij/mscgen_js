@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "codemirror": "5.15.2",
     "requirejs": "2.2.0",
-    "mscgenjs": "1.4.0",
+    "mscgenjs": "sverweij/mscgenjs-core#feature/improve-big-chart-navigation",
     "mscgenjs-inpage": "1.4.0"
   },
   "devDependencies": {

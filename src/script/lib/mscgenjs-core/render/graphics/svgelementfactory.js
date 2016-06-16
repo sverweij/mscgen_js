@@ -21,12 +21,13 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
 
     var gDocument = {};
 
-    function _createSVG(pId) {
+    function _createSVG(pId, pClass) {
         return factll.createElement(
             "svg",
             {
                 version: "1.1",
                 id: pId,
+                class: pClass,
                 xmlns: C.SVGNS,
                 "xmlns:xlink": C.XLINKNS,
                 width: 0,
@@ -98,11 +99,12 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         );
     }
 
-    function _createGroup(pId) {
+    function _createGroup(pId, pClass) {
         return factll.createElement(
             "g",
             {
-                id: pId
+                id: pId,
+                class: pClass
             }
         );
     }

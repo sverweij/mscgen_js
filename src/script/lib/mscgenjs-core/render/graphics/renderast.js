@@ -92,6 +92,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         renderEntities(pAST.entities);
         rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
+        if (Boolean(pAST.options) && pAST.options.mirrorentitiesonbottom){
+            renderEntitiesOnBottom();
+        }
+
     }
 
     function renderASTPost(pAST){
@@ -120,6 +124,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         pLayer.notes = pDocument.getElementById(id.get("__notelayer"));
         pLayer.inline = pDocument.getElementById(id.get("__arcspanlayer"));
         pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
+        // pLayer.onionskin = pDocument.getElementById(id.get("__onionskin"));
     }
 
     function preProcessOptionsArcs(pChart, pOptions){
@@ -173,7 +178,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             "width" :
                 (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
             "height" :
-                lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
+                (2 * entities.getDims().height) + lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
             "horizontaltransform" :
                 (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
             "autoscale" :
@@ -263,15 +268,23 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return entities.getDims().height;
     }
 
-    function renderEntity(pEntity) {
+    function renderEntity(pEntity, pX) {
         var lGroup = fact.createGroup(id.get(pEntity.name));
         var lBBox = entities.getDims();
+        lBBox.x = pX ? pX : 0;
         var lTextLabel =
             labels.createLabel(
                 pEntity,
-                {x:0, y:lBBox.height / 2, width:lBBox.width},
-                {kind: "entity"}
+                {
+                    x:lBBox.x,
+                    y:lBBox.height / 2,
+                    width:lBBox.width
+                },
+                {
+                    kind: "entity"
+                }
             );
+
         var lRect = fact.createRect(
             lBBox,
             "entity",
@@ -283,10 +296,42 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return lGroup;
     }
 
-    function _renderEntity(pEntity, pEntityXPos) {
-        gChart.layer.defs.appendChild(renderEntity(pEntity));
+    // function renderOnionEntity(pEntity, pX) {
+    //     var lBBox = entities.getDims();
+    //     // lBBox.x = pX ? pX : 0;
+    //     // var lTextLabel =
+    //     return  labels.createLabel(
+    //         pEntity,
+    //         {
+    //             x:pX,
+    //             y:lBBox.height / 2,
+    //             width:lBBox.width
+    //         },
+    //         {
+    //             ownBackground: true,
+    //             kind: "entity"
+    //         }
+    //     );
+    // }
+
+    function renderEntitiesOnBottom() {
+        gChart.layer.lifeline.appendChild(
+            fact.createUse(
+                {
+                    x:0,
+                    y:rowmemory.getLast().y + gChart.arcRowHeight
+                },
+                id.get("arcrow")
+            )
+        );
         gChart.layer.sequence.appendChild(
-            fact.createUse({x: pEntityXPos, y:0}, id.get(pEntity.name))
+            fact.createUse(
+                {
+                    x:0,
+                    y:rowmemory.getLast().y + entities.getDims().height
+                },
+                id.get("entities")
+            )
         );
     }
 
@@ -298,19 +343,40 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      */
     function renderEntities(pEntities) {
         var lEntityXPos = 0;
+        var lEntityGroup = fact.createGroup(id.get("entities"));
+        // var lOnionEntityGroup = fact.createGroup(id.get("onion-entities"));
 
         if (pEntities) {
             entities.setHeight(getMaxEntityHeight(pEntities) + C.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
-                _renderEntity(pEntity, lEntityXPos);
+                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos));
+                // lOnionEntityGroup.appendChild(renderOnionEntity(pEntity, lEntityXPos));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
+            gChart.layer.defs.appendChild(lEntityGroup);
+            gChart.layer.sequence.appendChild(
+                fact.createUse({x:0, y:0}, id.get("entities"))
+            );
         }
         gChart.arcEndX =
             lEntityXPos -
             entities.getDims().interEntitySpacing + entities.getDims().width;
+
+        // lOnionEntityGroup.appendChild(
+        //     fact.createRect(
+        //         {
+        //             x: -(entities.getDims().interEntitySpacing - entities.getDims().width) / 2,
+        //             y: 0,
+        //             width: lEntityXPos, // + 2 * entities.getDims().interEntitySpacing,
+        //             height: entities.getDims().height
+        //         },
+        //         "onionskin-hover-layer"
+        //     )
+        // );
+
+        // gChart.layer.defs.appendChild(lOnionEntityGroup);
     }
 
     /* ------------------------END entity shizzle-------------------------------- */
@@ -451,9 +517,19 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                         x:0,
                         y:rowmemory.get(pRowNumber).y
                     },
-                    pRowMemoryLine.id)
+                    pRowMemoryLine.id
+                )
             );
         });
+        // gChart.layer.onionskin.appendChild(
+        //     fact.createUse(
+        //         {
+        //             x:0,
+        //             y:rowmemory.get(pRowNumber).y - entities.getDims().height
+        //         },
+        //         id.get("entities")
+        //     )
+        // );
     }
 
     /** renderArcRows() - renders the arcrows from an AST
