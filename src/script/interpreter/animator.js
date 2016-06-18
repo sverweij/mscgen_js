@@ -5,13 +5,14 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
         function(msc_render, ast2animate, gaga, dq) {
             "use strict";
 
-            var ICON_PLAY            = "icon-play";
-            var ICON_PAUSE           = "icon-pause";
-            var gPlaying             = false;
-            var gTimer               = {};
-            var gInitializationTimer = {};
-            var gInitialized         = false;
-            var anim                 = new ast2animate.FrameFactory();
+            var ICON_PLAY               = "icon-play";
+            var ICON_PAUSE              = "icon-pause";
+            var gPlaying                = false;
+            var gTimer                  = {};
+            var gInitializationTimer    = {};
+            var gInitialized            = false;
+            var anim                    = new ast2animate.FrameFactory();
+            var gMirrorEntitiesOnBottom = false;
 
             _setupEvents();
 
@@ -23,7 +24,7 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
                 }
             }
 
-            function initialize(pAST) {
+            function initialize(pAST, pMirrorEntitiesOnBottom) {
                 window.__animscreen.style.height = '100%';
                 window.__animscreen.style["transition-duration"] = '1.2s';
                 if (gInitializationTimer){
@@ -31,10 +32,18 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
                 }
 
                 gInitializationTimer = window.setTimeout(showAnimationControls, 1100);
+                gMirrorEntitiesOnBottom = pMirrorEntitiesOnBottom;
 
                 msc_render.clean("__animsvg", window);
                 anim.init(pAST, true);
-                msc_render.renderAST(anim.getCurrentFrame(), "", "__animsvg", window);
+                msc_render.renderASTNew(
+                    anim.getCurrentFrame(),
+                    window,
+                    "__animsvg",
+                    {
+                        mirrorEntitiesOnBottom: pMirrorEntitiesOnBottom
+                    }
+                );
                 gInitialized = true;
             }
 
@@ -55,7 +64,14 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
             function updateState(){
                 if (gInitialized) {
                     msc_render.clean("__animsvg", window);
-                    msc_render.renderAST(anim.getCurrentFrame(), "", "__animsvg", window);
+                    msc_render.renderASTNew(
+                        anim.getCurrentFrame(),
+                        window,
+                        "__animsvg",
+                        {
+                            mirrorEntitiesOnBottom: gMirrorEntitiesOnBottom
+                        }
+                    );
                     window.__anim_progress_percentage.setAttribute("style",
                                 "width: " + anim.getPercentage() + "%");
                 }
@@ -93,7 +109,6 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
                 updateState();
             }
             function close() {
-        // dq.ss(window.__animscreen).hide();
                 window.__animscreen.style["transition-duration"] = '0.6s';
                 window.__animscreen.style.height = '0';
                 dq.ss(window.__animsvgwrapper).hide();
@@ -118,52 +133,52 @@ define(["../lib/mscgenjs-core/render/graphics/renderast",
 
             function _setupEvents() {
                 window.__btn_anim_home.addEventListener("click",
-            function() {
-                home();
-                gaga.g('send', 'event', 'anim_home', 'button');
-            },
-            false
-        );
+                    function() {
+                        home();
+                        gaga.g('send', 'event', 'anim_home', 'button');
+                    },
+                    false
+                );
                 window.__btn_anim_dec.addEventListener("click",
-            function() {
-                dec();
-                gaga.g('send', 'event', 'anim_dec', 'button');
-            },
-            false
-        );
+                    function() {
+                        dec();
+                        gaga.g('send', 'event', 'anim_dec', 'button');
+                    },
+                    false
+                );
                 window.__btn_anim_playpause.addEventListener("click",
-            function() {
-                playpause();
-                gaga.g('send', 'event', 'anim_playpause', 'button');
-            },
-            false
-        );
+                    function() {
+                        playpause();
+                        gaga.g('send', 'event', 'anim_playpause', 'button');
+                    },
+                    false
+                );
                 window.__btn_anim_inc.addEventListener("click",
-            function() {
-                inc();
-                gaga.g('send', 'event', 'anim_inc', 'button');
-            },
-            false
-        );
+                    function() {
+                        inc();
+                        gaga.g('send', 'event', 'anim_inc', 'button');
+                    },
+                    false
+                );
                 window.__btn_anim_end.addEventListener("click",
-            function() {
-                end();
-                gaga.g('send', 'event', 'anim_end', 'button');
-            },
-            false
-        );
+                    function() {
+                        end();
+                        gaga.g('send', 'event', 'anim_end', 'button');
+                    },
+                    false
+                );
                 window.__btn_anim_close.addEventListener("click",
-            function() {
-                close();
-            },
-            false
-        );
+                    function() {
+                        close();
+                    },
+                    false
+                );
                 window.__anim_progress_percentage_wrapper.addEventListener("click",
-             function(pEvent) {
-                 percentageClick(pEvent);
-             },
-             false
-        );
+                     function(pEvent) {
+                         percentageClick(pEvent);
+                     },
+                     false
+                );
             }
 
             return {

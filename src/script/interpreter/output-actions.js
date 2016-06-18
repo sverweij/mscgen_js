@@ -80,7 +80,7 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
         },
         animOnClick: function() {
             try {
-                animctrl.initialize(uistate.getAST());
+                animctrl.initialize(uistate.getAST(), uistate.getMirrorEntities());
                 // dq.ss(window.__animscreen).show();
             } catch (e) {
                 // do nothing

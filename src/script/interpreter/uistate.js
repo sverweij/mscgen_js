@@ -403,6 +403,9 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
             gMirrorEntitiesOnBottom = pBoolean;
             window.__option_mirror_entities.checked = pBoolean;
         },
+        getMirrorEntities: function() {
+            return gMirrorEntitiesOnBottom;
+        },
 
         showAutorenderState: showAutorenderState
     };
