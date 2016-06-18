@@ -13,17 +13,28 @@ define(["./uistate",
                 gaga.g('send', 'pageview');
             }
 
+            function switchDebugging(pBooleanesque) {
+                if (map.sanitizeBooleanesque(pBooleanesque)) {
+                    dq.doForAllOfClass("debug", function(pDomNode){
+                        dq.ss(pDomNode).show();
+                    });
+                    uistate.setDebug(true);
+                }
+            }
+
             function processParams(){
                 var lParams = params.getParams(window.location.search);
                 setupGA(map.sanitizeBooleanesque(lParams.donottrack));
 
                 uistate.setDebug(false);
-                if (map.sanitizeBooleanesque(lParams.debug)) {
-                    dq.doForAllOfClass("debug", function(pDomNode){
-                        dq.ss(pDomNode).show();
-                    });
-                    uistate.setDebug(true);
+                if (lParams.hasOwnProperty("debug")) {
+                    switchDebugging(lParams.debug);
                     gaga.g('send', 'event', 'debug', 'true');
+                }
+
+                if (lParams.hasOwnProperty("mirrorentities")) {
+                    uistate.setMirrorEntities(map.sanitizeBooleanesque(lParams.mirrorentities));
+                    gaga.g('send', 'event', 'params.mirrorentities', lParams.mirrorentities);
                 }
 
                 if (lParams.lang){

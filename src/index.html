@@ -208,6 +208,12 @@ Note: !! removes comments and reformats your source!!">color</button>
 
 - works for classic mscgen compatible charts.
 - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></button>
+                <button id="__render_options"
+                    class="debug" style="display:none"
+                    target="_blank"
+                    type="text/plain"
+                    title="change how the chart gets rendered"><span class="icon-cog"></span></button>
+
                 <button id="__show_url"
                     target="_blank"
                     type="text/plain"
@@ -240,7 +246,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </article>
         <div id="__output_panel" class="sliding-panel">
             <div class="header">
-                <h2>Export this chart to</h2>
+                <h2>... Export this chart to</h2>
                 <span><button id="__btn_output_panel_close" class="icon-cross close-button" title="close extra output panel"></button></span>
             </div>
             <span class="sliding-panel-content">
@@ -264,7 +270,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </div>
         <div id="__embed_panel" class="sliding-panel">
             <div class="header">
-                <h2><span class="hideonmobile">Embed this chart</span><span class="showonmobile">Embed (<a href="./embed.html" target="_blank">learn more</a>)</span></h2>
+                <h2><span class="hideonmobile"><span class="icon-embed"></span> Embed this chart</span><span class="showonmobile">Embed (<a href="./embed.html" target="_blank">learn more</a>)</span></h2>
                 <span><button id="__btn_embed_panel_close" class="icon-cross close-button" title="close embed panel"></button></span>
             </div>
             <span class="sliding-panel-content">
@@ -301,7 +307,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </div>
         <div id="__learn_panel" class="sliding-panel">
             <div class="header">
-                <h2>Learn</h2>
+                <h2><span class="icon-question"></span> Learn</h2>
                 <span><button id="__close_lightbox" class="icon-cross close-button" title="close learn panel"></button></span>
             </div>
             <span class="sliding-panel-content" style="border-bottom: none;">
@@ -320,7 +326,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </div>
         <div id="__aboutsheet" class="sliding-panel">
             <div class="header">
-                <h2>About</h2>
+                <h2><span class="icon-xu"></span> About</h2>
                 <span><button id="__close_aboutsheet" class="icon-cross close-button" title="close about panel"></button></span>
             </div>
             <span class="sliding-panel-content">
@@ -475,6 +481,31 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                         <li><em>forced</em> doesn't.</li>
                         <li>For both: ! removes comments and reformats your source.</li>
                     </ul>
+                </span>
+            </span>
+        </div>
+        <div id="__render_options_panel" class="sliding-panel">
+            <div class="header">
+                <h2><span class="icon-cog"></span> Options</h2>
+                <span><button id="__btn_render_options_close" class="icon-cross close-button" title="close render options panel"></button></span>
+            </div>
+            <span class="sliding-panel-content">
+                <span class="sliding-panel-content-section">
+                    <input type="checkbox" id="__option_mirror_entities">
+                    <label for="__option_mirror_entities">Mirror entities on the bottom of the chart</label>
+                </span>
+                <span class="sliding-panel-content-section">
+                    <fieldset>
+                        <legend>style (not implemented yet)</legend>
+                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked="">
+                        <label for="__option_style_none">none</label>
+                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy">
+                        <label for="__option_style_lazy">lazy</label>
+                        <input id="__option_style_swan" type="radio" name="stylerg" value="swan">
+                        <label for="__option_style_swan">swan</label>
+                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse">
+                        <label for="__option_style_pegasse">pégasse</label>
+                    </fieldset>
                 </span>
             </span>
         </div>

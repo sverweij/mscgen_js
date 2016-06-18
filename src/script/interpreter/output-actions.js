@@ -19,22 +19,22 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
  */
         window.open("about:blank", IMAGE_EXPORT_WINDOW_NAME);
         rxport.toRasterURI(
-    document,
-    window.__svg,
-    pType,
-    function(pRasterURI){
-        window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
-    }
-);
+            document,
+            window.__svg,
+            pType,
+            function(pRasterURI){
+                window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
+            }
+        );
     }
 
     function vectorExport() {
         window.open(
-    xport.toVectorURI(
-        dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
-    ),
-    IMAGE_EXPORT_WINDOW_NAME
-);
+            xport.toVectorURI(
+                dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
+            ),
+            IMAGE_EXPORT_WINDOW_NAME
+        );
     }
 
     return {
@@ -90,6 +90,22 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
         errorOnClick: function() {
             uistate.errorOnClick();
             gaga.g('send', 'event', 'link', "error");
+        },
+        renderOptionsOnClick: function (){
+            gactions.togglePanel(
+                window.__render_options_panel,
+                function(){ gaga.g('send', 'event', 'renderoptions.open', 'button'); },
+                function(){ gaga.g('send', 'event', 'renderoptions.close', 'button'); }
+            );
+        },
+        closeRenderOptions: function(){
+            gactions.hideAllPanels();
+            gaga.g('send', 'event', 'renderoptions.close', 'button');
+        },
+        optionMirrorEntitiesOnClick: function(pEvent) {
+            uistate.setMirrorEntities(pEvent.target.checked);
+            uistate.render(uistate.getSource(), uistate.getLanguage());
+            gaga.g('send', 'event', 'renderoptions.mirrorentities', pEvent.target.checked);
         },
         moreExportOptionsOnClick: function(){
             gactions.togglePanel(
