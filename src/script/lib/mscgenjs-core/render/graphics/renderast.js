@@ -1074,6 +1074,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * @param  {object} pOptions
          * - styleAdditions:  valid css that augments the default style
          * - source: the source msc to embed in the svg
+         * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
+         *   on the bottom of the chart
          */
         renderASTNew : _renderASTNew
     };
