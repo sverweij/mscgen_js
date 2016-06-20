@@ -8,7 +8,7 @@
     "codemirror": "5.15.2",
     "requirejs": "2.2.0",
     "mscgenjs": "sverweij/mscgenjs-core",
-    "mscgenjs-inpage": "1.4.0"
+    "mscgenjs-inpage": "sverweij/mscgenjs-inpage"
   },
   "devDependencies": {
     "chai": "3.5.0",

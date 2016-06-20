@@ -193,7 +193,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             "height" :
                 Boolean(gChart.mirrorEntitiesOnBottom)
                 ? (2 * entities.getDims().height) + lRowInfo.y + lRowInfo.height + 2 * PAD_VERTICAL
-                : entities.getDims().height + lRowInfo.y + 2 * PAD_VERTICAL,
+                : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
             "horizontaltransform" :
                 (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
             "autoscale" :
