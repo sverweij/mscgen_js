@@ -90,3 +90,21 @@
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
+#__render_options_panel fieldset {
+    border: none;
+}
+#__render_options_panel legend {
+    font-size: inherit;
+}
+#__render_options_panel .disabled-children label, .disabled {
+    color: lightgrey;
+}
+#__render_options_panel .content {
+    margin: 20px 10px 10px 10px;
+}
+#__render_options_panel h3 {
+    margin-bottom: 15px;
+}
+#__render_options_panel .content div {
+    margin: 10px 0 10px 0;
+}
