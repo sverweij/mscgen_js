@@ -19,8 +19,8 @@
 
          mscgen_js
             version: 1.4.1
-            build-date: 20160619 01:51
-            commit: 0808bc65b9fa3862
+            build-date: 20160620 03:52
+            commit: 3a98b3d4c9ba55fd
         -->
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -54,13 +54,13 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - embed</title>
-        <link rel="stylesheet" href="./style/doc.css?0808bc65b9fa3862" type="text/css" media="screen, print">
+        <link rel="stylesheet" href="./style/doc.css?3a98b3d4c9ba55fd" type="text/css" media="screen, print">
         <script>
         var mscgen_js_config = {
             loadFromSrcAttribute: true
         };
         </script>
-        <script src="mscgen-inpage.js?0808bc65b9fa3862" defer></script>
+        <script src="mscgen-inpage.js?3a98b3d4c9ba55fd" defer></script>
         <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -129,6 +129,9 @@
             </li>
             <li>
                 <a href="#loading-from-separate-files">From separate files</a>
+            </li>
+            <li>
+                <a href="#mirror-entities">Mirror entities on the bottom</a>
             </li>
             <li>
                 <a href="#supported-browsers">Supported browsers</a>
@@ -256,7 +259,7 @@ msc {
             For those who think it is more semantically correct to use
             <code>&lt;script></code> tags for embedding MscGen scripts:
         </p>
-<pre class="code">&lt;script type="text/x-mscgen">
+<pre class="code"><mark>&lt;script type="text/x-mscgen"></mark>
 msc {
   hscale=1.2, wordwraparcs=on;
 
@@ -265,7 +268,7 @@ msc {
   alice =>> bob [label="you can embed MscGen"];
   bob >> alice [label="That is FANTASTIC!"];
 }
-&lt;/script>
+<mark>&lt;/script></mark>
 </pre>
 <script type="text/x-mscgen">
 msc {
@@ -277,6 +280,10 @@ msc {
   bob >> alice [label="That is FANTASTIC!"];
 }
 </script>
+        <p>
+            Recognized MIME-types: <code>text/x-mscgen</code>,
+            <code>text/x-msgenny</code> and <code>text/x-xu</code>.
+        </p>
 
 
         <h2 id="error-handling">Error handling</h2>
@@ -326,11 +333,18 @@ msc {
     };
 &lt;/script></pre></p></li>
             <li>
-                To <strong>use</strong> it, mention the URL where to find the sequence chart source
-                in a <code>data-src</code> attribute:
+                To <strong>use</strong> it, mention the URL where to find the
+                sequence chart source in a <code>data-src</code> attribute:
                 <p><pre class="code">&lt;pre class="mscgen_js"
      <mark>data-src="./samples/test21a_unicode_serious.msgenny"</mark>
      data-language="msgenny">&lt;/pre></pre></p>
+                <p>
+                    (or in the <code>src</code> attribute when you're using the
+                    <code>script</code> tag:)
+                    <pre class="code">&lt;script
+    <mark>src="./samples/test21a_unicode_serious.msgenny"</mark>
+    type="text/x-mscgen">&lt;/script></pre>
+                </p>
             </li>
 
             <li>
@@ -351,6 +365,36 @@ msc {
                 </ul>
             </li>
         </ul>
+        <h2 id="mirror-entities">Mirror entities on the bottom</h2>
+        <p>
+            In some situations you might want to duplicate the row of entities
+            on the bottom of the chart - e.g. when your chart is very big. Or
+            just because you fancy it. Anyway, the
+            <code>data-mirror-entities</code> attribute enables this.
+        </p>
+        <pre class="code">&lt;script <mark>data-mirror-entities='true'</mark> type="text/x-mscgen">
+msc {
+    wordwraparcs=on;
+
+    a,b,c;
+
+    a =>> b [label="We're mirrorred on the bottom"];
+    b =>> c [label="Did ya hear that?"],
+    b >> a  [label="Really?"];
+}
+&lt;/script>
+        </pre>
+        <script data-mirror-entities='true' type="text/x-mscgen">
+        msc {
+            wordwraparcs=on;
+
+            a,b,c;
+
+            a =>> b [label="We're mirrorred on the bottom"];
+            b =>> c [label="Did ya hear that?"],
+            b >> a  [label="Really?"];
+        }
+        </script>
         <h2 id="supported-browsers">Supported browsers: most</h2>
         <p>
             We have verified in page script to work in all
@@ -370,10 +414,9 @@ msc {
             <pre class="code">npm install mscgenjs-inpage</pre>
         </p>
         <p class="info">
-            Until 2016-06-01 there is a <em>bower</em> package
-            (mscgen_js-inpage-package) as well. It is
-            deprecated in favour of the mscgenjs-inpage npm package. If you
-            still need bower for one reason or other, drop me a line.
+            Until 2016-06-01 there was a <em>bower</em> package
+            (mscgen_js-inpage-package) - it is discontinued in favor of the npm
+            package.
         </p>
 
         <h2 id="other-sequence-chart-languages">Other sequence chart languages: MsGenny, Xù and JSON</h2>
