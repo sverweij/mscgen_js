@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?3a98b3d4c9ba55fd"
+        <link rel="stylesheet" href="style/interp.css?843dcee3efde7b0a"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?3a98b3d4c9ba55fd"
-        src="script/lib/require.js?3a98b3d4c9ba55fd" defer></script>
+        <script data-main="script/mscgen-interpreter.js?843dcee3efde7b0a"
+        src="script/lib/require.js?843dcee3efde7b0a" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,8 +94,8 @@ Likely nobody will read them, though.
 
 mscgen_js
     version: 1.4.1
-    build-date: 20160620 03:03
-    commit: 3a98b3d4c9ba55fd">mscgen_js</h1>
+    build-date: 20160620 21:45
+    commit: 843dcee3efde7b0a">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -119,8 +119,8 @@ mscgen_js
             </nav>
             <div class="debug hideontablet" style="display: none">
                 <div><em>version:</em> 1.4.1</div>
-                <div><em>build-date:</em> 20160620 03:03</div>
-                <div><em>commit:</em> 3a98b3d4c9ba55fd</div>
+                <div><em>build-date:</em> 20160620 21:45</div>
+                <div><em>commit:</em> 843dcee3efde7b0a</div>
             </div>
         </header>
         <article>
@@ -488,25 +488,40 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                 <h2><span class="icon-cog"></span> Options</h2>
                 <span><button id="__btn_render_options_close" class="icon-cross close-button" title="close render options panel"></button></span>
             </div>
-            <span class="sliding-panel-content">
-                <span class="sliding-panel-content-section">
-                    <input type="checkbox" id="__option_mirror_entities">
-                    <label for="__option_mirror_entities">Mirror entities on the bottom of the chart</label>
-                </span>
-                <span class="sliding-panel-content-section">
-                    <fieldset>
-                        <legend>style (not implemented yet)</legend>
-                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked="">
+            <div class="content">
+                <h3>Make big charts easier to navigate</h3>
+                <div>
+                    <div>
+                        <input type="checkbox" id="__option_mirror_entities">
+                        <label for="__option_mirror_entities">Mirror entities on the chart's bottom</label>
+                    </div>
+                    <div class="disabled-children">
+                        <input type="checkbox" id="__option_onion" disabled>
+                        <label for="__option_onion">Onion skin on hover/ select</label>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <h3 class="disabled">Pick a style</h3>
+                <div class="disabled-children">
+                    <div>
+                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked disabled>
                         <label for="__option_style_none">none</label>
-                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy">
+                    </div>
+                    <div>
+                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy" disabled>
                         <label for="__option_style_lazy">lazy</label>
-                        <input id="__option_style_swan" type="radio" name="stylerg" value="swan">
-                        <label for="__option_style_swan">swan</label>
-                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse">
+                    </div>
+                    <div>
+                        <input id="__option_style_cygne" type="radio" name="stylerg" value="swan" disabled>
+                        <label for="__option_style_cygne">cygne</label>
+                    </div>
+                    <div>
+                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse" disabled>
                         <label for="__option_style_pegasse">pégasse</label>
-                    </fieldset>
-                </span>
-            </span>
+                    </div>
+                </div>
+            </div>
         </div>
         <article>
             <section>
