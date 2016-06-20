@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "codemirror": "5.15.2",
     "requirejs": "2.2.0",
-    "mscgenjs": "1.4.1",
+    "mscgenjs": "sverweij/mscgenjs-core",
     "mscgenjs-inpage": "1.4.0"
   },
   "devDependencies": {
@@ -23,7 +23,7 @@
     "npm-check-updates": "2.6.7",
     "nsp": "2.4.0",
     "plato": "1.5.0",
-    "uglify-js": "2.6.2",
+    "uglify-js": "2.6.3",
     "watch": "0.18.0"
   },
   "scripts": {
