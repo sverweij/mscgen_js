@@ -208,6 +208,11 @@ Note: !! removes comments and reformats your source!!">color</button>
 
 - works for classic mscgen compatible charts.
 - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></button>
+                <button id="__render_options"
+                    target="_blank"
+                    type="text/plain"
+                    title="change how the chart gets rendered"><span class="icon-cog"></span></button>
+
                 <button id="__show_url"
                     target="_blank"
                     type="text/plain"
@@ -240,7 +245,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </article>
         <div id="__output_panel" class="sliding-panel">
             <div class="header">
-                <h2>Export this chart to</h2>
+                <h2>... Export this chart to</h2>
                 <span><button id="__btn_output_panel_close" class="icon-cross close-button" title="close extra output panel"></button></span>
             </div>
             <span class="sliding-panel-content">
@@ -264,7 +269,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </div>
         <div id="__embed_panel" class="sliding-panel">
             <div class="header">
-                <h2><span class="hideonmobile">Embed this chart</span><span class="showonmobile">Embed (<a href="./embed.html" target="_blank">learn more</a>)</span></h2>
+                <h2><span class="hideonmobile"><span class="icon-embed"></span> Embed this chart</span><span class="showonmobile">Embed (<a href="./embed.html" target="_blank">learn more</a>)</span></h2>
                 <span><button id="__btn_embed_panel_close" class="icon-cross close-button" title="close embed panel"></button></span>
             </div>
             <span class="sliding-panel-content">
@@ -301,7 +306,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </div>
         <div id="__learn_panel" class="sliding-panel">
             <div class="header">
-                <h2>Learn</h2>
+                <h2><span class="icon-question"></span> Learn</h2>
                 <span><button id="__close_lightbox" class="icon-cross close-button" title="close learn panel"></button></span>
             </div>
             <span class="sliding-panel-content" style="border-bottom: none;">
@@ -320,7 +325,7 @@ Note: !! removes comments and reformats your source!!">color</button>
         </div>
         <div id="__aboutsheet" class="sliding-panel">
             <div class="header">
-                <h2>About</h2>
+                <h2><span class="icon-xu"></span> About</h2>
                 <span><button id="__close_aboutsheet" class="icon-cross close-button" title="close about panel"></button></span>
             </div>
             <span class="sliding-panel-content">
@@ -477,6 +482,46 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                     </ul>
                 </span>
             </span>
+        </div>
+        <div id="__render_options_panel" class="sliding-panel">
+            <div class="header">
+                <h2><span class="icon-cog"></span> Options</h2>
+                <span><button id="__btn_render_options_close" class="icon-cross close-button" title="close render options panel"></button></span>
+            </div>
+            <div class="content">
+                <h3>Make big charts easier to navigate</h3>
+                <div>
+                    <div>
+                        <input type="checkbox" id="__option_mirror_entities">
+                        <label for="__option_mirror_entities">Mirror entities on the chart's bottom</label>
+                    </div>
+                    <div class="disabled-children">
+                        <input type="checkbox" id="__option_onion" disabled>
+                        <label for="__option_onion">Onion skin on hover/ select</label>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <h3 class="disabled">Pick a style</h3>
+                <div class="disabled-children">
+                    <div>
+                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked disabled>
+                        <label for="__option_style_none">none</label>
+                    </div>
+                    <div>
+                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy" disabled>
+                        <label for="__option_style_lazy">lazy</label>
+                    </div>
+                    <div>
+                        <input id="__option_style_cygne" type="radio" name="stylerg" value="swan" disabled>
+                        <label for="__option_style_cygne">cygne</label>
+                    </div>
+                    <div>
+                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse" disabled>
+                        <label for="__option_style_pegasse">pégasse</label>
+                    </div>
+                </div>
+            </div>
         </div>
         <article>
             <section>

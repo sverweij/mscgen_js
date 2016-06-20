@@ -16,9 +16,10 @@ define(["./svgelementfactory",
         "./markermanager",
         "./entities",
         "./renderlabels",
-        "./constants"],
+        "./constants",
+        "../../lib/lodash/lodash.custom"],
     /* eslint max-params: 0 */
-function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C) {
+function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C, _) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -33,34 +34,58 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      */
     "use strict";
 
-    var PAD_VERTICAL = 3;
-
+    var PAD_VERTICAL          = 3;
     var DEFAULT_ARCROW_HEIGHT = 38; // chart only
-    var DEFAULT_ARC_GRADIENT = 0; // chart only
+    var DEFAULT_ARC_GRADIENT  = 0; // chart only
 
-    /* sensible default - gets overwritten in bootstrap */
-
-    var gChart = {
-        "arcRowHeight" : DEFAULT_ARCROW_HEIGHT,
-        "arcGradient"  : DEFAULT_ARC_GRADIENT,
-        "arcEndX"      : 0,
-        "wordWrapArcs" : false,
-        "maxDepth"     : 0,
-        "document"     : {},
-        "layer"        : {
+    /* sensible default - get overwritten in bootstrap */
+    var gChart = Object.seal({
+        "arcRowHeight"           : DEFAULT_ARCROW_HEIGHT,
+        "arcGradient"            : DEFAULT_ARC_GRADIENT,
+        "arcEndX"                : 0,
+        "wordWrapArcs"           : false,
+        "mirrorEntitiesOnBottom" : false,
+        "maxDepth"               : 0,
+        "document"               : {},
+        "layer"                  : {
             "defs"         : {},
             "lifeline"     : {},
             "sequence"     : {},
             "notes"        : {},
-            "inline"       : {}
+            "inline"       : {},
+            "watermark"    : {}
         }
-    };
+    });
     var gInlineExpressionMemory = [];
 
     function _renderAST(pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
-        var lAST = flatten.flatten(pAST);
+        return _renderASTNew(
+            pAST,
+            pWindow,
+            pParentElementId,
+            {
+                source: pSource,
+                styleAdditions: pStyleAdditions
+            }
+        );
+    }
 
-        renderASTPre(lAST, pSource, pParentElementId, pWindow, pStyleAdditions);
+    function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
+        var lAST = flatten.flatten(pAST);
+        var lOptions = pOptions || {};
+
+        lOptions = _.defaults(lOptions, {
+            source                 : null,
+            styleAdditions         : null,
+            mirrorEntitiesOnBottom : false
+        });
+
+        renderASTPre(
+            lAST,
+            pWindow,
+            pParentElementId,
+            lOptions
+        );
         renderASTMain(lAST);
         renderASTPost(lAST);
         var lElement = pWindow.document.getElementById(pParentElementId);
@@ -71,27 +96,30 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         }
     }
 
-    function renderASTPre(pAST, pSource, pParentElementId, pWindow, pStyleAdditions){
+    function renderASTPre(pAST, pWindow, pParentElementId, pOptions){
         id.setPrefix(pParentElementId);
 
         gChart.document = skel.bootstrap(
+            pWindow,
             pParentElementId,
             id.get(),
             mark.getMarkerDefs(id.get(), pAST),
-            pStyleAdditions,
-            pWindow
+            pOptions
         );
+        gChart.mirrorEntitiesOnBottom = Boolean(pOptions.mirrorEntitiesOnBottom);
         svgutl.init(gChart.document);
         initializeChart(gChart, pAST.depth);
 
         preProcessOptions(gChart, pAST.options);
-        embedSource(gChart, pSource);
     }
 
     function renderASTMain(pAST){
         renderEntities(pAST.entities);
         rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
+        if (gChart.mirrorEntitiesOnBottom){
+            renderEntitiesOnBottom();
+        }
     }
 
     function renderASTPost(pAST){
@@ -114,12 +142,13 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
 
     function createLayerShortcuts (pLayer, pDocument){
-        pLayer.defs = pDocument.getElementById(id.get("__defs"));
-        pLayer.lifeline = pDocument.getElementById(id.get("__lifelinelayer"));
-        pLayer.sequence = pDocument.getElementById(id.get("__sequencelayer"));
-        pLayer.notes = pDocument.getElementById(id.get("__notelayer"));
-        pLayer.inline = pDocument.getElementById(id.get("__arcspanlayer"));
+        pLayer.defs      = pDocument.getElementById(id.get("__defs"));
+        pLayer.lifeline  = pDocument.getElementById(id.get("__lifelinelayer"));
+        pLayer.sequence  = pDocument.getElementById(id.get("__sequencelayer"));
+        pLayer.notes     = pDocument.getElementById(id.get("__notelayer"));
+        pLayer.inline    = pDocument.getElementById(id.get("__arcspanlayer"));
         pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
+        // pLayer.onionskin = pDocument.getElementById(id.get("__onionskin"));
     }
 
     function preProcessOptionsArcs(pChart, pOptions){
@@ -132,10 +161,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                 pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
                 pChart.arcGradient  = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
             }
-            if (pOptions.wordwraparcs){
-                pChart.wordWrapArcs = pOptions.wordwraparcs;
-            }
-
+            pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
         }
     }
 
@@ -154,18 +180,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <object> - pOptions - the option part of the AST
      */
     function preProcessOptions(pChart, pOptions) {
-        entities.init(pOptions);
+        entities.init(pOptions && pOptions.hscale);
         preProcessOptionsArcs(pChart, pOptions);
     }
 
-    function embedSource(pChart, pSource) {
-        if (pSource) {
-            var lContent = pChart.document.createTextNode(
-                "\n\n# Generated by mscgen_js - https://sverweij.github.io/mscgen_js\n" + pSource
-            );
-            pChart.document.getElementById(id.get("__msc_source")).appendChild(lContent);
-        }
-    }
     function calculateCanvasDimensions(pAST){
         var lDepthCorrection = utl.determineDepthCorrection(pAST.depth, C.LINE_WIDTH);
         var lRowInfo = rowmemory.getLast();
@@ -173,7 +191,9 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             "width" :
                 (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
             "height" :
-                lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
+                Boolean(gChart.mirrorEntitiesOnBottom)
+                ? (2 * entities.getDims().height) + lRowInfo.y + lRowInfo.height + 2 * PAD_VERTICAL
+                : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
             "horizontaltransform" :
                 (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
             "autoscale" :
@@ -263,15 +283,23 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return entities.getDims().height;
     }
 
-    function renderEntity(pEntity) {
+    function renderEntity(pEntity, pX) {
         var lGroup = fact.createGroup(id.get(pEntity.name));
         var lBBox = entities.getDims();
+        lBBox.x = pX ? pX : 0;
         var lTextLabel =
             labels.createLabel(
                 pEntity,
-                {x:0, y:lBBox.height / 2, width:lBBox.width},
-                {kind: "entity"}
+                {
+                    x:lBBox.x,
+                    y:lBBox.height / 2,
+                    width:lBBox.width
+                },
+                {
+                    kind: "entity"
+                }
             );
+
         var lRect = fact.createRect(
             lBBox,
             "entity",
@@ -283,10 +311,44 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return lGroup;
     }
 
-    function _renderEntity(pEntity, pEntityXPos) {
-        gChart.layer.defs.appendChild(renderEntity(pEntity));
+    // function renderOnionEntity(pEntity, pX) {
+    //     var lBBox = entities.getDims();
+    //     // lBBox.x = pX ? pX : 0;
+    //     // var lTextLabel =
+    //     return  labels.createLabel(
+    //         pEntity,
+    //         {
+    //             x:pX,
+    //             y:lBBox.height / 2,
+    //             width:lBBox.width
+    //         },
+    //         {
+    //             ownBackground: true,
+    //             kind: "entity"
+    //         }
+    //     );
+    // }
+
+    function renderEntitiesOnBottom() {
+        var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
+
+        gChart.layer.lifeline.appendChild(
+            fact.createUse(
+                {
+                    x:0,
+                    y:lLifeLineSpacerY
+                },
+                id.get("arcrow")
+            )
+        );
         gChart.layer.sequence.appendChild(
-            fact.createUse({x: pEntityXPos, y:0}, id.get(pEntity.name))
+            fact.createUse(
+                {
+                    x:0,
+                    y:lLifeLineSpacerY + gChart.arcRowHeight / 2
+                },
+                id.get("entities")
+            )
         );
     }
 
@@ -298,19 +360,40 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      */
     function renderEntities(pEntities) {
         var lEntityXPos = 0;
+        var lEntityGroup = fact.createGroup(id.get("entities"));
+        // var lOnionEntityGroup = fact.createGroup(id.get("onion-entities"));
 
         if (pEntities) {
             entities.setHeight(getMaxEntityHeight(pEntities) + C.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
-                _renderEntity(pEntity, lEntityXPos);
+                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos));
+                // lOnionEntityGroup.appendChild(renderOnionEntity(pEntity, lEntityXPos));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
+            gChart.layer.defs.appendChild(lEntityGroup);
+            gChart.layer.sequence.appendChild(
+                fact.createUse({x:0, y:0}, id.get("entities"))
+            );
         }
         gChart.arcEndX =
             lEntityXPos -
             entities.getDims().interEntitySpacing + entities.getDims().width;
+
+        // lOnionEntityGroup.appendChild(
+        //     fact.createRect(
+        //         {
+        //             x: -(entities.getDims().interEntitySpacing - entities.getDims().width) / 2,
+        //             y: 0,
+        //             width: lEntityXPos, // + 2 * entities.getDims().interEntitySpacing,
+        //             height: entities.getDims().height
+        //         },
+        //         "onionskin-hover-layer"
+        //     )
+        // );
+
+        // gChart.layer.defs.appendChild(lOnionEntityGroup);
     }
 
     /* ------------------------END entity shizzle-------------------------------- */
@@ -451,9 +534,19 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                         x:0,
                         y:rowmemory.get(pRowNumber).y
                     },
-                    pRowMemoryLine.id)
+                    pRowMemoryLine.id
+                )
             );
         });
+        // gChart.layer.onionskin.appendChild(
+        //     fact.createUse(
+        //         {
+        //             x:0,
+        //             y:rowmemory.get(pRowNumber).y - entities.getDims().height
+        //         },
+        //         id.get("entities")
+        //     )
+        // );
     }
 
     /** renderArcRows() - renders the arcrows from an AST
@@ -961,14 +1054,30 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * renders the given abstract syntax tree pAST as svg
          * in the element with id pParentELementId in the window pWindow
          *
-         * @param {object} pAST - the abstrac syntax tree
+         * @param {object} pAST - the abstract syntax tree
          * @param {string} pSource - the source msc to embed in the svg
          * @param {string} pParentElementId - the id of the parent element in which
          * to put the __svg_output element
          * @param {window} pWindow - the browser window to put the svg in
          * @param {string} pStyleAdditions - valid css that augments the default style
          */
-        renderAST : _renderAST
+        renderAST : _renderAST,
+
+        /**
+        * renders the given abstract syntax tree pAST as svg
+        * in the element with id pParentELementId in the window pWindow
+        *
+         * @param {object} pAST - the abstract syntax tree
+         * @param {window} pWindow - the browser window to put the svg in
+         * @param {string} pParentElementId - the id of the parent element in which
+         * to put the __svg_output element
+         * @param  {object} pOptions
+         * - styleAdditions:  valid css that augments the default style
+         * - source: the source msc to embed in the svg
+         * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
+         *   on the bottom of the chart
+         */
+        renderASTNew : _renderASTNew
     };
 });
 /*

@@ -36,7 +36,9 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
         if (lParams.debug){
             lAdditionalParameters += '&debug=' + lParams.debug;
         }
-
+        if (lParams.mirrorentities){
+            lAdditionalParameters += '&mirrorentities=' + lParams.mirrorentities;
+        }
         return lAdditionalParameters;
     }
 

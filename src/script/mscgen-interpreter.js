@@ -36,6 +36,9 @@ function(iactions, oactions, nactions, par, gactions, edit) {
         window.__show_svg.addEventListener("click", oactions.svgOnClick, false);
         window.__show_png.addEventListener("click", oactions.pngOnClick, false);
         window.__show_jpeg.addEventListener("click", oactions.jpegOnClick, false);
+        window.__render_options.addEventListener("click", oactions.renderOptionsOnClick, false);
+        window.__btn_render_options_close.addEventListener("click", oactions.closeRenderOptions, false);
+        window.__option_mirror_entities.addEventListener("click", oactions.optionMirrorEntitiesOnClick, false);
         window.__more_export_options.addEventListener("click", oactions.moreExportOptionsOnClick, false);
         window.__btn_output_panel_close.addEventListener("click", oactions.closeExportOptions, false);
         window.__show_html.addEventListener("click", oactions.htmlOnClick, false);

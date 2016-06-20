@@ -51,15 +51,16 @@ define(["../lib/mscgenjs-core/parse/xuparser",
 function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport, sampleListReader) {
     "use strict";
 
-    var gAutoRender = true;
-    var gLanguage = "mscgen";
-    var gDebug = false;
-    var gLinkToInterpreter = false;
-    var gBufferTimer = {};
+    var gAutoRender             = true;
+    var gMirrorEntitiesOnBottom = false;
+    var gLanguage               = "mscgen";
+    var gDebug                  = false;
+    var gLinkToInterpreter      = false;
+    var gBufferTimer            = {};
 
-    var gCodeMirror = {};
-    var gErrorCoordinates = {
-        line : 0,
+    var gCodeMirror             = {};
+    var gErrorCoordinates       = {
+        line   : 0,
         column : 0
     };
 
@@ -157,7 +158,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
                 setSource(renderSource(lAST, pLanguage));
             }
         } catch (e) {
-    // do nothing
+            // do nothing
         }
         setLanguage(pLanguage);
     }
@@ -181,7 +182,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
                 setSource(renderSource(lAST, getLanguage()));
             }
         } catch (e) {
-    // do nothing
+            // do nothing
         }
     }
 
@@ -272,13 +273,21 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
                     )
             );
                 } catch (e) {
-            // on chrome window.history.replaceState barfs when
-            // the interpreter runs from a file:// instead of
-            // from a server. This try/ catch is a crude way
-            // to handle that without breaking the rest of the flow
+                    // on chrome window.history.replaceState barfs when
+                    // the interpreter runs from a file:// instead of
+                    // from a server. This try/ catch is a crude way
+                    // to handle that without breaking the rest of the flow
                 }
             }
-            msc_render.renderAST(lAST, pSource, "__svg", window);
+            msc_render.renderASTNew(
+                lAST,
+                window,
+                "__svg",
+                {
+                    source: pSource,
+                    mirrorEntitiesOnBottom: gMirrorEntitiesOnBottom
+                }
+            );
             if (lAST.entities.length > 0) {
                 showRenderSuccess(lAST.meta);
             }
@@ -332,34 +341,34 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
 
     function showLanguageState (pLanguage) {
         if ("msgenny" === pLanguage) {
-            window.__language_mscgen.checked = false;
+            window.__language_mscgen.checked  = false;
             window.__language_msgenny.checked = true;
-            window.__language_json.checked = false;
+            window.__language_json.checked    = false;
             dq.ss(window.__btn_more_color_schemes).hide();
             window.__color_panel.style.width = '0';
         } else if ("json" === pLanguage){
-            window.__language_mscgen.checked = false;
+            window.__language_mscgen.checked  = false;
             window.__language_msgenny.checked = false;
-            window.__language_json.checked = true;
+            window.__language_json.checked    = true;
             dq.ss(window.__btn_more_color_schemes).show();
         } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
-            window.__language_mscgen.checked = true;
+            window.__language_mscgen.checked  = true;
             window.__language_msgenny.checked = false;
-            window.__language_json.checked = false;
+            window.__language_json.checked    = false;
             dq.ss(window.__btn_more_color_schemes).show();
         }
     }
 
     function hideError () {
         dq.ss(window.__error).hide();
-        window.__error_output.textContent = "";
+        window.__error_output.textContent  = "";
         window.__error_context.textContent = "";
     }
 
     function displayError (pError, pContext) {
         dq.ss(window.__error).show();
         dq.ss(window.__placeholder).hide();
-        window.__error_output.textContent = pError;
+        window.__error_output.textContent  = pError;
         window.__error_context.textContent = pContext;
     }
 
@@ -389,6 +398,13 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         setLinkToInterpeter: function(pBoolean) {
             gLinkToInterpreter = pBoolean;
             window.__link_to_interpreter.checked = pBoolean;
+        },
+        setMirrorEntities: function(pBoolean) {
+            gMirrorEntitiesOnBottom = pBoolean;
+            window.__option_mirror_entities.checked = pBoolean;
+        },
+        getMirrorEntities: function() {
+            return gMirrorEntitiesOnBottom;
         },
 
         showAutorenderState: showAutorenderState

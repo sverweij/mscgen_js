@@ -6,7 +6,7 @@ if (typeof define !== 'function') {
 define([], function() {
     "use strict";
     return {
-        baseTemplate : "svg{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;color:black;}rect{fill:none;stroke:black;stroke-width:<%=lineWidth%>;}rect.entity{fill:white;}rect.label-text-background{fill:white;stroke:white;stroke-width:0;}rect.bglayer{fill:white;stroke:white;stroke-width:0;}line{stroke:black;stroke-width:<%=lineWidth%>;}line.return{stroke-dasharray:5,2;}line.comment{stroke-dasharray:5,2;}line.inline_expression_divider{stroke-dasharray:10,5;}text{color:inherit;stroke:none;text-anchor:middle;}text.entity-text{text-decoration:underline;}text.anchor-start{text-anchor:start;}text.box-text{}path{stroke:black;color:black;stroke-width:<%=lineWidth%>;fill:none;}.arrow-marker{overflow:visible;}.arrow-style{stroke-width:1;}.arcrowomit{stroke-dasharray:2,2;}rect.box,path.box{fill:white;}.inherit{stroke:inherit;color:inherit;}.inherit-fill{fill:inherit;}.watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14;}"
+        baseTemplate : "svg.mscgenjs-fence{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>;color:black;}.mscgenjs-fence rect{fill:none;stroke:black;}.mscgenjs-fence rect.entity{fill:white;}.mscgenjs-fence rect.label-text-background{fill:white;stroke:white;stroke-width:0;}.mscgenjs-fence rect.bglayer{fill:white;stroke:white;stroke-width:0;}.mscgenjs-fence line{stroke:black;}.mscgenjs-fence line.return{stroke-dasharray:5,2;}.mscgenjs-fence line.comment{stroke-dasharray:5,2;}.mscgenjs-fence line.inline_expression_divider{stroke-dasharray:10,5;}.mscgenjs-fence text{color:inherit;stroke:none;text-anchor:middle;}.mscgenjs-fence text.entity-text{text-decoration:underline;}.mscgenjs-fence text.anchor-start{text-anchor:start;}.mscgenjs-fence path{stroke:black;color:black;fill:none;}.mscgenjs-fence .arrow-marker{overflow:visible;}.mscgenjs-fence .arrow-style{stroke-width:1;}.mscgenjs-fence .arcrowomit{stroke-dasharray:2,2;}.mscgenjs-fence rect.box, .mscgenjs-fence path.box{fill:white;}.mscgenjs-fence .inherit{stroke:inherit;color:inherit;}.mscgenjs-fence .inherit-fill{fill:inherit;}.mscgenjs-fence .watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14;}"
     };
 });
 /*
@@ -25,3 +25,4 @@ define([], function() {
  You should have received a copy of the GNU General Public License
  along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
  */
+
