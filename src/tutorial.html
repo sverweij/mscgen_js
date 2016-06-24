@@ -381,6 +381,11 @@ b => c  : Breaking text in two<mark>\n</mark>also works for arcs;
 </pre>
 <pre class="mscgen_js" data-language="msgenny">a note b: This is a note consisting of\ntwo lines of text;
 b => c  : Breaking text in two\nalso works for arcs;</pre>
+<p class="info">Everything in boxes wraps automatically. Regular arcs also do that when
+the <a href="#wordwraparcs"><code>wordwraparcs</code></a> option is on. We're thinking
+of having this as the default somewhere in the future, but haven't yet because of 
+backwards compatibility.
+</p>
 
 <h3 id="empty-rows-omitted-rows-comments">Empty rows, omitted rows, comments</h3>
 <p>Sometimes your chart needs some more space between arcs, e.g. to emphasise grouping.</p>
@@ -491,7 +496,7 @@ server => client : SYN + ACK;
 client => server : ACK;</pre>
 
 
-<p>The default behaviour for regular (= not note, box, abox or rbox) arcs is that
+<p id="wordwraparcs">The default behaviour for regular (= not note, box, abox or rbox) arcs is that
 text does <em>not</em> get wrapped. To override this you can use the
 boolean <em>wordwraparcs</em> option. Just like the other options, this one was
 copied from <em>MscGen</em>. <em>MscGen</em> not only accepts <code>true</code> and
