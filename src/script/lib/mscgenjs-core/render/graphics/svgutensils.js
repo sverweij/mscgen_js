@@ -15,7 +15,7 @@ function(C, id, fact, llfact, _) {
 
     /* istanbul ignore next */
     function _createBBoxerSVG(pId){
-        var lSvg = fact.createSVG(pId, C.CSS_FENCE_CLASS);
+        var lSvg = fact.createSVG(pId, id.get());
         gDocument.body.appendChild(lSvg);
 
         return lSvg;

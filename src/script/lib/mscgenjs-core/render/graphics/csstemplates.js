@@ -6,7 +6,33 @@ if (typeof define !== 'function') {
 define([], function() {
     "use strict";
     return {
-        baseTemplate : "svg.mscgenjs-fence{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>;color:black;}.mscgenjs-fence rect{fill:none;stroke:black;}.mscgenjs-fence rect.entity{fill:white;}.mscgenjs-fence rect.label-text-background{fill:white;stroke:white;stroke-width:0;}.mscgenjs-fence rect.bglayer{fill:white;stroke:white;stroke-width:0;}.mscgenjs-fence line{stroke:black;}.mscgenjs-fence line.return{stroke-dasharray:5,2;}.mscgenjs-fence line.comment{stroke-dasharray:5,2;}.mscgenjs-fence line.inline_expression_divider{stroke-dasharray:10,5;}.mscgenjs-fence text{color:inherit;stroke:none;text-anchor:middle;}.mscgenjs-fence text.entity-text{text-decoration:underline;}.mscgenjs-fence text.anchor-start{text-anchor:start;}.mscgenjs-fence path{stroke:black;color:black;fill:none;}.mscgenjs-fence .arrow-marker{overflow:visible;}.mscgenjs-fence .arrow-style{stroke-width:1;}.mscgenjs-fence .arcrowomit{stroke-dasharray:2,2;}.mscgenjs-fence rect.box, .mscgenjs-fence path.box{fill:white;}.mscgenjs-fence .inherit{stroke:inherit;color:inherit;}.mscgenjs-fence .inherit-fill{fill:inherit;}.mscgenjs-fence .watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14;}"
+        baseTemplate : "svg.<%=id%>{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>;color:black;}.<%=id%> rect{fill:none;stroke:black;}.<%=id%> rect.entity{fill:white;}.<%=id%> rect.label-text-background{fill:white;stroke:white;stroke-width:0;}.<%=id%> rect.bglayer{fill:white;stroke:white;stroke-width:0;}.<%=id%> line{stroke:black;}.<%=id%> line.return, .<%=id%> path.return{stroke-dasharray:5,2;}.<%=id%> line.comment{stroke-dasharray:5,2;}.<%=id%> line.inline_expression_divider{stroke-dasharray:10,5;}.<%=id%> text{color:inherit;stroke:none;text-anchor:middle;}.<%=id%> text.entity-text{text-decoration:underline;}.<%=id%> text.anchor-start{text-anchor:start;}.<%=id%> path{stroke:black;color:black;fill:none;}.<%=id%> .arrow-marker{overflow:visible;}.<%=id%> .arrow-style{stroke-width:1;}.<%=id%> .arcrowomit{stroke-dasharray:2,2;}.<%=id%> rect.box, .<%=id%> path.box{fill:white;}.<%=id%> .inherit{stroke:inherit;color:inherit;}.<%=id%> .inherit-fill{fill:inherit;}.<%=id%> .watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14;}",
+        additionalTemplates : [
+    {
+        "name": "classic",
+        "css": ".<%=id%> text.entity-text{text-decoration:none}.<%=id%> rect.entity{stroke:none;}.<%=id%> line,.<%=id%> rect,.<%=id%> path{stroke-width:1px}.<%=id%> .arrow-style{stroke-width:2;}.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke-width: 1px}"
+    },
+    {
+        "name": "cygne",
+        "css": ".<%=id%> line{stroke:#00A1DE}.<%=id%> text{fill:#005B82}.<%=id%> rect.entity,.<%=id%> rect.box,.<%=id%> path.box{fill:#00A1DE;stroke:#00A1DE}.<%=id%> text.box-text{fill:white}.<%=id%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#E77B2F;stroke:white}.<%=id%> line.comment,.<%=id%> rect.inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> path.inline_expression_label{fill:white}"
+    },
+    {
+        "name": "grayscaled",
+        "css": "svg.<%=id%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
+    },
+    {
+        "name": "inverted",
+        "css": "svg.<%=id%>{filter:invert(1);-webkit-filter:invert(1);}"
+    },
+    {
+        "name": "lazy",
+        "css": ".<%=id%> text.entity-text{font-weight:bold;text-decoration:none;}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC}.<%=id%> rect.label-text-background{opacity:0.9}.<%=id%> line.comment,.<%=id%> rect.inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:grey}"
+    },
+    {
+        "name": "pegasse",
+        "css": ".<%=id%> line{stroke:rgba(0, 43, 84, 1)}.<%=id%> text{fill:rgba(0, 43, 84, 1)}.<%=id%> rect.entity,.<%=id%> rect.box,.<%=id%> path.box{fill:rgba(0, 43, 84, 1);stroke:rgba(0, 43, 84, 1)}.<%=id%> text.box-text{fill:white}.<%=id%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:rgba(255, 50, 0, 1);stroke:white}.<%=id%> line.comment,.<%=id%> rect.inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> path.inline_expression_label{fill:white}"
+    }
+]
     };
 });
 /*
@@ -25,4 +51,3 @@ define([], function() {
  You should have received a copy of the GNU General Public License
  along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
  */
-

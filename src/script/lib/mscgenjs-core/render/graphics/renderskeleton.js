@@ -39,19 +39,23 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return pDefs;
     }
 
-    function setupStyle(pStyleAdditions) {
+    function setupStyle(pOptions, pSvgElementId) {
         var lStyle = gDocument.createElement("style");
         lStyle.setAttribute("type", "text/css");
-        lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pStyleAdditions)));
+        lStyle.appendChild(
+            gDocument.createTextNode(
+                setupStyleElement(pOptions, pSvgElementId)
+            )
+        );
         return lStyle;
     }
 
-    function setupDefs(pElementId, pMarkerDefs, pStyleAdditions) {
+    function setupDefs(pElementId, pMarkerDefs, pOptions) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
         var lDefs = fact.createDefs();
-        lDefs.appendChild(setupStyle(pElementId, pStyleAdditions));
+        lDefs.appendChild(setupStyle(pOptions, pElementId));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
@@ -83,9 +87,9 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = fact.createSVG(pSvgElementId, C.CSS_FENCE_CLASS);
+        var lSkeletonSvg = fact.createSVG(pSvgElementId, pSvgElementId);
         lSkeletonSvg.appendChild(setupDesc(pWindow, pSvgElementId, pOptions.source));
-        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions.styleAdditions));
+        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
 
@@ -102,11 +106,40 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return lDesc;
     }
 
-    function setupStyleElement(pSvgElementId, pStyleAdditions) {
-        return csstemplates.baseTemplate
+    function distillAdditionalStyles(pOptions) {
+        var lStyleString         = "";
+        var lAdditionalTemplates = [];
+
+        /* istanbul ignore if */
+        if (!Boolean(pOptions)) {
+            return "";
+        }
+
+        if (Boolean(pOptions.additionalTemplate)) {
+            lAdditionalTemplates =
+                csstemplates.additionalTemplates.filter(
+                    function(tpl) {
+                        return tpl.name === pOptions.additionalTemplate;
+                    }
+                );
+            if (lAdditionalTemplates.length > 0) {
+                lStyleString = lAdditionalTemplates[0].css;
+            }
+        }
+
+        if (Boolean(pOptions.styleAdditions)) {
+            lStyleString += pOptions.styleAdditions;
+        }
+
+        return lStyleString;
+    }
+
+    function setupStyleElement(pOptions, pSvgElementId) {
+        return (csstemplates.baseTemplate + distillAdditionalStyles(pOptions))
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
-            .replace(/<%=lineWidth%>/g, C.LINE_WIDTH) +
-             (Boolean(pStyleAdditions) ? pStyleAdditions : "");
+            .replace(/<%=lineWidth%>/g, C.LINE_WIDTH)
+            .replace(/<%=id%>/g, pSvgElementId);
+
     }
     return {
         /**

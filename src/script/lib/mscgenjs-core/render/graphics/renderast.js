@@ -1073,6 +1073,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * to put the __svg_output element
          * @param  {object} pOptions
          * - styleAdditions:  valid css that augments the default style
+         * - additionalTemplate: a named (baked in) template. Current values:
+         *  "inverted", "grayscaled"
          * - source: the source msc to embed in the svg
          * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
          *   on the bottom of the chart

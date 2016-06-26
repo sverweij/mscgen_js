@@ -30,8 +30,8 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
                 class: pClass,
                 xmlns: C.SVGNS,
                 "xmlns:xlink": C.XLINKNS,
-                width: 0,
-                height: 0
+                width: "0",
+                height: "0"
             }
         );
     }
