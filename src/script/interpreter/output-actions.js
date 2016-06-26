@@ -104,8 +104,13 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
         },
         optionMirrorEntitiesOnClick: function(pEvent) {
             uistate.setMirrorEntities(pEvent.target.checked);
-            uistate.render(uistate.getSource(), uistate.getLanguage());
+            uistate.requestRender();
             gaga.g('send', 'event', 'renderoptions.mirrorentities', pEvent.target.checked);
+        },
+        styleOnClick: function(pEvent) {
+            uistate.setStyle(pEvent.target.value);
+            uistate.requestRender();
+            gaga.g('send', 'event', 'renderoptions.style', pEvent.target.value);
         },
         moreExportOptionsOnClick: function(){
             gactions.togglePanel(

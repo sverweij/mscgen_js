@@ -23,9 +23,7 @@ define(["./uistate",
             return {
                 autorenderOnClick: function() {
                     uistate.setAutoRender(!(uistate.getAutoRender()));
-                    if (uistate.getAutoRender()) {
-                        uistate.render(uistate.getSource(), uistate.getLanguage());
-                    }
+                    uistate.requestRender();
                     uistate.showAutorenderState(uistate.getAutoRender());
                     gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
                 },
@@ -63,10 +61,10 @@ define(["./uistate",
                 },
                 moreColorSchemesOnClick: function(){
                     gactions.togglePanel(
-                window.__color_panel,
-                function(){ gaga.g('send', 'event', 'more_color_schemes.open', 'button'); },
-                function(){ gaga.g('send', 'event', 'more_color_schemes.close', 'button'); }
-            );
+                        window.__color_panel,
+                        function(){ gaga.g('send', 'event', 'more_color_schemes.open', 'button'); },
+                        function(){ gaga.g('send', 'event', 'more_color_schemes.close', 'button'); }
+                    );
                 },
                 closeColorPanel: function(){
                     gactions.hideAllPanels();

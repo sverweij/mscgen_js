@@ -56,9 +56,9 @@ define(["./uistate",
                 });
 
                 gCodeMirror.on("drop", function(pUnused, pEvent) {
-            /* if there is a file in the drop event clear the textarea,
-             * otherwise do default handling for drop events (whatever it is)
-             */
+                    /* if there is a file in the drop event clear the textarea,
+                     * otherwise do default handling for drop events (whatever it is)
+                     */
                     if (pEvent.dataTransfer.files.length > 0) {
                         uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name), false);
                         uistate.setSource("");

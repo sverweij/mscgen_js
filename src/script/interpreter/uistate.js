@@ -53,6 +53,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
 
     var gAutoRender             = true;
     var gMirrorEntitiesOnBottom = false;
+    var gNamedStyle             = null;
     var gLanguage               = "mscgen";
     var gDebug                  = false;
     var gLinkToInterpreter      = false;
@@ -116,18 +117,18 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
             /* probably a drag/ drop, paste operation or sample replacement
              * can be rendered without buffering
              */
-            onBufferTimeout();
+            requestRender();
         } else if (gAutoRender) {
             /* probably editing by typing in the editor - buffer for
              * a few ms
              */
 
             window.clearTimeout(gBufferTimer);
-            gBufferTimer = window.setTimeout(onBufferTimeout, BUFFER_TIMEOUT);
+            gBufferTimer = window.setTimeout(requestRender, BUFFER_TIMEOUT);
         }
     }
 
-    function onBufferTimeout(){
+    function requestRender(){
         if (gAutoRender) {
             render(getSource(), getLanguage());
             window.clearTimeout(gBufferTimer);
@@ -285,7 +286,8 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
                 "__svg",
                 {
                     source: pSource,
-                    mirrorEntitiesOnBottom: gMirrorEntitiesOnBottom
+                    mirrorEntitiesOnBottom: gMirrorEntitiesOnBottom,
+                    additionalTemplate: gNamedStyle
                 }
             );
             if (lAST.entities.length > 0) {
@@ -384,7 +386,18 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         },
 
         onInputChanged: onInputChanged,
+        /**
+         * parses + renders the given source in the given language
+         * @type {string} source
+         * @type {string} language (one of mscgen, xu, msgenny or json)
+         */
         render: render,
+
+        /**
+         *  parse + renders the current source in the current
+         *  language if 'autorender' is on
+         */
+        requestRender: requestRender,
         getAutoRender: function(){ return gAutoRender; },
         setAutoRender: function(pBoolean){ gAutoRender = pBoolean; },
         getSource: getSource,
@@ -405,6 +418,9 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         },
         getMirrorEntities: function() {
             return gMirrorEntitiesOnBottom;
+        },
+        setStyle: function(pStyle) {
+            gNamedStyle = pStyle;
         },
 
         showAutorenderState: showAutorenderState

@@ -502,24 +502,49 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                 </div>
             </div>
             <div class="content">
-                <h3 class="disabled">Pick a style</h3>
-                <div class="disabled-children">
+                <style media="screen">
+                    .copy {
+                        color: darkgrey;
+                        font-size: 14px;
+                        margin-left: 1em;
+                    }
+                </style>
+                <h3>Pick a style</h3>
+                <p class="debug copy" style="display:none">
+                    Some of these styles don't work in Safari or Internet
+                    Explorer yet.
+                </p>
+                <div>
                     <div>
-                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked disabled>
+                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked>
                         <label for="__option_style_none">none</label>
                     </div>
+                    <div class="debug" style="display:none;">
+                        <input id="__option_style_inverted" type="radio" name="stylerg" value="inverted">
+                        <label for="__option_style_inverted">inverted <em>(not in Safari/ IE)</em></label>
+                    </div>
+                    <div class="debug" style="display:none;">
+                        <input id="__option_style_grayscaled" type="radio" name="stylerg" value="grayscaled">
+                        <label for="__option_style_grayscaled">grayscale <em>(not in Safari/ IE)</em></label>
+                    </div>
                     <div>
-                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy" disabled>
+                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy">
                         <label for="__option_style_lazy">lazy</label>
                     </div>
                     <div>
-                        <input id="__option_style_cygne" type="radio" name="stylerg" value="swan" disabled>
+                        <input id="__option_style_cygne" type="radio" name="stylerg" value="cygne">
                         <label for="__option_style_cygne">cygne</label>
                     </div>
                     <div>
-                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse" disabled>
+                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse">
                         <label for="__option_style_pegasse">pégasse</label>
                     </div>
+                    <div>
+                        <input id="__option_style_classic" type="radio" name="stylerg" value="classic">
+                        <label for="__option_style_classic">classic</label>
+                    </div>
+                </div>
+                <div class="disabled-children">
                 </div>
             </div>
         </div>
