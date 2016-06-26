@@ -8,7 +8,7 @@
     "codemirror": "5.16.0",
     "requirejs": "2.2.0",
     "mscgenjs": "1.4.2",
-    "mscgenjs-inpage": "1.4.1"
+    "mscgenjs-inpage": "1.4.2"
   },
   "devDependencies": {
     "chai": "3.5.0",
