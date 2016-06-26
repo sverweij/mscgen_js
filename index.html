@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?db39f7af30166ec2"
+        <link rel="stylesheet" href="style/interp.css?49c67d92b9b57dbf"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?db39f7af30166ec2"
-        src="script/lib/require.js?db39f7af30166ec2" defer></script>
+        <script data-main="script/mscgen-interpreter.js?49c67d92b9b57dbf"
+        src="script/lib/require.js?49c67d92b9b57dbf" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -93,9 +93,9 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 1.4.1
-    build-date: 20160620 22:00
-    commit: db39f7af30166ec2">mscgen_js</h1>
+    version: 1.4.2
+    build-date: 20160626 23:20
+    commit: 49c67d92b9b57dbf">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -118,9 +118,9 @@ mscgen_js
                 </span>
             </nav>
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 1.4.1</div>
-                <div><em>build-date:</em> 20160620 22:00</div>
-                <div><em>commit:</em> db39f7af30166ec2</div>
+                <div><em>version:</em> 1.4.2</div>
+                <div><em>build-date:</em> 20160626 23:20</div>
+                <div><em>commit:</em> 49c67d92b9b57dbf</div>
             </div>
         </header>
         <article>
@@ -343,7 +343,7 @@ to the 'intr' in 'introduction'.
 According to Sander it's an angry little man
 drawing a sequence chart. On a sloped
 whiteboard. Under a roof."></span>
-                        <div style="color:#949494;text-align:center;">v1.4.1</div>
+                        <div style="color:#949494;text-align:center;">v1.4.2</div>
                     </span>
                     <span class="row-text">
                         <h3>mscgen_js</h3>
@@ -502,24 +502,49 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                 </div>
             </div>
             <div class="content">
-                <h3 class="disabled">Pick a style</h3>
-                <div class="disabled-children">
+                <style media="screen">
+                    .copy {
+                        color: darkgrey;
+                        font-size: 14px;
+                        margin-left: 1em;
+                    }
+                </style>
+                <h3>Pick a style</h3>
+                <p class="debug copy" style="display:none">
+                    Some of these styles don't work in Safari or Internet
+                    Explorer yet.
+                </p>
+                <div>
                     <div>
-                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked disabled>
+                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked>
                         <label for="__option_style_none">none</label>
                     </div>
+                    <div class="debug" style="display:none;">
+                        <input id="__option_style_inverted" type="radio" name="stylerg" value="inverted">
+                        <label for="__option_style_inverted">inverted <em>(not in Safari/ IE)</em></label>
+                    </div>
+                    <div class="debug" style="display:none;">
+                        <input id="__option_style_grayscaled" type="radio" name="stylerg" value="grayscaled">
+                        <label for="__option_style_grayscaled">grayscale <em>(not in Safari/ IE)</em></label>
+                    </div>
                     <div>
-                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy" disabled>
+                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy">
                         <label for="__option_style_lazy">lazy</label>
                     </div>
                     <div>
-                        <input id="__option_style_cygne" type="radio" name="stylerg" value="swan" disabled>
+                        <input id="__option_style_cygne" type="radio" name="stylerg" value="cygne">
                         <label for="__option_style_cygne">cygne</label>
                     </div>
                     <div>
-                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse" disabled>
+                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse">
                         <label for="__option_style_pegasse">pégasse</label>
                     </div>
+                    <div>
+                        <input id="__option_style_classic" type="radio" name="stylerg" value="classic">
+                        <label for="__option_style_classic">classic</label>
+                    </div>
+                </div>
+                <div class="disabled-children">
                 </div>
             </div>
         </div>
