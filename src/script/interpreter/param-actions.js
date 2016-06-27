@@ -37,6 +37,11 @@ define(["./uistate",
                     gaga.g('send', 'event', 'params.mirrorentities', lParams.mirrorentities);
                 }
 
+                if (lParams.hasOwnProperty("style")) {
+                    uistate.setStyle(lParams.style);
+                    gaga.g('send', 'event', 'params.style', lParams.style);
+                }
+
                 if (lParams.lang){
                     uistate.setLanguage(lParams.lang);
                     gaga.g('send', 'event', 'params.lang', lParams.lang);

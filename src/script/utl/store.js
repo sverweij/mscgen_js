@@ -29,10 +29,12 @@ define([], function() {
             localStorage.setItem(
                 STORAGE_KEY,
                 JSON.stringify({
-                    language: pState.getLanguage(),
-                    source: pState.getSource(),
-                    autorender: pState.getAutoRender(),
-                    debug: pState.getDebug()
+                    language       : pState.getLanguage(),
+                    source         : pState.getSource(),
+                    autorender     : pState.getAutoRender(),
+                    debug          : !pState.getDebug(),
+                    mirrorEntities : pState.getMirrorEntities(),
+                    namedStyle     : pState.getStyle()
                 })
             );
         }
@@ -41,10 +43,12 @@ define([], function() {
     function load(pState){
         var lState = getState();
         if (lState){
-            pState.setLanguage(lState.language);
-            pState.setSource(lState.source);
             pState.setAutoRender(lState.autorender);
             pState.setDebug(lState.debug);
+            pState.setMirrorEntities(lState.mirrorEntities);
+            pState.setStyle(lState.namedStyle);
+            pState.setLanguage(lState.language);
+            pState.setSource(lState.source);
         }
     }
 

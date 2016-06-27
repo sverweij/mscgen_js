@@ -420,7 +420,26 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
             return gMirrorEntitiesOnBottom;
         },
         setStyle: function(pStyle) {
-            gNamedStyle = pStyle;
+            window.__option_style_none.checked       = false;
+            window.__option_style_inverted.checked   = false;
+            window.__option_style_grayscaled.checked = false;
+            window.__option_style_lazy.checked       = false;
+            window.__option_style_cygne.checked      = false;
+            window.__option_style_pegasse.checked    = false;
+            window.__option_style_classic.checked    = false;
+
+            var lOptionToCheck = document.getElementById('__option_style_' + pStyle);
+            if (Boolean(lOptionToCheck)){
+                lOptionToCheck.checked = true;
+                gNamedStyle = pStyle;
+            } else {
+                window.__option_style_none.checked = true;
+                gNamedStyle = "none";
+            }
+
+        },
+        getStyle: function() {
+            return gNamedStyle;
         },
 
         showAutorenderState: showAutorenderState
