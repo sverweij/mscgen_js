@@ -5,20 +5,26 @@ var store = require("../../utl/store");
 var assert = require("assert");
 
 describe('ui/utl/store', function() {
-    var lLanguage = "initial language";
-    var lSource = "initial source";
-    var lAutoRender = false;
-    var lDebug = false;
+    var lLanguage       = "initial language";
+    var lSource         = "initial source";
+    var lAutoRender     = false;
+    var lDebug          = false;
+    var lMirrorEntities = false;
+    var lNamedStyle     = null;
 
     var lState = {
-        getLanguage: function(){ return "other language"; },
-        setLanguage: function(pLanguage){ lLanguage = pLanguage; },
-        getSource: function(){ return "other source"; },
-        setSource: function(pSource){ lSource = pSource; },
-        getAutoRender: function(){ return true; },
-        setAutoRender: function(pAutoRender){ lAutoRender = pAutoRender; },
-        getDebug: function(){ return true; },
-        setDebug: function(pDebug){ lDebug = pDebug; }
+        getLanguage      : function() { return "other language"; },
+        setLanguage      : function(pLanguage){ lLanguage = pLanguage; },
+        getSource        : function() { return "other source"; },
+        setSource        : function(pSource){ lSource = pSource; },
+        getAutoRender    : function() { return true; },
+        setAutoRender    : function(pAutoRender){ lAutoRender = pAutoRender; },
+        getDebug         : function() { return true; },
+        setDebug         : function(pDebug){ lDebug = pDebug; },
+        getMirrorEntities: function() { return lMirrorEntities; },
+        setMirrorEntities: function(pMirrorEntities) { lMirrorEntities = pMirrorEntities; },
+        getStyle         : function() { return lNamedStyle; },
+        setStyle         : function(pNamedStyle) { lNamedStyle = pNamedStyle; }
     };
 
     describe('#load and save with no localStorage available', function() {

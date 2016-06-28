@@ -32,7 +32,7 @@ define([], function() {
                     language       : pState.getLanguage(),
                     source         : pState.getSource(),
                     autorender     : pState.getAutoRender(),
-                    debug          : !pState.getDebug(),
+                    debug          : pState.getDebug(),
                     mirrorEntities : pState.getMirrorEntities(),
                     namedStyle     : pState.getStyle()
                 })
