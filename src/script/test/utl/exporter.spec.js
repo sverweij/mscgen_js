@@ -40,6 +40,7 @@ var gAST = {
 };
 var gSVG = '<svg>just a dummy thing</svg>';
 var gMsc = 'msc{a[label="💩"],b[label="序"],c [label="💩"]; a => b[label="things"], c => b;}';
+var gMsGenny = 'a : 💩, b : 序, c : 💩; a => b : things, c => b;';
 
 describe('ui/utl/exporter', function(){
     describe('#toVectorURI', function(){
@@ -51,15 +52,41 @@ describe('ui/utl/exporter', function(){
     });
     describe('#toHTMLSnippetURI', function(){
         it('should render an URI encoded html file with the passed chart embedded', function(){
-            assert.equal(xport.toHTMLSnippetURI(gMsc, 'mscgen'),
-            "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20mscgen%20mscgen_js'%20data-language%3D'mscgen'%3E%0Amsc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
+            assert.equal(xport.toHTMLSnippetURI(gMsc, 'mscgen', {}),
+            "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20mscgen%20mscgen_js'%3E%0Amsc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
         });
-    });
-    describe('#toHTMLSnippetURI with link to interpreter', function(){
-        it('should render an URI encoded html file with the passed chart embedded', function(){
-            assert.equal(xport.toHTMLSnippetURI(gMsc, 'mscgen', true),
-            "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%3E%0A%20%20%20%20%20%20var%20mscgen_js_config%20%3D%20%7B%0A%20%20%20%20%20%20%20%20clickable%3A%20true%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20mscgen%20mscgen_js'%20data-language%3D'mscgen'%3E%0Amsc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
+        it('values that are defaults anyway do not end up in the generated HTML', function(){
+            assert.equal(
+                xport.toHTMLSnippetURI(
+                    gMsc,
+                    'mscgen',
+                    {
+                        withLinkToEditor: false,
+                        mirrorEntities: false,
+                        namedStyle: "none"
+                    }
+                ),
+                "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20mscgen%20mscgen_js'%3E%0Amsc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
         });
+        it('should render an URI encoded html file with a link to the interpreter', function(){
+            assert.equal(
+                xport.toHTMLSnippetURI(gMsGenny, 'msgenny', {"withLinkToEditor": true}),
+                "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%3E%0A%20%20%20%20%20%20var%20mscgen_js_config%20%3D%20%7B%0A%20%20%20%20%20%20%20%20clickable%3A%20true%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20msgenny%20mscgen_js'%20data-language%3D'msgenny'%3E%0Aa%20%3A%20%F0%9F%92%A9%2C%20b%20%3A%20%E5%BA%8F%2C%20c%20%3A%20%F0%9F%92%A9%3B%20a%20%3D%3E%20b%20%3A%20things%2C%20c%20%3D%3E%20b%3B%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
+        });
+        it('non-default values for mirrorEntities and namedStyle end up in the HTML', function(){
+            assert.equal(
+                xport.toHTMLSnippetURI(
+                    gMsGenny,
+                    'msgenny',
+                    {
+                        withLinkToEditor: false,
+                        mirrorEntities: true,
+                        namedStyle: "lazy"
+                    }
+                ),
+                "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20msgenny%20mscgen_js'%20data-language%3D'msgenny'%20data-named-style%3D'lazy'%20data-mirror-entities%3D'true'%3E%0Aa%20%3A%20%F0%9F%92%A9%2C%20b%20%3A%20%E5%BA%8F%2C%20c%20%3A%20%F0%9F%92%A9%3B%20a%20%3D%3E%20b%20%3A%20things%2C%20c%20%3D%3E%20b%3B%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
+        });
+
     });
     describe('#todotURI', function(){
         it('should render an URI encoded string representing a graphviz dot program', function(){
@@ -85,10 +112,12 @@ describe('ui/utl/exporter', function(){
                 protocol: "http",
                 host: "localhost",
                 pathname: "mscgen_js/index.html",
-                search: '?debug=false&donottrack=true'
+                search: '?debug=false&donottrack=true&mirrorentities=on&style=none'
             };
-            assert.equal(xport.toLocationString(lLocation, gMsc, 'mscgen'),
-                        'mscgen_js/index.html?lang=mscgen&donottrack=true&debug=false&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D');
+            assert.equal(
+                xport.toLocationString(lLocation, gMsc, 'mscgen'),
+                'mscgen_js/index.html?lang=mscgen&donottrack=true&debug=false&mirrorentities=on&style=none&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D'
+            );
         });
         it('without extra parameters', function(){
             var lLocation = {
@@ -96,10 +125,10 @@ describe('ui/utl/exporter', function(){
                 host: "localhost",
                 pathname: "mscgen_js/index.html"
             };
-            assert.equal(xport.toLocationString(lLocation, gMsc, 'mscgen'),
-                        'mscgen_js/index.html?lang=mscgen&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D');
-
-
+            assert.equal(
+                xport.toLocationString(lLocation, gMsc, 'mscgen'),
+                'mscgen_js/index.html?lang=mscgen&msc=msc%7Ba%5Blabel%3D%22%F0%9F%92%A9%22%5D%2Cb%5Blabel%3D%22%E5%BA%8F%22%5D%2Cc%20%5Blabel%3D%22%F0%9F%92%A9%22%5D%3B%20a%20%3D%3E%20b%5Blabel%3D%22things%22%5D%2C%20c%20%3D%3E%20b%3B%7D'
+            );
         });
         it('with a source that is too big (> 4k)', function(){
             var lLocation = {

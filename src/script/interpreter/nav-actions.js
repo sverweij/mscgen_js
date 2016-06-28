@@ -38,7 +38,11 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
                 xport.toHTMLSnippet(
                     uistate.getSource(),
                     uistate.getLanguage(),
-                    uistate.getLinkToInterpeter()
+                    {
+                        withLinkToEditor: uistate.getLinkToInterpeter(),
+                        mirrorEntities: uistate.getMirrorEntities(),
+                        namedStyle: uistate.getStyle()
+                    }
                 );
             gactions.togglePanel(
                 window.__embed_panel,
@@ -53,7 +57,15 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
         linkToInterpreterOnClick: function() {
             uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
             window.__embedsnippet.textContent =
-            xport.toHTMLSnippet(uistate.getSource(), uistate.getLanguage(), uistate.getLinkToInterpeter());
+                xport.toHTMLSnippet(
+                    uistate.getSource(),
+                    uistate.getLanguage(),
+                    {
+                        withLinkToEditor: uistate.getLinkToInterpeter(),
+                        mirrorEntities: uistate.getMirrorEntities(),
+                        namedStyle: uistate.getStyle()
+                    }
+                );
             uistate.showAutorenderState(uistate.getAutoRender());
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },

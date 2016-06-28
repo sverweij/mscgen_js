@@ -55,7 +55,17 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
             gaga.g('send', 'event', 'show_jpeg_base64', 'button');
         },
         htmlOnClick: function() {
-            window.open(xport.toHTMLSnippetURI(uistate.getSource(), uistate.getLanguage()));
+            window.open(
+                xport.toHTMLSnippetURI(
+                    uistate.getSource(),
+                    uistate.getLanguage(),
+                    {
+                        withLinkToEditor: uistate.getLinkToInterpeter(),
+                        mirrorEntities: uistate.getMirrorEntities(),
+                        namedStyle: uistate.getStyle()
+                    }
+                )
+            );
             gaga.g('send', 'event', 'show_html', 'button');
         },
         dotOnClick: function() {
