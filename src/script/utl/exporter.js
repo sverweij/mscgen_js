@@ -16,14 +16,60 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
     /* max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1 */
     var MAX_LOCATION_LENGTH = 4094;
     var gTemplate =
-        "<!DOCTYPE html>\n<html>\n  <head>\n    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n{{config}}    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n    </script>\n  </head>\n  <body>\n    <pre class='code {{language}} mscgen_js' data-language='{{language}}'>\n{{source}}\n    </pre>\n  </body>\n</html>";
+        "<!DOCTYPE html>\n" +
+        "<html>\n" +
+        "  <head>\n" +
+        "    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n" +
+        "{{config}}" +
+        "    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n" +
+        "    </script>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <pre class='code {{language}} mscgen_js'{{data-language}}{{namedstyle}}{{mirrorentities}}>\n" +
+        "{{source}}\n" +
+        "    </pre>\n" +
+        "  </body>\n"  +
+        "</html>";
     var gLinkToEditorConfig =
-        "    <script>\n      var mscgen_js_config = {\n        clickable: true\n      }\n    </script>\n";
+        "    <script>\n" +
+        "      var mscgen_js_config = {\n" +
+        "        clickable: true\n" +
+        "      }\n" +
+        "    </script>\n";
 
-    function toHTMLSnippet (pSource, pLanguage, pWithLinkToEditor){
-        return gTemplate.replace(/{{config}}/g, pWithLinkToEditor ? gLinkToEditorConfig : "")
-                        .replace(/{{language}}/g, pLanguage)
-                        .replace(/{{source}}/g, pSource.replace(/</g, "&lt;"));
+
+    function extractNamedStyle(pNamedStyle) {
+        return pNamedStyle && pNamedStyle !== "none"
+            ? " data-named-style='" + pNamedStyle + "'"
+            : "";
+    }
+
+    function extractDataLanguage(pLanguage) {
+        return pLanguage && pLanguage !== "mscgen"
+            ? " data-language='" + pLanguage + "'"
+            : "";
+    }
+
+    function extractMirrorEntities(pMirrorEntities) {
+        return pMirrorEntities ? " data-mirror-entities='true'" : "";
+    }
+
+    function extractLinkToEditor(pWithLinkToEditor) {
+        return pWithLinkToEditor ? gLinkToEditorConfig : "";
+    }
+
+    function extractSource(pSource) {
+        return pSource.replace(/</g, "&lt;");
+    }
+
+    function toHTMLSnippet (pSource, pLanguage, pOptions){
+        return gTemplate
+            .replace(/{{config}}/g, extractLinkToEditor(pOptions.withLinkToEditor))
+            .replace(/{{language}}/g, pLanguage)
+            .replace(/{{data-language}}/g, extractDataLanguage(pLanguage))
+            .replace(/{{mirrorentities}}/g, extractMirrorEntities(pOptions.mirrorEntities))
+            .replace(/{{namedstyle}}/g, extractNamedStyle(pOptions.namedStyle))
+            .replace(/{{source}}/g, extractSource(pSource));
     }
 
     function getAdditionalParameters(pLocation){
@@ -38,6 +84,9 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
         }
         if (lParams.mirrorentities){
             lAdditionalParameters += '&mirrorentities=' + lParams.mirrorentities;
+        }
+        if (lParams.style){
+            lAdditionalParameters += '&style=' + lParams.style;
         }
         return lAdditionalParameters;
     }
@@ -59,9 +108,9 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
             encodeURIComponent(pSVGSource);
         },
         toHTMLSnippet: toHTMLSnippet,
-        toHTMLSnippetURI: function(pSource, pLanguage, pWithLinkToEditor){
+        toHTMLSnippetURI: function(pSource, pLanguage, pOptions){
             return 'data:text/plain;charset=utf-8,' +
-                    encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pWithLinkToEditor));
+                    encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pOptions));
         },
         todotURI: function(pAST){
             return 'data:text/plain;charset=utf-8,' +

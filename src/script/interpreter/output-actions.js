@@ -12,11 +12,11 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
 
     var IMAGE_EXPORT_WINDOW_NAME = "mscgenjsimages";
     function rasterExport(pType){
-/*
- * first open a window directly as opening windows from the img.load
- * (as the anonymous function will do) is blocked by many browsers
- * (safari: hard, firefox: asks the user for for permission)
- */
+        /*
+         * first open a window directly as opening windows from the img.load
+         * (as the anonymous function will do) is blocked by many browsers
+         * (safari: hard, firefox: asks the user for for permission)
+         */
         window.open("about:blank", IMAGE_EXPORT_WINDOW_NAME);
         rxport.toRasterURI(
             document,
@@ -55,7 +55,17 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
             gaga.g('send', 'event', 'show_jpeg_base64', 'button');
         },
         htmlOnClick: function() {
-            window.open(xport.toHTMLSnippetURI(uistate.getSource(), uistate.getLanguage()));
+            window.open(
+                xport.toHTMLSnippetURI(
+                    uistate.getSource(),
+                    uistate.getLanguage(),
+                    {
+                        withLinkToEditor: uistate.getLinkToInterpeter(),
+                        mirrorEntities: uistate.getMirrorEntities(),
+                        namedStyle: uistate.getStyle()
+                    }
+                )
+            );
             gaga.g('send', 'event', 'show_html', 'button');
         },
         dotOnClick: function() {

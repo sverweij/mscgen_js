@@ -254,7 +254,7 @@ ga ('send', 'pageview');
 </article>
 <article itemscope itemtype="http://schema.org/Article" id="msc-cheat-sheet">
     <h1 itemprop="name">Msc Cheat sheet</h1>
-    <pre class="mscgen_js hideonmobile" data-language="msgenny"># MsGenny: a cheat sheet
+    <pre class="mscgen_js hideonmobile" data-named-style="lazy" data-language="msgenny"># MsGenny: a cheat sheet
 hscale=0.9;
 
 a -> b   : a -> b  (signal),
@@ -291,8 +291,7 @@ c abox c : c abox c\n(state/ condition);
 |||      : ||| (empty row);
 ...      : ... (omitted row);
  ---      : --- (comment);</pre>
-<pre class="mscgen_js showonmobile" data-language="msgenny">a, b;
-
+<pre class="mscgen_js showonmobile" data-named-style="lazy" data-language="msgenny">
 a -> b   : a -> b  (signal);
 a => b   : a => b  (method);
 b >> a   : b >> a  (return value);
@@ -383,7 +382,7 @@ b => c  : Breaking text in two<mark>\n</mark>also works for arcs;
 b => c  : Breaking text in two\nalso works for arcs;</pre>
 <p class="info">Everything in boxes wraps automatically. Regular arcs also do that when
 the <a href="#wordwraparcs"><code>wordwraparcs</code></a> option is on. We're thinking
-of having this as the default somewhere in the future, but haven't yet because of 
+of having this as the default somewhere in the future, but haven't yet because of
 backwards compatibility.
 </p>
 

@@ -70,7 +70,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         lBody.appendChild(fact.createGroup(pElementId + "__sequencelayer"));
         lBody.appendChild(fact.createGroup(pElementId + "__notelayer"));
         lBody.appendChild(fact.createGroup(pElementId + "__watermark"));
-        lBody.appendChild(fact.createGroup(pElementId + "__onionskin", "onionskin"));
+        // lBody.appendChild(fact.createGroup(pElementId + "__onionskin", "onionskin"));
         return lBody;
     }
 
