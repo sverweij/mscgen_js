@@ -25,6 +25,10 @@ describe('ui/utl/maps', function() {
         it('should classify as ast/json ', function() {
             assert.equal(map.classifyExtension('test01_all_arcs.json'), "json");
         });
+
+        it('extensionless should classify as mscgen', function() {
+            assert.equal(map.classifyExtension('no-extensions-ma'), "mscgen");
+        });
     });
 
     describe('#correctLanguage() - ', function() {
