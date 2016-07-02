@@ -24,37 +24,66 @@ define([], function() {
         return null;
     }
 
-    function save(pState){
+    function setState(pState) {
         if (localStorageOK()){
             localStorage.setItem(
                 STORAGE_KEY,
-                JSON.stringify({
-                    language       : pState.getLanguage(),
-                    source         : pState.getSource(),
-                    autorender     : pState.getAutoRender(),
-                    debug          : pState.getDebug(),
-                    mirrorEntities : pState.getMirrorEntities(),
-                    namedStyle     : pState.getStyle()
-                })
+                JSON.stringify(pState)
             );
         }
     }
 
-    function load(pState){
+    function save(pState, pSourceToo){
+        var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
+        var lState = {
+            autorender     : pState.getAutoRender(),
+            debug          : pState.getDebug(),
+            mirrorEntities : pState.getMirrorEntities(),
+            namedStyle     : pState.getStyle()
+        };
+
+        if (lSourceToo) {
+            lState.language = pState.getLanguage();
+            lState.source  = pState.getSource();
+        }
+
+        setState(lState);
+    }
+
+    function load(pState, pSourceToo){
         var lState = getState();
-        if (lState){
+        var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
+
+        if (Boolean(lState)){
             pState.setAutoRender(lState.autorender);
             pState.setDebug(lState.debug);
             pState.setMirrorEntities(lState.mirrorEntities);
             pState.setStyle(lState.namedStyle);
-            pState.setLanguage(lState.language);
-            pState.setSource(lState.source);
+
+            if (lSourceToo) {
+                if (Boolean(lState.language)) {
+                    pState.setLanguage(lState.language);
+                }
+                if (Boolean(lState.source)) {
+                    pState.setSource(lState.source);
+                }
+            }
         }
+    }
+
+    function loadSettings(pState) {
+        load(pState, false);
+    }
+
+    function saveSettings(pState) {
+        save(pState, false);
     }
 
     return {
         save: save,
-        load: load
+        load: load,
+        saveSettings: saveSettings,
+        loadSettings: loadSettings
     };
 });
 /*
