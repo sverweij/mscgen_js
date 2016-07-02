@@ -5,11 +5,12 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../lib/mscgenjs-core/render/text/ast2dot",
-        "../lib/mscgenjs-core/render/text/ast2mscgen",
-        "../lib/mscgenjs-core/render/text/ast2doxygen",
-        "./paramslikker"
-        ],
+define([
+    "../lib/mscgenjs-core/render/text/ast2dot",
+    "../lib/mscgenjs-core/render/text/ast2mscgen",
+    "../lib/mscgenjs-core/render/text/ast2doxygen",
+    "./paramslikker"
+],
 function(ast2dot, ast2mscgen, ast2doxygen, par) {
     "use strict";
 

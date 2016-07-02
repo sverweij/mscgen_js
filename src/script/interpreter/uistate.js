@@ -37,17 +37,18 @@ msc {
 */
 
 /* eslint max-params: 0 */
-define(["../lib/mscgenjs-core/parse/xuparser",
-        "../lib/mscgenjs-core/parse/msgennyparser",
-        "../lib/mscgenjs-core/render/graphics/renderast",
-        "../lib/mscgenjs-core/render/text/ast2msgenny",
-        "../lib/mscgenjs-core/render/text/ast2xu",
-        "../utl/gaga",
-        "../utl/maps",
-        "../utl/domutl",
-        "../utl/exporter",
-        "./sampleListReader"
-        ],
+define([
+    "../lib/mscgenjs-core/parse/xuparser",
+    "../lib/mscgenjs-core/parse/msgennyparser",
+    "../lib/mscgenjs-core/render/graphics/renderast",
+    "../lib/mscgenjs-core/render/text/ast2msgenny",
+    "../lib/mscgenjs-core/render/text/ast2xu",
+    "../utl/gaga",
+    "../utl/maps",
+    "../utl/domutl",
+    "../utl/exporter",
+    "./sampleListReader"
+],
 function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport, sampleListReader) {
     "use strict";
 
