@@ -26,19 +26,20 @@ function(uistate, store, gaga, colorize, gactions) {
             uistate.setAutoRender(!(uistate.getAutoRender()));
             uistate.requestRender();
             uistate.showAutorenderState(uistate.getAutoRender());
+            store.saveSettings(uistate);
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
-        languageMsGennyOnClick: function() { _switchLanguage("msgenny"); },
-        languageMscGenOnClick: function() { _switchLanguage("mscgen"); },
-        languageJSONOnClick: function() { _switchLanguage("json"); },
-        colorAutoOnClick: function() { _applyColorScheme("auto", false); },
-        colorAutoFOnClick: function() { _applyColorScheme("auto", true); },
-        colorMinimalOnClick: function(){ _applyColorScheme("minimal", false); },
-        colorMinimalFOnClick: function(){ _applyColorScheme("minimal", true); },
-        colorRoseOnClick: function(){ _applyColorScheme("rosy", false); },
-        colorRoseFOnClick: function(){ _applyColorScheme("rosy", true); },
-        colorBlueyOnClick: function(){ _applyColorScheme("bluey", false); },
-        colorBlueyFOnClick: function(){ _applyColorScheme("bluey", true); },
+        languageMsGennyOnClick : function() { _switchLanguage("msgenny"); },
+        languageMscGenOnClick  : function() { _switchLanguage("mscgen"); },
+        languageJSONOnClick    : function() { _switchLanguage("json"); },
+        colorAutoOnClick       : function() { _applyColorScheme("auto", false); },
+        colorAutoFOnClick      : function() { _applyColorScheme("auto", true); },
+        colorMinimalOnClick    : function(){ _applyColorScheme("minimal", false); },
+        colorMinimalFOnClick   : function(){ _applyColorScheme("minimal", true); },
+        colorRoseOnClick       : function(){ _applyColorScheme("rosy", false); },
+        colorRoseFOnClick      : function(){ _applyColorScheme("rosy", true); },
+        colorBlueyOnClick      : function(){ _applyColorScheme("bluey", false); },
+        colorBlueyFOnClick     : function(){ _applyColorScheme("bluey", true); },
         uncolorizeOnClick: function() {
             uistate.manipulateSource(colorize.uncolor);
             gactions.hideAllPanels();

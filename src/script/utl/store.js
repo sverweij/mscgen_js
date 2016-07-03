@@ -37,14 +37,24 @@ define([], function() {
         var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
         var lState = {
             autorender     : pState.getAutoRender(),
-            debug          : pState.getDebug(),
             mirrorEntities : pState.getMirrorEntities(),
             namedStyle     : pState.getStyle()
         };
 
         if (lSourceToo) {
             lState.language = pState.getLanguage();
-            lState.source  = pState.getSource();
+            lState.source   = pState.getSource();
+        } else {
+            var lOldState = getState();
+
+            if (Boolean(lOldState)) {
+                if (Boolean(lOldState.language)) {
+                    lState.language = lOldState.language;
+                }
+                if (Boolean(lOldState.source)) {
+                    lState.source = lOldState.source;
+                }
+            }
         }
 
         setState(lState);
@@ -56,7 +66,6 @@ define([], function() {
 
         if (Boolean(lState)){
             pState.setAutoRender(lState.autorender);
-            pState.setDebug(lState.debug);
             pState.setMirrorEntities(lState.mirrorEntities);
             pState.setStyle(lState.namedStyle);
 

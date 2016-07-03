@@ -1,13 +1,15 @@
 /* eslint max-params: 0 */
-define(["./uistate",
-        "./animator",
-        "../utl/exporter",
-        "./raster-exporter",
-        "../lib/mscgenjs-core/render/graphics/svgutensils",
-        "./general-actions",
-        "../utl/gaga"
-        ],
-function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
+define([
+    "./uistate",
+    "./animator",
+    "../utl/store",
+    "../utl/exporter",
+    "./raster-exporter",
+    "../lib/mscgenjs-core/render/graphics/svgutensils",
+    "./general-actions",
+    "../utl/gaga"
+],
+function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
     "use strict";
 
     var IMAGE_EXPORT_WINDOW_NAME = "mscgenjsimages";
@@ -115,11 +117,13 @@ function(uistate, animctrl, xport, rxport, dq, gactions, gaga) {
         optionMirrorEntitiesOnClick: function(pEvent) {
             uistate.setMirrorEntities(pEvent.target.checked);
             uistate.requestRender();
+            store.saveSettings(uistate);
             gaga.g('send', 'event', 'renderoptions.mirrorentities', pEvent.target.checked);
         },
         styleOnClick: function(pEvent) {
             uistate.setStyle(pEvent.target.value);
             uistate.requestRender();
+            store.saveSettings(uistate);
             gaga.g('send', 'event', 'renderoptions.style', pEvent.target.value);
         },
         moreExportOptionsOnClick: function(){

@@ -333,6 +333,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
     }
 
     function showAutorenderState (pAutoRender) {
+        gAutoRender = pAutoRender;
         if (pAutoRender) {
             window.__autorender.checked = true;
             dq.ss(window.__btn_render).hide();
@@ -400,7 +401,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
          */
         requestRender: requestRender,
         getAutoRender: function(){ return gAutoRender; },
-        setAutoRender: function(pBoolean){ gAutoRender = pBoolean; },
+        setAutoRender: showAutorenderState,
         getSource: getSource,
         setSource: setSource,
         getLanguage: getLanguage,

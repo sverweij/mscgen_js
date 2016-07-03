@@ -1,11 +1,13 @@
+/* eslint max-params: 0 */
 define([
     "./uistate",
     "../utl/paramslikker",
+    "../utl/store",
     "../utl/domutl",
     "../utl/gaga",
     "../utl/maps"
 ],
-function(uistate, params, dq, gaga, map) {
+function(uistate, params, store, dq, gaga, map) {
     "use strict";
 
     function setupGA (pDoNotTrack){
@@ -33,6 +35,13 @@ function(uistate, params, dq, gaga, map) {
             gaga.g('send', 'event', 'debug', 'true');
         }
 
+        if (uistate.getDebug()) {
+            store.load(uistate);
+        } else {
+            store.loadSettings(uistate);
+        }
+
+
         if (lParams.hasOwnProperty("mirrorentities")) {
             uistate.setMirrorEntities(map.sanitizeBooleanesque(lParams.mirrorentities));
             gaga.g('send', 'event', 'params.mirrorentities', lParams.mirrorentities);
@@ -51,7 +60,7 @@ function(uistate, params, dq, gaga, map) {
         if (lParams.msc) {
             uistate.setSource(lParams.msc);
             gaga.g('send', 'event', 'params.msc');
-        } else {
+        } else if (uistate.getSource().length <= 0) {
             uistate.setSample();
         }
     }

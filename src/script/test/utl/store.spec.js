@@ -8,7 +8,6 @@ describe('ui/utl/store', function() {
     var lLanguage       = "initial language";
     var lSource         = "initial source";
     var lAutoRender     = false;
-    var lDebug          = false;
     var lMirrorEntities = false;
     var lNamedStyle     = null;
 
@@ -19,9 +18,7 @@ describe('ui/utl/store', function() {
         setSource        : function(pSource){ lSource = pSource; },
         getAutoRender    : function() { return true; },
         setAutoRender    : function(pAutoRender){ lAutoRender = pAutoRender; },
-        getDebug         : function() { return true; },
-        setDebug         : function(pDebug){ lDebug = pDebug; },
-        getMirrorEntities: function() { return lMirrorEntities; },
+        getMirrorEntities: function() { return true; },
         setMirrorEntities: function(pMirrorEntities) { lMirrorEntities = pMirrorEntities; },
         getStyle         : function() { return lNamedStyle; },
         setStyle         : function(pNamedStyle) { lNamedStyle = pNamedStyle; }
@@ -33,7 +30,7 @@ describe('ui/utl/store', function() {
             assert.equal(lLanguage, "initial language");
             assert.equal(lSource, "initial source");
             assert.equal(lAutoRender, false);
-            assert.equal(lDebug, false);
+            assert.equal(lMirrorEntities, false);
         });
 
         it('silently fail on save', function(){
@@ -42,7 +39,15 @@ describe('ui/utl/store', function() {
             assert.equal(lLanguage, "initial language");
             assert.equal(lSource, "initial source");
             assert.equal(lAutoRender, false);
-            assert.equal(lDebug, false);
+            assert.equal(lMirrorEntities, false);
+        });
+        it('#saveSettings silently fail on save', function(){
+            store.saveSettings(lState);
+            store.load(lState);
+            assert.equal(lLanguage, "initial language");
+            assert.equal(lSource, "initial source");
+            assert.equal(lAutoRender, false);
+            assert.equal(lMirrorEntities, false);
         });
     });
 
@@ -60,7 +65,6 @@ describe('ui/utl/store', function() {
             lLanguage       = "initial language";
             lSource         = "initial source";
             lAutoRender     = false;
-            lDebug          = false;
             lMirrorEntities = false;
             lNamedStyle     = null;
         });
@@ -70,7 +74,7 @@ describe('ui/utl/store', function() {
             assert.equal(lLanguage, "initial language");
             assert.equal(lSource, "initial source");
             assert.equal(lAutoRender, false);
-            assert.equal(lDebug, false);
+            assert.equal(lMirrorEntities, false);
         });
 
         it('saves the passed state', function(){
@@ -79,16 +83,16 @@ describe('ui/utl/store', function() {
             assert.equal(lLanguage, "other language");
             assert.equal(lSource, "other source");
             assert.equal(lAutoRender, true);
-            assert.equal(lDebug, true);
+            assert.equal(lMirrorEntities, true);
         });
 
-        it("doesn't save/ overwrite source when saving settings only", function(){
+        it("keeps the source of the state object when saving settings only, but re-retrieving everything", function(){
             store.saveSettings(lState);
             store.load(lState);
-            assert.equal(lLanguage, "initial language");
-            assert.equal(lSource, "initial source");
+            assert.equal(lLanguage, "other language");
+            assert.equal(lSource, "other source");
             assert.equal(lAutoRender, true);
-            assert.equal(lDebug, true);
+            assert.equal(lMirrorEntities, true);
         });
 
         it("doesn't save/ overwrite source when saving & loading settings only", function(){
@@ -97,8 +101,7 @@ describe('ui/utl/store', function() {
             assert.equal(lLanguage, "initial language");
             assert.equal(lSource, "initial source");
             assert.equal(lAutoRender, true);
-            assert.equal(lDebug, true);
+            assert.equal(lMirrorEntities, true);
         });
-
     });
 });
