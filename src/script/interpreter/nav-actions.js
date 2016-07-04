@@ -66,7 +66,7 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
                         namedStyle: uistate.getStyle()
                     }
                 );
-            uistate.showAutorenderState(uistate.getAutoRender());
+            uistate.setAutoRender(uistate.getAutoRender());
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
         aboutOnClick: function(){

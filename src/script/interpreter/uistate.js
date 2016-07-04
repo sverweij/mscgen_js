@@ -84,7 +84,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
 
     function initializeUI(pCodeMirror) {
         gCodeMirror = pCodeMirror;
-        showAutorenderState(gAutoRender);
+        setAutoRender(gAutoRender);
         setLanguage(getLanguage(), false);
         dq.ajax(
             "samples/interpreter-samples.json",
@@ -232,15 +232,15 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
             clear();
         } else {
             dq.ajax(
-        pURL,
-        function onSuccess (pEvent){
-            setLanguage(txt.classifyExtension(pURL), false);
-            setSource(pEvent.target.response);
-        },
-        function onError (){
-            setSource("# could not find or open '" + pURL + "'");
-        }
-    );
+                pURL,
+                function onSuccess (pEvent){
+                    setLanguage(txt.classifyExtension(pURL), false);
+                    setSource(pEvent.target.response);
+                },
+                function onError (){
+                    setSource("# could not find or open '" + pURL + "'");
+                }
+            );
         }
     }
 
@@ -266,14 +266,18 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
             var lAST = getASTBare(pSource, pLanguage);
             if (gDebug) {
                 try {
-                    window.history.replaceState({}, "",
-                    xport.toLocationString(window.location,
-                        pSource,
-                        txt.correctLanguage(lAST.meta.extendedFeatures,
-                            pLanguage
+                    window.history.replaceState(
+                        {},
+                        "",
+                        xport.toLocationString(
+                            window.location,
+                            pSource,
+                            txt.correctLanguage(
+                                lAST.meta.extendedFeatures,
+                                pLanguage
+                            )
                         )
-                    )
-            );
+                    );
                 } catch (e) {
                     // on chrome window.history.replaceState barfs when
                     // the interpreter runs from a file:// instead of
@@ -332,7 +336,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         }
     }
 
-    function showAutorenderState (pAutoRender) {
+    function setAutoRender (pAutoRender) {
         gAutoRender = pAutoRender;
         if (pAutoRender) {
             window.__autorender.checked = true;
@@ -401,7 +405,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
          */
         requestRender: requestRender,
         getAutoRender: function(){ return gAutoRender; },
-        setAutoRender: showAutorenderState,
+        setAutoRender: setAutoRender,
         getSource: getSource,
         setSource: setSource,
         getLanguage: getLanguage,
@@ -442,9 +446,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         },
         getStyle: function() {
             return gNamedStyle;
-        },
-
-        showAutorenderState: showAutorenderState
+        }
     };
 }); // define
 /*

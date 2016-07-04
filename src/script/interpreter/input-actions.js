@@ -25,7 +25,7 @@ function(uistate, store, gaga, colorize, gactions) {
         autorenderOnClick: function() {
             uistate.setAutoRender(!(uistate.getAutoRender()));
             uistate.requestRender();
-            uistate.showAutorenderState(uistate.getAutoRender());
+            uistate.setAutoRender(uistate.getAutoRender());
             store.saveSettings(uistate);
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
