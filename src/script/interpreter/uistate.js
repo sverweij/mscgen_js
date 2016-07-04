@@ -58,29 +58,12 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
     var gLanguage               = "mscgen";
     var gDebug                  = false;
     var gLinkToInterpreter      = false;
-    var gBufferTimer            = {};
 
     var gCodeMirror             = {};
     var gErrorCoordinates       = {
         line   : 0,
         column : 0
     };
-
-    /*
-        Average typing speeds (source: https://en.wikipedia.org/wiki/Words_per_minute)
-        1 wpm = 5 cpm
-        transcription:
-          fast        : 40wpm = 200cpm = 200c/60s = 200c/60000ms => 300 ms/character
-          moderate    : 35wpm = 175cpm = 343ms/character
-          slow        : 23wpm = 115cpm => 522ms/character
-        composition:
-          average     : 19wpm = 95cpm  => 630ms/ character
-
-         But: average professional typists can reach 50 - 80 wpm
-
-        So, about 630ms would be good enough for a buffer to timeout.
-    */
-    var BUFFER_TIMEOUT = 500;
 
     function initializeUI(pCodeMirror) {
         gCodeMirror = pCodeMirror;
@@ -110,29 +93,9 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         }
     }
 
-    function onInputChanged (pBigChange) {
-        if ("" === getSource()){
-            /* no need to render no input */
-            preRenderReset();
-        } else if (pBigChange){
-            /* probably a drag/ drop, paste operation or sample replacement
-             * can be rendered without buffering
-             */
-            requestRender();
-        } else if (gAutoRender) {
-            /* probably editing by typing in the editor - buffer for
-             * a few ms
-             */
-
-            window.clearTimeout(gBufferTimer);
-            gBufferTimer = window.setTimeout(requestRender, BUFFER_TIMEOUT);
-        }
-    }
-
     function requestRender(){
         if (gAutoRender) {
             render(getSource(), getLanguage());
-            window.clearTimeout(gBufferTimer);
         }
     }
 
@@ -180,8 +143,12 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         try {
             lAST = getAST();
             if (lAST !== {}){
-                lAST = pFunction(lAST);
-                setSource(renderSource(lAST, getLanguage()));
+                setSource(
+                    renderSource(
+                        pFunction(lAST),
+                        getLanguage()
+                    )
+                );
             }
         } catch (e) {
             // do nothing
@@ -221,7 +188,23 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
     function setLanguage (pLanguage, pAutoRender) {
         gLanguage = pLanguage;
         gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
-        showLanguageState(pLanguage);
+        if ("msgenny" === pLanguage) {
+            window.__language_mscgen.checked  = false;
+            window.__language_msgenny.checked = true;
+            window.__language_json.checked    = false;
+            dq.ss(window.__btn_more_color_schemes).hide();
+            window.__color_panel.style.width = '0';
+        } else if ("json" === pLanguage){
+            window.__language_mscgen.checked  = false;
+            window.__language_msgenny.checked = false;
+            window.__language_json.checked    = true;
+            dq.ss(window.__btn_more_color_schemes).show();
+        } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
+            window.__language_mscgen.checked  = true;
+            window.__language_msgenny.checked = false;
+            window.__language_json.checked    = false;
+            dq.ss(window.__btn_more_color_schemes).show();
+        }
         if ((('undefined' === typeof pAutoRender) && gAutoRender) || pAutoRender === true){
             render(getSource(), pLanguage);
         }
@@ -347,26 +330,6 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         }
     }
 
-    function showLanguageState (pLanguage) {
-        if ("msgenny" === pLanguage) {
-            window.__language_mscgen.checked  = false;
-            window.__language_msgenny.checked = true;
-            window.__language_json.checked    = false;
-            dq.ss(window.__btn_more_color_schemes).hide();
-            window.__color_panel.style.width = '0';
-        } else if ("json" === pLanguage){
-            window.__language_mscgen.checked  = false;
-            window.__language_msgenny.checked = false;
-            window.__language_json.checked    = true;
-            dq.ss(window.__btn_more_color_schemes).show();
-        } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
-            window.__language_mscgen.checked  = true;
-            window.__language_msgenny.checked = false;
-            window.__language_json.checked    = false;
-            dq.ss(window.__btn_more_color_schemes).show();
-        }
-    }
-
     function hideError () {
         dq.ss(window.__error).hide();
         window.__error_output.textContent  = "";
@@ -391,7 +354,6 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
             setCursorInSource(gErrorCoordinates.line - 1, gErrorCoordinates.column - 1);
         },
 
-        onInputChanged: onInputChanged,
         /**
          * parses + renders the given source in the given language
          * @type {string} source
@@ -446,7 +408,8 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         },
         getStyle: function() {
             return gNamedStyle;
-        }
+        },
+        preRenderReset: preRenderReset
     };
 }); // define
 /*
