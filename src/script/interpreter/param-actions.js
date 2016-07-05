@@ -16,23 +16,13 @@ function(uistate, params, store, dq, gaga, map) {
         gaga.g('send', 'pageview');
     }
 
-    function switchDebugging(pBooleanesque) {
-        if (map.sanitizeBooleanesque(pBooleanesque)) {
-            dq.doForAllOfClass("debug", function(pDomNode){
-                dq.ss(pDomNode).show();
-            });
-            uistate.setDebug(true);
-        }
-    }
-
     function processParams(){
         var lParams = params.getParams(window.location.search);
         setupGA(map.sanitizeBooleanesque(lParams.donottrack));
 
-        uistate.setDebug(false);
+        uistate.setDebug(map.sanitizeBooleanesque(lParams.debug));
         if (lParams.hasOwnProperty("debug")) {
-            switchDebugging(lParams.debug);
-            gaga.g('send', 'event', 'debug', 'true');
+            gaga.g('send', 'event', 'debug', map.sanitizeBooleanesque(lParams.debug));
         }
 
         if (uistate.getDebug()) {
@@ -40,7 +30,6 @@ function(uistate, params, store, dq, gaga, map) {
         } else {
             store.loadSettings(uistate);
         }
-
 
         if (lParams.hasOwnProperty("mirrorentities")) {
             uistate.setMirrorEntities(map.sanitizeBooleanesque(lParams.mirrorentities));

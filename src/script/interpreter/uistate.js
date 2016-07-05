@@ -43,13 +43,12 @@ define([
     "../lib/mscgenjs-core/render/graphics/renderast",
     "../lib/mscgenjs-core/render/text/ast2msgenny",
     "../lib/mscgenjs-core/render/text/ast2xu",
-    "../utl/gaga",
     "../utl/maps",
     "../utl/domutl",
     "../utl/exporter",
     "./sampleListReader"
 ],
-function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, dq, xport, sampleListReader) {
+function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xport, sampleListReader) {
     "use strict";
 
     var gAutoRender             = true;
@@ -65,7 +64,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         column : 0
     };
 
-    function initializeUI(pCodeMirror) {
+    function init(pCodeMirror) {
         gCodeMirror = pCodeMirror;
         setAutoRender(gAutoRender);
         setLanguage(getLanguage(), false);
@@ -344,7 +343,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
     }
 
     return {
-        init: initializeUI,
+        init: init,
 
         switchLanguage: switchLanguage,
         manipulateSource: manipulateSource,
@@ -373,7 +372,14 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, gaga, txt, d
         getLanguage: getLanguage,
         setLanguage: setLanguage,
         getDebug: function(){ return gDebug; },
-        setDebug: function(pBoolean){ gDebug = pBoolean; },
+        setDebug: function(pBoolean){
+            gDebug = pBoolean;
+            if (gDebug) {
+                dq.doForAllOfClass("debug", function(pDomNode){
+                    dq.ss(pDomNode).show();
+                });
+            }
+        },
         getAST: getAST,
         getLinkToInterpeter: function(){ return gLinkToInterpreter; },
         setLinkToInterpeter: function(pBoolean) {
