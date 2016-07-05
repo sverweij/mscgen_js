@@ -78,7 +78,7 @@ function(uistate, codemirror, map, gaga) {
              * otherwise do default handling for drop events (whatever it is)
              */
             if (pEvent.dataTransfer.files.length > 0) {
-                uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name), false);
+                uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name));
                 uistate.setSource("");
                 gaga.g('send', 'event', 'drop', uistate.getLanguage());
             }

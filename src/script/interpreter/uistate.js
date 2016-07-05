@@ -67,7 +67,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xpo
     function init(pCodeMirror) {
         gCodeMirror = pCodeMirror;
         setAutoRender(gAutoRender);
-        setLanguage(getLanguage(), false);
+        setLanguage(getLanguage());
         dq.ajax(
             "samples/interpreter-samples.json",
             function(pResult){
@@ -184,29 +184,26 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xpo
         return gLanguage;
     }
 
-    function setLanguage (pLanguage, pAutoRender) {
+    function setLanguage (pLanguage) {
         gLanguage = pLanguage;
         gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
+
+        window.__language_mscgen.checked  = false;
+        window.__language_msgenny.checked = false;
+        window.__language_json.checked    = false;
+
         if ("msgenny" === pLanguage) {
-            window.__language_mscgen.checked  = false;
             window.__language_msgenny.checked = true;
-            window.__language_json.checked    = false;
             dq.ss(window.__btn_more_color_schemes).hide();
             window.__color_panel.style.width = '0';
         } else if ("json" === pLanguage){
-            window.__language_mscgen.checked  = false;
-            window.__language_msgenny.checked = false;
-            window.__language_json.checked    = true;
+            window.__language_json.checked = true;
             dq.ss(window.__btn_more_color_schemes).show();
         } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
-            window.__language_mscgen.checked  = true;
-            window.__language_msgenny.checked = false;
-            window.__language_json.checked    = false;
+            window.__language_mscgen.checked = true;
             dq.ss(window.__btn_more_color_schemes).show();
         }
-        if ((('undefined' === typeof pAutoRender) && gAutoRender) || pAutoRender === true){
-            render(getSource(), pLanguage);
-        }
+        requestRender();
     }
 
     function setSample(pURL) {
@@ -216,7 +213,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xpo
             dq.ajax(
                 pURL,
                 function onSuccess (pEvent){
-                    setLanguage(txt.classifyExtension(pURL), false);
+                    setLanguage(txt.classifyExtension(pURL));
                     setSource(pEvent.target.response);
                 },
                 function onError (){
