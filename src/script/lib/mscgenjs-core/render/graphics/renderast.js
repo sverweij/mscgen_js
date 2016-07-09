@@ -58,18 +58,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     });
     var gInlineExpressionMemory = [];
 
-    function _renderAST(pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
-        return _renderASTNew(
-            pAST,
-            pWindow,
-            pParentElementId,
-            {
-                source: pSource,
-                styleAdditions: pStyleAdditions
-            }
-        );
-    }
-
     function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
         var lAST = flatten.flatten(pAST);
         var lOptions = pOptions || {};
@@ -679,7 +667,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         var lHeight = lToY - lFromY;
         pArcMem.arc.label = "";
 
-        return createBox(
+        return createInlineExpressionBox(
             pArcMem.id,
             entities.getOAndD(pArcMem.arc.from, pArcMem.arc.to),
             pArcMem.arc,
@@ -781,25 +769,17 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
 
     function renderEmptyArc(pArc, pId) {
-        var lElement = {};
-
         if (pArc.from && pArc.to) {
             if (entities.getX(pArc.from) > entities.getX(pArc.to)) {
                 swap.swapfromto(pArc);
             }
         }
 
-        switch (pArc.kind) {
-        case ("..."):
-        case ("|||"):
-            lElement = createLifeLinesText(pId, pArc);
-            break;
-        case ("---"):
-            lElement = createComment(pId, pArc);
-            break;
-        default: break;
+        if (pArc.kind === "---"){
+            return createComment(pId, pArc);
+        } else { /* "..." / "|||" */
+            return createLifeLinesText(pId, pArc);
         }
-        return lElement;
     }
 
     function determineArcYTo(pArc){
@@ -816,7 +796,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = fact.createGroup(pId);
-        // var lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
         var lClass = "arc ";
         lClass += determineDirectionClass(pArc.kind);
         lClass += map.getAggregateClass(pArc.kind) + " " + map.getClass(pArc.kind);
@@ -954,6 +933,41 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return lGroup;
     }
 
+    function createInlineExpressionBox(pId, pOAndD, pArc, pHeight) {
+        /* begin: same as createBox */
+        if (pOAndD.from > pOAndD.to) {
+            swap.swapfromto(pOAndD);
+        }
+        var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
+        var lWidth =
+            (pOAndD.to - pOAndD.from) +
+            entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH - lMaxDepthCorrection; // px
+        var lStart =
+            pOAndD.from -
+            ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH - lMaxDepthCorrection) / 2);
+
+        var lGroup = fact.createGroup(pId);
+        /* end: same as createBox */
+
+        var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
+
+        lGroup.appendChild(
+            fact.createRect(
+                {
+                    width: lWidth + lArcDepthCorrection * 2,
+                    height: pHeight ? pHeight : gChart.arcRowHeight - 2 * C.LINE_WIDTH,
+                    x: lStart - lArcDepthCorrection,
+                    y: 0
+                },
+                "box inline_expression " + pArc.kind,
+                pArc.linecolor,
+                pArc.textbgcolor
+            )
+        );
+
+        return lGroup;
+    }
+
     /**
      * creates an element representing a box (box, abox, rbox, note)
      * also (mis?) used for rendering inline expressions/ arc spanning arcs
@@ -966,76 +980,46 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * takes the bounding box of the (rendered) label of the arc, taking care not
      * to get smaller than the default arc row height
      */
-    function createBox(pId, pOAndD, pArc, pHeight) {
+    function createBox(pId, pOAndD, pArc) {
+        /* begin: same as createInlineExpressionBox */
         if (pOAndD.from > pOAndD.to) {
             swap.swapfromto(pOAndD);
         }
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
-
         var lWidth =
             (pOAndD.to - pOAndD.from) +
             entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH - lMaxDepthCorrection; // px
-        var RBOX_CORNER_RADIUS = 6; // px
-
         var lStart =
             pOAndD.from -
             ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH - lMaxDepthCorrection) / 2);
+        /* end: same as createInlineExpressionBox */
+
         var lGroup = fact.createGroup(pId);
         var lBox = {};
         var lTextGroup = labels.createLabel(pArc, {x:lStart, y:0, width:lWidth});
         var lTextBBox = svgutl.getBBox(lTextGroup);
-
-        var lHeight = pHeight
-                    ? pHeight
-                    : Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);
+        var lHeight = Math.max(lTextBBox.height + 2 * C.LINE_WIDTH, gChart.arcRowHeight - 2 * C.LINE_WIDTH);
         var lBBox = {width: lWidth, height: lHeight, x: lStart, y: (0 - lHeight / 2)};
 
         switch (pArc.kind) {
-        case ("box") :
-            lBox = fact.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
+        case ("rbox"):
+            lBox = fact.createRBox(lBBox, "box rbox", pArc.linecolor, pArc.textbgcolor);
             break;
-        case ("rbox") :
-            lBox = fact.createRect(
-                lBBox,
-                "box rbox",
-                pArc.linecolor,
-                pArc.textbgcolor,
-                RBOX_CORNER_RADIUS,
-                RBOX_CORNER_RADIUS
-            );
-            break;
-        case ("abox") :
-            lBBox.y = 0;
+        case ("abox"):
             lBox = fact.createABox(lBBox, "box abox", pArc.linecolor, pArc.textbgcolor);
             break;
-        case ("note") :
+        case ("note"):
             lBox = fact.createNote(lBBox, "box note", pArc.linecolor, pArc.textbgcolor);
             break;
-        default :
-            var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
-            lBox =
-                fact.createRect(
-                    {
-                        width: lWidth + lArcDepthCorrection * 2,
-                        height: lHeight,
-                        x: lStart - lArcDepthCorrection,
-                        y: 0
-                    },
-                    "box inline_expression " + pArc.kind,
-                    pArc.linecolor,
-                    pArc.textbgcolor
-                );
+        default:  // "box"
+            lBox = fact.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
+            break;
         }
+
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
 
         return lGroup;
-    }
-
-    function _clean(pParentElementId, pWindow) {
-        gChart.document = skel.init(pWindow);
-        svgutl.init(gChart.document);
-        svgutl.removeRenderedSVGFromElement(pParentElementId);
     }
 
     return {
@@ -1048,7 +1032,11 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * @param - {window} pWindow - the browser window object
          *
          */
-        clean : _clean,
+        clean : function (pParentElementId, pWindow) {
+            gChart.document = skel.init(pWindow);
+            svgutl.init(gChart.document);
+            svgutl.removeRenderedSVGFromElement(pParentElementId);
+        },
 
         /**
          * renders the given abstract syntax tree pAST as svg
@@ -1061,7 +1049,17 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * @param {window} pWindow - the browser window to put the svg in
          * @param {string} pStyleAdditions - valid css that augments the default style
          */
-        renderAST : _renderAST,
+        renderAST : function (pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
+            return _renderASTNew(
+                pAST,
+                pWindow,
+                pParentElementId,
+                {
+                    source: pSource,
+                    styleAdditions: pStyleAdditions
+                }
+            );
+        },
 
         /**
         * renders the given abstract syntax tree pAST as svg
