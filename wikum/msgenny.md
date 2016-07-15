@@ -1,7 +1,7 @@
 # MsGenny
 _**Low effort labeling. Auto declarations**_
 
-mscgen already is a simple, concise, well readable language. Write-ability
+MscGen already is a simple, concise, well readable language. Write-ability
 leaves room for improvement, though.
 The *MsGenny* language is our attempt to fill that room. It does away with some of
 MscGen's more fancy features in favor of low effort labeling
@@ -72,8 +72,8 @@ semicolon:
 ```
 
 ## Formal syntax ##
-The formal syntax is described in a [parsing expression grammar][1]. This grammar
-is used to generate the MsGenny parser as well.
+A [parsing expression grammar][1] describes the formal syntax. This grammar
+is also used to generate the MsGenny parser.
 
 ## Feature comparison
 As mentioned above the [online interpreter][4] converts between *MscGen* and *MsGenny*,
@@ -85,9 +85,6 @@ mscgen_js -T mscgen -i yourchart.msgenny -o yourchart.mscgen
 # Translate MscGen => MsGenny
 mscgen_js -T msgenny -i yourchart.mscgen -o yourchart.msgenny
 ```
-
-
-
 
 <table>
     <tr><th>feature</th><th>MscGen</th><th>MsGenny</th></tr>
