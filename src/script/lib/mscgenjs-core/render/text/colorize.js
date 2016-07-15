@@ -194,40 +194,40 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
     };
 
     var gColorCombiCount = 0;
-    var gColorScheme = {};
 
-    function getArcColorCombis(pKind) {
-        var lArcCombi = gColorScheme.arcColors[pKind];
+    function getArcColorCombis(pColorScheme, pKind) {
+        var lArcCombi = pColorScheme.arcColors[pKind];
         if (lArcCombi) {
             return lArcCombi;
         } else {
-            return gColorScheme.aggregateArcColors[map.getAggregate(pKind)];
+            return pColorScheme.aggregateArcColors[map.getAggregate(pKind)];
         }
     }
-
-    function colorizeArc(pArc) {
-        if (!hasColors(pArc)) {
-            var lColorCombi = getArcColorCombis(pArc.kind);
-            if (lColorCombi) {
-                pArc.linecolor = lColorCombi.linecolor;
-                if (lColorCombi.textcolor) {
-                    pArc.textcolor = lColorCombi.textcolor;
+    function colorizeArc (pColorScheme){
+        return function (pArc) {
+            if (!hasColors(pArc)) {
+                var lColorCombi = getArcColorCombis(pColorScheme, pArc.kind);
+                if (lColorCombi) {
+                    pArc.linecolor = lColorCombi.linecolor;
+                    if (lColorCombi.textcolor) {
+                        pArc.textcolor = lColorCombi.textcolor;
+                    }
+                    pArc.textbgcolor = lColorCombi.textbgcolor;
                 }
-                pArc.textbgcolor = lColorCombi.textbgcolor;
             }
-        }
-        return pArc;
+            return pArc;
+        };
     }
 
-    function getNextColorCombi() {
+    function getNextColorCombi(pColorScheme) {
         var lColorCombiCount = gColorCombiCount;
-        if (gColorCombiCount < gColorScheme.entityColors.length - 1) {
+        if (gColorCombiCount < pColorScheme.entityColors.length - 1) {
             gColorCombiCount += 1;
         } else {
             gColorCombiCount = 0;
         }
 
-        return gColorScheme.entityColors[lColorCombiCount];
+        return pColorScheme.entityColors[lColorCombiCount];
     }
 
     function hasColors(pArcOrEntity) {
@@ -237,25 +237,30 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
                 });
     }
 
-    function colorizeEntity(pEntity) {
-        if (!hasColors(pEntity)) {
-            var lNextColorCombi = getNextColorCombi();
-            pEntity.linecolor = lNextColorCombi.linecolor;
-            pEntity.textbgcolor = lNextColorCombi.textbgcolor;
-            if (lNextColorCombi.textcolor) {
-                pEntity.textcolor = lNextColorCombi.textcolor;
-                pEntity.arctextcolor = lNextColorCombi.textcolor;
+    function colorizeEntity(pColorScheme) {
+        return function (pEntity) {
+            if (!hasColors(pEntity)) {
+                var lNextColorCombi = getNextColorCombi(pColorScheme);
+                pEntity.linecolor = lNextColorCombi.linecolor;
+                pEntity.textbgcolor = lNextColorCombi.textbgcolor;
+                if (lNextColorCombi.textcolor) {
+                    pEntity.textcolor = lNextColorCombi.textcolor;
+                    pEntity.arctextcolor = lNextColorCombi.textcolor;
+                }
+                pEntity.arclinecolor = lNextColorCombi.linecolor;
             }
-            pEntity.arclinecolor = lNextColorCombi.linecolor;
-        }
-        return pEntity;
+            return pEntity;
+        };
     }
 
     function _colorize(pAST, pColorScheme, pForce) {
-        gColorScheme = pColorScheme;
         gColorCombiCount = 0;
 
-        return transform.transform(pForce ? _uncolor(pAST) : pAST, [colorizeEntity], [colorizeArc]);
+        return transform.transform(
+            pForce ? _uncolor(pAST) : pAST,
+            [colorizeEntity(pColorScheme)],
+            [colorizeArc(pColorScheme)]
+        );
     }
 
     function uncolorThing(pThing) {
@@ -273,10 +278,12 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
     }
 
     return {
-        uncolor : _uncolor,
-        colorize : _colorize,
+        uncolor: _uncolor,
+        colorize: _colorize,
         applyScheme: function(pAST, pColorSchemeName, pForced){
-            return _colorize(pAST, gSchemes[pColorSchemeName] ? gSchemes[pColorSchemeName] : gSchemes.auto, pForced);
+            return _colorize(pAST, gSchemes[pColorSchemeName]
+                ? gSchemes[pColorSchemeName]
+                : gSchemes.auto, pForced);
         }
 
     };

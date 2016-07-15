@@ -51,12 +51,6 @@ define([], function() {
         }
     }
 
-    function _transform(pAST, pEnityTransforms, pArcTransforms) {
-        transformEntities(pAST.entities, pEnityTransforms);
-        transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
-        return pAST;
-    }
-
     return {
         /**
          * Generic function for performing manipulations on abstract syntax trees. It takes a
@@ -72,7 +66,11 @@ define([], function() {
          * an arc row and entities as input return the modified arc row
          * @return {ast} - the modified syntax tree
          */
-        transform : _transform
+        transform : function (pAST, pEnityTransforms, pArcTransforms) {
+            transformEntities(pAST.entities, pEnityTransforms);
+            transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
+            return pAST;
+        }
     };
 });
 

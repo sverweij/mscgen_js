@@ -9,6 +9,7 @@ src/script/interpreter/animator.js: \
 	src/script/utl/gaga.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderast.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/entities.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
@@ -20,7 +21,6 @@ src/script/lib/mscgenjs-core/render/graphics/renderast.js: \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
-	src/script/lib/mscgenjs-core/render/graphics/swap.js \
 	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
 	src/script/lib/mscgenjs-core/render/text/flatten.js
 
@@ -121,7 +121,6 @@ src/script/interpreter/uistate.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2xu.js \
 	src/script/utl/domutl.js \
 	src/script/utl/exporter.js \
-	src/script/utl/gaga.js \
 	src/script/utl/maps.js
 
 src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
@@ -185,7 +184,8 @@ src/script/interpreter/output-actions.js: \
 	src/script/interpreter/uistate.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
 	src/script/utl/exporter.js \
-	src/script/utl/gaga.js
+	src/script/utl/gaga.js \
+	src/script/utl/store.js
 
 src/script/interpreter/raster-exporter.js: \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js
@@ -195,7 +195,8 @@ src/script/interpreter/param-actions.js: \
 	src/script/utl/domutl.js \
 	src/script/utl/gaga.js \
 	src/script/utl/maps.js \
-	src/script/utl/paramslikker.js
+	src/script/utl/paramslikker.js \
+	src/script/utl/store.js
 
 src/script/mscgen-interpreter.js: \
 	src/script/interpreter/editor-events.js \
@@ -290,7 +291,6 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
-	src/script/lib/mscgenjs-core/render/graphics/swap.js \
 	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
 	src/script/lib/mscgenjs-core/render/text/ast2animate.js \
 	src/script/lib/mscgenjs-core/render/text/ast2dot.js \

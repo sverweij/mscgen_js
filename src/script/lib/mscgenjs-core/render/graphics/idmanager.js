@@ -14,11 +14,7 @@ define([], function() {
             gInnerElementId = INNERELEMENTPREFIX + pPrefix;
         },
         get: function(pElementIdentifierString) {
-            if (pElementIdentifierString){
-                return gInnerElementId + pElementIdentifierString;
-            } else {
-                return gInnerElementId;
-            }
+            return gInnerElementId + (pElementIdentifierString || "");
         }
     };
 });

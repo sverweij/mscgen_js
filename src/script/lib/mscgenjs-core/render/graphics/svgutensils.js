@@ -116,30 +116,30 @@ function(C, id, fact, llfact, _) {
         },
         removeRenderedSVGFromElement : _removeRenderedSVGFromElement,
 
-    /**
-     * Returns the bounding box of the passed element.
-     *
-     * Note: to be able to calculate the actual bounding box of an element it has
-     * to be in a DOM tree first. Hence this function temporarily creates the element,
-     * calculates the bounding box and removes the temporarily created element again.
-     *
-     * @param {SVGElement} pElement - the element to calculate the bounding box for
-     * @return {boundingbox} an object with properties height, width, x and y. If
-     * the function cannot determine the bounding box  be determined, returns 15,15,2,2
-     * as "reasonable default"
-     */
+        /**
+         * Returns the bounding box of the passed element.
+         *
+         * Note: to be able to calculate the actual bounding box of an element it has
+         * to be in a DOM tree first. Hence this function temporarily creates the element,
+         * calculates the bounding box and removes the temporarily created element again.
+         *
+         * @param {SVGElement} pElement - the element to calculate the bounding box for
+         * @return {boundingbox} an object with properties height, width, x and y. If
+         * the function cannot determine the bounding box  be determined, returns 15,15,2,2
+         * as "reasonable default"
+         */
         getBBox : _getBBox,
 
-    /**
-     * Returns the height in pixels necessary for rendering characters
-     */
+        /**
+         * Returns the height in pixels necessary for rendering characters
+         */
         calculateTextHeight: _.memoize(_calculateTextHeight),
 
-    // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
-    // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
-    // namespace prefixes in front of xlink and all hrefs respectively.
-    // this function does a crude global replace to circumvent the
-    // resulting problems. Problem happens for xhtml too
+        // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
+        // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
+        // namespace prefixes in front of xlink and all hrefs respectively.
+        // this function does a crude global replace to circumvent the
+        // resulting problems. Problem happens for xhtml too
         webkitNamespaceBugWorkaround : function (pText){
             return pText.replace(/ xlink=/g, " xmlns:xlink=", "g")
                 .replace(/ href=/g, " xlink:href=", "g");

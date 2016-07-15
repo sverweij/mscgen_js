@@ -178,7 +178,7 @@ function(transform, map, _, txt) {
                         return pArc.to === "*";
                     })
                     .forEach(function(pArc, pArcIndex) {
-                        /* save a cloneDeep of the broadcast arc attributes
+                        /* save a clone of the broadcast arc attributes
                          * and remove the original bc arc
                          */
                         lOriginalBroadcastArc = _.cloneDeep(pArc);
@@ -207,7 +207,6 @@ function(transform, map, _, txt) {
         /**
          * Flattens any recursion in the arcs of the given abstract syntax tree to make it
          * more easy to render.
-         * - TODO: document this stuff
          *
          * @param {ast} pAST
          * @return {ast}
@@ -253,7 +252,13 @@ function(transform, map, _, txt) {
          * @return {ast}
          */
         dotFlatten : function(pAST) {
-            return _explodeBroadcasts(transform.transform(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]));
+            return _explodeBroadcasts(
+                transform.transform(
+                    pAST,
+                    [nameAsLabel],
+                    [_swapRTLArc, overrideColors]
+                )
+            );
         }
     };
 });

@@ -14,22 +14,6 @@ define([], function() {
     var gDefaultEntityHeight = 0;
     var gDefaultArcRowHeight = 0;
 
-    /**
-     * clearRowInfo() - resets the helper array to an empty one
-     */
-    function clear(pEntityHeight, pArcRowHeight) {
-        gRowInfo = [];
-        gDefaultEntityHeight = pEntityHeight;
-        gDefaultArcRowHeight = pArcRowHeight;
-    }
-
-    /**
-     * getRowInfo() - returns the row info for a given pRowNumber.
-     * If the row info was not set earlier with a setRowinfo call
-     * the function returns a best guess, based on defaults
-     *
-     * @param <int> pRowNumber
-     */
     function get(pRowNumber) {
         if (gRowInfo[pRowNumber]) {
             return gRowInfo[pRowNumber];
@@ -41,43 +25,45 @@ define([], function() {
         }
     }
 
-    function getLast(){
-        return get(gRowInfo.length - 1);
-    }
-
-    /**
-     * setRowInfo() - stores the pHeight and y position pY for the given pRowNumber
-     * - If the caller does not provide pHeight, the function sets the height to
-     * the current default arc row height
-     * - If the caller does not provide pY, the function calculates from the row height
-     * and the y position (and height) of the previous row
-     *
-     * @param <int> pRowNumber
-     * @param <int> pHeight
-     * @param <int> pY
-     */
-    function set(pRowNumber, pHeight, pY) {
-        if (typeof pHeight === 'undefined' || pHeight < gDefaultArcRowHeight) {
-            pHeight = gDefaultArcRowHeight;
-        }
-        if (typeof pY === 'undefined') {
-            var lPreviousRowInfo = get(pRowNumber - 1);
-            if (lPreviousRowInfo && lPreviousRowInfo.y > 0) {
-                pY = lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2;
-            }
-        }
-        gRowInfo[pRowNumber] = {
-            y : pY,
-            height : pHeight
-        };
-    }
-
-    /* ---------------end row memory ---------------------- */
     return {
-        clear: clear,
+
+        /**
+         * clearRowInfo() - resets the helper array to an empty one
+         */
+        clear: function(pEntityHeight, pArcRowHeight) {
+            gRowInfo = [];
+            gDefaultEntityHeight = pEntityHeight;
+            gDefaultArcRowHeight = pArcRowHeight;
+        },
+
+        /**
+         * get() - returns the row info for a given pRowNumber.
+         * If the row info was not set earlier with a setRowinfo call
+         * the function returns a best guess, based on defaults
+         *
+         * @param <int> pRowNumber
+         */
         get: get,
-        getLast: getLast,
-        set: set
+
+        getLast: function(){
+            return get(gRowInfo.length - 1);
+        },
+
+        /**
+         * set() - stores the pHeight for the given pRowNumber, and sets
+         *         the y coordinate of the row
+         *
+         * @param <int> pRowNumber
+         * @param <int> pHeight
+         */
+        set: function (pRowNumber, pHeight) {
+            var lPreviousRowInfo = get(pRowNumber - 1);
+
+            gRowInfo[pRowNumber] = {
+                y : lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
+                height : pHeight
+            };
+        }
     };
 });
 /*

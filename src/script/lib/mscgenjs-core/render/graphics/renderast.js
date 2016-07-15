@@ -10,7 +10,6 @@ define(["./svgelementfactory",
         "./renderskeleton",
         "../text/flatten",
         "../text/arcmappings",
-        "./swap",
         "./rowmemory",
         "./idmanager",
         "./markermanager",
@@ -19,7 +18,7 @@ define(["./svgelementfactory",
         "./constants",
         "../../lib/lodash/lodash.custom"],
     /* eslint max-params: 0 */
-function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C, _) {
+function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, entities, labels, C, _) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -59,7 +58,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     var gInlineExpressionMemory = [];
 
     function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
-        var lAST = flatten.flatten(pAST);
+        var lAST = Object.seal(flatten.flatten(pAST));
         var lOptions = pOptions || {};
 
         lOptions = _.defaults(lOptions, {
@@ -96,7 +95,9 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         );
         gChart.mirrorEntitiesOnBottom = Boolean(pOptions.mirrorEntitiesOnBottom);
         svgutl.init(gChart.document);
-        initializeChart(gChart, pAST.depth);
+
+        gChart.layer = createLayerShortcuts(gChart.document);
+        gChart.maxDepth = pAST.depth;
 
         preProcessOptions(gChart, pAST.options);
     }
@@ -119,29 +120,25 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          *
          * We do this _before_ scaling is applied to the svg
          */
-        renderBackground(gChart, lCanvas);
+        renderBackground(lCanvas);
         postProcessOptions(pAST.options, lCanvas);
         renderSvgElement(lCanvas);
     }
 
-    function initializeChart(pChart, pDepth){
-        createLayerShortcuts(pChart.layer, pChart.document);
-        pChart.maxDepth = pDepth ? pDepth : 0;
-    }
-
-    function createLayerShortcuts (pLayer, pDocument){
-        pLayer.defs      = pDocument.getElementById(id.get("__defs"));
-        pLayer.lifeline  = pDocument.getElementById(id.get("__lifelinelayer"));
-        pLayer.sequence  = pDocument.getElementById(id.get("__sequencelayer"));
-        pLayer.notes     = pDocument.getElementById(id.get("__notelayer"));
-        pLayer.inline    = pDocument.getElementById(id.get("__arcspanlayer"));
-        pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
-        // pLayer.onionskin = pDocument.getElementById(id.get("__onionskin"));
+    function createLayerShortcuts (pDocument){
+        return {
+            defs      : pDocument.getElementById(id.get("__defs")),
+            lifeline  : pDocument.getElementById(id.get("__lifelinelayer")),
+            sequence  : pDocument.getElementById(id.get("__sequencelayer")),
+            notes     : pDocument.getElementById(id.get("__notelayer")),
+            inline    : pDocument.getElementById(id.get("__arcspanlayer")),
+            watermark : pDocument.getElementById(id.get("__watermark"))
+        };
     }
 
     function preProcessOptionsArcs(pChart, pOptions){
         pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
-        pChart.arcGradient = DEFAULT_ARC_GRADIENT;
+        pChart.arcGradient  = DEFAULT_ARC_GRADIENT;
         pChart.wordWrapArcs = false;
 
         if (pOptions) {
@@ -195,9 +192,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return lCanvas;
     }
 
-    function renderBackground(pChart, pCanvas) {
-        var lBgRect = fact.createRect(pCanvas, "bglayer");
-        pChart.document.getElementById(id.get("__background")).appendChild(lBgRect);
+    function renderBackground(pCanvas) {
+        gChart.document.getElementById(id.get("__background")).appendChild(
+            fact.createRect(pCanvas, "bglayer")
+        );
     }
 
     function renderWatermark(pWatermark, pCanvas) {
@@ -261,11 +259,13 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                 lHighestEntity = pEntity;
             }
         });
+
         if (lHWM > 2){
-            return Math.max(entities.getDims().height,
-                            svgutl.getBBox(
-                                renderEntity(lHighestEntity)
-                            ).height
+            return Math.max(
+                entities.getDims().height,
+                svgutl.getBBox(
+                    renderEntity(lHighestEntity)
+                ).height
             );
         }
         return entities.getDims().height;
@@ -275,7 +275,15 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         var lGroup = fact.createGroup(id.get(pEntity.name));
         var lBBox = entities.getDims();
         lBBox.x = pX ? pX : 0;
-        var lTextLabel =
+        lGroup.appendChild(
+            fact.createRect(
+                lBBox,
+                "entity",
+                pEntity.linecolor,
+                pEntity.textbgcolor
+            )
+        );
+        lGroup.appendChild(
             labels.createLabel(
                 pEntity,
                 {
@@ -286,36 +294,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                 {
                     kind: "entity"
                 }
-            );
-
-        var lRect = fact.createRect(
-            lBBox,
-            "entity",
-            pEntity.linecolor,
-            pEntity.textbgcolor
+            )
         );
-        lGroup.appendChild(lRect);
-        lGroup.appendChild(lTextLabel);
         return lGroup;
     }
-
-    // function renderOnionEntity(pEntity, pX) {
-    //     var lBBox = entities.getDims();
-    //     // lBBox.x = pX ? pX : 0;
-    //     // var lTextLabel =
-    //     return  labels.createLabel(
-    //         pEntity,
-    //         {
-    //             x:pX,
-    //             y:lBBox.height / 2,
-    //             width:lBBox.width
-    //         },
-    //         {
-    //             ownBackground: true,
-    //             kind: "entity"
-    //         }
-    //     );
-    // }
 
     function renderEntitiesOnBottom() {
         var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
@@ -349,14 +331,12 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     function renderEntities(pEntities) {
         var lEntityXPos = 0;
         var lEntityGroup = fact.createGroup(id.get("entities"));
-        // var lOnionEntityGroup = fact.createGroup(id.get("onion-entities"));
 
         if (pEntities) {
             entities.setHeight(getMaxEntityHeight(pEntities) + C.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
                 lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos));
-                // lOnionEntityGroup.appendChild(renderOnionEntity(pEntity, lEntityXPos));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
@@ -369,140 +349,133 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             lEntityXPos -
             entities.getDims().interEntitySpacing + entities.getDims().width;
 
-        // lOnionEntityGroup.appendChild(
-        //     fact.createRect(
-        //         {
-        //             x: -(entities.getDims().interEntitySpacing - entities.getDims().width) / 2,
-        //             y: 0,
-        //             width: lEntityXPos, // + 2 * entities.getDims().interEntitySpacing,
-        //             height: entities.getDims().height
-        //         },
-        //         "onionskin-hover-layer"
-        //     )
-        // );
-
-        // gChart.layer.defs.appendChild(lOnionEntityGroup);
     }
 
     /* ------------------------END entity shizzle-------------------------------- */
 
+    function renderBroadcastArc(pArc, pEntities, pCurrentId, lRowMemory) {
+        var xTo    = 0;
+        var lLabel = pArc.label;
+        var xFrom  = entities.getX(pArc.from);
+
+        pArc.label = "";
+
+        pEntities.forEach(function(pEntity, pEntityNumber){
+            if (pEntity.name !== pArc.from) {
+                xTo = entities.getX(pEntity.name);
+                gChart.layer.defs.appendChild(
+                    createArc(pCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo)
+                );
+                lRowMemory.push({
+                    id    : pCurrentId + "bc" + pEntityNumber,
+                    layer : gChart.layer.sequence
+                });
+            }
+        });
+
+        pArc.label = lLabel;
+    }
+
+    function renderRegularArc(pArc, pEntities, pCurrentId, pRowMemory){
+        var lElement = {};
+
+        if (pArc.from && pArc.to) {
+            if (pArc.to === "*") { // it's a broadcast arc
+                renderBroadcastArc(pArc, pEntities, pCurrentId, pRowMemory);
+                /* creates a label on the current line, smack in the middle */
+                lElement =
+                    labels.createLabel(
+                        pArc,
+                        {
+                            x     : 0,
+                            y     : 0,
+                            width : gChart.arcEndX
+                        },
+                        {
+                            alignAround   : true,
+                            ownBackground : true,
+                            wordWrapArcs  : gChart.wordWrapArcs
+                        },
+                        pCurrentId + "_lbl"
+                    );
+                pRowMemory.push({
+                    id    : pCurrentId + "_lbl",
+                    layer : gChart.layer.sequence
+                });
+            } else { // it's a regular arc
+                lElement =
+                    createArc(
+                        pCurrentId,
+                        pArc,
+                        entities.getX(pArc.from),
+                        entities.getX(pArc.to)
+                    );
+                pRowMemory.push({
+                    id    : pCurrentId,
+                    layer : gChart.layer.sequence
+                });
+            }  // / lTo or pArc.from === "*"
+        }// if both a from and a to
+        return lElement;
+    }
+
     function renderArcRow (pArcRow, pRowNumber, pEntities){
-        var lArcRowOmit = false;
+        var lArcRowClass = "arcrow";
         var lRowMemory = [];
 
-        rowmemory.set(pRowNumber);
         pArcRow.forEach(function(pArc, pArcNumber){
             var lCurrentId = id.get(pRowNumber.toString() + "_" + pArcNumber.toString());
             var lElement = {};
 
-
             switch (map.getAggregate(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, lCurrentId);
-                lArcRowOmit = ("..." === pArc.kind);
+                if ("..." === pArc.kind) {
+                    lArcRowClass = "arcrowomit";
+                }
                 lRowMemory.push({
-                    id : lCurrentId,
+                    id    : lCurrentId,
                     layer : gChart.layer.sequence
                 });
                 break;
             case ("box"):
                 lElement = createBox(lCurrentId, entities.getOAndD(pArc.from, pArc.to), pArc);
                 lRowMemory.push({
-                    id : lCurrentId,
+                    id    : lCurrentId,
                     layer : gChart.layer.notes
                 });
                 break;
             case ("inline_expression"):
                 lElement = renderInlineExpressionLabel(lCurrentId + "_label", pArc);
                 lRowMemory.push({
-                    id : lCurrentId + "_label",
+                    id    : lCurrentId + "_label",
                     layer : gChart.layer.notes
                 });
                 gInlineExpressionMemory.push({
-                    id : lCurrentId,
-                    arc : pArc,
+                    id     : lCurrentId,
+                    arc    : pArc,
                     rownum : pRowNumber
                 });
                 break;
             default:
-                if (pArc.from && pArc.to) {
-                    var xTo = 0;
-                    var xFrom = 0;
-
-                    if (pArc.to === "*") { // it's a broadcast arc
-                        var lLabel = pArc.label;
-                        xFrom = entities.getX(pArc.from);
-                        pEntities.forEach(function(pEntity, pEntityNumber){
-                            if (pEntity.name !== pArc.from) {
-                                xTo = entities.getX(pEntity.name);
-                                pArc.label = "";
-                                gChart.layer.defs.appendChild(
-                                    createArc(lCurrentId + "bc" + pEntityNumber, pArc, xFrom, xTo)
-                                );
-                                lRowMemory.push({
-                                    id : lCurrentId + "bc" + pEntityNumber,
-                                    layer : gChart.layer.sequence
-                                });
-                            }
-                        });
-                        pArc.label = lLabel;
-
-                            /* creates a label on the current line, smack in the middle */
-                        lElement =
-                            labels.createLabel(
-                                pArc,
-                                {
-                                    x: 0,
-                                    y: 0,
-                                    width: gChart.arcEndX
-                                },
-                                {
-                                    alignAround: true,
-                                    ownBackground: true,
-                                    wordWrapArcs: gChart.wordWrapArcs
-                                },
-                                lCurrentId + "_lbl"
-                            );
-                        lRowMemory.push({
-                            id : lCurrentId + "_lbl",
-                            layer : gChart.layer.sequence
-                        });
-                    } else { // it's a regular arc
-                        lElement =
-                            createArc(
-                                lCurrentId,
-                                pArc,
-                                entities.getX(pArc.from),
-                                entities.getX(pArc.to)
-                            );
-                        lRowMemory.push({
-                            id : lCurrentId,
-                            layer : gChart.layer.sequence
-                        });
-                    }  // / lTo or pArc.from === "*"
-                }// if both a from and a to
-                break;
+                lElement = renderRegularArc(pArc, pEntities, lCurrentId, lRowMemory);
             }// switch
-            if (lElement) {
-                rowmemory.set(
-                    pRowNumber,
-                    Math.max(
-                        rowmemory.get(pRowNumber).height,
-                        svgutl.getBBox(lElement).height + 2 * C.LINE_WIDTH
-                    )
-                 );
-                gChart.layer.defs.appendChild(lElement);
-            }
+
+            rowmemory.set(
+                pRowNumber,
+                Math.max(
+                    rowmemory.get(pRowNumber).height,
+                    svgutl.getBBox(lElement).height + 2 * C.LINE_WIDTH
+                )
+             );
+            gChart.layer.defs.appendChild(lElement);
         });// for all arcs in a row
 
         /*
          *  only here we can determine the height of the row and the y position
          */
         var lArcRowId = "arcrow_" + pRowNumber.toString();
-        var lArcRowClass = "arcrow";
-        if (lArcRowOmit) {
-            lArcRowClass = "arcrowomit";
-        }
+
         gChart.layer.defs.appendChild(
             renderLifeLines(
                 pEntities,
@@ -526,15 +499,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                 )
             );
         });
-        // gChart.layer.onionskin.appendChild(
-        //     fact.createUse(
-        //         {
-        //             x:0,
-        //             y:rowmemory.get(pRowNumber).y - entities.getDims().height
-        //         },
-        //         id.get("entities")
-        //     )
-        // );
     }
 
     /** renderArcRows() - renders the arcrows from an AST
@@ -573,15 +537,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <object> pArc - the arc spanning arc
      */
     function renderInlineExpressionLabel(pId, pArc) {
-        var lOnD = {
-            from: entities.getX(pArc.from),
-            to: entities.getX(pArc.to)
-        };
-
+        var lOnD = entities.getOAndD(pArc.from, pArc.to);
         var FOLD_SIZE = 7;
-        if (lOnD.from > lOnD.to) {
-            swap.swapfromto(lOnD);
-        }
 
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
 
@@ -769,16 +726,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
 
     function renderEmptyArc(pArc, pId) {
-        if (pArc.from && pArc.to) {
-            if (entities.getX(pArc.from) > entities.getX(pArc.to)) {
-                swap.swapfromto(pArc);
-            }
-        }
-
         if (pArc.kind === "---"){
-            return createComment(pId, pArc);
+            return createComment(pId, pArc, entities.getOAndD(pArc.from, pArc.to));
         } else { /* "..." / "|||" */
-            return createLifeLinesText(pId, pArc);
+            return createLifeLinesText(pId, pArc, entities.getOAndD(pArc.from, pArc.to));
         }
     }
 
@@ -794,6 +745,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         }
         return "";
     }
+
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = fact.createGroup(pId);
         var lClass = "arc ";
@@ -866,14 +818,14 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <string> - pId - unique identification of the text in the svg
      * @param <object> - pArc - the arc to render
      */
-    function createLifeLinesText(pId, pArc) {
+    function createLifeLinesText(pId, pArc, pOAndD) {
         var lArcStart = 0;
-        var lArcEnd = gChart.arcEndX;
-        var lGroup = fact.createGroup(pId);
+        var lArcEnd   = gChart.arcEndX;
+        var lGroup    = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
-            lArcStart = entities.getX(pArc.from);
-            lArcEnd = Math.abs(entities.getX(pArc.to) - entities.getX(pArc.from));
+            lArcStart = pOAndD.from;
+            lArcEnd   = pOAndD.to - pOAndD.from;
         }
         lGroup.appendChild(
             labels.createLabel(
@@ -892,7 +844,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <string> - pId - the unique identification of the comment within the svg
      * @param <object> - pArc - the (comment) arc to render
      */
-    function createComment(pId, pArc) {
+    function createComment(pId, pArc, pOAndD) {
         var lStartX = 0;
         var lEndX = gChart.arcEndX;
         var lClass = "comment";
@@ -903,12 +855,12 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
 
             lStartX =
-                (entities.getX(pArc.from) -
-                (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) -
+                (pOAndD.from -
+                  (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) -
                 (lArcDepthCorrection - lMaxDepthCorrection);
             lEndX   =
-                (entities.getX(pArc.to) +
-                (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) +
+                (pOAndD.to +
+                  (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) +
                 (lArcDepthCorrection - lMaxDepthCorrection);
             lClass  = "inline_expression_divider";
         }
@@ -924,7 +876,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             );
 
         lGroup.appendChild(lLine);
-        lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc));
+        lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc, pOAndD));
 
         if (pArc.linecolor) {
             lLine.setAttribute("style", "stroke:" + pArc.linecolor + ";");
@@ -935,9 +887,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
 
     function createInlineExpressionBox(pId, pOAndD, pArc, pHeight) {
         /* begin: same as createBox */
-        if (pOAndD.from > pOAndD.to) {
-            swap.swapfromto(pOAndD);
-        }
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
         var lWidth =
             (pOAndD.to - pOAndD.from) +
@@ -982,9 +931,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      */
     function createBox(pId, pOAndD, pArc) {
         /* begin: same as createInlineExpressionBox */
-        if (pOAndD.from > pOAndD.to) {
-            swap.swapfromto(pOAndD);
-        }
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
         var lWidth =
             (pOAndD.to - pOAndD.from) +

@@ -11,9 +11,9 @@ define(["./renderlabels", "./constants"], function(labels, C) {
     var DEFAULT_ENTITY_HEIGHT        = 34; // px
 
     var gEntityDims = {
-        interEntitySpacing: DEFAULT_INTER_ENTITY_SPACING,
-        height            : DEFAULT_ENTITY_HEIGHT,
-        width             : DEFAULT_ENTITY_WIDTH
+        interEntitySpacing : DEFAULT_INTER_ENTITY_SPACING,
+        height             : DEFAULT_ENTITY_HEIGHT,
+        width              : DEFAULT_ENTITY_WIDTH
     };
 
     var gEntity2X = {};
@@ -40,8 +40,8 @@ define(["./renderlabels", "./constants"], function(labels, C) {
         },
         getOAndD: function (pFrom, pTo){
             return {
-                from: getX(pFrom),
-                to: getX(pTo)
+                from: getX(pFrom) < getX(pTo) ? getX(pFrom) : getX(pTo),
+                to: getX(pTo) > getX(pFrom) ? getX(pTo) : getX(pFrom)
             };
         },
         setHeight: function (pHeight){
@@ -50,7 +50,7 @@ define(["./renderlabels", "./constants"], function(labels, C) {
         getDims: function (){
             return gEntityDims;
         },
-        getNoEntityLines : function(pLabel){
+        getNoEntityLines: function(pLabel){
             return labels.splitLabel(pLabel, "box", gEntityDims.width, C.FONT_SIZE).length;
         }
     };
