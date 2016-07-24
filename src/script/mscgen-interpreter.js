@@ -44,6 +44,7 @@ function(iactions, oactions, nactions, par, gactions, edit) {
         window.__option_style_none.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_inverted.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_grayscaled.addEventListener("click", oactions.styleOnClick, false);
+        window.__option_style_fountainpen.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_lazy.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_cygne.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_pegasse.addEventListener("click", oactions.styleOnClick, false);

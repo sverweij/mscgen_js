@@ -508,7 +508,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
      */
     function renderArcRows(pArcRows, pEntities) {
         gInlineExpressionMemory = [];
-        gChart.layer.defs.appendChild(renderLifeLines(pEntities, id.get("arcrow")));
+        gChart.layer.defs.appendChild(renderLifeLines(pEntities, "arcrow", null, id.get("arcrow")));
 
         /* put some space between the entities and the arcs */
         gChart.layer.lifeline.appendChild(
