@@ -1,0 +1,20 @@
+/*
+  how mscgen_js works internally, roughly
+
+  The Colors were added by applying the 'Automatic'
+  color scheme in the interpreter
+*/
+wordwraparcs=1;
+
+you       => controler         : some text;
+controler => parser            : ok?,
+parser    >> controler         : syntax tree;
+controler => renderer          : syntax tree;
+renderer  => renderer          : render,
+renderer  >> controler         : vector picture;
+controler >> you               : vector picture;
+---;
+you       => controler         : raster graphics?;
+controler => "raster exporter" : vector picture;
+"raster exporter" >> controler : raster picture;
+controler >> you               : raster picture;
