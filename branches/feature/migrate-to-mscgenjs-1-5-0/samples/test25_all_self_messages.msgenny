@@ -1,7 +1,0 @@
-a,b,c,d;
-|||:all self references;
-a :> a: a :> a, b -x b: b -x b, c x- c: c x- c,d<:d: d<:d;
-a -> a: a->a, b<-b: b<-b, c<->c: c<->c, d note d: d note d;
-a => a: a=>a, b<=b: b<=b, c<=>c: c<=>c, d rbox d: d rbox d;
-a =>> a: a=>>a, b<<=b: b<<=b, c<<=>>c: c<<=>>c, d abox d: d abox d;
-a :> a: a :> a, b<:b: b <: b, c<:>c: c <:> c, d box d: d box d;
