@@ -326,15 +326,17 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         createABox: function (pBBox, pClass, pColor, pBgColor) {
             var lSlopeOffset = 3;
             return _createPath(
-                "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
                 // start
+                "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
                 "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
+                // top line
                 "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
+                // right wedge
                 "l" + lSlopeOffset + "," + pBBox.height / 2 +
                 "l-" + lSlopeOffset + "," + pBBox.height / 2 +
+                // bottom line:
                 "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
-                // bottom line
-                "l-" + lSlopeOffset + ",-" + pBBox.height / 2,
+                "z",
                 pClass, pColor, pBgColor
             );
         },
@@ -358,14 +360,22 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
                 // top line:
                 "l" + (pBBox.width - lFoldSizeN) + ",0 " +
                 // fold:
+                // we lift the pen of the paper here to make sure the fold
+                // gets the fill color as well when such is specified
                 "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" +
                         lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
                 // down:
                 "l0," + (pBBox.height - lFoldSizeN) + " " +
                 // bottom line:
                 "l-" + pBBox.width + ",0 " +
-                // back to home:
-                "l0,-" + (pBBox.height + (C.LINE_WIDTH / 2)) + " ",
+                "l0,-" + pBBox.height + " " +
+                // because we lifted the pen from the paper in the fold (see
+                // the m over there) - svg interpreters consider that to be
+                // the start of the path. So, although we're already 'home'
+                // visually we need to do one step extra.
+                // If we don't we end up with a little gap on the top left
+                // corner when our stroke-linecap===butt
+                "z",
                 pClass, pColor, pBgColor
             );
         },

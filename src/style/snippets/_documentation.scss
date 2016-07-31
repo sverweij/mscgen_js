@@ -15,6 +15,7 @@ nav.sidebar {
     height:80%;
     width: 240px;
     color: $header-color;
+    line-height: 1.4
 }
 nav.sidebar ul {
     padding: 0 0 0 16px;
@@ -50,6 +51,7 @@ article {
   counter-reset: chapter-counter;
   border-collapse: separate; /* apparently needed for IE */
   page-break-before: always;
+  line-height: 1.5
 }
 article:first-of-type{
   page-break-before: auto;
@@ -135,6 +137,9 @@ img, .mscgen_js, mscgen {
 .shadow {
   box-shadow: 0.0 0.0 1em -0.2em $shadow-color;
   border-collapse: separate; /* apparently needed for IE */
+}
+.side-note {
+    font-size: small;
 }
 mark {
   background-color: $mark-color;

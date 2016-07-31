@@ -6,24 +6,8 @@ if (typeof define !== 'function') {
 define([], function() {
     "use strict";
 
-
     function rad2deg(pDegrees){
         return (pDegrees * 360) / (2 * Math.PI);
-    }
-
-    function _getDiagonalAngle(pBBox) {
-        return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
-    }
-
-    function _getDirection(pLine){
-        var ldx = -1;
-        if (pLine.xTo > pLine.xFrom){
-            ldx = 1;
-        }
-        return {
-            dx: ldx,
-            dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
-        };
     }
 
     return {
@@ -34,7 +18,9 @@ define([], function() {
          * @param {object} pBBox - the bounding box (only width and height used)
          * @returns {number} - the angle in degrees
          */
-        getDiagonalAngle : _getDiagonalAngle,
+        getDiagonalAngle: function (pBBox) {
+            return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
+        },
 
         /**
          * returns the angle (in radials) of the line
@@ -42,7 +28,16 @@ define([], function() {
          * @param {object} pLine - (xFrom,yFrom, xTo, YTo quadruple)
          * @return {number} the angle (in radials) of the line
          */
-        getDirection : _getDirection
+        getDirection: function (pLine){
+            var ldx = -1;
+            if (pLine.xTo > pLine.xFrom){
+                ldx = 1;
+            }
+            return {
+                dx: ldx,
+                dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
+            };
+        }
     };
 });
 /*

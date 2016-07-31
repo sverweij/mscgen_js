@@ -134,13 +134,13 @@
                 <a href="#mirror-entities">Mirror entities on the bottom</a>
             </li>
             <li>
-                <a href="#named-styles">Use a named style</a>
+                <a href="#named-styles">Named styles</a>
             </li>
             <li>
                 <a href="#supported-browsers">Supported browsers</a>
             </li>
             <li>
-                <a href="#package">Hosting mscgen-inpage.js</a>
+                <a href="#package">In your own projects</a>
             </li>
             <li>
                 <a href="#other-sequence-chart-languages">Xù, MsGenny, JSON</a>
@@ -161,7 +161,7 @@
         <p>
             <ol>
                 <li>
-                    <div>Reference the mscgen-inpage <strong>script</strong> in your <strong>page head</strong>:</div>
+                    <div>Reference the mscgen-inpage <strong>script</strong><sup><a href="#url">1</a></sup> in your <strong>page head</strong>:</div>
                     <pre class="code">&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer>
 &lt;/script>
 </pre>
@@ -206,6 +206,33 @@ msc {
 }</pre></li>
         </ol>
         </p>
+        <p id="url" class="side-note">
+            <sup>1)</sup> = You can find the script in three places: on
+            <code>github.io</code>, <code>github.com</code> and on
+            <code>mscgen.js.org</code>. <code>mscgen.js.org</code> is an alias
+            for <code>sverweij.github.io/mscgen_js</code>, so when you access
+            the script on <code>github.io</code>, github.io will redirect you to
+            <code>mscgen.js.org</code>.
+        </p>
+        <p class="side-note">
+            A list of alternative locations:
+        </p>
+        <ul class="side-note">
+            <li>
+                <em>https://sverweij.github.io/mscgen_js/mscgen-inpage.js</em>
+            </li>
+            <li>
+                <em>https://mscgen.js.org/mscgen-inpage.js</em> (alias for the
+                previous one)
+            </li>
+            <li>
+                <em>https://raw.githubusercontent.com/sverweij/mscgenjs-inpage/master/dist/mscgen-inpage.js</em>
+            </li>
+            <li>
+                At your place - see <a href="#package">Using mscgen-inpage.js in your own projects</a>
+                for details.
+            </li>
+        </ul>
 
         <h2 id="embedding-in-atlassian-confluence">Embedding MscGen in Atlassian Confluence:</h2>
         <p>
@@ -213,7 +240,7 @@ msc {
         <code>script</code> tag in there. Sample snippet:
         </p>
 <pre class="code">
-&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer></script>
+&lt;script src="https://mscgen.js.org/mscgen-inpage.js" defer></script>
 
 &lt;code class="mscgen_js">
 msc {
@@ -398,7 +425,7 @@ msc {
             b >> a  [label="Really?"];
         }
         </script>
-        <h2 id="named-styles">Use a named style</h2>
+        <h2 id="named-styles">Named styles</h2>
         <p>
             If you want to represent the chart a little different, from version
             1.4.2 mscgenjs supports some 'named styles'. They'll add the most
@@ -459,8 +486,8 @@ msc {
                         </li>
                         <li>
                             Primarily meant to quickly color a chart written
-                            in either MsGenny or MscGen/ Xù with sparse use
-                            of colors.
+                            in MsGenny (or in MscGen/ Xù scripts without a lot
+                            of colors in them).
                         </li>
                         <li>
                             If your chart already contains colors
@@ -475,9 +502,8 @@ msc {
                             A dark blue/ red scheme.
                         </li>
                         <li>
-                            Primarily meant to quickly color a chart written
-                            in either MsGenny or MscGen/ Xù with sparse use
-                            of colors.
+                            Like <em>cygne</em>, primarily meant to quickly
+                            color a chart written in MsGenny.
                         </li>
                         <li>
                             Also not very helpful for already colored charts.
@@ -790,14 +816,7 @@ documents."></img></a>
             </span>
             <span class="row-text">
                 <h3>Author</h3>
-                <p class="hideontablet">
-                  When Sander first used <a
-                  href="http://www.mcternan.me.uk/mscgen" target="_blank">MscGen</a>,
-                  he thought it was awesome. Annoyed he
-                  couldn't use it <em>just</em> everywhere, he spent his next
-                  spring holiday correcting that.
-                </p>
-                <p class="showontablet">
+                <p>
                     Sander Verweij
                 </p>
                 <p>
