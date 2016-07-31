@@ -13,6 +13,7 @@
     right:0;
     box-shadow: -6px 0px 6px $shadow-color;
     transition: width 0.7s cubic-bezier(0.68,-0.55,0.27,1.55);
+    line-height: 1.4
 }
 .sliding-panel:target{
     width: 340px;
