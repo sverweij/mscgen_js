@@ -78,6 +78,15 @@
     min-width: 60px;
     margin: 0 0.5em 0 0.5em;
 }
+.sliding-panel .row-picture-caption {
+    color: $light-color;
+    text-align: center;
+}
+.sliding-panel .copy {
+    color: $light-color;
+    font-size: 14px;
+    margin-left: 1em;
+}
 .sliding-panel .row-text {
     margin: 0 1em 1em 1em;
 }
@@ -98,7 +107,7 @@
     font-size: inherit;
 }
 #__render_options_panel .disabled-children label, .disabled {
-    color: lightgrey;
+    color: $light-color;
 }
 #__render_options_panel .content {
     margin: 20px 10px 10px 10px;
