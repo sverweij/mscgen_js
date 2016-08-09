@@ -649,7 +649,9 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
                     xTo: entities.getX(pEntity.name),
                     yTo: (pHeight / 2)
                 },
-                pClass
+                {
+                    class: pClass
+                }
             );
             if (pEntity.linecolor) {
                 lLine.setAttribute("style", "stroke:" + pEntity.linecolor + ";");
@@ -783,8 +785,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         } else {
             var lLine = fact.createLine(
                 {xFrom: pFrom, yFrom: 0, xTo: pTo, yTo: lArcGradient},
-                lClass,
-                lDoubleLine
+                {
+                    class: lClass,
+                    doubleLine: lDoubleLine
+                }
             );
             mark.getAttributes(
                 id.get(), pArc.kind, pArc.linecolor, pFrom, pTo
@@ -872,7 +876,9 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
                     xTo: lEndX,
                     yTo: 0
                 },
-                lClass
+                {
+                    class: lClass
+                }
             );
 
         lGroup.appendChild(lLine);

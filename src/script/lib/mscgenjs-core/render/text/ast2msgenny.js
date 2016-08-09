@@ -28,7 +28,7 @@ define(['./ast2thing'], function(thing) {
         if (Boolean(lMatchResult)) {
             return lMatchResult.length !== 1;
         } else {
-            return true && pString !== "*";
+            return pString !== "*";
         }
     }
 

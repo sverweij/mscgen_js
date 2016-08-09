@@ -150,8 +150,8 @@ define(["./textutensils"], function(utl) {
 
     function renderOptions(pOptions) {
         var lOptions =
-             extractSupportedOptions(pOptions, gConfig.supportedOptions)
-            .filter(gConfig.optionIsValidfn);
+            extractSupportedOptions(pOptions, gConfig.supportedOptions)
+                .filter(gConfig.optionIsValidfn);
         var lRetVal = "";
         if (lOptions.length > 0){
             var lLastOption = lOptions.pop();

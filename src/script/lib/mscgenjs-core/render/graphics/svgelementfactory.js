@@ -3,7 +3,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll, math) {
+define([
+    "./constants",
+    "./svglowlevelfactory",
+    "./geometry",
+    "../../lib/lodash/lodash.custom"], function(C, factll, math, _) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -20,6 +24,14 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
     "use strict";
 
     var gDocument = {};
+
+    function point2String(pX, pY) {
+        return pX.toString() + "," + pY.toString() + " ";
+    }
+
+    function pathPoint2String(pType, pX, pY) {
+        return pType + point2String(pX, pY);
+    }
 
     /**
      * Creates an svg path element given the path pD, with pClass applied
@@ -63,7 +75,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         return factll.setAttribute(pElement, "style", lStyleString);
     }
 
-    function createSingleLine(pLine, pClass) {
+    function createSingleLine(pLine, pOptions) {
         return factll.createElement(
             "line",
             {
@@ -71,7 +83,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
                 y1: pLine.yFrom.toString(),
                 x2: pLine.xTo.toString(),
                 y2: pLine.yTo.toString(),
-                class: pClass
+                class: pOptions ? pOptions.class : null
             }
         );
     }
@@ -100,20 +112,27 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         }
     }
 
-    function _createText(pLabel, pCoords, pClass, pURL, pID, pIDURL) {
+    function _createText(pLabel, pCoords, pOptions) {
+        var lOptions = _.defaults(
+            pOptions, {
+                class: null,
+                url: null,
+                id: null,
+                idurl: null
+            });
         var lText = factll.createElement(
             "text",
             {
                 x: pCoords.x.toString(),
                 y: pCoords.y.toString(),
-                class: pClass
+                class: lOptions.class
             }
         );
 
-        lText.appendChild(createTSpan(pLabel, pURL));
+        lText.appendChild(createTSpan(pLabel, lOptions.url));
 
-        if (pID) {
-            var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
+        if (lOptions.id) {
+            var lTSpanID = createTSpan(" [" + lOptions.id + "]", lOptions.idurl);
             lTSpanID.setAttribute("style", lSuperscriptStyle);
             lText.appendChild(lTSpanID);
         }
@@ -142,32 +161,33 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         return lRetval;
     }
 
-    function createDoubleLine(pLine, pClass) {
+    function createDoubleLine(pLine, pOptions) {
         var lSpace = C.LINE_WIDTH;
+        var lClass = pOptions ? pOptions.class : null;
 
         var lDir = math.getDirection(pLine);
-        var lEndCorr = determineEndCorrection(pLine, pClass);
-        var lStartCorr = determineStartCorrection(pLine, pClass);
+        var lEndCorr = determineEndCorrection(pLine, lClass);
+        var lStartCorr = determineStartCorrection(pLine, lClass);
 
         var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
-        var lStubble = "l" + lDir.dx.toString() + "," + lDir.dy.toString();
-        var lLine = " l" + lLenX + "," + lLenY;
+        var lStubble = pathPoint2String("l", lDir.signX, lDir.dy);
+        var lLine = pathPoint2String("l", lLenX, lLenY);
 
         return _createPath(
-            "M" + pLine.xFrom.toString() + "," + (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy).toString() +
+            pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
             // left stubble:
             lStubble +
-            "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom - lSpace).toString() +
+            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
             // upper line:
             lLine +
-            "M" + (pLine.xFrom + lStartCorr).toString() + "," + (pLine.yFrom + lSpace).toString() +
+            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
             // lower line
             lLine +
-            "M" + (pLine.xTo - lDir.dx).toString() + "," + (pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy).toString() +
+            pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
             // right stubble
             lStubble,
-            pClass
+            lClass
         );
     }
 
@@ -408,15 +428,16 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         },
 
         /**
-         * Creates a text node with the appropriate tspan & a elements on position
-         * (pX, pY).
+         * Creates a text node with the appropriate tspan & a elements on
+         * position pCoords.
          *
          * @param {string} pLabel
          * @param {object} pCoords
-         * @param {string} pClass - reference to the css class to be applied
-         * @param {string=} pURL - link to render
-         * @param {string=} pID - (small) id text to render
-         * @param {string=} pIDURL - link to render for the id text
+         * @param {object} pOptions - options to influence rendering
+         *                          {string} pClass - reference to the css class to be applied
+         *                          {string=} pURL - link to render
+         *                          {string=} pID - (small) id text to render
+         *                          {string=} pIDURL - link to render for the id text
          * @return {SVGElement}
          */
         createText: _createText,
@@ -430,7 +451,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
          */
         createDiagonalText: function (pText, pCanvas, pClass){
             return factll.setAttributes(
-                _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, pClass),
+                _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, {class: pClass}),
                 {
                     "transform":
                         "rotate(" +
@@ -449,11 +470,11 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
          * @param {boolean=} [pDouble=false] - render a double line
          * @return {SVGElement}
          */
-        createLine: function (pLine, pClass, pDouble) {
-            if (Boolean(pDouble)) {
-                return createDoubleLine(pLine, pClass);
+        createLine: function (pLine, pOptions) {
+            if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
+                return createDoubleLine(pLine, pOptions);
             } else {
-                return createSingleLine(pLine, pClass);
+                return createSingleLine(pLine, pOptions);
             }
         },
 
@@ -472,13 +493,13 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
 
             return _createPath(
                 // point to start from:
-                "M" + pPoint.x.toString() + ", -" + pPoint.y.toString() +
+                pathPoint2String("M", pPoint.x, -pPoint.y) +
                 // curve first to:
-                " C" + (pPoint.x + pWidth).toString() + "," + (pPoint.y - 7.5 * C.LINE_WIDTH).toString() +
+                pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * C.LINE_WIDTH) +
                 // curve back from.:
-                " " + (pPoint.x + pWidth).toString() + "," + (pEndY + 0).toString() +
+                point2String(pPoint.x + pWidth, pEndY + 0) +
                 // curve end-pont:
-                " " + lEndX.toString() + "," + pEndY.toString(),
+                point2String(lEndX, pEndY),
                 pClass
             );
         },

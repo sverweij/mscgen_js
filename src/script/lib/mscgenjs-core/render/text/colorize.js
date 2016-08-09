@@ -232,9 +232,9 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
 
     function hasColors(pArcOrEntity) {
         return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
-                .some(function(pColorAttr) {
-                    return Boolean(pArcOrEntity[pColorAttr]);
-                });
+            .some(function(pColorAttr) {
+                return Boolean(pArcOrEntity[pColorAttr]);
+            });
     }
 
     function colorizeEntity(pColorScheme) {

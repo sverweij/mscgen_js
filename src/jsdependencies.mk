@@ -42,6 +42,7 @@ src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
 	src/script/lib/mscgenjs-core/render/text/textutensils.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
 	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js

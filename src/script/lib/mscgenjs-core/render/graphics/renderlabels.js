@@ -42,9 +42,31 @@ function(fact, svgutl, C, txt, map) {
     function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc){
         var lText = {};
         if (pPosition === 0) {
-            lText = fact.createText(pLine, {x:pMiddle, y:pY}, pClass, pArc.url, pArc.id, pArc.idurl);
+            lText = fact.createText(
+                pLine,
+                {
+                    x : pMiddle,
+                    y : pY
+                },
+                {
+                    class : pClass,
+                    url   : pArc.url,
+                    id    : pArc.id,
+                    idurl : pArc.idurl
+                }
+            );
         } else {
-            lText = fact.createText(pLine, {x:pMiddle, y:pY}, pClass, pArc.url);
+            lText = fact.createText(
+                pLine,
+                {
+                    x : pMiddle,
+                    y : pY
+                },
+                {
+                    class : pClass,
+                    url   : pArc.url
+                }
+            );
         }
         return lText;
     }

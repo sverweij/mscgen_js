@@ -176,7 +176,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
 
 
     function getSignalend(pKind, pFrom, pTo){
-        if (pFrom && pTo && (["<->", "->"].indexOf(pKind > -1))) {
+        if (pFrom && pTo && (["<->", "->"].indexOf(pKind) > -1)) {
             return (pFrom < pTo) ? "signal" : "signal-u";
         }
         return "";
@@ -198,10 +198,10 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
                 return {
                     name: pAttribute.name,
                     value: pAttribute.value
-                            .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
-                            .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
-                            .replace(/\{\{id\}\}/g, pId)
-                            .replace(/\{\{color\}\}/g, pLineColor || "black")
+                        .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
+                        .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
+                        .replace(/\{\{id\}\}/g, pId)
+                        .replace(/\{\{color\}\}/g, pLineColor || "black")
                 };
             });
         }
