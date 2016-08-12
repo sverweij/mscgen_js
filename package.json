@@ -7,7 +7,7 @@
     "amdefine": "1.0.0",
     "codemirror": "5.17.0",
     "requirejs": "2.2.0",
-    "mscgenjs": "1.5.0",
+    "mscgenjs": "sverweij/mscgenjs-core#feature/add-lovs-to-interface",
     "mscgenjs-inpage": "1.5.0"
   },
   "devDependencies": {

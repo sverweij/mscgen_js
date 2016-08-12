@@ -43,12 +43,13 @@ define([
     "../lib/mscgenjs-core/render/graphics/renderast",
     "../lib/mscgenjs-core/render/text/ast2msgenny",
     "../lib/mscgenjs-core/render/text/ast2xu",
+    "../lib/mscgenjs-core/main/index",
     "../utl/maps",
     "../utl/domutl",
     "../utl/exporter",
     "./sampleListReader"
 ],
-function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xport, sampleListReader) {
+function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, txt, dq, xport, sampleListReader) {
     "use strict";
 
     var gAutoRender             = true;
@@ -63,6 +64,15 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xpo
         line   : 0,
         column : 0
     };
+
+    function namedStyle2Div(pNamedStyle) {
+        return ((pNamedStyle.experimental ? '<div class="debug" style="display:none;">' : '<div>') +
+            '<input id="__option_style_${pNamedStyle}" type="radio" name="stylerg" value="${pNamedStyle}">' +
+            ' <label for="__option_style_${pNamedStyle}">${pNamedStyle}' +
+                (pNamedStyle.experimental ? ' (experimental!)' : '') +
+            '</label>' +
+        '</div>').replace(/\${pNamedStyle}/g, pNamedStyle.name);
+    }
 
     function init(pCodeMirror) {
         gCodeMirror = pCodeMirror;
@@ -87,6 +97,14 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, txt, dq, xpo
                 // quietly ignore
             }
         );
+        window.__named_styles.innerHTML =
+            mscgenjs.allowedValues.namedStyle.reduce(function(pAll, pNamedStyle){
+                return pAll + namedStyle2Div(pNamedStyle);
+            },
+            '<div>' +
+                '<input id="__option_style_none" type="radio" name="stylerg" value="none" checked>' +
+                ' <label for="__option_style_none">none</label>' +
+            '</div>');
         if (window.__loading) {
             window.__loading.outerHTML = "";
         }
