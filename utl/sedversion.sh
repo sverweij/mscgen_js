@@ -2,6 +2,7 @@
 VERSION=`utl/getver`
 COMMIT=`git rev-parse HEAD | cut -c 1-16`
 DATE=`date "+%Y%m%d %H:%M"`
+COREVERSION=`utl/getcorever`
 HOST=`cat tracking.host`
 TRACKINGID=`cat tracking.id`
 SITEVERIFID=`cat siteverification.id`
@@ -9,6 +10,7 @@ SITEVERIFID=`cat siteverification.id`
 sed s/"{{version}}"/$VERSION/g |\
     sed s/"{{commit}}"/$COMMIT/g |\
     sed s/"{{date}}"/"$DATE"/g |\
+    sed s/"{{core-version}}"/$COREVERSION/g |\
     sed s/"{{host}}"/$HOST/g |\
     sed s/"{{trackingid}}"/$TRACKINGID/g |\
     sed s/"{{siteverificationid}}"/$SITEVERIFID/g

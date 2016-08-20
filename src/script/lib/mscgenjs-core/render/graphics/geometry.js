@@ -54,10 +54,10 @@ define([], function() {
         var lIntervalY  = lDir.signY * (Math.abs(lDir.dy) === Infinity
                             ? pInterval
                             : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
-        var lCurvePoint = {};
+        var lCurveSection = {};
 
         for (var i = 1; i <= lNoSegments; i++) {
-            lCurvePoint = {
+            lCurveSection = {
                 controlX : pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble),
                 controlY : pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble),
                 x        : pLine.xFrom + i * lIntervalX,
@@ -65,16 +65,16 @@ define([], function() {
             };
             if (pInterval >
                 getLineLength({
-                    xFrom: lCurvePoint.x,
-                    yFrom: lCurvePoint.y,
+                    xFrom: lCurveSection.x,
+                    yFrom: lCurveSection.y,
                     xTo: pLine.xTo,
                     yTo: pLine.yTo
                 })
             ){
-                lCurvePoint.x = pLine.xTo;
-                lCurvePoint.y = pLine.yTo;
+                lCurveSection.x = pLine.xTo;
+                lCurveSection.y = pLine.yTo;
             }
-            lRetval.push(lCurvePoint);
+            lRetval.push(lCurveSection);
         }
         return lRetval;
     }
