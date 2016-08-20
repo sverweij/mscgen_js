@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.14.2';
+  var VERSION = '4.15.0';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -323,6 +323,7 @@
 
   /** Used for built-in method references. */
   var arrayProto = Array.prototype,
+      funcProto = Function.prototype,
       objectProto = Object.prototype;
 
   /** Used to detect overreaching core-js shims. */
@@ -335,7 +336,7 @@
   }());
 
   /** Used to resolve the decompiled source of functions. */
-  var funcToString = Function.prototype.toString;
+  var funcToString = funcProto.toString;
 
   /** Used to check objects for own properties. */
   var hasOwnProperty = objectProto.hasOwnProperty;
@@ -929,7 +930,9 @@
    * @returns {Array} Returns the array of property names.
    */
   function arrayLikeKeys(value, inherited) {
-    var result = (isArray(value) || isString(value) || isArguments(value))
+    // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+    // Safari 9 makes `arguments.length` enumerable in strict mode.
+    var result = (isArray(value) || isArguments(value))
       ? baseTimes(value.length, String)
       : [];
 
@@ -985,7 +988,7 @@
    * Gets the index at which the `key` is found in `array` of key-value pairs.
    *
    * @private
-   * @param {Array} array The array to search.
+   * @param {Array} array The array to inspect.
    * @param {*} key The key to search for.
    * @returns {number} Returns the index of the matched value, else `-1`.
    */
@@ -1505,7 +1508,7 @@
   var getTag = baseGetTag;
 
   // Fallback for data views, maps, sets, and weak maps in IE 11,
-  // for data views in Edge, and promises in Node.js.
+  // for data views in Edge < 14, and promises in Node.js.
   if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
       (Map && getTag(new Map) != mapTag) ||
       (Promise && getTag(Promise.resolve()) != promiseTag) ||
@@ -1907,7 +1910,7 @@
    * // => false
    */
   function isArguments(value) {
-    // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+    // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
     return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
       (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
   }
@@ -2033,8 +2036,7 @@
    */
   function isFunction(value) {
     // The use of `Object#toString` avoids issues with the `typeof` operator
-    // in Safari 8 which returns 'object' for typed array and weak map constructors,
-    // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+    // in Safari 8-9 which returns 'object' for typed array and other constructors.
     var tag = isObject(value) ? objectToString.call(value) : '';
     return tag == funcTag || tag == genTag;
   }
@@ -2126,28 +2128,6 @@
    */
   function isObjectLike(value) {
     return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Checks if `value` is classified as a `String` primitive or object.
-   *
-   * @static
-   * @since 0.1.0
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a string, else `false`.
-   * @example
-   *
-   * _.isString('abc');
-   * // => true
-   *
-   * _.isString(1);
-   * // => false
-   */
-  function isString(value) {
-    return typeof value == 'string' ||
-      (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
   }
 
   /*------------------------------------------------------------------------*/
@@ -2338,7 +2318,6 @@
   lodash.isLength = isLength;
   lodash.isObject = isObject;
   lodash.isObjectLike = isObjectLike;
-  lodash.isString = isString;
   lodash.stubArray = stubArray;
   lodash.stubFalse = stubFalse;
 
