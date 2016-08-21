@@ -5,7 +5,8 @@ if (typeof define !== 'function') {
 /* eslint max-params: 0 */
 define(function(require){
 
-    var _   = require("../lib/lodash/lodash.custom");
+    var _            = require("../lib/lodash/lodash.custom");
+    var cssTemplates = require("../render/graphics/csstemplates");
 
     function isProbablyAnASTAlready(pScript, pInputType){
         return pInputType === "json" && typeof pScript === "object";
@@ -109,15 +110,15 @@ define(function(require){
                     {name: "dot",     experimental: false},
                     {name: "doxygen", experimental: false}
                 ],
-                namedStyle: [
-                    {name: "lazy",        experimental: false},
-                    {name: "cygne",       experimental: false},
-                    {name: "pegasse",     experimental: false},
-                    {name: "classic",     experimental: false},
-                    {name: "inverted",    experimental: true},
-                    {name: "grayscaled",  experimental: true},
-                    {name: "fountainpen", experimental: true}
-                ]
+                namedStyle: cssTemplates.namedStyles.map(
+                    function(pStyle){
+                        return {
+                            name         : pStyle.name,
+                            description  : pStyle.description,
+                            experimental : pStyle.experimental
+                        };
+                    }
+                )
             });
         }
     };

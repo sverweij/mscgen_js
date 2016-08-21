@@ -105,9 +105,9 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return lDesc;
     }
 
-    function distillAdditionalStyles(pOptions) {
-        var lStyleString         = "";
-        var lAdditionalTemplates = [];
+    function distillCSS(pOptions, pPosition) {
+        var lStyleString = "";
+        var lNamedStyles = [];
 
         /* istanbul ignore if */
         if (!Boolean(pOptions)) {
@@ -115,16 +115,21 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         }
 
         if (Boolean(pOptions.additionalTemplate)) {
-            lAdditionalTemplates =
-                csstemplates.additionalTemplates.filter(
+            lNamedStyles =
+                csstemplates.namedStyles.filter(
                     function(tpl) {
                         return tpl.name === pOptions.additionalTemplate;
                     }
                 );
-            if (lAdditionalTemplates.length > 0) {
-                lStyleString = lAdditionalTemplates[0].css;
+            if (lNamedStyles.length > 0) {
+                lStyleString = lNamedStyles[0][pPosition];
             }
         }
+        return lStyleString;
+    }
+
+    function distillAfterCSS(pOptions) {
+        var lStyleString = distillCSS(pOptions, "cssAfter");
 
         if (Boolean(pOptions.styleAdditions)) {
             lStyleString += pOptions.styleAdditions;
@@ -133,8 +138,12 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return lStyleString;
     }
 
+    function distillBeforeCSS(pOptions) {
+        return distillCSS(pOptions, "cssBefore");
+    }
+
     function setupStyleElement(pOptions, pSvgElementId) {
-        return (csstemplates.baseTemplate + distillAdditionalStyles(pOptions))
+        return (distillBeforeCSS(pOptions) + csstemplates.baseTemplate + distillAfterCSS(pOptions))
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
             .replace(/<%=lineWidth%>/g, C.LINE_WIDTH)
             .replace(/<%=id%>/g, pSvgElementId);

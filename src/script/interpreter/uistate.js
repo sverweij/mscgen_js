@@ -67,11 +67,12 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
 
     function namedStyle2Div(pNamedStyle) {
         return ((pNamedStyle.experimental ? '<div class="debug" style="display:none;">' : '<div>') +
-            '<input id="__option_style_${pNamedStyle}" type="radio" name="stylerg" value="${pNamedStyle}">' +
-            ' <label for="__option_style_${pNamedStyle}">${pNamedStyle}' +
-                (pNamedStyle.experimental ? ' (experimental!)' : '') +
+            '<input id="__option_style_${pNamedStyle.name}" type="radio" name="stylerg" value="${pNamedStyle.name}">' +
+            ' <label for="__option_style_${pNamedStyle.name}">${pNamedStyle.description}' +
             '</label>' +
-        '</div>').replace(/\${pNamedStyle}/g, pNamedStyle.name);
+        '</div>')
+        .replace(/\${pNamedStyle.name}/g, pNamedStyle.name)
+        .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
     }
 
     function init(pCodeMirror) {
