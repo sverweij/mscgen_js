@@ -26,8 +26,8 @@ define([], function() {
         "name": "fountainpen",
         "description": "Fountain pen (experimental!)",
         "experimental": true,
-        "cssBefore": "@import 'https://fonts.googleapis.com/css?family=Caveat';",
-        "cssAfter": "svg.<%=id%>{font-family:'Caveat', cursive;stroke-opacity:0.4;stroke-linecap:round;background-color:transparent}.<%=id%> text{fill:rgba(0,0,128,0.6)}.<%=id%> marker polygon{fill:rgba(0,0,255,0.4);stroke-linejoin:round}.<%=id%> line, .<%=id%> path, .<%=id%> rect, .<%=id%> polygon{stroke:blue !important}.<%=id%> text.entity-text{font-weight:bold;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC;}.<%=id%> .label-text-background{opacity:0}.<%=id%> .comment,.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:black}.<%=id%> .bglayer, .<%=id%> .entity{fill:transparent;}"
+        "cssBefore": "@import 'https://fonts.googleapis.com/css?family=Gochi+Hand';",
+        "cssAfter": "svg.<%=id%>{font-family:'Gochi Hand', cursive;stroke-opacity:0.4;stroke-linecap:round;background-color:transparent}.<%=id%> text{fill:rgba(0,0,128,0.7)}.<%=id%> marker polygon{fill:rgba(0,0,255,0.4);stroke-linejoin:round}.<%=id%> line, .<%=id%> path, .<%=id%> rect, .<%=id%> polygon{stroke:blue !important}.<%=id%> text.entity-text{font-weight:bold;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC;}.<%=id%> .label-text-background{opacity:0}.<%=id%> .comment,.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:black}.<%=id%> .bglayer, .<%=id%> .entity{fill:transparent;}"
     },
     {
         "name": "cygne",
