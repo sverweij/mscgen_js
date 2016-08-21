@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?e0fdc6fdfb13370d"
+        <link rel="stylesheet" href="style/interp.css?7accb076027bed8e"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?e0fdc6fdfb13370d"
-        src="script/lib/require.js?e0fdc6fdfb13370d" defer></script>
+        <script data-main="script/mscgen-interpreter.js?7accb076027bed8e"
+        src="script/lib/require.js?7accb076027bed8e" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -93,9 +93,10 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 1.5.0
-    build-date: 20160809 22:46
-    commit: e0fdc6fdfb13370d">mscgen_js</h1>
+    version: 1.5.1
+    build-date: 20160821 17:23
+    commit: 7accb076027bed8e
+    mscgenjs-core: 1.5.1">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -118,9 +119,9 @@ mscgen_js
                 </span>
             </nav>
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 1.5.0</div>
-                <div><em>build-date:</em> 20160809 22:46</div>
-                <div><em>commit:</em> e0fdc6fdfb13370d</div>
+                <div><em>version:</em> 1.5.1</div>
+                <div><em>build-date:</em> 20160821 17:23</div>
+                <div><em>commit:</em> 7accb076027bed8e</div>
             </div>
         </header>
         <article>
@@ -343,7 +344,7 @@ to the 'intr' in 'introduction'.
 According to Sander it's an angry little man
 drawing a sequence chart. On a sloped
 whiteboard. Under a roof."></span>
-                        <div style="color:#767676;text-align:center;">v1.5.0</div>
+                        <div style="color:#767676;text-align:center;">v1.5.1</div>
                     </span>
                     <span class="row-text">
                         <h3>mscgen_js</h3>
@@ -507,42 +508,7 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                     Some of these styles don't work in Safari or Internet
                     Explorer yet.
                 </p>
-                <div>
-                    <div>
-                        <input id="__option_style_none" type="radio" name="stylerg" value="none" checked>
-                        <label for="__option_style_none">none</label>
-                    </div>
-                    <div class="debug" style="display:none;">
-                        <input id="__option_style_inverted" type="radio" name="stylerg" value="inverted">
-                        <label for="__option_style_inverted">inverted <em>(not in Safari/ IE)</em></label>
-                    </div>
-                    <div class="debug" style="display:none;">
-                        <input id="__option_style_grayscaled" type="radio" name="stylerg" value="grayscaled">
-                        <label for="__option_style_grayscaled">grayscale <em>(not in Safari/ IE)</em></label>
-                    </div>
-                    <div class="debug" style="display:none;">
-                        <input id="__option_style_fountainpen" type="radio" name="stylerg" value="fountainpen">
-                        <label for="__option_style_fountainpen">fountain pen</label>
-                    </div>
-                    <div>
-                        <input id="__option_style_lazy" type="radio" name="stylerg" value="lazy">
-                        <label for="__option_style_lazy">lazy</label>
-                    </div>
-                    <div>
-                        <input id="__option_style_cygne" type="radio" name="stylerg" value="cygne">
-                        <label for="__option_style_cygne">cygne</label>
-                    </div>
-                    <div>
-                        <input id="__option_style_pegasse" type="radio" name="stylerg" value="pegasse">
-                        <label for="__option_style_pegasse">pégasse</label>
-                    </div>
-                    <div>
-                        <input id="__option_style_classic" type="radio" name="stylerg" value="classic">
-                        <label for="__option_style_classic">classic</label>
-                    </div>
-                </div>
-                <div class="disabled-children">
-                </div>
+                <div id="__named_styles"></div>
             </div>
         </div>
         <article>
