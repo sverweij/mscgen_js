@@ -91,33 +91,35 @@ define(function(require){
 
         version: "1.5.1",
 
-        allowedValues: Object.seal({
-            inputType: [
-                {name: "mscgen",  experimental: false},
-                {name: "msgenny", experimental: false},
-                {name: "xu",      experimental: false},
-                {name: "json",    experimental: false},
-                {name: "ast",     experimental: false}
-            ],
-            outputType: [
-                {name: "mscgen",  experimental : false},
-                {name: "msgenny", experimental: false},
-                {name: "xu",      experimental: false},
-                {name: "json",    experimental: false},
-                {name: "ast",     experimental: false},
-                {name: "dot",     experimental: false},
-                {name: "doxygen", experimental: false}
-            ],
-            namedStyle: [
-                {name: "lazy",        experimental: false},
-                {name: "cygne",       experimental: false},
-                {name: "pegasse",     experimental: false},
-                {name: "classic",     experimental: false},
-                {name: "inverted",    experimental: true},
-                {name: "grayscaled",  experimental: true},
-                {name: "fountainpen", experimental: true}
-            ]
-        })
+        getAllowedValues: function() {
+            return Object.seal({
+                inputType: [
+                    {name: "mscgen",  experimental: false},
+                    {name: "msgenny", experimental: false},
+                    {name: "xu",      experimental: false},
+                    {name: "json",    experimental: false},
+                    {name: "ast",     experimental: false}
+                ],
+                outputType: [
+                    {name: "mscgen",  experimental : false},
+                    {name: "msgenny", experimental: false},
+                    {name: "xu",      experimental: false},
+                    {name: "json",    experimental: false},
+                    {name: "ast",     experimental: false},
+                    {name: "dot",     experimental: false},
+                    {name: "doxygen", experimental: false}
+                ],
+                namedStyle: [
+                    {name: "lazy",        experimental: false},
+                    {name: "cygne",       experimental: false},
+                    {name: "pegasse",     experimental: false},
+                    {name: "classic",     experimental: false},
+                    {name: "inverted",    experimental: true},
+                    {name: "grayscaled",  experimental: true},
+                    {name: "fountainpen", experimental: true}
+                ]
+            });
+        }
     };
 });
 /*
