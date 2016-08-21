@@ -98,7 +98,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
             }
         );
         window.__named_styles.innerHTML =
-            mscgenjs.allowedValues.namedStyle.reduce(function(pAll, pNamedStyle){
+            mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
                 return pAll + namedStyle2Div(pNamedStyle);
             },
             '<div>' +
