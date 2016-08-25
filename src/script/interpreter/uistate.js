@@ -74,10 +74,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
         .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
     }
 
-    function init(pCodeMirror) {
-        gCodeMirror = pCodeMirror;
-        setAutoRender(gAutoRender);
-        setLanguage(getLanguage());
+    function initSamples() {
         dq.ajax(
             "samples/interpreter-samples.json",
             function(pResult){
@@ -97,6 +94,9 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
                 // quietly ignore
             }
         );
+    }
+
+    function initNamedStyles() {
         window.__named_styles.innerHTML =
             mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
                 return pAll + namedStyle2Div(pNamedStyle);
@@ -105,6 +105,15 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
                 '<input id="__option_style_none" type="radio" name="stylerg" value="none" checked>' +
                 ' <label for="__option_style_none">none</label>' +
             '</div>');
+
+    }
+
+    function init(pCodeMirror) {
+        gCodeMirror = pCodeMirror;
+        setAutoRender(gAutoRender);
+        setLanguage(getLanguage());
+        initSamples();
+        initNamedStyles();
         if (window.__loading) {
             window.__loading.outerHTML = "";
         }
