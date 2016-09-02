@@ -1,2 +1,2 @@
 instrumentation:
-    excludes: [src/script/lib/**/* src/script/test/**/* src/mscgen-inpage.js]
+    excludes: ["src/script/lib/**/*", "src/script/test/**/*", "src/mscgen-inpage.js"]
