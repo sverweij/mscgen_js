@@ -36,28 +36,19 @@ msc {
 }
 */
 
-/* eslint max-params: 0 */
-define([
-    "../lib/mscgenjs-core/parse/xuparser",
-    "../lib/mscgenjs-core/parse/msgennyparser",
-    "../lib/mscgenjs-core/render/graphics/renderast",
-    "../lib/mscgenjs-core/render/text/ast2msgenny",
-    "../lib/mscgenjs-core/render/text/ast2xu",
-    "../lib/mscgenjs-core/main/index",
-    "../utl/maps",
-    "../utl/domutl",
-    "../utl/exporter",
-    "./sampleListReader"
-],
-function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, txt, dq, xport, sampleListReader) {
+define(function(require) {
     "use strict";
 
-    var gAutoRender             = true;
-    var gMirrorEntitiesOnBottom = false;
-    var gNamedStyle             = null;
-    var gLanguage               = "mscgen";
-    var gDebug                  = false;
-    var gLinkToInterpreter      = false;
+    var mscparser     = require("../lib/mscgenjs-core/parse/xuparser");
+    var msgennyparser = require("../lib/mscgenjs-core/parse/msgennyparser");
+    var msc_render    = require("../lib/mscgenjs-core/render/graphics/renderast");
+    var tomsgenny     = require("../lib/mscgenjs-core/render/text/ast2msgenny");
+    var tomscgen      = require("../lib/mscgenjs-core/render/text/ast2xu");
+    var txt           = require("../utl/maps");
+    var dq            = require("../utl/domutl");
+    var xport         = require("../utl/exporter");
+    var lists         = require("./populate-lists");
+    var state         = require("./state");
 
     var gCodeMirror             = {};
     var gErrorCoordinates       = {
@@ -65,63 +56,20 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
         column : 0
     };
 
-    function namedStyle2Div(pNamedStyle) {
-        return ((pNamedStyle.experimental ? '<div class="debug" style="display:none;">' : '<div>') +
-            '<input id="__option_style_${pNamedStyle.name}" type="radio" name="stylerg" value="${pNamedStyle.name}">' +
-            ' <label for="__option_style_${pNamedStyle.name}">${pNamedStyle.description}</label>' +
-        '</div>')
-        .replace(/\${pNamedStyle.name}/g, pNamedStyle.name)
-        .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
-    }
-
-    function initSamples() {
-        dq.ajax(
-            "samples/interpreter-samples.json",
-            function(pResult){
-                try {
-                    window.__samples.innerHTML =
-                        '<option value="none" selected="">select an example...</option>' +
-                        sampleListReader.toOptionList(
-                            JSON.parse(pResult.target.response),
-                            gDebug
-                        );
-                    dq.ss(window.__samples).show();
-                } catch (e) {
-                    // quietly ignore
-                }
-            },
-            function(){
-                // quietly ignore
-            }
-        );
-    }
-
-    function initNamedStyles() {
-        window.__named_styles.innerHTML =
-            mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
-                return pAll + namedStyle2Div(pNamedStyle);
-            },
-            '<div>' +
-                '<input id="__option_style_none" type="radio" name="stylerg" value="none" checked>' +
-                ' <label for="__option_style_none">none</label>' +
-            '</div>');
-
-    }
-
     function init(pCodeMirror) {
         gCodeMirror = pCodeMirror;
-        setAutoRender(gAutoRender);
-        setLanguage(getLanguage());
-        initSamples();
-        initNamedStyles();
+        setAutoRender(state.getAutoRender());
+        setLanguage(state.getLanguage());
+        lists.initSamples(state.getDebug());
+        lists.initNamedStyles();
         if (window.__loading) {
             window.__loading.outerHTML = "";
         }
     }
 
     function requestRender(){
-        if (gAutoRender) {
-            render(getSource(), getLanguage());
+        if (state.getAutoRender()) {
+            render(getSource(), state.getLanguage());
         }
     }
 
@@ -135,7 +83,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
     }
 
     function getAST(pLanguage, pSource) {
-        var lLanguage = pLanguage ? pLanguage : getLanguage();
+        var lLanguage = pLanguage ? pLanguage : state.getLanguage();
         var lSource = pSource ? pSource : getSource();
         return getASTBare(lSource, lLanguage);
     }
@@ -155,7 +103,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
     }
 
     function clear(){
-        if (["mscgen", "xu"].indexOf(getLanguage()) > -1){
+        if (["mscgen", "xu"].indexOf(state.getLanguage()) > -1){
             setSource("msc{\n  \n}");
             setCursorInSource(1, 3);
         } else {
@@ -172,7 +120,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
                 setSource(
                     renderSource(
                         pFunction(lAST),
-                        getLanguage()
+                        state.getLanguage()
                     )
                 );
             }
@@ -207,12 +155,8 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
         gCodeMirror.focus();
     }
 
-    function getLanguage(){
-        return gLanguage;
-    }
-
     function setLanguage (pLanguage) {
-        gLanguage = pLanguage;
+        state.setLanguage(pLanguage);
         gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
 
         window.__language_mscgen.checked  = false;
@@ -270,7 +214,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
         preRenderReset();
         try {
             var lAST = getASTBare(pSource, pLanguage);
-            if (gDebug) {
+            if (state.getDebug()) {
                 try {
                     window.history.replaceState(
                         {},
@@ -297,8 +241,8 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
                 "__svg",
                 {
                     source: pSource,
-                    mirrorEntitiesOnBottom: gMirrorEntitiesOnBottom,
-                    additionalTemplate: gNamedStyle
+                    mirrorEntitiesOnBottom: state.getMirrorEntities(),
+                    additionalTemplate: state.getNamedStyle()
                 }
             );
             if (lAST.entities.length > 0) {
@@ -323,7 +267,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
         dq.ss(window.__svg).show();
         showExtendedArcTypeFeatures(pMeta);
         showExtendedFeatures(pMeta);
-        gLanguage = txt.correctLanguage(pMeta.extendedFeatures, getLanguage());
+        state.setLanguage(txt.correctLanguage(pMeta.extendedFeatures, state.getLanguage()));
     }
 
     function showExtendedArcTypeFeatures(pMeta){
@@ -343,7 +287,7 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
     }
 
     function setAutoRender (pAutoRender) {
-        gAutoRender = pAutoRender;
+        state.setAutoRender(pAutoRender);
         if (pAutoRender) {
             window.__autorender.checked = true;
             dq.ss(window.__btn_render).hide();
@@ -389,34 +333,32 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
          *  language if 'autorender' is on
          */
         requestRender: requestRender,
-        getAutoRender: function(){ return gAutoRender; },
+        getAutoRender: state.getAutoRender,
         setAutoRender: setAutoRender,
         getSource: getSource,
         setSource: setSource,
-        getLanguage: getLanguage,
+        getLanguage: state.getLanguage,
         setLanguage: setLanguage,
-        getDebug: function(){ return gDebug; },
+        getDebug: state.getDebug,
         setDebug: function(pBoolean){
-            gDebug = pBoolean;
-            if (gDebug) {
+            state.setDebug(pBoolean);
+            if (state.getDebug()) {
                 dq.doForAllOfClass("debug", function(pDomNode){
                     dq.ss(pDomNode).show();
                 });
             }
         },
         getAST: getAST,
-        getLinkToInterpeter: function(){ return gLinkToInterpreter; },
+        getLinkToInterpeter: state.getLinkToInterpreter,
         setLinkToInterpeter: function(pBoolean) {
-            gLinkToInterpreter = pBoolean;
+            state.setLinkToInterpreter(pBoolean);
             window.__link_to_interpreter.checked = pBoolean;
         },
         setMirrorEntities: function(pBoolean) {
-            gMirrorEntitiesOnBottom = pBoolean;
+            state.setMirrorEntities(pBoolean);
             window.__option_mirror_entities.checked = pBoolean;
         },
-        getMirrorEntities: function() {
-            return gMirrorEntitiesOnBottom;
-        },
+        getMirrorEntities: state.getMirrorEntities,
         setStyle: function(pStyle) {
             window.__option_style_none.checked        = false;
             window.__option_style_inverted.checked    = false;
@@ -430,16 +372,14 @@ function(mscparser, msgennyparser, msc_render, tomsgenny, tomscgen, mscgenjs, tx
             var lOptionToCheck = document.getElementById('__option_style_' + pStyle);
             if (Boolean(lOptionToCheck)){
                 lOptionToCheck.checked = true;
-                gNamedStyle = pStyle;
+                state.setNamedStyle(pStyle);
             } else {
                 window.__option_style_none.checked = true;
-                gNamedStyle = "none";
+                state.setNamedStyle("none");
             }
 
         },
-        getStyle: function() {
-            return gNamedStyle;
-        },
+        getStyle: state.getNamedStyle,
         preRenderReset: preRenderReset
     };
 }); // define

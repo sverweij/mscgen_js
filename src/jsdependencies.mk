@@ -114,8 +114,8 @@ src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
 src/script/interpreter/uistate.js: \
-	src/script/interpreter/sampleListReader.js \
-	src/script/lib/mscgenjs-core/main/index.js \
+	src/script/interpreter/populate-lists.js \
+	src/script/interpreter/state.js \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderast.js \
@@ -124,9 +124,6 @@ src/script/interpreter/uistate.js: \
 	src/script/utl/domutl.js \
 	src/script/utl/exporter.js \
 	src/script/utl/maps.js
-
-src/script/lib/mscgenjs-core/main/index.js: \
-	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
 
 src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js
@@ -159,6 +156,15 @@ src/script/lib/mscgenjs-core/render/text/ast2mscgen.js: \
 	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
 	src/script/lib/mscgenjs-core/render/text/textutensils.js
+
+src/script/interpreter/populate-lists.js: \
+	src/script/interpreter/sampleListReader.js \
+	src/script/lib/mscgenjs-core/main/index.js \
+	src/script/utl/domutl.js
+
+src/script/lib/mscgenjs-core/main/index.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js
 
 src/script/interpreter/general-actions.js: \
 	src/script/interpreter/animator.js
@@ -212,6 +218,27 @@ src/script/mscgen-interpreter.js: \
 	src/script/interpreter/param-actions.js
 
 # cjs dependencies
+src/script/interpreter/populate-lists.js: \
+	src/script/interpreter/sampleListReader.js \
+	src/script/lib/mscgenjs-core/main/index.js \
+	src/script/utl/domutl.js
+
+src/script/lib/mscgenjs-core/main/index.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js
+
+src/script/interpreter/uistate.js: \
+	src/script/interpreter/populate-lists.js \
+	src/script/interpreter/state.js \
+	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
+	src/script/lib/mscgenjs-core/parse/xuparser.js \
+	src/script/lib/mscgenjs-core/render/graphics/renderast.js \
+	src/script/lib/mscgenjs-core/render/text/ast2msgenny.js \
+	src/script/lib/mscgenjs-core/render/text/ast2xu.js \
+	src/script/utl/domutl.js \
+	src/script/utl/exporter.js \
+	src/script/utl/maps.js
+
 src/script/lib/codemirror/addon/dialog/dialog.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
@@ -241,9 +268,6 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
-src/script/lib/mscgenjs-core/main/index.js: \
-	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
-
 src/script/test/interpreter/sampleListReader.spec.js: \
 	src/script/interpreter/sampleListReader.js \
 	src/script/test/interpreter/sampleListReaderFixture.json
@@ -269,8 +293,10 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/interpreter/nav-actions.js \
 	src/script/interpreter/output-actions.js \
 	src/script/interpreter/param-actions.js \
+	src/script/interpreter/populate-lists.js \
 	src/script/interpreter/raster-exporter.js \
 	src/script/interpreter/sampleListReader.js \
+	src/script/interpreter/state.js \
 	src/script/interpreter/uistate.js \
 	src/script/lib/codemirror/addon/dialog/dialog.js \
 	src/script/lib/codemirror/addon/display/placeholder.js \
