@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.16.2';
+  var VERSION = '4.16.4';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -43,6 +43,7 @@
       numberTag = '[object Number]',
       objectTag = '[object Object]',
       promiseTag = '[object Promise]',
+      proxyTag = '[object Proxy]',
       regexpTag = '[object RegExp]',
       setTag = '[object Set]',
       stringTag = '[object String]',
@@ -75,6 +76,22 @@
 
   /** Used to detect unsigned integer values. */
   var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+  /** Used to identify `toStringTag` values of typed arrays. */
+  var typedArrayTags = {};
+  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+  typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+  typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+  typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+  typedArrayTags[uint32Tag] = true;
+  typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+  typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+  typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+  typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+  typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+  typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+  typedArrayTags[setTag] = typedArrayTags[stringTag] =
+  typedArrayTags[weakMapTag] = false;
 
   /** Used to identify `toStringTag` values supported by `_.clone`. */
   var cloneableTags = {};
@@ -109,6 +126,19 @@
 
   /** Detect the popular CommonJS extension `module.exports`. */
   var moduleExports = freeModule && freeModule.exports === freeExports;
+
+  /** Detect free variable `process` from Node.js. */
+  var freeProcess = moduleExports && freeGlobal.process;
+
+  /** Used to access faster Node.js helpers. */
+  var nodeUtil = (function() {
+    try {
+      return freeProcess && freeProcess.binding('util');
+    } catch (e) {}
+  }());
+
+  /* Node.js helper references. */
+  var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
 
   /*--------------------------------------------------------------------------*/
 
@@ -245,6 +275,19 @@
   }
 
   /**
+   * The base implementation of `_.unary` without support for storing metadata.
+   *
+   * @private
+   * @param {Function} func The function to cap arguments for.
+   * @returns {Function} Returns the new capped function.
+   */
+  function baseUnary(func) {
+    return function(value) {
+      return func(value);
+    };
+  }
+
+  /**
    * Gets the value at `key` of `object`.
    *
    * @private
@@ -344,12 +387,19 @@
       Symbol = root.Symbol,
       Uint8Array = root.Uint8Array,
       allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined,
-      defineProperty = Object.defineProperty,
       getPrototype = overArg(Object.getPrototypeOf, Object),
       objectCreate = Object.create,
       propertyIsEnumerable = objectProto.propertyIsEnumerable,
       splice = arrayProto.splice,
       spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+  var defineProperty = (function() {
+    try {
+      var func = getNative(Object, 'defineProperty');
+      func({}, '', {});
+      return func;
+    } catch (e) {}
+  }());
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
   var nativeGetSymbols = Object.getOwnPropertySymbols,
@@ -364,8 +414,7 @@
       Promise = getNative(root, 'Promise'),
       Set = getNative(root, 'Set'),
       WeakMap = getNative(root, 'WeakMap'),
-      nativeCreate = getNative(Object, 'create'),
-      nativeDefineProperty = getNative(Object, 'defineProperty');
+      nativeCreate = getNative(Object, 'create');
 
   /** Used to lookup unminified function names. */
   var realNames = {};
@@ -521,7 +570,7 @@
       if (objectCreate) {
         return objectCreate(proto);
       }
-      object.prototype = prototype;
+      object.prototype = proto;
       var result = new object;
       object.prototype = undefined;
       return result;
@@ -965,18 +1014,26 @@
    * @returns {Array} Returns the array of property names.
    */
   function arrayLikeKeys(value, inherited) {
-    // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-    // Safari 9 makes `arguments.length` enumerable in strict mode.
-    var result = (isArray(value) || isArguments(value))
-      ? baseTimes(value.length, String)
-      : [];
-
-    var length = result.length,
-        skipIndexes = !!length;
+    var isArr = isArray(value),
+        isArg = !isArr && isArguments(value),
+        isBuff = !isArr && !isArg && isBuffer(value),
+        isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+        skipIndexes = isArr || isArg || isBuff || isType,
+        result = skipIndexes ? baseTimes(value.length, String) : [],
+        length = result.length;
 
     for (var key in value) {
       if ((inherited || hasOwnProperty.call(value, key)) &&
-          !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
+          !(skipIndexes && (
+             // Safari 9 has enumerable `arguments.length` in strict mode.
+             key == 'length' ||
+             // Node.js 0.10 has enumerable non-index properties on buffers.
+             (isBuff && (key == 'offset' || key == 'parent')) ||
+             // PhantomJS 2 has enumerable non-index properties on typed arrays.
+             (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+             // Skip index properties.
+             isIndex(key, length)
+          ))) {
         result.push(key);
       }
     }
@@ -1130,9 +1187,7 @@
     }
     stack.set(value, result);
 
-    if (!isArr) {
-      var props = isFull ? getAllKeys(value) : keys(value);
-    }
+    var props = isArr ? undefined : (isFull ? getAllKeys : keys)(value);
     arrayEach(props || value, function(subValue, key) {
       if (props) {
         key = subValue;
@@ -1206,6 +1261,17 @@
   }
 
   /**
+   * The base implementation of `_.isArguments`.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+   */
+  function baseIsArguments(value) {
+    return isObjectLike(value) && objectToString.call(value) == argsTag;
+  }
+
+  /**
    * The base implementation of `_.isNative` without bad shim checks.
    *
    * @private
@@ -1219,6 +1285,18 @@
     }
     var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
     return pattern.test(toSource(value));
+  }
+
+  /**
+   * The base implementation of `_.isTypedArray` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+   */
+  function baseIsTypedArray(value) {
+    return isObjectLike(value) &&
+      isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
   }
 
   /**
@@ -1283,8 +1361,8 @@
    * @param {Function} string The `toString` result.
    * @returns {Function} Returns `func`.
    */
-  var baseSetToString = !nativeDefineProperty ? identity : function(func, string) {
-    return nativeDefineProperty(func, 'toString', {
+  var baseSetToString = !defineProperty ? identity : function(func, string) {
+    return defineProperty(func, 'toString', {
       'configurable': true,
       'enumerable': false,
       'value': constant(string),
@@ -2029,11 +2107,10 @@
    * _.isArguments([1, 2, 3]);
    * // => false
    */
-  function isArguments(value) {
-    // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-    return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-      (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-  }
+  var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+    return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+      !propertyIsEnumerable.call(value, 'callee');
+  };
 
   /**
    * Checks if `value` is classified as an `Array` object.
@@ -2090,35 +2167,6 @@
   }
 
   /**
-   * This method is like `_.isArrayLike` except that it also checks if `value`
-   * is an object.
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an array-like object,
-   *  else `false`.
-   * @example
-   *
-   * _.isArrayLikeObject([1, 2, 3]);
-   * // => true
-   *
-   * _.isArrayLikeObject(document.body.children);
-   * // => true
-   *
-   * _.isArrayLikeObject('abc');
-   * // => false
-   *
-   * _.isArrayLikeObject(_.noop);
-   * // => false
-   */
-  function isArrayLikeObject(value) {
-    return isObjectLike(value) && isArrayLike(value);
-  }
-
-  /**
    * Checks if `value` is a buffer.
    *
    * @static
@@ -2156,9 +2204,9 @@
    */
   function isFunction(value) {
     // The use of `Object#toString` avoids issues with the `typeof` operator
-    // in Safari 8-9 which returns 'object' for typed array and other constructors.
+    // in Safari 9 which returns 'object' for typed array and other constructors.
     var tag = isObject(value) ? objectToString.call(value) : '';
-    return tag == funcTag || tag == genTag;
+    return tag == funcTag || tag == genTag || tag == proxyTag;
   }
 
   /**
@@ -2249,6 +2297,25 @@
   function isObjectLike(value) {
     return value != null && typeof value == 'object';
   }
+
+  /**
+   * Checks if `value` is classified as a typed array.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+   * @example
+   *
+   * _.isTypedArray(new Uint8Array);
+   * // => true
+   *
+   * _.isTypedArray([]);
+   * // => false
+   */
+  var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
 
   /*------------------------------------------------------------------------*/
 
@@ -2479,12 +2546,12 @@
   lodash.isArguments = isArguments;
   lodash.isArray = isArray;
   lodash.isArrayLike = isArrayLike;
-  lodash.isArrayLikeObject = isArrayLikeObject;
   lodash.isBuffer = isBuffer;
   lodash.isFunction = isFunction;
   lodash.isLength = isLength;
   lodash.isObject = isObject;
   lodash.isObjectLike = isObjectLike;
+  lodash.isTypedArray = isTypedArray;
   lodash.stubArray = stubArray;
   lodash.stubFalse = stubFalse;
 

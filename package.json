@@ -7,24 +7,24 @@
     "amdefine": "1.0.0",
     "codemirror": "5.19.0",
     "requirejs": "2.3.2",
-    "mscgenjs": "1.5.2",
+    "mscgenjs": "1.5.3",
     "mscgenjs-inpage": "1.5.2"
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "codeclimate-test-reporter": "0.3.3",
+    "codeclimate-test-reporter": "0.4.0",
     "csslint": "1.0.3",
-    "eslint": "3.7.0",
+    "eslint": "3.7.1",
     "istanbul": "0.4.5",
-    "js-makedepend": "1.0.4",
-    "mocha": "3.1.0",
+    "js-makedepend": "1.0.5",
+    "mocha": "3.1.2",
     "node-localstorage": "1.3.0",
     "node-sass": "3.10.1",
-    "npm-check-updates": "2.8.0",
-    "nsp": "2.6.1",
+    "npm-check-updates": "2.8.5",
+    "nsp": "2.6.2",
     "plato": "1.7.0",
     "uglify-js": "2.7.3",
-    "watch": "0.19.2"
+    "watch": "1.0.1"
   },
   "scripts": {
     "test": "mocha -R dot --recursive src/script/test",

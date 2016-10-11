@@ -232,7 +232,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         } else {
             llfact.setAttributes(lSvgElement, {
                 width: pCanvas.width.toString(),
-                height: pCanvas.height.toString()
+                height: pCanvas.height.toString(),
+                viewBox: "0 0 " + pCanvas.width.toString() + " " + pCanvas.height.toString()
             });
         }
     }
