@@ -86,7 +86,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = fact.createSVG(pSvgElementId, pSvgElementId);
+        var lSkeletonSvg = fact.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
         lSkeletonSvg.appendChild(setupDesc(pWindow, pSvgElementId, pOptions.source));
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
@@ -105,9 +105,22 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return lDesc;
     }
 
-    function distillCSS(pOptions, pPosition) {
-        var lStyleString = "";
-        var lNamedStyles = [];
+    function findNamedStyle(pAdditionalTemplate) {
+        var lRetval = null;
+        var lNamedStyles = csstemplates.namedStyles.filter(
+            function(tpl) {
+                return tpl.name === pAdditionalTemplate;
+            }
+        );
+        if (lNamedStyles.length > 0) {
+            lRetval = lNamedStyles[0];
+        }
+        return lRetval;
+    }
+
+    function distillRenderMagic(pOptions) {
+        var lRetval = "";
+        var lNamedStyle  = {};
 
         /* istanbul ignore if */
         if (!Boolean(pOptions)) {
@@ -115,16 +128,31 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         }
 
         if (Boolean(pOptions.additionalTemplate)) {
-            lNamedStyles =
-                csstemplates.namedStyles.filter(
-                    function(tpl) {
-                        return tpl.name === pOptions.additionalTemplate;
-                    }
-                );
-            if (lNamedStyles.length > 0) {
-                lStyleString = lNamedStyles[0][pPosition];
+            lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
+            if (Boolean(lNamedStyle)){
+                lRetval = lNamedStyle.renderMagic;
             }
         }
+
+        return lRetval;
+    }
+
+    function distillCSS(pOptions, pPosition) {
+        var lStyleString = "";
+        var lNamedStyle  = {};
+
+        /* istanbul ignore if */
+        if (!Boolean(pOptions)) {
+            return "";
+        }
+
+        if (Boolean(pOptions.additionalTemplate)) {
+            lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
+            if (Boolean(lNamedStyle)){
+                lStyleString = lNamedStyle[pPosition];
+            }
+        }
+
         return lStyleString;
     }
 

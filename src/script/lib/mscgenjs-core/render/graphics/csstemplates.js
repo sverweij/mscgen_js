@@ -12,6 +12,7 @@ define([], function() {
         "name": "lazy",
         "description": "Lazy",
         "experimental": false,
+        "renderMagic": "straight",
         "cssBefore": "",
         "cssAfter": ".<%=id%> text.entity-text{font-weight:bold;text-decoration:none;}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC}.<%=id%> rect.label-text-background{opacity:0.9}.<%=id%> line.comment,.<%=id%> rect.inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:grey}"
     },
@@ -19,6 +20,7 @@ define([], function() {
         "name": "classic",
         "description": "Classic",
         "experimental": false,
+        "renderMagic": "straight",
         "cssBefore": "",
         "cssAfter": ".<%=id%> text.entity-text{text-decoration:none}.<%=id%> .entity{stroke:none;}.<%=id%> line,.<%=id%> rect,.<%=id%> path{stroke-width:1px}.<%=id%> .arrow-style{stroke-width:2;}.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke-width: 1px}"
     },
@@ -26,6 +28,7 @@ define([], function() {
         "name": "fountainpen",
         "description": "Fountain pen (experimental!)",
         "experimental": true,
+        "renderMagic": "wobbly",
         "cssBefore": "@import 'https://fonts.googleapis.com/css?family=Gochi+Hand';",
         "cssAfter": "svg.<%=id%>{font-family:'Gochi Hand', cursive;font-size:14px;stroke-opacity:0.4;stroke-linecap:round;background-color:transparent}.<%=id%> text{fill:rgba(0,0,128,0.7)}.<%=id%> marker polygon{fill:rgba(0,0,255,0.4);stroke-linejoin:round}.<%=id%> line, .<%=id%> path, .<%=id%> rect, .<%=id%> polygon{stroke:blue !important}.<%=id%> text.entity-text{font-weight:bold;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC;}.<%=id%> .label-text-background{opacity:0}.<%=id%> .comment,.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:black}"
     },
@@ -33,6 +36,7 @@ define([], function() {
         "name": "cygne",
         "description": "Cygne (best with msgenny)",
         "experimental": false,
+        "renderMagic": "straight",
         "cssBefore": "",
         "cssAfter": ".<%=id%> line, .<%=id%> path{stroke:#00A1DE}.<%=id%> text{fill:#005B82}.<%=id%> .entity,.<%=id%> .box{fill:#00A1DE;stroke:#00A1DE}.<%=id%> text.box-text{fill:white}.<%=id%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#E77B2F;stroke:white}.<%=id%> .comment,.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{fill:white}"
     },
@@ -40,6 +44,7 @@ define([], function() {
         "name": "pegasse",
         "description": "Pégasse (best with msgenny)",
         "experimental": false,
+        "renderMagic": "straight",
         "cssBefore": "",
         "cssAfter": ".<%=id%> line, .<%=id%> path{stroke:rgba(0, 43, 84, 1)}.<%=id%> text{fill:rgba(0, 43, 84, 1)}.<%=id%> .entity,.<%=id%> .box{fill:rgba(0, 43, 84, 1);stroke:rgba(0, 43, 84, 1)}.<%=id%> text.box-text{fill:white}.<%=id%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:rgba(255, 50, 0, 1);stroke:white}.<%=id%> .comment,.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{fill:white}"
     },
@@ -47,6 +52,7 @@ define([], function() {
         "name": "grayscaled",
         "description": "Grayscaled (not in IE or Safari)",
         "experimental": true,
+        "renderMagic": "straight",
         "cssBefore": "",
         "cssAfter": "svg.<%=id%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
     },
@@ -54,6 +60,7 @@ define([], function() {
         "name": "inverted",
         "description": "Inverted (not in IE or Safari)",
         "experimental": true,
+        "renderMagic": "straight",
         "cssBefore": "",
         "cssAfter": "svg.<%=id%>{filter:invert(1);-webkit-filter:invert(1);}"
     }

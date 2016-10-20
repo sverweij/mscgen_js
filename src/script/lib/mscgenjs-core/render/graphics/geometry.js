@@ -41,6 +41,10 @@ define([], function() {
         return Math.round(Math.random() * 2 * pNumber) - pNumber;
     }
 
+    function round(pNumber) {
+        return Math.round(pNumber * 1000) / 1000;
+    }
+
     function getBetweenPoints(pLine, pInterval, pWobble) {
         if (pInterval <= 0) {
             throw new Error("pInterval must be > 0");
@@ -58,10 +62,10 @@ define([], function() {
 
         for (var i = 1; i <= lNoSegments; i++) {
             lCurveSection = {
-                controlX : pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble),
-                controlY : pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble),
-                x        : pLine.xFrom + i * lIntervalX,
-                y        : pLine.yFrom + i * lIntervalY
+                controlX : round(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble)),
+                controlY : round(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble)),
+                x        : round(pLine.xFrom + i * lIntervalX),
+                y        : round(pLine.yFrom + i * lIntervalY)
             };
             if (pInterval >
                 getLineLength({
@@ -80,6 +84,8 @@ define([], function() {
     }
 
     return {
+        round: round,
+
         /**
          * returns the angle (in degrees) of the line from the
          * bottom left to the top right of the bounding box.

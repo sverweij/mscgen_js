@@ -45,10 +45,30 @@ src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js
+	src/script/lib/mscgenjs-core/render/graphics/straight.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/wobbly.js
+
+src/script/lib/mscgenjs-core/render/graphics/straight.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js
 
 src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js
+
+src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js
+
+src/script/lib/mscgenjs-core/render/graphics/wobbly.js: \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgutensils.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
@@ -268,6 +288,15 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/straight.js \
+	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/wobbly.js
+
 src/script/test/interpreter/sampleListReader.spec.js: \
 	src/script/interpreter/sampleListReader.js \
 	src/script/test/interpreter/sampleListReaderFixture.json
@@ -323,9 +352,12 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/rowmemory.js \
+	src/script/lib/mscgenjs-core/render/graphics/straight.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
 	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
+	src/script/lib/mscgenjs-core/render/graphics/wobbly.js \
 	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
 	src/script/lib/mscgenjs-core/render/text/ast2animate.js \
 	src/script/lib/mscgenjs-core/render/text/ast2dot.js \

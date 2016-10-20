@@ -5,16 +5,16 @@
   "main": "src/script/index.js",
   "dependencies": {
     "amdefine": "1.0.0",
-    "codemirror": "5.19.0",
+    "codemirror": "5.20.0",
     "requirejs": "2.3.2",
-    "mscgenjs": "1.5.3",
-    "mscgenjs-inpage": "1.5.2"
+    "mscgenjs": "1.6.0",
+    "mscgenjs-inpage": "1.6.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "codeclimate-test-reporter": "0.4.0",
     "csslint": "1.0.3",
-    "eslint": "3.7.1",
+    "eslint": "3.8.1",
     "istanbul": "0.4.5",
     "js-makedepend": "1.0.5",
     "mocha": "3.1.2",

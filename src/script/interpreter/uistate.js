@@ -56,17 +56,6 @@ define(function(require) {
         column : 0
     };
 
-    function init(pCodeMirror) {
-        gCodeMirror = pCodeMirror;
-        setAutoRender(state.getAutoRender());
-        setLanguage(state.getLanguage());
-        lists.initSamples(state.getDebug());
-        lists.initNamedStyles();
-        if (window.__loading) {
-            window.__loading.outerHTML = "";
-        }
-    }
-
     function requestRender(){
         if (state.getAutoRender()) {
             render(getSource(), state.getLanguage());
@@ -88,44 +77,12 @@ define(function(require) {
         return getASTBare(lSource, lLanguage);
     }
 
-    function switchLanguage (pLanguage) {
-        var lAST = {};
-
-        try {
-            lAST = getAST();
-            if (lAST !== {}){
-                setSource(renderSource(lAST, pLanguage));
-            }
-        } catch (e) {
-            // do nothing
-        }
-        setLanguage(pLanguage);
-    }
-
     function clear(){
         if (["mscgen", "xu"].indexOf(state.getLanguage()) > -1){
             setSource("msc{\n  \n}");
             setCursorInSource(1, 3);
         } else {
             setSource("");
-        }
-    }
-
-    function manipulateSource(pFunction){
-        var lAST = {};
-
-        try {
-            lAST = getAST();
-            if (lAST !== {}){
-                setSource(
-                    renderSource(
-                        pFunction(lAST),
-                        state.getLanguage()
-                    )
-                );
-            }
-        } catch (e) {
-            // do nothing
         }
     }
 
@@ -175,23 +132,6 @@ define(function(require) {
             dq.ss(window.__btn_more_color_schemes).show();
         }
         requestRender();
-    }
-
-    function setSample(pURL) {
-        if ("none" === pURL || !pURL){
-            clear();
-        } else {
-            dq.ajax(
-                pURL,
-                function onSuccess (pEvent){
-                    setLanguage(txt.classifyExtension(pURL));
-                    setSource(pEvent.target.response);
-                },
-                function onError (){
-                    setSource("# could not find or open '" + pURL + "'");
-                }
-            );
-        }
     }
 
     function handleRenderException (pException, pSource){
@@ -311,11 +251,63 @@ define(function(require) {
     }
 
     return {
-        init: init,
+        init: function (pCodeMirror) {
+            gCodeMirror = pCodeMirror;
+            setAutoRender(state.getAutoRender());
+            setLanguage(state.getLanguage());
+            lists.initSamples(state.getDebug());
+            lists.initNamedStyles();
+            if (window.__loading) {
+                window.__loading.outerHTML = "";
+            }
+        },
 
-        switchLanguage: switchLanguage,
-        manipulateSource: manipulateSource,
-        setSample: setSample,
+        switchLanguage: function (pLanguage) {
+            var lAST = {};
+
+            try {
+                lAST = getAST();
+                if (lAST !== {}){
+                    setSource(renderSource(lAST, pLanguage));
+                }
+            } catch (e) {
+                // do nothing
+            }
+            setLanguage(pLanguage);
+        },
+        manipulateSource: function (pFunction){
+            var lAST = {};
+
+            try {
+                lAST = getAST();
+                if (lAST !== {}){
+                    setSource(
+                        renderSource(
+                            pFunction(lAST),
+                            state.getLanguage()
+                        )
+                    );
+                }
+            } catch (e) {
+                // do nothing
+            }
+        },
+        setSample: function (pURL) {
+            if ("none" === pURL || !pURL){
+                clear();
+            } else {
+                dq.ajax(
+                    pURL,
+                    function onSuccess (pEvent){
+                        setLanguage(txt.classifyExtension(pURL));
+                        setSource(pEvent.target.response);
+                    },
+                    function onError (){
+                        setSource("# could not find or open '" + pURL + "'");
+                    }
+                );
+            }
+        },
 
         errorOnClick: function(){
             setCursorInSource(gErrorCoordinates.line - 1, gErrorCoordinates.column - 1);
