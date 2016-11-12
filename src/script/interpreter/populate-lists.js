@@ -40,11 +40,8 @@ define(function(require) {
         window.__named_styles.innerHTML =
             mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
                 return pAll + namedStyle2Div(pNamedStyle);
-            },
-            '<div>' +
-                '<input id="__option_style_none" type="radio" name="stylerg" value="none" checked>' +
-                ' <label for="__option_style_none">none</label>' +
-            '</div>');
+            }, ""
+        );
 
     }
 

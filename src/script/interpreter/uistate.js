@@ -352,7 +352,7 @@ define(function(require) {
         },
         getMirrorEntities: state.getMirrorEntities,
         setStyle: function(pStyle) {
-            window.__option_style_none.checked        = false;
+            window.__option_style_basic.checked       = false;
             window.__option_style_inverted.checked    = false;
             window.__option_style_grayscaled.checked  = false;
             window.__option_style_fountainpen.checked = false;
@@ -366,8 +366,8 @@ define(function(require) {
                 lOptionToCheck.checked = true;
                 state.setNamedStyle(pStyle);
             } else {
-                window.__option_style_none.checked = true;
-                state.setNamedStyle("none");
+                window.__option_style_basic.checked = true;
+                state.setNamedStyle("basic");
             }
 
         },

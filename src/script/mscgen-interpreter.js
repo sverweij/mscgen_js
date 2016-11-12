@@ -41,7 +41,7 @@ function(iactions, oactions, nactions, par, gactions, edit) {
         window.__render_options.addEventListener("click", oactions.renderOptionsOnClick, false);
         window.__btn_render_options_close.addEventListener("click", oactions.closeRenderOptions, false);
         window.__option_mirror_entities.addEventListener("click", oactions.optionMirrorEntitiesOnClick, false);
-        window.__option_style_none.addEventListener("click", oactions.styleOnClick, false);
+        window.__option_style_basic.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_inverted.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_grayscaled.addEventListener("click", oactions.styleOnClick, false);
         window.__option_style_fountainpen.addEventListener("click", oactions.styleOnClick, false);
