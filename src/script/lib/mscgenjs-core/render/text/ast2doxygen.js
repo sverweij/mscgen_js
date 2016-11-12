@@ -62,12 +62,16 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
                 "optionIsValidfn": optionIsValid,
                 "renderKindfn" : renderKind,
                 "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs"],
-                "supportedEntityAttributes" : ["label", "idurl", "id", "url",
-                                                "linecolor", "textcolor", "textbgcolor",
-                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
-                "supportedArcAttributes" : ["label", "idurl", "id", "url",
-                                                "linecolor", "textcolor", "textbgcolor",
-                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedEntityAttributes" : [
+                    "label", "idurl", "id", "url",
+                    "linecolor", "textcolor", "textbgcolor",
+                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+                ],
+                "supportedArcAttributes" : [
+                    "label", "idurl", "id", "url",
+                    "linecolor", "textcolor", "textbgcolor",
+                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+                ],
                 "program" : {
                     "opener" : LINE_PREFIX + "\\msc" + EOL,
                     "closer" : LINE_PREFIX + "\\endmsc"

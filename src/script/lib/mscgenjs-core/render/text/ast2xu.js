@@ -40,12 +40,16 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
             init(pMinimal);
             return thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
-                "supportedEntityAttributes" : ["label", "idurl", "id", "url",
-                                                "linecolor", "textcolor", "textbgcolor",
-                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
-                "supportedArcAttributes" : ["label", "idurl", "id", "url",
-                                                "linecolor", "textcolor", "textbgcolor",
-                                                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"],
+                "supportedEntityAttributes" : [
+                    "label", "idurl", "id", "url",
+                    "linecolor", "textcolor", "textbgcolor",
+                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+                ],
+                "supportedArcAttributes" : [
+                    "label", "idurl", "id", "url",
+                    "linecolor", "textcolor", "textbgcolor",
+                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+                ],
                 "program" : {
                     "opener" : "msc" + SP + "{" + EOL,
                     "closer" : "}"

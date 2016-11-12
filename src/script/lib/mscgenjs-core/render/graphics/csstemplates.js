@@ -9,6 +9,14 @@ define([], function() {
         baseTemplate : "svg.<%=id%>{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>;color:black}.<%=id%> path, .<%=id%> rect{fill:none;color:black;stroke:black}.<%=id%> .label-text-background{fill:white;stroke:white;stroke-width:0}.<%=id%> .bglayer{fill:white;stroke:white;stroke-width:0}.<%=id%> line{stroke:black}.<%=id%> .return, .<%=id%> .comment{stroke-dasharray:5,3}.<%=id%> .inline_expression_divider{stroke-dasharray:10,5}.<%=id%> text{color:inherit;stroke:none;text-anchor:middle}.<%=id%> text.entity-text{text-decoration:underline}.<%=id%> text.anchor-start{text-anchor:start}.<%=id%> .arrow-marker{overflow:visible}.<%=id%> .arrow-style{stroke-width:1}.<%=id%> .arcrow, .<%=id%> .arcrowomit, .<%=id%> .emphasised{stroke-linecap:butt}.<%=id%> .arcrowomit{stroke-dasharray:2,2;}.<%=id%> .box, .<%=id%> .entity{fill:white;stroke-linejoin:round}.<%=id%> .inherit{stroke:inherit;color:inherit}.<%=id%> .inherit-fill{fill:inherit}.<%=id%> .watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14}",
         namedStyles : [
     {
+        "name": "basic",
+        "description": "Basic",
+        "experimental": false,
+        "renderMagic": "straight",
+        "cssBefore": "",
+        "cssAfter": ""
+    },
+    {
         "name": "lazy",
         "description": "Lazy",
         "experimental": false,
@@ -26,8 +34,8 @@ define([], function() {
     },
     {
         "name": "fountainpen",
-        "description": "Fountain pen (experimental!)",
-        "experimental": true,
+        "description": "Fountain pen",
+        "experimental": false,
         "renderMagic": "wobbly",
         "cssBefore": "@import 'https://fonts.googleapis.com/css?family=Gochi+Hand';",
         "cssAfter": "svg.<%=id%>{font-family:'Gochi Hand', cursive;font-size:14px;stroke-opacity:0.4;stroke-linecap:round;background-color:transparent}.<%=id%> text{fill:rgba(0,0,128,0.7)}.<%=id%> marker polygon{fill:rgba(0,0,255,0.4);stroke-linejoin:round}.<%=id%> line, .<%=id%> path, .<%=id%> rect, .<%=id%> polygon{stroke:blue !important}.<%=id%> text.entity-text{font-weight:bold;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC;}.<%=id%> .label-text-background{opacity:0}.<%=id%> .comment,.<%=id%> .inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:black}"
@@ -42,7 +50,7 @@ define([], function() {
     },
     {
         "name": "pegasse",
-        "description": "Pégasse (best with msgenny)",
+        "description": "Pégase (best with msgenny)",
         "experimental": false,
         "renderMagic": "straight",
         "cssBefore": "",

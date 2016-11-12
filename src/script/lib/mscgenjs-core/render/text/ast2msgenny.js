@@ -24,7 +24,7 @@ define(['./ast2thing'], function(thing) {
     }
 
     function entityNameIsQuotable(pString) {
-        var lMatchResult = pString.match(/[^;, "\t\n\r=\-><:\{\*]+/gi);
+        var lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
         if (Boolean(lMatchResult)) {
             return lMatchResult.length !== 1;
         } else {

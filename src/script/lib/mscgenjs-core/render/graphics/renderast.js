@@ -3,20 +3,21 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory",
-        "./svglowlevelfactory",
-        "./svgutensils",
-        "./renderutensils",
-        "./renderskeleton",
-        "../text/flatten",
-        "../text/arcmappings",
-        "./rowmemory",
-        "./idmanager",
-        "./markermanager",
-        "./entities",
-        "./renderlabels",
-        "./constants",
-        "../../lib/lodash/lodash.custom"],
+define([
+    "./svgelementfactory",
+    "./svglowlevelfactory",
+    "./svgutensils",
+    "./renderutensils",
+    "./renderskeleton",
+    "../text/flatten",
+    "../text/arcmappings",
+    "./rowmemory",
+    "./idmanager",
+    "./markermanager",
+    "./entities",
+    "./renderlabels",
+    "./constants",
+    "../../lib/lodash/lodash.custom"],
     /* eslint max-params: 0 */
 function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, entities, labels, C, _) {
     /**

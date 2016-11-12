@@ -3,8 +3,8 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(
-    ["./constants",
+define([
+    "./constants",
     "./svglowlevelfactory",
     "./svgprimitives",
     "./geometry",

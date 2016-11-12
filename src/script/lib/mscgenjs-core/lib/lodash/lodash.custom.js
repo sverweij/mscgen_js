@@ -2,7 +2,7 @@
  * @license
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output lib/lodash/lodash.custom.js`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.16.4';
+  var VERSION = '4.16.6';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -25,7 +25,7 @@
   var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
   /** Used to detect hot functions by number of calls within a span of milliseconds. */
-  var HOT_COUNT = 500,
+  var HOT_COUNT = 800,
       HOT_SPAN = 16;
 
   /** Used as references for various `Number` constants. */
@@ -34,6 +34,7 @@
   /** `Object#toString` result references. */
   var argsTag = '[object Arguments]',
       arrayTag = '[object Array]',
+      asyncTag = '[object AsyncFunction]',
       boolTag = '[object Boolean]',
       dateTag = '[object Date]',
       errorTag = '[object Error]',
@@ -41,6 +42,7 @@
       genTag = '[object GeneratorFunction]',
       mapTag = '[object Map]',
       numberTag = '[object Number]',
+      nullTag = '[object Null]',
       objectTag = '[object Object]',
       promiseTag = '[object Promise]',
       proxyTag = '[object Proxy]',
@@ -48,6 +50,7 @@
       setTag = '[object Set]',
       stringTag = '[object String]',
       symbolTag = '[object Symbol]',
+      undefinedTag = '[object Undefined]',
       weakMapTag = '[object WeakMap]';
 
   var arrayBufferTag = '[object ArrayBuffer]',
@@ -201,7 +204,7 @@
    */
   function arrayEach(array, iteratee) {
     var index = -1,
-        length = array ? array.length : 0;
+        length = array == null ? 0 : array.length;
 
     while (++index < length) {
       if (iteratee(array[index], index, array) === false) {
@@ -244,7 +247,7 @@
    */
   function arrayReduce(array, iteratee, accumulator, initAccum) {
     var index = -1,
-        length = array ? array.length : 0;
+        length = array == null ? 0 : array.length;
 
     if (initAccum && length) {
       accumulator = array[++index];
@@ -357,24 +360,24 @@
   /** Used to detect overreaching core-js shims. */
   var coreJsData = root['__core-js_shared__'];
 
-  /** Used to detect methods masquerading as native. */
-  var maskSrcKey = (function() {
-    var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-    return uid ? ('Symbol(src)_1.' + uid) : '';
-  }());
-
   /** Used to resolve the decompiled source of functions. */
   var funcToString = funcProto.toString;
 
   /** Used to check objects for own properties. */
   var hasOwnProperty = objectProto.hasOwnProperty;
 
+  /** Used to detect methods masquerading as native. */
+  var maskSrcKey = (function() {
+    var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+    return uid ? ('Symbol(src)_1.' + uid) : '';
+  }());
+
   /**
    * Used to resolve the
    * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
    * of values.
    */
-  var objectToString = objectProto.toString;
+  var nativeObjectToString = objectProto.toString;
 
   /** Used to detect if a method is native. */
   var reIsNative = RegExp('^' +
@@ -391,7 +394,8 @@
       objectCreate = Object.create,
       propertyIsEnumerable = objectProto.propertyIsEnumerable,
       splice = arrayProto.splice,
-      spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+      spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined,
+      symToStringTag = Symbol ? Symbol.toStringTag : undefined;
 
   var defineProperty = (function() {
     try {
@@ -588,7 +592,7 @@
    */
   function Hash(entries) {
     var index = -1,
-        length = entries ? entries.length : 0;
+        length = entries == null ? 0 : entries.length;
 
     this.clear();
     while (++index < length) {
@@ -692,7 +696,7 @@
    */
   function ListCache(entries) {
     var index = -1,
-        length = entries ? entries.length : 0;
+        length = entries == null ? 0 : entries.length;
 
     this.clear();
     while (++index < length) {
@@ -809,7 +813,7 @@
    */
   function MapCache(entries) {
     var index = -1,
-        length = entries ? entries.length : 0;
+        length = entries == null ? 0 : entries.length;
 
     this.clear();
     while (++index < length) {
@@ -1250,14 +1254,20 @@
   }
 
   /**
-   * The base implementation of `getTag`.
+   * The base implementation of `getTag` without fallbacks for buggy environments.
    *
    * @private
    * @param {*} value The value to query.
    * @returns {string} Returns the `toStringTag`.
    */
   function baseGetTag(value) {
-    return objectToString.call(value);
+    if (value == null) {
+      return value === undefined ? undefinedTag : nullTag;
+    }
+    value = Object(value);
+    return (symToStringTag && symToStringTag in value)
+      ? getRawTag(value)
+      : objectToString(value);
   }
 
   /**
@@ -1268,7 +1278,7 @@
    * @returns {boolean} Returns `true` if `value` is an `arguments` object,
    */
   function baseIsArguments(value) {
-    return isObjectLike(value) && objectToString.call(value) == argsTag;
+    return isObjectLike(value) && baseGetTag(value) == argsTag;
   }
 
   /**
@@ -1296,7 +1306,7 @@
    */
   function baseIsTypedArray(value) {
     return isObjectLike(value) &&
-      isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
+      isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
   }
 
   /**
@@ -1620,6 +1630,33 @@
   }
 
   /**
+   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the raw `toStringTag`.
+   */
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag),
+        tag = value[symToStringTag];
+
+    try {
+      value[symToStringTag] = undefined;
+      var unmasked = true;
+    } catch (e) {}
+
+    var result = nativeObjectToString.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag;
+      } else {
+        delete value[symToStringTag];
+      }
+    }
+    return result;
+  }
+
+  /**
    * Creates an array of the own enumerable symbol properties of `object`.
    *
    * @private
@@ -1644,9 +1681,9 @@
       (Set && getTag(new Set) != setTag) ||
       (WeakMap && getTag(new WeakMap) != weakMapTag)) {
     getTag = function(value) {
-      var result = objectToString.call(value),
+      var result = baseGetTag(value),
           Ctor = result == objectTag ? value.constructor : undefined,
-          ctorString = Ctor ? toSource(Ctor) : undefined;
+          ctorString = Ctor ? toSource(Ctor) : '';
 
       if (ctorString) {
         switch (ctorString) {
@@ -1852,6 +1889,17 @@
   }
 
   /**
+   * Converts `value` to a string using `Object.prototype.toString`.
+   *
+   * @private
+   * @param {*} value The value to convert.
+   * @returns {string} Returns the converted string.
+   */
+  function objectToString(value) {
+    return nativeObjectToString.call(value);
+  }
+
+  /**
    * A specialized version of `baseRest` which transforms the rest array.
    *
    * @private
@@ -1924,7 +1972,7 @@
    * Converts `func` to its source code.
    *
    * @private
-   * @param {Function} func The function to process.
+   * @param {Function} func The function to convert.
    * @returns {string} Returns the source code.
    */
   function toSource(func) {
@@ -1956,7 +2004,7 @@
    * // => [1, 2, [3, [4]], 5]
    */
   function flatten(array) {
-    var length = array ? array.length : 0;
+    var length = array == null ? 0 : array.length;
     return length ? baseFlatten(array, 1) : [];
   }
 
@@ -1973,7 +2021,7 @@
    * function. Its creation may be customized by replacing the `_.memoize.Cache`
    * constructor with one whose instances implement the
    * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
-   * method interface of `delete`, `get`, `has`, and `set`.
+   * method interface of `clear`, `delete`, `get`, `has`, and `set`.
    *
    * @static
    * @memberOf _
@@ -2007,7 +2055,7 @@
    * _.memoize.Cache = WeakMap;
    */
   function memoize(func, resolver) {
-    if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
       throw new TypeError(FUNC_ERROR_TEXT);
     }
     var memoized = function() {
@@ -2203,10 +2251,13 @@
    * // => false
    */
   function isFunction(value) {
+    if (!isObject(value)) {
+      return false;
+    }
     // The use of `Object#toString` avoids issues with the `typeof` operator
-    // in Safari 9 which returns 'object' for typed array and other constructors.
-    var tag = isObject(value) ? objectToString.call(value) : '';
-    return tag == funcTag || tag == genTag || tag == proxyTag;
+    // in Safari 9 which returns 'object' for typed arrays and other constructors.
+    var tag = baseGetTag(value);
+    return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
   }
 
   /**

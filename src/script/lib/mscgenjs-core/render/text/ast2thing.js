@@ -116,12 +116,14 @@ define(["./textutensils"], function(utl) {
     }
 
     function isMscGenKeyword(pString){
-        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
-           "wordwraparcs", "label", "color", "idurl", "id", "url",
-           "linecolor", "textcolor",
-           "textbgcolor", "arclinecolor",
-           "arctextcolor", "arctextbgcolor",
-           "arcskip"].indexOf(pString) > -1;
+        return [
+            "box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+            "wordwraparcs", "label", "color", "idurl", "id", "url",
+            "linecolor", "textcolor",
+            "textbgcolor", "arclinecolor",
+            "arctextcolor", "arctextbgcolor",
+            "arcskip"
+        ].indexOf(pString) > -1;
     }
 
     function isQuotable(pString) {
