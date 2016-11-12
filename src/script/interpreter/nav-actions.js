@@ -1,11 +1,12 @@
 /* eslint max-params: 0 */
-define(["./uistate",
-        "./animator",
-        "../utl/exporter",
-        "../utl/domutl",
-        "./general-actions",
-        "../utl/gaga"
-        ],
+define([
+    "./uistate",
+    "./animator",
+    "../utl/exporter",
+    "../utl/domutl",
+    "./general-actions",
+    "../utl/gaga"
+],
 function(uistate, animctrl, xport, dq, gactions, gaga) {
     "use strict";
 
