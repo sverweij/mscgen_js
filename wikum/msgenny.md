@@ -29,7 +29,7 @@ this renders as
 
 ![MsGenny sample](https://raw.github.com/sverweij/mscgen_js/master/wikum/msgennysample.png)
 
-([open this chart in the online interpreter](https://sverweij.github.io/mscgen_js/index.html?utm_source=wikum.genny&lang=msgenny&msc=a%20-%3E%20b%20%3A%20ab%28%29%3B%0Aa%20%3D%3E%20c%20%3A%20automatically%20declares%20entities%20used%20in%20arcs%3B%0Ac%20%3D%3E%3E%20c%20%3A%20process%281%29%3B%0Ab%20%3C%3C%3D%20c%20%3A%20Has%20all%20mscgen%20arc%20types...%20%3B%0Ab%20note%20b%3A%20...notes%20%2B%20boxes%20...%3B%0A|||%3B%0A---%20%3A%20Labels%20usually%20don%27t%20need%20enclosing%20quotes%3B%0A---%20%3A%20%22except%20when%20they%20contain%20%2C%20or%20%3B%22%3B%0A...%3B))
+([open this chart in the online interpreter](https://mscgen.js.org/index.html?utm_source=wikum.genny&lang=msgenny&msc=a%20-%3E%20b%20%3A%20ab%28%29%3B%0Aa%20%3D%3E%20c%20%3A%20automatically%20declares%20entities%20used%20in%20arcs%3B%0Ac%20%3D%3E%3E%20c%20%3A%20process%281%29%3B%0Ab%20%3C%3C%3D%20c%20%3A%20Has%20all%20mscgen%20arc%20types...%20%3B%0Ab%20note%20b%3A%20...notes%20%2B%20boxes%20...%3B%0A|||%3B%0A---%20%3A%20Labels%20usually%20don%27t%20need%20enclosing%20quotes%3B%0A---%20%3A%20%22except%20when%20they%20contain%20%2C%20or%20%3B%22%3B%0A...%3B))
 
 The equivalent mscgen program would have looked like this:
 ``` mscgen
@@ -47,7 +47,7 @@ msc {
   ...;
 }
 ```
-([open in the mscgen_js online interpreter](https://sverweij.github.io/mscgen_js/index.html?utm_source=wikum.genny&lang=mscgen&msc=msc%20{%0A%20%20a%2C%20b%2C%20c%3B%0A%0A%20%20a%20-%3E%20b%20[label%3D%22ab%28%29%22]%3B%0A%20%20a%20%3D%3E%20c%20[label%3D%22automatically%20declares%20entities%20used%20in%20arcs%22]%3B%0A%20%20c%20%3D%3E%3E%20c%20[label%3D%22process%281%29%22]%3B%0A%20%20b%20%3C%3C%3D%20c%20[label%3D%22Has%20all%20mscgen%20arc%20types...%20%22]%3B%0A%20%20b%20note%20b%20[label%3D%22...notes%20%2B%20boxes%20...%22]%3B%0A%20%20|||%3B%0A%20%20---%20[label%3D%22Labels%20usually%20don%27t%20need%20enclosing%20quotes%22]%3B%0A%20%20---%20[label%3D%22except%20when%20they%20contain%20%2C%20or%20%3B%22]%3B%0A%20%20...%3B%0A}))
+([open in the mscgen_js online interpreter](https://mscgen.js.org/index.html?utm_source=wikum.genny&lang=mscgen&msc=msc%20{%0A%20%20a%2C%20b%2C%20c%3B%0A%0A%20%20a%20-%3E%20b%20[label%3D%22ab%28%29%22]%3B%0A%20%20a%20%3D%3E%20c%20[label%3D%22automatically%20declares%20entities%20used%20in%20arcs%22]%3B%0A%20%20c%20%3D%3E%3E%20c%20[label%3D%22process%281%29%22]%3B%0A%20%20b%20%3C%3C%3D%20c%20[label%3D%22Has%20all%20mscgen%20arc%20types...%20%22]%3B%0A%20%20b%20note%20b%20[label%3D%22...notes%20%2B%20boxes%20...%22]%3B%0A%20%20|||%3B%0A%20%20---%20[label%3D%22Labels%20usually%20don%27t%20need%20enclosing%20quotes%22]%3B%0A%20%20---%20[label%3D%22except%20when%20they%20contain%20%2C%20or%20%3B%22]%3B%0A%20%20...%3B%0A}))
 
 ## Usage scenarios
 We often find ourselves starting a sequence chart in *MsGenny*, and, when
@@ -182,5 +182,5 @@ mscgen_js -T msgenny -i yourchart.mscgen -o yourchart.msgenny
 
 [1]: ../src/script/parse/peg/msgennyparser.pegjs
 [2]: ../src/script/cli/README.md
-[4]: https://sverweij.github.io/mscgen_js/?utm_source=wikum.genny
-[5]: https://sverweij.github.io/mscgen_js/tutorial.html?utm_source=wikum.genny
+[4]: https://mscgen.js.org/?utm_source=wikum.genny
+[5]: https://mscgen.js.org/tutorial.html?utm_source=wikum.genny
