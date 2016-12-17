@@ -1,6 +1,6 @@
 /**
  * @license
- * lodash (Custom Build) <https://lodash.com/>
+ * Lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output lib/lodash/lodash.custom.js`
  * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.16.6';
+  var VERSION = '4.17.1';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -23,6 +23,11 @@
 
   /** Used to stand-in for `undefined` hash values. */
   var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+  /** Used to compose bitmasks for cloning. */
+  var CLONE_DEEP_FLAG = 1,
+      CLONE_FLAT_FLAG = 2,
+      CLONE_SYMBOLS_FLAG = 4;
 
   /** Used to detect hot functions by number of calls within a span of milliseconds. */
   var HOT_COUNT = 800,
@@ -136,7 +141,7 @@
   /** Used to access faster Node.js helpers. */
   var nodeUtil = (function() {
     try {
-      return freeProcess && freeProcess.binding('util');
+      return freeProcess && freeProcess.binding && freeProcess.binding('util');
     } catch (e) {}
   }());
 
@@ -1112,6 +1117,19 @@
   }
 
   /**
+   * The base implementation of `_.assignIn` without support for multiple sources
+   * or `customizer` functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @returns {Object} Returns `object`.
+   */
+  function baseAssignIn(object, source) {
+    return object && copyObject(source, keysIn(source), object);
+  }
+
+  /**
    * The base implementation of `assignValue` and `assignMergeValue` without
    * value checks.
    *
@@ -1139,16 +1157,22 @@
    *
    * @private
    * @param {*} value The value to clone.
-   * @param {boolean} [isDeep] Specify a deep clone.
-   * @param {boolean} [isFull] Specify a clone including symbols.
+   * @param {boolean} bitmask The bitmask flags.
+   *  1 - Deep clone
+   *  2 - Flatten inherited properties
+   *  4 - Clone symbols
    * @param {Function} [customizer] The function to customize cloning.
    * @param {string} [key] The key of `value`.
    * @param {Object} [object] The parent object of `value`.
    * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
    * @returns {*} Returns the cloned value.
    */
-  function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
-    var result;
+  function baseClone(value, bitmask, customizer, key, object, stack) {
+    var result,
+        isDeep = bitmask & CLONE_DEEP_FLAG,
+        isFlat = bitmask & CLONE_FLAT_FLAG,
+        isFull = bitmask & CLONE_SYMBOLS_FLAG;
+
     if (customizer) {
       result = object ? customizer(value, key, object, stack) : customizer(value);
     }
@@ -1172,9 +1196,11 @@
         return cloneBuffer(value, isDeep);
       }
       if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
-        result = initCloneObject(isFunc ? {} : value);
+        result = (isFlat || isFunc) ? {} : initCloneObject(value);
         if (!isDeep) {
-          return copySymbols(value, baseAssign(result, value));
+          return isFlat
+            ? copySymbolsIn(value, baseAssignIn(result, value))
+            : copySymbols(value, baseAssign(result, value));
         }
       } else {
         if (!cloneableTags[tag]) {
@@ -1191,14 +1217,18 @@
     }
     stack.set(value, result);
 
-    var props = isArr ? undefined : (isFull ? getAllKeys : keys)(value);
+    var keysFunc = isFull
+      ? (isFlat ? getAllKeysIn : getAllKeys)
+      : (isFlat ? keysIn : keys);
+
+    var props = isArr ? undefined : keysFunc(value);
     arrayEach(props || value, function(subValue, key) {
       if (props) {
         key = subValue;
         subValue = value[key];
       }
       // Recursively populate clone (susceptible to call stack limits).
-      assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
+      assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
     });
     return result;
   }
@@ -1435,7 +1465,7 @@
    * @returns {Object} Returns the cloned map.
    */
   function cloneMap(map, isDeep, cloneFunc) {
-    var array = isDeep ? cloneFunc(mapToArray(map), true) : mapToArray(map);
+    var array = isDeep ? cloneFunc(mapToArray(map), CLONE_DEEP_FLAG) : mapToArray(map);
     return arrayReduce(array, addMapEntry, new map.constructor);
   }
 
@@ -1462,7 +1492,7 @@
    * @returns {Object} Returns the cloned set.
    */
   function cloneSet(set, isDeep, cloneFunc) {
-    var array = isDeep ? cloneFunc(setToArray(set), true) : setToArray(set);
+    var array = isDeep ? cloneFunc(setToArray(set), CLONE_DEEP_FLAG) : setToArray(set);
     return arrayReduce(array, addSetEntry, new set.constructor);
   }
 
@@ -1546,7 +1576,7 @@
   }
 
   /**
-   * Copies own symbol properties of `source` to `object`.
+   * Copies own symbols of `source` to `object`.
    *
    * @private
    * @param {Object} source The object to copy symbols from.
@@ -1555,6 +1585,18 @@
    */
   function copySymbols(source, object) {
     return copyObject(source, getSymbols(source), object);
+  }
+
+  /**
+   * Copies own and inherited symbols of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy symbols from.
+   * @param {Object} [object={}] The object to copy symbols to.
+   * @returns {Object} Returns `object`.
+   */
+  function copySymbolsIn(source, object) {
+    return copyObject(source, getSymbolsIn(source), object);
   }
 
   /**
@@ -1599,6 +1641,18 @@
    */
   function getAllKeys(object) {
     return baseGetAllKeys(object, keys, getSymbols);
+  }
+
+  /**
+   * Creates an array of own and inherited enumerable property names and
+   * symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names and symbols.
+   */
+  function getAllKeysIn(object) {
+    return baseGetAllKeys(object, keysIn, getSymbolsIn);
   }
 
   /**
@@ -1657,13 +1711,29 @@
   }
 
   /**
-   * Creates an array of the own enumerable symbol properties of `object`.
+   * Creates an array of the own enumerable symbols of `object`.
    *
    * @private
    * @param {Object} object The object to query.
    * @returns {Array} Returns the array of symbols.
    */
   var getSymbols = nativeGetSymbols ? overArg(nativeGetSymbols, Object) : stubArray;
+
+  /**
+   * Creates an array of the own and inherited enumerable symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of symbols.
+   */
+  var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
+    var result = [];
+    while (object) {
+      arrayPush(result, getSymbols(object));
+      object = getPrototype(object);
+    }
+    return result;
+  };
 
   /**
    * Gets the `toStringTag` of `value`.
@@ -2098,7 +2168,7 @@
    * // => false
    */
   function cloneDeep(value) {
-    return baseClone(value, true, true);
+    return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG);
   }
 
   /**
