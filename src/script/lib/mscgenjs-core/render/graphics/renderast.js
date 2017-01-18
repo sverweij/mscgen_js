@@ -45,6 +45,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         "arcEndX"                : 0,
         "wordWrapArcs"           : false,
         "mirrorEntitiesOnBottom" : false,
+        "regularArcTextVerticalAlignment": "middle",
         "maxDepth"               : 0,
         "document"               : {},
         "layer"                  : {
@@ -65,7 +66,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         lOptions = _.defaults(lOptions, {
             source                 : null,
             styleAdditions         : null,
-            mirrorEntitiesOnBottom : false
+            mirrorEntitiesOnBottom : false,
+            regularArcTextVerticalAlignment: "middle"
         });
 
         renderASTPre(
@@ -84,6 +86,21 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         }
     }
 
+    function normalizeVerticalAlignment(pVerticalAlignment) {
+        var lRetval = "middle";
+        var VALID_ALIGNMENT_VALUES = ["above", "middle", "below"];
+
+        if (VALID_ALIGNMENT_VALUES.some(
+            function(pValue){
+                return pValue === pVerticalAlignment;
+            }
+        )){
+            lRetval = pVerticalAlignment;
+        }
+
+        return lRetval;
+    }
+
     function renderASTPre(pAST, pWindow, pParentElementId, pOptions){
         id.setPrefix(pParentElementId);
 
@@ -95,6 +112,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
             pOptions
         );
         gChart.mirrorEntitiesOnBottom = Boolean(pOptions.mirrorEntitiesOnBottom);
+        gChart.regularArcTextVerticalAlignment = normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment);
         svgutl.init(gChart.document);
 
         gChart.layer = createLayerShortcuts(gChart.document);
@@ -806,6 +824,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
                     {x: pFrom, y: 0, width: pTo - pFrom},
                     {
                         alignAround: true,
+                        alignAbove: (gChart.regularArcTextVerticalAlignment === "above"),
                         ownBackground: true,
                         wordWrapArcs: gChart.wordWrapArcs
                     }

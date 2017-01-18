@@ -41,7 +41,8 @@ define(function(require){
                 includeSource          : true,
                 styleAdditions         : null,
                 additionalTemplate     : null,
-                mirrorEntitiesOnBottom : false
+                mirrorEntitiesOnBottom : false,
+                regularArcTextVerticalAlignment: "middle"
             });
 
             try {
@@ -56,7 +57,8 @@ define(function(require){
                             source: lOptions.includeSource ? pScript : null,
                             styleAdditions: lOptions.styleAdditions,
                             additionalTemplate: lOptions.additionalTemplate,
-                            mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom
+                            mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
+                            regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment
                         }
                     )
                 );
@@ -90,7 +92,7 @@ define(function(require){
             }
         },
 
-        version: "1.6.3",
+        version: "1.7.0",
 
         getAllowedValues: function() {
             return Object.seal({
@@ -102,13 +104,18 @@ define(function(require){
                     {name: "ast",     experimental: false}
                 ],
                 outputType: [
-                    {name: "mscgen",  experimental : false},
+                    {name: "mscgen",  experimental: false},
                     {name: "msgenny", experimental: false},
                     {name: "xu",      experimental: false},
                     {name: "json",    experimental: false},
                     {name: "ast",     experimental: false},
                     {name: "dot",     experimental: false},
                     {name: "doxygen", experimental: false}
+                ],
+                regularArcTextVerticalAlignment: [
+                    {name: "above",   experimental: true},
+                    {name: "middle",  experimental: false},
+                    {name: "below",   experimental: true}
                 ],
                 namedStyle: cssTemplates.namedStyles.map(
                     function(pStyle){
