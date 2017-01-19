@@ -182,6 +182,7 @@ define(function(require) {
                 {
                     source: pSource,
                     mirrorEntitiesOnBottom: state.getMirrorEntities(),
+                    regularArcTextVerticalAlignment: state.getVerticalLabelAlignment(),
                     additionalTemplate: state.getNamedStyle()
                 }
             );
@@ -369,9 +370,13 @@ define(function(require) {
                 window.__option_style_basic.checked = true;
                 state.setNamedStyle("basic");
             }
-
         },
         getStyle: state.getNamedStyle,
+        setVerticalLabelAlignment: function(pVerticalLabelAlignment) {
+            window.__option_vertical_label_alignment.value = pVerticalLabelAlignment;
+            state.setVerticalLabelAlignment(pVerticalLabelAlignment);
+        },
+        getVerticalLabelAlignment: state.getVerticalLabelAlignment,
         preRenderReset: preRenderReset
     };
 }); // define

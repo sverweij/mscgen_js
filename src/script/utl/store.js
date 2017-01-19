@@ -36,9 +36,10 @@ define([], function() {
     function save(pState, pSourceToo){
         var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
         var lState = {
-            autorender     : pState.getAutoRender(),
-            mirrorEntities : pState.getMirrorEntities(),
-            namedStyle     : pState.getStyle()
+            autorender             : pState.getAutoRender(),
+            mirrorEntities         : pState.getMirrorEntities(),
+            namedStyle             : pState.getStyle(),
+            verticalLabelAlignment : pState.getVerticalLabelAlignment()
         };
 
         if (lSourceToo) {
@@ -68,6 +69,7 @@ define([], function() {
             pState.setAutoRender(lState.autorender);
             pState.setMirrorEntities(lState.mirrorEntities);
             pState.setStyle(lState.namedStyle);
+            pState.setVerticalLabelAlignment(lState.verticalLabelAlignment);
 
             if (lSourceToo) {
                 if (Boolean(lState.language)) {
