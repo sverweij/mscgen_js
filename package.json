@@ -5,10 +5,10 @@
   "main": "src/script/index.js",
   "dependencies": {
     "amdefine": "1.0.1",
-    "codemirror": "5.22.2",
+    "codemirror": "5.23.0",
     "requirejs": "2.3.2",
     "mscgenjs": "1.7.0",
-    "mscgenjs-inpage": "1.6.3"
+    "mscgenjs-inpage": "1.7.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
