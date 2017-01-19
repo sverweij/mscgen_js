@@ -120,6 +120,12 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
             store.saveSettings(uistate);
             gaga.g('send', 'event', 'renderoptions.mirrorentities', pEvent.target.checked);
         },
+        optionVerticalLabelAlignmentOnChange: function(pEvent) {
+            uistate.setVerticalLabelAlignment(pEvent.target.value);
+            uistate.requestRender();
+            store.saveSettings(uistate);
+            gaga.g('send', 'event', 'renderoptions.verticalLabelAlignment', pEvent.target.value);
+        },
         styleOnClick: function(pEvent) {
             uistate.setStyle(pEvent.target.value);
             uistate.requestRender();

@@ -7,12 +7,19 @@ define(function() {
     var gLanguage          = "mscgen";
     var gDebug             = false;
     var gLinkToInterpreter = false;
+    var gVerticalLabelAlignment = "middle";
 
     return {
         getAutoRender: function() { return gAutoRender; },
         setAutoRender: function(pBool) { gAutoRender = pBool; },
         getMirrorEntities: function() { return gMirrorEntities; },
         setMirrorEntities: function(pBool) { gMirrorEntities = pBool; },
+        getVerticalLabelAlignment: function() {
+            return gVerticalLabelAlignment;
+        },
+        setVerticalLabelAlignment: function(pVerticalLabelAlignment) {
+            gVerticalLabelAlignment = pVerticalLabelAlignment;
+        },
         getNamedStyle: function() { return gNamedStyle; },
         setNamedStyle: function(pStyle) { gNamedStyle = pStyle; },
         getLanguage: function() { return gLanguage; },
