@@ -64,6 +64,7 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
                     {
                         withLinkToEditor: uistate.getLinkToInterpeter(),
                         mirrorEntities: uistate.getMirrorEntities(),
+                        verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
                         namedStyle: uistate.getStyle()
                     }
                 )

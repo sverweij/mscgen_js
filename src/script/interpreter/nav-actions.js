@@ -42,6 +42,7 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
                     {
                         withLinkToEditor: uistate.getLinkToInterpeter(),
                         mirrorEntities: uistate.getMirrorEntities(),
+                        verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
                         namedStyle: uistate.getStyle()
                     }
                 );
@@ -64,6 +65,7 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
                     {
                         withLinkToEditor: uistate.getLinkToInterpeter(),
                         mirrorEntities: uistate.getMirrorEntities(),
+                        verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
                         namedStyle: uistate.getStyle()
                     }
                 );

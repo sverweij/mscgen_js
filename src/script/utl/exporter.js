@@ -26,7 +26,7 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
         "    </script>\n" +
         "  </head>\n" +
         "  <body>\n" +
-        "    <pre class='code {{language}} mscgen_js'{{data-language}}{{namedstyle}}{{mirrorentities}}>\n" +
+        "    <pre class='code {{language}} mscgen_js'{{data-language}}{{namedstyle}}{{mirrorentities}}{{verticalalignment}}>\n" +
         "{{source}}\n" +
         "    </pre>\n" +
         "  </body>\n"  +
@@ -55,6 +55,12 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
         return pMirrorEntities ? " data-mirror-entities='true'" : "";
     }
 
+    function extractVerticalAlignment(pAlignment) {
+        return pAlignment && pAlignment !== "middle"
+            ? " data-regular-arc-text-vertical-alignment='" + pAlignment + "'"
+            : "";
+    }
+
     function extractLinkToEditor(pWithLinkToEditor) {
         return pWithLinkToEditor ? gLinkToEditorConfig : "";
     }
@@ -69,6 +75,7 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
             .replace(/{{language}}/g, pLanguage)
             .replace(/{{data-language}}/g, extractDataLanguage(pLanguage))
             .replace(/{{mirrorentities}}/g, extractMirrorEntities(pOptions.mirrorEntities))
+            .replace(/{{verticalalignment}}/g, extractVerticalAlignment(pOptions.verticalLabelAlignment))
             .replace(/{{namedstyle}}/g, extractNamedStyle(pOptions.namedStyle))
             .replace(/{{source}}/g, extractSource(pSource));
     }

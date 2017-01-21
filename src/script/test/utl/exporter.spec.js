@@ -81,10 +81,11 @@ describe('ui/utl/exporter', function(){
                     {
                         withLinkToEditor: false,
                         mirrorEntities: true,
+                        verticalLabelAlignment: "above",
                         namedStyle: "lazy"
                     }
                 ),
-                "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20msgenny%20mscgen_js'%20data-language%3D'msgenny'%20data-named-style%3D'lazy'%20data-mirror-entities%3D'true'%3E%0Aa%20%3A%20%F0%9F%92%A9%2C%20b%20%3A%20%E5%BA%8F%2C%20c%20%3A%20%F0%9F%92%A9%3B%20a%20%3D%3E%20b%20%3A%20things%2C%20c%20%3D%3E%20b%3B%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
+                "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20msgenny%20mscgen_js'%20data-language%3D'msgenny'%20data-named-style%3D'lazy'%20data-mirror-entities%3D'true'%20data-regular-arc-text-vertical-alignment%3D'above'%3E%0Aa%20%3A%20%F0%9F%92%A9%2C%20b%20%3A%20%E5%BA%8F%2C%20c%20%3A%20%F0%9F%92%A9%3B%20a%20%3D%3E%20b%20%3A%20things%2C%20c%20%3D%3E%20b%3B%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E");
         });
 
     });
