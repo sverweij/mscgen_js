@@ -137,6 +137,9 @@
                 <a href="#named-styles">Named styles</a>
             </li>
             <li>
+                <a href="#vertical-label-alignment">Vertical label alignment</a>
+            </li>
+            <li>
                 <a href="#supported-browsers">Supported browsers</a>
             </li>
             <li>
@@ -526,6 +529,37 @@ msc {
                     </ul>
                 </li>
             </ul>
+        </p>
+        <h2 id="vertical-label-alignment">Vertical label alignment</h2>
+        <p>
+            Normally, labels for regular arcs align vertically with the arc
+            in the middle:
+        </p>
+        <script data-regular-arc-text-vertical-alignment="middle" type="text/x-msgenny">
+          wordwraparcs=true;
+
+          a => b: "This label will align around the middle";
+        </script>
+        <p>
+            To change that pass the type of alignment you want to the
+            <code>data-regular-arc-text-vertical-alignment</code> attribute.
+            Valid values are <code>above</code>, <code>middle</code> (which
+            is the default) and <code>below</code> (which is not implemented
+            yet).
+        </p>
+        <pre class="code">
+&lt;script <mark>data-regular-arc-text-vertical-alignment="above"</mark> type="text/x-msgenny">
+  wordwraparcs=true, watermark="above";
+
+  a => b: "This label will align above the arc";
+&lt;/script>
+        </pre>
+        <p>
+            <script data-regular-arc-text-vertical-alignment="above" type="text/x-msgenny">
+              wordwraparcs=true;
+
+              a => b: "This label will align above the arc";
+            </script>
         </p>
         <h2 id="supported-browsers">Supported browsers: most</h2>
         <p>
