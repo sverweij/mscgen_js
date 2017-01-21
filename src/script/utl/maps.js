@@ -20,12 +20,12 @@ define([], function() {
         classifyExtension : function(pString) {
             var lExtMap = {
                 "msgenny" : "msgenny",
-                "mscgen" : "mscgen",
-                "msc" : "mscgen",
-                "mscin" : "mscgen",
-                "xu" : "xu",
-                "json" : "json",
-                "ast" : "json"
+                "mscgen"  : "mscgen",
+                "msc"     : "mscgen",
+                "mscin"   : "mscgen",
+                "xu"      : "xu",
+                "json"    : "json",
+                "ast"     : "json"
             };
             if (!pString) {
                 return "mscgen";
