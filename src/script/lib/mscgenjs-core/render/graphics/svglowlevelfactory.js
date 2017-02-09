@@ -31,6 +31,10 @@ define(["./constants"], function(C) {
         );
     }
 
+    function _createTextNode(pText) {
+        return gDocument.createTextNode(pText);
+    }
+
     return {
         /**
          * Function to set the document to use. Introduced to enable use of the
@@ -71,7 +75,15 @@ define(["./constants"], function(C) {
          * @param {object} pAttributes - names/ values object
          * @return {element}
          */
-        createElement: _createElement
+        createElement: _createElement,
+
+        /**
+         * creates a textNode, initialized with the pText passed
+         *
+         * @param {string} pText
+         * @return {textNode}
+         */
+        createTextNode: _createTextNode
 
     };
 });

@@ -419,8 +419,9 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
                         pCurrentId + "_lbl"
                     );
                 pRowMemory.push({
-                    id    : pCurrentId + "_lbl",
-                    layer : gChart.layer.sequence
+                    id      : pCurrentId + "_lbl",
+                    tooltip : pArc.from + ' ' + pArc.kind + ' ' + pArc.to,
+                    layer   : gChart.layer.sequence
                 });
             } else { // it's a regular arc
                 lElement =
@@ -431,8 +432,9 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
                         entities.getX(pArc.to)
                     );
                 pRowMemory.push({
-                    id    : pCurrentId,
-                    layer : gChart.layer.sequence
+                    id      : pCurrentId,
+                    tooltip : pArc.from + ' ' + pArc.kind + ' ' + pArc.to,
+                    layer   : gChart.layer.sequence
                 });
             }  // / lTo or pArc.from === "*"
         }// if both a from and a to
@@ -509,15 +511,20 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         );
 
         lRowMemory.forEach(function(pRowMemoryLine){
-            pRowMemoryLine.layer.appendChild(
-                fact.createUse(
-                    {
-                        x:0,
-                        y:rowmemory.get(pRowNumber).y
-                    },
-                    pRowMemoryLine.id
-                )
+            var lUse = fact.createUse(
+                {
+                    x:0,
+                    y:rowmemory.get(pRowNumber).y
+                },
+                pRowMemoryLine.id
             );
+            if (pRowMemoryLine.tooltip) {
+                var lTitle = llfact.createElement('title');
+                var lText = llfact.createTextNode(pRowMemoryLine.tooltip);
+                lTitle.appendChild(lText);
+                lUse.appendChild(lTitle);
+            }
+            pRowMemoryLine.layer.appendChild(lUse);
         });
     }
 
