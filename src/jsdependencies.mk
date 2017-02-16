@@ -10,81 +10,71 @@ src/script/interpreter/animator.js: \
 
 src/script/lib/mscgenjs-core/render/graphics/renderast.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/flatten.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/entities.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
+	src/script/lib/mscgenjs-core/render/graphics/kind2class.js \
 	src/script/lib/mscgenjs-core/render/graphics/markermanager.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/rowmemory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
-	src/script/lib/mscgenjs-core/render/text/flatten.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js
 
-src/script/lib/mscgenjs-core/render/text/flatten.js: \
+src/script/lib/mscgenjs-core/render/astmassage/flatten.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
-	src/script/lib/mscgenjs-core/render/text/asttransform.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
+	src/script/lib/mscgenjs-core/render/graphics/kind2class.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/textutensils/wrap.js
 
-src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
-	src/script/lib/mscgenjs-core/render/graphics/straight.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js \
-	src/script/lib/mscgenjs-core/render/graphics/wobbly.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js
 
-src/script/lib/mscgenjs-core/render/graphics/straight.js: \
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/variationhelpers.js
 
-src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js: \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js
-
-src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js: \
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/domprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js
 
-src/script/lib/mscgenjs-core/render/graphics/wobbly.js: \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js: \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/variationhelpers.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgutensils.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js
 
 src/script/lib/mscgenjs-core/render/graphics/markermanager.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js
+	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js
 
 src/script/lib/mscgenjs-core/render/text/ast2animate.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
@@ -149,11 +139,11 @@ src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js
 
 src/script/lib/mscgenjs-core/render/text/ast2thing.js: \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/lib/mscgenjs-core/render/text/ast2xu.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/utl/exporter.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2dot.js \
@@ -163,19 +153,20 @@ src/script/utl/exporter.js: \
 
 src/script/lib/mscgenjs-core/render/text/ast2dot.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
-	src/script/lib/mscgenjs-core/render/text/flatten.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/flatten.js \
+	src/script/lib/mscgenjs-core/render/text/dotMappings.js \
+	src/script/lib/mscgenjs-core/render/textutensils/wrap.js
 
 src/script/lib/mscgenjs-core/render/text/ast2doxygen.js: \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/lib/mscgenjs-core/render/text/ast2mscgen.js: \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/interpreter/populate-lists.js: \
 	src/script/interpreter/sampleListReader.js \
@@ -192,13 +183,13 @@ src/script/interpreter/general-actions.js: \
 src/script/interpreter/input-actions.js: \
 	src/script/interpreter/general-actions.js \
 	src/script/interpreter/uistate.js \
-	src/script/lib/mscgenjs-core/render/text/colorize.js \
+	src/script/lib/mscgenjs-core/render/astmassage/colorize.js \
 	src/script/utl/gaga.js \
 	src/script/utl/store.js
 
-src/script/lib/mscgenjs-core/render/text/colorize.js: \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
-	src/script/lib/mscgenjs-core/render/text/asttransform.js
+src/script/lib/mscgenjs-core/render/astmassage/colorize.js: \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js
 
 src/script/interpreter/nav-actions.js: \
 	src/script/interpreter/animator.js \
@@ -259,6 +250,84 @@ src/script/interpreter/uistate.js: \
 	src/script/utl/exporter.js \
 	src/script/utl/maps.js
 
+src/script/lib/mscgenjs-core/render/graphics/renderast.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/flatten.js \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/entities.js \
+	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
+	src/script/lib/mscgenjs-core/render/graphics/kind2class.js \
+	src/script/lib/mscgenjs-core/render/graphics/markermanager.js \
+	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js \
+	src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js \
+	src/script/lib/mscgenjs-core/render/graphics/renderutensils.js \
+	src/script/lib/mscgenjs-core/render/graphics/rowmemory.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js
+
+src/script/lib/mscgenjs-core/render/astmassage/flatten.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
+
+src/script/lib/mscgenjs-core/render/graphics/entities.js: \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
+
+src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/kind2class.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
+	src/script/lib/mscgenjs-core/render/textutensils/wrap.js
+
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js
+
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/variationhelpers.js
+
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/domprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js
+
+src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js: \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/variationhelpers.js
+
+src/script/lib/mscgenjs-core/render/graphics/svgutensils.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js
+
+src/script/lib/mscgenjs-core/render/graphics/markermanager.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js
+
+src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
+	src/script/lib/mscgenjs-core/render/graphics/constants.js \
+	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js
+
+src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
+	src/script/lib/mscgenjs-core/render/text/ast2thing.js
+
+src/script/lib/mscgenjs-core/render/text/ast2thing.js: \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
+
+src/script/lib/mscgenjs-core/render/text/ast2xu.js: \
+	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
+
 src/script/lib/codemirror/addon/dialog/dialog.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
@@ -288,14 +357,29 @@ src/script/lib/codemirror/mode/javascript/javascript.js: \
 src/script/lib/codemirror/mode/mscgen/mscgen.js: \
 	src/script/lib/codemirror/lib/codemirror.js
 
-src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js: \
+src/script/lib/mscgenjs-core/render/astmassage/colorize.js: \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js
+
+src/script/lib/mscgenjs-core/render/text/ast2animate.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
+
+src/script/lib/mscgenjs-core/render/text/ast2dot.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
-	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
-	src/script/lib/mscgenjs-core/render/graphics/straight.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js \
-	src/script/lib/mscgenjs-core/render/graphics/wobbly.js
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/flatten.js \
+	src/script/lib/mscgenjs-core/render/text/dotMappings.js \
+	src/script/lib/mscgenjs-core/render/textutensils/wrap.js
+
+src/script/lib/mscgenjs-core/render/text/ast2doxygen.js: \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
+
+src/script/lib/mscgenjs-core/render/text/ast2mscgen.js: \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/test/interpreter/sampleListReader.spec.js: \
 	src/script/interpreter/sampleListReader.js \
@@ -341,24 +425,30 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/main/index.js \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
+	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js \
+	src/script/lib/mscgenjs-core/render/astmassage/colorize.js \
+	src/script/lib/mscgenjs-core/render/astmassage/flatten.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/entities.js \
-	src/script/lib/mscgenjs-core/render/graphics/geometry.js \
 	src/script/lib/mscgenjs-core/render/graphics/idmanager.js \
+	src/script/lib/mscgenjs-core/render/graphics/kind2class.js \
 	src/script/lib/mscgenjs-core/render/graphics/markermanager.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderast.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderutensils.js \
 	src/script/lib/mscgenjs-core/render/graphics/rowmemory.js \
-	src/script/lib/mscgenjs-core/render/graphics/straight.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svglowlevelfactory.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/domprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/variationhelpers.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgutensils.js \
-	src/script/lib/mscgenjs-core/render/graphics/wobbly.js \
-	src/script/lib/mscgenjs-core/render/text/arcmappings.js \
 	src/script/lib/mscgenjs-core/render/text/ast2animate.js \
 	src/script/lib/mscgenjs-core/render/text/ast2dot.js \
 	src/script/lib/mscgenjs-core/render/text/ast2doxygen.js \
@@ -366,10 +456,9 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/render/text/ast2msgenny.js \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js \
 	src/script/lib/mscgenjs-core/render/text/ast2xu.js \
-	src/script/lib/mscgenjs-core/render/text/asttransform.js \
-	src/script/lib/mscgenjs-core/render/text/colorize.js \
-	src/script/lib/mscgenjs-core/render/text/flatten.js \
-	src/script/lib/mscgenjs-core/render/text/textutensils.js \
+	src/script/lib/mscgenjs-core/render/text/dotMappings.js \
+	src/script/lib/mscgenjs-core/render/textutensils/escape.js \
+	src/script/lib/mscgenjs-core/render/textutensils/wrap.js \
 	src/script/utl/domutl.js \
 	src/script/utl/exporter.js \
 	src/script/utl/gaga.js \

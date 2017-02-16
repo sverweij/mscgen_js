@@ -3,7 +3,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([],
+define(
 /**
  * A hodge podge of functions manipulating text
  *
@@ -56,26 +56,6 @@ function() {
                 i++;
             }
             return lRetval;
-        },
-
-        /**
-         * takes pString and replaces all escaped double quotes with
-         * regular double quotes
-         * @param {string} pString
-         * @return {string}
-         */
-        unescapeString : function(pString) {
-            return pString.replace(/\\"/g, '"');
-        },
-
-        /**
-         * takes pString and replaces all double quotes with
-         * escaped double quotes
-         * @param {string} pString
-         * @return {string}
-         */
-        escapeString : function(pString) {
-            return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
         }
     };
 });

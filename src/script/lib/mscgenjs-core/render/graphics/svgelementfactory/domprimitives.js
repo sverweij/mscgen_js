@@ -3,14 +3,24 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants"], function(C) {
+define(function() {
     "use strict";
+
+    var SVGNS   = "http://www.w3.org/2000/svg";
+    var XLINKNS = "http://www.w3.org/1999/xlink";
 
     var gDocument = {};
 
     function _setAttribute(pObject, pAttribute, pValue) {
-        if (!!pValue){
+        if (Boolean(pValue)){
             pObject.setAttribute(pAttribute, pValue);
+        }
+        return pObject;
+    }
+
+    function _setAttributeNS(pObject, pNS, pAttribute, pValue) {
+        if (Boolean(pValue)){
+            pObject.setAttributeNS(pNS, pAttribute, pValue);
         }
         return pObject;
     }
@@ -24,9 +34,18 @@ define(["./constants"], function(C) {
         return pObject;
     }
 
+    function _setAttributesNS(pObject, pNS, pAttributes) {
+        if (pAttributes){
+            Object.keys(pAttributes).forEach(function(pKey){
+                _setAttributeNS(pObject, pNS, pKey, pAttributes[pKey]);
+            });
+        }
+        return pObject;
+    }
+
     function _createElement(pElementType, pAttributes){
         return _setAttributes(
-            gDocument.createElementNS(C.SVGNS, pElementType),
+            gDocument.createElementNS(SVGNS, pElementType),
             pAttributes
         );
     }
@@ -36,6 +55,9 @@ define(["./constants"], function(C) {
     }
 
     return {
+        SVGNS: SVGNS,
+        XLINKNS: XLINKNS,
+
         /**
          * Function to set the document to use. Introduced to enable use of the
          * rendering utilities under node.js (using the jsdom module)
@@ -65,6 +87,17 @@ define(["./constants"], function(C) {
          * @return {element}
          */
         setAttributes: _setAttributes,
+
+         /**
+         * Takes an element, adds the passed attributes to it if they have
+         * a value and returns it.
+         *
+         * @param {element} pElement
+         * @param {string} pNS - the namespace to use for the attributes
+         * @param {object} pAttributes - names/ values object
+         * @return {element}
+         */
+        setAttributesNS: _setAttributesNS,
 
         /**
          * creates the element of type pElementType in the SVG namespace,

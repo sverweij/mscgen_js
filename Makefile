@@ -65,8 +65,11 @@ CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
 	src/script/lib/codemirror/theme
 MSCGENJS_LIBDIRS=src/script/lib/mscgenjs-core/parse \
 	src/script/lib/mscgenjs-core/main \
+	src/script/lib/mscgenjs-core/render/astmassage \
 	src/script/lib/mscgenjs-core/render/graphics \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory \
 	src/script/lib/mscgenjs-core/render/text \
+	src/script/lib/mscgenjs-core/render/textutensils \
 	src/script/lib/mscgenjs-core/lib/lodash
 
 LIBDIRS=$(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
@@ -160,17 +163,17 @@ src/script/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(CODEMIRROR_LIBDIRS)
 src/mscgen-inpage.js: $(MSCGENJS_INPAGE_ROOT)/dist/mscgen-inpage.js
 	cp $< $@
 
-src/script/lib/mscgenjs-core/render/graphics/%.js: $(MSCGENJS_CORE_ROOT)/render/graphics/%.js $(MSCGENJS_LIBDIRS)
+src/script/lib/mscgenjs-core/%.js: $(MSCGENJS_CORE_ROOT)/%.js $(MSCGENJS_LIBDIRS)
 	cp $< $@
 
-src/script/lib/mscgenjs-core/render/text/%.js: $(MSCGENJS_CORE_ROOT)/render/text/%.js $(MSCGENJS_LIBDIRS)
-	cp $< $@
+# src/script/lib/mscgenjs-core/render/text/%.js: $(MSCGENJS_CORE_ROOT)/render/text/%.js $(MSCGENJS_LIBDIRS)
+# 	cp $< $@
 
-src/script/lib/mscgenjs-core/parse/%.js: $(MSCGENJS_CORE_ROOT)/parse/%.js $(MSCGENJS_LIBDIRS)
-	cp $< $@
+# src/script/lib/mscgenjs-core/parse/%.js: $(MSCGENJS_CORE_ROOT)/parse/%.js $(MSCGENJS_LIBDIRS)
+# 	cp $< $@
 
-src/script/lib/mscgenjs-core/main/%.js: $(MSCGENJS_CORE_ROOT)/main/%.js $(MSCGENJS_LIBDIRS)
-	cp $< $@
+# src/script/lib/mscgenjs-core/main/%.js: $(MSCGENJS_CORE_ROOT)/main/%.js $(MSCGENJS_LIBDIRS)
+# 	cp $< $@
 
 src/script/lib/mscgenjs-core/lib/lodash/%.js: $(MSCGENJS_CORE_ROOT)/lib/lodash/%.js $(MSCGENJS_LIBDIRS)
 	cp $< $@

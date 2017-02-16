@@ -10,8 +10,12 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, thing) {
+define(function(require) {
     "use strict";
+
+    var aggregatekind = require("../astmassage/aggregatekind");
+    var escape        = require("../textutensils/escape");
+    var ast2thing     = require("./ast2thing");
 
     var INDENT = "  ";
     var SP = " ";
@@ -19,7 +23,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
     var LINE_PREFIX = " * ";
 
     function renderKind(pKind) {
-        if ("inline_expression" === map.getAggregate(pKind)) {
+        if ("inline_expression" === aggregatekind.getAggregate(pKind)) {
             return "--";
         }
         return pKind;
@@ -29,7 +33,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
         var lRetVal = "";
         /* istanbul ignore else */
         if (pAttribute.name && pAttribute.value) {
-            lRetVal += pAttribute.name + "=\"" + utl.escapeString(pAttribute.value) + "\"";
+            lRetVal += pAttribute.name + "=\"" + escape.escapeString(pAttribute.value) + "\"";
         }
         return lRetVal;
     }
@@ -56,7 +60,7 @@ define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, th
 
     return {
         render : function(pAST) {
-            return thing.render(pAST, {
+            return ast2thing.render(pAST, {
                 "renderCommentfn" : renderComments,
                 "renderAttributefn" : renderAttribute,
                 "optionIsValidfn": optionIsValid,

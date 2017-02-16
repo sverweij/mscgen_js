@@ -5,16 +5,22 @@ if (typeof define !== 'function') {
 
 define(function() {
     "use strict";
-    var INNERELEMENTPREFIX = "mscgen_js-svg-";
 
-    var gInnerElementId = INNERELEMENTPREFIX;
+    function rad2deg(pDegrees){
+        return (pDegrees * 360) / (2 * Math.PI);
+    }
 
     return {
-        setPrefix: function (pPrefix){
-            gInnerElementId = INNERELEMENTPREFIX + pPrefix;
-        },
-        get: function(pElementIdentifierString) {
-            return gInnerElementId + (pElementIdentifierString || "");
+        /**
+         * returns the angle (in degrees) of the line from the
+         * bottom left to the top right of the bounding box.
+         *
+         * @param {object} pBBox - the bounding box (only width and height used)
+         * @returns {number} - the angle in degrees
+         */
+        // elementfactory
+        getDiagonalAngle: function (pBBox) {
+            return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
         }
     };
 });

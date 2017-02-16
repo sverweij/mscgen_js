@@ -3,11 +3,9 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(function() {
     "use strict";
     return {
-        SVGNS: "http://www.w3.org/2000/svg",
-        XLINKNS: "http://www.w3.org/1999/xlink",
         LINE_WIDTH: 2, // px
         FONT_SIZE: 12 // px
     };

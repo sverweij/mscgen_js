@@ -15,8 +15,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./arcmappings"], function(transform, map) {
+define(function(require) {
     "use strict";
+
+    var asttransform  = require("./asttransform");
+    var aggregatekind = require("./aggregatekind");
 
     var gSchemes = {
         "minimal": {
@@ -200,7 +203,7 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
         if (lArcCombi) {
             return lArcCombi;
         } else {
-            return pColorScheme.aggregateArcColors[map.getAggregate(pKind)];
+            return pColorScheme.aggregateArcColors[aggregatekind.getAggregate(pKind)];
         }
     }
     function colorizeArc (pColorScheme){
@@ -256,7 +259,7 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
     function _colorize(pAST, pColorScheme, pForce) {
         gColorCombiCount = 0;
 
-        return transform.transform(
+        return asttransform.transform(
             pForce ? _uncolor(pAST) : pAST,
             [colorizeEntity(pColorScheme)],
             [colorizeArc(pColorScheme)]
@@ -274,7 +277,7 @@ define(["./asttransform", "./arcmappings"], function(transform, map) {
     }
 
     function _uncolor(pAST) {
-        return transform.transform(pAST, [uncolorThing], [uncolorThing]);
+        return asttransform.transform(pAST, [uncolorThing], [uncolorThing]);
     }
 
     return {

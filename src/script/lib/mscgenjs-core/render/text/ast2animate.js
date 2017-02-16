@@ -13,8 +13,10 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../lib/lodash/lodash.custom"], function(_) {
+define(function(require) {
     "use strict";
+
+    var _ = require("../../lib/lodash/lodash.custom");
 
     var EMPTY_ARC     = [{kind:"|||"}];
 

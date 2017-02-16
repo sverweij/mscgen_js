@@ -3,15 +3,21 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./arcmappings", "../../lib/lodash/lodash.custom", "./textutensils"],
+define(
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, map, _, txt) {
+function(require) {
     "use strict";
+
+    var asttransform  = require("./asttransform");
+    var aggregatekind = require("./aggregatekind");
+    var normalizekind = require("./normalizekind");
+    var _             = require("../../lib/lodash/lodash.custom");
+    var escape        = require("../textutensils/escape");
 
     var gMaxDepth = 0;
 
@@ -23,10 +29,10 @@ function(transform, map, _, txt) {
 
     function unescapeLabels(pArcOrEntity){
         if (Boolean(pArcOrEntity.label)) {
-            pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
+            pArcOrEntity.label = escape.unescapeString(pArcOrEntity.label);
         }
         if (Boolean(pArcOrEntity.id)){
-            pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
+            pArcOrEntity.id = escape.unescapeString(pArcOrEntity.id);
         }
     }
 
@@ -35,8 +41,8 @@ function(transform, map, _, txt) {
     }
 
     function _swapRTLArc(pArc) {
-        if (pArc.kind && (map.getNormalizedKind(pArc.kind) !== pArc.kind)) {
-            pArc.kind = map.getNormalizedKind(pArc.kind);
+        if (pArc.kind && (normalizekind.getNormalizedKind(pArc.kind) !== pArc.kind)) {
+            pArc.kind = normalizekind.getNormalizedKind(pArc.kind);
 
             var lTmp = pArc.from;
             pArc.from = pArc.to;
@@ -84,7 +90,7 @@ function(transform, map, _, txt) {
 
         pArcRow.forEach(
             function(pArc){
-                if ("inline_expression" === map.getAggregate(pArc.kind)) {
+                if ("inline_expression" === aggregatekind.getAggregate(pArc.kind)) {
                     pArc.depth = pDepth;
                     if (Boolean(pArc.arcs)) {
                         var lInlineExpression = _.cloneDeep(pArc);
@@ -119,7 +125,7 @@ function(transform, map, _, txt) {
                         to : pArc.to
                     }]);
                 } else {
-                    if ((pFrom && pTo) && ("emptyarc" === map.getAggregate(pArc.kind))) {
+                    if ((pFrom && pTo) && ("emptyarc" === aggregatekind.getAggregate(pArc.kind))) {
                         pArc.from = pFrom;
                         pArc.to = pTo;
                         pArc.depth = pDepth;
@@ -239,7 +245,7 @@ function(transform, map, _, txt) {
          * @return {ast}
          */
         flatten : function(pAST) {
-            return transform.transform(
+            return asttransform.transform(
                 _unwind(pAST),
                 [nameAsLabel, unescapeLabels],
                 [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
@@ -253,7 +259,7 @@ function(transform, map, _, txt) {
          */
         dotFlatten : function(pAST) {
             return _explodeBroadcasts(
-                transform.transform(
+                asttransform.transform(
                     pAST,
                     [nameAsLabel],
                     [_swapRTLArc, overrideColors]

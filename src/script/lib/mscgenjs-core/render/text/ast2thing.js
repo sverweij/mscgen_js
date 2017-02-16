@@ -8,8 +8,10 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./textutensils"], function(utl) {
+define(function(require) {
     "use strict";
+
+    var escape = require("../textutensils/escape");
 
     var INDENT = "  ";
     var SP = " ";
@@ -142,7 +144,7 @@ define(["./textutensils"], function(utl) {
     function renderOption(pOption) {
         return pOption.name + "=" +
                (typeof pOption.value === "string"
-                    ? "\"" + utl.escapeString(pOption.value) + "\""
+                    ? "\"" + escape.escapeString(pOption.value) + "\""
                     : pOption.value.toString());
     }
 

@@ -8,9 +8,14 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", "./textutensils", "./arcmappings", "../../lib/lodash/lodash.custom"],
-function(flatten, txt, map, utl) {
+define(function(require) {
     "use strict";
+
+    var wrap          = require("../textutensils/wrap");
+    var flatten       = require("../astmassage/flatten");
+    var dotMappings   = require("./dotMappings");
+    var aggregatekind = require("../astmassage/aggregatekind");
+    var _             = require("../../lib/lodash/lodash.custom");
 
     var INDENT = "  ";
     var MAX_TEXT_WIDTH = 40;
@@ -48,7 +53,7 @@ function(flatten, txt, map, utl) {
 
     /* Attribute handling */
     function renderString(pString) {
-        var lStringAry = txt.wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
+        var lStringAry = wrap.wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
         var lString = lStringAry.slice(0, -1).reduce(function(pPrev, pLine){
             return pPrev + pLine + "\n";
         }, "");
@@ -115,8 +120,8 @@ function(flatten, txt, map, utl) {
         var lBoxName = "box" + pCounter.toString();
         lRetVal += lBoxName;
         var lAttrs = translateAttributes(pArc);
-        pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
-        pushAttribute(lAttrs, map.getShape(pArc.kind), "shape");
+        pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
+        pushAttribute(lAttrs, dotMappings.getShape(pArc.kind), "shape");
 
         lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
 
@@ -135,17 +140,17 @@ function(flatten, txt, map, utl) {
         pArc.label = counterizeLabel(pArc.label, pCounter);
         var lAttrs = translateAttributes(pArc);
 
-        pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
+        pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
         switch (pAggregatedKind) {
         case ("directional") :
             {
-                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+                pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             }
             break;
         case ("bidirectional"):
             {
-                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
-                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
+                pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
+                pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowtail");
                 pushAttribute(lAttrs, "both", "dir");
             }
             break;
@@ -168,7 +173,7 @@ function(flatten, txt, map, utl) {
 
     function renderSingleArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
-        var lAggregatedKind = map.getAggregate(pArc.kind);
+        var lAggregatedKind = aggregatekind.getAggregate(pArc.kind);
 
         if (lAggregatedKind === "box") {
             lRetVal += renderBoxArc(pArc, pCounter, pIndent);
@@ -207,7 +212,7 @@ function(flatten, txt, map, utl) {
 
     return {
         render : function(pAST) {
-            return _renderAST(flatten.dotFlatten(utl.cloneDeep(pAST)));
+            return _renderAST(flatten.dotFlatten(_.cloneDeep(pAST)));
         }
     };
 });

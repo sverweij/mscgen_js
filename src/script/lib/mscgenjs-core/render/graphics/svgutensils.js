@@ -3,19 +3,23 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfactory", "../../lib/lodash/lodash.custom"],
-function(C, id, fact, llfact, _) {
+define(function(require) {
+    "use strict";
+
+    var idmanager         = require("./idmanager");
+    var svgelementfactory = require("./svgelementfactory/index");
+    var _                 = require("../../lib/lodash/lodash.custom");
+
     /**
      * Some SVG specific calculations & workarounds
      */
-    "use strict";
 
     var gDocument = {};
-    var gSvgBBoxerId = id.get("bboxer");
+    var gSvgBBoxerId = idmanager.get("bboxer");
 
     /* istanbul ignore next */
     function _createBBoxerSVG(pId){
-        var lSvg = fact.createSVG(pId, id.get());
+        var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
         gDocument.body.appendChild(lSvg);
 
         return lSvg;
@@ -72,19 +76,6 @@ function(C, id, fact, llfact, _) {
         }
     }
 
-    function createTSpan(pLabel){
-        var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
-        lTSpanLabel.appendChild(gDocument.createTextNode(pLabel));
-
-        return lTSpanLabel;
-    }
-
-    function createText(pLabel) {
-        var lText = llfact.createElement("text", {x: "0", y: "0"});
-        lText.appendChild(createTSpan(pLabel));
-        return lText;
-    }
-
     function _calculateTextHeight(){
         /* Uses a string with some characters that tend to stick out
          * above/ below the current line and an 'astral codepoint' to
@@ -93,14 +84,22 @@ function(C, id, fact, llfact, _) {
          * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
          * browsers. The string in readable form: ÁjyÎ9ƒ@💩
          */
-        return _getBBox(createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9")).height;
+        return _getBBox(
+            svgelementfactory.createText(
+                "\u00C1jy\u00CE9\u0192@\uD83D\uDCA9",
+                {
+                    x: 0,
+                    y: 0
+                }
+            )
+        ).height;
     }
 
 
     function _removeRenderedSVGFromElement(pElementId){
-        id.setPrefix(pElementId);
-        var lChildElement = gDocument.getElementById(id.get());
-        if (!!lChildElement) {
+        idmanager.setPrefix(pElementId);
+        var lChildElement = gDocument.getElementById(idmanager.get());
+        if (Boolean(lChildElement)) {
             var lParentElement = gDocument.getElementById(pElementId);
             if (lParentElement) {
                 lParentElement.removeChild(lChildElement);

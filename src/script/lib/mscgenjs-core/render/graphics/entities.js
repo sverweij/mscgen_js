@@ -3,8 +3,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./renderlabels", "./constants"], function(labels, C) {
+define(function(require){
     "use strict";
+
+    var renderlabels = require("./renderlabels");
+    var constants    = require("./constants");
 
     var DEFAULT_INTER_ENTITY_SPACING = 160; // px
     var DEFAULT_ENTITY_WIDTH         = 100; // px
@@ -51,7 +54,7 @@ define(["./renderlabels", "./constants"], function(labels, C) {
             return gEntityDims;
         },
         getNoEntityLines: function(pLabel){
-            return labels.splitLabel(pLabel, "box", gEntityDims.width, C.FONT_SIZE).length;
+            return renderlabels.splitLabel(pLabel, "box", gEntityDims.width, constants.FONT_SIZE).length;
         }
     };
 });

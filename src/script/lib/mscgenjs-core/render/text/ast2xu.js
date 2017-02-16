@@ -8,8 +8,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./textutensils", "./ast2thing"], function(utl, thing) {
+define(function(require) {
     "use strict";
+
+    var escape    = require("../textutensils/escape");
+    var ast2thing = require("./ast2thing");
 
     var INDENT = "  ";
     var SP = " ";
@@ -30,7 +33,7 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
     function renderAttribute(pAttribute) {
         var lRetVal = "";
         if (pAttribute.name && pAttribute.value) {
-            lRetVal += pAttribute.name + "=\"" + utl.escapeString(pAttribute.value) + "\"";
+            lRetVal += pAttribute.name + "=\"" + escape.escapeString(pAttribute.value) + "\"";
         }
         return lRetVal;
     }
@@ -38,7 +41,7 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
     return {
         render : function(pAST, pMinimal) {
             init(pMinimal);
-            return thing.render(pAST, {
+            return ast2thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
                 "supportedEntityAttributes" : [
                     "label", "idurl", "id", "url",
@@ -48,7 +51,8 @@ define(["./textutensils", "./ast2thing"], function(utl, thing) {
                 "supportedArcAttributes" : [
                     "label", "idurl", "id", "url",
                     "linecolor", "textcolor", "textbgcolor",
-                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                    "title"
                 ],
                 "program" : {
                     "opener" : "msc" + SP + "{" + EOL,

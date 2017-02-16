@@ -3,8 +3,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, map) {
+define(function(require){
     "use strict";
+
+    var _             = require("../../lib/lodash/lodash.custom");
+    var normalizekind = require("../astmassage/normalizekind");
 
     var KINDS = {
         "->"    : {
@@ -209,7 +212,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
     }
 
     function makeKindColorCombi (pKind, pColor) {
-        return  KINDS[map.getNormalizedKind(pKind)].marker.name +
+        return  KINDS[normalizekind.getNormalizedKind(pKind)].marker.name +
                 (Boolean(pColor) ? " " + pColor : " black");
     }
 
@@ -223,8 +226,8 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         if (!!pArc.arcs){
             pArc.arcs.forEach(_extractKindColorCombis);
         }
-        if (!!pArc.kind && !!KINDS[map.getNormalizedKind(pArc.kind)] &&
-            !!(KINDS[map.getNormalizedKind(pArc.kind)].marker) &&
+        if (!!pArc.kind && !!KINDS[normalizekind.getNormalizedKind(pArc.kind)] &&
+            !!(KINDS[normalizekind.getNormalizedKind(pArc.kind)].marker) &&
             pKindColorCombis.indexOf(makeKindColorCombi(pArc.kind, pArc.linecolor)) < 0){
             pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
         }

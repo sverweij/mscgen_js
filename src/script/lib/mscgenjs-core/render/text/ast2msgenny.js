@@ -8,8 +8,10 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(['./ast2thing'], function(thing) {
+define(function(require) {
     "use strict";
+
+    var ast2thing = require("./ast2thing");
 
     function gennyStringisQuotable(pString) {
         var lMatchResult = pString.match(/[;,{]/);
@@ -46,7 +48,7 @@ define(['./ast2thing'], function(thing) {
 
     return {
         render : function(pAST) {
-            return thing.render(pAST, {
+            return ast2thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
                 "renderEntityNamefn" : renderEntityName
             });

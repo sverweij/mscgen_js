@@ -3,11 +3,29 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(function() {
     "use strict";
 
-    function rad2deg(pDegrees){
-        return (pDegrees * 360) / (2 * Math.PI);
+    function determineStartCorrection(pLine, pClass, pLineWidth){
+        var lRetval = 0;
+        if (pClass.indexOf("nodi") < 0){
+            if (pClass.indexOf("bidi") > -1) {
+                if (pLine.xTo > pLine.xFrom){
+                    lRetval = 7.5 * pLineWidth;
+                } else {
+                    lRetval = -7.5 * pLineWidth;
+                }
+            }
+        }
+        return lRetval;
+    }
+
+    function determineEndCorrection(pLine, pClass, pLineWidth){
+        var lRetval = 0;
+        if (pClass.indexOf("nodi") < 0){
+            lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
+        }
+        return lRetval;
     }
 
     function getLineLength(pLine) {
@@ -84,18 +102,11 @@ define([], function() {
     }
 
     return {
+        // wobbly and internal for wobbly only functions
         round: round,
 
-        /**
-         * returns the angle (in degrees) of the line from the
-         * bottom left to the top right of the bounding box.
-         *
-         * @param {object} pBBox - the bounding box (only width and height used)
-         * @returns {number} - the angle in degrees
-         */
-        getDiagonalAngle: function (pBBox) {
-            return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
-        },
+        determineStartCorrection: determineStartCorrection,
+        determineEndCorrection: determineEndCorrection,
 
         /**
          * returns the angle (in radials) of the line
@@ -106,6 +117,7 @@ define([], function() {
          *                      signY: the y direction (1 or -1)
          *                      dy: the angle (in radials)
          */
+        // straight, wobbly
         getDirection: getDirection,
 
         /**
@@ -114,6 +126,7 @@ define([], function() {
          *                        as properties
          * @return {number}       The length
          */
+        // internal exposed for unit testing
         getLineLength: getLineLength,
 
         /**
@@ -125,6 +138,7 @@ define([], function() {
          *                            line
          * @return {number}           a natural number
          */
+        // internal exposed for unit testing
         getNumberOfSegments: getNumberOfSegments,
 
         /**
@@ -142,6 +156,7 @@ define([], function() {
          *                            control points
          * @return {array}
          */
+        // wobbly
         getBetweenPoints: getBetweenPoints
     };
 });

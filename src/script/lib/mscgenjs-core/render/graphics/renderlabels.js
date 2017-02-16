@@ -3,9 +3,14 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textutensils", "../text/arcmappings"],
-function(fact, svgutl, C, txt, map) {
+define(function(require) {
     "use strict";
+    var svgelementfactory = require("./svgelementfactory/index");
+    var svgutensils       = require("./svgutensils");
+    var constants         = require("./constants");
+    var wrap              = require("../textutensils/wrap");
+    var kind2class        = require("./kind2class");
+    var aggregatekind     = require("../astmassage/aggregatekind");
 
     /**
      * Sets the fill color of the passed pElement to the textcolor of
@@ -32,7 +37,7 @@ function(fact, svgutl, C, txt, map) {
     }
 
     function renderArcLabelLineBackground(lLabelElement, pTextbgcolor){
-        var lRect = fact.createRect(svgutl.getBBox(lLabelElement), "label-text-background");
+        var lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), "label-text-background");
         if (pTextbgcolor) {
             lRect.setAttribute("style", "fill:" + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
         }
@@ -42,7 +47,7 @@ function(fact, svgutl, C, txt, map) {
     function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc){
         var lText = {};
         if (pPosition === 0) {
-            lText = fact.createText(
+            lText = svgelementfactory.createText(
                 pLine,
                 {
                     x : pMiddle,
@@ -56,7 +61,7 @@ function(fact, svgutl, C, txt, map) {
                 }
             );
         } else {
-            lText = fact.createText(
+            lText = svgelementfactory.createText(
                 pLine,
                 {
                     x : pMiddle,
@@ -73,8 +78,8 @@ function(fact, svgutl, C, txt, map) {
 
     function determineClasses(pArcKind, pOptionsKind, pPostFix){
         var lKind = pOptionsKind || pArcKind;
-        var lClass = map.getClass(lKind);
-        var lAggregateClass = map.getAggregateClass(lKind);
+        var lClass = kind2class.getClass(lKind);
+        var lAggregateClass = kind2class.getAggregateClass(lKind);
 
         return lClass === lAggregateClass
                           ? lClass + pPostFix
@@ -82,7 +87,7 @@ function(fact, svgutl, C, txt, map) {
     }
 
     function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
-        var lY = pStartY + ((pPosition + 1 / 4) * svgutl.calculateTextHeight());
+        var lY = pStartY + ((pPosition + 1 / 4) * svgutensils.calculateTextHeight());
         var lClass = "";
         lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
         if (!!pOptions){
@@ -90,7 +95,7 @@ function(fact, svgutl, C, txt, map) {
                 lClass += "anchor-start ";
             }
             if (pOptions.alignAround){
-                lY = pStartY + ((pPosition + 1 / 4) * (svgutl.calculateTextHeight() + C.LINE_WIDTH));
+                lY = pStartY + ((pPosition + 1 / 4) * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH));
             }
         }
         var lText = renderLabelText(pPosition, pLine, pMiddle, lY, lClass, pArc);
@@ -102,7 +107,7 @@ function(fact, svgutl, C, txt, map) {
     }
 
     function _createLabel(pArc, pDims, pOptions, pId) {
-        var lGroup = fact.createGroup(pId);
+        var lGroup = svgelementfactory.createGroup(pId);
 
         if (pArc.label) {
             var lMiddle = pDims.x + (pDims.width / 2);
@@ -110,7 +115,7 @@ function(fact, svgutl, C, txt, map) {
                 pArc.label,
                 pArc.kind,
                 pDims.width,
-                C.FONT_SIZE,
+                constants.FONT_SIZE,
                 pOptions ? pOptions.wordWrapArcs : false
             );
             var lText = {};
@@ -120,12 +125,12 @@ function(fact, svgutl, C, txt, map) {
                 });
             }
 
-            var lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutl.calculateTextHeight() + 1);
+            var lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + 1);
             if (!!pOptions && pOptions.alignAround){
                 if (lLines.length === 1) {
                     lLines.push("");
                 }
-                lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutl.calculateTextHeight() + C.LINE_WIDTH + 1);
+                lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1);
             }
             lLines
                 .forEach(
@@ -175,8 +180,8 @@ function(fact, svgutl, C, txt, map) {
     }
 
     function _splitLabel(pLabel, pKind, pWidth, pFontSize, pWordWrapArcs) {
-        if ("box" === map.getAggregate(pKind) || typeof pKind === 'undefined' || pWordWrapArcs){
-            return txt.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
+        if ("box" === aggregatekind.getAggregate(pKind) || typeof pKind === 'undefined' || pWordWrapArcs){
+            return wrap.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');
         }

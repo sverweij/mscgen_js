@@ -2,7 +2,7 @@ define([
     "./uistate",
     "../utl/store",
     "../utl/gaga",
-    "../lib/mscgenjs-core/render/text/colorize",
+    "../lib/mscgenjs-core/render/astmassage/colorize",
     "./general-actions"
 ],
 function(uistate, store, gaga, colorize, gactions) {

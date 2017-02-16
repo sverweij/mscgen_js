@@ -5,17 +5,26 @@ if (typeof define !== 'function') {
 
 define(function() {
     "use strict";
-    var INNERELEMENTPREFIX = "mscgen_js-svg-";
 
-    var gInnerElementId = INNERELEMENTPREFIX;
+    /**
+     * Defines several mappings of arckinds to agregations
+     *
+     * @exports node/arcmappings
+     * @author {@link https://github.com/sverweij | Sander Verweij}
+     */
+
+    var KIND2NORMALIZEDKIND = {
+        "<-" : "->",
+        "<=" : "=>",
+        "<<=" : "=>>",
+        "<<" : ">>",
+        "<:" : ":>",
+        "x-" : "-x"
+    };
 
     return {
-        setPrefix: function (pPrefix){
-            gInnerElementId = INNERELEMENTPREFIX + pPrefix;
-        },
-        get: function(pElementIdentifierString) {
-            return gInnerElementId + (pElementIdentifierString || "");
-        }
+        // graphics and flatten
+        getNormalizedKind : function(pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; }
     };
 });
 /*

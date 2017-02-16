@@ -3,18 +3,35 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(function() {
+define(
+/**
+ * A hodge podge of functions manipulating text
+ *
+ * @exports node/textutensils
+ * @author {@link https://github.com/sverweij | Sander Verweij}
+ */
+function() {
     "use strict";
-    var INNERELEMENTPREFIX = "mscgen_js-svg-";
-
-    var gInnerElementId = INNERELEMENTPREFIX;
 
     return {
-        setPrefix: function (pPrefix){
-            gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+        /**
+         * takes pString and replaces all escaped double quotes with
+         * regular double quotes
+         * @param {string} pString
+         * @return {string}
+         */
+        unescapeString : function(pString) {
+            return pString.replace(/\\"/g, '"');
         },
-        get: function(pElementIdentifierString) {
-            return gInnerElementId + (pElementIdentifierString || "");
+
+        /**
+         * takes pString and replaces all double quotes with
+         * escaped double quotes
+         * @param {string} pString
+         * @return {string}
+         */
+        escapeString : function(pString) {
+            return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
         }
     };
 });

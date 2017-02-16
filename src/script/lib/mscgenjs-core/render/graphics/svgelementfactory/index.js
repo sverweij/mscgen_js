@@ -8,8 +8,6 @@ define(function(require) {
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
      * @author {@link https://github.com/sverweij | Sander Verweij}
-     * knows of:
-     *  gDocument
      *
      * defines:
      *  defaults for
@@ -19,100 +17,12 @@ define(function(require) {
      */
     "use strict";
 
-    var C        = require("./constants");
-    var factll   = require("./svglowlevelfactory");
-    var prim     = require("./svgprimitives");
-    var geo      = require("./geometry");
-    var straight = require("./straight");
-    var wobbly   = require("./wobbly");
-    var _        = require("../../lib/lodash/lodash.custom");
+    var straight      = require("./straight");
+    var wobbly        = require("./wobbly");
+    var _             = require("../../../lib/lodash/lodash.custom");
 
-    var gDocument = {};
-    var gRenderMagic = straight;
-
-    function createLink (pURL, pElementToWrap){
-        var lA = gDocument.createElementNS(C.SVGNS, "a");
-        lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
-        lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
-        lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
-        lA.appendChild(pElementToWrap);
-        return lA;
-    }
-
-    /* superscript style could also be super or a number (1em) or a % (100%) */
-    var lSuperscriptStyle = "vertical-align:text-top;";
-    lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
-
-    function createTSpan(pLabel, pURL){
-        var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
-        var lContent = gDocument.createTextNode(pLabel);
-        lTSpanLabel.appendChild(lContent);
-        if (pURL) {
-            return createLink(pURL, lTSpanLabel);
-        } else {
-            return lTSpanLabel;
-        }
-    }
-
-    function _createText(pLabel, pCoords, pOptions) {
-        var lOptions = _.defaults(
-            pOptions, {
-                class: null,
-                url: null,
-                id: null,
-                idurl: null
-            });
-        var lText = factll.createElement(
-            "text",
-            {
-                x: pCoords.x.toString(),
-                y: pCoords.y.toString(),
-                class: lOptions.class
-            }
-        );
-
-        lText.appendChild(createTSpan(pLabel, lOptions.url));
-
-        if (lOptions.id) {
-            var lTSpanID = createTSpan(" [" + lOptions.id + "]", lOptions.idurl);
-            lTSpanID.setAttribute("style", lSuperscriptStyle);
-            lText.appendChild(lTSpanID);
-        }
-        return lText;
-    }
-
-    function _createMarker(pId, pClass, pOrient, pViewBox) {
-        /* so, why not start at refX=0, refY=0? It would simplify reasoning
-         * about marker paths significantly...
-         *
-         * TL;DR: canvg doesn't seem to handle this very well.
-         * - Don't know yet why.
-         * - Suspicion: with (0,0) the marker paths we use would end up having
-         *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
-         *   signal)
-         */
-        return factll.createElement(
-            "marker",
-            {
-                orient: pOrient,
-                id: pId,
-                class: pClass,
-                viewBox: Boolean(pViewBox) ? pViewBox : "0 0 10 10",
-                refX: "9",
-                refY: "3",
-                markerUnits: "strokeWidth",
-                markerWidth: "10",
-                markerHeight: "10"
-            }
-        );
-        /* for scaling to the lineWidth of the line the marker is attached to,
-         * userSpaceOnUse looks like a good plan, but it is not only the
-         * paths that don't scale, it's also the linewidth (which makes sense).
-         * We'll have to roll our own path transformation algorithm if we want
-         * to change only the linewidth and not the rest
-         */
-
-    }
+    var gRenderMagic  = straight;
+    var gOptions      = {};
 
     function determineRenderMagic(pRenderMagic) {
         if (!Boolean(pRenderMagic)) {
@@ -131,9 +41,15 @@ define(function(require) {
          *
          * @param {document} pDocument
          */
-        init: function(pDocument) {
-            gDocument = pDocument;
-            factll.init(pDocument);
+        init: function(pDocument, pOptions) {
+            gRenderMagic.init(pDocument);
+            gOptions = _.defaults(
+                pOptions,
+                {
+                    LINE_WIDTH: 2,
+                    FONT_SIZE: 12
+                }
+            );
         },
 
         /**
@@ -143,19 +59,13 @@ define(function(require) {
          */
         createSVG: function (pId, pClass, pRenderMagic) {
             gRenderMagic = determineRenderMagic(pRenderMagic);
-            return factll.createElement(
-                "svg",
-                {
-                    version: "1.1",
-                    id: pId,
-                    class: pClass,
-                    xmlns: C.SVGNS,
-                    "xmlns:xlink": C.XLINKNS,
-                    width: "0",
-                    height: "0"
-                }
-            );
+            return gRenderMagic.createSVG(pId, pClass);
+
         },
+
+        updateSVG: gRenderMagic.updateSVG,
+
+        createTitle: gRenderMagic.createTitle,
 
         /**
          * Creates a desc element with id pId
@@ -163,18 +73,24 @@ define(function(require) {
          * @param {string} pID
          * @returns {Element}
          */
-        createDesc: function (pId) {
-            return factll.createElement("desc", {"id": pId});
-        },
+        createDesc: gRenderMagic.createDesc,
 
         /**
          * Creates an empty 'defs' element
          *
          * @returns {Element}
          */
-        createDefs: function(){
-            return factll.createElement("defs");
-        },
+        createDefs: gRenderMagic.createDefs,
+
+        /**
+         * creates a tspan with label pLabel, optionally wrapped in a link
+         * if the url pURL is passed
+         *
+         * @param  {string} pLabel
+         * @param  {string} pURL
+         * @return {element}
+         */
+        createTSpan: gRenderMagic.createTSpan,
 
         /**
          * Creates an svg rectangle of width x height, with the top left
@@ -229,7 +145,15 @@ define(function(require) {
          * @return {SVGElement}
          */
         createNote: function (pBBox, pClass, pColor, pBgColor) {
-            return gRenderMagic.createNote(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
+            return gRenderMagic.createNote(
+                pBBox,
+                {
+                    class: pClass,
+                    color: pColor,
+                    bgColor: pBgColor,
+                    lineWidth: gOptions.LINE_WIDTH
+                }
+            );
         },
 
         /**
@@ -249,7 +173,8 @@ define(function(require) {
                     class: pClass,
                     color: pColor,
                     bgColor: pBgColor,
-                    foldSize: pFoldSize
+                    foldSize: pFoldSize,
+                    lineWidth: gOptions.LINE_WIDTH
                 }
             );
         },
@@ -267,7 +192,7 @@ define(function(require) {
          *                          {string=} pIDURL - link to render for the id text
          * @return {SVGElement}
          */
-        createText: _createText,
+        createText: gRenderMagic.createText,
 
         /**
          * Creates a text node with the given pText fitting diagonally (bottom-left
@@ -276,29 +201,20 @@ define(function(require) {
          * @param {string} pText
          * @param {object} pCanvas (an object with at least a .width and a .height)
          */
-        createDiagonalText: function (pText, pCanvas, pClass){
-            return factll.setAttributes(
-                _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, {class: pClass}),
-                {
-                    "transform":
-                        "rotate(" +
-                             geo.getDiagonalAngle(pCanvas).toString() + " " +
-                            ((pCanvas.width) / 2).toString() + " " +
-                            ((pCanvas.height) / 2).toString() +
-                        ")"
-                }
-            );
-        },
+        createDiagonalText: gRenderMagic.createDiagonalText,
 
         /**
          * Creates a line between to coordinates
          * @param {object} pLine - an xFrom, yFrom and xTo, yTo pair describing a line
-         * @param {string} pClass - reference to the css class to be applied
+         * @param {object} pOptions - class: reference to the css class to be applied, lineWidth: line width to use
          * @param {boolean=} [pDouble=false] - render a double line
          * @return {SVGElement}
          */
         createLine: function (pLine, pOptions) {
             if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
+                if (!pOptions.lineWidth) {
+                    pOptions.lineWidth = gOptions.LINE_WIDTH;
+                }
                 return gRenderMagic.createDoubleLine(pLine, pOptions);
             } else {
                 return gRenderMagic.createSingleLine(pLine, pOptions);
@@ -316,18 +232,15 @@ define(function(require) {
          * @return {SVGElement}
          */
         createUTurn: function (pPoint, pEndY, pWidth, pClass, pDontHitHome) {
-            var lEndX = pDontHitHome ? pPoint.x + 7.5 * C.LINE_WIDTH : pPoint.x;
-
-            return prim.createPath(
-                // point to start from:
-                prim.pathPoint2String("M", pPoint.x, -pPoint.y) +
-                // curve first to:
-                prim.pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * C.LINE_WIDTH) +
-                // curve back from.:
-                prim.point2String(pPoint.x + pWidth, pEndY + 0) +
-                // curve end-pont:
-                prim.point2String(lEndX, pEndY),
-                {class: pClass}
+            return gRenderMagic.createUTurn(
+                pPoint,
+                pEndY,
+                pWidth,
+                pClass,
+                {
+                    dontHitHome: pDontHitHome,
+                    lineWidth: gOptions.LINE_WIDTH
+                }
             );
         },
 
@@ -336,15 +249,7 @@ define(function(require) {
          * @param {string} pId
          * @return {SVGElement}
          */
-        createGroup: function (pId, pClass) {
-            return factll.createElement(
-                "g",
-                {
-                    id: pId,
-                    class: pClass
-                }
-            );
-        },
+        createGroup: gRenderMagic.createGroup,
 
         /**
          * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
@@ -352,17 +257,7 @@ define(function(require) {
          * @param {number} pLink
          * @return {SVGElement}
          */
-        createUse: function (pCoords, pLink) {
-            var lUse = factll.createElement(
-                "use",
-                {
-                    x: pCoords.x.toString(),
-                    y: pCoords.y.toString()
-                }
-            );
-            lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
-            return lUse;
-        },
+        createUse: gRenderMagic.createUse,
 
         /**
          * Create an arrow marker consisting of a path as specified in pD
@@ -370,24 +265,7 @@ define(function(require) {
          * @param {string} pId
          * @param {string} pD - a string containing the path
          */
-        createMarkerPath: function (pId, pD, pColor) {
-            var lMarker = _createMarker(pId, "arrow-marker", "auto");
-            /* stroke-dasharray: 'none' should work to override any dashes (like in
-             * return messages (a >> b;)) and making sure the marker end gets
-             * lines
-             * This, however, does not work in webkit, hence the curious
-             * value for the stroke-dasharray
-             */
-            lMarker.appendChild(
-                factll.setAttributes(
-                    prim.createPath(pD, {class: "arrow-style"}),
-                    {
-                        style: "stroke-dasharray:100,1;stroke:" + pColor || "black"
-                    }
-                )
-            );
-            return lMarker;
-        },
+        createMarkerPath: gRenderMagic.createMarkerPath,
 
         /**
          * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
@@ -396,19 +274,7 @@ define(function(require) {
          * @param {string} pPoints - a string with the points of the polygon
          * @return {SVGElement}
          */
-        createMarkerPolygon: function (pId, pPoints, pColor) {
-            var lMarker = _createMarker(pId, "arrow-marker", "auto");
-            lMarker.appendChild(
-                factll.setAttributes(
-                    prim.createPolygon(pPoints, "arrow-style"),
-                    {
-                        "stroke": pColor || "black",
-                        "fill": pColor || "black"
-                    }
-                )
-            );
-            return lMarker;
-        }
+        createMarkerPolygon: gRenderMagic.createMarkerPolygon
     };
 });
 /*
