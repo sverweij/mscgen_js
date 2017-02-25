@@ -1,5 +1,11 @@
 <!--- Provide a general summary of your changes in the Title above -->
 
+> Plan to do something drastic?     
+> Leave an [issue](https://github.com/sverweij/mscgen_js/issues/new) with a 
+> summary of the changes you propose + some context on why you'd want to
+> do that.
+
+
 ## Description
 <!--- Describe your changes in detail -->
 
