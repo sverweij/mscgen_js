@@ -143,23 +143,18 @@ define(function(require) {
         pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
         switch (pAggregatedKind) {
         case ("directional") :
-            {
-                pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
-            }
+            pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             break;
         case ("bidirectional"):
-            {
-                pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
-                pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowtail");
-                pushAttribute(lAttrs, "both", "dir");
-            }
+            pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
+            pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowtail");
+            pushAttribute(lAttrs, "both", "dir");
             break;
         case ("nondirectional"):
-            {
-                pushAttribute(lAttrs, "none", "dir");
-            }
+            pushAttribute(lAttrs, "none", "dir");
             break;
-        default: break;
+        default:
+            break;
         }
 
         if (!pArc.arcs) {

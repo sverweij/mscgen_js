@@ -7,7 +7,6 @@ define(function(require){
     "use strict";
 
     var renderlabels = require("./renderlabels");
-    var constants    = require("./constants");
 
     var DEFAULT_INTER_ENTITY_SPACING = 160; // px
     var DEFAULT_ENTITY_WIDTH         = 100; // px
@@ -53,8 +52,8 @@ define(function(require){
         getDims: function (){
             return gEntityDims;
         },
-        getNoEntityLines: function(pLabel){
-            return renderlabels.splitLabel(pLabel, "box", gEntityDims.width, constants.FONT_SIZE).length;
+        getNoEntityLines: function(pLabel, pFontSize){
+            return renderlabels.splitLabel(pLabel, "box", gEntityDims.width, pFontSize).length;
         }
     };
 });

@@ -199,6 +199,10 @@ define(function(require) {
          * @param {object} pMarkerDefs
          * @param {string} pStyleAdditions
          * @param {window} pWindow
+         * @param {options} pOptions
+         *        source - the source code (string),
+         *        additionalTemplate - string identifying a named style
+         *
          */
         bootstrap : _bootstrap,
 

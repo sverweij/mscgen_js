@@ -228,7 +228,7 @@ define(function(require) {
                 renderWatermark(pOptions.watermark, pCanvas);
             }
             if (pOptions.width && pOptions.width !== "auto") {
-                renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
+                pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
             }
         }
     }
@@ -278,7 +278,7 @@ define(function(require) {
         var lHighestEntity = pEntities[0];
         var lHWM = 2;
         pEntities.forEach(function(pEntity){
-            var lNoEntityLines = entities.getNoEntityLines(pEntity.label);
+            var lNoEntityLines = entities.getNoEntityLines(pEntity.label, constants.FONT_SIZE);
             if (lNoEntityLines > lHWM){
                 lHWM = lNoEntityLines;
                 lHighestEntity = pEntity;

@@ -88,8 +88,8 @@ define(function(require) {
 
     function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
         var lY = pStartY + ((pPosition + 1 / 4) * svgutensils.calculateTextHeight());
-        var lClass = "";
-        lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
+        var lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
+
         if (!!pOptions){
             if (pOptions.alignLeft){
                 lClass += "anchor-start ";

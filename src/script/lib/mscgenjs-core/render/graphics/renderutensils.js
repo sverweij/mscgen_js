@@ -3,18 +3,24 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(function() {
+define(function(require) {
     "use strict";
+
+    var _ = require("../../lib/lodash/lodash.custom");
 
     return {
         scaleCanvasToWidth: function (pWidth, pCanvas) {
-            pCanvas.scale = (pWidth / pCanvas.width);
-            pCanvas.width *= pCanvas.scale;
-            pCanvas.height *= pCanvas.scale;
-            pCanvas.horizontaltransform *= pCanvas.scale;
-            pCanvas.verticaltransform *= pCanvas.scale;
-            pCanvas.x = 0 - pCanvas.horizontaltransform;
-            pCanvas.y = 0 - pCanvas.verticaltransform;
+            var lCanvas = _.cloneDeep(pCanvas);
+
+            lCanvas.scale = (pWidth / lCanvas.width);
+            lCanvas.width *= lCanvas.scale;
+            lCanvas.height *= lCanvas.scale;
+            lCanvas.horizontaltransform *= lCanvas.scale;
+            lCanvas.verticaltransform *= lCanvas.scale;
+            lCanvas.x = 0 - lCanvas.horizontaltransform;
+            lCanvas.y = 0 - lCanvas.verticaltransform;
+
+            return lCanvas;
         },
         determineDepthCorrection: function (pDepth, pLineWidth){
             return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
