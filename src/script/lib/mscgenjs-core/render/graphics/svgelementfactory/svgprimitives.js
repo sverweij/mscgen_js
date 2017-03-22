@@ -57,8 +57,7 @@ define(function(require) {
             domprimitives.XLINKNS,
             {
                 "xlink:href"  : pURL,
-                "xlink:title" : pURL,
-                "xlink:show"  : "new"
+                "xlink:title" : pURL
             }
         );
         lA.appendChild(pElementToWrap);
