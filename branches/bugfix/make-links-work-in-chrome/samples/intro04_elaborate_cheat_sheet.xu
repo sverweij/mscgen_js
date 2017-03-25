@@ -1,0 +1,37 @@
+# MsGenny: a cheat sheet
+msc {
+  hscale="0.9", arcgradient=10;
+
+  a [label="Entity A"],
+  b [label="Entity B"],
+  c [label="Entity C"],
+  d [label="Entity D"];
+
+  a -> b [label="a -> b\n(signal)\nthree"],
+  b <-> c [label="b <-> c"],
+  c -- d [label="c -- d"],
+  d -> d [label="d -> d"];
+  a => b [label="a => b  (method)"],
+  b <=> c [label="b <=> c"],
+  d => d [label="d => d"];
+  b >> a [label="b >> a (return value)"],
+  b <<>> c [label="b <<>> c"],
+  c .. d [label="c .. d (dotted)"],
+  d >> d [label="d >> d"];
+  a =>> b [label="a =>> b (callback)"],
+  b <<=>> c [label="b <<=>> c"],
+  d =>> d [label="d =>> d"];
+  a -x b [label="a -x b  (lost)"],
+  d -x d [label="d -x d"];
+  a :> b [label="a :> b (emphasis)"],
+  b <:> c [label="b <:> c"],
+  c :: d [label="c :: d"],
+  d :> d [label="d :> d"];
+  a note a [label="a note a \n(note)"],
+  b box b [label="b box b\n(action)"],
+  c rbox c [label="c rbox c\n(reference)"],
+  d abox d [label="d abox d\n(state/ condition)"];
+  ||| [label="||| (empty row)"];
+  ... [label="... (omitted row)"];
+  --- [label="--- (comment)"];
+}

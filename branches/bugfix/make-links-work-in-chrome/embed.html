@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+        This file is part of mscgen_js.
+
+        mscgen_js is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        mscgen_js is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+
+         mscgen_js
+            version: 1.9.2
+            build-date: 20170325 21:46
+            commit: dba5553bbc802c5c
+        -->
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="mscgen_js - turns text into sequence charts. Enables charts written in mscgen, msgenny or xù to be embedded (and rendered) in your html.">
+        <meta name="keywords" content="mscgen, msc, sequence diagram, sequence chart, online sequence diagram, online sequence chart, mscgen.js, mscgen_js">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="application/ld+json">
+        {
+          "@context" : "http://schema.org",
+          "@type" : "Article",
+          "name" : "Embedding mscgen in html",
+          "author" : {
+            "@type" : "Person",
+            "name" : "Sander Verweij"
+          }
+        }
+        </script>
+        <link rel="icon" sizes="16x16 32x32 64x64" href="../favicon.ico">
+        <link rel="icon" sizes="228x228" href="./favicon-228.png">
+        <link rel="icon" sizes="195x195" href="./favicon-195.png">
+        <link rel="icon" sizes="152x152" href="./favicon-152.png">
+        <link rel="icon" sizes="144x144" href="./favicon-144.png">
+        <link rel="icon" sizes="128x128" href="./favicon-128.png">
+
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="./iosfavicon-152.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./iosfavicon-144.png">
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="./iosfavicon-120.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./iosfavicon-114.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="./iosfavicon-72.png">
+        <link rel="apple-touch-icon-precomposed" href="./iosfavicon-57.png">
+        <link rel="shortcut icon" href="./favicon.ico">
+
+        <title>mscgen_js - embed</title>
+        <link rel="stylesheet" href="./style/doc.css?dba5553bbc802c5c" type="text/css" media="screen, print">
+        <script>
+        var mscgen_js_config = {
+            loadFromSrcAttribute: true
+        };
+        </script>
+        <script src="mscgen-inpage.js?dba5553bbc802c5c" defer></script>
+        <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] ||
+            function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga ('create', 'UA-42701906-1', 'auto');
+        ga ('send', 'pageview');
+        </script>
+    </head>
+    <body itemscope itemtype="http://schema.org/Article">
+<header>
+    <a href="./index.html" class="header-title">
+    <h1>mscgen_js <em>embedding</em></h1>
+    <span class="hideonmobile">turns text into sequence charts</span>
+    </a>
+    <nav class="hideonprint">
+        <a href="#about" class="about icon hideonmicro" title="about">
+            <span class="icon-xu nav-icon"></span>
+            <span class="underline-on-hover">about</span>
+        </a>
+        <a href="./index.html" class="icon" title="Go to the interpreter">
+            <span class="icon-interpreter nav-icon"></span>
+            <span class="underline-on-hover">interpret</span>
+        </a>
+        <span class="icon hideonmobile" title="embed mscgen in your html. It's where you are now">
+            <span class="icon-embed nav-icon"></span>
+            <span class="active">embed</span>
+        </span>
+        <a href="tutorial.html"
+        class="icon"
+        title="Open the tutorial">
+            <span class="icon-question nav-icon"></span>
+            <span class="underline-on-hover">learn</span>
+        </a>
+    </nav>
+</header>
+<nav class="sidebar">
+<ul>
+    <li>
+        <a href="#">Embedding MscGen: easy</a>
+        <ul>
+            <li>
+                <a href="#embedding-mscgen-in-your-html-is-easy">In plain HTML</a>
+            </li>
+            <li>
+                <a href="#embedding-in-atlassian-confluence">In Atlassian Confluence</a>
+            </li>
+            <li>
+                <a href="#wikimedia-style-tags">Wiki style tags</a>
+            </li>
+            <li>
+                <a href="#script-tag">Script tags</a>
+            </li>
+            <li>
+                <a href="#error-handling">Error handling</a>
+            </li>
+            <li>
+                <a href="#deeplink-to-interpreter">Deep linking to the interpreter</a>
+            </li>
+            <li>
+                <a href="#loading-from-separate-files">From separate files</a>
+            </li>
+            <li>
+                <a href="#mirror-entities">Mirror entities on the bottom</a>
+            </li>
+            <li>
+                <a href="#named-styles">Named styles</a>
+            </li>
+            <li>
+                <a href="#vertical-label-alignment">Vertical label alignment</a>
+            </li>
+            <li>
+                <a href="#supported-browsers">Supported browsers</a>
+            </li>
+            <li>
+                <a href="#package">In your own projects</a>
+            </li>
+            <li>
+                <a href="#other-sequence-chart-languages">Xù, MsGenny, JSON</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#licensing">Licensing</a>
+        <ul>
+            <li>
+                <a href="#licensing">GPL-3.0 with a relaxation</a>
+            </li>
+        </ul>
+    </li>
+</nav>
+        <article>
+        <h1 itemprop="name" class="first-title-on-page" id="embedding-mscgen-in-your-html-is-easy">Embedding MscGen in your html is easy:</h1>
+        <p>
+            <ol>
+                <li>
+                    <div>Reference the mscgen-inpage <strong>script</strong><sup><a href="#url">1</a></sup> in your <strong>page head</strong>:</div>
+                    <pre class="code">&lt;script src="https://sverweij.github.io/mscgen_js/mscgen-inpage.js" defer>
+&lt;/script>
+</pre>
+                </li>
+                <li>
+                    <div>
+                        Put your MscGen script in the page, surrounded by a a
+                        tag with <strong><code>mscgen_js</code></strong> as one
+                        of its <strong><code>class</code> attribute</strong>s.
+                    </div>
+<pre class="code">
+<mark>&lt;pre class="mscgen_js"&gt;</mark>
+msc {
+    a [label="consumer"], b [label="shopfront"], c;
+
+    a =>> b [label="buy (commestible)"];
+    b =>> c [label="lookup_price(commestible)"];
+    c >> b [label="price"];
+    b =>> a [label=""];
+    a =>> b [label="money"];
+    ...;
+}
+<mark>&lt;/pre></mark>
+</pre>
+                    <p>
+                        We've used a <code>pre</code> element here, but
+                        mscgen_js works with any element type.
+                    </p>
+                </li>
+        <li><strong>You're done.</strong> The script replaces all elements in the page with the class <code>mscgen_js</code> by
+        a rendered sequence chart. <strong>Result</strong> for the above MscGen:
+        <br/>
+        <pre class="mscgen_js" data-clickable="true">msc {
+    a [label="consumer"], b [label="shopfront"], c;
+
+    a =>> b [label="buy (commestible)"];
+    b =>> c [label="lookup_price(commestible)"];
+    c >> b [label="price"];
+    b =>> a [label=""];
+    a =>> b [label="money"];
+    ...;
+}</pre></li>
+        </ol>
+        </p>
+        <p id="url" class="side-note">
+            <sup>1)</sup> = You can find the script in three places: on
+            <code>github.io</code>, <code>github.com</code> and on
+            <code>mscgen.js.org</code>. <code>mscgen.js.org</code> is an alias
+            for <code>sverweij.github.io/mscgen_js</code>, so when you access
+            the script on <code>github.io</code>, github.io will redirect you to
+            <code>mscgen.js.org</code>.
+        </p>
+        <p class="side-note">
+            A list of alternative locations:
+        </p>
+        <ul class="side-note">
+            <li>
+                <em>https://sverweij.github.io/mscgen_js/mscgen-inpage.js</em>
+            </li>
+            <li>
+                <em>https://mscgen.js.org/mscgen-inpage.js</em> (alias for the
+                previous one)
+            </li>
+            <li>
+                <em>https://raw.githubusercontent.com/sverweij/mscgenjs-inpage/master/dist/mscgen-inpage.js</em>
+            </li>
+            <li>
+                At your place - see <a href="#package">Using mscgen-inpage.js in your own projects</a>
+                for details.
+            </li>
+        </ul>
+
+        <h2 id="embedding-in-atlassian-confluence">Embedding MscGen in Atlassian Confluence:</h2>
+        <p>
+        Add an <strong>HTML macro</strong> to the page with the
+        <code>script</code> tag in there. Sample snippet:
+        </p>
+<pre class="code">
+&lt;script src="https://mscgen.js.org/mscgen-inpage.js" defer>&lt;/script>
+
+&lt;code class="mscgen_js">
+msc {
+    a [label="Entity A"], b [label="Entity B"];
+
+    a &lt;&lt;=>> b [label="testing (confluence)"];
+    b note b [label="MscGen embedded in a confluence page!"];
+}
+&lt;/code>
+</pre>
+        <p>Pre-condition for this to work is that your Confluence
+        admin has enabled the HTML macro functionality.
+        </p>
+
+        <h2 id="wikimedia-style-tags">Wikimedia style tags</h2>
+        <p>
+        From version 0.9.37 mscgen_js supports wikimedia style
+        <code>mscgen</code> tags, so something like this will
+        work too:
+        </p>
+<pre class="code">
+<mark>&lt;mscgen></mark>
+msc {
+   Co, Mo, Dolores;
+   Co =>> Mo
+       [label="Hello"];
+   Dolores =>> Co
+       [label="Is it me you're looking for?"];
+   Mo =>> Dolores
+       [label="I see it in your eyes"];
+}
+<mark>&lt;/mscgen></mark>
+</pre>
+
+<mscgen>
+msc {
+   Co, Mo, Dolores;
+   Co =>> Mo [label="Hello"];
+   Dolores =>> Co
+       [label="Is it me you're looking for?"];
+   Mo =>> Dolores [label="I see it in your eyes"];
+}
+</mscgen>
+        <h2 id="script-tag">Script tags</h2>
+        <p>
+            For those who think it is more semantically correct to use
+            <code>&lt;script></code> tags for embedding MscGen scripts:
+        </p>
+<pre class="code"><mark>&lt;script type="text/x-mscgen"></mark>
+msc {
+  hscale=1.2, wordwraparcs=on;
+
+  alice [label="Alice"], bob [label="Bob"];
+
+  alice =>> bob [label="you can embed MscGen"];
+  bob >> alice [label="That is FANTASTIC!"];
+}
+<mark>&lt;/script></mark>
+</pre>
+<script type="text/x-mscgen">
+msc {
+  hscale=1.2, wordwraparcs=on;
+
+  alice [label="Alice"], bob [label="Bob"];
+
+  alice =>> bob [label="you can embed MscGen"];
+  bob >> alice [label="That is FANTASTIC!"];
+}
+</script>
+        <p>
+            Recognized MIME-types: <code>text/x-mscgen</code>,
+            <code>text/x-msgenny</code> and <code>text/x-xu</code>.
+        </p>
+
+
+        <h2 id="error-handling">Error handling</h2>
+        <p>If your MscGen code contains an error, instead of a sequence chart, you will see
+             your MscGen code with the offending line highlighted, thusly:</p>
+        <pre class="code mscgen_js">msc {
+  a, b;
+  a -> b[nonexistingattribute="something"];
+  b >> a[label="done dee done"];
+}</pre>
+        <h2 id="deeplink-to-interpreter">Deep linking charts to the interpreter</h2>
+        <p>As you can see in the <a href="tutorial.html">tutorial</a> it is
+            possible to open embedded charts in the mscgen_js interpreter
+            by clicking on them. By default this behavior is
+            switched <em>off</em>.
+        </p>
+        <ul>
+            <li>To <strong>enable</strong> it, set a global variable named
+                <code>mscgen_js_config</code> in the header of your page:
+        <p><pre class="code">&lt;script>
+    var mscgen_js_config = {
+        clickable : "true"
+    };
+&lt;/script></pre></p></li>
+        <li>Use your <strong>own hosted version</strong>? Add
+            the <code>clickURL</code> property:
+            <p>
+        <pre class="code">&lt;script>
+    var mscgen_js_config = {
+        clickable: "true",
+        <mark>clickURL: "https://your.host/pathtointerpreter/"</mark>
+    };
+&lt;/script></pre></p></li>
+        </ul>
+        <h2 id="loading-from-separate-files">Loading charts from separate files</h2>
+        <p>
+            If you want to maintain your sequence chart sources separate from
+            your html, you can. By default this is off.
+        </p>
+        <ul>
+            <li>
+                To <strong>enable</strong> it, add
+                a <code>loadFromSrcAttribute</code> with the value <code>true</code>
+                to the <code>mscgen_js_config</code> object:<p><pre class="code">&lt;script>
+    var mscgen_js_config = {
+        <mark>loadFromSrcAttribute: true</mark>
+    };
+&lt;/script></pre></p></li>
+            <li>
+                To <strong>use</strong> it, mention the URL where to find the
+                sequence chart source in a <code>data-src</code> attribute:
+                <p><pre class="code">&lt;pre class="mscgen_js"
+     <mark>data-src="./samples/test21a_unicode_serious.msgenny"</mark>
+     data-language="msgenny">&lt;/pre></pre></p>
+                <p>
+                    (or in the <code>src</code> attribute when you're using the
+                    <code>script</code> tag:)
+                    <pre class="code">&lt;script
+    <mark>src="./samples/test21a_unicode_serious.msgenny"</mark>
+    type="text/x-msgenny">&lt;/script></pre>
+                </p>
+            </li>
+
+            <li>
+                <strong>Result</strong> when successfull:
+                <p><div class="mscgen_js"
+                     data-src="./samples/test21a_unicode_serious.msgenny"
+                     data-language="msgenny">
+                 </div></p>
+            </li>
+            <li>Error handling:
+                <ul>
+                    <li>If the tag contains a <code>data-src</code> attribute,
+                        the embedding script will only use the contents of the
+                        chart on the other end of the URL. It will
+                        ignore everything in the tag body.</li>
+                    <li>If the embedding script cannot load the content, it will
+                        insert an error message telling you so.</li>
+                </ul>
+            </li>
+        </ul>
+        <h2 id="mirror-entities">Mirror entities on the bottom</h2>
+        <p>
+            In some situations you might want to duplicate the row of entities
+            on the bottom of the chart - e.g. when your chart is very big. Or
+            just because you fancy it. Anyway, the
+            <code>data-mirror-entities</code> attribute enables this.
+        </p>
+        <pre class="code">&lt;script <mark>data-mirror-entities='true'</mark> type="text/x-mscgen">
+msc {
+    wordwraparcs=on;
+
+    a,b,c;
+
+    a =>> b [label="We're mirrorred on the bottom"];
+    b =>> c [label="Did ya hear that?"],
+    b >> a  [label="Really?"];
+}
+&lt;/script>
+        </pre>
+        <script data-mirror-entities='true' type="text/x-mscgen">
+        msc {
+            wordwraparcs=on;
+
+            a,b,c;
+
+            a =>> b [label="We're mirrorred on the bottom"];
+            b =>> c [label="Did ya hear that?"],
+            b >> a  [label="Really?"];
+        }
+        </script>
+        <h2 id="named-styles">Named styles</h2>
+        <p>
+            If you want to represent the chart a little different, from version
+            1.4.2 mscgenjs supports some 'named styles'. They'll add the most
+            value when you use plain MsGenny or MscGen that do not contain
+            any colors - as colors defined in scripts have precedence.
+        </p>
+        <pre class="code">&lt;script <mark>data-named-style='lazy'</mark>
+        src="samples/sample11_basic_named_style_demo.msgenny"
+        type="text/x-msgenny">
+&lt;/script></pre>
+        <p>
+            This is how the same simple chart looks <em>without</em> and
+            <em>with</em> a style (<code>lazy</code>):
+        </p>
+        <p>
+            <script src='./samples/sample11_basic_named_style_demo.msgenny' type="text/x-msgenny"></script>
+            <script src='./samples/sample11_basic_named_style_demo.msgenny' data-named-style='lazy' type="text/x-msgenny"></script>
+        </p>
+        <p>
+            The complete list of named styles:
+            <ul>
+                <li>
+                    <strong>lazy</strong>
+                    <ul>
+                        <li>
+                            uses a bold font for entity names (instead of
+                            underlining them)
+                        </li>
+                        <li>
+                            prints return value text in italics
+                        </li>
+                        <li>
+                            inline expression boxes get a dark grey outline
+                            (instead of the default black)
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>classic</strong>
+                    <ul>
+                        <li>
+                            Mimics the vanilla MscGen output
+                        </li>
+                        <li>
+                            makes all lines 1 pixel wide
+                        </li>
+                        <li>
+                            entities are just text - not boxes (except when the
+                            entity has a <code>textbgcolor</code>)
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>cygne</strong>
+                    <ul>
+                        <li>
+                            a light blue/ orange scheme
+                        </li>
+                        <li>
+                            Primarily meant to quickly color a chart written
+                            in MsGenny (or in MscGen/ Xù scripts without a lot
+                            of colors in them).
+                        </li>
+                        <li>
+                            If your chart already contains colors
+                            this named style will probably be unhelpful.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>pegasse</strong>
+                    <ul>
+                        <li>
+                            A dark blue/ red scheme.
+                        </li>
+                        <li>
+                            Like <em>cygne</em>, primarily meant to quickly
+                            color a chart written in MsGenny.
+                        </li>
+                        <li>
+                            Also not very helpful for already colored charts.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>fountainpen</strong>
+                    <ul>
+                        <li>
+                            Mimics manual drawing with a fountain pen.
+                        </li>
+                        <li>
+                            Meant to make the charts look like a sketch -
+                            the lines are a bit 'wobbly'.
+                        </li>
+                        <li>
+                            I use this if I want to invite comments.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </p>
+        <h2 id="vertical-label-alignment">Vertical label alignment</h2>
+        <p>
+            Normally, labels for regular arcs align vertically with the arc
+            in the middle:
+        </p>
+        <script data-regular-arc-text-vertical-alignment="middle" type="text/x-msgenny">
+          wordwraparcs=true;
+
+          a => b: "This label will align around the middle";
+        </script>
+        <p>
+            To change that pass the type of alignment you want to the
+            <code>data-regular-arc-text-vertical-alignment</code> attribute.
+            Valid values are <code>above</code>, <code>middle</code> (which
+            is the default) and <code>below</code> (which is not implemented
+            yet).
+        </p>
+        <pre class="code">
+&lt;script <mark>data-regular-arc-text-vertical-alignment="above"</mark> type="text/x-msgenny">
+  wordwraparcs=true, watermark="above";
+
+  a => b: "This label will align above the arc";
+&lt;/script>
+        </pre>
+        <p>
+            <script data-regular-arc-text-vertical-alignment="above" type="text/x-msgenny">
+              wordwraparcs=true;
+
+              a => b: "This label will align above the arc";
+            </script>
+        </p>
+        <h2 id="supported-browsers">Supported browsers: most</h2>
+        <p>
+            We have verified in page script to work in all
+            desktop and mobile versions of Firefox, Safari, Chrome
+            and Opera released since 2013. PhantomJS and SlimerJS work
+            fine as well, and in Internet explorer it works from version 10.
+        </p>
+        <h2 id="package">Using mscgen-inpage.js in your own projects</h2>
+        <p>
+            You're welcome to use <code>mscgen-inpage.js</code> from
+            github.io. If you are going to use it in serious volumes though
+            or don't want to depend on github servers, you can include it
+            in your own software. To ease that process a bit
+            <code>mscgen-inpage.js</code> is available as an <em>npm</em>
+            (front-end) package.
+
+            <pre class="code">npm install mscgenjs-inpage</pre>
+        </p>
+        <p class="info">
+            Until 2016-06-01 there was a <em>bower</em> package
+            (mscgen_js-inpage-package) - it is discontinued in favor of the npm
+            package.
+        </p>
+
+        <h2 id="other-sequence-chart-languages">Other sequence chart languages: MsGenny, Xù and JSON</h2>
+        <p>
+            Mscgen_js assumes the language of the presented
+            script to be <em>MscGen</em>. If you use one of the other languages
+            supported by mscgen_js, add a <code>data-language</code>
+            attribute to the element with the target language:
+            <code>&lt;code class="mscgen_js"<mark> data-language="msgenny"</mark>></code>.
+        </p>
+        <p>
+            Three examples for <code>msgenny</code>, <code>xù</code> and the
+            abstract syntax tree as produced by the parsers
+            (<code>json</code>):
+        </p>
+        <h3>MsGenny</h3>
+        <pre class="code">
+&lt;pre id="yourownidsgetpreserved"
+     class="mscgen_js"
+     <mark>data-language="msgenny"</mark>>
+  arcgradient=10, watermark="msgenny";
+
+  Harry =>> Sally: "marry(Sally, Harry)?";
+  Sally >> Harry: YES,
+  Sally -> mother: he's asked me to marry him!;
+  mother -> *: "Stop that. Silly Sally.";
+&lt/pre></pre>
+        <pre id="yourownidsgetpreserved"
+             class="mscgen_js"
+             data-language="msgenny">
+hscale=0.9, arcgradient=10, watermark="msgenny";
+
+Harry =>> Sally: "marry(Sally, Harry)?";
+Sally >> Harry: YES,
+Sally -> mother: he's asked me to marry him!;
+mother -> *: "Stop that. Silly Sally.";
+        </pre>
+        <h3>Xù</h3>
+        <pre class="code">
+&lt;pre class="mscgen_js" <mark>data-language="xu"</mark>>
+msc{
+    watermark="xù: 序列圖", wordwraparcs="true";
+    a,b,d,e;
+    a => d;
+    b loop e [label="for each element with class='mscgen_js'"]{
+        b =>> d [label="get textContent of the element"];
+        d >> b  [label="textContent"];
+        b =>> e [label="parse(textContent)"];
+        b alt e [label="happy day", textbgcolor="#f7fff7"] {
+            e >> b [label="abstract syntax tree"];
+            b -> d [label="clear inner HTML of the element"];
+            b -> d [label="render (abstract syntax tree)"];
+            --- [label="error", linecolor="red"];
+            e >> b [label="error object", linecolor="red"];
+            b -> d [label="add error message to innerHTML of the element",
+                    linecolor="red"];
+        };
+    };
+    ...;
+}
+&lt;/pre></pre>
+        <pre class="mscgen_js" data-language="xu">
+msc{
+    watermark="xù: 序列圖", wordwraparcs="true", hscale=0.9;
+    a,b,d,e;
+    a => d;
+    b loop e [label="for each element with class='mscgen_js'"]{
+        b =>> d [label="get textContent of the element"];
+        d >> b  [label="textContent"];
+        b =>> e [label="parse(textContent)"];
+        b alt e [label="happy day", textbgcolor="#f7fff7"] {
+            e >> b [label="abstract syntax tree"];
+            b -> d [label="clear inner HTML of the element"];
+            b -> d [label="render (abstract syntax tree)"];
+            --- [label="error", linecolor="red"];
+            e >> b [label="error object", linecolor="red"];
+            b -> d [label="add error message to innerHTML of the element",
+                    linecolor="red"];
+        };
+    };
+    ...;
+}
+        </pre>
+        <h3>JSON</h3>
+        <pre class="code">&lt;pre class="mscgen_js" <mark>data-language="json"</mark>>
+{
+    "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+    },
+    "options":{
+    "watermark" : "JSON/ AST"
+    },
+    "entities": [
+    {
+    "name": "Alice",
+    "linecolor": "#008800",
+    "textbgcolor": "#CCFFCC",
+    "textcolor": "black",
+    "arctextcolor": "#008800",
+    "arclinecolor": "#008800"
+    },
+    {
+    "name": "Bob",
+    "linecolor": "#FF0000",
+    "textbgcolor": "#FFCCCC",
+    "textcolor": "black",
+    "arctextcolor": "#FF0000",
+    "arclinecolor": "#FF0000"
+    },
+    {
+    "name": "pocket",
+    "linecolor": "#0000FF",
+    "textbgcolor": "#CCCCFF",
+    "textcolor": "black",
+    "arctextcolor": "#0000FF",
+    "arclinecolor": "#0000FF"
+    }
+    ],
+    "arcs":[[{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Bob",
+        "label" : "do something funny"
+    }], [{
+        "kind" : "=>",
+        "from" : "Bob",
+        "to" : "pocket",
+        "label" : "fetch (nose flute)"
+    }], [{
+        "kind" : ">>",
+        "from" : "Bob",
+        "to" : "Alice",
+        "label" : "PHEEE!"
+    }], [{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Alice",
+        "label" : "hihihi"
+    }]]
+}
+&lt;/pre></pre>
+        <pre class="mscgen_js" data-language="json">
+{
+    "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+    },
+    "options":{
+    "watermark" : "JSON/ AST"
+    },
+    "entities": [
+    {
+    "name": "Alice",
+    "linecolor": "#008800",
+    "textbgcolor": "#CCFFCC",
+    "textcolor": "black",
+    "arctextcolor": "#008800",
+    "arclinecolor": "#008800"
+    },
+    {
+    "name": "Bob",
+    "linecolor": "#FF0000",
+    "textbgcolor": "#FFCCCC",
+    "textcolor": "black",
+    "arctextcolor": "#FF0000",
+    "arclinecolor": "#FF0000"
+    },
+    {
+    "name": "pocket",
+    "linecolor": "#0000FF",
+    "textbgcolor": "#CCCCFF",
+    "textcolor": "black",
+    "arctextcolor": "#0000FF",
+    "arclinecolor": "#0000FF"
+    }
+    ],
+    "arcs":[[{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Bob",
+        "label" : "do something funny"
+    }], [{
+        "kind" : "=>",
+        "from" : "Bob",
+        "to" : "pocket",
+        "label" : "fetch (nose flute)"
+    }], [{
+        "kind" : ">>",
+        "from" : "Bob",
+        "to" : "Alice",
+        "label" : "PHEEE!"
+    }], [{
+        "kind" : "=>",
+        "from" : "Alice",
+        "to" : "Alice",
+        "label" : "hihihi"
+    }]]
+}</pre>
+        </article>
+<article>
+    <h1 id="licensing">Licensing: GPL-3.0 with a relaxation</h1>
+    <p>As you can read on the
+    <a href="https://github.com/sverweij/mscgen_js">mscgen_js github page</a>
+    mscgen_js is licensed under the GNU General Public License version 3
+    ("the GPL").
+    </p>
+    <p>
+	For the use of the minified version of the embedding code
+	(<code>mscgen-inpage.js</code>) as described on this page
+	a special exception to the GPL is made. This is so you can
+    use it to render sequence charts in documentation which has a
+    different license from the GPL without that documention (let
+    alone the software it documents, if any) having to be licensed
+    under the GPL:
+    </p>
+    <blockquote>
+As a special exception to the GPL, any HTML file which merely makes
+function calls to <code>mscgen-inpage.js</code>, and for that purpose
+includes it by reference shall be deemed a separate work for copyright
+law purposes. In addition, the copyright holders of this code give
+you permission to combine this code with free software libraries
+that are released under the GNU LGPL. You may copy and distribute
+such a system following the terms of the GNU GPL for this code and
+the LGPL for the libraries. If you modify this code, you may extend
+this exception to your version of the code, but you are not obligated
+to do so. If you do not wish to do so, delete this exception statement
+from your version.
+    </blockquote>
+</article>
+
+<div id="about" class="sliding-panel" style="z-index: 268;">
+    <div class="header">
+        <h2><span class="icon-xu"></span> About</h2>
+        <a href="#" class="close-button icon-cross" title="close about panel" style="text-decoration:none;"></a>
+    </div>
+    <span class="sliding-panel-content">
+        <span class="sliding-panel-content-section">
+            <span class="row-picture hideonmobile">
+                <span class="icon-xu about-box-icon" alt="mscgen_js logo" title="Logo
+
+It's the Chinese letter 序 (xù).
+
+According to Google it means 'sequence'.
+
+According to Chinese people it's more akin
+to the 'intr' in 'introduction'.
+
+According to Sander it's an angry little man
+drawing a sequence chart. On a sloped
+whiteboard. Under a roof."></span>
+                <div class="row-picture-caption">v1.9.2</div>
+            </span>
+            <span class="row-text">
+                <p>
+                    Apart from making embedding sequence charts easy as
+                    drinking apple juice, the mscgen_js library serves as the engine for a
+                    <a href="index.html">cool on line interpreter</a>.
+                </p>
+                <p>
+                    <a href="https://github.com/sverweij/mscgen_js/issues"
+                                       target="_blank">
+                        <button type="button" class="btn-primary">
+                            Report <span class="hideonmobile">an</span> issue
+                        </button>
+                    </a>
+                </p>
+            </span>
+        </span>
+        <span class="sliding-panel-content-section">
+            <span class="row-picture hideonmobile">
+                <a href="https://sverweij.github.io/">
+                  <img class="aboutpic" style="border-radius: 50%; width: 60px;" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
+
+The Netherlands forbids smiling
+on photos that go on official
+documents."></img></a>
+            </span>
+            <span class="row-text">
+                <h3>Author</h3>
+                <p>
+                    Sander Verweij
+                </p>
+                <p>
+                    <a href="https://twitter.com/SanderSpeaks" target="_blank">Twitter</a>
+                    <a href="http://www.linkedin.com/in/sanderverweij" target="_blank">LinkedIn</a>
+                    <a href="https://plus.google.com/u/0/118369668878370776334" target="_blank">Google+</a>
+                </p>
+            </span>
+        </span>
+        <span class="sliding-panel-content-section">
+            <span class="row-picture hideonmobile">
+                <span class="icon-opensource about-box-icon"></span>
+                <div class="row-picture-caption">GPL-3.0</div>
+            </span>
+            <span class="row-text">
+                <h3>License</h3>
+                <p>open source (<a href="https://github.com/sverweij/mscgen_js/blob/master/wikum/licenses/license.mscgen_js.md" target="_blank">GPL-3.0</a>),
+                    with a <a href="#licensing">relaxation</a>.
+                </p>
+                <p>
+                    <a href="https://github.com/sverweij/mscgen_js" target="_blank">Source</a>
+                    <a href="https://github.com/sverweij/mscgen_js/tree/master/wikum/licenses">Licenses</a>
+                </p>
+            </span>
+        </span>
+    </span>
+</div>
+
+<footer>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://sverweij.github.io" property="cc:attributionName" rel="cc:attributionURL" itemprop="author">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+</footer>
+    </body>
+</html>
