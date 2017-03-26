@@ -7,8 +7,8 @@
     "amdefine": "1.0.1",
     "codemirror": "5.25.0",
     "requirejs": "2.3.3",
-    "mscgenjs": "1.9.2",
-    "mscgenjs-inpage": "1.9.2"
+    "mscgenjs": "1.9.10",
+    "mscgenjs-inpage": "1.9.10"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -23,7 +23,7 @@
     "npm-check-updates": "2.10.4",
     "nsp": "2.6.3",
     "plato": "1.7.0",
-    "uglify-js": "2.8.14",
+    "uglify-js": "2.8.16",
     "watch": "1.0.2"
   },
   "scripts": {

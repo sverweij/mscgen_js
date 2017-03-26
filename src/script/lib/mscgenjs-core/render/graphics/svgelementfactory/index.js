@@ -231,7 +231,7 @@ define(function(require) {
          * @param {string} pClass - reference to the css class to be applied
          * @return {SVGElement}
          */
-        createUTurn: function (pPoint, pEndY, pWidth, pClass, pDontHitHome) {
+        createUTurn: function (pPoint, pEndY, pWidth, pClass, pDontHitHome, pHeight) {
             return gRenderMagic.createUTurn(
                 pPoint,
                 pEndY,
@@ -240,7 +240,8 @@ define(function(require) {
                 {
                     dontHitHome: pDontHitHome,
                     lineWidth: gOptions.LINE_WIDTH
-                }
+                },
+                pHeight
             );
         },
 

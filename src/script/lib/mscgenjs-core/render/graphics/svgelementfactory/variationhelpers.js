@@ -60,7 +60,7 @@ define(function() {
     }
 
     function round(pNumber) {
-        return Math.round(pNumber * 1000) / 1000;
+        return Math.round(pNumber * 100) / 100;
     }
 
     function getBetweenPoints(pLine, pInterval, pWobble) {

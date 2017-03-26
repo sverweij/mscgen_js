@@ -8,9 +8,11 @@ define(function(require) {
     var domprimitives = require("./domprimitives");
     var geometry      = require("./geometry");
     var _             = require("../../../lib/lodash/lodash.custom");
+    var round         = require("./round");
+    var PRECISION     = 2;
 
     function point2String(pX, pY) {
-        return pX.toString() + "," + pY.toString() + " ";
+        return round(pX, PRECISION).toString() + "," + round(pY, PRECISION).toString() + " ";
     }
 
     function pathPoint2String(pType, pX, pY) {
@@ -90,8 +92,8 @@ define(function(require) {
         var lText = domprimitives.createElement(
             "text",
             {
-                x: pCoords.x.toString(),
-                y: pCoords.y.toString(),
+                x: round(pCoords.x, PRECISION).toString(),
+                y: round(pCoords.y, PRECISION).toString(),
                 class: lOptions.class
             }
         );
@@ -194,8 +196,8 @@ define(function(require) {
          * @param {string} pID
          * @returns {Element}
          */
-        createDesc: function (pId) {
-            return domprimitives.createElement("desc", {"id": pId});
+        createDesc: function () {
+            return domprimitives.createElement("desc");
         },
 
         /**
@@ -244,9 +246,9 @@ define(function(require) {
                 {
                     "transform":
                         "rotate(" +
-                             geometry.getDiagonalAngle(pCanvas).toString() + " " +
-                            ((pCanvas.width) / 2).toString() + " " +
-                            ((pCanvas.height) / 2).toString() +
+                            round(geometry.getDiagonalAngle(pCanvas), PRECISION).toString() + " " +
+                            round((pCanvas.width) / 2, PRECISION).toString() + " " +
+                            round((pCanvas.height) / 2, PRECISION).toString() +
                         ")"
                 }
             );
@@ -256,10 +258,10 @@ define(function(require) {
             return domprimitives.createElement(
                 "line",
                 {
-                    x1: pLine.xFrom.toString(),
-                    y1: pLine.yFrom.toString(),
-                    x2: pLine.xTo.toString(),
-                    y2: pLine.yTo.toString(),
+                    x1: round(pLine.xFrom, PRECISION).toString(),
+                    y1: round(pLine.yFrom, PRECISION).toString(),
+                    x2: round(pLine.xTo, PRECISION).toString(),
+                    y2: round(pLine.yTo, PRECISION).toString(),
                     class: pOptions ? pOptions.class : null
                 }
             );
@@ -294,12 +296,12 @@ define(function(require) {
                 domprimitives.createElement(
                     "rect",
                     {
-                        width: pBBox.width,
-                        height: pBBox.height,
-                        x: pBBox.x,
-                        y: pBBox.y,
-                        rx: lOptions.rx,
-                        ry: lOptions.ry,
+                        width: round(pBBox.width, PRECISION),
+                        height: round(pBBox.height, PRECISION),
+                        x: round(pBBox.x, PRECISION),
+                        y: round(pBBox.y, PRECISION),
+                        rx: round(lOptions.rx, PRECISION),
+                        ry: round(lOptions.ry, PRECISION),
                         class: lOptions.class
                     }
                 ),
@@ -318,7 +320,7 @@ define(function(require) {
          * @param {string} pClass - reference to the css class to be applied
          * @return {SVGElement}
          */
-        createUTurn: function (pPoint, pEndY, pWidth, pClass, pOptions) {
+        createUTurn: function (pPoint, pEndY, pWidth, pClass, pOptions, pHeight) {
             var lOptions = _.defaults(
                 pOptions,
                 {
@@ -331,9 +333,9 @@ define(function(require) {
 
             return createPath(
                 // point to start from:
-                pathPoint2String("M", pPoint.x, -pPoint.y) +
+                pathPoint2String("M", pPoint.x, pPoint.y - (pHeight / 2)) +
                 // curve first to:
-                pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * pOptions.lineWidth) +
+                pathPoint2String("C", pPoint.x + pWidth, pPoint.y - ((7.5 * pOptions.lineWidth) / 2)) +
                 // curve back from.:
                 point2String(pPoint.x + pWidth, pEndY + 0) +
                 // curve end-pont:
@@ -367,8 +369,8 @@ define(function(require) {
             var lUse = domprimitives.createElement(
                 "use",
                 {
-                    x: pCoords.x.toString(),
-                    y: pCoords.y.toString()
+                    x: round(pCoords.x, PRECISION).toString(),
+                    y: round(pCoords.y, PRECISION).toString()
                 }
             );
             lUse.setAttributeNS(domprimitives.XLINKNS, "xlink:href", "#" + pLink);

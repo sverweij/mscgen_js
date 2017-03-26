@@ -32,7 +32,6 @@ src/script/lib/mscgenjs-core/render/astmassage/flatten.js: \
 	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
@@ -56,7 +55,8 @@ src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js: \
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/domprimitives.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/round.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js: \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
@@ -75,6 +75,9 @@ src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js
+
+src/script/lib/mscgenjs-core/render/graphics/renderutensils.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
 
 src/script/lib/mscgenjs-core/render/text/ast2animate.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
@@ -274,7 +277,6 @@ src/script/lib/mscgenjs-core/render/astmassage/flatten.js: \
 	src/script/lib/mscgenjs-core/render/textutensils/escape.js
 
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
-	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
 
 src/script/lib/mscgenjs-core/render/graphics/renderlabels.js: \
@@ -298,7 +300,8 @@ src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js: \
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/domprimitives.js \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/round.js
 
 src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/wobbly.js: \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
@@ -317,6 +320,9 @@ src/script/lib/mscgenjs-core/render/graphics/renderskeleton.js: \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js
+
+src/script/lib/mscgenjs-core/render/graphics/renderutensils.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
 
 src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js
@@ -444,6 +450,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/domprimitives.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/geometry.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/index.js \
+	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/round.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/straight.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/svgprimitives.js \
 	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory/variationhelpers.js \

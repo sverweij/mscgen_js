@@ -56,19 +56,21 @@ define(function(require) {
         var lFoldSize = lFoldSizeN.toString(10);
 
         return svgprimitives.createPath(
-            "M" + pBBox.x + "," + pBBox.y +
+            svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
             // top line:
-            "l" + (pBBox.width - lFoldSizeN) + ",0 " +
+            svgprimitives.pathPoint2String("l", pBBox.width - lFoldSizeN, 0) +
             // fold:
             // we lift the pen of the paper here to make sure the fold
             // gets the fill color as well when such is specified
-            "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" +
-                    lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
+            svgprimitives.pathPoint2String("l", 0, lFoldSize) +
+            svgprimitives.pathPoint2String("l", lFoldSize, 0) +
+            svgprimitives.pathPoint2String("m", -lFoldSize, -lFoldSize) +
+            svgprimitives.pathPoint2String("l", lFoldSize, lFoldSize) +
             // down:
-            "l0," + (pBBox.height - lFoldSizeN) + " " +
+            svgprimitives.pathPoint2String("l", 0, pBBox.height - lFoldSizeN) +
             // bottom line:
-            "l-" + pBBox.width + ",0 " +
-            "l0,-" + pBBox.height + " " +
+            svgprimitives.pathPoint2String("l", -(pBBox.width), 0) +
+            svgprimitives.pathPoint2String("l", 0, -(pBBox.height)) +
             // because we lifted the pen from the paper in the fold (see
             // the m over there) - svg interpreters consider that to be
             // the start of the path. So, although we're already 'home'
@@ -108,15 +110,15 @@ define(function(require) {
         var lSlopeOffset = 3;
         return svgprimitives.createPath(
             // start
-            "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
-            "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
+            svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
+            svgprimitives.pathPoint2String("l", lSlopeOffset, -(pBBox.height / 2)) +
             // top line
-            "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
+            svgprimitives.pathPoint2String("l", pBBox.width - 2 * lSlopeOffset, 0) +
             // right wedge
-            "l" + lSlopeOffset + "," + pBBox.height / 2 +
-            "l-" + lSlopeOffset + "," + pBBox.height / 2 +
+            svgprimitives.pathPoint2String("l", lSlopeOffset, pBBox.height / 2) +
+            svgprimitives.pathPoint2String("l", -lSlopeOffset, pBBox.height / 2) +
             // bottom line:
-            "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
+            svgprimitives.pathPoint2String("l", -(pBBox.width - 2 * lSlopeOffset), 0) +
             "z",
             pOptions
         );
@@ -145,15 +147,15 @@ define(function(require) {
 
         return svgprimitives.createPath(
             // start:
-            "M" + pBBox.x + "," + pBBox.y +
+            svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
             // top line:
-            " l" + pBBox.width + ",0 " +
+            svgprimitives.pathPoint2String("l", pBBox.width, 0) +
             // down:
-            " l0," + (pBBox.height - lFoldSize) +
+            svgprimitives.pathPoint2String("l", 0, pBBox.height - lFoldSize) +
             // fold:
-            " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10) +
+            svgprimitives.pathPoint2String("l", -lFoldSize, lFoldSize) +
             // bottom line:
-            " l-" + (pBBox.width - lFoldSize) + ",0 ",
+            svgprimitives.pathPoint2String("l", -(pBBox.width - lFoldSize), 0),
             lOptions
         );
     }
