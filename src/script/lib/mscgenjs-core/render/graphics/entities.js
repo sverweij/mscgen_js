@@ -52,8 +52,8 @@ define(function(require){
         getDims: function (){
             return gEntityDims;
         },
-        getNoEntityLines: function(pLabel, pFontSize){
-            return renderlabels.splitLabel(pLabel, "box", gEntityDims.width, pFontSize).length;
+        getNoEntityLines: function(pLabel, pFontSize, pOptions){
+            return renderlabels.splitLabel(pLabel, "entity", gEntityDims.width, pFontSize, pOptions).length;
         }
     };
 });

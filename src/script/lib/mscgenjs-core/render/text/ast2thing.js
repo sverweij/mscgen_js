@@ -23,7 +23,7 @@ define(function(require) {
         "optionIsValidfn": optionIsValid,
         "renderEntityNamefn" : renderEntityName,
         "renderKindfn" : renderKind,
-        "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark", "mirrorentitiesonbottom"],
+        "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark", "wordwrapentities", "wordwrapboxes"],
         "supportedEntityAttributes" : ["label"],
         "supportedArcAttributes" : ["label"],
         // "renderAttributefn" : renderAttribute

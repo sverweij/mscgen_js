@@ -120,9 +120,9 @@ define(function(require) {
     }
 
     function renderASTMain(pAST){
-        renderEntities(pAST.entities);
+        renderEntities(pAST.entities, pAST.options);
         rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
-        renderArcRows(pAST.arcs, pAST.entities);
+        renderArcRows(pAST.arcs, pAST.entities, pAST.options);
         if (gChart.mirrorEntitiesOnBottom){
             renderEntitiesOnBottom(pAST.entities);
         }
@@ -273,11 +273,11 @@ define(function(require) {
      * @param <object> - pEntities - the entities subtree of the AST
      * @return <int> - height - the height of the heighest entity
      */
-    function getMaxEntityHeight(pEntities){
+    function getMaxEntityHeight(pEntities, pOptions){
         var lHighestEntity = pEntities[0];
         var lHWM = 2;
         pEntities.forEach(function(pEntity){
-            var lNoEntityLines = entities.getNoEntityLines(pEntity.label, constants.FONT_SIZE);
+            var lNoEntityLines = entities.getNoEntityLines(pEntity.label, constants.FONT_SIZE, pOptions);
             if (lNoEntityLines > lHWM){
                 lHWM = lNoEntityLines;
                 lHighestEntity = pEntity;
@@ -288,14 +288,14 @@ define(function(require) {
             return Math.max(
                 entities.getDims().height,
                 svgutensils.getBBox(
-                    renderEntity(lHighestEntity)
+                    renderEntity(lHighestEntity, 0, pOptions)
                 ).height
             );
         }
         return entities.getDims().height;
     }
 
-    function renderEntity(pEntity, pX) {
+    function renderEntity(pEntity, pX, pOptions) {
         var lGroup = svgelementfactory.createGroup();
         var lBBox = entities.getDims();
         lBBox.x = pX ? pX : 0;
@@ -309,15 +309,18 @@ define(function(require) {
         );
         lGroup.appendChild(
             renderlabels.createLabel(
-                pEntity,
+                _.defaults(
+                    pEntity,
+                    {
+                        kind: "entity"
+                    }
+                ),
                 {
                     x:lBBox.x,
                     y:lBBox.height / 2,
                     width:lBBox.width
                 },
-                {
-                    kind: "entity"
-                }
+                pOptions
             )
         );
         return lGroup;
@@ -357,15 +360,15 @@ define(function(require) {
      *
      * @param <object> - pEntities - the entities to render
      */
-    function renderEntities(pEntities) {
+    function renderEntities(pEntities, pOptions) {
         var lEntityXPos = 0;
         var lEntityGroup = svgelementfactory.createGroup(idmanager.get("entities"));
 
         if (pEntities) {
-            entities.setHeight(getMaxEntityHeight(pEntities) + constants.LINE_WIDTH * 2);
+            entities.setHeight(getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
-                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos));
+                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos, pOptions));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
@@ -381,7 +384,7 @@ define(function(require) {
 
     /* ------------------------END entity shizzle-------------------------------- */
 
-    function renderBroadcastArc(pArc, pEntities, lRowMemory, pY) {
+    function renderBroadcastArc(pArc, pEntities, lRowMemory, pY, pOptions) {
         var xTo    = 0;
         var lLabel = pArc.label;
         var xFrom  = entities.getX(pArc.from);
@@ -393,7 +396,7 @@ define(function(require) {
 
             if (pEntity.name !== pArc.from) {
                 xTo = entities.getX(pEntity.name);
-                lElement = createArc(pArc, xFrom, xTo, pY);
+                lElement = createArc(pArc, xFrom, xTo, pY, pOptions);
                 lRowMemory.push({
                     layer : gChart.layer.sequence,
                     element: lElement
@@ -404,12 +407,12 @@ define(function(require) {
         pArc.label = lLabel;
     }
 
-    function renderRegularArc(pArc, pEntities, pRowMemory, pY){
+    function renderRegularArc(pArc, pEntities, pRowMemory, pY, pOptions){
         var lElement = {};
 
         if (pArc.from && pArc.to) {
             if (pArc.to === "*") { // it's a broadcast arc
-                renderBroadcastArc(pArc, pEntities, pRowMemory, pY);
+                renderBroadcastArc(pArc, pEntities, pRowMemory, pY, pOptions);
                 /* creates a label on the current line, smack in the middle */
                 lElement =
                     renderlabels.createLabel(
@@ -419,11 +422,13 @@ define(function(require) {
                             y     : pY,
                             width : gChart.arcEndX
                         },
-                        {
-                            alignAround   : true,
-                            ownBackground : true,
-                            wordWrapArcs  : gChart.wordWrapArcs
-                        }
+                        _.defaults(
+                            _.cloneDeep(pOptions),
+                            {
+                                alignAround   : true,
+                                ownBackground : true
+                            }
+                        )
                     );
                 pRowMemory.push({
                     title : pArc.title,
@@ -436,7 +441,8 @@ define(function(require) {
                         pArc,
                         entities.getX(pArc.from),
                         entities.getX(pArc.to),
-                        pY
+                        pY,
+                        pOptions
                     );
                 pRowMemory.push({
                     title : pArc.title,
@@ -448,7 +454,7 @@ define(function(require) {
         return lElement;
     }
 
-    function getArcRowHeight (pArcRow, pRowNumber, pEntities) {
+    function getArcRowHeight (pArcRow, pRowNumber, pEntities, pOptions) {
         var lRetval = 0;
 
         pArcRow.forEach(function(pArc){
@@ -459,13 +465,13 @@ define(function(require) {
                 lElement = renderEmptyArc(pArc, 0);
                 break;
             case ("box"):
-                lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, 0);
+                lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, 0, pOptions);
                 break;
             case ("inline_expression"):
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
             default:
-                lElement = renderRegularArc(pArc, pEntities, [], 0);
+                lElement = renderRegularArc(pArc, pEntities, [], 0, pOptions);
             }// switch
 
             lRetval = Math.max(
@@ -477,7 +483,7 @@ define(function(require) {
         return lRetval;
     }
 
-    function renderArcRow (pArcRow, pRowNumber, pEntities){
+    function renderArcRow (pArcRow, pRowNumber, pEntities, pOptions){
         var lArcRowClass = "arcrow";
         var lRowMemory = [];
 
@@ -485,7 +491,7 @@ define(function(require) {
             pRowNumber,
             Math.max(
                 rowmemory.get(pRowNumber).height,
-                getArcRowHeight(pArcRow, pRowNumber, pEntities)
+                getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
             )
         );
 
@@ -507,7 +513,8 @@ define(function(require) {
                 lElement = createBox(
                     entities.getOAndD(pArc.from, pArc.to),
                     pArc,
-                    rowmemory.get(pRowNumber).y
+                    rowmemory.get(pRowNumber).y,
+                    pOptions
                 );
                 lRowMemory.push({
                     title : pArc.title,
@@ -531,7 +538,8 @@ define(function(require) {
                     pArc,
                     pEntities,
                     lRowMemory,
-                    rowmemory.get(pRowNumber).y
+                    rowmemory.get(pRowNumber).y,
+                    pOptions
                 );
             }// switch
 
@@ -564,7 +572,7 @@ define(function(require) {
      * @param <object> - pArcRows - the arc rows to render
      * @param <object> - pEntities - the entities to consider
      */
-    function renderArcRows(pArcRows, pEntities) {
+    function renderArcRows(pArcRows, pEntities, pOptions) {
         gInlineExpressionMemory = [];
 
         /* put some space between the entities and the arcs */
@@ -579,7 +587,7 @@ define(function(require) {
 
         if (pArcRows) {
             for (var i = 0; i < pArcRows.length; i++){
-                renderArcRow(pArcRows[i], i, pEntities);
+                renderArcRow(pArcRows[i], i, pEntities, pOptions);
             }
             // pArcRows.forEach(renderArcRow);
             renderInlineExpressions(gInlineExpressionMemory);
@@ -625,7 +633,7 @@ define(function(require) {
             {
                 alignLeft: true,
                 ownBackground: false,
-                wordWrapArcs: gChart.wordWrapArcs
+                wordwraparcs: gChart.wordWrapArcs
             }
         );
 
@@ -801,7 +809,7 @@ define(function(require) {
         return "";
     }
 
-    function createArc(pArc, pFrom, pTo, pY) {
+    function createArc(pArc, pFrom, pTo, pY, pOptions) {
         var lGroup = svgelementfactory.createGroup();
         var lClass = "arc ";
         lClass += determineDirectionClass(pArc.kind);
@@ -827,12 +835,14 @@ define(function(require) {
                         y:pY - (gChart.arcRowHeight / 5) - constants.LINE_WIDTH / 2,
                         width:lTextWidth
                     },
-                    {
-                        alignLeft: true,
-                        alignAbove: true,
-                        ownBackground: true,
-                        wordWrapArcs: gChart.wordWrapArcs
-                    }
+                    _.defaults(
+                        _.cloneDeep(pOptions),
+                        {
+                            alignLeft: true,
+                            alignAbove: true,
+                            ownBackground: true
+                        }
+                    )
                 )
             );
         } else {
@@ -855,12 +865,14 @@ define(function(require) {
                 renderlabels.createLabel(
                     pArc,
                     {x: pFrom, y: pY, width: pTo - pFrom},
-                    {
-                        alignAround: true,
-                        alignAbove: (gChart.regularArcTextVerticalAlignment === "above"),
-                        ownBackground: true,
-                        wordWrapArcs: gChart.wordWrapArcs
-                    }
+                    _.defaults(
+                        _.cloneDeep(pOptions),
+                        {
+                            alignAround: true,
+                            alignAbove: (gChart.regularArcTextVerticalAlignment === "above"),
+                            ownBackground: true
+                        }
+                    )
                 )
             );
         }
@@ -887,7 +899,7 @@ define(function(require) {
         return renderlabels.createLabel(
             pArc,
             {x:lArcStart, y:pY, width:lArcEnd},
-            {ownBackground:true, wordWrapArcs: gChart.wordWrapArcs}
+            {ownBackground:true, wordwraparcs: gChart.wordWrapArcs}
         );
     }
 
@@ -979,7 +991,7 @@ define(function(require) {
      * takes the bounding box of the (rendered) label of the arc, taking care not
      * to get smaller than the default arc row height
      */
-    function createBox(pOAndD, pArc, pY) {
+    function createBox(pOAndD, pArc, pY, pOptions) {
         /* begin: same as createInlineExpressionBox */
         var lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
         var lWidth =
@@ -992,7 +1004,7 @@ define(function(require) {
 
         var lGroup = svgelementfactory.createGroup();
         var lBox = {};
-        var lTextGroup = renderlabels.createLabel(pArc, {x:lStart, y:pY, width:lWidth});
+        var lTextGroup = renderlabels.createLabel(pArc, {x:lStart, y:pY, width:lWidth}, pOptions);
         var lTextBBox = svgutensils.getBBox(lTextGroup);
         var lHeight = Math.max(lTextBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight - 2 * constants.LINE_WIDTH);
         var lBBox = {width: lWidth, height: lHeight, x: lStart, y: (pY - lHeight / 2)};

@@ -29,7 +29,11 @@ src/script/lib/mscgenjs-core/render/astmassage/flatten.js: \
 	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
 	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js \
 	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizeoptions.js \
 	src/script/lib/mscgenjs-core/render/textutensils/escape.js
+
+src/script/lib/mscgenjs-core/render/astmassage/normalizeoptions.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
 
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
@@ -274,7 +278,11 @@ src/script/lib/mscgenjs-core/render/astmassage/flatten.js: \
 	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
 	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js \
 	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizeoptions.js \
 	src/script/lib/mscgenjs-core/render/textutensils/escape.js
+
+src/script/lib/mscgenjs-core/render/astmassage/normalizeoptions.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
 
 src/script/lib/mscgenjs-core/render/graphics/entities.js: \
 	src/script/lib/mscgenjs-core/render/graphics/renderlabels.js
@@ -436,6 +444,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/render/astmassage/colorize.js \
 	src/script/lib/mscgenjs-core/render/astmassage/flatten.js \
 	src/script/lib/mscgenjs-core/render/astmassage/normalizekind.js \
+	src/script/lib/mscgenjs-core/render/astmassage/normalizeoptions.js \
 	src/script/lib/mscgenjs-core/render/graphics/constants.js \
 	src/script/lib/mscgenjs-core/render/graphics/csstemplates.js \
 	src/script/lib/mscgenjs-core/render/graphics/entities.js \

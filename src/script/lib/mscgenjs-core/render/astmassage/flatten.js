@@ -13,11 +13,12 @@ define(
 function(require) {
     "use strict";
 
-    var asttransform  = require("./asttransform");
-    var aggregatekind = require("./aggregatekind");
-    var normalizekind = require("./normalizekind");
-    var _             = require("../../lib/lodash/lodash.custom");
-    var escape        = require("../textutensils/escape");
+    var asttransform     = require("./asttransform");
+    var aggregatekind    = require("./aggregatekind");
+    var normalizekind    = require("./normalizekind");
+    var normalizeoptions = require("./normalizeoptions");
+    var _                = require("../../lib/lodash/lodash.custom");
+    var escape           = require("../textutensils/escape");
 
     var gMaxDepth = 0;
 
@@ -245,6 +246,7 @@ function(require) {
          * @return {ast}
          */
         flatten : function(pAST) {
+            pAST.options = normalizeoptions(pAST.options);
             return asttransform.transform(
                 _unwind(pAST),
                 [nameAsLabel, unescapeLabels],

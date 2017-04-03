@@ -116,7 +116,7 @@ define(function(require) {
                 pArc.kind,
                 pDims.width,
                 constants.FONT_SIZE,
-                pOptions ? pOptions.wordWrapArcs : false
+                pOptions
             );
             var lText = {};
             if (!!pOptions && pOptions.alignAbove){
@@ -179,8 +179,12 @@ define(function(require) {
         return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
     }
 
-    function _splitLabel(pLabel, pKind, pWidth, pFontSize, pWordWrapArcs) {
-        if ("box" === aggregatekind.getAggregate(pKind) || typeof pKind === 'undefined' || pWordWrapArcs){
+    function _splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
+        if (("box" === aggregatekind.getAggregate(pKind) && pOptions.wordwrapboxes) ||
+            ("entity" === pKind && pOptions.wordwrapentities) ||
+            ("box" !== aggregatekind.getAggregate(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
+            typeof pKind === 'undefined'
+         ){
             return wrap.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');
@@ -210,7 +214,7 @@ define(function(require) {
          * @param <string> - pKind
          * @param <number> - pWidth
          * @param <number> - pFontSize (in px)
-         * @param <bool>   - pWordWrapArcs
+         * @param <object> - options (the one ones heeded: wordwraparcs, wordwrapentities, wordwrapboxes)
          * @return <array of strings> - lLines
          */
         splitLabel: _splitLabel
