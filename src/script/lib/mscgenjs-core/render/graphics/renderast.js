@@ -295,34 +295,46 @@ define(function(require) {
         return entities.getDims().height;
     }
 
+    function sizeEntityBoxToLabel(pLabel, pBBox) {
+        var lLabelWidth = Math.min(
+            svgutensils.getBBox(pLabel).width + (4 * constants.LINE_WIDTH),
+            (pBBox.interEntitySpacing / 3) + pBBox.width
+        );
+        if (lLabelWidth >= pBBox.width) {
+            pBBox.x -= (lLabelWidth - pBBox.width) / 2;
+            pBBox.width = lLabelWidth;
+        }
+        return pBBox;
+    }
+
     function renderEntity(pEntity, pX, pOptions) {
         var lGroup = svgelementfactory.createGroup();
-        var lBBox = entities.getDims();
+        var lBBox = _.cloneDeep(entities.getDims());
         lBBox.x = pX ? pX : 0;
+        var lLabel = renderlabels.createLabel(
+            _.defaults(
+                pEntity,
+                {
+                    kind: "entity"
+                }
+            ),
+            {
+                x:lBBox.x,
+                y:lBBox.height / 2,
+                width:lBBox.width
+            },
+            pOptions
+        );
+
         lGroup.appendChild(
             svgelementfactory.createRect(
-                lBBox,
+                sizeEntityBoxToLabel(lLabel, lBBox),
                 "entity",
                 pEntity.linecolor,
                 pEntity.textbgcolor
             )
         );
-        lGroup.appendChild(
-            renderlabels.createLabel(
-                _.defaults(
-                    pEntity,
-                    {
-                        kind: "entity"
-                    }
-                ),
-                {
-                    x:lBBox.x,
-                    y:lBBox.height / 2,
-                    width:lBBox.width
-                },
-                pOptions
-            )
-        );
+        lGroup.appendChild(lLabel);
         return lGroup;
     }
 
