@@ -64,14 +64,14 @@ define(function(require) {
     }
 
     function setupBody(pElementId) {
-        var lBody = svgelementfactory.createGroup(pElementId + "__body");
+        var lBody = svgelementfactory.createGroup(pElementId + "_body");
 
-        lBody.appendChild(svgelementfactory.createGroup(pElementId + "__background"));
-        lBody.appendChild(svgelementfactory.createGroup(pElementId + "__arcspanlayer"));
-        lBody.appendChild(svgelementfactory.createGroup(pElementId + "__lifelinelayer"));
-        lBody.appendChild(svgelementfactory.createGroup(pElementId + "__sequencelayer"));
-        lBody.appendChild(svgelementfactory.createGroup(pElementId + "__notelayer"));
-        lBody.appendChild(svgelementfactory.createGroup(pElementId + "__watermark"));
+        lBody.appendChild(svgelementfactory.createGroup(pElementId + "_background"));
+        lBody.appendChild(svgelementfactory.createGroup(pElementId + "_arcspans"));
+        lBody.appendChild(svgelementfactory.createGroup(pElementId + "_lifelines"));
+        lBody.appendChild(svgelementfactory.createGroup(pElementId + "_sequence"));
+        lBody.appendChild(svgelementfactory.createGroup(pElementId + "_notes"));
+        lBody.appendChild(svgelementfactory.createGroup(pElementId + "_watermark"));
         return lBody;
     }
 

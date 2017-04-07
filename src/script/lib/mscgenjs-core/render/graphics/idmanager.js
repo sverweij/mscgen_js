@@ -5,7 +5,7 @@ if (typeof define !== 'function') {
 
 define(function() {
     "use strict";
-    var INNERELEMENTPREFIX = "mscgen_js-svg-";
+    var INNERELEMENTPREFIX = "mscgenjs";
 
     var gInnerElementId = INNERELEMENTPREFIX;
 

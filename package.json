@@ -7,7 +7,7 @@
     "amdefine": "1.0.1",
     "codemirror": "5.25.0",
     "requirejs": "2.3.3",
-    "mscgenjs": "1.11.0",
+    "mscgenjs": "1.12.0",
     "mscgenjs-inpage": "1.11.0"
   },
   "devDependencies": {

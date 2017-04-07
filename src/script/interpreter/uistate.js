@@ -353,14 +353,15 @@ define(function(require) {
         },
         getMirrorEntities: state.getMirrorEntities,
         setStyle: function(pStyle) {
-            window.__option_style_basic.checked       = false;
-            window.__option_style_inverted.checked    = false;
-            window.__option_style_grayscaled.checked  = false;
-            window.__option_style_fountainpen.checked = false;
-            window.__option_style_lazy.checked        = false;
-            window.__option_style_cygne.checked       = false;
-            window.__option_style_pegasse.checked     = false;
-            window.__option_style_classic.checked     = false;
+            window.__option_style_basic.checked         = false;
+            window.__option_style_inverted.checked      = false;
+            window.__option_style_grayscaled.checked    = false;
+            window.__option_style_fountainpen.checked   = false;
+            window.__option_style_lazy.checked          = false;
+            window.__option_style_cygne.checked         = false;
+            window.__option_style_pegasse.checked       = false;
+            window.__option_style_classic.checked       = false;
+            window.__option_style_noentityboxes.checked = false;
 
             var lOptionToCheck = document.getElementById('__option_style_' + pStyle);
             if (Boolean(lOptionToCheck)){

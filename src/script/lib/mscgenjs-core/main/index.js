@@ -92,7 +92,7 @@ define(function(require){
             }
         },
 
-        version: "1.11.0",
+        version: "1.12.0",
 
         getAllowedValues: function() {
             return Object.seal({
@@ -122,7 +122,8 @@ define(function(require){
                         return {
                             name         : pStyle.name,
                             description  : pStyle.description,
-                            experimental : pStyle.experimental
+                            experimental : pStyle.experimental,
+                            deprecated   : pStyle.deprecated
                         };
                     }
                 )

@@ -6,7 +6,11 @@ define(function(require) {
     var sampleListReader = require("./sampleListReader");
 
     function namedStyle2Div(pNamedStyle) {
-        return ((pNamedStyle.experimental ? '<div class="debug" style="display:none;">' : '<div>') +
+        return (
+            (pNamedStyle.experimental || pNamedStyle.deprecated
+                ? '<div class="debug" style="display:none;">'
+                : '<div>'
+            ) +
             '<input id="__option_style_${pNamedStyle.name}" type="radio" name="stylerg" value="${pNamedStyle.name}">' +
             ' <label for="__option_style_${pNamedStyle.name}">${pNamedStyle.description}</label>' +
         '</div>')

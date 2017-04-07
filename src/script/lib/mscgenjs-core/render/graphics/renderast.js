@@ -144,11 +144,11 @@ define(function(require) {
 
     function createLayerShortcuts (pDocument){
         return {
-            lifeline  : pDocument.getElementById(idmanager.get("__lifelinelayer")),
-            sequence  : pDocument.getElementById(idmanager.get("__sequencelayer")),
-            notes     : pDocument.getElementById(idmanager.get("__notelayer")),
-            inline    : pDocument.getElementById(idmanager.get("__arcspanlayer")),
-            watermark : pDocument.getElementById(idmanager.get("__watermark"))
+            lifeline  : pDocument.getElementById(idmanager.get("_lifelines")),
+            sequence  : pDocument.getElementById(idmanager.get("_sequence")),
+            notes     : pDocument.getElementById(idmanager.get("_notes")),
+            inline    : pDocument.getElementById(idmanager.get("_arcspans")),
+            watermark : pDocument.getElementById(idmanager.get("_watermark"))
         };
     }
 
@@ -209,7 +209,7 @@ define(function(require) {
     }
 
     function renderBackground(pCanvas) {
-        gChart.document.getElementById(idmanager.get("__background")).appendChild(
+        gChart.document.getElementById(idmanager.get("_background")).appendChild(
             svgelementfactory.createRect(pCanvas, "bglayer")
         );
     }
@@ -234,7 +234,7 @@ define(function(require) {
 
     function renderSvgElement(pCanvas) {
         var lSvgElement = gChart.document.getElementById(idmanager.get());
-        var lBody = gChart.document.getElementById(idmanager.get("__body"));
+        var lBody = gChart.document.getElementById(idmanager.get("_body"));
         lBody.setAttribute(
             "transform",
             "translate(" + pCanvas.horizontaltransform + "," + pCanvas.verticaltransform +
