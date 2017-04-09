@@ -65,7 +65,7 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
                         withLinkToEditor: uistate.getLinkToInterpeter(),
                         mirrorEntities: uistate.getMirrorEntities(),
                         verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
-                        namedStyle: uistate.getStyle()
+                        namedStyle: uistate.getNamedStyle()
                     }
                 )
             );
@@ -87,7 +87,13 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
             window.history.replaceState(
                 {},
                 "",
-                xport.toLocationString(window.location, uistate.getSource(), uistate.getLanguage())
+                xport.toLocationString(
+                    window.location,
+                    uistate.getSource(),
+                    uistate.getLanguage(),
+                    uistate.getMirrorEntities(),
+                    uistate.getNamedStyle()
+                )
             );
             gaga.g('send', 'event', 'show_url', 'button');
         },
@@ -121,6 +127,12 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
             store.saveSettings(uistate);
             gaga.g('send', 'event', 'renderoptions.mirrorentities', pEvent.target.checked);
         },
+        optionIncludeSourceOnClick: function(pEvent) {
+            uistate.setIncludeSource(pEvent.target.checked);
+            uistate.requestRender();
+            store.saveSettings(uistate);
+            gaga.g('send', 'event', 'renderoptions.includesource', pEvent.target.checked);
+        },
         optionVerticalLabelAlignmentOnChange: function(pEvent) {
             uistate.setVerticalLabelAlignment(pEvent.target.value);
             uistate.requestRender();
@@ -128,7 +140,7 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
             gaga.g('send', 'event', 'renderoptions.verticalLabelAlignment', pEvent.target.value);
         },
         styleOnClick: function(pEvent) {
-            uistate.setStyle(pEvent.target.value);
+            uistate.setNamedStyle(pEvent.target.value);
             uistate.requestRender();
             store.saveSettings(uistate);
             gaga.g('send', 'event', 'renderoptions.style', pEvent.target.value);

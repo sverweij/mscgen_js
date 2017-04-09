@@ -43,7 +43,7 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
                         withLinkToEditor: uistate.getLinkToInterpeter(),
                         mirrorEntities: uistate.getMirrorEntities(),
                         verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
-                        namedStyle: uistate.getStyle()
+                        namedStyle: uistate.getNamedStyle()
                     }
                 );
             gactions.togglePanel(
@@ -66,7 +66,7 @@ function(uistate, animctrl, xport, dq, gactions, gaga) {
                         withLinkToEditor: uistate.getLinkToInterpeter(),
                         mirrorEntities: uistate.getMirrorEntities(),
                         verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
-                        namedStyle: uistate.getStyle()
+                        namedStyle: uistate.getNamedStyle()
                     }
                 );
             uistate.setAutoRender(uistate.getAutoRender());

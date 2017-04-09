@@ -8,12 +8,15 @@ define(function() {
     var gDebug             = false;
     var gLinkToInterpreter = false;
     var gVerticalLabelAlignment = "middle";
+    var gIncludeSource     = true;
 
     return {
         getAutoRender: function() { return gAutoRender; },
         setAutoRender: function(pBool) { gAutoRender = pBool; },
         getMirrorEntities: function() { return gMirrorEntities; },
         setMirrorEntities: function(pBool) { gMirrorEntities = pBool; },
+        getIncludeSource: function() { return gIncludeSource; },
+        setIncludeSource: function(pBool) { gIncludeSource = pBool; },
         getVerticalLabelAlignment: function() {
             return gVerticalLabelAlignment;
         },

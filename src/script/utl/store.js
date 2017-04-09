@@ -38,8 +38,9 @@ define([], function() {
         var lState = {
             autorender             : pState.getAutoRender(),
             mirrorEntities         : pState.getMirrorEntities(),
-            namedStyle             : pState.getStyle(),
-            verticalLabelAlignment : pState.getVerticalLabelAlignment()
+            namedStyle             : pState.getNamedStyle(),
+            verticalLabelAlignment : pState.getVerticalLabelAlignment(),
+            includeSource          : pState.getIncludeSource()
         };
 
         if (lSourceToo) {
@@ -68,8 +69,9 @@ define([], function() {
         if (Boolean(lState)){
             pState.setAutoRender(lState.autorender);
             pState.setMirrorEntities(lState.mirrorEntities);
-            pState.setStyle(lState.namedStyle);
+            pState.setNamedStyle(lState.namedStyle);
             pState.setVerticalLabelAlignment(lState.verticalLabelAlignment);
+            pState.setIncludeSource(lState.includeSource);
 
             if (lSourceToo) {
                 if (Boolean(lState.language)) {

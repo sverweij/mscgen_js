@@ -11,6 +11,7 @@ describe('ui/utl/store', function() {
     var lMirrorEntities = false;
     var lNamedStyle     = null;
     var lAlignment      = "middle";
+    var lIncludeSource  = true;
 
     var lState = {
         getLanguage      : function() { return "other language"; },
@@ -21,10 +22,13 @@ describe('ui/utl/store', function() {
         setAutoRender    : function(pAutoRender){ lAutoRender = pAutoRender; },
         getMirrorEntities: function() { return true; },
         setMirrorEntities: function(pMirrorEntities) { lMirrorEntities = pMirrorEntities; },
-        getStyle         : function() { return lNamedStyle; },
-        setStyle         : function(pNamedStyle) { lNamedStyle = pNamedStyle; },
+        getNamedStyle    : function() { return lNamedStyle; },
+        setNamedStyle    : function(pNamedStyle) { lNamedStyle = pNamedStyle; },
         getVerticalLabelAlignment: function() { return lAlignment; },
-        setVerticalLabelAlignment: function(pAlignment) { lAlignment = pAlignment; }
+        setVerticalLabelAlignment: function(pAlignment) { lAlignment = pAlignment; },
+        getIncludeSource : function () { return lIncludeSource; },
+        setIncludeSource : function (pIncludeSource) { lIncludeSource = pIncludeSource; }
+
     };
 
     describe('#load and save with no localStorage available', function() {

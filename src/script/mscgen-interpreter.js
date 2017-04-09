@@ -41,6 +41,7 @@ function(iactions, oactions, nactions, par, gactions, edit) {
         window.__render_options.addEventListener("click", oactions.renderOptionsOnClick, false);
         window.__btn_render_options_close.addEventListener("click", oactions.closeRenderOptions, false);
         window.__option_mirror_entities.addEventListener("click", oactions.optionMirrorEntitiesOnClick, false);
+        window.__option_include_source.addEventListener("click", oactions.optionIncludeSourceOnClick, false);
         window.__option_vertical_label_alignment.addEventListener(
             "change", oactions.optionVerticalLabelAlignmentOnChange, false
         );

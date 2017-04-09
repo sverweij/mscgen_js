@@ -37,7 +37,7 @@ function(uistate, params, store, dq, gaga, map) {
         }
 
         if (lParams.hasOwnProperty("style")) {
-            uistate.setStyle(lParams.style);
+            uistate.setNamedStyle(lParams.style);
             gaga.g('send', 'event', 'params.style', lParams.style);
         }
 

@@ -80,7 +80,7 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
             .replace(/{{source}}/g, extractSource(pSource));
     }
 
-    function getAdditionalParameters(pLocation){
+    function getAdditionalParameters(pLocation, pMirrorEntities, pNamedStyle){
         var lParams = par.getParams(pLocation.search);
         var lAdditionalParameters = "";
 
@@ -90,24 +90,24 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
         if (lParams.debug){
             lAdditionalParameters += '&debug=' + lParams.debug;
         }
-        if (lParams.mirrorentities){
-            lAdditionalParameters += '&mirrorentities=' + lParams.mirrorentities;
+        if (pMirrorEntities){
+            lAdditionalParameters += '&mirrorentities=' + pMirrorEntities;
         }
-        if (lParams.style){
-            lAdditionalParameters += '&style=' + lParams.style;
+        if (pNamedStyle){
+            lAdditionalParameters += '&style=' + pNamedStyle;
         }
         return lAdditionalParameters;
     }
 
-    function source2LocationString(pLocation, pSource, pLanguage){
+    function source2LocationString(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle){
         return pLocation.pathname +
                 '?lang=' + pLanguage +
-                getAdditionalParameters(pLocation) +
+                getAdditionalParameters(pLocation, pMirrorEntities, pNamedStyle) +
                 '&msc=' + encodeURIComponent(pSource);
     }
 
-    function sourceIsURLable(pLocation, pSource, pLanguage){
-        return source2LocationString(pLocation, pSource, pLanguage).length < MAX_LOCATION_LENGTH;
+    function sourceIsURLable(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle){
+        return source2LocationString(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle).length < MAX_LOCATION_LENGTH;
     }
 
     return {
@@ -132,12 +132,12 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
             return 'data:text/plain;charset=utf-8,' +
             encodeURIComponent(ast2doxygen.render(pAST));
         },
-        toLocationString: function (pLocation, pSource, pLanguage) {
+        toLocationString: function (pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle) {
             var lSource = '# source too long for an URL';
-            if (sourceIsURLable(pLocation, pSource, pLanguage)) {
+            if (sourceIsURLable(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle)) {
                 lSource = pSource;
             }
-            return source2LocationString(pLocation, lSource, pLanguage);
+            return source2LocationString(pLocation, lSource, pLanguage, pMirrorEntities, pNamedStyle);
         }
     };
 });

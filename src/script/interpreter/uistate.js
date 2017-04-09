@@ -165,7 +165,9 @@ define(function(require) {
                             txt.correctLanguage(
                                 lAST.meta.extendedFeatures,
                                 pLanguage
-                            )
+                            ),
+                            state.getMirrorEntities(),
+                            state.getNamedStyle()
                         )
                     );
                 } catch (e) {
@@ -180,7 +182,7 @@ define(function(require) {
                 window,
                 "__svg",
                 {
-                    source: pSource,
+                    source: state.getIncludeSource() ? pSource : null,
                     mirrorEntitiesOnBottom: state.getMirrorEntities(),
                     regularArcTextVerticalAlignment: state.getVerticalLabelAlignment(),
                     additionalTemplate: state.getNamedStyle()
@@ -352,7 +354,12 @@ define(function(require) {
             window.__option_mirror_entities.checked = pBoolean;
         },
         getMirrorEntities: state.getMirrorEntities,
-        setStyle: function(pStyle) {
+        setIncludeSource: function(pBoolean) {
+            state.setIncludeSource(pBoolean);
+            window.__option_include_source.checked = pBoolean;
+        },
+        getIncludeSource: state.getIncludeSource,
+        setNamedStyle: function (pStyle) {
             window.__option_style_basic.checked         = false;
             window.__option_style_inverted.checked      = false;
             window.__option_style_grayscaled.checked    = false;
@@ -372,7 +379,7 @@ define(function(require) {
                 state.setNamedStyle("basic");
             }
         },
-        getStyle: state.getNamedStyle,
+        getNamedStyle: state.getNamedStyle,
         setVerticalLabelAlignment: function(pVerticalLabelAlignment) {
             window.__option_vertical_label_alignment.value = pVerticalLabelAlignment;
             state.setVerticalLabelAlignment(pVerticalLabelAlignment);
