@@ -12,50 +12,36 @@ define([
 function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
     "use strict";
 
-    var IMAGE_EXPORT_WINDOW_NAME = "mscgenjsimages";
-    function rasterExport(pType){
-        /*
-         * first open a window directly as opening windows from the img.load
-         * (as the anonymous function will do) is blocked by many browsers
-         * (safari: hard, firefox: asks the user for for permission)
-         */
-        window.open("about:blank", IMAGE_EXPORT_WINDOW_NAME);
+    function showSaveAsOnClick() {
+        window.__save_as_svg.href = xport.toVectorURI(
+            dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
+        );
         rxport.toRasterURI(
             document,
             window.__svg,
-            pType,
+            'image/png',
             function(pRasterURI){
-                window.open(pRasterURI, IMAGE_EXPORT_WINDOW_NAME);
+                window.__save_as_png.href = pRasterURI;
             }
         );
-    }
-
-    function vectorExport() {
-        window.open(
-            xport.toVectorURI(
-                dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
-            ),
-            IMAGE_EXPORT_WINDOW_NAME
+        rxport.toRasterURI(
+            document,
+            window.__svg,
+            'image/jpeg',
+            function(pRasterURI){
+                window.__save_as_jpeg.href = pRasterURI;
+            }
+        );
+        gactions.togglePanel(
+            window.__save_as_panel,
+            function(){ gaga.g('send', 'event', 'saveas.open', 'button'); },
+            function(){ gaga.g('send', 'event', 'saveas.close', 'button'); }
         );
     }
 
     return {
-        svgOnDblClick: function() {
-            vectorExport();
-            gaga.g('send', 'event', 'show_svg_base64', 'svg dblcick');
-        },
-        svgOnClick: function() {
-            vectorExport();
-            gaga.g('send', 'event', 'show_svg_base64', 'button');
-        },
-        pngOnClick: function() {
-            rasterExport("image/png");
-            gaga.g('send', 'event', 'show_png_base64', 'button');
-        },
-        jpegOnClick: function() {
-            rasterExport("image/jpeg");
-            gaga.g('send', 'event', 'show_jpeg_base64', 'button');
-        },
+        svgOnDblClick: null,
+        showSaveAsOnClick: showSaveAsOnClick,
         htmlOnClick: function() {
             window.open(
                 xport.toHTMLSnippetURI(
@@ -155,6 +141,10 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
         closeExportOptions: function(){
             gactions.hideAllPanels();
             gaga.g('send', 'event', 'exportPanel.close', 'button');
+        },
+        closeSaveAsOptions: function(){
+            gactions.hideAllPanels();
+            gaga.g('send', 'event', 'saveasPanel.close', 'button');
         }
     };
 });

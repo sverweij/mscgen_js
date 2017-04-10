@@ -182,29 +182,17 @@ Note: !! removes comments and reformats your source!!">color</button>
 
         <section id="__output_area">
             <div id="__output_controls_area" style="display:none">
-                <button id="__show_svg"
+                <button id="__show_save_as"
                     target="_blank"
                     rel="noopener"
-                    type="image/svg+xml"
-                    title="Shows the chart in a separate window (svg).
+                    title="Opens a dialog in which you can choose how to save (/ export) the chart"><span class="icon-arrow-down"></span> <span class="hideonmobile">save</span></button>
 
-- the url bar will contain the base64 encoded version of the svg
-- Double clicking on the picture has the same effect.">svg</button>
-                <button id="__show_png"
+                <button id="__render_options"
                     target="_blank"
                     rel="noopener"
-                    type="image/png"
-                    title="Shows the chart in a separate window (png).
+                    type="text/plain"
+                    title="change how the chart gets rendered"><span class="icon-cog"></span> <span class="hideonmobile">options</span></button>
 
-- the url bar will contain the base64 encoded version of the png">png</button>
-                <button id="__show_jpeg"
-                    class="button"
-                    target="_blank"
-                    rel="noopener"
-                    type="image/jpeg"
-                    title="Shows the chart in a separate window (jpeg).
-
-- the url bar will contain the base64 encoded version of the jpeg">jpg</button>
                 <button id="__show_anim"
                     target="_blank"
                     rel="noopener"
@@ -213,11 +201,6 @@ Note: !! removes comments and reformats your source!!">color</button>
 
 - works for classic mscgen compatible charts.
 - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></button>
-                <button id="__render_options"
-                    target="_blank"
-                    rel="noopener"
-                    type="text/plain"
-                    title="change how the chart gets rendered"><span class="icon-cog"></span></button>
 
                 <button id="__show_url"
                     target="_blank"
@@ -226,7 +209,7 @@ Note: !! removes comments and reformats your source!!">color</button>
                     title="create bookmarkable url
 
 - generates an url that represents the current interpreter state.
-                - Useful for small charts."><span class="icon-share"></span></button>
+                - Useful for small charts."><span class="icon-share"></span> <span class="hideonmobile">make link</span></button>
                 <button id="__more_export_options"
                     class="debug" style="display:none"
                     target="_blank"
@@ -277,6 +260,34 @@ Note: !! removes comments and reformats your source!!">color</button>
                     rel="noopener"
                     type="text/plain"
                     title="Generates an html page with the chart embedded">HTML, with the chart embedded</button>
+            </span>
+        </div>
+        <div id="__save_as_panel" class="sliding-panel">
+            <div class="header">
+                <h2><span class="icon-arrow-down"></span> Save this chart as ...</h2>
+                <span><button id="__btn_save_as_panel_close" class="icon-cross close-button" title="close export panel"></button></span>
+            </div>
+            <span class="sliding-panel-content">
+                <p>
+                    <a id="__save_as_svg" class="sliding-panel-content-section button"
+                        rel="noopener"
+                        href="#"
+                        type="image/svg+xml"
+                        download="mscgenjs_chart.svg"
+                        title="download the chart as a scalable vector graphics image">SVG</a>
+                    <a id="__save_as_png" class="sliding-panel-content-section button"
+                        rel="noopener"
+                        href="#"
+                        type="image/png"
+                        download="mscgenjs_chart.png"
+                        title="download the chart as a portable network graphics image">PNG</a>
+                    <a id="__save_as_jpeg" class="sliding-panel-content-section button"
+                        rel="noopener"
+                        href="#"
+                        type="image/jpeg"
+                        download="mscgenjs_chart.jpg"
+                        title="download the chart as a lossy compressed image (not recommended)">JPEG</a>
+                </p>
             </span>
         </div>
         <div id="__embed_panel" class="sliding-panel">

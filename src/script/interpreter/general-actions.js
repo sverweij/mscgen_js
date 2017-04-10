@@ -14,6 +14,7 @@ function(animctrl) {
         window.__embed_panel.style.width          = '0';
         window.__learn_panel.style.width          = '0';
         window.__render_options_panel.style.width = '0';
+        window.__save_as_panel.style.width         = '0';
     }
 
     function _togglePanel(pPanelElement, pOpenFn, pCloseFn){

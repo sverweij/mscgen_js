@@ -35,9 +35,7 @@ function(iactions, oactions, nactions, par, gactions, edit) {
 
     function setupOutputEvents(){
         window.__svg.addEventListener("dblclick", oactions.svgOnDblClick, false);
-        window.__show_svg.addEventListener("click", oactions.svgOnClick, false);
-        window.__show_png.addEventListener("click", oactions.pngOnClick, false);
-        window.__show_jpeg.addEventListener("click", oactions.jpegOnClick, false);
+        window.__show_save_as.addEventListener("click", oactions.showSaveAsOnClick, false);
         window.__render_options.addEventListener("click", oactions.renderOptionsOnClick, false);
         window.__btn_render_options_close.addEventListener("click", oactions.closeRenderOptions, false);
         window.__option_mirror_entities.addEventListener("click", oactions.optionMirrorEntitiesOnClick, false);
@@ -56,6 +54,7 @@ function(iactions, oactions, nactions, par, gactions, edit) {
         window.__option_style_noentityboxes.addEventListener("click", oactions.styleOnClick, false);
         window.__more_export_options.addEventListener("click", oactions.moreExportOptionsOnClick, false);
         window.__btn_output_panel_close.addEventListener("click", oactions.closeExportOptions, false);
+        window.__btn_save_as_panel_close.addEventListener("click", oactions.closeSaveAsOptions, false);
         window.__show_html.addEventListener("click", oactions.htmlOnClick, false);
         window.__show_dot.addEventListener("click", oactions.dotOnClick, false);
         window.__show_vanilla.addEventListener("click", oactions.vanillaOnClick, false);

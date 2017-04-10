@@ -58,10 +58,14 @@ function(uistate, params, store, dq, gaga, map) {
         dq.attachEventHandler("a[href]", "click", function(e){
             var lTarget = "unknown";
 
-            if (e.currentTarget && e.currentTarget.href){
-                lTarget = e.currentTarget.href;
+            if (e.currentTarget) {
+                if (e.currentTarget.href){
+                    lTarget = e.currentTarget.href;
+                }
+                if (e.currentTarget.download && e.currentTarget.type){
+                    lTarget = e.currentTarget.type;
+                }
             }
-
             gaga.g('send', 'event', 'link', lTarget);
         });
     }
