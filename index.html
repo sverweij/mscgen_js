@@ -40,10 +40,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?beed40a7b8ace22e"
+        <link rel="stylesheet" href="style/interp.css?bc024f70c52b4301"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?beed40a7b8ace22e"
-        src="script/lib/require.js?beed40a7b8ace22e" defer></script>
+        <script data-main="script/mscgen-interpreter.js?bc024f70c52b4301"
+        src="script/lib/require.js?bc024f70c52b4301" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -93,10 +93,10 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 1.11.0
-    build-date: 20170406 22:14
-    commit: beed40a7b8ace22e
-    mscgenjs-core: 1.11.0">mscgen_js</h1>
+    version: 1.12.0
+    build-date: 20170410 22:32
+    commit: bc024f70c52b4301
+    mscgenjs-core: 1.12.0">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -119,9 +119,9 @@ mscgen_js
                 </span>
             </nav>
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 1.11.0</div>
-                <div><em>build-date:</em> 20170406 22:14</div>
-                <div><em>commit:</em> beed40a7b8ace22e</div>
+                <div><em>version:</em> 1.12.0</div>
+                <div><em>build-date:</em> 20170410 22:32</div>
+                <div><em>commit:</em> bc024f70c52b4301</div>
             </div>
         </header>
         <article>
@@ -182,29 +182,17 @@ Note: !! removes comments and reformats your source!!">color</button>
 
         <section id="__output_area">
             <div id="__output_controls_area" style="display:none">
-                <button id="__show_svg"
+                <button id="__show_save_as"
                     target="_blank"
                     rel="noopener"
-                    type="image/svg+xml"
-                    title="Shows the chart in a separate window (svg).
+                    title="Opens a dialog in which you can choose how to save (/ export) the chart"><span class="icon-arrow-down"></span> <span class="hideonmobile">save</span></button>
 
-- the url bar will contain the base64 encoded version of the svg
-- Double clicking on the picture has the same effect.">svg</button>
-                <button id="__show_png"
+                <button id="__render_options"
                     target="_blank"
                     rel="noopener"
-                    type="image/png"
-                    title="Shows the chart in a separate window (png).
+                    type="text/plain"
+                    title="change how the chart gets rendered"><span class="icon-cog"></span> <span class="hideonmobile">options</span></button>
 
-- the url bar will contain the base64 encoded version of the png">png</button>
-                <button id="__show_jpeg"
-                    class="button"
-                    target="_blank"
-                    rel="noopener"
-                    type="image/jpeg"
-                    title="Shows the chart in a separate window (jpeg).
-
-- the url bar will contain the base64 encoded version of the jpeg">jpg</button>
                 <button id="__show_anim"
                     target="_blank"
                     rel="noopener"
@@ -213,11 +201,6 @@ Note: !! removes comments and reformats your source!!">color</button>
 
 - works for classic mscgen compatible charts.
 - support for inline expressions follows in a next release."><span class="icon-video-camera"></span></button>
-                <button id="__render_options"
-                    target="_blank"
-                    rel="noopener"
-                    type="text/plain"
-                    title="change how the chart gets rendered"><span class="icon-cog"></span></button>
 
                 <button id="__show_url"
                     target="_blank"
@@ -226,7 +209,7 @@ Note: !! removes comments and reformats your source!!">color</button>
                     title="create bookmarkable url
 
 - generates an url that represents the current interpreter state.
-                - Useful for small charts."><span class="icon-share"></span></button>
+                - Useful for small charts."><span class="icon-share"></span> <span class="hideonmobile">make link</span></button>
                 <button id="__more_export_options"
                     class="debug" style="display:none"
                     target="_blank"
@@ -277,6 +260,34 @@ Note: !! removes comments and reformats your source!!">color</button>
                     rel="noopener"
                     type="text/plain"
                     title="Generates an html page with the chart embedded">HTML, with the chart embedded</button>
+            </span>
+        </div>
+        <div id="__save_as_panel" class="sliding-panel">
+            <div class="header">
+                <h2><span class="icon-arrow-down"></span> Save this chart as ...</h2>
+                <span><button id="__btn_save_as_panel_close" class="icon-cross close-button" title="close export panel"></button></span>
+            </div>
+            <span class="sliding-panel-content">
+                <p>
+                    <a id="__save_as_svg" class="sliding-panel-content-section button"
+                        rel="noopener"
+                        href="#"
+                        type="image/svg+xml"
+                        download="mscgenjs_chart.svg"
+                        title="download the chart as a scalable vector graphics image">SVG</a>
+                    <a id="__save_as_png" class="sliding-panel-content-section button"
+                        rel="noopener"
+                        href="#"
+                        type="image/png"
+                        download="mscgenjs_chart.png"
+                        title="download the chart as a portable network graphics image">PNG</a>
+                    <a id="__save_as_jpeg" class="sliding-panel-content-section button"
+                        rel="noopener"
+                        href="#"
+                        type="image/jpeg"
+                        download="mscgenjs_chart.jpg"
+                        title="download the chart as a lossy compressed image (not recommended)">JPEG</a>
+                </p>
             </span>
         </div>
         <div id="__embed_panel" class="sliding-panel">
@@ -355,7 +366,7 @@ to the 'intr' in 'introduction'.
 According to Sander it's an angry little man
 drawing a sequence chart. On a sloped
 whiteboard. Under a roof."></span>
-                        <div style="color:#767676;text-align:center;">v1.11.0</div>
+                        <div style="color:#767676;text-align:center;">v1.12.0</div>
                     </span>
                     <span class="row-text">
                         <h3>mscgen_js</h3>
@@ -513,6 +524,10 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                             <option value="middle">Middle (default)</option>
                             <option value="above">Above</option>
                         </select>
+                    </div>
+                    <div class="debug" style="display:none">
+                        <input type="checkbox" id="__option_include_source">
+                        <label for="__option_include_source">Include source in generated svg</label>
                     </div>
                 </div>
             </div>
