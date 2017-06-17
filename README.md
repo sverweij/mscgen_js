@@ -100,7 +100,7 @@ you'd want to use `mscgen-inpage.js`.
 
 ### Commercial use of embedding mscgen using mscgen-inpage.js
 In addition to the GNU public license, for the use of the minified version
-of the embedding code (```mscgen-inpage.js```) as described on
+of the embedding code (`mscgen-inpage.js`) as described on
 [embedding][mscgenjs.embed] a special exception to the GPL is made:  
 
 > As a special exception to the GPL, any HTML file which merely makes
@@ -154,7 +154,7 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
   to render vector graphics in node.js.
 - Audrey M. Roy for the excellent
   ["painfully obsessive cheat sheet to favicon sizes/types."][favicon].
-- [Joshua Chaitin-Pollak](https://github.com/jbcpollak), for suggesting
+- [Joshua Chaitin-Pollak][mscgenjs.publish], for suggesting
    to publish mscgen_js as a package.
 
 [almond]: https://github.com/jrburke/almond
@@ -189,8 +189,9 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [mscgenjs.inpage]: https://github.com/sverweij/mscgenjs-inpage
 [mscgenjs.cli]: https://github.com/sverweij/mscgenjs-cli
 [mscgenjs.atom.preview]: https://github.com/sverweij/atom-mscgen-preview
-[pegjs]: http://majda.cz/
-[pegjs.author]: http://pegjs.majda.cz/
+[mscgenjs.publish]: https://github.com/jbcpollak
+[pegjs]: https://pegjs.org/
+[pegjs.author]: http://majda.cz/
 [pegjs.license]: wikum/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: wikum/licenses/license.requirejs.md
