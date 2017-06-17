@@ -75,7 +75,7 @@ function(msc_render, ast2animate, gaga, dq) {
                 }
             );
             window.__anim_progress_percentage.setAttribute("style",
-                        "width: " + anim.getPercentage() + "%");
+                "width: " + anim.getPercentage() + "%");
         }
         if (gPlaying){
             window.__btn_anim_playpause.className = ICON_PAUSE;
@@ -176,10 +176,10 @@ function(msc_render, ast2animate, gaga, dq) {
             false
         );
         window.__anim_progress_percentage_wrapper.addEventListener("click",
-             function(pEvent) {
-                 percentageClick(pEvent);
-             },
-             false
+            function(pEvent) {
+                percentageClick(pEvent);
+            },
+            false
         );
     }
 

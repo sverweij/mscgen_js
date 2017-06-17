@@ -12,14 +12,14 @@ define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
          */
         if (!!pViewBox && !!pViewBox.baseVal) {
             return pString
-                    .replace(
-                        'width="100%"',
-                        'width="' + pViewBox.baseVal.width + '"'
-                    )
-                    .replace(
-                        'height="100%"',
-                        'height="' + pViewBox.baseVal.height + '"'
-                    );
+                .replace(
+                    'width="100%"',
+                    'width="' + pViewBox.baseVal.width + '"'
+                )
+                .replace(
+                    'height="100%"',
+                    'height="' + pViewBox.baseVal.height + '"'
+                );
         }
         return pString;
 

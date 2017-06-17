@@ -14,8 +14,8 @@ define(function(require) {
             '<input id="__option_style_${pNamedStyle.name}" type="radio" name="stylerg" value="${pNamedStyle.name}">' +
             ' <label for="__option_style_${pNamedStyle.name}">${pNamedStyle.description}</label>' +
         '</div>')
-        .replace(/\${pNamedStyle.name}/g, pNamedStyle.name)
-        .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
+            .replace(/\${pNamedStyle.name}/g, pNamedStyle.name)
+            .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
     }
 
     function initSamples(pDebug) {
@@ -45,7 +45,7 @@ define(function(require) {
             mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
                 return pAll + namedStyle2Div(pNamedStyle);
             }, ""
-        );
+            );
 
     }
 
