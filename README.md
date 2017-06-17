@@ -100,7 +100,7 @@ you'd want to use `mscgen-inpage.js`.
 
 ### Commercial use of embedding mscgen using mscgen-inpage.js
 In addition to the GNU public license, for the use of the minified version
-of the embedding code (```mscgen-inpage.js```) as described on
+of the embedding code (`mscgen-inpage.js`) as described on
 [embedding][mscgenjs.embed] a special exception to the GPL is made:  
 
 > As a special exception to the GPL, any HTML file which merely makes
@@ -130,10 +130,10 @@ license (incidentally all MIT style):
   [amdefine][amdefine.license], [node-localstorage][36] and
   [commander][commander.license].
 
-Icons courtesy of Dmitry Baranovskiy [license][15].
+Icons are courtesy of Dmitry Baranovskiy [license][15].
 
 - Icons in the animation, were created with the [IcoMoon App][icomoon].
-At the time the font was created it was licensed[GPLv3][license.gpl-3.0] or
+At the time the font was created it was licensed [GPLv3][license.gpl-3.0] or
 [CC BY 4.0][license.ccby4]
 
 It uses [mocha][21], [chai][39],
@@ -152,9 +152,9 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
   [CodeMirror][codemirror] editor component.
 - [Elijah Insua][jsdom.author] for [jsdom][jsdom], which makes it possible
   to render vector graphics in node.js.
-- [Audrey M. Roy][favicon.author] for the excelent
+- Audrey M. Roy for the excellent
   ["painfully obsessive cheat sheet to favicon sizes/types."][favicon].
-- [Joshua Chaitin-Pollak](https://github.com/jbcpollak), for suggesting
+- [Joshua Chaitin-Pollak][mscgenjs.publish], for suggesting
    to publish mscgen_js as a package.
 
 [almond]: https://github.com/jrburke/almond
@@ -166,7 +166,6 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [codemirror.license]: wikum/licenses/license.codemirror.md
 [commander.license]: wikum/licenses/license.commander.md
 [favicon]: https://github.com/audreyr/favicon-cheat-sheet
-[favicon.author]: http://www.audreymroy.com/
 [icomoon]: https://icomoon.io/app/
 [jsdom]: https://github.com/tmpvar/jsdom
 [jsdom.author]: http://tmpvar.com/
@@ -190,8 +189,9 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [mscgenjs.inpage]: https://github.com/sverweij/mscgenjs-inpage
 [mscgenjs.cli]: https://github.com/sverweij/mscgenjs-cli
 [mscgenjs.atom.preview]: https://github.com/sverweij/atom-mscgen-preview
-[pegjs]: http://majda.cz/en/
-[pegjs.author]: http://pegjs.majda.cz/
+[mscgenjs.publish]: https://github.com/jbcpollak
+[pegjs]: https://pegjs.org/
+[pegjs.author]: http://majda.cz/
 [pegjs.license]: wikum/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: wikum/licenses/license.requirejs.md
