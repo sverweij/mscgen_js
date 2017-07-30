@@ -256,8 +256,11 @@ csslint:
 lint:
 	$(NPM) run lint
 
+lint-fix:
+	$(NPM) run lint:fix
+
 cover: dev-build
-	$(NPM) run cover
+	$(NPM) run test:cover
 
 install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
@@ -302,7 +305,7 @@ check: noconsolestatements lint test
 
 fullcheck: check outdated nsp
 
-update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp
+update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp lint-fix
 	$(GIT) diff package.json
 
 run-update-dependencies:

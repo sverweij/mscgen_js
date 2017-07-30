@@ -27,13 +27,14 @@
     "watch": "1.0.2"
   },
   "scripts": {
-    "test": "mocha -R dot --recursive src/script/test",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
+    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
+    "lint": "eslint src/script",
+    "lint:fix": "eslint --fix src/script",
+    "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|mscgen-inpage.js\" src/script/",
-    "lint": "eslint src/script",
-    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
-    "npm-check-updates": "ncu --upgrade",
+    "test": "mocha -R dot --recursive src/script/test",
+    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
     "watch": "watch 'make dev-build' src",
     "watch-build": "watch 'make install' src"
   },
