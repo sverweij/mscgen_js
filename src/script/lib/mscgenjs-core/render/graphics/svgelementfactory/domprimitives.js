@@ -88,7 +88,7 @@ define(function() {
          */
         setAttributes: _setAttributes,
 
-         /**
+        /**
          * Takes an element, adds the passed attributes to it if they have
          * a value and returns it.
          *

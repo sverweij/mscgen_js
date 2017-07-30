@@ -82,8 +82,8 @@ define(function(require) {
         var lAggregateClass = kind2class.getAggregateClass(lKind);
 
         return lClass === lAggregateClass
-                          ? lClass + pPostFix
-                          : lAggregateClass + pPostFix + lClass + pPostFix;
+            ? lClass + pPostFix
+            : lAggregateClass + pPostFix + lClass + pPostFix;
     }
 
     function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
@@ -184,7 +184,7 @@ define(function(require) {
             ("entity" === pKind && pOptions.wordwrapentities) ||
             ("box" !== aggregatekind.getAggregate(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
             typeof pKind === 'undefined'
-         ){
+        ){
             return wrap.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');

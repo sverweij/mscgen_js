@@ -24,7 +24,7 @@ define(function(require) {
     var gSchemes = {
         "minimal": {
             "entityColors": [
-              {}
+                {}
             ],
             "arcColors": {
                 "note": {

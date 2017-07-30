@@ -193,8 +193,8 @@ define(function(require) {
                 (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
             "height" :
                 Boolean(gChart.mirrorEntitiesOnBottom)
-                ? (2 * entities.getDims().height) + lRowInfo.y + lRowInfo.height + 2 * PAD_VERTICAL
-                : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
+                    ? (2 * entities.getDims().height) + lRowInfo.y + lRowInfo.height + 2 * PAD_VERTICAL
+                    : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
             "horizontaltransform" :
                 (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
             "autoscale" :

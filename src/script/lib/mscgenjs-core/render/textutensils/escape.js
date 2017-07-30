@@ -10,31 +10,31 @@ define(
  * @exports node/textutensils
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function() {
-    "use strict";
+    function() {
+        "use strict";
 
-    return {
+        return {
         /**
          * takes pString and replaces all escaped double quotes with
          * regular double quotes
          * @param {string} pString
          * @return {string}
          */
-        unescapeString : function(pString) {
-            return pString.replace(/\\"/g, '"');
-        },
+            unescapeString : function(pString) {
+                return pString.replace(/\\"/g, '"');
+            },
 
-        /**
+            /**
          * takes pString and replaces all double quotes with
          * escaped double quotes
          * @param {string} pString
          * @return {string}
          */
-        escapeString : function(pString) {
-            return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
-        }
-    };
-});
+            escapeString : function(pString) {
+                return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+            }
+        };
+    });
 /*
  This file is part of mscgen_js.
 

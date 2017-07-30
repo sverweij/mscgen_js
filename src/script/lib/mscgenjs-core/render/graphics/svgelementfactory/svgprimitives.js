@@ -406,7 +406,7 @@ define(function(require) {
             return lMarker;
         },
 
-         /**
+        /**
          * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
          *
          * @param {string} pId

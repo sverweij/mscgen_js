@@ -74,8 +74,8 @@ define(function() {
         var lDir        = getDirection(pLine);
         var lIntervalX  = lDir.signX * Math.sqrt((Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2)));
         var lIntervalY  = lDir.signY * (Math.abs(lDir.dy) === Infinity
-                            ? pInterval
-                            : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
+            ? pInterval
+            : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
         var lCurveSection = {};
 
         for (var i = 1; i <= lNoSegments; i++) {

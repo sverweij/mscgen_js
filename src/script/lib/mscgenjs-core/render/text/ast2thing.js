@@ -144,8 +144,8 @@ define(function(require) {
     function renderOption(pOption) {
         return pOption.name + "=" +
                (typeof pOption.value === "string"
-                    ? "\"" + escape.escapeString(pOption.value) + "\""
-                    : pOption.value.toString());
+                   ? "\"" + escape.escapeString(pOption.value) + "\""
+                   : pOption.value.toString());
     }
 
     function optionIsValid(/* pOption*/){
