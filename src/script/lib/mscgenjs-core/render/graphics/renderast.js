@@ -1,4 +1,5 @@
 /* istanbul ignore else */
+/* eslint max-statements: 0 */
 if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -120,11 +121,11 @@ define(function(require) {
     }
 
     function renderASTMain(pAST){
-        renderEntities(pAST.entities, pAST.options);
+        renderEntities(pAST.entities, 0, pAST.options);
         rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities, pAST.options);
         if (gChart.mirrorEntitiesOnBottom){
-            renderEntitiesOnBottom(pAST.entities);
+            renderEntitiesOnBottom(pAST.entities, pAST.options);
         }
     }
 
@@ -288,7 +289,7 @@ define(function(require) {
             return Math.max(
                 entities.getDims().height,
                 svgutensils.getBBox(
-                    renderEntity(lHighestEntity, 0, pOptions)
+                    renderEntity(lHighestEntity, 0, 0, pOptions)
                 ).height
             );
         }
@@ -307,10 +308,11 @@ define(function(require) {
         return pBBox;
     }
 
-    function renderEntity(pEntity, pX, pOptions) {
+    function renderEntity(pEntity, pX, pY, pOptions) {
         var lGroup = svgelementfactory.createGroup();
         var lBBox = _.cloneDeep(entities.getDims());
         lBBox.x = pX ? pX : 0;
+        lBBox.y = pY ? pY : 0;
         var lLabel = renderlabels.createLabel(
             _.defaults(
                 pEntity,
@@ -320,7 +322,7 @@ define(function(require) {
             ),
             {
                 x:lBBox.x,
-                y:lBBox.height / 2,
+                y:pY + (lBBox.height / 2),
                 width:lBBox.width
             },
             pOptions
@@ -338,7 +340,7 @@ define(function(require) {
         return lGroup;
     }
 
-    function renderEntitiesOnBottom(pEntities) {
+    function renderEntitiesOnBottom(pEntities, pOptions) {
         var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
 
         /*
@@ -355,15 +357,18 @@ define(function(require) {
             gChart.layer.lifeline.appendChild(pLifeLine);
         });
 
-        gChart.layer.sequence.appendChild(
-            svgelementfactory.createUse(
-                {
-                    x:0,
-                    y:lLifeLineSpacerY + gChart.arcRowHeight / 2
-                },
-                idmanager.get("entities")
-            )
-        );
+        /*
+            We used to have a simple 'use' element here that refered to the
+            entities on top. It's cheaper and faster, however in Firefox
+            56.0b6 (developer edition) they rendered with the wrong font
+            in the best of cases, and as solid black boxes in the worst.
+
+            Looks like a bug in Firefox, that should be fixed there, but
+            implementing this workaround is safer. It also does away with
+            `use` s that seem to be hard to implement well for svg render engine
+            builders (ref the links in uses that didn't work in some browsers).
+         */
+        renderEntities(pEntities, lLifeLineSpacerY + gChart.arcRowHeight / 2, pOptions);
     }
 
     /**
@@ -372,15 +377,15 @@ define(function(require) {
      *
      * @param <object> - pEntities - the entities to render
      */
-    function renderEntities(pEntities, pOptions) {
+    function renderEntities(pEntities, pEntityYPos, pOptions) {
         var lEntityXPos = 0;
-        var lEntityGroup = svgelementfactory.createGroup(idmanager.get("entities"));
+        var lEntityGroup = svgelementfactory.createGroup();
 
         if (pEntities) {
             entities.setHeight(getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
-                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos, pOptions));
+                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos, pEntityYPos, pOptions));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });

@@ -253,14 +253,6 @@ define(function(require) {
         createGroup: gRenderMagic.createGroup,
 
         /**
-         * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
-         * @param {object} pCoords
-         * @param {number} pLink
-         * @return {SVGElement}
-         */
-        createUse: gRenderMagic.createUse,
-
-        /**
          * Create an arrow marker consisting of a path as specified in pD
          *
          * @param {string} pId

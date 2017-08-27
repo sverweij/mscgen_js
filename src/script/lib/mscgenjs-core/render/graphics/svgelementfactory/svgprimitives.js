@@ -359,24 +359,6 @@ define(function(require) {
             );
         },
 
-        /**
-         * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
-         * @param {object} pCoords
-         * @param {number} pLink
-         * @return {SVGElement}
-         */
-        createUse: function (pCoords, pLink) {
-            var lUse = domprimitives.createElement(
-                "use",
-                {
-                    x: round(pCoords.x, PRECISION).toString(),
-                    y: round(pCoords.y, PRECISION).toString()
-                }
-            );
-            lUse.setAttributeNS(domprimitives.XLINKNS, "xlink:href", "#" + pLink);
-            return lUse;
-        },
-
         // elementfactory, wobbly, straight
         createPath       : createPath,
 

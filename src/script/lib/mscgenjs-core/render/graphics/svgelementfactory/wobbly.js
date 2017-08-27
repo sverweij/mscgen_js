@@ -464,7 +464,6 @@ define(function(require) {
         createText: svgprimitives.createText,
         createUTurn: svgprimitives.createUTurn,
         createGroup: svgprimitives.createGroup,
-        createUse: svgprimitives.createUse,
         createMarkerPath: svgprimitives.createMarkerPath,
         createMarkerPolygon: svgprimitives.createMarkerPolygon,
         createTitle: svgprimitives.createTitle,

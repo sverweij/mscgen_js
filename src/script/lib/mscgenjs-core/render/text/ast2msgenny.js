@@ -13,6 +13,8 @@ define(function(require) {
 
     var ast2thing = require("./ast2thing");
 
+    var EOL = "\n";
+
     function gennyStringisQuotable(pString) {
         var lMatchResult = pString.match(/[;,{]/);
         if (lMatchResult) {
@@ -50,7 +52,12 @@ define(function(require) {
         render : function(pAST) {
             return ast2thing.render(pAST, {
                 "renderAttributefn" : renderAttribute,
-                "renderEntityNamefn" : renderEntityName
+                "renderEntityNamefn" : renderEntityName,
+                "entity" : {
+                    "opener" : "",
+                    "separator" : "," + EOL,
+                    "closer" : ";" + EOL + EOL
+                }
             });
         }
     };
