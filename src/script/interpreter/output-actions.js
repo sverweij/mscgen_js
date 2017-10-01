@@ -12,6 +12,21 @@ define([
 function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
     "use strict";
 
+    function setRasterURI(pLinkId) {
+        return function(pRasterURI, pError){
+            var lLinkId = document.getElementById(pLinkId);
+            if (Boolean(pError)) {
+                window.__export_too_big.style.display = 'block';
+                lLinkId.href = "#";
+                lLinkId.style.display = 'none';
+            } else {
+                window.__export_too_big.style.display = 'none';
+                lLinkId.href = pRasterURI;
+                lLinkId.style.display = 'flex';
+            }
+        };
+    }
+
     function showSaveAsOnClick() {
         window.__save_as_svg.href = xport.toVectorURI(
             dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
@@ -20,17 +35,13 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
             document,
             window.__svg,
             'image/png',
-            function(pRasterURI){
-                window.__save_as_png.href = pRasterURI;
-            }
+            setRasterURI('__save_as_png')
         );
         rxport.toRasterURI(
             document,
             window.__svg,
             'image/jpeg',
-            function(pRasterURI){
-                window.__save_as_jpeg.href = pRasterURI;
-            }
+            setRasterURI('__save_as_jpeg')
         );
         gactions.togglePanel(
             window.__save_as_panel,

@@ -1412,19 +1412,25 @@ these will get lost in the translation.
 </section>
 <section>
 <h2 id="output">Output</h2>
-<p>The online interpreter supports several output formats.
+<p>The online interpreter supports several output formats behind the
+    <code>save</code> button.
 </p>
 <h3>Vector graphics: svg</h3>
-<p>Clicking the <em>svg</em> button or
-    double clicking the sequence chart opens the chart in a new window (or tab).
-    In most browsers it's super easy to save the image to your local file
-    system from there (e.g. right click -&gt; save as ...).
+<p>Clicking the <em>svg</em> button pushes the svg to you - depending on your
+    browser configuration the browser will either ask you what to do with it,
+    save it or open it in your default program that handles svg's.
 </p>
 
 <h3>Raster graphics: png and jpeg</h3>
-<p>Opens a new window/ tab with the "rasterized" version of the
-    chart in the lossless png or the lossy jpeg formats respectively.
-    Saving is just as easy as saving the vector graphics.
+<p>Works the same as the svg, albeit you are presented with the "rasterized"
+    version of the chart in the lossless png or the lossy jpeg formats respectively.
+</p>
+<p class="info">
+    This works for most charts. If your chart is really big, though (>32k pixels
+    wide or high) the browser won't be able to export it to png or jpeg. The
+    interpreter will hide the png and jpeg buttons and explain. For the background
+    of these limitations check
+    <a href="https://github.com/sverweij/mscgen_js/issues/248">mscgen_js github issue #248</a>.
 </p>
 
 <h3>The little film camera icon</h3>
