@@ -14,6 +14,7 @@
     "chai": "4.1.1",
     "codeclimate-test-reporter": "0.5.0",
     "csslint": "1.0.5",
+    "dependency-cruiser": "2.4.1",
     "eslint": "4.5.0",
     "istanbul": "0.4.5",
     "js-makedepend": "2.2.6",
@@ -28,6 +29,8 @@
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
+    "depcruise": "depcruise -v -- src/script",
+    "depcruise:graph": "depcruise -M amd -T dot -x node_modules -v -- src/script | dot -T svg > tmp_deps.svg",
     "lint": "eslint src/script",
     "lint:fix": "eslint --fix src/script",
     "npm-check-updates": "ncu --upgrade",

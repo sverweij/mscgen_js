@@ -253,6 +253,9 @@ consolecheck:
 csslint:
 	$(CSSLINT) src/style/*.css
 
+depcruise:
+	$(NPM) run depcruise
+
 lint:
 	$(NPM) run lint
 
@@ -301,7 +304,7 @@ nsp:
 outdated:
 	$(NPM) outdated
 
-check: noconsolestatements lint test
+check: noconsolestatements lint depcruise test
 
 fullcheck: check outdated nsp
 
