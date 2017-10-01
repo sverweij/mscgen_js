@@ -2,6 +2,8 @@
 
 define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
     "use strict";
+    var MAX_SIGNED_SHORT = 32767;
+
     function geckoRelativeSizeWorkaround(pString, pViewBox) {
         /* the ugly replace is to be sure gecko
          * actualy renders a picture when using the
@@ -42,11 +44,23 @@ define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
                 var lCanvasContext = lCanvas.getContext('2d');
                 var lImage         = pEvent.target;
 
-                lCanvas.width  = lImage.width;
-                lCanvas.height = lImage.height;
+                /*
+                 * When the passed image is too big for the browser to handle
+                 * return an error string
+                 *
+                 * See https://github.com/sverweij/mscgen_js/issues/248 for
+                 * an overview of the practical limits in various browsers and
+                 * pointers for further research.
+                 */
+                if (lImage.width > MAX_SIGNED_SHORT || lImage.height > MAX_SIGNED_SHORT) {
+                    pCallback(null, "image-too-big");
+                } else {
+                    lCanvas.width  = lImage.width;
+                    lCanvas.height = lImage.height;
 
-                lCanvasContext.drawImage(lImage, 0, 0);
-                pCallback(lCanvas.toDataURL(pType, 0.8));
+                    lCanvasContext.drawImage(lImage, 0, 0);
+                    pCallback(lCanvas.toDataURL(pType, 0.8));
+                }
             });
         }
     };
