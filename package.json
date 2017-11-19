@@ -29,7 +29,7 @@
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
-    "depcruise": "depcruise -v -- src/script",
+    "depcruise": "depcruise -v -X node_modules -- src/script",
     "depcruise:graph": "depcruise -M amd -T dot -x node_modules -v -- src/script | dot -T svg > tmp_deps.svg",
     "lint": "eslint src/script",
     "lint:fix": "eslint --fix src/script",
