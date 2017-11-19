@@ -28,6 +28,7 @@ define(function(require) {
         if (!Boolean(pRenderMagic)) {
             return gRenderMagic;
         }
+        /* istanbul ignore if */
         if ("wobbly" === pRenderMagic){
             return wobbly;
         }
