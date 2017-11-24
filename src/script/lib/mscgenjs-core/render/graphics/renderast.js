@@ -401,7 +401,7 @@ define(function(require) {
 
     /* ------------------------END entity shizzle-------------------------------- */
 
-    function renderBroadcastArc(pArc, pEntities, lRowMemory, pY, pOptions) {
+    function renderBroadcastArc(pArc, pEntities, pRowMemory, pY, pOptions) {
         var xTo    = 0;
         var lLabel = pArc.label;
         var xFrom  = entities.getX(pArc.from);
@@ -414,7 +414,7 @@ define(function(require) {
             if (pEntity.name !== pArc.from) {
                 xTo = entities.getX(pEntity.name);
                 lElement = createArc(pArc, xFrom, xTo, pY, pOptions);
-                lRowMemory.push({
+                pRowMemory.push({
                     layer : gChart.layer.sequence,
                     element: lElement
                 });
@@ -488,7 +488,9 @@ define(function(require) {
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
             default:
-                lElement = renderRegularArc(pArc, pEntities, [], 0, pOptions);
+                var lArc = _.cloneDeep(pArc);
+                lArc.arcskip = 0; /* ignore arc skips when calculating row heights */
+                lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions);
             }// switch
 
             lRetval = Math.max(
@@ -815,29 +817,9 @@ define(function(require) {
 
     function determineArcYTo(pArcSkip, pArcRowHeight, pArcGradient){
         var lRetval = pArcGradient;
-        /**
-         * polyfill for Math.sign which is not defined on some platforms
-         * mscgen.js still stupports
-         * @param  {Number} pNumber the Number to test
-         * @return {Number}         seet Math.sign
-         */
-        function math_sign(pNumber) {
-            if (pNumber > 0) {
-                return 1;
-            }
-            if (pNumber < 0) {
-                return -1;
-            }
-            if (pNumber === 0) {
-                return 0;
-            }
-            return -0;
-        }
 
         if (pArcSkip) {
-            lRetval =
-                (pArcSkip * pArcRowHeight) +
-                (math_sign(pArcSkip) * constants.LINE_WIDTH * 2);
+            lRetval = (pArcSkip * pArcRowHeight);
         }
         return lRetval;
     }
