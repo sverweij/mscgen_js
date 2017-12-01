@@ -12,11 +12,11 @@ define(function(require){
     var DEFAULT_ENTITY_WIDTH         = 100; // px
     var DEFAULT_ENTITY_HEIGHT        = 34; // px
 
-    var gEntityDims = {
+    var gEntityDims = Object.seal({
         interEntitySpacing : DEFAULT_INTER_ENTITY_SPACING,
         height             : DEFAULT_ENTITY_HEIGHT,
         width              : DEFAULT_ENTITY_WIDTH
-    };
+    });
 
     var gEntity2X = {};
 
@@ -57,6 +57,12 @@ define(function(require){
         }
     };
 });
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
+
 /*
  This file is part of mscgen_js.
 

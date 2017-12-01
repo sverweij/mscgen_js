@@ -93,6 +93,7 @@ define(
                 function(pArc){
                     if ("inline_expression" === aggregatekind.getAggregate(pArc.kind)) {
                         pArc.depth = pDepth;
+                        pArc.isVirtual = true;
                         if (Boolean(pArc.arcs)) {
                             var lInlineExpression = _.cloneDeep(pArc);
                             lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
@@ -123,7 +124,8 @@ define(
                         lUnWoundSubArcs.push([{
                             kind : "|||",
                             from : pArc.from,
-                            to : pArc.to
+                            to : pArc.to,
+                            isVirtual : true
                         }]);
                     } else {
                         if ((pFrom && pTo) && ("emptyarc" === aggregatekind.getAggregate(pArc.kind))) {

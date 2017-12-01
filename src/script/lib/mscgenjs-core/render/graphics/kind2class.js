@@ -6,7 +6,7 @@ if (typeof define !== 'function') {
 define(function() {
     "use strict";
 
-    var KIND2CLASS = {
+    var KIND2CLASS = Object.freeze({
         "|||"   : "empty-row",
         "..."   : "omitted-row",
         "---"   : "comment-row",
@@ -31,9 +31,9 @@ define(function() {
         "=="    : "method",
         ".."    : "return",
         "::"    : "emphasised"
-    };
+    });
 
-    var KIND2AGGREGATECLASS = {
+    var KIND2AGGREGATECLASS = Object.freeze({
         "|||" : "empty",
         "..." : "empty",
         "---" : "empty",
@@ -77,13 +77,19 @@ define(function() {
         "loop" : "inline_expression",
         "ref" : "inline_expression",
         "exc" : "inline_expression"
-    };
+    });
 
     return {
         getClass : function(pKey) { return KIND2CLASS[pKey] || pKey; },
         getAggregateClass : function(pKey) { return KIND2AGGREGATECLASS[pKey] || pKey; }
     };
 });
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
+
 /*
  This file is part of mscgen_js.
 

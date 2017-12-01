@@ -130,7 +130,9 @@ define(function(require) {
                 if (lLines.length === 1) {
                     lLines.push("");
                 }
-                lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1);
+                lStartY =
+                    pDims.y -
+                    (lLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1);
             }
             lLines
                 .forEach(

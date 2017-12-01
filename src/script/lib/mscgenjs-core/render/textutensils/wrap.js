@@ -59,6 +59,10 @@ define(
             }
         };
     });
+/* eslint security/detect-object-injection: 0 */
+/* the array indexing flagged here as object injection is done
+   with a local variable only.
+*/
 /*
  This file is part of mscgen_js.
 

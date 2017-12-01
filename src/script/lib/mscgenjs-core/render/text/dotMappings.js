@@ -12,20 +12,20 @@ define(function() {
      * @exports node/arcmappings
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
-    var KIND2ARROW = {
+    var KIND2ARROW = Object.freeze({
         "->" : "rvee",
         "<->" : "rvee",
         "=>" : "normal",
         "<=>" : "normal",
         "-x" : "oinvonormal"
-    };
-    var KIND2SHAPE = {
+    });
+    var KIND2SHAPE = Object.freeze({
         "box" : "box",
         "abox" : "hexagon",
         "rbox" : "box",
         "note" : "note"
-    };
-    var KIND2STYLE = {
+    });
+    var KIND2STYLE = Object.freeze({
         ">>" : "dashed",
         "<<>>" : "dashed",
         ".." : "dashed",
@@ -33,7 +33,7 @@ define(function() {
         "<:>" : "bold",
         "::" : "bold",
         "rbox" : "rounded"
-    };
+    });
 
     return {
         // dot only
@@ -42,6 +42,12 @@ define(function() {
         getStyle : function(pKey) { return KIND2STYLE[pKey]; }
     };
 });
+
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
 /*
  This file is part of mscgen_js.
 

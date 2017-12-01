@@ -59,7 +59,7 @@ define(function(require) {
     var gInlineExpressionMemory = [];
 
     function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
-        var lAST = Object.seal(flatten.flatten(pAST));
+        var lAST = Object.freeze(flatten.flatten(pAST));
         var lOptions = pOptions || {};
 
         lOptions = _.defaults(lOptions, {
@@ -401,7 +401,7 @@ define(function(require) {
 
     /* ------------------------END entity shizzle-------------------------------- */
 
-    function renderBroadcastArc(pArc, pEntities, pRowMemory, pY, pOptions) {
+    function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
         var xTo    = 0;
         var lLabel = pArc.label;
         var xFrom  = entities.getX(pArc.from);
@@ -413,7 +413,7 @@ define(function(require) {
 
             if (pEntity.name !== pArc.from) {
                 xTo = entities.getX(pEntity.name);
-                lElement = createArc(pArc, xFrom, xTo, pY, pOptions);
+                lElement = createArc(pArc, xFrom, xTo, pRowNumber, pOptions);
                 pRowMemory.push({
                     layer : gChart.layer.sequence,
                     element: lElement
@@ -424,19 +424,19 @@ define(function(require) {
         pArc.label = lLabel;
     }
 
-    function renderRegularArc(pArc, pEntities, pRowMemory, pY, pOptions){
+    function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions){
         var lElement = {};
 
         if (pArc.from && pArc.to) {
             if (pArc.to === "*") { // it's a broadcast arc
-                renderBroadcastArc(pArc, pEntities, pRowMemory, pY, pOptions);
+                renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions);
                 /* creates a label on the current line, smack in the middle */
                 lElement =
                     renderlabels.createLabel(
                         pArc,
                         {
                             x     : 0,
-                            y     : pY,
+                            y     : rowmemory.get(pRowNumber).y,
                             width : gChart.arcEndX
                         },
                         _.defaults(
@@ -458,7 +458,7 @@ define(function(require) {
                         pArc,
                         entities.getX(pArc.from),
                         entities.getX(pArc.to),
-                        pY,
+                        pRowNumber,
                         pOptions
                     );
                 pRowMemory.push({
@@ -490,7 +490,7 @@ define(function(require) {
             default:
                 var lArc = _.cloneDeep(pArc);
                 lArc.arcskip = 0; /* ignore arc skips when calculating row heights */
-                lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions);
+                lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
             }// switch
 
             lRetval = Math.max(
@@ -505,14 +505,6 @@ define(function(require) {
     function renderArcRow (pArcRow, pRowNumber, pEntities, pOptions){
         var lArcRowClass = "arcrow";
         var lRowMemory = [];
-
-        rowmemory.set(
-            pRowNumber,
-            Math.max(
-                rowmemory.get(pRowNumber).height,
-                getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
-            )
-        );
 
         pArcRow.forEach(function(pArc){
             var lElement = {};
@@ -557,7 +549,7 @@ define(function(require) {
                     pArc,
                     pEntities,
                     lRowMemory,
-                    rowmemory.get(pRowNumber).y,
+                    pRowNumber,
                     pOptions
                 );
             }// switch
@@ -586,6 +578,36 @@ define(function(require) {
         });
     }
 
+    function precalculateArcRowHeights (pArcRows, pEntities, pOptions) {
+        var lRealRowNumber = 0;
+
+        pArcRows.forEach(function(pArcRow, pRowNumber) {
+            function isVirtualArc(pArc) {
+                return pArc.isVirtual;
+            }
+
+            if (pArcRow.some(isVirtualArc)){
+                rowmemory.set(
+                    pRowNumber,
+                    Math.max(
+                        rowmemory.get(pRowNumber).height,
+                        getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
+                    )
+                );
+            } else {
+                rowmemory.set(
+                    pRowNumber,
+                    Math.max(
+                        rowmemory.get(pRowNumber).height,
+                        getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
+                    ),
+                    lRealRowNumber
+                );
+                lRealRowNumber++;
+            }
+        });
+    }
+
     /** renderArcRows() - renders the arcrows from an AST
      *
      * @param <object> - pArcRows - the arc rows to render
@@ -605,10 +627,10 @@ define(function(require) {
         });
 
         if (pArcRows) {
-            for (var i = 0; i < pArcRows.length; i++){
-                renderArcRow(pArcRows[i], i, pEntities, pOptions);
-            }
-            // pArcRows.forEach(renderArcRow);
+            precalculateArcRowHeights(pArcRows, pEntities, pOptions);
+            pArcRows.forEach(function(pArcRow, pCounter) {
+                renderArcRow(pArcRow, pCounter, pEntities, pOptions);
+            });
             renderInlineExpressions(gInlineExpressionMemory);
         } // if pArcRows
     }// function
@@ -634,8 +656,11 @@ define(function(require) {
             constants.LINE_WIDTH;
 
         var lStart =
-            (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2) -
-            (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH);
+            (
+                lOnD.from -
+                ((entities.getDims().interEntitySpacing - 3 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2) -
+                (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH
+            );
 
         var lGroup = svgelementfactory.createGroup();
         if (!lLabelContentAlreadyDetermined){
@@ -815,11 +840,20 @@ define(function(require) {
         }
     }
 
-    function determineArcYTo(pArcSkip, pArcRowHeight, pArcGradient){
-        var lRetval = pArcGradient;
+    function determineYToAbsolute(pRowNumber, pArcSkip, pArcGradient) {
+        var lRetval = rowmemory.get(pRowNumber).y + pArcGradient;
 
-        if (pArcSkip) {
-            lRetval = (pArcSkip * pArcRowHeight);
+        if (Boolean(pArcSkip)){
+            var lWholeArcSkip = Math.floor(pArcSkip);
+            var lRestArcSkip = pArcSkip - lWholeArcSkip;
+            var lCurrentRealRowNumber = rowmemory.get(pRowNumber).realRowNumber;
+
+            lRetval =
+                rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y +
+                lRestArcSkip * (
+                    rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip + 1).y -
+                    rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y
+                );
         }
         return lRetval;
     }
@@ -833,19 +867,26 @@ define(function(require) {
         return "";
     }
 
-    function createArc(pArc, pFrom, pTo, pY, pOptions) {
+    function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
         var lGroup = svgelementfactory.createGroup();
         var lClass = "arc ";
         lClass += determineDirectionClass(pArc.kind);
         lClass += kind2class.getAggregateClass(pArc.kind) + " " + kind2class.getClass(pArc.kind);
         var lDoubleLine = [":>", "::", "<:>"].indexOf(pArc.kind) > -1;
-        var lYTo = determineArcYTo(pArc.arcskip, gChart.arcRowHeight, gChart.arcGradient);
+        var lYToAbsolute = determineYToAbsolute(pRowNumber, pArc.arcskip, gChart.arcGradient);
 
         pTo = renderutensils.determineArcXTo(pArc.kind, pFrom, pTo);
 
         if (pFrom === pTo) {
             lGroup.appendChild(
-                createSelfRefArc(pArc.kind, pFrom, lYTo - gChart.arcGradient, lDoubleLine, pArc.linecolor, pY)
+                createSelfRefArc(
+                    pArc.kind,
+                    pFrom,
+                    lYToAbsolute - rowmemory.get(pRowNumber).y - gChart.arcGradient,
+                    lDoubleLine,
+                    pArc.linecolor,
+                    rowmemory.get(pRowNumber).y
+                )
             );
 
             /* creates a label left aligned, a little above the arc*/
@@ -855,7 +896,7 @@ define(function(require) {
                     pArc,
                     {
                         x:pFrom + 1.5 * constants.LINE_WIDTH - (lTextWidth / 2),
-                        y:pY - (gChart.arcRowHeight / 5) - constants.LINE_WIDTH / 2,
+                        y:rowmemory.get(pRowNumber).y - (gChart.arcRowHeight / 5) - constants.LINE_WIDTH / 2,
                         width:lTextWidth
                     },
                     _.defaults(
@@ -870,7 +911,12 @@ define(function(require) {
             );
         } else {
             var lLine = svgelementfactory.createLine(
-                {xFrom: pFrom, yFrom: pY, xTo: pTo, yTo: pY + lYTo},
+                {
+                    xFrom: pFrom,
+                    yFrom: rowmemory.get(pRowNumber).y,
+                    xTo: pTo,
+                    yTo: lYToAbsolute
+                },
                 {
                     class: lClass,
                     doubleLine: lDoubleLine
@@ -887,7 +933,11 @@ define(function(require) {
             lGroup.appendChild(
                 renderlabels.createLabel(
                     pArc,
-                    {x: pFrom, y: pY + (lYTo / 2), width: pTo - pFrom},
+                    {
+                        x: pFrom,
+                        y: rowmemory.get(pRowNumber).y + ((lYToAbsolute - rowmemory.get(pRowNumber).y) / 2),
+                        width: pTo - pFrom
+                    },
                     _.defaults(
                         _.cloneDeep(pOptions),
                         {
@@ -1029,7 +1079,10 @@ define(function(require) {
         var lBox = {};
         var lTextGroup = renderlabels.createLabel(pArc, {x:lStart, y:pY, width:lWidth}, pOptions);
         var lTextBBox = svgutensils.getBBox(lTextGroup);
-        var lHeight = Math.max(lTextBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight - 2 * constants.LINE_WIDTH);
+        var lHeight = Math.max(
+            lTextBBox.height + 2 * constants.LINE_WIDTH,
+            gChart.arcRowHeight - 2 * constants.LINE_WIDTH
+        );
         var lBBox = {width: lWidth, height: lHeight, x: lStart, y: (pY - lHeight / 2)};
 
         switch (pArc.kind) {

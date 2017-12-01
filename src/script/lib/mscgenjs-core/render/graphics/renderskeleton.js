@@ -215,6 +215,11 @@ define(function(require) {
 
     };
 });
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
 /*
  This file is part of mscgen_js.
 

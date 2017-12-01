@@ -211,6 +211,11 @@ define(function(require) {
         }
     };
 });
+
+/* eslint security/detect-object-injection: 0 */
+/* translateAttributes has two of these => local variables only
+   so we're good here
+*/
 /*
  This file is part of mscgen_js.
 

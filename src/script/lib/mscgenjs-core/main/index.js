@@ -92,10 +92,10 @@ define(function(require){
             }
         },
 
-        version: "1.12.6",
+        version: "1.12.7",
 
         getAllowedValues: function() {
-            return Object.seal({
+            return Object.freeze({
                 inputType: [
                     {name: "mscgen",  experimental: false},
                     {name: "msgenny", experimental: false},

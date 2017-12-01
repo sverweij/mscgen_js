@@ -13,20 +13,25 @@ define(function() {
      * @author {@link https://github.com/sverweij | Sander Verweij}
      */
 
-    var KIND2NORMALIZEDKIND = {
+    var KIND2NORMALIZEDKIND = Object.freeze({
         "<-" : "->",
         "<=" : "=>",
         "<<=" : "=>>",
         "<<" : ">>",
         "<:" : ":>",
         "x-" : "-x"
-    };
+    });
 
     return {
         // graphics and flatten
         getNormalizedKind : function(pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; }
     };
 });
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
 /*
  This file is part of mscgen_js.
 
