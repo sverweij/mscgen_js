@@ -586,7 +586,7 @@ define(function(require) {
                 return pArc.isVirtual;
             }
 
-            if (pArcRow.some(isVirtualArc)){
+            if (pArcRow.every(isVirtualArc)){
                 rowmemory.set(
                     pRowNumber,
                     Math.max(

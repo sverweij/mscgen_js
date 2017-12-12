@@ -7,15 +7,15 @@
     "amdefine": "1.0.1",
     "codemirror": "5.32.0",
     "requirejs": "2.3.5",
-    "mscgenjs": "1.12.7",
-    "mscgenjs-inpage": "1.12.8"
+    "mscgenjs": "1.12.8",
+    "mscgenjs-inpage": "1.12.9"
   },
   "devDependencies": {
     "chai": "4.1.2",
     "codeclimate-test-reporter": "0.5.0",
     "csslint": "1.0.5",
-    "dependency-cruiser": "2.8.0",
-    "eslint": "4.12.1",
+    "dependency-cruiser": "2.9.0",
+    "eslint": "4.13.1",
     "istanbul": "0.4.5",
     "js-makedepend": "2.4.1",
     "mocha": "4.0.1",
@@ -24,7 +24,7 @@
     "npm-check-updates": "2.13.0",
     "nsp": "3.1.0",
     "plato": "1.7.0",
-    "uglify-js": "3.2.0",
+    "uglify-js": "3.2.2",
     "watch": "1.0.2"
   },
   "scripts": {
