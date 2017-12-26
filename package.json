@@ -34,8 +34,8 @@
     "lint:fix": "eslint --fix src/script",
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
-    "plato": "plato -r -d platoreports -x \"parser|test|lib|mscgen-inpage.js\" src/script/",
-    "test": "mocha -R dot --recursive src/script/test",
+    "plato": "plato --recurse --dir platoreports --exclude \"parser|test|lib|mscgen-inpage.js\" src/script/",
+    "test": "mocha --reporter dot --recursive src/script/test",
     "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test"
   },
   "repository": {
