@@ -4,7 +4,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function(){
+define(function(){
     "use strict";
     var gDebug = false;
 

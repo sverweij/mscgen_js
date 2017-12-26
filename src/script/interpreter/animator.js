@@ -1,11 +1,10 @@
-define([
-    "../lib/mscgenjs-core/render/graphics/renderast",
-    "../lib/mscgenjs-core/render/text/ast2animate",
-    "../utl/gaga",
-    "../utl/domutl"
-],
-function(msc_render, ast2animate, gaga, dq) {
+define(function(require) {
     "use strict";
+
+    var msc_render  = require("../lib/mscgenjs-core/render/graphics/renderast");
+    var ast2animate = require("../lib/mscgenjs-core/render/text/ast2animate");
+    var gaga        = require("../utl/gaga");
+    var dq          = require("../utl/domutl");
 
     var ICON_PLAY               = "icon-play";
     var ICON_PAUSE              = "icon-pause";

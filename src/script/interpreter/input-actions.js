@@ -1,12 +1,11 @@
-define([
-    "./uistate",
-    "../utl/store",
-    "../utl/gaga",
-    "../lib/mscgenjs-core/render/astmassage/colorize",
-    "./general-actions"
-],
-function(uistate, store, gaga, colorize, gactions) {
+define(function(require) {
     "use strict";
+
+    var uistate  = require("./uistate");
+    var store    = require("../utl/store");
+    var gaga     = require("../utl/gaga");
+    var colorize = require("../lib/mscgenjs-core/render/astmassage/colorize");
+    var gactions = require("./general-actions");
 
     function _applyColorScheme(pSchemeName, pForce){
         uistate.manipulateSource(function(pAST){

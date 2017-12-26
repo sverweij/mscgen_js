@@ -1,14 +1,11 @@
 /* eslint max-params: 0 */
-define([
-    "./uistate",
-    "./animator",
-    "../utl/exporter",
-    "../utl/domutl",
-    "./general-actions",
-    "../utl/gaga"
-],
-function(uistate, animctrl, xport, dq, gactions, gaga) {
+define(function(require) {
     "use strict";
+
+    var uistate  = require("./uistate");
+    var xport    = require("../utl/exporter");
+    var gactions = require("./general-actions");
+    var gaga     = require("../utl/gaga");
 
     return {
         closeCheatSheet: function() {

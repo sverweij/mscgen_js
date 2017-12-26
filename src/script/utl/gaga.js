@@ -1,6 +1,6 @@
 /* global ga */
 /* eslint max-params:0, dot-notation:0, no-unused-expressions:0, no-sequences:0 */
-define([],
+define(
 /**
  * Wrapper for google analytics. Makes it more easy to implement "donottrack"
  *

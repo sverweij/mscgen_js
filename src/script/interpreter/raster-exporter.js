@@ -1,8 +1,11 @@
 /* global define */
 
-define(["../lib/mscgenjs-core/render/graphics/svgutensils"], function(utl) {
+define(function(require) {
     "use strict";
+    var utl = require("../lib/mscgenjs-core/render/graphics/svgutensils");
+
     var MAX_SIGNED_SHORT = 32767;
+
 
     function geckoRelativeSizeWorkaround(pString, pViewBox) {
         /* the ugly replace is to be sure gecko

@@ -1,16 +1,15 @@
 /* eslint max-params: 0 */
-define([
-    "./uistate",
-    "./animator",
-    "../utl/store",
-    "../utl/exporter",
-    "./raster-exporter",
-    "../lib/mscgenjs-core/render/graphics/svgutensils",
-    "./general-actions",
-    "../utl/gaga"
-],
-function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
+define(function(require) {
     "use strict";
+
+    var uistate     = require("./uistate");
+    var animctrl    = require("./animator");
+    var store       = require("../utl/store");
+    var xport       = require("../utl/exporter");
+    var rxport      = require("./raster-exporter");
+    var svgutensils = require("../lib/mscgenjs-core/render/graphics/svgutensils");
+    var gactions    = require("./general-actions");
+    var gaga        = require("../utl/gaga");
 
     function setRasterURI(pLinkId) {
         return function(pRasterURI, pError){
@@ -29,7 +28,7 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
 
     function showSaveAsOnClick() {
         window.__save_as_svg.href = xport.toVectorURI(
-            dq.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
+            svgutensils.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
         );
         rxport.toRasterURI(
             document,
@@ -97,7 +96,7 @@ function(uistate, animctrl, store, xport, rxport, dq, gactions, gaga) {
         animOnClick: function() {
             try {
                 animctrl.initialize(uistate.getAST(), uistate.getMirrorEntities());
-                // dq.ss(window.__animscreen).show();
+                // svgutensils.ss(window.__animscreen).show();
             } catch (e) {
                 // do nothing
             }

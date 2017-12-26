@@ -1,19 +1,19 @@
-define([
-    "./uistate",
-    "../lib/codemirror/lib/codemirror",
-    "../utl/maps", "../utl/gaga",
-    "../lib/codemirror/addon/edit/closebrackets",
-    "../lib/codemirror/addon/edit/matchbrackets",
-    "../lib/codemirror/addon/display/placeholder",
-    "../lib/codemirror/addon/dialog/dialog",
-    "../lib/codemirror/addon/search/searchcursor",
-    "../lib/codemirror/addon/search/search",
-    "../lib/codemirror/addon/selection/active-line",
-    "../lib/codemirror/mode/mscgen/mscgen",
-    "../lib/codemirror/mode/javascript/javascript"
-],
-function(uistate, codemirror, map, gaga) {
+define(function(require) {
     "use strict";
+
+    var uistate    = require("./uistate");
+    var codemirror = require("../lib/codemirror/lib/codemirror");
+    var map        = require("../utl/maps");
+    var gaga       = require("../utl/gaga");
+    require("../lib/codemirror/addon/edit/closebrackets");
+    require("../lib/codemirror/addon/edit/matchbrackets");
+    require("../lib/codemirror/addon/display/placeholder");
+    require("../lib/codemirror/addon/dialog/dialog");
+    require("../lib/codemirror/addon/search/searchcursor");
+    require("../lib/codemirror/addon/search/search");
+    require("../lib/codemirror/addon/selection/active-line");
+    require("../lib/codemirror/mode/mscgen/mscgen");
+    require("../lib/codemirror/mode/javascript/javascript");
 
     var gGaKeyCount  = 0;
     var gCodeMirror  = {};

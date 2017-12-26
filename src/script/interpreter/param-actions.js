@@ -1,14 +1,13 @@
-/* eslint max-params: 0 */
-define([
-    "./uistate",
-    "../utl/paramslikker",
-    "../utl/store",
-    "../utl/domutl",
-    "../utl/gaga",
-    "../utl/maps"
-],
-function(uistate, params, store, dq, gaga, map) {
+/* eslint max-paramslikker: 0 */
+define(function(require) {
     "use strict";
+
+    var uistate      = require("./uistate");
+    var paramslikker = require("../utl/paramslikker");
+    var store        = require("../utl/store");
+    var $            = require("../utl/domutl");
+    var gaga         = require("../utl/gaga");
+    var maps         = require("../utl/maps");
 
     function setupGA (pDoNotTrack){
         gaga.gaSetup(!pDoNotTrack);
@@ -17,12 +16,12 @@ function(uistate, params, store, dq, gaga, map) {
     }
 
     function processParams(){
-        var lParams = params.getParams(window.location.search);
-        setupGA(map.sanitizeBooleanesque(lParams.donottrack));
+        var lParams = paramslikker.getParams(window.location.search);
+        setupGA(maps.sanitizeBooleanesque(lParams.donottrack));
 
-        uistate.setDebug(map.sanitizeBooleanesque(lParams.debug));
+        uistate.setDebug(maps.sanitizeBooleanesque(lParams.debug));
         if (lParams.hasOwnProperty("debug")) {
-            gaga.g('send', 'event', 'debug', map.sanitizeBooleanesque(lParams.debug));
+            gaga.g('send', 'event', 'debug', maps.sanitizeBooleanesque(lParams.debug));
         }
 
         if (uistate.getDebug()) {
@@ -32,30 +31,30 @@ function(uistate, params, store, dq, gaga, map) {
         }
 
         if (lParams.hasOwnProperty("mirrorentities")) {
-            uistate.setMirrorEntities(map.sanitizeBooleanesque(lParams.mirrorentities));
-            gaga.g('send', 'event', 'params.mirrorentities', lParams.mirrorentities);
+            uistate.setMirrorEntities(maps.sanitizeBooleanesque(lParams.mirrorentities));
+            gaga.g('send', 'event', 'paramslikker.mirrorentities', lParams.mirrorentities);
         }
 
         if (lParams.hasOwnProperty("style")) {
             uistate.setNamedStyle(lParams.style);
-            gaga.g('send', 'event', 'params.style', lParams.style);
+            gaga.g('send', 'event', 'paramslikker.style', lParams.style);
         }
 
         if (lParams.lang){
             uistate.setLanguage(lParams.lang);
-            gaga.g('send', 'event', 'params.lang', lParams.lang);
+            gaga.g('send', 'event', 'paramslikker.lang', lParams.lang);
         }
 
         if (lParams.msc) {
             uistate.setSource(lParams.msc);
-            gaga.g('send', 'event', 'params.msc');
+            gaga.g('send', 'event', 'paramslikker.msc');
         } else if (uistate.getSource().length <= 0) {
             uistate.setSample();
         }
     }
 
     function tagAllLinks(){
-        dq.attachEventHandler("a[href]", "click", function(e){
+        $.attachEventHandler("a[href]", "click", function(e){
             var lTarget = "unknown";
 
             if (e.currentTarget) {

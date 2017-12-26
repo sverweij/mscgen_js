@@ -1,10 +1,8 @@
-define([
-    "./animator"
-],
-function(animctrl) {
+define(function(require) {
     "use strict";
 
-    var ESC_KEY   = 27;
+    var animctrl = require("./animator");
+    var ESC_KEY  = 27;
 
     function _hideAllPanels(){
         animctrl.close();

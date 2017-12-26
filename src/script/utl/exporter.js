@@ -5,14 +5,13 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([
-    "../lib/mscgenjs-core/render/text/ast2dot",
-    "../lib/mscgenjs-core/render/text/ast2mscgen",
-    "../lib/mscgenjs-core/render/text/ast2doxygen",
-    "./paramslikker"
-],
-function(ast2dot, ast2mscgen, ast2doxygen, par) {
+define(function(require) {
     "use strict";
+
+    var ast2dot      = require("../lib/mscgenjs-core/render/text/ast2dot");
+    var ast2mscgen   = require("../lib/mscgenjs-core/render/text/ast2mscgen");
+    var ast2doxygen  = require("../lib/mscgenjs-core/render/text/ast2doxygen");
+    var paramslikker = require("./paramslikker");
 
     /* max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1 */
     var MAX_LOCATION_LENGTH = 4094;
@@ -81,7 +80,7 @@ function(ast2dot, ast2mscgen, ast2doxygen, par) {
     }
 
     function getAdditionalParameters(pLocation, pMirrorEntities, pNamedStyle){
-        var lParams = par.getParams(pLocation.search);
+        var lParams = paramslikker.getParams(pLocation.search);
         var lAdditionalParameters = "";
 
         if (lParams.donottrack){
