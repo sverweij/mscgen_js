@@ -2,14 +2,14 @@
 define(function(require) {
     "use strict";
 
-    var uistate     = require("./uistate");
-    var animctrl    = require("./animator");
-    var store       = require("../utl/store");
-    var xport       = require("../utl/exporter");
-    var rxport      = require("./raster-exporter");
-    var svgutensils = require("../lib/mscgenjs-core/render/graphics/svgutensils");
-    var gactions    = require("./general-actions");
-    var gaga        = require("../utl/gaga");
+    var uistate        = require("./uistate");
+    var animator       = require("./animator");
+    var store          = require("../utl/store");
+    var exporter       = require("../utl/exporter");
+    var rasterExporter = require("./raster-exporter");
+    var svgutensils    = require("../lib/mscgenjs-core/render/graphics/svgutensils");
+    var generalActions = require("./general-actions");
+    var gaga           = require("../utl/gaga");
 
     function setRasterURI(pLinkId) {
         return function(pRasterURI, pError){
@@ -27,22 +27,22 @@ define(function(require) {
     }
 
     function showSaveAsOnClick() {
-        window.__save_as_svg.href = xport.toVectorURI(
+        window.__save_as_svg.href = exporter.toVectorURI(
             svgutensils.webkitNamespaceBugWorkaround(window.__svg.innerHTML)
         );
-        rxport.toRasterURI(
+        rasterExporter.toRasterURI(
             document,
             window.__svg,
             'image/png',
             setRasterURI('__save_as_png')
         );
-        rxport.toRasterURI(
+        rasterExporter.toRasterURI(
             document,
             window.__svg,
             'image/jpeg',
             setRasterURI('__save_as_jpeg')
         );
-        gactions.togglePanel(
+        generalActions.togglePanel(
             window.__save_as_panel,
             function(){ gaga.g('send', 'event', 'saveas.open', 'button'); },
             function(){ gaga.g('send', 'event', 'saveas.close', 'button'); }
@@ -54,7 +54,7 @@ define(function(require) {
         showSaveAsOnClick: showSaveAsOnClick,
         htmlOnClick: function() {
             window.open(
-                xport.toHTMLSnippetURI(
+                exporter.toHTMLSnippetURI(
                     uistate.getSource(),
                     uistate.getLanguage(),
                     {
@@ -68,22 +68,22 @@ define(function(require) {
             gaga.g('send', 'event', 'show_html', 'button');
         },
         dotOnClick: function() {
-            window.open(xport.todotURI(uistate.getAST()));
+            window.open(exporter.todotURI(uistate.getAST()));
             gaga.g('send', 'event', 'show_dot', 'button');
         },
         vanillaOnClick: function() {
-            window.open(xport.toVanillaMscGenURI(uistate.getAST()));
+            window.open(exporter.toVanillaMscGenURI(uistate.getAST()));
             gaga.g('send', 'event', 'show_vanilla', 'button');
         },
         doxygenOnClick: function() {
-            window.open(xport.toDoxygenURI(uistate.getAST()));
+            window.open(exporter.toDoxygenURI(uistate.getAST()));
             gaga.g('send', 'event', 'show_doxygen', 'button');
         },
         urlOnClick: function() {
             window.history.replaceState(
                 {},
                 "",
-                xport.toLocationString(
+                exporter.toLocationString(
                     window.location,
                     uistate.getSource(),
                     uistate.getLanguage(),
@@ -95,7 +95,7 @@ define(function(require) {
         },
         animOnClick: function() {
             try {
-                animctrl.initialize(uistate.getAST(), uistate.getMirrorEntities());
+                animator.initialize(uistate.getAST(), uistate.getMirrorEntities());
                 // svgutensils.ss(window.__animscreen).show();
             } catch (e) {
                 // do nothing
@@ -107,14 +107,14 @@ define(function(require) {
             gaga.g('send', 'event', 'link', "error");
         },
         renderOptionsOnClick: function (){
-            gactions.togglePanel(
+            generalActions.togglePanel(
                 window.__render_options_panel,
                 function(){ gaga.g('send', 'event', 'renderoptions.open', 'button'); },
                 function(){ gaga.g('send', 'event', 'renderoptions.close', 'button'); }
             );
         },
         closeRenderOptions: function(){
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'renderoptions.close', 'button');
         },
         optionMirrorEntitiesOnClick: function(pEvent) {
@@ -142,18 +142,18 @@ define(function(require) {
             gaga.g('send', 'event', 'renderoptions.style', pEvent.target.value);
         },
         moreExportOptionsOnClick: function(){
-            gactions.togglePanel(
+            generalActions.togglePanel(
                 window.__output_panel,
                 function(){ gaga.g('send', 'event', 'export.open', 'button'); },
                 function(){ gaga.g('send', 'event', 'export.close', 'button'); }
             );
         },
         closeExportOptions: function(){
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'exportPanel.close', 'button');
         },
         closeSaveAsOptions: function(){
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'saveasPanel.close', 'button');
         }
     };

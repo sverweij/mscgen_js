@@ -8,81 +8,81 @@ require([
     "./interpreter/general-actions",
     "./interpreter/editor-events"
 ],
-function(iactions, oactions, nactions, par, gactions, edit) {
+function(inputActions, outputActions, navActions, paramActions, generalActions, editorEvents) {
     "use strict";
 
     function setupInputEvents(){
-        window.__autorender.addEventListener("click", iactions.autorenderOnClick, false);
-        window.__language_msgenny.addEventListener("click", iactions.languageMsGennyOnClick, false);
-        window.__language_mscgen.addEventListener("click", iactions.languageMscGenOnClick, false);
-        window.__language_json.addEventListener("click", iactions.languageJSONOnClick, false);
-        window.__btn_more_color_schemes.addEventListener("click", iactions.moreColorSchemesOnClick, false);
-        window.__color_minimal.addEventListener("click", iactions.colorMinimalOnClick, false);
-        window.__color_minimal_force.addEventListener("click", iactions.colorMinimalFOnClick, false);
-        window.__color_rose.addEventListener("click", iactions.colorRoseOnClick, false);
-        window.__color_rose_force.addEventListener("click", iactions.colorRoseFOnClick, false);
-        window.__color_bluey.addEventListener("click", iactions.colorBlueyOnClick, false);
-        window.__color_bluey_force.addEventListener("click", iactions.colorBlueyFOnClick, false);
-        window.__color_auto.addEventListener("click", iactions.colorAutoOnClick, false);
-        window.__color_auto_force.addEventListener("click", iactions.colorAutoFOnClick, false);
-        window.__color_remove.addEventListener("click", iactions.uncolorizeOnClick, false);
-        window.__btn_render.addEventListener("click", iactions.renderOnClick, false);
-        window.__samples.addEventListener("change", iactions.samplesOnChange, false);
-        window.__save.addEventListener("click", iactions.saveOnClick, false);
-        window.__load.addEventListener("click", iactions.loadOnClick, false);
-        window.__btn_color_panel_close.addEventListener("click", iactions.closeColorPanel, false);
+        window.__autorender.addEventListener("click", inputActions.autorenderOnClick, false);
+        window.__language_msgenny.addEventListener("click", inputActions.languageMsGennyOnClick, false);
+        window.__language_mscgen.addEventListener("click", inputActions.languageMscGenOnClick, false);
+        window.__language_json.addEventListener("click", inputActions.languageJSONOnClick, false);
+        window.__btn_more_color_schemes.addEventListener("click", inputActions.moreColorSchemesOnClick, false);
+        window.__color_minimal.addEventListener("click", inputActions.colorMinimalOnClick, false);
+        window.__color_minimal_force.addEventListener("click", inputActions.colorMinimalFOnClick, false);
+        window.__color_rose.addEventListener("click", inputActions.colorRoseOnClick, false);
+        window.__color_rose_force.addEventListener("click", inputActions.colorRoseFOnClick, false);
+        window.__color_bluey.addEventListener("click", inputActions.colorBlueyOnClick, false);
+        window.__color_bluey_force.addEventListener("click", inputActions.colorBlueyFOnClick, false);
+        window.__color_auto.addEventListener("click", inputActions.colorAutoOnClick, false);
+        window.__color_auto_force.addEventListener("click", inputActions.colorAutoFOnClick, false);
+        window.__color_remove.addEventListener("click", inputActions.uncolorizeOnClick, false);
+        window.__btn_render.addEventListener("click", inputActions.renderOnClick, false);
+        window.__samples.addEventListener("change", inputActions.samplesOnChange, false);
+        window.__save.addEventListener("click", inputActions.saveOnClick, false);
+        window.__load.addEventListener("click", inputActions.loadOnClick, false);
+        window.__btn_color_panel_close.addEventListener("click", inputActions.closeColorPanel, false);
     }
 
     function setupOutputEvents(){
-        window.__svg.addEventListener("dblclick", oactions.svgOnDblClick, false);
-        window.__show_save_as.addEventListener("click", oactions.showSaveAsOnClick, false);
-        window.__render_options.addEventListener("click", oactions.renderOptionsOnClick, false);
-        window.__btn_render_options_close.addEventListener("click", oactions.closeRenderOptions, false);
-        window.__option_mirror_entities.addEventListener("click", oactions.optionMirrorEntitiesOnClick, false);
-        window.__option_include_source.addEventListener("click", oactions.optionIncludeSourceOnClick, false);
+        window.__svg.addEventListener("dblclick", outputActions.svgOnDblClick, false);
+        window.__show_save_as.addEventListener("click", outputActions.showSaveAsOnClick, false);
+        window.__render_options.addEventListener("click", outputActions.renderOptionsOnClick, false);
+        window.__btn_render_options_close.addEventListener("click", outputActions.closeRenderOptions, false);
+        window.__option_mirror_entities.addEventListener("click", outputActions.optionMirrorEntitiesOnClick, false);
+        window.__option_include_source.addEventListener("click", outputActions.optionIncludeSourceOnClick, false);
         window.__option_vertical_label_alignment.addEventListener(
-            "change", oactions.optionVerticalLabelAlignmentOnChange, false
+            "change", outputActions.optionVerticalLabelAlignmentOnChange, false
         );
-        window.__option_style_basic.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_inverted.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_grayscaled.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_fountainpen.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_lazy.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_cygne.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_pegasse.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_classic.addEventListener("click", oactions.styleOnClick, false);
-        window.__option_style_noentityboxes.addEventListener("click", oactions.styleOnClick, false);
-        window.__more_export_options.addEventListener("click", oactions.moreExportOptionsOnClick, false);
-        window.__btn_output_panel_close.addEventListener("click", oactions.closeExportOptions, false);
-        window.__btn_save_as_panel_close.addEventListener("click", oactions.closeSaveAsOptions, false);
-        window.__show_html.addEventListener("click", oactions.htmlOnClick, false);
-        window.__show_dot.addEventListener("click", oactions.dotOnClick, false);
-        window.__show_vanilla.addEventListener("click", oactions.vanillaOnClick, false);
-        window.__show_doxygen.addEventListener("click", oactions.doxygenOnClick, false);
-        window.__show_url.addEventListener("click", oactions.urlOnClick, false);
-        window.__show_anim.addEventListener("click", oactions.animOnClick, false);
-        window.__error.addEventListener("click", oactions.errorOnClick, false);
+        window.__option_style_basic.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_inverted.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_grayscaled.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_fountainpen.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_lazy.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_cygne.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_pegasse.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_classic.addEventListener("click", outputActions.styleOnClick, false);
+        window.__option_style_noentityboxes.addEventListener("click", outputActions.styleOnClick, false);
+        window.__more_export_options.addEventListener("click", outputActions.moreExportOptionsOnClick, false);
+        window.__btn_output_panel_close.addEventListener("click", outputActions.closeExportOptions, false);
+        window.__btn_save_as_panel_close.addEventListener("click", outputActions.closeSaveAsOptions, false);
+        window.__show_html.addEventListener("click", outputActions.htmlOnClick, false);
+        window.__show_dot.addEventListener("click", outputActions.dotOnClick, false);
+        window.__show_vanilla.addEventListener("click", outputActions.vanillaOnClick, false);
+        window.__show_doxygen.addEventListener("click", outputActions.doxygenOnClick, false);
+        window.__show_url.addEventListener("click", outputActions.urlOnClick, false);
+        window.__show_anim.addEventListener("click", outputActions.animOnClick, false);
+        window.__error.addEventListener("click", outputActions.errorOnClick, false);
     }
 
     function setupInfoNavigationEvents(){
-        window.__close_lightbox.addEventListener("click", nactions.closeCheatSheet, false);
-        window.__btn_embed_panel_close.addEventListener("click", nactions.closeEmbedSheet, false);
-        window.__close_aboutsheet.addEventListener("click", nactions.closeAboutSheet, false);
-        window.__helpme.addEventListener("click", nactions.helpMeOnClick, false);
-        window.__embedme.addEventListener("click", nactions.embedMeOnClick, false);
-        window.__link_to_interpreter.addEventListener("click", nactions.linkToInterpreterOnClick, false);
-        window.__about.addEventListener("click", nactions.aboutOnClick, false);
-        window.document.body.addEventListener("keydown", gactions.keyDown, false);
+        window.__close_lightbox.addEventListener("click", navActions.closeCheatSheet, false);
+        window.__btn_embed_panel_close.addEventListener("click", navActions.closeEmbedSheet, false);
+        window.__close_aboutsheet.addEventListener("click", navActions.closeAboutSheet, false);
+        window.__helpme.addEventListener("click", navActions.helpMeOnClick, false);
+        window.__embedme.addEventListener("click", navActions.embedMeOnClick, false);
+        window.__link_to_interpreter.addEventListener("click", navActions.linkToInterpreterOnClick, false);
+        window.__about.addEventListener("click", navActions.aboutOnClick, false);
+        window.document.body.addEventListener("keydown", generalActions.keyDown, false);
     }
 
     function setupEvents(){
-        edit.init(window.__msc_input);
-        par.processParams();
+        editorEvents.init(window.__msc_input);
+        paramActions.processParams();
 
         setupInputEvents();
         setupOutputEvents();
         setupInfoNavigationEvents();
-        par.tagAllLinks();
+        paramActions.tagAllLinks();
     }
 
     setupEvents();

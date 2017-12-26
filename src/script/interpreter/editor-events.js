@@ -3,7 +3,7 @@ define(function(require) {
 
     var uistate    = require("./uistate");
     var codemirror = require("../lib/codemirror/lib/codemirror");
-    var map        = require("../utl/maps");
+    var maps       = require("../utl/maps");
     var gaga       = require("../utl/gaga");
     require("../lib/codemirror/addon/edit/closebrackets");
     require("../lib/codemirror/addon/edit/matchbrackets");
@@ -78,7 +78,7 @@ define(function(require) {
              * otherwise do default handling for drop events (whatever it is)
              */
             if (pEvent.dataTransfer.files.length > 0) {
-                uistate.setLanguage(map.classifyExtension(pEvent.dataTransfer.files[0].name));
+                uistate.setLanguage(maps.classifyExtension(pEvent.dataTransfer.files[0].name));
                 uistate.setSource("");
                 gaga.g('send', 'event', 'drop', uistate.getLanguage());
             }

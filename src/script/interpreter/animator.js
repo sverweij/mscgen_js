@@ -1,10 +1,10 @@
 define(function(require) {
     "use strict";
 
-    var msc_render  = require("../lib/mscgenjs-core/render/graphics/renderast");
+    var renderast   = require("../lib/mscgenjs-core/render/graphics/renderast");
     var ast2animate = require("../lib/mscgenjs-core/render/text/ast2animate");
     var gaga        = require("../utl/gaga");
-    var dq          = require("../utl/domutl");
+    var $           = require("../utl/domutl");
 
     var ICON_PLAY               = "icon-play";
     var ICON_PAUSE              = "icon-pause";
@@ -19,9 +19,9 @@ define(function(require) {
 
     function showAnimationControls(){
         if (gInitialized){
-            dq.ss(window.__btn_anim_close).show();
-            dq.ss(window.__animsvgwrapper).show();
-            dq.ss(window.__animcontrolswrapper).show();
+            $.ss(window.__btn_anim_close).show();
+            $.ss(window.__animsvgwrapper).show();
+            $.ss(window.__animcontrolswrapper).show();
         }
     }
 
@@ -35,9 +35,9 @@ define(function(require) {
         gInitializationTimer = window.setTimeout(showAnimationControls, 1100);
         gMirrorEntitiesOnBottom = pMirrorEntitiesOnBottom;
 
-        msc_render.clean("__animsvg", window);
+        renderast.clean("__animsvg", window);
         anim.init(pAST, true);
-        msc_render.renderASTNew(
+        renderast.renderASTNew(
             anim.getCurrentFrame(),
             window,
             "__animsvg",
@@ -64,8 +64,8 @@ define(function(require) {
 
     function updateState(){
         if (gInitialized) {
-            msc_render.clean("__animsvg", window);
-            msc_render.renderASTNew(
+            renderast.clean("__animsvg", window);
+            renderast.renderASTNew(
                 anim.getCurrentFrame(),
                 window,
                 "__animsvg",
@@ -112,9 +112,9 @@ define(function(require) {
     function close() {
         window.__animscreen.style["transition-duration"] = '0.6s';
         window.__animscreen.style.height = '0';
-        dq.ss(window.__animsvgwrapper).hide();
-        dq.ss(window.__animcontrolswrapper).hide();
-        dq.ss(window.__btn_anim_close).hide();
+        $.ss(window.__animsvgwrapper).hide();
+        $.ss(window.__animcontrolswrapper).hide();
+        $.ss(window.__btn_anim_close).hide();
         gPlaying = false;
         anim.home();
         updateState();

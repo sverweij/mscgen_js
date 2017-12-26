@@ -1,11 +1,11 @@
 define(function(require) {
     "use strict";
 
-    var animctrl = require("./animator");
+    var animator = require("./animator");
     var ESC_KEY  = 27;
 
     function _hideAllPanels(){
-        animctrl.close();
+        animator.close();
         window.__color_panel.style.width          = '0';
         window.__output_panel.style.width         = '0';
         window.__aboutsheet.style.width           = '0';

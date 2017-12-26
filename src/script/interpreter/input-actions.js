@@ -5,13 +5,13 @@ define(function(require) {
     var store    = require("../utl/store");
     var gaga     = require("../utl/gaga");
     var colorize = require("../lib/mscgenjs-core/render/astmassage/colorize");
-    var gactions = require("./general-actions");
+    var generalActions = require("./general-actions");
 
     function _applyColorScheme(pSchemeName, pForce){
         uistate.manipulateSource(function(pAST){
             return colorize.applyScheme(pAST, pSchemeName, pForce);
         });
-        gactions.hideAllPanels();
+        generalActions.hideAllPanels();
         gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? "_force" : ""), 'button');
     }
 
@@ -41,7 +41,7 @@ define(function(require) {
         colorBlueyFOnClick     : function(){ _applyColorScheme("bluey", true); },
         uncolorizeOnClick: function() {
             uistate.manipulateSource(colorize.uncolor);
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'color.remove', 'button');
         },
         renderOnClick: function() {
@@ -61,14 +61,14 @@ define(function(require) {
             gaga.g('send', 'event', 'load', 'button');
         },
         moreColorSchemesOnClick: function(){
-            gactions.togglePanel(
+            generalActions.togglePanel(
                 window.__color_panel,
                 function(){ gaga.g('send', 'event', 'more_color_schemes.open', 'button'); },
                 function(){ gaga.g('send', 'event', 'more_color_schemes.close', 'button'); }
             );
         },
         closeColorPanel: function(){
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'color.close', 'button');
         }
     };

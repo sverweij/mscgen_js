@@ -4,7 +4,7 @@ msc {
 
   html [label="index.html", textbgcolor="#ddf"]
 , ui [label="mscgenui.js"]
-, msc [label="mscparser.js"]
+, msc [label="xuparser.js"]
 
 , render [label="mscrender.js"]
 , utls [label="mscrenderutensils.js"]
@@ -35,19 +35,19 @@ msc {
               textbgcolor="#ffe"];
 }
 */
-
+/* eslint max-statements: 0 */
 define(function(require) {
     "use strict";
 
-    var mscparser     = require("../lib/mscgenjs-core/parse/xuparser");
+    var xuparser      = require("../lib/mscgenjs-core/parse/xuparser");
     var msgennyparser = require("../lib/mscgenjs-core/parse/msgennyparser");
-    var msc_render    = require("../lib/mscgenjs-core/render/graphics/renderast");
-    var tomsgenny     = require("../lib/mscgenjs-core/render/text/ast2msgenny");
-    var tomscgen      = require("../lib/mscgenjs-core/render/text/ast2xu");
-    var txt           = require("../utl/maps");
-    var dq            = require("../utl/domutl");
-    var xport         = require("../utl/exporter");
-    var lists         = require("./populate-lists");
+    var renderast     = require("../lib/mscgenjs-core/render/graphics/renderast");
+    var ast2msgenny   = require("../lib/mscgenjs-core/render/text/ast2msgenny");
+    var ast2xu        = require("../lib/mscgenjs-core/render/text/ast2xu");
+    var maps          = require("../utl/maps");
+    var $             = require("../utl/domutl");
+    var exporter      = require("../utl/exporter");
+    var populateLists = require("./populate-lists");
     var state         = require("./state");
 
     var gCodeMirror             = {};
@@ -68,7 +68,7 @@ define(function(require) {
         } else if ("json" === pLanguage) {
             return JSON.parse(pSource);
         } // we use the xu parser for both mscgen and xu:
-        return mscparser.parse(pSource);
+        return xuparser.parse(pSource);
     }
 
     function getAST(pLanguage, pSource) {
@@ -90,11 +90,11 @@ define(function(require) {
         var lTargetSource = "";
 
         if ("msgenny" === pLanguage){
-            lTargetSource = tomsgenny.render(pAST);
+            lTargetSource = ast2msgenny.render(pAST);
         } else if ("json" === pLanguage){
             lTargetSource = JSON.stringify(pAST, null, "  ");
         } else { // for rendering mscgen we use the xu renderer
-            lTargetSource = tomscgen.render(pAST);
+            lTargetSource = ast2xu.render(pAST);
         }
         return lTargetSource;
     }
@@ -114,7 +114,7 @@ define(function(require) {
 
     function setLanguage (pLanguage) {
         state.setLanguage(pLanguage);
-        gCodeMirror.setOption("mode", txt.language2Mode(pLanguage));
+        gCodeMirror.setOption("mode", maps.language2Mode(pLanguage));
 
         window.__language_mscgen.checked  = false;
         window.__language_msgenny.checked = false;
@@ -122,14 +122,14 @@ define(function(require) {
 
         if ("msgenny" === pLanguage) {
             window.__language_msgenny.checked = true;
-            dq.ss(window.__btn_more_color_schemes).hide();
+            $.ss(window.__btn_more_color_schemes).hide();
             window.__color_panel.style.width = '0';
         } else if ("json" === pLanguage){
             window.__language_json.checked = true;
-            dq.ss(window.__btn_more_color_schemes).show();
+            $.ss(window.__btn_more_color_schemes).show();
         } else /* "mscgen" === pLanguage || "xu" === pLanguage */{
             window.__language_mscgen.checked = true;
-            dq.ss(window.__btn_more_color_schemes).show();
+            $.ss(window.__btn_more_color_schemes).show();
         }
         requestRender();
     }
@@ -159,10 +159,10 @@ define(function(require) {
                     window.history.replaceState(
                         {},
                         "",
-                        xport.toLocationString(
+                        exporter.toLocationString(
                             window.location,
                             pSource,
-                            txt.correctLanguage(
+                            maps.correctLanguage(
                                 lAST.meta.extendedFeatures,
                                 pLanguage
                             ),
@@ -177,7 +177,7 @@ define(function(require) {
                     // to handle that without breaking the rest of the flow
                 }
             }
-            msc_render.renderASTNew(
+            renderast.renderASTNew(
                 lAST,
                 window,
                 "__svg",
@@ -198,34 +198,34 @@ define(function(require) {
 
     function preRenderReset(){
         hideError();
-        dq.ss(window.__output_controls_area).hide();
-        dq.ss(window.__placeholder).show("flex");
-        dq.ss(window.__svg).hide();
-        msc_render.clean("__svg", window);
+        $.ss(window.__output_controls_area).hide();
+        $.ss(window.__placeholder).show("flex");
+        $.ss(window.__svg).hide();
+        renderast.clean("__svg", window);
     }
 
     function showRenderSuccess(pMeta){
-        dq.ss(window.__output_controls_area).show();
-        dq.ss(window.__placeholder).hide();
-        dq.ss(window.__svg).show();
+        $.ss(window.__output_controls_area).show();
+        $.ss(window.__placeholder).hide();
+        $.ss(window.__svg).show();
         showExtendedArcTypeFeatures(pMeta);
         showExtendedFeatures(pMeta);
-        state.setLanguage(txt.correctLanguage(pMeta.extendedFeatures, state.getLanguage()));
+        state.setLanguage(maps.correctLanguage(pMeta.extendedFeatures, state.getLanguage()));
     }
 
     function showExtendedArcTypeFeatures(pMeta){
         if (pMeta && true === pMeta.extendedArcTypes) {
-            dq.ss(window.__show_anim).hide();
+            $.ss(window.__show_anim).hide();
         } else {
-            dq.ss(window.__show_anim).show();
+            $.ss(window.__show_anim).show();
         }
     }
 
     function showExtendedFeatures(pMeta){
         if (pMeta && true === pMeta.extendedFeatures){
-            dq.ss(window.__xu_notify).show();
+            $.ss(window.__xu_notify).show();
         } else {
-            dq.ss(window.__xu_notify).hide();
+            $.ss(window.__xu_notify).hide();
         }
     }
 
@@ -233,22 +233,22 @@ define(function(require) {
         state.setAutoRender(pAutoRender);
         if (pAutoRender) {
             window.__autorender.checked = true;
-            dq.ss(window.__btn_render).hide();
+            $.ss(window.__btn_render).hide();
         } else {
             window.__autorender.checked = false;
-            dq.ss(window.__btn_render).show();
+            $.ss(window.__btn_render).show();
         }
     }
 
     function hideError () {
-        dq.ss(window.__error).hide();
+        $.ss(window.__error).hide();
         window.__error_output.textContent  = "";
         window.__error_context.textContent = "";
     }
 
     function displayError (pError, pContext) {
-        dq.ss(window.__error).show();
-        dq.ss(window.__placeholder).hide();
+        $.ss(window.__error).show();
+        $.ss(window.__placeholder).hide();
         window.__error_output.textContent  = pError;
         window.__error_context.textContent = pContext;
     }
@@ -258,8 +258,8 @@ define(function(require) {
             gCodeMirror = pCodeMirror;
             setAutoRender(state.getAutoRender());
             setLanguage(state.getLanguage());
-            lists.initSamples(state.getDebug());
-            lists.initNamedStyles();
+            populateLists.initSamples(state.getDebug());
+            populateLists.initNamedStyles();
             if (window.__loading) {
                 window.__loading.outerHTML = "";
             }
@@ -299,10 +299,10 @@ define(function(require) {
             if ("none" === pURL || !pURL){
                 clear();
             } else {
-                dq.ajax(
+                $.ajax(
                     pURL,
                     function onSuccess (pEvent){
-                        setLanguage(txt.classifyExtension(pURL));
+                        setLanguage(maps.classifyExtension(pURL));
                         setSource(pEvent.target.response);
                     },
                     function onError (){
@@ -338,8 +338,8 @@ define(function(require) {
         setDebug: function(pBoolean){
             state.setDebug(pBoolean);
             if (state.getDebug()) {
-                dq.doForAllOfClass("debug", function(pDomNode){
-                    dq.ss(pDomNode).show();
+                $.doForAllOfClass("debug", function(pDomNode){
+                    $.ss(pDomNode).show();
                 });
             }
         },

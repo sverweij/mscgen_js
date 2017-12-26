@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     var mscgenjs         = require("../lib/mscgenjs-core/main/index");
-    var dq               = require("../utl/domutl");
+    var $               = require("../utl/domutl");
     var sampleListReader = require("./sampleListReader");
 
     function namedStyle2Div(pNamedStyle) {
@@ -19,7 +19,7 @@ define(function(require) {
     }
 
     function initSamples(pDebug) {
-        dq.ajax(
+        $.ajax(
             "samples/interpreter-samples.json",
             function(pResult){
                 try {
@@ -29,7 +29,7 @@ define(function(require) {
                             JSON.parse(pResult.target.response),
                             pDebug
                         );
-                    dq.ss(window.__samples).show();
+                    $.ss(window.__samples).show();
                 } catch (e) {
                     // quietly ignore
                 }

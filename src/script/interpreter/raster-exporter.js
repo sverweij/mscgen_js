@@ -2,7 +2,7 @@
 
 define(function(require) {
     "use strict";
-    var utl = require("../lib/mscgenjs-core/render/graphics/svgutensils");
+    var svgutensils = require("../lib/mscgenjs-core/render/graphics/svgutensils");
 
     var MAX_SIGNED_SHORT = 32767;
 
@@ -36,7 +36,7 @@ define(function(require) {
             lImg.src = 'data:image/svg+xml;charset=utf-8,' +
                         encodeURIComponent(
                             geckoRelativeSizeWorkaround(
-                                utl.webkitNamespaceBugWorkaround(
+                                svgutensils.webkitNamespaceBugWorkaround(
                                     pSVGParent.innerHTML
                                 ),
                                 pSVGParent.firstElementChild.viewBox

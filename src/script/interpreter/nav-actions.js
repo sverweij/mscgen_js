@@ -2,26 +2,26 @@
 define(function(require) {
     "use strict";
 
-    var uistate  = require("./uistate");
-    var xport    = require("../utl/exporter");
-    var gactions = require("./general-actions");
-    var gaga     = require("../utl/gaga");
+    var uistate        = require("./uistate");
+    var exporter       = require("../utl/exporter");
+    var generalActions = require("./general-actions");
+    var gaga           = require("../utl/gaga");
 
     return {
         closeCheatSheet: function() {
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'close_source_lightbox', 'button');
         },
         closeEmbedSheet: function() {
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'close_embedsheet', 'button');
         },
         closeAboutSheet: function() {
-            gactions.hideAllPanels();
+            generalActions.hideAllPanels();
             gaga.g('send', 'event', 'close_aboutsheet', 'button');
         },
         helpMeOnClick: function() {
-            gactions.togglePanel(
+            generalActions.togglePanel(
                 window.__learn_panel,
                 function(){
                     gaga.g('send', 'event', 'link', 'helpme');
@@ -33,7 +33,7 @@ define(function(require) {
         },
         embedMeOnClick: function() {
             window.__embedsnippet.textContent =
-                xport.toHTMLSnippet(
+                exporter.toHTMLSnippet(
                     uistate.getSource(),
                     uistate.getLanguage(),
                     {
@@ -43,7 +43,7 @@ define(function(require) {
                         namedStyle: uistate.getNamedStyle()
                     }
                 );
-            gactions.togglePanel(
+            generalActions.togglePanel(
                 window.__embed_panel,
                 function(){
                     gaga.g('send', 'event', 'link', 'embedme');
@@ -56,7 +56,7 @@ define(function(require) {
         linkToInterpreterOnClick: function() {
             uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
             window.__embedsnippet.textContent =
-                xport.toHTMLSnippet(
+                exporter.toHTMLSnippet(
                     uistate.getSource(),
                     uistate.getLanguage(),
                     {
@@ -70,7 +70,7 @@ define(function(require) {
             gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
         },
         aboutOnClick: function(){
-            gactions.togglePanel(
+            generalActions.togglePanel(
                 window.__aboutsheet,
                 function(){
                     gaga.g('send', 'event', 'link', 'about');
