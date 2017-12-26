@@ -10,6 +10,7 @@ msc {
   d [label="", linecolor="white", arclinecolor="red"],
   e [label="", linecolor="white"];
   
+  |||;
   d -> *[arcskip="-1"],
   b -> *[arcskip="1"],
   ||| [label="mscgen_js\nturns text into sequence charts"];

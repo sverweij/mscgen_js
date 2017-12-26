@@ -1,5 +1,5 @@
 msc {
-  hscale="0.2";
+  hscale="0.25";
 
   0 [label=" ", linecolor="transparent"],
   1 [label=" ", linecolor="transparent"],
@@ -154,6 +154,6 @@ msc {
   13 box 13[textcolor="white", textbgcolor="black"],
   14 box 14[textcolor="white", textbgcolor="black"],
   15 box 15[textcolor="white", textbgcolor="black"],
-  16 box 16[textcolor="white", textbgcolor="black"];
+  16 box 16[label="序", textcolor="white", textbgcolor="black"];
   ||| [label="序列圖"];
 }
