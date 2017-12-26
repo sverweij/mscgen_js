@@ -1,4 +1,4 @@
-![static model](http://www.yuml.me/e7b17d46)
+![static model](https://yuml.me/diagram/nofunky;dir:LR/class/e7b17d46)
 
 ```yuml
 [Entity|name*;label;linecolor;textcolor;textbgcolor;arclinecolor;arctextcolor;arctextbgcolor;url;id;idurl]
@@ -12,4 +12,4 @@
 [Diagram]-0..*>[Entity]
 [Diagram]-0..*>[Option]
 ```
-(edit [here](http://www.yuml.me/edit/e7b17d46))
+(edit [here](https://yuml.me/diagram/nofunky;dir:LR/class/edit/e7b17d46))
