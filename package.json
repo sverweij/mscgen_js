@@ -5,7 +5,7 @@
   "main": "src/script/index.js",
   "dependencies": {
     "amdefine": "1.0.1",
-    "codemirror": "5.32.0",
+    "codemirror": "5.33.0",
     "requirejs": "2.3.5",
     "mscgenjs": "1.12.8",
     "mscgenjs-inpage": "1.12.9"
@@ -14,17 +14,17 @@
     "chai": "4.1.2",
     "codeclimate-test-reporter": "0.5.0",
     "csslint": "1.0.5",
-    "dependency-cruiser": "2.9.0",
-    "eslint": "4.13.1",
+    "dependency-cruiser": "2.10.0",
+    "eslint": "4.14.0",
     "istanbul": "0.4.5",
-    "js-makedepend": "2.4.1",
+    "js-makedepend": "2.4.3",
     "mocha": "4.0.1",
     "node-localstorage": "1.3.0",
     "node-sass": "4.7.2",
-    "npm-check-updates": "2.13.0",
+    "npm-check-updates": "2.14.0",
     "nsp": "3.1.0",
     "plato": "1.7.0",
-    "uglify-js": "3.2.2"
+    "uglify-js": "3.3.2"
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
