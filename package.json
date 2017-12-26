@@ -2,7 +2,7 @@
   "name": "mscgen_js",
   "version": "1.12.8",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
-  "main": "src/script/index.js",
+  "main": "src/script/mscgen-interpreter.js",
   "dependencies": {
     "amdefine": "1.0.1",
     "codemirror": "5.33.0",
@@ -28,8 +28,8 @@
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
-    "depcruise": "depcruise -v -X node_modules -- src/script",
-    "depcruise:graph": "depcruise -M amd -T dot -x node_modules -v -- src/script | dot -T svg > tmp_deps.svg",
+    "depcruise": "depcruise --validate -- src/script",
+    "depcruise:graph": "depcruise --validate --output-type dot --module-systems amd src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",
     "lint": "eslint src/script",
     "lint:fix": "eslint --fix src/script",
     "npm-check-updates": "ncu --upgrade",

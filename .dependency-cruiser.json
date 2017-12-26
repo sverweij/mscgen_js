@@ -29,7 +29,32 @@
         "dependencyTypes": [
           "core"
         ],
-        "path": "^(punycode|domain)$"
+        "path": "^(punycode|domain|constants|sys|_linklist)$"
+      }
+    },
+    {
+      "name": "no-core-in-src",
+      "comment": "No dependencies on core modules in anything but test",
+      "severity": "error",
+      "from": {
+        "pathNot": "^src/script/test"
+      },
+      "to": {
+        "dependencyTypes": [
+          "core"
+        ]
+      }
+    },
+    {
+      "name": "no-node_modules-in-src",
+      "comment": "No dependencies on node_modules in anything but test",
+      "severity": "error",
+      "from": {
+        "pathNot": "^src/script/test"
+      },
+      "to": {
+        "path": "^node_modules",
+        "pathNot": "amdefine\\.js$"
       }
     },
     {
@@ -122,5 +147,8 @@
         "circular": true
       }
     }
-  ]
+  ],
+  "options": {
+    "doNotFollow": "^node_modules|^src/script/lib"
+  }
 }
