@@ -24,8 +24,7 @@
     "npm-check-updates": "2.13.0",
     "nsp": "3.1.0",
     "plato": "1.7.0",
-    "uglify-js": "3.2.2",
-    "watch": "1.0.2"
+    "uglify-js": "3.2.2"
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
@@ -37,9 +36,7 @@
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|mscgen-inpage.js\" src/script/",
     "test": "mocha -R dot --recursive src/script/test",
-    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
-    "watch": "watch 'make dev-build' src",
-    "watch-build": "watch 'make install' src"
+    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test"
   },
   "repository": {
     "type": "git",
