@@ -13,7 +13,7 @@
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.4';
+  var VERSION = '4.17.5';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -146,37 +146,11 @@
   }());
 
   /* Node.js helper references. */
-  var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+  var nodeIsMap = nodeUtil && nodeUtil.isMap,
+      nodeIsSet = nodeUtil && nodeUtil.isSet,
+      nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
 
   /*--------------------------------------------------------------------------*/
-
-  /**
-   * Adds the key-value `pair` to `map`.
-   *
-   * @private
-   * @param {Object} map The map to modify.
-   * @param {Array} pair The key-value pair to add.
-   * @returns {Object} Returns `map`.
-   */
-  function addMapEntry(map, pair) {
-    // Don't return `map.set` because it's not chainable in IE 11.
-    map.set(pair[0], pair[1]);
-    return map;
-  }
-
-  /**
-   * Adds `value` to `set`.
-   *
-   * @private
-   * @param {Object} set The set to modify.
-   * @param {*} value The value to add.
-   * @returns {Object} Returns `set`.
-   */
-  function addSetEntry(set, value) {
-    // Don't return `set.add` because it's not chainable in IE 11.
-    set.add(value);
-    return set;
-  }
 
   /**
    * A faster alternative to `Function#apply`, this function invokes `func`
@@ -263,31 +237,6 @@
   }
 
   /**
-   * A specialized version of `_.reduce` for arrays without support for
-   * iteratee shorthands.
-   *
-   * @private
-   * @param {Array} [array] The array to iterate over.
-   * @param {Function} iteratee The function invoked per iteration.
-   * @param {*} [accumulator] The initial value.
-   * @param {boolean} [initAccum] Specify using the first element of `array` as
-   *  the initial value.
-   * @returns {*} Returns the accumulated value.
-   */
-  function arrayReduce(array, iteratee, accumulator, initAccum) {
-    var index = -1,
-        length = array == null ? 0 : array.length;
-
-    if (initAccum && length) {
-      accumulator = array[++index];
-    }
-    while (++index < length) {
-      accumulator = iteratee(accumulator, array[index], index, array);
-    }
-    return accumulator;
-  }
-
-  /**
    * The base implementation of `_.times` without support for iteratee shorthands
    * or max array length checks.
    *
@@ -332,23 +281,6 @@
   }
 
   /**
-   * Converts `map` to its key-value pairs.
-   *
-   * @private
-   * @param {Object} map The map to convert.
-   * @returns {Array} Returns the key-value pairs.
-   */
-  function mapToArray(map) {
-    var index = -1,
-        result = Array(map.size);
-
-    map.forEach(function(value, key) {
-      result[++index] = [key, value];
-    });
-    return result;
-  }
-
-  /**
    * Creates a unary function that invokes `func` with its argument transformed.
    *
    * @private
@@ -360,23 +292,6 @@
     return function(arg) {
       return func(transform(arg));
     };
-  }
-
-  /**
-   * Converts `set` to an array of its values.
-   *
-   * @private
-   * @param {Object} set The set to convert.
-   * @returns {Array} Returns the values.
-   */
-  function setToArray(set) {
-    var index = -1,
-        result = Array(set.size);
-
-    set.forEach(function(value) {
-      result[++index] = value;
-    });
-    return result;
   }
 
   /*--------------------------------------------------------------------------*/
@@ -1212,7 +1127,7 @@
         if (!cloneableTags[tag]) {
           return object ? value : {};
         }
-        result = initCloneByTag(value, tag, baseClone, isDeep);
+        result = initCloneByTag(value, tag, isDeep);
       }
     }
     // Check for circular references and return its corresponding clone.
@@ -1222,6 +1137,22 @@
       return stacked;
     }
     stack.set(value, result);
+
+    if (isSet(value)) {
+      value.forEach(function(subValue) {
+        result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
+      });
+
+      return result;
+    }
+
+    if (isMap(value)) {
+      value.forEach(function(subValue, key) {
+        result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
+      });
+
+      return result;
+    }
 
     var keysFunc = isFull
       ? (isFlat ? getAllKeysIn : getAllKeys)
@@ -1317,6 +1248,17 @@
   }
 
   /**
+   * The base implementation of `_.isMap` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+   */
+  function baseIsMap(value) {
+    return isObjectLike(value) && getTag(value) == mapTag;
+  }
+
+  /**
    * The base implementation of `_.isNative` without bad shim checks.
    *
    * @private
@@ -1330,6 +1272,17 @@
     }
     var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
     return pattern.test(toSource(value));
+  }
+
+  /**
+   * The base implementation of `_.isSet` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+   */
+  function baseIsSet(value) {
+    return isObjectLike(value) && getTag(value) == setTag;
   }
 
   /**
@@ -1461,20 +1414,6 @@
   }
 
   /**
-   * Creates a clone of `map`.
-   *
-   * @private
-   * @param {Object} map The map to clone.
-   * @param {Function} cloneFunc The function to clone values.
-   * @param {boolean} [isDeep] Specify a deep clone.
-   * @returns {Object} Returns the cloned map.
-   */
-  function cloneMap(map, isDeep, cloneFunc) {
-    var array = isDeep ? cloneFunc(mapToArray(map), CLONE_DEEP_FLAG) : mapToArray(map);
-    return arrayReduce(array, addMapEntry, new map.constructor);
-  }
-
-  /**
    * Creates a clone of `regexp`.
    *
    * @private
@@ -1485,20 +1424,6 @@
     var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
     result.lastIndex = regexp.lastIndex;
     return result;
-  }
-
-  /**
-   * Creates a clone of `set`.
-   *
-   * @private
-   * @param {Object} set The set to clone.
-   * @param {Function} cloneFunc The function to clone values.
-   * @param {boolean} [isDeep] Specify a deep clone.
-   * @returns {Object} Returns the cloned set.
-   */
-  function cloneSet(set, isDeep, cloneFunc) {
-    var array = isDeep ? cloneFunc(setToArray(set), CLONE_DEEP_FLAG) : setToArray(set);
-    return arrayReduce(array, addSetEntry, new set.constructor);
   }
 
   /**
@@ -1602,59 +1527,6 @@
    */
   function copySymbolsIn(source, object) {
     return copyObject(source, getSymbolsIn(source), object);
-  }
-
-  /**
-   * Creates a function like `_.assign`.
-   *
-   * @private
-   * @param {Function} assigner The function to assign values.
-   * @returns {Function} Returns the new assigner function.
-   */
-  function createAssigner(assigner) {
-    return baseRest(function(object, sources) {
-      var index = -1,
-          length = sources.length,
-          customizer = length > 1 ? sources[length - 1] : undefined,
-          guard = length > 2 ? sources[2] : undefined;
-
-      customizer = (assigner.length > 3 && typeof customizer == 'function')
-        ? (length--, customizer)
-        : undefined;
-
-      if (guard && isIterateeCall(sources[0], sources[1], guard)) {
-        customizer = length < 3 ? undefined : customizer;
-        length = 1;
-      }
-      object = Object(object);
-      while (++index < length) {
-        var source = sources[index];
-        if (source) {
-          assigner(object, source, index, customizer);
-        }
-      }
-      return object;
-    });
-  }
-
-  /**
-   * Used by `_.defaults` to customize its `_.assignIn` use to assign properties
-   * of source objects to the destination object for all destination properties
-   * that resolve to `undefined`.
-   *
-   * @private
-   * @param {*} objValue The destination value.
-   * @param {*} srcValue The source value.
-   * @param {string} key The key of the property to assign.
-   * @param {Object} object The parent object of `objValue`.
-   * @returns {*} Returns the value to assign.
-   */
-  function customDefaultsAssignIn(objValue, srcValue, key, object) {
-    if (objValue === undefined ||
-        (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
-      return srcValue;
-    }
-    return objValue;
   }
 
   /**
@@ -1810,7 +1682,7 @@
    */
   function initCloneArray(array) {
     var length = array.length,
-        result = array.constructor(length);
+        result = new array.constructor(length);
 
     // Add properties assigned by `RegExp#exec`.
     if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
@@ -1837,16 +1709,15 @@
    * Initializes an object clone based on its `toStringTag`.
    *
    * **Note:** This function only supports cloning values with tags of
-   * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+   * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
    *
    * @private
    * @param {Object} object The object to clone.
    * @param {string} tag The `toStringTag` of the object to clone.
-   * @param {Function} cloneFunc The function to clone values.
    * @param {boolean} [isDeep] Specify a deep clone.
    * @returns {Object} Returns the initialized clone.
    */
-  function initCloneByTag(object, tag, cloneFunc, isDeep) {
+  function initCloneByTag(object, tag, isDeep) {
     var Ctor = object.constructor;
     switch (tag) {
       case arrayBufferTag:
@@ -1865,7 +1736,7 @@
         return cloneTypedArray(object, isDeep);
 
       case mapTag:
-        return cloneMap(object, isDeep, cloneFunc);
+        return new Ctor;
 
       case numberTag:
       case stringTag:
@@ -1875,7 +1746,7 @@
         return cloneRegExp(object);
 
       case setTag:
-        return cloneSet(object, isDeep, cloneFunc);
+        return new Ctor;
 
       case symbolTag:
         return cloneSymbol(object);
@@ -1903,10 +1774,13 @@
    * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
    */
   function isIndex(value, length) {
+    var type = typeof value;
     length = length == null ? MAX_SAFE_INTEGER : length;
+
     return !!length &&
-      (typeof value == 'number' || reIsUint.test(value)) &&
-      (value > -1 && value % 1 == 0 && value < length);
+      (type == 'number' ||
+        (type != 'symbol' && reIsUint.test(value))) &&
+          (value > -1 && value % 1 == 0 && value < length);
   }
 
   /**
@@ -2453,6 +2327,44 @@
   }
 
   /**
+   * Checks if `value` is classified as a `Map` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+   * @example
+   *
+   * _.isMap(new Map);
+   * // => true
+   *
+   * _.isMap(new WeakMap);
+   * // => false
+   */
+  var isMap = nodeIsMap ? baseUnary(nodeIsMap) : baseIsMap;
+
+  /**
+   * Checks if `value` is classified as a `Set` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+   * @example
+   *
+   * _.isSet(new Set);
+   * // => true
+   *
+   * _.isSet(new WeakSet);
+   * // => false
+   */
+  var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
+
+  /**
    * Checks if `value` is classified as a typed array.
    *
    * @static
@@ -2472,39 +2384,6 @@
   var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
 
   /*------------------------------------------------------------------------*/
-
-  /**
-   * This method is like `_.assignIn` except that it accepts `customizer`
-   * which is invoked to produce the assigned values. If `customizer` returns
-   * `undefined`, assignment is handled by the method instead. The `customizer`
-   * is invoked with five arguments: (objValue, srcValue, key, object, source).
-   *
-   * **Note:** This method mutates `object`.
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @alias extendWith
-   * @category Object
-   * @param {Object} object The destination object.
-   * @param {...Object} sources The source objects.
-   * @param {Function} [customizer] The function to customize assigned values.
-   * @returns {Object} Returns `object`.
-   * @see _.assignWith
-   * @example
-   *
-   * function customizer(objValue, srcValue) {
-   *   return _.isUndefined(objValue) ? srcValue : objValue;
-   * }
-   *
-   * var defaults = _.partialRight(_.assignInWith, customizer);
-   *
-   * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
-   * // => { 'a': 1, 'b': 2 }
-   */
-  var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
-    copyObject(source, keysIn(source), object, customizer);
-  });
 
   /**
    * Assigns own and inherited enumerable string keyed properties of source
@@ -2527,9 +2406,35 @@
    * _.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
    * // => { 'a': 1, 'b': 2 }
    */
-  var defaults = baseRest(function(args) {
-    args.push(undefined, customDefaultsAssignIn);
-    return apply(assignInWith, undefined, args);
+  var defaults = baseRest(function(object, sources) {
+    object = Object(object);
+
+    var index = -1;
+    var length = sources.length;
+    var guard = length > 2 ? sources[2] : undefined;
+
+    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+      length = 1;
+    }
+
+    while (++index < length) {
+      var source = sources[index];
+      var props = keysIn(source);
+      var propsIndex = -1;
+      var propsLength = props.length;
+
+      while (++propsIndex < propsLength) {
+        var key = props[propsIndex];
+        var value = object[key];
+
+        if (value === undefined ||
+            (eq(value, objectProto[key]) && !hasOwnProperty.call(object, key))) {
+          object[key] = source[key];
+        }
+      }
+    }
+
+    return object;
   });
 
   /**
@@ -2680,16 +2585,12 @@
   /*------------------------------------------------------------------------*/
 
   // Add methods that return wrapped values in chain sequences.
-  lodash.assignInWith = assignInWith;
   lodash.constant = constant;
   lodash.defaults = defaults;
   lodash.flatten = flatten;
   lodash.keys = keys;
   lodash.keysIn = keysIn;
   lodash.memoize = memoize;
-
-  // Add aliases.
-  lodash.extendWith = assignInWith;
 
   /*------------------------------------------------------------------------*/
 
@@ -2703,8 +2604,10 @@
   lodash.isBuffer = isBuffer;
   lodash.isFunction = isFunction;
   lodash.isLength = isLength;
+  lodash.isMap = isMap;
   lodash.isObject = isObject;
   lodash.isObjectLike = isObjectLike;
+  lodash.isSet = isSet;
   lodash.isTypedArray = isTypedArray;
   lodash.stubArray = stubArray;
   lodash.stubFalse = stubFalse;
