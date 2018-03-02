@@ -77,22 +77,28 @@ define(function(require){
                 runCallBack(
                     pCallBack,
                     null,
-                    (lOptions.outputType === "json")
-                        ? JSON.stringify(
-                            pGetParser(lOptions.inputType).parse(pScript),
-                            null,
-                            "  "
-                        )
-                        : pGetTextRenderer(lOptions.outputType).render(
+                    (function () {
+                        if (lOptions.outputType === "ast") {
+                            return pGetParser(lOptions.inputType).parse(pScript);
+                        }
+                        if (lOptions.outputType === "json") {
+                            return JSON.stringify(
+                                pGetParser(lOptions.inputType).parse(pScript),
+                                null,
+                                "  "
+                            );
+                        }
+                        return pGetTextRenderer(lOptions.outputType).render(
                             getAST(pScript, lOptions.inputType, pGetParser)
-                        )
+                        );
+                    })()
                 );
             } catch (pException) {
                 runCallBack(pCallBack, pException);
             }
         },
 
-        version: "1.13.0",
+        version: "1.15.1",
 
         getAllowedValues: function() {
             return Object.freeze({

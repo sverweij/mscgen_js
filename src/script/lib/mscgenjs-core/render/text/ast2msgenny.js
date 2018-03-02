@@ -15,16 +15,8 @@ define(function(require) {
 
     var EOL = "\n";
 
-    function gennyStringisQuotable(pString) {
-        var lMatchResult = pString.match(/[;,{]/);
-        if (lMatchResult) {
-            return lMatchResult.length === 1;
-        } else {
-            return false;
-        }
-    }
     function renderMsGennyString(pString) {
-        return gennyStringisQuotable(pString) ? "\"" + pString + "\"" : pString.trim();
+        return "\"" + pString + "\"";
     }
 
     function entityNameIsQuotable(pString) {

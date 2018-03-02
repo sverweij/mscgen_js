@@ -1,29 +1,29 @@
 {
   "name": "mscgen_js",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "main": "src/script/mscgen-interpreter.js",
   "dependencies": {
     "amdefine": "1.0.1",
-    "codemirror": "5.34.0",
+    "codemirror": "5.35.0",
     "requirejs": "2.3.5",
-    "mscgenjs": "1.13.0",
+    "mscgenjs": "1.15.1",
     "mscgenjs-inpage": "1.13.0"
   },
   "devDependencies": {
     "chai": "4.1.2",
     "codeclimate-test-reporter": "0.5.0",
-    "dependency-cruiser": "2.13.0",
-    "eslint": "4.17.0",
+    "dependency-cruiser": "3.0.0",
+    "eslint": "4.18.2",
     "istanbul": "0.4.5",
-    "js-makedepend": "2.4.6",
-    "mocha": "5.0.0",
+    "js-makedepend": "2.4.7",
+    "mocha": "5.0.1",
     "node-localstorage": "1.3.0",
     "node-sass": "4.7.2",
-    "npm-check-updates": "2.14.0",
-    "nsp": "3.1.0",
+    "npm-check-updates": "2.14.1",
+    "nsp": "3.2.1",
     "plato": "1.7.0",
-    "uglify-js": "3.3.9"
+    "uglify-js": "3.3.12"
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
