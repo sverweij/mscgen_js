@@ -142,6 +142,17 @@ src/script/interpreter/uistate.js: \
 	src/script/utl/exporter.js \
 	src/script/utl/maps.js
 
+src/script/lib/mscgenjs-core/parse/msgennyparser.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/parse/parserHelpers.js
+
+src/script/lib/mscgenjs-core/parse/parserHelpers.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
+
+src/script/lib/mscgenjs-core/parse/xuparser.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/parse/parserHelpers.js
+
 src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js
 
@@ -374,6 +385,17 @@ src/script/interpreter/uistate.js: \
 	src/script/utl/exporter.js \
 	src/script/utl/maps.js
 
+src/script/lib/mscgenjs-core/parse/msgennyparser.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/parse/parserHelpers.js
+
+src/script/lib/mscgenjs-core/parse/parserHelpers.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
+
+src/script/lib/mscgenjs-core/parse/xuparser.js: \
+	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
+	src/script/lib/mscgenjs-core/parse/parserHelpers.js
+
 src/script/lib/mscgenjs-core/render/text/ast2msgenny.js: \
 	src/script/lib/mscgenjs-core/render/text/ast2thing.js
 
@@ -500,6 +522,7 @@ INTERPRETER_JS_SOURCES=src/script/mscgen-interpreter.js \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/main/index.js \
 	src/script/lib/mscgenjs-core/parse/msgennyparser.js \
+	src/script/lib/mscgenjs-core/parse/parserHelpers.js \
 	src/script/lib/mscgenjs-core/parse/xuparser.js \
 	src/script/lib/mscgenjs-core/render/astmassage/aggregatekind.js \
 	src/script/lib/mscgenjs-core/render/astmassage/asttransform.js \

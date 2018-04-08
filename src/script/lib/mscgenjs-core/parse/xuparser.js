@@ -5,11 +5,11 @@
  */
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(["../lib/lodash/lodash.custom", "./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require("../lib/lodash/lodash.custom"), require("./parserHelpers"));
   }
-})(this, function() {
+})(this, function(_, parserHelpers) {
   "use strict";
 
   function peg$subclass(child, parent) {
@@ -152,13 +152,13 @@
         peg$c2 = "}",
         peg$c3 = peg$literalExpectation("}", false),
         peg$c4 = function(pre, d) {
-                d.entities = checkForUndeclaredEntities(d.entities, d.arcs);
+                d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
                 var lRetval = d;
 
-                lRetval = merge ({meta: getMetaInfo(d.options, d.arcs)}, lRetval);
+                lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
 
                 if (pre.length > 0) {
-                    lRetval = merge({precomment: pre}, lRetval);
+                    lRetval = _.assign({precomment: pre}, lRetval);
                 }
 
                 return lRetval;
@@ -186,7 +186,7 @@
         peg$c13 = ";",
         peg$c14 = peg$literalExpectation(";", false),
         peg$c15 = function(options) {
-              return optionArray2Object(options[0].concat(options[1]));
+              return parserHelpers.optionArray2Object(options[0].concat(options[1]));
             },
         peg$c16 = peg$otherExpectation("option"),
         peg$c17 = "hscale",
@@ -196,14 +196,14 @@
         peg$c21 = "=",
         peg$c22 = peg$literalExpectation("=", false),
         peg$c23 = function(name, value) {
-                    return nameValue2Option(name, value);
+                    return parserHelpers.nameValue2Option(name, value);
                 },
         peg$c24 = "width",
         peg$c25 = peg$literalExpectation("width", true),
         peg$c26 = "wordwraparcs",
         peg$c27 = peg$literalExpectation("wordwraparcs", true),
         peg$c28 = function(name, value) {
-                    return nameValue2Option(name, flattenBoolean(value));
+                    return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
                 },
         peg$c29 = "wordwrapentities",
         peg$c30 = peg$literalExpectation("wordwrapentities", true),
@@ -222,13 +222,13 @@
         peg$c41 = peg$literalExpectation("]", false),
         peg$c42 = function(name, a) {return a},
         peg$c43 = function(name, attrList) {
-                    return merge ({name:name}, attrList);
+                    return _.assign ({name:name}, attrList);
                 },
         peg$c44 = function(name, attrList) {
-                  if (isMscGenKeyword(name)){
+                  if (parserHelpers.isMscGenKeyword(name)){
                     error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
                   }
-                  return merge ({name:name}, attrList);
+                  return _.assign ({name:name}, attrList);
                 },
         peg$c45 = function(a) {return a},
         peg$c46 = function(al) {
@@ -236,7 +236,7 @@
             },
         peg$c47 = function(a, al) {return al},
         peg$c48 = function(a, al) {
-              return merge (a, al);
+              return _.assign (a, al);
             },
         peg$c49 = function(kind) {return {kind:kind}},
         peg$c50 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
@@ -246,7 +246,7 @@
         peg$c54 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
         peg$c55 = function(from, kind, to, al) {return al},
         peg$c56 = function(from, kind, to, al, arclist) {
-                    return merge (
+                    return _.assign (
                         {
                             kind     : kind,
                             from     : from,
@@ -355,7 +355,7 @@
                 return kind.toLowerCase()
             },
         peg$c152 = function(attributes) {
-              return optionArray2Object(attributes[0].concat(attributes[1]));
+              return parserHelpers.optionArray2Object(attributes[0].concat(attributes[1]));
             },
         peg$c153 = function(name, value) {
               var lAttribute = {};
@@ -3793,132 +3793,6 @@
 
       return s0;
     }
-
-
-        function merge(pBase, pObjectToMerge){
-            pBase = pBase || {};
-            if (pObjectToMerge){
-                Object.getOwnPropertyNames(pObjectToMerge).forEach(function(pAttribute){
-                    pBase[pAttribute] = pObjectToMerge[pAttribute];
-                });
-            }
-            return pBase;
-        }
-
-        function optionArray2Object (pOptionList) {
-            var lOptionList = {};
-            pOptionList.forEach(function(lOption){
-                lOptionList = merge(lOptionList, lOption);
-            });
-            return lOptionList;
-        }
-
-        function flattenBoolean(pBoolean) {
-            return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
-        }
-
-        function nameValue2Option(pName, pValue){
-            var lOption = {};
-            lOption[pName.toLowerCase()] = pValue;
-            return lOption;
-        }
-
-        function entityExists (pEntities, pName) {
-            return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
-                return pEntity.name === pName;
-            });
-        }
-
-        function isMscGenKeyword(pString){
-            return [
-                "box", "abox", "rbox", "note", "msc", "hscale", "width",
-                "arcgradient", "wordwraparcs", "label", "color", "idurl", "id",
-                "url", "linecolor", "linecolour", "textcolor", "textcolour",
-               "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
-               "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
-               "arcskip"
-            ].indexOf(pString) > -1;
-        }
-
-        function buildEntityNotDefinedMessage(pEntityName, pArc){
-            return "Entity '" + pEntityName + "' in arc " +
-                   "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-                   "is not defined.";
-        }
-
-        function EntityNotDefinedError (pEntityName, pArc) {
-            this.name = "EntityNotDefinedError";
-            this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
-            /* istanbul ignore else  */
-            if(!!pArc.location){
-                this.location = pArc.location;
-                this.location.start.line++;
-                this.location.end.line++;
-            }
-        }
-
-        function checkForUndeclaredEntities (pEntities, pArcLines) {
-            if (!pEntities) {
-                pEntities = [];
-            }
-            if (pArcLines) {
-                pArcLines.forEach(function(pArcLine) {
-                    pArcLine.forEach(function(pArc) {
-                        if (pArc.from && !entityExists (pEntities, pArc.from)) {
-                            throw new EntityNotDefinedError(pArc.from, pArc);
-                        }
-                        if (pArc.to && !entityExists (pEntities, pArc.to)) {
-                            throw new EntityNotDefinedError(pArc.to, pArc);
-                        }
-                        if (!!pArc.location) {
-                            delete pArc.location;
-                        }
-                        if (!!pArc.arcs){
-                            checkForUndeclaredEntities(pEntities, pArc.arcs);
-                        }
-                    });
-                });
-            }
-            return pEntities;
-        }
-
-        function hasExtendedOptions (pOptions){
-            if (pOptions){
-                return (
-                         pOptions.hasOwnProperty("watermark")
-                      || pOptions.hasOwnProperty("wordwrapentities")
-                      || pOptions.hasOwnProperty("wordwrapboxes")
-                      || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
-                );
-            } else {
-                return false;
-            }
-        }
-
-        function hasExtendedArcTypes(pArcLines){
-            if (pArcLines){
-                return pArcLines.some(function(pArcLine){
-                    return pArcLine.some(function(pArc){
-                        return (["alt", "else", "opt", "break", "par",
-                          "seq", "strict", "neg", "critical",
-                          "ignore", "consider", "assert",
-                          "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
-                    });
-                });
-            }
-            return false;
-        }
-
-        function getMetaInfo(pOptions, pArcLineList){
-            var lHasExtendedOptions  = hasExtendedOptions(pOptions);
-            var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLineList);
-            return {
-                "extendedOptions" : lHasExtendedOptions,
-                "extendedArcTypes": lHasExtendedArcTypes,
-                "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
-            }
-        }
-
 
     peg$result = peg$startRuleFunction();
 

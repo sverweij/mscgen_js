@@ -1,7 +1,7 @@
 /**
  * @license
  * Lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults" --development --output lib/lodash/lodash.custom.js`
+ * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults,assign" --development --output lib/lodash/lodash.custom.js`
  * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -1530,6 +1530,39 @@
   }
 
   /**
+   * Creates a function like `_.assign`.
+   *
+   * @private
+   * @param {Function} assigner The function to assign values.
+   * @returns {Function} Returns the new assigner function.
+   */
+  function createAssigner(assigner) {
+    return baseRest(function(object, sources) {
+      var index = -1,
+          length = sources.length,
+          customizer = length > 1 ? sources[length - 1] : undefined,
+          guard = length > 2 ? sources[2] : undefined;
+
+      customizer = (assigner.length > 3 && typeof customizer == 'function')
+        ? (length--, customizer)
+        : undefined;
+
+      if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+        customizer = length < 3 ? undefined : customizer;
+        length = 1;
+      }
+      object = Object(object);
+      while (++index < length) {
+        var source = sources[index];
+        if (source) {
+          assigner(object, source, index, customizer);
+        }
+      }
+      return object;
+    });
+  }
+
+  /**
    * Creates an array of own enumerable property names and symbols of `object`.
    *
    * @private
@@ -2386,6 +2419,50 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * Assigns own enumerable string keyed properties of source objects to the
+   * destination object. Source objects are applied from left to right.
+   * Subsequent sources overwrite property assignments of previous sources.
+   *
+   * **Note:** This method mutates `object` and is loosely based on
+   * [`Object.assign`](https://mdn.io/Object/assign).
+   *
+   * @static
+   * @memberOf _
+   * @since 0.10.0
+   * @category Object
+   * @param {Object} object The destination object.
+   * @param {...Object} [sources] The source objects.
+   * @returns {Object} Returns `object`.
+   * @see _.assignIn
+   * @example
+   *
+   * function Foo() {
+   *   this.a = 1;
+   * }
+   *
+   * function Bar() {
+   *   this.c = 3;
+   * }
+   *
+   * Foo.prototype.b = 2;
+   * Bar.prototype.d = 4;
+   *
+   * _.assign({ 'a': 0 }, new Foo, new Bar);
+   * // => { 'a': 1, 'c': 3 }
+   */
+  var assign = createAssigner(function(object, source) {
+    if (isPrototype(source) || isArrayLike(source)) {
+      copyObject(source, keys(source), object);
+      return;
+    }
+    for (var key in source) {
+      if (hasOwnProperty.call(source, key)) {
+        assignValue(object, key, source[key]);
+      }
+    }
+  });
+
+  /**
    * Assigns own and inherited enumerable string keyed properties of source
    * objects to the destination object for all destination properties that
    * resolve to `undefined`. Source objects are applied from left to right.
@@ -2585,6 +2662,7 @@
   /*------------------------------------------------------------------------*/
 
   // Add methods that return wrapped values in chain sequences.
+  lodash.assign = assign;
   lodash.constant = constant;
   lodash.defaults = defaults;
   lodash.flatten = flatten;

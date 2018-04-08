@@ -5,11 +5,11 @@
  */
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(["../lib/lodash/lodash.custom", "./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require("../lib/lodash/lodash.custom"), require("./parserHelpers"));
   }
-})(this, function() {
+})(this, function(_, parserHelpers) {
   "use strict";
 
   function peg$subclass(child, parent) {
@@ -151,10 +151,10 @@
                 d.entities = extractUndeclaredEntities(d.entities, d.arcs);
                 var lRetval = d
 
-                lRetval = merge ({meta: getMetaInfo(d.options, d.arcs)}, lRetval);
+                lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
 
                 if (pre.length > 0) {
-                    lRetval = merge({precomment: pre}, lRetval);
+                    lRetval = _.assign({precomment: pre}, lRetval);
                 }
                 return lRetval;
             },
@@ -177,7 +177,7 @@
         peg$c5 = ";",
         peg$c6 = peg$literalExpectation(";", false),
         peg$c7 = function(options) {
-              return optionArray2Object(options[0].concat(options[1]));
+              return parserHelpers.optionArray2Object(options[0].concat(options[1]));
             },
         peg$c8 = "hscale",
         peg$c9 = peg$literalExpectation("hscale", true),
@@ -186,14 +186,14 @@
         peg$c12 = "=",
         peg$c13 = peg$literalExpectation("=", false),
         peg$c14 = function(name, value) {
-                    return nameValue2Option(name, value);
+                    return parserHelpers.nameValue2Option(name, value);
                 },
         peg$c15 = "width",
         peg$c16 = peg$literalExpectation("width", true),
         peg$c17 = "wordwraparcs",
         peg$c18 = peg$literalExpectation("wordwraparcs", true),
         peg$c19 = function(name, value) {
-                    return nameValue2Option(name, flattenBoolean(value));
+                    return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
                 },
         peg$c20 = "wordwrapentities",
         peg$c21 = peg$literalExpectation("wordwrapentities", true),
@@ -210,8 +210,7 @@
         peg$c30 = peg$literalExpectation(":", false),
         peg$c31 = function(name, l) {return l},
         peg$c32 = function(name, label) {
-              var lEntity = {};
-              lEntity.name = name;
+              var lEntity = initEntity(name);
               if (!!label) {
                 lEntity.label = label;
               }
@@ -250,7 +249,7 @@
                     arcs : arcs
                 };
                 if (label) {
-                  retval.label = label;
+                    retval.label = label;
                 }
                 return retval;
               },
@@ -3402,34 +3401,6 @@
     }
 
 
-        function merge(pBase, pObjectToMerge){
-            pBase = pBase || {};
-            if (pObjectToMerge){
-                Object.getOwnPropertyNames(pObjectToMerge).forEach(function(pAttribute){
-                    pBase[pAttribute] = pObjectToMerge[pAttribute];
-                });
-            }
-            return pBase;
-        }
-
-        function optionArray2Object (pOptionList) {
-            var lOptionList = {};
-            pOptionList.forEach(function(lOption){
-                lOptionList = merge(lOptionList, lOption);
-            });
-            return lOptionList;
-        }
-
-        function flattenBoolean(pBoolean) {
-            return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
-        }
-
-        function nameValue2Option(pName, pValue){
-            var lOption = {};
-            lOption[pName.toLowerCase()] = pValue;
-            return lOption;
-        }
-
         function entityExists (pEntities, pName, pEntityNamesToIgnore) {
             if (pName === undefined || pName === "*") {
                 return true;
@@ -3442,10 +3413,10 @@
             return pEntityNamesToIgnore[pName] === true;
         }
 
-        function initEntity(lName) {
-            var lEntity = {};
-            lEntity.name = lName;
-            return lEntity;
+        function initEntity(pName) {
+            return {
+                name: pName
+            };
         }
 
         function extractUndeclaredEntities (pEntities, pArcLines, pEntityNamesToIgnore) {
@@ -3457,62 +3428,23 @@
                 pEntityNamesToIgnore = {};
             }
 
-            if (pArcLines) {
-                pArcLines.forEach(function(pArcLine){
-                    pArcLine.forEach(function(pArc){
-                        if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
-                            pEntities.push(initEntity(pArc.from));
-                        }
-                        // if the arc kind is arcspanning recurse into its arcs
-                        if (pArc.arcs){
-                            pEntityNamesToIgnore[pArc.to] = true;
-                            merge (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
-                            delete pEntityNamesToIgnore[pArc.to];
-                        }
-                        if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
-                            pEntities.push(initEntity(pArc.to));
-                        }
-                    });
+            (pArcLines || []).forEach(function(pArcLine){
+                pArcLine.forEach(function(pArc){
+                    if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
+                        pEntities.push(initEntity(pArc.from));
+                    }
+                    // if the arc kind is arcspanning recurse into its arcs
+                    if (pArc.arcs){
+                        pEntityNamesToIgnore[pArc.to] = true;
+                        _.assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
+                        delete pEntityNamesToIgnore[pArc.to];
+                    }
+                    if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
+                        pEntities.push(initEntity(pArc.to));
+                    }
                 });
-            }
+            });
             return pEntities;
-        }
-
-        function hasExtendedOptions (pOptions){
-            if (pOptions){
-                return (
-                         pOptions.hasOwnProperty("watermark")
-                      || pOptions.hasOwnProperty("wordwrapentities")
-                      || pOptions.hasOwnProperty("wordwrapboxes")
-                      || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
-                );
-            } else {
-                return false;
-            }
-        }
-
-        function hasExtendedArcTypes(pArcLines){
-            if (pArcLines){
-                return pArcLines.some(function(pArcLine){
-                    return pArcLine.some(function(pArc){
-                        return (["alt", "else", "opt", "break", "par",
-                          "seq", "strict", "neg", "critical",
-                          "ignore", "consider", "assert",
-                          "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
-                    });
-                });
-            }
-            return false;
-        }
-
-        function getMetaInfo(pOptions, pArcLines){
-            var lHasExtendedOptions  = hasExtendedOptions(pOptions);
-            var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
-            return {
-                "extendedOptions" : lHasExtendedOptions,
-                "extendedArcTypes": lHasExtendedArcTypes,
-                "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
-            }
         }
 
 
