@@ -1,6 +1,6 @@
 
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
-RJS=node_modules/requirejs/bin/r.js
+RJS=node_modules/.bin/r.js
 GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_DEPLOY_FROM_BRANCH=master
@@ -9,7 +9,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-SASS=node_modules/node-sass/bin/node-sass --output-style compressed
+SASS=node_modules/.bin/node-sass --output-style compressed
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules"
 MINIFY=node_modules/.bin/uglifyjs
 
@@ -50,9 +50,9 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-120.png \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
-CODEMIRROR_ROOT=node_modules/codemirror
-MSCGENJS_CORE_ROOT=node_modules/mscgenjs
-MSCGENJS_INPAGE_ROOT=node_modules/mscgenjs-inpage
+CODEMIRROR_ROOT=$(shell node node_modules/.bin/get-module-root codemirror)
+MSCGENJS_CORE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs)
+MSCGENJS_INPAGE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs-inpage)
 CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
 	src/script/lib/codemirror/addon/display \
 	src/script/lib/codemirror/addon/edit \
@@ -144,7 +144,7 @@ $(PRODDIRS):
 $(LIBDIRS):
 	mkdir -p $@
 
-src/script/lib/require.js: node_modules/requirejs/require.js
+src/script/lib/require.js: $(shell node node_modules/.bin/get-module-root requirejs)/require.js
 	$(MINIFY) $< -m -c > $@
 
 src/script/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(CODEMIRROR_LIBDIRS)
