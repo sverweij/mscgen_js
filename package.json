@@ -52,7 +52,7 @@
     "msgenny"
   ],
   "engines": {
-    "node": ">=4.0"
+    "node": ">=6.0"
   },
   "bugs": {
     "url": "https://github.com/sverweij/mscgen_js/issues"
