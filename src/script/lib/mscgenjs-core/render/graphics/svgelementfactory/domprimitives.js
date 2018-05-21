@@ -26,20 +26,16 @@ define(function() {
     }
 
     function _setAttributes(pObject, pAttributes) {
-        if (pAttributes){
-            Object.keys(pAttributes).forEach(function(pKey){
-                _setAttribute(pObject, pKey, pAttributes[pKey]);
-            });
-        }
+        Object.keys(pAttributes || {}).forEach(function(pKey){
+            _setAttribute(pObject, pKey, pAttributes[pKey]);
+        });
         return pObject;
     }
 
     function _setAttributesNS(pObject, pNS, pAttributes) {
-        if (pAttributes){
-            Object.keys(pAttributes).forEach(function(pKey){
-                _setAttributeNS(pObject, pNS, pKey, pAttributes[pKey]);
-            });
-        }
+        Object.keys(pAttributes || {}).forEach(function(pKey){
+            _setAttributeNS(pObject, pNS, pKey, pAttributes[pKey]);
+        });
         return pObject;
     }
 

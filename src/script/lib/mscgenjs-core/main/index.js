@@ -67,38 +67,29 @@ define(function(require){
             }
         },
 
-        translateMsc: function (pScript, pOptions, pCallBack, pGetParser, pGetTextRenderer){
+
+        translateMsc: function (pScript, pOptions, pGetParser, pGetTextRenderer){
             var lOptions = pOptions || {};
             _.defaults(lOptions, {
                 inputType: "mscgen",
                 outputType: "json"
             });
-            try {
-                runCallBack(
-                    pCallBack,
-                    null,
-                    (function () {
-                        if (lOptions.outputType === "ast") {
-                            return pGetParser(lOptions.inputType).parse(pScript);
-                        }
-                        if (lOptions.outputType === "json") {
-                            return JSON.stringify(
-                                pGetParser(lOptions.inputType).parse(pScript),
-                                null,
-                                "  "
-                            );
-                        }
-                        return pGetTextRenderer(lOptions.outputType).render(
-                            getAST(pScript, lOptions.inputType, pGetParser)
-                        );
-                    })()
-                );
-            } catch (pException) {
-                runCallBack(pCallBack, pException);
+            if (lOptions.outputType === "ast") {
+                return pGetParser(lOptions.inputType).parse(pScript);
             }
+            if (lOptions.outputType === "json") {
+                return JSON.stringify(
+                    pGetParser(lOptions.inputType).parse(pScript),
+                    null,
+                    "  "
+                );
+            }
+            return pGetTextRenderer(lOptions.outputType).render(
+                getAST(pScript, lOptions.inputType, pGetParser)
+            );
         },
 
-        version: "1.15.2",
+        version: "2.0.0-beta-4",
 
         getAllowedValues: function() {
             return Object.freeze({

@@ -1,7 +1,7 @@
 /**
  * @license
  * Lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults,assign" --development --output lib/lodash/lodash.custom.js`
+ * Build: `lodash exports="umd" include="memoize,cloneDeep,flatten,defaults,assign" --development --output src/lib/lodash/lodash.custom.js`
  * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>

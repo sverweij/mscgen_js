@@ -51,7 +51,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 CODEMIRROR_ROOT=$(shell node node_modules/.bin/get-module-root codemirror)
-MSCGENJS_CORE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs)
+MSCGENJS_CORE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs)/src
 MSCGENJS_INPAGE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs-inpage)
 CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
 	src/script/lib/codemirror/addon/display \

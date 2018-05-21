@@ -12,12 +12,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(function(require) {
-    var _assign = require('../lib/lodash/lodash.custom').assign;
-
-    function optionArray2Object (pOptionList) {
-        return pOptionList.reduce(_assign, {});
-    }
+define(function() {
 
     function nameValue2Option(pName, pValue){
         var lOption = {};
@@ -29,27 +24,11 @@ define(function(require) {
         return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
-    function buildEntityNotDefinedMessage(pEntityName, pArc){
-        return "Entity '" + pEntityName + "' in arc " +
-               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-               "is not defined.";
-    }
-
+    /* eslint no-undefined: 0 */
     function entityExists (pEntities, pName) {
         return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
             return pEntity.name === pName;
         });
-    }
-
-    function EntityNotDefinedError(pEntityName, pArc) {
-        this.name = "EntityNotDefinedError";
-        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
-        /* istanbul ignore else */
-        if(!!pArc.location){
-            this.location = pArc.location;
-            this.location.start.line++;
-            this.location.end.line++;
-        }
     }
 
     function isMscGenKeyword(pString){
@@ -63,39 +42,40 @@ define(function(require) {
         ].indexOf(pString) > -1;
     }
 
-    function checkForUndeclaredEntities (pEntities, pArcLines) {
-        if (!pEntities) {
-            pEntities = [];
-        }
+    function buildEntityNotDefinedMessage(pEntityName, pArc){
+        return "Entity '" + pEntityName + "' in arc " +
+               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+               "is not defined.";
+    }
 
-        if (pArcLines) {
-            pArcLines.forEach(function(pArcLine) {
-                pArcLine.forEach(function(pArc) {
-                    if (pArc.from && !entityExists (pEntities, pArc.from)) {
-                        throw new EntityNotDefinedError(pArc.from, pArc);
-                    }
-                    if (pArc.to && !entityExists (pEntities, pArc.to)) {
-                        throw new EntityNotDefinedError(pArc.to, pArc);
-                    }
-                    if (!!pArc.location) {
-                        delete pArc.location;
-                    }
-                    if (!!pArc.arcs){
-                        checkForUndeclaredEntities(pEntities, pArc.arcs);
-                    }
-                });
+    function EntityNotDefinedError(pEntityName, pArc) {
+        this.name = "EntityNotDefinedError";
+        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
+    }
+
+    function checkForUndeclaredEntities (pEntities, pArcLines) {
+        (pArcLines || []).forEach(function(pArcLine) {
+            pArcLine.forEach(function(pArc) {
+                if (pArc.from && !entityExists(pEntities, pArc.from)) {
+                    throw new EntityNotDefinedError(pArc.from, pArc);
+                }
+                if (pArc.to && !entityExists(pEntities, pArc.to)) {
+                    throw new EntityNotDefinedError(pArc.to, pArc);
+                }
+                if (!!pArc.arcs){
+                    checkForUndeclaredEntities(pEntities, pArc.arcs);
+                }
             });
-        }
-        return pEntities;
+        });
     }
 
     function hasExtendedOptions (pOptions){
         if (pOptions){
             return (
-                     pOptions.hasOwnProperty("watermark")
-                  || pOptions.hasOwnProperty("wordwrapentities")
-                  || pOptions.hasOwnProperty("wordwrapboxes")
-                  || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
+                pOptions.hasOwnProperty("watermark") ||
+                  pOptions.hasOwnProperty("wordwrapentities") ||
+                  pOptions.hasOwnProperty("wordwrapboxes") ||
+                  (pOptions.hasOwnProperty("width") && pOptions.width === "auto")
             );
         } else {
             return false;
@@ -103,7 +83,7 @@ define(function(require) {
     }
 
     function hasExtendedArcTypes(pArcLines){
-        return (pArcLines|| []).some(function(pArcLine){
+        return (pArcLines || []).some(function(pArcLine){
             return pArcLine.some(function(pArc){
                 return (["alt", "else", "opt", "break", "par",
                     "seq", "strict", "neg", "critical",
@@ -119,15 +99,16 @@ define(function(require) {
         return {
             "extendedOptions" : lHasExtendedOptions,
             "extendedArcTypes": lHasExtendedArcTypes,
-            "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
-        }
+            "extendedFeatures": lHasExtendedOptions || lHasExtendedArcTypes
+        };
     }
 
     return {
-        optionArray2Object: optionArray2Object,
         nameValue2Option: nameValue2Option,
 
         flattenBoolean: flattenBoolean,
+        entityExists: entityExists,
+        EntityNotDefinedError: EntityNotDefinedError,
         checkForUndeclaredEntities: checkForUndeclaredEntities,
         isMscGenKeyword: isMscGenKeyword,
         getMetaInfo: getMetaInfo
