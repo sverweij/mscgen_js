@@ -41,10 +41,10 @@
         <link rel="shortcut icon" href="./favicon.ico">
 
         <title>mscgen_js - turns text into sequence charts</title>
-        <link rel="stylesheet" href="style/interp.css?ccc8d4bd94099167"
+        <link rel="stylesheet" href="style/interp.css?4d0c490192cf3879"
         type="text/css" media="screen">
-        <script data-main="script/mscgen-interpreter.js?ccc8d4bd94099167"
-        src="script/lib/require.js?ccc8d4bd94099167" defer></script>
+        <script data-main="script/mscgen-interpreter.js?4d0c490192cf3879"
+        src="script/lib/require.js?4d0c490192cf3879" defer></script>
         <style>
             @-webkit-keyframes loading_opa {
                  0% { opacity:0; }
@@ -94,10 +94,10 @@
 Likely nobody will read them, though.
 
 mscgen_js
-    version: 1.13.4
-    build-date: 20180521 19:15
-    commit: ccc8d4bd94099167
-    mscgenjs-core: 2.0.0-beta-4">mscgen_js</h1>
+    version: 1.14.0
+    build-date: 20180524 21:14
+    commit: 4d0c490192cf3879
+    mscgenjs-core: 2.0.0-beta-5">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
             </span>
@@ -120,9 +120,9 @@ mscgen_js
                 </span>
             </nav>
             <div class="debug hideontablet" style="display: none">
-                <div><em>version:</em> 1.13.4</div>
-                <div><em>build-date:</em> 20180521 19:15</div>
-                <div><em>commit:</em> ccc8d4bd94099167</div>
+                <div><em>version:</em> 1.14.0</div>
+                <div><em>build-date:</em> 20180524 21:14</div>
+                <div><em>commit:</em> 4d0c490192cf3879</div>
             </div>
         </header>
         <article>
@@ -399,7 +399,7 @@ to the 'intr' in 'introduction'.
 According to Sander it's an angry little man
 drawing a sequence chart. On a sloped
 whiteboard. Under a roof."></span>
-                        <div style="color:#767676;text-align:center;">v1.13.4</div>
+                        <div style="color:#767676;text-align:center;">v1.14.0</div>
                     </span>
                     <span class="row-text">
                         <h3>mscgen_js</h3>
@@ -645,5 +645,41 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                 </div>
             </div>
         </div>
+        <span id="__cookie_bar" class="span--toaster">
+            To improve mscgen.js.org based on data we <b>save</b> some
+            <b>behavior information</b> (like button clicks) for future
+            analysis. By using this site you imply you're ok with that
+            (<em>it's the only thing we ask for</em>).
+            <button id="__close_cookie_bar" class="btn-primary" type="button" title="I'm ok with this">ok</button>
+        </span>
+        <script type="text/javascript">
+            var CONSENT_COOKIE_KEY = "mscgen_js_cookieconsent";
+            function getCookies() {
+              return document.cookie.split(';')
+                .map(function(pString){
+                  return pString.trim()
+                })
+                .reduce(function(pAll, pKeyValueString){
+                  var lKeyValueArray = pKeyValueString.split('=');
+                  pAll[lKeyValueArray[0]] = lKeyValueArray[1];
+                  return pAll;
+                },
+                {});
+            }
+            function hideCookieBar() {
+              window.__cookie_bar.setAttribute('style','display:none');
+              document.cookie = CONSENT_COOKIE_KEY + "=1";
+            }
+            function hasConsentCookies(pCookies) {
+              return pCookies.hasOwnProperty(CONSENT_COOKIE_KEY);
+            }
+            function main() {
+              if (hasConsentCookies(getCookies())){
+                hideCookieBar();
+              }
+            }
+            window.__close_cookie_bar.addEventListener("click", hideCookieBar, false);
+            main();
+        </script>
     </body>
 </html>

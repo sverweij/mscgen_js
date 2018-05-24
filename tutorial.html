@@ -50,7 +50,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - learn</title>
-<link rel="stylesheet" href="style/doc.css?ccc8d4bd94099167" type="text/css" media="screen, print">
+<link rel="stylesheet" href="style/doc.css?4d0c490192cf3879" type="text/css" media="screen, print">
 <script>
     /**
      * The mscgen_js_config is optional, as are the options
@@ -63,7 +63,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         loadFromSrcAttribute: false // default: false
     };
 </script>
-<script src="mscgen-inpage.js?ccc8d4bd94099167" defer></script>
+<script src="mscgen-inpage.js?4d0c490192cf3879" defer></script>
 <script>
 (function(i, s, o, g, r, a, m) {
     i['GoogleAnalyticsObject'] = r;
@@ -1538,7 +1538,7 @@ to the 'intr' in 'introduction'.
 According to Sander it's an angry little man
 drawing a sequence chart. On a sloped
 whiteboard. Under a roof."></span>
-                <div class="row-picture-caption">v1.13.4</div>
+                <div class="row-picture-caption">v1.14.0</div>
             </span>
             <span class="row-text">
                 <p>
@@ -1608,5 +1608,41 @@ documents."></img></a>
 <footer>
     <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="images/l_by-sa_3_0_88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">mscgen_js documentation</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://sverweij.github.io" property="cc:attributionName" rel="cc:attributionURL" itemprop="author">Sander Verweij</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 </footer>
+<span id="__cookie_bar" class="span--toaster">
+    To improve mscgen.js.org based on data we <b>save</b> some
+    <b>behavior information</b> (like button clicks) for future
+    analysis. By using this site you imply you're ok with that
+    (<em>it's the only thing we ask for</em>).
+    <button id="__close_cookie_bar" class="btn-primary" type="button" title="I'm ok with this">ok</button>
+</span>
+<script type="text/javascript">
+    var CONSENT_COOKIE_KEY = "mscgen_js_cookieconsent";
+    function getCookies() {
+        return document.cookie.split(';')
+        .map(function(pString){
+            return pString.trim()
+        })
+        .reduce(function(pAll, pKeyValueString){
+            var lKeyValueArray = pKeyValueString.split('=');
+            pAll[lKeyValueArray[0]] = lKeyValueArray[1];
+            return pAll;
+        },
+        {});
+    }
+    function hideCookieBar() {
+        window.__cookie_bar.setAttribute('style','display:none');
+        document.cookie = CONSENT_COOKIE_KEY + "=1";
+    }
+    function hasConsentCookies(pCookies) {
+        return pCookies.hasOwnProperty(CONSENT_COOKIE_KEY);
+    }
+    function main() {
+        if (hasConsentCookies(getCookies())){
+        hideCookieBar();
+        }
+    }
+    window.__close_cookie_bar.addEventListener("click", hideCookieBar, false);
+    main();
+</script>
 </body>
 </html>
