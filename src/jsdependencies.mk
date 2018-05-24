@@ -146,9 +146,6 @@ src/script/lib/mscgenjs-core/parse/msgennyparser.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/parse/parserHelpers.js
 
-src/script/lib/mscgenjs-core/parse/parserHelpers.js: \
-	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
-
 src/script/lib/mscgenjs-core/parse/xuparser.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/parse/parserHelpers.js
@@ -388,9 +385,6 @@ src/script/interpreter/uistate.js: \
 src/script/lib/mscgenjs-core/parse/msgennyparser.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
 	src/script/lib/mscgenjs-core/parse/parserHelpers.js
-
-src/script/lib/mscgenjs-core/parse/parserHelpers.js: \
-	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js
 
 src/script/lib/mscgenjs-core/parse/xuparser.js: \
 	src/script/lib/mscgenjs-core/lib/lodash/lodash.custom.js \
