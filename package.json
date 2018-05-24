@@ -5,9 +5,9 @@
   "main": "src/script/mscgen-interpreter.js",
   "dependencies": {
     "amdefine": "1.0.1",
-    "codemirror": "5.37.0",
+    "codemirror": "5.38.0",
     "requirejs": "2.3.5",
-    "mscgenjs": "2.0.0-beta-4",
+    "mscgenjs": "2.0.0-beta-5",
     "mscgenjs-inpage": "1.13.1"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "npm-check-updates": "2.14.2",
     "nsp": "3.2.1",
     "plato": "1.7.0",
-    "uglify-js": "3.3.26"
+    "uglify-js": "3.3.27"
   },
   "scripts": {
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
