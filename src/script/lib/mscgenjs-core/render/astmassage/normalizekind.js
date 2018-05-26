@@ -22,9 +22,8 @@ define(function() {
         "x-" : "-x"
     });
 
-    return {
-        // graphics and flatten
-        getNormalizedKind : function(pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; }
+    return function(pKey) {
+        return KIND2NORMALIZEDKIND[pKey] || pKey;
     };
 });
 /* eslint security/detect-object-injection: 0*/

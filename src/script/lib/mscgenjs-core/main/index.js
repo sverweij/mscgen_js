@@ -5,8 +5,9 @@ if (typeof define !== 'function') {
 /* eslint max-params: 0 */
 define(function(require){
 
-    var _            = require("../lib/lodash/lodash.custom");
-    var cssTemplates = require("../render/graphics/csstemplates");
+    var _                = require("../lib/lodash/lodash.custom");
+    var allowedValues    = require("./allowedvalues");
+    var normalizeOptions = require("./normalizeoptions");
 
     function isProbablyAnASTAlready(pScript, pInputType){
         return pInputType === "json" && typeof pScript === "object";
@@ -33,28 +34,18 @@ define(function(require){
 
     return {
         renderMsc: function (pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer){
-            var lOptions = pOptions || {};
-            _.defaults(lOptions, {
-                inputType              : "mscgen",
-                elementId              : "__svg",
-                window                 : pOptions.window || window,
-                includeSource          : true,
-                styleAdditions         : null,
-                additionalTemplate     : null,
-                mirrorEntitiesOnBottom : false,
-                regularArcTextVerticalAlignment: "middle"
-            });
+            var lOptions = normalizeOptions(pOptions, pScript);
 
             try {
                 runCallBack(
                     pCallBack,
                     null,
-                    pGetGraphicsRenderer().renderASTNew(
+                    pGetGraphicsRenderer().render(
                         getAST(pScript, lOptions.inputType, pGetParser),
                         lOptions.window,
                         lOptions.elementId,
                         {
-                            source: lOptions.includeSource ? pScript : null,
+                            source: lOptions.source,
                             styleAdditions: lOptions.styleAdditions,
                             additionalTemplate: lOptions.additionalTemplate,
                             mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
@@ -89,42 +80,10 @@ define(function(require){
             );
         },
 
-        version: "2.0.0-beta-5",
+        version: "2.0.0-beta-6",
 
         getAllowedValues: function() {
-            return Object.freeze({
-                inputType: [
-                    {name: "mscgen",  experimental: false},
-                    {name: "msgenny", experimental: false},
-                    {name: "xu",      experimental: false},
-                    {name: "json",    experimental: false},
-                    {name: "ast",     experimental: false}
-                ],
-                outputType: [
-                    {name: "mscgen",  experimental: false},
-                    {name: "msgenny", experimental: false},
-                    {name: "xu",      experimental: false},
-                    {name: "json",    experimental: false},
-                    {name: "ast",     experimental: false},
-                    {name: "dot",     experimental: false},
-                    {name: "doxygen", experimental: false}
-                ],
-                regularArcTextVerticalAlignment: [
-                    {name: "above",   experimental: true},
-                    {name: "middle",  experimental: false},
-                    {name: "below",   experimental: true}
-                ],
-                namedStyle: cssTemplates.namedStyles.map(
-                    function(pStyle){
-                        return {
-                            name         : pStyle.name,
-                            description  : pStyle.description,
-                            experimental : pStyle.experimental,
-                            deprecated   : pStyle.deprecated
-                        };
-                    }
-                )
-            });
+            return allowedValues;
         }
     };
 });

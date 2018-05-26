@@ -23,7 +23,7 @@ define(function(require) {
     var LINE_PREFIX = " * ";
 
     function renderKind(pKind) {
-        if ("inline_expression" === aggregatekind.getAggregate(pKind)) {
+        if ("inline_expression" === aggregatekind(pKind)) {
             return "--";
         }
         return pKind;

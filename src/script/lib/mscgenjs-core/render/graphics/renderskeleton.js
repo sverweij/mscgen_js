@@ -87,21 +87,17 @@ define(function(require) {
         return pWindow.document;
     }
 
-    function _bootstrap(pWindow, pParentElementId, pSvgElementId, pMarkerDefs, pOptions) {
+    function _bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
 
         gDocument = _init(pWindow);
 
-        var lParent = gDocument.getElementById(pParentElementId);
-        if (lParent === null) {
-            lParent = gDocument.body;
-        }
         var lSkeletonSvg = svgelementfactory.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
         if (Boolean(pOptions.source)) {
             lSkeletonSvg.appendChild(setupDesc(pWindow, pOptions.source));
         }
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
-        lParent.appendChild(lSkeletonSvg);
+        pParentElement.appendChild(lSkeletonSvg);
 
         return gDocument;
     }
@@ -189,10 +185,10 @@ define(function(require) {
     return {
         /**
          * Sets up a skeleton svg document with id pSvgElementId in the dom element
-         * with id pParentElementId, both in window pWindow. See the module
+         * pParentElement, both in window pWindow. See the module
          * documentation for details on the structure of the skeleton.
          *
-         * @param {string} pParentElementId
+         * @param {string} pParentElement
          * @param {string} pSvgElementId
          * @param {object} pMarkerDefs
          * @param {string} pStyleAdditions

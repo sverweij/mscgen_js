@@ -203,7 +203,7 @@ define(function(require) {
         if (lArcCombi) {
             return lArcCombi;
         } else {
-            return pColorScheme.aggregateArcColors[aggregatekind.getAggregate(pKind)];
+            return pColorScheme.aggregateArcColors[aggregatekind(pKind)];
         }
     }
     function colorizeArc (pColorScheme){
@@ -259,7 +259,7 @@ define(function(require) {
     function _colorize(pAST, pColorScheme, pForce) {
         gColorCombiCount = 0;
 
-        return asttransform.transform(
+        return asttransform(
             pForce ? _uncolor(pAST) : pAST,
             [colorizeEntity(pColorScheme)],
             [colorizeArc(pColorScheme)]
@@ -277,7 +277,7 @@ define(function(require) {
     }
 
     function _uncolor(pAST) {
-        return asttransform.transform(pAST, [uncolorThing], [uncolorThing]);
+        return asttransform(pAST, [uncolorThing], [uncolorThing]);
     }
 
     return {

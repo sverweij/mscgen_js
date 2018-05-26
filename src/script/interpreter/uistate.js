@@ -177,7 +177,7 @@ define(function(require) {
                     // to handle that without breaking the rest of the flow
                 }
             }
-            renderast.renderASTNew(
+            renderast.render(
                 lAST,
                 window,
                 "__svg",

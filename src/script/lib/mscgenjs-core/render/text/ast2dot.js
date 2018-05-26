@@ -53,7 +53,7 @@ define(function(require) {
 
     /* Attribute handling */
     function renderString(pString) {
-        var lStringAry = wrap.wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
+        var lStringAry = wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
         var lString = lStringAry.slice(0, -1).reduce(function(pPrev, pLine){
             return pPrev + pLine + "\n";
         }, "");
@@ -168,7 +168,7 @@ define(function(require) {
 
     function renderSingleArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
-        var lAggregatedKind = aggregatekind.getAggregate(pArc.kind);
+        var lAggregatedKind = aggregatekind(pArc.kind);
 
         if (lAggregatedKind === "box") {
             lRetVal += renderBoxArc(pArc, pCounter, pIndent);

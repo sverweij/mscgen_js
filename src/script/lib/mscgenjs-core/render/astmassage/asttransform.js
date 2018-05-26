@@ -9,11 +9,6 @@ if (typeof define !== 'function') {
 }
 
 define(function() {
-    /**
-     *
-     * @exports node/asttransform
-     * @author {@link https://github.com/sverweij | Sander Verweij}
-     */
     "use strict";
 
     function transformEntities(pEntities, pFunctionAry) {
@@ -51,26 +46,24 @@ define(function() {
         }
     }
 
-    return {
-        /**
-         * Generic function for performing manipulations on abstract syntax trees. It takes a
-         * series of functions as arguments and applies them to the entities, arcs and arc
-         * rows in the syntax tree respectively.
-         *
-         * @param {ast} pAST - the syntax tree to transform
-         * @param {Array} pEntityTransforms - an array of functions. Each function shall take
-         * an entity as input an return the modified entity
-         * @param {Array} pArcTransforms - an array of functions. Each function shall take
-         * and arc and entities as input and return the modified arc
-         * @param {Array} pArcRowTransforms - an array of functions. Each function shall take
-         * an arc row and entities as input return the modified arc row
-         * @return {ast} - the modified syntax tree
-         */
-        transform : function (pAST, pEnityTransforms, pArcTransforms) {
-            transformEntities(pAST.entities, pEnityTransforms);
-            transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
-            return pAST;
-        }
+    /**
+     * Generic function for performing manipulations on abstract syntax trees. It takes a
+     * series of functions as arguments and applies them to the entities, arcs and arc
+     * rows in the syntax tree respectively.
+     *
+     * @param {ast} pAST - the syntax tree to transform
+     * @param {Array} pEntityTransforms - an array of functions. Each function shall take
+     * an entity as input an return the modified entity
+     * @param {Array} pArcTransforms - an array of functions. Each function shall take
+     * and arc and entities as input and return the modified arc
+     * @param {Array} pArcRowTransforms - an array of functions. Each function shall take
+     * an arc row and entities as input return the modified arc row
+     * @return {ast} - the modified syntax tree
+     */
+    return function (pAST, pEnityTransforms, pArcTransforms) {
+        transformEntities(pAST.entities, pEnityTransforms);
+        transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
+        return pAST;
     };
 });
 

@@ -32,7 +32,7 @@ define(function(require) {
     }
 
     function renderKind(pKind) {
-        if ("inline_expression" === aggregatekind.getAggregate(pKind)) {
+        if ("inline_expression" === aggregatekind(pKind)) {
             return "--";
         }
         return pKind;

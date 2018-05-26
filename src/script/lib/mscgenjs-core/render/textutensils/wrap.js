@@ -13,7 +13,6 @@ define(
     function() {
         "use strict";
 
-        return {
         /**
          * Wraps text on the first space found before pMaxlength,
          * or exactly pMaxLength when no space was found.
@@ -22,41 +21,40 @@ define(
          * @param {int} pMaxLength
          * @return {Array of string}
          */
-            wrap : function (pText, pMaxLength) {
-                var lCharCount = 0;
-                var lRetval = [];
-                var lStart = 0;
-                var lNewStart = 0;
-                var lEnd = 0;
+        return function (pText, pMaxLength) {
+            var lCharCount = 0;
+            var lRetval = [];
+            var lStart = 0;
+            var lNewStart = 0;
+            var lEnd = 0;
 
-                var i = 0;
-                var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
+            var i = 0;
+            var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
 
-                while (i <= lText.length) {
-                    if (i >= (lText.length)) {
-                        lRetval.push(lText.substring(lStart, i));
-                    } else if (lText[i] === '\n') {
-                        lCharCount = 0;
+            while (i <= lText.length) {
+                if (i >= (lText.length)) {
+                    lRetval.push(lText.substring(lStart, i));
+                } else if (lText[i] === '\n') {
+                    lCharCount = 0;
+                    lEnd = i;
+                    lRetval.push(lText.substring(lStart, lEnd));
+                    lStart = lEnd + 1;
+                } else if ((lCharCount++ >= pMaxLength)) {
+                    lEnd = lText.substring(0, i).lastIndexOf(' ');
+                    if (lEnd === -1 || lEnd < lStart) {
+                        lCharCount = 1;
                         lEnd = i;
-                        lRetval.push(lText.substring(lStart, lEnd));
-                        lStart = lEnd + 1;
-                    } else if ((lCharCount++ >= pMaxLength)) {
-                        lEnd = lText.substring(0, i).lastIndexOf(' ');
-                        if (lEnd === -1 || lEnd < lStart) {
-                            lCharCount = 1;
-                            lEnd = i;
-                            lNewStart = i;
-                        } else {
-                            lCharCount = 0;
-                            lNewStart = lEnd + 1;
-                        }
-                        lRetval.push(lText.substring(lStart, lEnd));
-                        lStart = lNewStart;
+                        lNewStart = i;
+                    } else {
+                        lCharCount = 0;
+                        lNewStart = lEnd + 1;
                     }
-                    i++;
+                    lRetval.push(lText.substring(lStart, lEnd));
+                    lStart = lNewStart;
                 }
-                return lRetval;
+                i++;
             }
+            return lRetval;
         };
     });
 /* eslint security/detect-object-injection: 0 */

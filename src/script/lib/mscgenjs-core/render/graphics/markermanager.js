@@ -212,7 +212,7 @@ define(function(require){
     }
 
     function makeKindColorCombi (pKind, pColor) {
-        return  KINDS[normalizekind.getNormalizedKind(pKind)].marker.name +
+        return  KINDS[normalizekind(pKind)].marker.name +
                 (Boolean(pColor) ? " " + pColor : " black");
     }
 
@@ -226,8 +226,8 @@ define(function(require){
         if (!!pArc.arcs){
             pArc.arcs.forEach(_extractKindColorCombis);
         }
-        if (!!pArc.kind && !!KINDS[normalizekind.getNormalizedKind(pArc.kind)] &&
-            !!(KINDS[normalizekind.getNormalizedKind(pArc.kind)].marker) &&
+        if (!!pArc.kind && !!KINDS[normalizekind(pArc.kind)] &&
+            !!(KINDS[normalizekind(pArc.kind)].marker) &&
             pKindColorCombis.indexOf(makeKindColorCombi(pArc.kind, pArc.linecolor)) < 0){
             pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
         }

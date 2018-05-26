@@ -37,7 +37,7 @@ define(function(require) {
 
         renderast.clean("__animsvg", window);
         anim.init(pAST, true);
-        renderast.renderASTNew(
+        renderast.render(
             anim.getCurrentFrame(),
             window,
             "__animsvg",
@@ -65,7 +65,7 @@ define(function(require) {
     function updateState(){
         if (gInitialized) {
             renderast.clean("__animsvg", window);
-            renderast.renderASTNew(
+            renderast.render(
                 anim.getCurrentFrame(),
                 window,
                 "__animsvg",

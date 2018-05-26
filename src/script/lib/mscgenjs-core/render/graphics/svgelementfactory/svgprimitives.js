@@ -5,11 +5,11 @@ if (typeof define !== 'function') {
 
 define(function(require) {
 
-    var domprimitives = require("./domprimitives");
-    var geometry      = require("./geometry");
-    var _             = require("../../../lib/lodash/lodash.custom");
-    var round         = require("./round");
-    var PRECISION     = 2;
+    var domprimitives    = require("./domprimitives");
+    var getDiagonalAngle = require("./getdiagonalangle");
+    var _                = require("../../../lib/lodash/lodash.custom");
+    var round            = require("./round");
+    var PRECISION        = 2;
 
     function point2String(pX, pY) {
         return round(pX, PRECISION).toString() + "," + round(pY, PRECISION).toString() + " ";
@@ -246,7 +246,7 @@ define(function(require) {
                 {
                     "transform":
                         "rotate(" +
-                            round(geometry.getDiagonalAngle(pCanvas), PRECISION).toString() + " " +
+                            round(getDiagonalAngle(pCanvas), PRECISION).toString() + " " +
                             round((pCanvas.width) / 2, PRECISION).toString() + " " +
                             round((pCanvas.height) / 2, PRECISION).toString() +
                         ")"

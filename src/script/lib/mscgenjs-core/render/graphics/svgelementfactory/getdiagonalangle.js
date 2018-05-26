@@ -10,18 +10,16 @@ define(function() {
         return (pDegrees * 360) / (2 * Math.PI);
     }
 
-    return {
-        /**
-         * returns the angle (in degrees) of the line from the
-         * bottom left to the top right of the bounding box.
-         *
-         * @param {object} pBBox - the bounding box (only width and height used)
-         * @returns {number} - the angle in degrees
-         */
-        // elementfactory
-        getDiagonalAngle: function (pBBox) {
-            return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
-        }
+    /**
+     * returns the angle (in degrees) of the line from the
+     * bottom left to the top right of the bounding box.
+     *
+     * @param {object} pBBox - the bounding box (only width and height used)
+     * @returns {number} - the angle in degrees
+     */
+    // elementfactory
+    return function (pBBox) {
+        return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
     };
 });
 /*

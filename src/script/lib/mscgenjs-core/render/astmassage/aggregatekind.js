@@ -9,8 +9,6 @@ define(function() {
     /**
      * Defines several mappings of arckinds to agregations
      *
-     * @exports node/arcmappings
-     * @author {@link https://github.com/sverweij | Sander Verweij}
      */
 
     var KIND2AGGREGATE = Object.freeze({
@@ -59,9 +57,8 @@ define(function() {
         "exc" : "inline_expression"
     });
 
-    return {
-        // all of em: graphics, massage, text (dot, doxygen, mscgen)
-        getAggregate : function(pKey) { return KIND2AGGREGATE[pKey]; }
+    return function(pKey) {
+        return KIND2AGGREGATE[pKey];
     };
 });
 

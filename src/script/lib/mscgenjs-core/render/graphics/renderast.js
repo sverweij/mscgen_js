@@ -58,60 +58,37 @@ define(function(require) {
     });
     var gInlineExpressionMemory = [];
 
-    function renderAST(pAST, pWindow, pParentElementId, pOptions) {
-        var lAST = Object.freeze(flatten.flatten(pAST));
-        var lOptions = pOptions || {};
-
-        lOptions = _.defaults(lOptions, {
-            source                 : null,
-            styleAdditions         : null,
-            mirrorEntitiesOnBottom : false,
-            regularArcTextVerticalAlignment: "middle"
-        });
-
-        renderASTPre(
-            lAST,
-            pWindow,
-            pParentElementId,
-            lOptions
-        );
-        renderASTMain(lAST);
-        renderASTPost(lAST);
-        var lElement = pWindow.document.getElementById(pParentElementId);
-        if (lElement) {
-            return svgutensils.webkitNamespaceBugWorkaround(lElement.innerHTML);
-        } else {
-            return svgutensils.webkitNamespaceBugWorkaround(pWindow.document.body.innerHTML);
-        }
+    function getParentElement(pWindow, pParentElementId) {
+        return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
     }
 
-    function normalizeVerticalAlignment(pVerticalAlignment) {
-        var lRetval = "middle";
-        var VALID_ALIGNMENT_VALUES = ["above", "middle", "below"];
+    function render(pAST, pWindow, pParentElementId, pOptions) {
+        var lFlattenedAST = Object.freeze(flatten.flatten(pAST));
+        var lParentElement = getParentElement(pWindow, pParentElementId);
 
-        if (VALID_ALIGNMENT_VALUES.some(
-            function(pValue){
-                return pValue === pVerticalAlignment;
-            }
-        )){
-            lRetval = pVerticalAlignment;
-        }
-
-        return lRetval;
-    }
-
-    function renderASTPre(pAST, pWindow, pParentElementId, pOptions){
         idmanager.setPrefix(pParentElementId);
+        renderASTPre(
+            lFlattenedAST,
+            pWindow,
+            lParentElement,
+            pOptions || {}
+        );
+        renderASTMain(lFlattenedAST);
+        renderASTPost(lFlattenedAST);
 
+        return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
+    }
+
+    function renderASTPre(pAST, pWindow, pParentElement, pOptions){
         gChart.document = renderskeleton.bootstrap(
             pWindow,
-            pParentElementId,
+            pParentElement,
             idmanager.get(),
             markermanager.getMarkerDefs(idmanager.get(), pAST),
             pOptions
         );
-        gChart.mirrorEntitiesOnBottom = Boolean(pOptions.mirrorEntitiesOnBottom);
-        gChart.regularArcTextVerticalAlignment = normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment);
+        gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
+        gChart.regularArcTextVerticalAlignment = pOptions.regularArcTextVerticalAlignment;
         svgutensils.init(gChart.document);
 
         gChart.layer = createLayerShortcuts(gChart.document);
@@ -393,7 +370,7 @@ define(function(require) {
         pArcRow.forEach(function(pArc){
             var lElement = {};
 
-            switch (aggregatekind.getAggregate(pArc.kind)) {
+            switch (aggregatekind(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, 0);
                 break;
@@ -425,7 +402,7 @@ define(function(require) {
         pArcRow.forEach(function(pArc){
             var lElement = {};
 
-            switch (aggregatekind.getAggregate(pArc.kind)) {
+            switch (aggregatekind(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
                 if ("..." === pArc.kind) {
@@ -1054,7 +1031,7 @@ define(function(require) {
          * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
          *   on the bottom of the chart
          */
-        renderASTNew : renderAST
+        render : render
     };
 });
 /*

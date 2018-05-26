@@ -42,8 +42,8 @@ define(
         }
 
         function _swapRTLArc(pArc) {
-            if (pArc.kind && (normalizekind.getNormalizedKind(pArc.kind) !== pArc.kind)) {
-                pArc.kind = normalizekind.getNormalizedKind(pArc.kind);
+            if (pArc.kind && (normalizekind(pArc.kind) !== pArc.kind)) {
+                pArc.kind = normalizekind(pArc.kind);
 
                 var lTmp = pArc.from;
                 pArc.from = pArc.to;
@@ -91,7 +91,7 @@ define(
 
             pArcRow.forEach(
                 function(pArc){
-                    if ("inline_expression" === aggregatekind.getAggregate(pArc.kind)) {
+                    if ("inline_expression" === aggregatekind(pArc.kind)) {
                         pArc.depth = pDepth;
                         pArc.isVirtual = true;
                         if (Boolean(pArc.arcs)) {
@@ -128,7 +128,7 @@ define(
                             isVirtual : true
                         }]);
                     } else {
-                        if ((pFrom && pTo) && ("emptyarc" === aggregatekind.getAggregate(pArc.kind))) {
+                        if ((pFrom && pTo) && ("emptyarc" === aggregatekind(pArc.kind))) {
                             pArc.from = pFrom;
                             pArc.to = pTo;
                             pArc.depth = pDepth;
@@ -249,7 +249,7 @@ define(
          */
             flatten : function(pAST) {
                 pAST.options = normalizeoptions(pAST.options);
-                return asttransform.transform(
+                return asttransform(
                     _unwind(pAST),
                     [nameAsLabel, unescapeLabels],
                     [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
@@ -263,7 +263,7 @@ define(
          */
             dotFlatten : function(pAST) {
                 return _explodeBroadcasts(
-                    asttransform.transform(
+                    asttransform(
                         pAST,
                         [nameAsLabel],
                         [_swapRTLArc, overrideColors]
