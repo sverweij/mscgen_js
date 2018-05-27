@@ -80,7 +80,7 @@ define(function(require){
             );
         },
 
-        version: "2.0.0-beta-7",
+        version: "2.0.0",
 
         getAllowedValues: function() {
             return allowedValues;
