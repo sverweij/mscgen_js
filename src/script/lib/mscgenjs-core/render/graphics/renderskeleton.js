@@ -111,72 +111,34 @@ define(function(require) {
     }
 
     function findNamedStyle(pAdditionalTemplate) {
-        var lRetval = null;
-        var lNamedStyles = csstemplates.namedStyles.filter(
+        return csstemplates.namedStyles.find(
             function(tpl) {
                 return tpl.name === pAdditionalTemplate;
             }
         );
-        if (lNamedStyles.length > 0) {
-            lRetval = lNamedStyles[0];
-        }
-        return lRetval;
     }
 
     function distillRenderMagic(pOptions) {
         var lRetval = "";
-        var lNamedStyle  = {};
+        var lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
 
-        /* istanbul ignore if */
-        if (!Boolean(pOptions)) {
-            return "";
-        }
-
-        if (Boolean(pOptions.additionalTemplate)) {
-            lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
-            if (Boolean(lNamedStyle)){
-                lRetval = lNamedStyle.renderMagic;
-            }
+        if (Boolean(lNamedStyle)){
+            lRetval = lNamedStyle.renderMagic;
         }
 
         return lRetval;
     }
 
-    function distillCSS(pOptions, pPosition) {
-        var lStyleString = "";
-        var lNamedStyle  = {};
-
-        /* istanbul ignore if */
-        if (!Boolean(pOptions)) {
-            return "";
-        }
-
-        if (Boolean(pOptions.additionalTemplate)) {
-            lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
-            if (Boolean(lNamedStyle)){
-                lStyleString = lNamedStyle[pPosition];
-            }
-        }
-
-        return lStyleString;
-    }
-
-    function distillAfterCSS(pOptions) {
-        var lStyleString = distillCSS(pOptions, "cssAfter");
-
-        if (Boolean(pOptions.styleAdditions)) {
-            lStyleString += pOptions.styleAdditions;
-        }
-
-        return lStyleString;
-    }
-
-    function distillBeforeCSS(pOptions) {
-        return distillCSS(pOptions, "cssBefore");
+    function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions){
+        return (pNamedStyle.cssBefore || "") +
+            csstemplates.baseTemplate +
+            (pNamedStyle.cssAfter || "") +
+            (pStyleAdditions || "");
     }
 
     function setupStyleElement(pOptions, pSvgElementId) {
-        return (distillBeforeCSS(pOptions) + csstemplates.baseTemplate + distillAfterCSS(pOptions))
+        var lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
+        return (composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions))
             .replace(/<%=fontSize%>/g, constants.FONT_SIZE)
             .replace(/<%=lineWidth%>/g, constants.LINE_WIDTH)
             .replace(/<%=id%>/g, pSvgElementId);
@@ -211,11 +173,6 @@ define(function(require) {
 
     };
 });
-/* eslint security/detect-object-injection: 0*/
-/* The 'generic object injection sink' is to a frozen object,
-   attempts to modify it will be moot => we can safely use the []
-   notation
-*/
 /*
  This file is part of mscgen_js.
 

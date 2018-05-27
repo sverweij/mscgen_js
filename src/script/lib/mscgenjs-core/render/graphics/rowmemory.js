@@ -58,15 +58,12 @@ define(function() {
          * @param <int> pRealRowNumber
          */
         getByRealRowNumber: function (pRealRowNumber) {
-            var lRetval = 0;
-
-            var lRowInfoArray = gRowInfoArray.filter(function(pRowInfo){
+            var lRetval = gRowInfoArray.find(function(pRowInfo){
                 return pRowInfo.realRowNumber === pRealRowNumber;
             });
 
-            if (lRowInfoArray.length > 0){
-                lRetval = lRowInfoArray[0];
-            } else { // most likely asking for something below the bottom of the chart => return the bottom
+            if (typeof lRetval === 'undefined'){
+                // most likely asking for something below the bottom of the chart => return the bottom
                 lRetval = getLast();
             }
             return lRetval;

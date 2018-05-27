@@ -12,7 +12,7 @@ define(function(require) {
 
         if (pValidValues.some(
             function(pValidValue){
-                return pValidValue === pValue;
+                return pValidValue.name === pValue;
             }
         )){
             lRetval = pValue;
@@ -24,7 +24,7 @@ define(function(require) {
     function normalizeVerticalAlignment(pVerticalAlignment) {
         return normalizeValueFromValidValues(
             pVerticalAlignment,
-            allowedValues.regularArcTextVerticalAlignment.map(function(pObject) { return pObject.name; }),
+            allowedValues.regularArcTextVerticalAlignment,
             "middle"
         );
     }
@@ -32,8 +32,16 @@ define(function(require) {
     function normalizeInputType(pInputType) {
         return normalizeValueFromValidValues(
             pInputType,
-            allowedValues.inputType.map(function(pObject) { return pObject.name; }),
+            allowedValues.inputType,
             "mscgen"
+        );
+    }
+
+    function normalizeAdditionalTemplate(pAdditionalTemplate){
+        return normalizeValueFromValidValues(
+            pAdditionalTemplate,
+            allowedValues.namedStyle,
+            "basic"
         );
     }
 
@@ -52,7 +60,7 @@ define(function(require) {
             includeSource          : lIncludeSource,
             source                 : lIncludeSource ? pScript : null,
             styleAdditions         : pOptions.styleAdditions || null,
-            additionalTemplate     : pOptions.additionalTemplate || null,
+            additionalTemplate     : normalizeAdditionalTemplate(pOptions.additionalTemplate),
             mirrorEntitiesOnBottom : booleanize(pOptions.mirrorEntitiesOnBottom, false),
             regularArcTextVerticalAlignment: normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment)
         };

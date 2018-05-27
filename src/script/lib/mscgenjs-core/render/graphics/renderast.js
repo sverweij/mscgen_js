@@ -282,11 +282,9 @@ define(function(require) {
      *
      */
     function renderEntities(pEntities, pEntityYPos, pOptions) {
-        if (pEntities) {
-            gChart.layer.sequence.appendChild(
-                entities.renderEntities(pEntities, pEntityYPos, pOptions)
-            );
-        }
+        gChart.layer.sequence.appendChild(
+            entities.renderEntities(pEntities, pEntityYPos, pOptions)
+        );
         gChart.arcEndX =
             entities.getDims().entityXHWM -
             entities.getDims().interEntitySpacing + entities.getDims().width;
