@@ -290,10 +290,6 @@ push-mirrors: mirrors
 	$(GIT) push bitbucket-mirror
 	$(GIT) push gitlab-mirror
 
-
-static-analysis:
-	$(NPM) run plato
-
 test: dev-build
 	$(NPM) run test
 

@@ -137,7 +137,7 @@ At the time the font was created it was licensed [GPLv3][license.gpl-3.0] or
 [CC BY 4.0][license.ccby4]
 
 It uses [mocha][21], [chai][39],
-[istanbul][28], [eslint][22], [plato][23] and [dependency-cruiser][41] to 
+[istanbul][28], [eslint][22] and [dependency-cruiser][41] to 
 maintain some modicum of verifiable code quality.
 You can see the build history in [Travis][travis.mscgenjs] and an indication
 of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
@@ -199,7 +199,6 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [15]: wikum/licenses/license.icons.md
 [21]: wikum/licenses/license.mocha.md
 [22]: wikum/licenses/license.eslint.md
-[23]: wikum/licenses/license.plato.md
 [28]: wikum/licenses/license.istanbul.md
 [36]: wikum/licenses/license.node-localstorage.md
 [39]: https://github.com/chaijs/chai

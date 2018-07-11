@@ -63,10 +63,6 @@ E.g  `https://sverweij.github.io/mscgen_js/branches/feature/snazz-the-firp`
     - generates a report that specifies the test coverage
     - note that it runs the ```test``` target to determine the coverage
 
-- `npm run plato`
-    - runs the static code analyzer (plato)
-    - output will be in platoreports/index.html
-
 - `npm run check` combination target that runs the linter, dependency-cruiser,
     the tests and the coverage
 
@@ -81,9 +77,8 @@ E.g  `https://sverweij.github.io/mscgen_js/branches/feature/snazz-the-firp`
     - pegjs (mandatory)
     - r.js (Mandatory for creating an minified version of the javascript (which in itself is optional))
     - node-sass (mandatory for smashing together (s)css sources)
-    - jshint (optional: linting)
+    - eslint (optional: linting)
     - mocha (optional: unit testing)
     - istanbul (optional: test coverage)
-    - plato (optional: static code analysis)
 - git (for gh-pages deployment target only)
 - imagemagik and optipng (re-generating favicons that are already in the `src` tree)
