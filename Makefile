@@ -73,7 +73,7 @@ MSCGENJS_LIBDIRS=src/script/lib/mscgenjs-core/parse \
 
 LIBDIRS=$(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test run-update-dependencies depend
 
 help:
 	@echo " --------------------------------------------------------"
@@ -306,13 +306,6 @@ outdated:
 check: noconsolestatements lint depcruise test
 
 fullcheck: check outdated nsp
-
-update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp lint-fix
-	$(GIT) diff package.json
-
-run-update-dependencies:
-	$(NPM) run npm-check-updates
-	$(NPM) install
 
 depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
