@@ -9,10 +9,7 @@ install:
   - npm install
 
 script:
-  - npm run lint
-  - npm run depcruise
-  - npm run nsp
-  - npm run test:cover
+  - npm run check
   - make install
 
 branches:

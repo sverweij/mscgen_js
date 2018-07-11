@@ -55,30 +55,20 @@ E.g  `https://sverweij.github.io/mscgen_js/branches/feature/snazz-the-firp`
 - ```make clean``` removes built production files as well as all generated files in the src tree
 
 ## Quality checks
-- ```make test``` or `npm run test`
+- `npm test`
     - runs the unit/ regression tests
     - (some  checks are still run manually with a well trained pair of eyeballs ...)
 
-- ```make cover``` or `npm run cover`
+- `npm run test:cover`
     - generates a report that specifies the test coverage
     - note that it runs the ```test``` target to determine the coverage
 
-- ```make report``` or `npm run plato`
+- `npm run plato`
     - runs the static code analyzer (plato)
     - output will be in platoreports/index.html
 
-- `npm run nsp`
-    - checks dependencies for known vulnerabilities (with _node security project_)
-
-- ```make check``` combination target:
-    -  checks for occurence of ```console``` statements
-    -  runs jshint on non-library, non-generated source code (= `npm run lint`)
-    -  runs a ```make test``` (=`npm run test`)
-
-- `make fullcheck` combination target:
-    - runs a `make check` and
-    - `npm outdated` (to check for outdated node_modules)
-    - `npm run nsp` (see above)
+- `npm run check` combination target that runs the linter, dependency-cruiser,
+    the tests and the coverage
 
 ## Prerequisites
 - make
@@ -95,6 +85,5 @@ E.g  `https://sverweij.github.io/mscgen_js/branches/feature/snazz-the-firp`
     - mocha (optional: unit testing)
     - istanbul (optional: test coverage)
     - plato (optional: static code analysis)
-    - nsp (optional: node security project - checks node module dependencies for security flaws)
 - git (for gh-pages deployment target only)
 - imagemagik and optipng (re-generating favicons that are already in the `src` tree)

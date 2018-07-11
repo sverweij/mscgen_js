@@ -297,15 +297,12 @@ static-analysis:
 test: dev-build
 	$(NPM) run test
 
-nsp:
-	$(NPM) run nsp
-
 outdated:
 	$(NPM) outdated
 
 check: noconsolestatements lint depcruise test
 
-fullcheck: check outdated nsp
+fullcheck: check outdated
 
 depend:
 	$(MAKEDEPEND) --system amd,cjs src/script
