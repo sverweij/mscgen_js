@@ -6,7 +6,7 @@
   "dependencies": {
     "amdefine": "1.0.1",
     "codemirror": "5.40.0",
-    "requirejs": "2.3.5",
+    "requirejs": "2.3.6",
     "mscgenjs": "2.0.0",
     "mscgenjs-inpage": "2.0.0"
   },
