@@ -536,6 +536,36 @@ a note b : "Text in notes, boxes (box, abox, rbox)
 </script>
 </p>
 
+<p id="wordwrapboxes-and-wordwrapentities">
+For boxes and entitiesthe default behaviour is exactly the other way 'round; if you need
+to override that, use the <code>wordwrapboxes</code> and <code>wordwrapentities</code>
+options respectively. An example for <em>wordwrapboxes</em>:
+<pre class="code msgenny">
+<mark>wordwrapboxes=true</mark>; # the default behaviour
+a =>   b : "By default this won't wrap";
+a note b : "This will wrap automatically, 
+            unless wordwrapboxes equals false.";
+</pre>
+<script type="text/x-msgenny">hscale=0.8, wordwrapboxes=true; # the default behaviour
+a =>   b : "By default this won't wrap";
+a note b : "This will wrap automatically,
+            unless wordwrapboxes equals false.";
+</script>
+<pre class="code msgenny">
+<mark>wordwrapboxes=false</mark>; # override default behaviour
+a =>   b : "By default this won't wrap";
+a note b : "This will wrap automatically, 
+            unless wordwrapboxes equals false.";
+</pre>
+<script type="text/x-msgenny">hscale=0.8, wordwrapboxes=false; # override default behaviour
+a =>   b : "By default this won't wrap";
+a note b : "This will wrap automatically,
+            unless wordwrapboxes equals false.";
+</script>
+</p>
+
+<p id="wordwrapentities"></p>
+
 <h3 id="naming-entities-explicit-order">Explicit entity declarations: labeling entities, use your own order</h3>
 <p>To prevent you from having to enter long entity names in each line, you can explicitly
 declare entity names at the start of your script and give them labels. </p>
@@ -1168,7 +1198,7 @@ msc {
 a alt b: a label {
     ...;
 };</pre>
-                    <pre class="code msgenny"># Xù
+                    <pre class="code xu"># Xù
 a alt b [label="a label"] {
     ...;
 };</pre>
@@ -1189,6 +1219,35 @@ a alt b [label="a label"] {
                             arclinecolor, arctextcolor and arctextbgcolor.
                         </li>
                     </ul>
+                </p>
+            </li>
+            <li>
+                <strong>Tooltips with <code>title</code></strong>
+                <p>
+                    If you want have a second layer of information, e.g. to show
+                    the contents of messages or detailed comments, you can put 
+                    that in the <code>title</code> attribute, e.g. like so:
+                    <pre class="code xu">xu {
+    wordwraparcs=1;
+    a,b;
+    a => b [
+        label="hover over this for a tooltip/ title",
+        <mark>title="This is a tooltip that appears on hover.
+
+It supports multiple lines, and is left aligned."</mark>
+    ];
+} </pre>
+                    <script type="text/x-xu" data-named-style="lazy">xu {
+                        wordwraparcs=true;
+                        a,b;
+
+                        a => b [
+                            label="hover over this for a tooltip/ title",
+                            title="This is a tooltip that appears on hover.
+
+It supports multiple lines, and is left aligned."
+                        ];
+                    } </script>
                 </p>
             </li>
         </ul>
