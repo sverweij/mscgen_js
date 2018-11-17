@@ -15,22 +15,22 @@
 /* eslint-env node */
 
 module.exports = {
-    getParams : function (pSearchString) {
-        var lRetval = {};
-        if (pSearchString) {
-            var lKeyValAry = [];
+  getParams: function (pSearchString) {
+    var lRetval = {}
+    if (pSearchString) {
+      var lKeyValAry = []
 
-            //  search string always starts with a "?" - skip this
-            pSearchString.slice(1).split("&").forEach(function(pKeyVal){
-                lKeyValAry = pKeyVal.split("=");
-                if (2 === lKeyValAry.length) {
-                    lRetval[lKeyValAry[0]] = decodeURIComponent(lKeyValAry[1]);
-                }
-            });
+      //  search string always starts with a "?" - skip this
+      pSearchString.slice(1).split('&').forEach(function (pKeyVal) {
+        lKeyValAry = pKeyVal.split('=')
+        if (lKeyValAry.length === 2) {
+          lRetval[lKeyValAry[0]] = decodeURIComponent(lKeyValAry[1])
         }
-        return lRetval;
+      })
     }
-};
+    return lRetval
+  }
+}
 /*
  This file is part of mscgen_js.
 

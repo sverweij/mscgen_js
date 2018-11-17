@@ -1,26 +1,26 @@
 /* eslint-env node */
 
-var gDebug = false;
+var gDebug = false
 
-function toOptions(pPrev, pSample) {
-    return pPrev + '<option value="' + pSample.value + '">' + pSample.label + "</option>";
+function toOptions (pPrev, pSample) {
+  return pPrev + '<option value="' + pSample.value + '">' + pSample.label + '</option>'
 }
 
-function toOptionGroups(pPrev, pSampleGroup){
-    return pPrev + '<optgroup label="' + pSampleGroup.label + '">' +
+function toOptionGroups (pPrev, pSampleGroup) {
+  return pPrev + '<optgroup label="' + pSampleGroup.label + '">' +
         pSampleGroup
-            .values
-            .filter(function(value) { return (!value.debug || gDebug); })
-            .reduce(toOptions, "") +
-    '</optgroup>';
+          .values
+          .filter(function (value) { return (!value.debug || gDebug) })
+          .reduce(toOptions, '') +
+    '</optgroup>'
 }
 
 module.exports = {
-    toOptionList: function (pSampleGroups, pDebug) {
-        gDebug = !!pDebug;
-        return pSampleGroups.reduce(toOptionGroups, "");
-    }
-};
+  toOptionList: function (pSampleGroups, pDebug) {
+    gDebug = !!pDebug
+    return pSampleGroups.reduce(toOptionGroups, '')
+  }
+}
 /*
  This file is part of mscgen_js.
 

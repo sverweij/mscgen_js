@@ -1,20 +1,20 @@
-var uistate    = require("./uistate");
-var codemirror = require("codemirror");
-var maps       = require("../utl/maps");
-var gaga       = require("../utl/gaga");
-require("codemirror/addon/edit/closebrackets");
-require("codemirror/addon/edit/matchbrackets");
-require("codemirror/addon/display/placeholder");
-require("codemirror/addon/dialog/dialog");
-require("codemirror/addon/search/searchcursor");
-require("codemirror/addon/search/search");
-require("codemirror/addon/selection/active-line");
-require("codemirror/mode/mscgen/mscgen");
-require("codemirror/mode/javascript/javascript");
+var uistate = require('./uistate')
+var codemirror = require('codemirror')
+var maps = require('../utl/maps')
+var gaga = require('../utl/gaga')
+require('codemirror/addon/edit/closebrackets')
+require('codemirror/addon/edit/matchbrackets')
+require('codemirror/addon/display/placeholder')
+require('codemirror/addon/dialog/dialog')
+require('codemirror/addon/search/searchcursor')
+require('codemirror/addon/search/search')
+require('codemirror/addon/selection/active-line')
+require('codemirror/mode/mscgen/mscgen')
+require('codemirror/mode/javascript/javascript')
 
-var gGaKeyCount  = 0;
-var gCodeMirror  = {};
-var gBufferTimer = {};
+var gGaKeyCount = 0
+var gCodeMirror = {}
+var gBufferTimer = {}
 
 /*
     Average typing speeds (source: https://en.wikipedia.org/wiki/Words_per_minute)
@@ -30,89 +30,88 @@ var gBufferTimer = {};
 
     So, about 630ms would be good enough for a buffer to timeout.
 */
-var BUFFER_TIMEOUT = 500;
+var BUFFER_TIMEOUT = 500
 
-function init (pElement){
-    gCodeMirror = codemirror.fromTextArea(pElement, {
-        lineNumbers       : true,
-        autoCloseBrackets : true,
-        autofocus         : true,
-        matchBrackets     : true,
-        styleActiveLine   : true,
-        theme             : "blackboard",
-        mode              : "xu",
-        placeholder       : "Type your text. Or drag a file to this area....",
-        lineWrapping      : false
-    });
+function init (pElement) {
+  gCodeMirror = codemirror.fromTextArea(pElement, {
+    lineNumbers: true,
+    autoCloseBrackets: true,
+    autofocus: true,
+    matchBrackets: true,
+    styleActiveLine: true,
+    theme: 'blackboard',
+    mode: 'xu',
+    placeholder: 'Type your text. Or drag a file to this area....',
+    lineWrapping: false
+  })
 }
 
-function summedLength (pArray){
-    return pArray.reduce(
-        function(pSum, pCur){
-            return pSum + pCur.length;
-        },
-        0
-    );
+function summedLength (pArray) {
+  return pArray.reduce(
+    function (pSum, pCur) {
+      return pSum + pCur.length
+    },
+    0
+  )
 }
 
-function isBigChange(pChange){
-    return Math.max(summedLength(pChange.text), summedLength(pChange.removed)) > 1;
+function isBigChange (pChange) {
+  return Math.max(summedLength(pChange.text), summedLength(pChange.removed)) > 1
 }
 
-function setupEditorEvents(){
-    gCodeMirror.on("change", function(pUnused, pChange) {
-        onInputChanged(isBigChange(pChange));
-        if (gGaKeyCount > 17) {
-            gGaKeyCount = 0;
-            gaga.g('send', 'event', '17 characters typed', uistate.getLanguage());
-        } else {
-            gGaKeyCount++;
-        }
-    });
+function setupEditorEvents () {
+  gCodeMirror.on('change', function (pUnused, pChange) {
+    onInputChanged(isBigChange(pChange))
+    if (gGaKeyCount > 17) {
+      gGaKeyCount = 0
+      gaga.g('send', 'event', '17 characters typed', uistate.getLanguage())
+    } else {
+      gGaKeyCount++
+    }
+  })
 
-    gCodeMirror.on("drop", function(pUnused, pEvent) {
-        /* if there is a file in the drop event clear the textarea,
+  gCodeMirror.on('drop', function (pUnused, pEvent) {
+    /* if there is a file in the drop event clear the textarea,
             * otherwise do default handling for drop events (whatever it is)
             */
-        if (pEvent.dataTransfer.files.length > 0) {
-            uistate.setLanguage(maps.classifyExtension(pEvent.dataTransfer.files[0].name));
-            uistate.setSource("");
-            gaga.g('send', 'event', 'drop', uistate.getLanguage());
-        }
-    });
+    if (pEvent.dataTransfer.files.length > 0) {
+      uistate.setLanguage(maps.classifyExtension(pEvent.dataTransfer.files[0].name))
+      uistate.setSource('')
+      gaga.g('send', 'event', 'drop', uistate.getLanguage())
+    }
+  })
 }
 
-function requestRender() {
-    uistate.requestRender();
-    window.clearTimeout(gBufferTimer);
+function requestRender () {
+  uistate.requestRender()
+  window.clearTimeout(gBufferTimer)
 }
 
 function onInputChanged (pBigChange) {
-    if ("" === uistate.getSource()){
-        /* no need to render no input */
-        uistate.preRenderReset();
-    } else if (pBigChange){
-        /* probably a drag/ drop, paste operation or sample replacement
+  if (uistate.getSource() === '') {
+    /* no need to render no input */
+    uistate.preRenderReset()
+  } else if (pBigChange) {
+    /* probably a drag/ drop, paste operation or sample replacement
             * can be rendered without buffering
             */
-        uistate.requestRender();
-    } else if (uistate.getAutoRender()) {
-        /* probably editing by typing in the editor - buffer for
+    uistate.requestRender()
+  } else if (uistate.getAutoRender()) {
+    /* probably editing by typing in the editor - buffer for
             * a few ms
             */
-        window.clearTimeout(gBufferTimer);
-        gBufferTimer = window.setTimeout(requestRender, BUFFER_TIMEOUT);
-    }
+    window.clearTimeout(gBufferTimer)
+    gBufferTimer = window.setTimeout(requestRender, BUFFER_TIMEOUT)
+  }
 }
 
 module.exports = {
-    init: function(pElement) {
-        init(pElement);
-        uistate.init(gCodeMirror);
-        setupEditorEvents();
-
-    }
-};
+  init: function (pElement) {
+    init(pElement)
+    uistate.init(gCodeMirror)
+    setupEditorEvents()
+  }
+}
 /*
  This file is part of mscgen_js.
 

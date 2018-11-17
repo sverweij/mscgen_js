@@ -1,49 +1,47 @@
-var svgutensils = require("mscgenjs/dist/cjs/render/graphics/svgutensils");
+var svgutensils = require('mscgenjs/dist/cjs/render/graphics/svgutensils')
 
-var MAX_SIGNED_SHORT = 32767;
+var MAX_SIGNED_SHORT = 32767
 
-
-function geckoRelativeSizeWorkaround(pString, pViewBox) {
-    /* the ugly replace is to be sure gecko
+function geckoRelativeSizeWorkaround (pString, pViewBox) {
+  /* the ugly replace is to be sure gecko
         * actualy renders a picture when using the
         * 'autosize' feature. Not necessary in webkit &
         *  blink.
         *  Depends on the assumption 'autoscale' is
         *  implemented with 100%
         */
-    if (!!pViewBox && !!pViewBox.baseVal) {
-        return pString
-            .replace(
-                'width="100%"',
-                'width="' + pViewBox.baseVal.width + '"'
-            )
-            .replace(
-                'height="100%"',
-                'height="' + pViewBox.baseVal.height + '"'
-            );
-    }
-    return pString;
-
+  if (!!pViewBox && !!pViewBox.baseVal) {
+    return pString
+      .replace(
+        'width="100%"',
+        'width="' + pViewBox.baseVal.width + '"'
+      )
+      .replace(
+        'height="100%"',
+        'height="' + pViewBox.baseVal.height + '"'
+      )
+  }
+  return pString
 }
 module.exports = {
-    toRasterURI: function (pDocument, pSVGParent, pType, pCallback){
-        var lImg = pDocument.createElement('img');
+  toRasterURI: function (pDocument, pSVGParent, pType, pCallback) {
+    var lImg = pDocument.createElement('img')
 
-        lImg.src = 'data:image/svg+xml;charset=utf-8,' +
+    lImg.src = 'data:image/svg+xml;charset=utf-8,' +
                     encodeURIComponent(
-                        geckoRelativeSizeWorkaround(
-                            svgutensils.webkitNamespaceBugWorkaround(
-                                pSVGParent.innerHTML
-                            ),
-                            pSVGParent.firstElementChild.viewBox
-                        )
-                    );
-        lImg.addEventListener('load', function(pEvent){
-            var lCanvas        = pDocument.createElement('canvas');
-            var lCanvasContext = lCanvas.getContext('2d');
-            var lImage         = pEvent.target;
+                      geckoRelativeSizeWorkaround(
+                        svgutensils.webkitNamespaceBugWorkaround(
+                          pSVGParent.innerHTML
+                        ),
+                        pSVGParent.firstElementChild.viewBox
+                      )
+                    )
+    lImg.addEventListener('load', function (pEvent) {
+      var lCanvas = pDocument.createElement('canvas')
+      var lCanvasContext = lCanvas.getContext('2d')
+      var lImage = pEvent.target
 
-            /*
+      /*
                 * When the passed image is too big for the browser to handle
                 * return an error string
                 *
@@ -51,18 +49,18 @@ module.exports = {
                 * an overview of the practical limits in various browsers and
                 * pointers for further research.
                 */
-            if (lImage.width > MAX_SIGNED_SHORT || lImage.height > MAX_SIGNED_SHORT) {
-                pCallback(null, "image-too-big");
-            } else {
-                lCanvas.width  = lImage.width;
-                lCanvas.height = lImage.height;
+      if (lImage.width > MAX_SIGNED_SHORT || lImage.height > MAX_SIGNED_SHORT) {
+        pCallback(null, 'image-too-big')
+      } else {
+        lCanvas.width = lImage.width
+        lCanvas.height = lImage.height
 
-                lCanvasContext.drawImage(lImage, 0, 0);
-                pCallback(lCanvas.toDataURL(pType, 0.8));
-            }
-        });
-    }
-};
+        lCanvasContext.drawImage(lImage, 0, 0)
+        pCallback(lCanvas.toDataURL(pType, 0.8))
+      }
+    })
+  }
+}
 /*
  This file is part of mscgen_js.
 

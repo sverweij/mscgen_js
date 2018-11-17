@@ -1,96 +1,96 @@
 /* eslint-env node */
 
-var STORAGE_KEY = "state";
+var STORAGE_KEY = 'state'
 
-function localStorageOK (){
-    return (typeof localStorage !== 'undefined');
+function localStorageOK () {
+  return (typeof localStorage !== 'undefined')
 }
 
-function getState(){
-    if (localStorageOK()){
-        try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY));
-        } catch (e){
-            // silently swallow
-        }
+function getState () {
+  if (localStorageOK()) {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY))
+    } catch (e) {
+      // silently swallow
     }
-    return null;
+  }
+  return null
 }
 
-function setState(pState) {
-    if (localStorageOK()){
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(pState)
-        );
+function setState (pState) {
+  if (localStorageOK()) {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(pState)
+    )
+  }
+}
+
+function save (pState, pSourceToo) {
+  var lSourceToo = typeof pSourceToo === 'undefined' ? true : pSourceToo
+  var lState = {
+    autorender: pState.getAutoRender(),
+    mirrorEntities: pState.getMirrorEntities(),
+    namedStyle: pState.getNamedStyle(),
+    verticalLabelAlignment: pState.getVerticalLabelAlignment(),
+    includeSource: pState.getIncludeSource()
+  }
+
+  if (lSourceToo) {
+    lState.language = pState.getLanguage()
+    lState.source = pState.getSource()
+  } else {
+    var lOldState = getState()
+
+    if (lOldState) {
+      if (lOldState.language) {
+        lState.language = lOldState.language
+      }
+      if (lOldState.source) {
+        lState.source = lOldState.source
+      }
     }
+  }
+
+  setState(lState)
 }
 
-function save(pState, pSourceToo){
-    var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
-    var lState = {
-        autorender             : pState.getAutoRender(),
-        mirrorEntities         : pState.getMirrorEntities(),
-        namedStyle             : pState.getNamedStyle(),
-        verticalLabelAlignment : pState.getVerticalLabelAlignment(),
-        includeSource          : pState.getIncludeSource()
-    };
+function load (pState, pSourceToo) {
+  var lState = getState()
+  var lSourceToo = typeof pSourceToo === 'undefined' ? true : pSourceToo
+
+  if (lState) {
+    pState.setAutoRender(lState.autorender)
+    pState.setMirrorEntities(lState.mirrorEntities)
+    pState.setNamedStyle(lState.namedStyle)
+    pState.setVerticalLabelAlignment(lState.verticalLabelAlignment)
+    pState.setIncludeSource(lState.includeSource)
 
     if (lSourceToo) {
-        lState.language = pState.getLanguage();
-        lState.source   = pState.getSource();
-    } else {
-        var lOldState = getState();
-
-        if (Boolean(lOldState)) {
-            if (Boolean(lOldState.language)) {
-                lState.language = lOldState.language;
-            }
-            if (Boolean(lOldState.source)) {
-                lState.source = lOldState.source;
-            }
-        }
+      if (lState.language) {
+        pState.setLanguage(lState.language)
+      }
+      if (lState.source) {
+        pState.setSource(lState.source)
+      }
     }
-
-    setState(lState);
+  }
 }
 
-function load(pState, pSourceToo){
-    var lState = getState();
-    var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
-
-    if (Boolean(lState)){
-        pState.setAutoRender(lState.autorender);
-        pState.setMirrorEntities(lState.mirrorEntities);
-        pState.setNamedStyle(lState.namedStyle);
-        pState.setVerticalLabelAlignment(lState.verticalLabelAlignment);
-        pState.setIncludeSource(lState.includeSource);
-
-        if (lSourceToo) {
-            if (Boolean(lState.language)) {
-                pState.setLanguage(lState.language);
-            }
-            if (Boolean(lState.source)) {
-                pState.setSource(lState.source);
-            }
-        }
-    }
+function loadSettings (pState) {
+  load(pState, false)
 }
 
-function loadSettings(pState) {
-    load(pState, false);
-}
-
-function saveSettings(pState) {
-    save(pState, false);
+function saveSettings (pState) {
+  save(pState, false)
 }
 
 module.exports = {
-    save: save,
-    load: load,
-    saveSettings: saveSettings,
-    loadSettings: loadSettings
-};
+  save: save,
+  load: load,
+  saveSettings: saveSettings,
+  loadSettings: loadSettings
+}
 /*
  This file is part of mscgen_js.
 

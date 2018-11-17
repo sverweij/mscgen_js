@@ -1,31 +1,30 @@
 /* global ga */
 /* eslint max-params:0, dot-notation:0, no-unused-expressions:0, no-sequences:0 */
 
+var gTrack = true
 
-var gTrack = true;
+function _gaSetup (pTrack) {
+  gTrack = pTrack
 
-function _gaSetup(pTrack) {
-    gTrack = pTrack;
-
-    if (true === pTrack) {
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] ||
-        function() {
-            (i[r].q = i[r].q || []).push(arguments);
-        }, i[r].l = 1 * new Date();
-            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m);
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    }
+  if (pTrack === true) {
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r
+      i[r] = i[r] ||
+        function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date()
+      a = s.createElement(o), m = s.getElementsByTagName(o)[0]
+      a.async = 1
+      a.src = g
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga')
+  }
 }
 
-function _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
-    if (true === gTrack) {
-        ga(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
-    }
+function _g (pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
+  if (gTrack === true) {
+    ga(pCommand, pEvent, pCategory, pAction, pLabel, pValue)
+  }
 }
 
 module.exports = {
@@ -35,19 +34,19 @@ module.exports = {
  *
  * @param {boolean} pTrack
  */
-    gaSetup : function(pTrack) {
-        return _gaSetup(pTrack);
-    },
-    /**
+  gaSetup: function (pTrack) {
+    return _gaSetup(pTrack)
+  },
+  /**
  * If analytics was setup using gaSetup, and tracking is on, sends
  * a ga event. Parameters same as the analytics ga function
  *
  *
  */
-    g : function(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
-        return _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
-    }
-};
+  g: function (pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
+    return _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue)
+  }
+}
 /*
  This file is part of mscgen_js.
 

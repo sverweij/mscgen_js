@@ -1,74 +1,74 @@
-var uistate  = require("./uistate");
-var store    = require("../utl/store");
-var gaga     = require("../utl/gaga");
-var colorize = require("mscgenjs/dist/cjs/render/astmassage/colorize");
-var generalActions = require("./general-actions");
+var uistate = require('./uistate')
+var store = require('../utl/store')
+var gaga = require('../utl/gaga')
+var colorize = require('mscgenjs/dist/cjs/render/astmassage/colorize')
+var generalActions = require('./general-actions')
 
-function _applyColorScheme(pSchemeName, pForce){
-    uistate.manipulateSource(function(pAST){
-        return colorize.applyScheme(pAST, pSchemeName, pForce);
-    });
-    generalActions.hideAllPanels();
-    gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? "_force" : ""), 'button');
+function _applyColorScheme (pSchemeName, pForce) {
+  uistate.manipulateSource(function (pAST) {
+    return colorize.applyScheme(pAST, pSchemeName, pForce)
+  })
+  generalActions.hideAllPanels()
+  gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? '_force' : ''), 'button')
 }
 
-function _switchLanguage(pLanguage){
-    uistate.switchLanguage(pLanguage);
-    gaga.g('send', 'event', 'toggle_ms_genny', pLanguage);
+function _switchLanguage (pLanguage) {
+  uistate.switchLanguage(pLanguage)
+  gaga.g('send', 'event', 'toggle_ms_genny', pLanguage)
 }
 
 module.exports = {
-    autorenderOnClick: function() {
-        uistate.setAutoRender(!(uistate.getAutoRender()));
-        uistate.requestRender();
-        uistate.setAutoRender(uistate.getAutoRender());
-        store.saveSettings(uistate);
-        gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
-    },
-    languageMsGennyOnClick : function() { _switchLanguage("msgenny"); },
-    languageMscGenOnClick  : function() { _switchLanguage("mscgen"); },
-    languageJSONOnClick    : function() { _switchLanguage("json"); },
-    colorAutoOnClick       : function() { _applyColorScheme("auto", false); },
-    colorAutoFOnClick      : function() { _applyColorScheme("auto", true); },
-    colorMinimalOnClick    : function(){ _applyColorScheme("minimal", false); },
-    colorMinimalFOnClick   : function(){ _applyColorScheme("minimal", true); },
-    colorRoseOnClick       : function(){ _applyColorScheme("rosy", false); },
-    colorRoseFOnClick      : function(){ _applyColorScheme("rosy", true); },
-    colorBlueyOnClick      : function(){ _applyColorScheme("bluey", false); },
-    colorBlueyFOnClick     : function(){ _applyColorScheme("bluey", true); },
-    uncolorizeOnClick: function() {
-        uistate.manipulateSource(colorize.uncolor);
-        generalActions.hideAllPanels();
-        gaga.g('send', 'event', 'color.remove', 'button');
-    },
-    renderOnClick: function() {
-        uistate.render(uistate.getSource(), uistate.getLanguage());
-        gaga.g('send', 'event', 'render', 'button');
-    },
-    samplesOnChange: function () {
-        uistate.setSample(window.__samples.value);
-        gaga.g('send', 'event', 'selectexample', window.__samples.value);
-    },
-    saveOnClick: function() {
-        store.save(uistate);
-        gaga.g('send', 'event', 'save', 'button');
-    },
-    loadOnClick: function(){
-        store.load(uistate);
-        gaga.g('send', 'event', 'load', 'button');
-    },
-    moreColorSchemesOnClick: function(){
-        generalActions.togglePanel(
-            window.__color_panel,
-            function(){ gaga.g('send', 'event', 'more_color_schemes.open', 'button'); },
-            function(){ gaga.g('send', 'event', 'more_color_schemes.close', 'button'); }
-        );
-    },
-    closeColorPanel: function(){
-        generalActions.hideAllPanels();
-        gaga.g('send', 'event', 'color.close', 'button');
-    }
-};
+  autorenderOnClick: function () {
+    uistate.setAutoRender(!(uistate.getAutoRender()))
+    uistate.requestRender()
+    uistate.setAutoRender(uistate.getAutoRender())
+    store.saveSettings(uistate)
+    gaga.g('send', 'event', 'toggle_autorender', 'checkbox')
+  },
+  languageMsGennyOnClick: function () { _switchLanguage('msgenny') },
+  languageMscGenOnClick: function () { _switchLanguage('mscgen') },
+  languageJSONOnClick: function () { _switchLanguage('json') },
+  colorAutoOnClick: function () { _applyColorScheme('auto', false) },
+  colorAutoFOnClick: function () { _applyColorScheme('auto', true) },
+  colorMinimalOnClick: function () { _applyColorScheme('minimal', false) },
+  colorMinimalFOnClick: function () { _applyColorScheme('minimal', true) },
+  colorRoseOnClick: function () { _applyColorScheme('rosy', false) },
+  colorRoseFOnClick: function () { _applyColorScheme('rosy', true) },
+  colorBlueyOnClick: function () { _applyColorScheme('bluey', false) },
+  colorBlueyFOnClick: function () { _applyColorScheme('bluey', true) },
+  uncolorizeOnClick: function () {
+    uistate.manipulateSource(colorize.uncolor)
+    generalActions.hideAllPanels()
+    gaga.g('send', 'event', 'color.remove', 'button')
+  },
+  renderOnClick: function () {
+    uistate.render(uistate.getSource(), uistate.getLanguage())
+    gaga.g('send', 'event', 'render', 'button')
+  },
+  samplesOnChange: function () {
+    uistate.setSample(window.__samples.value)
+    gaga.g('send', 'event', 'selectexample', window.__samples.value)
+  },
+  saveOnClick: function () {
+    store.save(uistate)
+    gaga.g('send', 'event', 'save', 'button')
+  },
+  loadOnClick: function () {
+    store.load(uistate)
+    gaga.g('send', 'event', 'load', 'button')
+  },
+  moreColorSchemesOnClick: function () {
+    generalActions.togglePanel(
+      window.__color_panel,
+      function () { gaga.g('send', 'event', 'more_color_schemes.open', 'button') },
+      function () { gaga.g('send', 'event', 'more_color_schemes.close', 'button') }
+    )
+  },
+  closeColorPanel: function () {
+    generalActions.hideAllPanels()
+    gaga.g('send', 'event', 'color.close', 'button')
+  }
+}
 /*
 This file is part of mscgen_js.
 

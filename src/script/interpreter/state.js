@@ -1,34 +1,34 @@
-var gAutoRender        = true;
-var gMirrorEntities    = false;
-var gNamedStyle        = null;
-var gLanguage          = "mscgen";
-var gDebug             = false;
-var gLinkToInterpreter = false;
-var gVerticalLabelAlignment = "middle";
-var gIncludeSource     = true;
+var gAutoRender = true
+var gMirrorEntities = false
+var gNamedStyle = null
+var gLanguage = 'mscgen'
+var gDebug = false
+var gLinkToInterpreter = false
+var gVerticalLabelAlignment = 'middle'
+var gIncludeSource = true
 
 module.exports = {
-    getAutoRender: function() { return gAutoRender; },
-    setAutoRender: function(pBool) { gAutoRender = pBool; },
-    getMirrorEntities: function() { return gMirrorEntities; },
-    setMirrorEntities: function(pBool) { gMirrorEntities = pBool; },
-    getIncludeSource: function() { return gIncludeSource; },
-    setIncludeSource: function(pBool) { gIncludeSource = pBool; },
-    getVerticalLabelAlignment: function() {
-        return gVerticalLabelAlignment;
-    },
-    setVerticalLabelAlignment: function(pVerticalLabelAlignment) {
-        gVerticalLabelAlignment = pVerticalLabelAlignment;
-    },
-    getNamedStyle: function() { return gNamedStyle; },
-    setNamedStyle: function(pStyle) { gNamedStyle = pStyle; },
-    getLanguage: function() { return gLanguage; },
-    setLanguage: function(pLanguage) { gLanguage = pLanguage; },
-    getDebug: function() { return gDebug; },
-    setDebug: function(pDebug) { gDebug = pDebug; },
-    getLinkToInterpreter: function() { return gLinkToInterpreter; },
-    setLinkToInterpreter: function(pBool) { gLinkToInterpreter = pBool; }
-};
+  getAutoRender: function () { return gAutoRender },
+  setAutoRender: function (pBool) { gAutoRender = pBool },
+  getMirrorEntities: function () { return gMirrorEntities },
+  setMirrorEntities: function (pBool) { gMirrorEntities = pBool },
+  getIncludeSource: function () { return gIncludeSource },
+  setIncludeSource: function (pBool) { gIncludeSource = pBool },
+  getVerticalLabelAlignment: function () {
+    return gVerticalLabelAlignment
+  },
+  setVerticalLabelAlignment: function (pVerticalLabelAlignment) {
+    gVerticalLabelAlignment = pVerticalLabelAlignment
+  },
+  getNamedStyle: function () { return gNamedStyle },
+  setNamedStyle: function (pStyle) { gNamedStyle = pStyle },
+  getLanguage: function () { return gLanguage },
+  setLanguage: function (pLanguage) { gLanguage = pLanguage },
+  getDebug: function () { return gDebug },
+  setDebug: function (pDebug) { gDebug = pDebug },
+  getLinkToInterpreter: function () { return gLinkToInterpreter },
+  setLinkToInterpreter: function (pBool) { gLinkToInterpreter = pBool }
+}
 /*
  This file is part of mscgen_js.
 

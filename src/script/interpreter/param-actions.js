@@ -1,75 +1,75 @@
 /* eslint max-paramslikker: 0 */
-var uistate      = require("./uistate");
-var paramslikker = require("../utl/paramslikker");
-var store        = require("../utl/store");
-var $            = require("../utl/domutl");
-var gaga         = require("../utl/gaga");
-var maps         = require("../utl/maps");
+var uistate = require('./uistate')
+var paramslikker = require('../utl/paramslikker')
+var store = require('../utl/store')
+var $ = require('../utl/domutl')
+var gaga = require('../utl/gaga')
+var maps = require('../utl/maps')
 
-function setupGA (pDoNotTrack){
-    gaga.gaSetup(!pDoNotTrack);
-    gaga.g('create', '{{trackingid}}', '{{host}}');
-    gaga.g('send', 'pageview');
+function setupGA (pDoNotTrack) {
+  gaga.gaSetup(!pDoNotTrack)
+  gaga.g('create', '{{trackingid}}', '{{host}}')
+  gaga.g('send', 'pageview')
 }
 
-function processParams(){
-    var lParams = paramslikker.getParams(window.location.search);
-    setupGA(maps.sanitizeBooleanesque(lParams.donottrack));
+function processParams () {
+  var lParams = paramslikker.getParams(window.location.search)
+  setupGA(maps.sanitizeBooleanesque(lParams.donottrack))
 
-    uistate.setDebug(maps.sanitizeBooleanesque(lParams.debug));
-    if (lParams.hasOwnProperty("debug")) {
-        gaga.g('send', 'event', 'debug', maps.sanitizeBooleanesque(lParams.debug));
-    }
+  uistate.setDebug(maps.sanitizeBooleanesque(lParams.debug))
+  if (lParams.hasOwnProperty('debug')) {
+    gaga.g('send', 'event', 'debug', maps.sanitizeBooleanesque(lParams.debug))
+  }
 
-    if (uistate.getDebug()) {
-        store.load(uistate);
-    } else {
-        store.loadSettings(uistate);
-    }
+  if (uistate.getDebug()) {
+    store.load(uistate)
+  } else {
+    store.loadSettings(uistate)
+  }
 
-    if (lParams.hasOwnProperty("mirrorentities")) {
-        uistate.setMirrorEntities(maps.sanitizeBooleanesque(lParams.mirrorentities));
-        gaga.g('send', 'event', 'paramslikker.mirrorentities', lParams.mirrorentities);
-    }
+  if (lParams.hasOwnProperty('mirrorentities')) {
+    uistate.setMirrorEntities(maps.sanitizeBooleanesque(lParams.mirrorentities))
+    gaga.g('send', 'event', 'paramslikker.mirrorentities', lParams.mirrorentities)
+  }
 
-    if (lParams.hasOwnProperty("style")) {
-        uistate.setNamedStyle(lParams.style);
-        gaga.g('send', 'event', 'paramslikker.style', lParams.style);
-    }
+  if (lParams.hasOwnProperty('style')) {
+    uistate.setNamedStyle(lParams.style)
+    gaga.g('send', 'event', 'paramslikker.style', lParams.style)
+  }
 
-    if (lParams.lang){
-        uistate.setLanguage(lParams.lang);
-        gaga.g('send', 'event', 'paramslikker.lang', lParams.lang);
-    }
+  if (lParams.lang) {
+    uistate.setLanguage(lParams.lang)
+    gaga.g('send', 'event', 'paramslikker.lang', lParams.lang)
+  }
 
-    if (lParams.msc) {
-        uistate.setSource(lParams.msc);
-        gaga.g('send', 'event', 'paramslikker.msc');
-    } else if (uistate.getSource().length <= 0) {
-        uistate.setSample();
-    }
+  if (lParams.msc) {
+    uistate.setSource(lParams.msc)
+    gaga.g('send', 'event', 'paramslikker.msc')
+  } else if (uistate.getSource().length <= 0) {
+    uistate.setSample()
+  }
 }
 
-function tagAllLinks(){
-    $.attachEventHandler("a[href]", "click", function(e){
-        var lTarget = "unknown";
+function tagAllLinks () {
+  $.attachEventHandler('a[href]', 'click', function (e) {
+    var lTarget = 'unknown'
 
-        if (e.currentTarget) {
-            if (e.currentTarget.href){
-                lTarget = e.currentTarget.href;
-            }
-            if (e.currentTarget.download && e.currentTarget.type){
-                lTarget = e.currentTarget.type;
-            }
-        }
-        gaga.g('send', 'event', 'link', lTarget);
-    });
+    if (e.currentTarget) {
+      if (e.currentTarget.href) {
+        lTarget = e.currentTarget.href
+      }
+      if (e.currentTarget.download && e.currentTarget.type) {
+        lTarget = e.currentTarget.type
+      }
+    }
+    gaga.g('send', 'event', 'link', lTarget)
+  })
 }
 
 module.exports = {
-    processParams: processParams,
-    tagAllLinks: tagAllLinks
-};
+  processParams: processParams,
+  tagAllLinks: tagAllLinks
+}
 /*
  This file is part of mscgen_js.
 
