@@ -1,4 +1,3 @@
-/* eslint max-paramslikker: 0 */
 var uistate = require('./uistate')
 const queryString = require('query-string')
 var store = require('../utl/store')

@@ -1,4 +1,3 @@
-/* eslint max-params: 0 */
 var inputActions = require('./interpreter/input-actions')
 var outputActions = require('./interpreter/output-actions')
 var navActions = require('./interpreter/nav-actions')

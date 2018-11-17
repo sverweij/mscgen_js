@@ -1,4 +1,3 @@
-/* eslint no-undefined: 0 */
 var assert = require('chai').assert
 var map = require('../../utl/maps')
 

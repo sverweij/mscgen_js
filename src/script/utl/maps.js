@@ -1,5 +1,3 @@
-/* eslint-env node */
-/* istanbul ignore else */
 module.exports = {
   /**
      * Given a filename in pString, returns what language is probably

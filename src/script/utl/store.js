@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 var STORAGE_KEY = 'state'
 
 function localStorageOK () {

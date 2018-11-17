@@ -1,5 +1,3 @@
-/* eslint-env node */
-/* eslint max-len: 0 */
 
 var ast2dot = require('mscgenjs/dist/cjs/render/text/ast2dot')
 var ast2mscgen = require('mscgenjs/dist/cjs/render/text/ast2mscgen')
