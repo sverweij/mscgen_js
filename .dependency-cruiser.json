@@ -121,14 +121,6 @@
       "to": {
         "circular": true
       }
-    },
-    {
-      "name": "to-old-lib",
-      "severity": "info",
-      "from": {},
-      "to": {
-        "path": "^src/script/lib"
-      }
     }
   ],
   "options": {
