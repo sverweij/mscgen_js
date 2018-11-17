@@ -60,11 +60,13 @@
     "depcruise:graph": "depcruise --validate --output-type rcdot src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
+    "scm:stage": "git add .",
     "test": "mocha --reporter dot --recursive src/script/test",
     "test:cover": "nyc --check-coverage npm test",
     "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
     "upem:update": "npm outdated ---json | upem",
-    "upem:install": "npm install"
+    "upem:install": "npm install",
+    "version": "npm-run-all build scm:stage"
   },
   "eslintConfig": {
     "extends": "standard",
