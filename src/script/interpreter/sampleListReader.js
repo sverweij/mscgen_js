@@ -1,33 +1,26 @@
 /* eslint-env node */
-/* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
+
+var gDebug = false
+
+function toOptions (pPrev, pSample) {
+  return pPrev + '<option value="' + pSample.value + '">' + pSample.label + '</option>'
 }
 
-define(function(){
-    "use strict";
-    var gDebug = false;
+function toOptionGroups (pPrev, pSampleGroup) {
+  return pPrev + '<optgroup label="' + pSampleGroup.label + '">' +
+        pSampleGroup
+          .values
+          .filter(function (value) { return (!value.debug || gDebug) })
+          .reduce(toOptions, '') +
+    '</optgroup>'
+}
 
-    function toOptions(pPrev, pSample) {
-        return pPrev + '<option value="' + pSample.value + '">' + pSample.label + "</option>";
-    }
-
-    function toOptionGroups(pPrev, pSampleGroup){
-        return pPrev + '<optgroup label="' + pSampleGroup.label + '">' +
-            pSampleGroup
-                .values
-                .filter(function(value) { return (!value.debug || gDebug); })
-                .reduce(toOptions, "") +
-        '</optgroup>';
-    }
-
-    return {
-        toOptionList: function (pSampleGroups, pDebug) {
-            gDebug = !!pDebug;
-            return pSampleGroups.reduce(toOptionGroups, "");
-        }
-    };
-});
+module.exports = {
+  toOptionList: function (pSampleGroups, pDebug) {
+    gDebug = !!pDebug
+    return pSampleGroups.reduce(toOptionGroups, '')
+  }
+}
 /*
  This file is part of mscgen_js.
 

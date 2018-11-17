@@ -1,7 +1,7 @@
 src/style/interp.scss: \
-	src/script/lib/codemirror/lib/_codemirror.scss \
-	src/script/lib/codemirror/addon/dialog/_dialog.scss \
-	src/script/lib/codemirror/theme/_blackboard.scss \
+	node_modules/codemirror/lib/codemirror.css \
+	node_modules/codemirror/addon/dialog/dialog.css \
+	node_modules/codemirror/theme/blackboard.css \
 	src/style/snippets/_colors.scss \
 	src/style/snippets/_interpreter.scss \
 	src/style/snippets/_anim.scss \
@@ -11,14 +11,6 @@ src/style/interp.scss: \
 	src/style/snippets/_slidingpanel.scss \
 	src/style/snippets/_mediagenerics.scss \
 	src/style/snippets/_toast.scss
-
-src/index.html: \
-	src/style/interp.css \
-	src/script/lib/require.js \
-	src/script/mscgen-interpreter.js \
-	src/images/mugshot.jpg \
-	src/images/test14_cheat_sheet.svg \
-	$(SAMPLES)
 
 # documentation
 src/style/doc.scss: \
@@ -30,16 +22,6 @@ src/style/doc.scss: \
 	src/style/snippets/_mediagenerics.scss \
 	src/style/snippets/_toast.scss
 
-src/embed.html: \
-	src/style/doc.css \
-	src/mscgen-inpage.js \
-	src/images/mugshot.jpg
-
-src/tutorial.html: \
-	src/style/doc.css \
-	src/mscgen-inpage.js \
-	src/images/mugshot.jpg \
-	src/images/demo\ -\ screenshot\ -\ autofaded.png
 
 # generic style stuff
 src/style/_fonts.scss: $(FONT_SOURCES)

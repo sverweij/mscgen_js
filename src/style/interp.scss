@@ -1,7 +1,7 @@
 @import "./snippets/fonts";
-@import "../script/lib/codemirror/lib/codemirror";
-@import "../script/lib/codemirror/addon/dialog/dialog";
-@import "../script/lib/codemirror/theme/blackboard";
+@import "../../node_modules/codemirror/lib/codemirror";
+@import "../../node_modules/codemirror/addon/dialog/dialog";
+@import "../../node_modules/codemirror/theme/blackboard";
 @import "./snippets/generics";
 @import "./snippets/header";
 @import "./snippets/interpreter";

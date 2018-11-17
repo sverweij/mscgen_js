@@ -13,7 +13,5 @@ plugins:
       enabled: false
 exclude_patterns:
   - utl/*
-  - src/mscgen-inpage.js
-  - src/script/lib/*
   - src/script/test/*
   - **node_modules**
