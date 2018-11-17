@@ -1,6 +1,6 @@
 /* eslint max-paramslikker: 0 */
 var uistate = require('./uistate')
-var paramslikker = require('../utl/paramslikker')
+const queryString = require('query-string')
 var store = require('../utl/store')
 var $ = require('../utl/domutl')
 var gaga = require('../utl/gaga')
@@ -13,11 +13,11 @@ function setupGA (pDoNotTrack) {
 }
 
 function processParams () {
-  var lParams = paramslikker.getParams(window.location.search)
+  var lParams = queryString.parse(window.location.search)
   setupGA(maps.sanitizeBooleanesque(lParams.donottrack))
 
   uistate.setDebug(maps.sanitizeBooleanesque(lParams.debug))
-  if (lParams.hasOwnProperty('debug')) {
+  if (lParams.debug) {
     gaga.g('send', 'event', 'debug', maps.sanitizeBooleanesque(lParams.debug))
   }
 
@@ -27,12 +27,12 @@ function processParams () {
     store.loadSettings(uistate)
   }
 
-  if (lParams.hasOwnProperty('mirrorentities')) {
+  if (lParams.mirrorentities) {
     uistate.setMirrorEntities(maps.sanitizeBooleanesque(lParams.mirrorentities))
     gaga.g('send', 'event', 'paramslikker.mirrorentities', lParams.mirrorentities)
   }
 
-  if (lParams.hasOwnProperty('style')) {
+  if (lParams.style) {
     uistate.setNamedStyle(lParams.style)
     gaga.g('send', 'event', 'paramslikker.style', lParams.style)
   }

@@ -30,7 +30,8 @@
   "dependencies": {
     "codemirror": "5.41.0",
     "mscgenjs": "3.0.0-beta-3",
-    "mscgenjs-inpage": "2.0.2"
+    "mscgenjs-inpage": "2.0.2",
+    "query-string": "6.2.0"
   },
   "devDependencies": {
     "chai": "4.2.0",
@@ -53,7 +54,8 @@
   },
   "scripts": {
     "check": "npm-run-all --parallel depcruise lint test:cover",
-    "build": "make clean dev-build",
+    "build": "make install",
+    "build:clean": "make clean install",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "depcruise": "depcruise --validate -- src/script",
     "depcruise:graph": "depcruise --validate --output-type rcdot src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",

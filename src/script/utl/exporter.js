@@ -4,7 +4,7 @@
 var ast2dot = require('mscgenjs/dist/cjs/render/text/ast2dot')
 var ast2mscgen = require('mscgenjs/dist/cjs/render/text/ast2mscgen')
 var ast2doxygen = require('mscgenjs/dist/cjs/render/text/ast2doxygen')
-var paramslikker = require('./paramslikker')
+const queryString = require('query-string')
 
 /* max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1 */
 var MAX_LOCATION_LENGTH = 4094
@@ -72,7 +72,7 @@ function toHTMLSnippet (pSource, pLanguage, pOptions) {
 }
 
 function getAdditionalParameters (pLocation, pMirrorEntities, pNamedStyle) {
-  var lParams = paramslikker.getParams(pLocation.search)
+  var lParams = queryString.parse(pLocation.search)
   var lAdditionalParameters = ''
 
   if (lParams.donottrack) {
