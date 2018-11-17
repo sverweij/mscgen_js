@@ -12,6 +12,6 @@ plugins:
     indent:
       enabled: false
 exclude_patterns:
-  - utl/*
-  - src/script/test/*
-  - **node_modules**
+  - "utl/*"
+  - "src/script/test/*"
+  - "**node_modules**"
