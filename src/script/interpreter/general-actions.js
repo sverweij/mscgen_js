@@ -1,42 +1,38 @@
-define(function(require) {
-    "use strict";
+var animator = require('./animator')
+var ESC_KEY = 27
 
-    var animator = require("./animator");
-    var ESC_KEY  = 27;
+function _hideAllPanels () {
+  animator.close()
+  window.__color_panel.style.width = '0'
+  window.__output_panel.style.width = '0'
+  window.__aboutsheet.style.width = '0'
+  window.__embed_panel.style.width = '0'
+  window.__learn_panel.style.width = '0'
+  window.__render_options_panel.style.width = '0'
+  window.__save_as_panel.style.width = '0'
+}
 
-    function _hideAllPanels(){
-        animator.close();
-        window.__color_panel.style.width          = '0';
-        window.__output_panel.style.width         = '0';
-        window.__aboutsheet.style.width           = '0';
-        window.__embed_panel.style.width          = '0';
-        window.__learn_panel.style.width          = '0';
-        window.__render_options_panel.style.width = '0';
-        window.__save_as_panel.style.width        = '0';
+function _togglePanel (pPanelElement, pOpenFn, pCloseFn) {
+  var lHeight = pPanelElement.style.width.toString()
+  if (lHeight === '0px' || lHeight === '') {
+    _hideAllPanels()
+    pPanelElement.style.width = '340px'
+    pOpenFn()
+  } else {
+    _hideAllPanels()
+    pCloseFn()
+  }
+}
+
+module.exports = {
+  hideAllPanels: _hideAllPanels,
+  togglePanel: _togglePanel,
+  keyDown: function (e) {
+    if (ESC_KEY === e.keyCode) {
+      _hideAllPanels()
     }
-
-    function _togglePanel(pPanelElement, pOpenFn, pCloseFn){
-        var lHeight = pPanelElement.style.width.toString();
-        if (lHeight === '0px' || lHeight === ""){
-            _hideAllPanels();
-            pPanelElement.style.width = '340px';
-            pOpenFn();
-        } else {
-            _hideAllPanels();
-            pCloseFn();
-        }
-    }
-
-    return {
-        hideAllPanels: _hideAllPanels,
-        togglePanel: _togglePanel,
-        keyDown: function (e) {
-            if (ESC_KEY === e.keyCode) {
-                _hideAllPanels();
-            }
-        }
-    };
-});
+  }
+}
 /*
  This file is part of mscgen_js.
 

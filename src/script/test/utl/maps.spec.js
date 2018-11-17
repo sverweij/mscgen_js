@@ -1,100 +1,94 @@
-/* eslint no-undefined: 0 */
-var assert = require("chai").assert;
-var map = require("../../utl/maps");
+var assert = require('chai').assert
+var map = require('../../utl/maps')
 
-describe('ui/utl/maps', function() {
+describe('ui/utl/maps', function () {
+  describe('#classifyExtension() - ', function () {
+    it('empty string should classify as mscgen ', function () {
+      assert.strictEqual(map.classifyExtension(''), 'mscgen')
+    })
 
-    describe('#classifyExtension() - ', function() {
+    it('should classify as mscgen ', function () {
+      assert.strictEqual(map.classifyExtension('raggerderag.msc'), 'mscgen')
+    })
 
-        it('empty string should classify as mscgen ', function() {
-            assert.equal(map.classifyExtension(''), "mscgen");
-        });
+    it('should classify as msgenny ', function () {
+      assert.strictEqual(map.classifyExtension('daaris/;d"orgelm.msgenny'), 'msgenny')
+    })
 
-        it('should classify as mscgen ', function() {
-            assert.equal(map.classifyExtension('raggerderag.msc'), "mscgen");
-        });
+    it('string ending with . should classify as mscgen', function () {
+      assert.strictEqual(map.classifyExtension('aap.noot/mies.'), 'mscgen')
+    })
 
-        it('should classify as msgenny ', function() {
-            assert.equal(map.classifyExtension('daaris/;d"orgelm.msgenny'), "msgenny");
-        });
+    it('should classify as ast/json ', function () {
+      assert.strictEqual(map.classifyExtension('test01_all_arcs.json'), 'json')
+    })
 
-        it('string ending with . should classify as mscgen', function() {
-            assert.equal(map.classifyExtension('aap.noot/mies.'), "mscgen");
-        });
+    it('extensionless should classify as mscgen', function () {
+      assert.strictEqual(map.classifyExtension('no-extensions-ma'), 'mscgen')
+    })
+  })
 
-        it('should classify as ast/json ', function() {
-            assert.equal(map.classifyExtension('test01_all_arcs.json'), "json");
-        });
+  describe('#correctLanguage() - ', function () {
+    it('returns xu in case of mscgen with extensions ', function () {
+      assert.strictEqual(map.correctLanguage(true, 'mscgen'), 'xu')
+    })
 
-        it('extensionless should classify as mscgen', function() {
-            assert.equal(map.classifyExtension('no-extensions-ma'), "mscgen");
-        });
-    });
+    it('returns mscgen in case of xu witout extensions ', function () {
+      assert.strictEqual(map.correctLanguage(false, 'xu'), 'mscgen')
+    })
 
-    describe('#correctLanguage() - ', function() {
+    it('returns msgenny with or without extensions', function () {
+      assert.strictEqual(map.correctLanguage(true, 'msgenny'), 'msgenny')
+      assert.strictEqual(map.correctLanguage(false, 'msgenny'), 'msgenny')
+    })
 
-        it('returns xu in case of mscgen with extensions ', function() {
-            assert.equal(map.correctLanguage(true, "mscgen"), "xu");
-        });
+    it('returns whatever language when  extensions null or undefined', function () {
+      assert.strictEqual(map.correctLanguage(undefined, 'mscgen'), 'mscgen')
+      assert.strictEqual(map.correctLanguage(null, 'xu'), 'xu')
+    })
+  })
 
-        it('returns mscgen in case of xu witout extensions ', function() {
-            assert.equal(map.correctLanguage(false, "xu"), "mscgen");
-        });
+  describe('#language2Mode() - ', function () {
+    it('returns xu when presented with mscgen', function () {
+      assert.strictEqual(map.language2Mode('mscgen'), 'text/x-xu')
+    })
 
-        it('returns msgenny with or without extensions', function() {
-            assert.equal(map.correctLanguage(true, "msgenny"), "msgenny");
-            assert.equal(map.correctLanguage(false, "msgenny"), "msgenny");
-        });
+    it('returns application/json in case of json', function () {
+      assert.strictEqual(map.language2Mode('json'), 'application/json')
+    })
 
-        it('returns whatever language when  extensions null or undefined', function() {
-            assert.equal(map.correctLanguage(undefined, 'mscgen'), "mscgen");
-            assert.equal(map.correctLanguage(null, 'xu'), "xu");
-        });
-    });
+    it('returns msgenny in case of msgenny', function () {
+      assert.strictEqual(map.language2Mode('msgenny'), 'text/x-msgenny')
+    })
 
-    describe('#language2Mode() - ', function() {
+    it('returns xu in case of xu', function () {
+      assert.strictEqual(map.language2Mode('xu'), 'text/x-xu')
+    })
 
-        it('returns xu when presented with mscgen', function() {
-            assert.equal(map.language2Mode("mscgen"), "text/x-xu");
-        });
+    it('returns whatever in case of whatever', function () {
+      assert.strictEqual(map.language2Mode('whatever'), 'whatever')
+    })
 
-        it('returns application/json in case of json', function() {
-            assert.equal(map.language2Mode("json"), "application/json");
-        });
+    it('returns text/x-mscgen in case of text/x-mscgen', function () {
+      assert.strictEqual(map.language2Mode('text/x-mscgen'), 'text/x-mscgen')
+    })
+  })
 
-        it('returns msgenny in case of msgenny', function() {
-            assert.equal(map.language2Mode("msgenny"), "text/x-msgenny");
-        });
+  describe('#sanitizeBooleanesque() - ', function () {
+    it('sanitize non booleanesque', function () {
+      assert.strictEqual(false, map.sanitizeBooleanesque('this is not a booleanesque'))
+    })
 
-        it('returns xu in case of xu', function() {
-            assert.equal(map.language2Mode("xu"), "text/x-xu");
-        });
+    it('sanitize non booleanesque', function () {
+      assert.strictEqual(false, map.sanitizeBooleanesque(undefined))
+    })
 
-        it('returns whatever in case of whatever', function() {
-            assert.equal(map.language2Mode("whatever"), "whatever");
-        });
+    it('sanitize booleanesque', function () {
+      assert.strictEqual(true, map.sanitizeBooleanesque('1'))
+    })
 
-        it('returns text/x-mscgen in case of text/x-mscgen', function() {
-            assert.equal(map.language2Mode("text/x-mscgen"), "text/x-mscgen");
-        });
-    });
-
-    describe('#sanitizeBooleanesque() - ', function() {
-
-        it('sanitize non booleanesque', function() {
-            assert.equal(false, map.sanitizeBooleanesque("this is not a booleanesque"));
-        });
-
-        it('sanitize non booleanesque', function() {
-            assert.equal(false, map.sanitizeBooleanesque(undefined));
-        });
-
-        it('sanitize booleanesque', function() {
-            assert.equal(true, map.sanitizeBooleanesque("1"));
-        });
-
-        it('sanitize booleanesque', function() {
-            assert.equal(false, map.sanitizeBooleanesque("0"));
-        });
-    });
-});
+    it('sanitize booleanesque', function () {
+      assert.strictEqual(false, map.sanitizeBooleanesque('0'))
+    })
+  })
+})

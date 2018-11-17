@@ -1,47 +1,7 @@
 {
   "name": "mscgen_js",
-  "version": "2.0.2",
+  "version": "3.0.0-beta-1",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
-  "main": "src/script/mscgen-interpreter.js",
-  "dependencies": {
-    "amdefine": "1.0.1",
-    "codemirror": "5.40.0",
-    "requirejs": "2.3.6",
-    "mscgenjs": "2.0.0",
-    "mscgenjs-inpage": "2.0.1"
-  },
-  "devDependencies": {
-    "chai": "4.1.2",
-    "dependency-cruiser": "4.5.0",
-    "eslint": "5.5.0",
-    "get-module-root": "1.0.0-beta-1",
-    "istanbul": "0.4.5",
-    "js-makedepend": "3.0.3",
-    "mocha": "5.2.0",
-    "node-localstorage": "1.3.1",
-    "node-sass": "4.9.3",
-    "npm-run-all": "4.1.3",
-    "uglify-js": "3.4.9",
-    "upem": "1.0.0"
-  },
-  "scripts": {
-    "check": "npm-run-all --parallel depcruise lint test:cover",
-    "build": "make clean dev-build",
-    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
-    "depcruise": "depcruise --validate -- src/script",
-    "depcruise:graph": "depcruise --validate --output-type dot --module-systems amd src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",
-    "lint": "eslint src/script",
-    "lint:fix": "eslint --fix src/script",
-    "test": "mocha --reporter dot --recursive src/script/test",
-    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive src/script/test",
-    "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
-    "upem:update": "npm outdated ---json | upem",
-    "upem:install": "npm install"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sverweij/mscgen_js"
-  },
   "author": "Sander Verweij",
   "license": "GPL-3.0",
   "keywords": [
@@ -52,10 +12,94 @@
     "msgenny"
   ],
   "engines": {
-    "node": ">=6.0"
+    "node": ">=10.0"
   },
+  "browserslist": [
+    "last 1 Chrome version",
+    "last 1 Firefox version",
+    "last 1 Safari version"
+  ],
   "bugs": {
     "url": "https://github.com/sverweij/mscgen_js/issues"
   },
-  "homepage": "https://sverweij.github.io/mscgen_js"
+  "homepage": "https://sverweij.github.io/mscgen_js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sverweij/mscgen_js"
+  },
+  "dependencies": {
+    "codemirror": "5.41.0",
+    "mscgenjs": "3.0.0-beta-3",
+    "mscgenjs-inpage": "2.0.2",
+    "query-string": "6.2.0"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "dependency-cruiser": "4.6.3",
+    "eslint": "5.9.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-node": "8.0.0",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-standard": "4.0.0",
+    "js-makedepend": "3.0.6",
+    "mocha": "5.2.0",
+    "node-localstorage": "1.3.1",
+    "node-sass": "4.10.0",
+    "npm-run-all": "4.1.3",
+    "nyc": "13.1.0",
+    "upem": "1.0.2",
+    "webpack": "4.25.1",
+    "webpack-cli": "3.1.2"
+  },
+  "scripts": {
+    
+    "build": "make clean build",
+    "check": "npm-run-all --parallel depcruise lint test:cover",
+    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
+    "depcruise": "depcruise --validate -- src/script",
+    "depcruise:graph": "depcruise --validate --output-type rcdot src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src",
+    "test": "mocha --reporter dot --recursive src/script/test",
+    "test:cover": "nyc --check-coverage npm test",
+    "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
+    "upem:update": "npm outdated ---json | upem",
+    "upem:install": "npm install"
+  },
+  "upem": {
+    "donotup": [
+      "mscgenjs"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "standard",
+    "env": {
+      "browser": true
+    }
+  },
+  "eslintIgnore": [
+    "build",
+    "node_modules",
+    "/utl",
+    "wikum"
+  ],
+  "nyc": {
+    "statements": 99,
+    "branches": 65,
+    "functions": 99,
+    "lines": 99,
+    "exclude": [
+      "build",
+      "coverage",
+      "src/script/test/**/*",
+      "webpack.config.js"
+    ],
+    "reporter": [
+      "text-summary",
+      "html",
+      "lcov"
+    ],
+    "all": false
+  }
 }

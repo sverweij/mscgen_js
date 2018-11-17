@@ -1,104 +1,94 @@
-/* eslint-env node */
-/* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
+var STORAGE_KEY = 'state'
+
+function localStorageOK () {
+  return (typeof localStorage !== 'undefined')
 }
 
-define(function() {
-    "use strict";
-
-    var STORAGE_KEY = "state";
-
-    function localStorageOK (){
-        return (typeof localStorage !== 'undefined');
+function getState () {
+  if (localStorageOK()) {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY))
+    } catch (e) {
+      // silently swallow
     }
+  }
+  return null
+}
 
-    function getState(){
-        if (localStorageOK()){
-            try {
-                return JSON.parse(localStorage.getItem(STORAGE_KEY));
-            } catch (e){
-                // silently swallow
-            }
-        }
-        return null;
+function setState (pState) {
+  if (localStorageOK()) {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(pState)
+    )
+  }
+}
+
+function save (pState, pSourceToo) {
+  var lSourceToo = typeof pSourceToo === 'undefined' ? true : pSourceToo
+  var lState = {
+    autorender: pState.getAutoRender(),
+    mirrorEntities: pState.getMirrorEntities(),
+    namedStyle: pState.getNamedStyle(),
+    verticalLabelAlignment: pState.getVerticalLabelAlignment(),
+    includeSource: pState.getIncludeSource()
+  }
+
+  if (lSourceToo) {
+    lState.language = pState.getLanguage()
+    lState.source = pState.getSource()
+  } else {
+    var lOldState = getState()
+
+    if (lOldState) {
+      if (lOldState.language) {
+        lState.language = lOldState.language
+      }
+      if (lOldState.source) {
+        lState.source = lOldState.source
+      }
     }
+  }
 
-    function setState(pState) {
-        if (localStorageOK()){
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(pState)
-            );
-        }
+  setState(lState)
+}
+
+function load (pState, pSourceToo) {
+  var lState = getState()
+  var lSourceToo = typeof pSourceToo === 'undefined' ? true : pSourceToo
+
+  if (lState) {
+    pState.setAutoRender(lState.autorender)
+    pState.setMirrorEntities(lState.mirrorEntities)
+    pState.setNamedStyle(lState.namedStyle)
+    pState.setVerticalLabelAlignment(lState.verticalLabelAlignment)
+    pState.setIncludeSource(lState.includeSource)
+
+    if (lSourceToo) {
+      if (lState.language) {
+        pState.setLanguage(lState.language)
+      }
+      if (lState.source) {
+        pState.setSource(lState.source)
+      }
     }
+  }
+}
 
-    function save(pState, pSourceToo){
-        var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
-        var lState = {
-            autorender             : pState.getAutoRender(),
-            mirrorEntities         : pState.getMirrorEntities(),
-            namedStyle             : pState.getNamedStyle(),
-            verticalLabelAlignment : pState.getVerticalLabelAlignment(),
-            includeSource          : pState.getIncludeSource()
-        };
+function loadSettings (pState) {
+  load(pState, false)
+}
 
-        if (lSourceToo) {
-            lState.language = pState.getLanguage();
-            lState.source   = pState.getSource();
-        } else {
-            var lOldState = getState();
+function saveSettings (pState) {
+  save(pState, false)
+}
 
-            if (Boolean(lOldState)) {
-                if (Boolean(lOldState.language)) {
-                    lState.language = lOldState.language;
-                }
-                if (Boolean(lOldState.source)) {
-                    lState.source = lOldState.source;
-                }
-            }
-        }
-
-        setState(lState);
-    }
-
-    function load(pState, pSourceToo){
-        var lState = getState();
-        var lSourceToo = typeof pSourceToo === "undefined" ? true : pSourceToo;
-
-        if (Boolean(lState)){
-            pState.setAutoRender(lState.autorender);
-            pState.setMirrorEntities(lState.mirrorEntities);
-            pState.setNamedStyle(lState.namedStyle);
-            pState.setVerticalLabelAlignment(lState.verticalLabelAlignment);
-            pState.setIncludeSource(lState.includeSource);
-
-            if (lSourceToo) {
-                if (Boolean(lState.language)) {
-                    pState.setLanguage(lState.language);
-                }
-                if (Boolean(lState.source)) {
-                    pState.setSource(lState.source);
-                }
-            }
-        }
-    }
-
-    function loadSettings(pState) {
-        load(pState, false);
-    }
-
-    function saveSettings(pState) {
-        save(pState, false);
-    }
-
-    return {
-        save: save,
-        load: load,
-        saveSettings: saveSettings,
-        loadSettings: loadSettings
-    };
-});
+module.exports = {
+  save: save,
+  load: load,
+  saveSettings: saveSettings,
+  loadSettings: loadSettings
+}
 /*
  This file is part of mscgen_js.
 

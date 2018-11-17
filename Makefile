@@ -1,6 +1,5 @@
 
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
-RJS=node_modules/.bin/r.js
 GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_DEPLOY_FROM_BRANCH=master
@@ -10,24 +9,22 @@ IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
 SASS=node_modules/.bin/node-sass --output-style compressed
-MAKEDEPEND=node_modules/.bin/js-makedepend --output-to src/jsdependencies.mk --exclude "node_modules"
-MINIFY=node_modules/.bin/uglifyjs
 
 ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=build
 else
-	BUILDDIR=build/branches/$(GIT_CURRENT_BRANCH)
+	BUILDDIR=build
+	# BUILDDIR=build/branches/$(GIT_CURRENT_BRANCH)
 endif
 
 GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
 GENERATED_SOURCES=$(GENERATED_STYLESHEETS)
-REMOVABLEPRODDIRS=$(BUILDDIR)/script/lib \
-	$(BUILDDIR)/style \
+REMOVABLEPRODDIRS=$(BUILDDIR)/style \
 	$(BUILDDIR)/script \
 	$(BUILDDIR)/fonts
 PRODDIRS=$(BUILDDIR) \
-		 $(REMOVABLEPRODDIRS)
+	$(REMOVABLEPRODDIRS)
 FONTS=$(BUILDDIR)/fonts/controls.eot \
 	$(BUILDDIR)/fonts/controls.svg \
 	$(BUILDDIR)/fonts/controls.ttf \
@@ -50,30 +47,8 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-120.png \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
-CODEMIRROR_ROOT=$(shell node node_modules/.bin/get-module-root codemirror)
-MSCGENJS_CORE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs)/src
-MSCGENJS_INPAGE_ROOT=$(shell node node_modules/.bin/get-module-root mscgenjs-inpage)
-CODEMIRROR_LIBDIRS=src/script/lib/codemirror/addon/dialog \
-	src/script/lib/codemirror/addon/display \
-	src/script/lib/codemirror/addon/edit \
-	src/script/lib/codemirror/addon/search \
-	src/script/lib/codemirror/addon/selection \
-	src/script/lib/codemirror/lib \
-	src/script/lib/codemirror/mode/mscgen \
-	src/script/lib/codemirror/mode/javascript \
-	src/script/lib/codemirror/theme
-MSCGENJS_LIBDIRS=src/script/lib/mscgenjs-core/parse \
-	src/script/lib/mscgenjs-core/main \
-	src/script/lib/mscgenjs-core/render/astmassage \
-	src/script/lib/mscgenjs-core/render/graphics \
-	src/script/lib/mscgenjs-core/render/graphics/svgelementfactory \
-	src/script/lib/mscgenjs-core/render/text \
-	src/script/lib/mscgenjs-core/render/textutensils \
-	src/script/lib/mscgenjs-core/lib/lodash
 
-LIBDIRS=$(CODEMIRROR_LIBDIRS) $(MSCGENJS_LIBDIRS)
-
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test run-update-dependencies depend
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean prerequisites
 
 help:
 	@echo " --------------------------------------------------------"
@@ -83,7 +58,7 @@ help:
 	@echo
 	@echo "Most important build targets:"
 	@echo
-	@echo "install"
+	@echo "build"
 	@echo " -> this is probably the target you want when"
 	@echo "    hosting mscgen_js"
 	@echo
@@ -94,9 +69,6 @@ help:
 	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
 	@echo " smashing etc)"
 	@echo
-	@echo "check"
-	@echo " runs the linter and executes all unit tests"
-	@echo
 	@echo "clean"
 	@echo " removes everything created by either install or dev-build"
 	@echo
@@ -104,11 +76,6 @@ help:
 	@echo " deploys the build to gh-pages"
 	@echo "  - 'master' branch: the root of gh-pages"
 	@echo "  - other branches : in branches/branche-name"
-	@echo
-	@echo "update-dependencies"
-	@echo " updates all (node) module dependencies in package.json"
-	@echo " installs them, rebuilds all generated sources and runs"
-	@echo " all tests."
 	@echo
 	@echo " --------------------------------------------------------"
 	@echo "| More information and other targets: see wikum/build.md |"
@@ -141,52 +108,14 @@ $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 $(PRODDIRS):
 	mkdir -p $@
 
-$(LIBDIRS):
-	mkdir -p $@
-
-src/script/lib/require.js: $(shell node node_modules/.bin/get-module-root requirejs)/require.js
-	$(MINIFY) $< -m -c > $@
-
-src/script/lib/codemirror/lib/_%.scss: $(CODEMIRROR_ROOT)/lib/%.css $(CODEMIRROR_LIBDIRS)
-	cp $< $@
-
-src/script/lib/codemirror/addon/dialog/_%.scss: $(CODEMIRROR_ROOT)/addon/dialog/%.css $(CODEMIRROR_LIBDIRS)
-	cp $< $@
-
-src/script/lib/codemirror/theme/_%.scss: $(CODEMIRROR_ROOT)/theme/%.css $(CODEMIRROR_LIBDIRS)
-	cp $< $@
-
-src/script/lib/codemirror/%.js: $(CODEMIRROR_ROOT)/%.js $(CODEMIRROR_LIBDIRS)
-	cp $< $@
-
-src/mscgen-inpage.js: $(MSCGENJS_INPAGE_ROOT)/dist/mscgen-inpage.js
-	cp $< $@
-
-src/script/lib/mscgenjs-core/%.js: $(MSCGENJS_CORE_ROOT)/%.js $(MSCGENJS_LIBDIRS)
-	cp $< $@
-
-# src/script/lib/mscgenjs-core/render/text/%.js: $(MSCGENJS_CORE_ROOT)/render/text/%.js $(MSCGENJS_LIBDIRS)
-# 	cp $< $@
-
-# src/script/lib/mscgenjs-core/parse/%.js: $(MSCGENJS_CORE_ROOT)/parse/%.js $(MSCGENJS_LIBDIRS)
-# 	cp $< $@
-
-# src/script/lib/mscgenjs-core/main/%.js: $(MSCGENJS_CORE_ROOT)/main/%.js $(MSCGENJS_LIBDIRS)
-# 	cp $< $@
-
-src/script/lib/mscgenjs-core/lib/lodash/%.js: $(MSCGENJS_CORE_ROOT)/lib/lodash/%.js $(MSCGENJS_LIBDIRS)
-	cp $< $@
-
 # dependencies
-include src/jsdependencies.mk
 include src/dependencies.mk
 
 # file targets prod
 $(BUILDDIR)/index.html: $(PRODDIRS) \
 	src/index.html \
 	$(BUILDDIR)/style/interp.css \
-	$(BUILDDIR)/script/lib/require.js \
-	$(BUILDDIR)/script/mscgen-interpreter.js \
+	$(BUILDDIR)/mscgen-interpreter.min.js \
 	$(BUILDDIR)/images/ \
 	$(BUILDDIR)/samples/ \
 	$(FAVICONS) \
@@ -218,18 +147,10 @@ $(BUILDDIR)/images/: src/images
 $(BUILDDIR)/samples/: src/samples
 	cp -R $< $@
 
-$(BUILDDIR)/script/lib/require.js: src/script/lib/require.js
-	cp $< $@
+$(BUILDDIR)/mscgen-interpreter.min.js:
+	npx webpack
 
-$(BUILDDIR)/script/mscgen-interpreter.js: $(INTERPRETER_JS_SOURCES)
-	$(RJS) -o baseUrl="./src/script" \
-			name="mscgen-interpreter" \
-			out=$@.tmp \
-			preserveLicenseComments=true
-	$(SEDVERSION) < $@.tmp > $@
-	rm $@.tmp
-
-$(BUILDDIR)/mscgen-inpage.js: src/mscgen-inpage.js
+$(BUILDDIR)/mscgen-inpage.js: node_modules/mscgenjs-inpage/dist/mscgen-inpage.js
 	cp $< $@
 
 $(BUILDDIR)/script/mscgen-inpage.js: $(BUILDDIR)/mscgen-inpage.js
@@ -241,30 +162,7 @@ prerequisites:
 
 dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
 
-noconsolestatements:
-	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console src/script/mscgen-*.js src/script/interpreter src/script/utl | grep -c console | grep ^0$$
-	@echo ... ok
-
-consolecheck:
-	grep -r console src/script/mscgen-*.js src/script/interpreter src/script/utl
-
-csslint:
-	$(CSSLINT) src/style/*.css
-
-depcruise:
-	$(NPM) run depcruise
-
-lint:
-	$(NPM) run lint
-
-lint-fix:
-	$(NPM) run lint:fix
-
-cover: dev-build
-	$(NPM) run test:cover
-
-install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
+build: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
 deploy-gh-pages: install
 	@echo Deploying build `utl/getver` to $(BUILDDIR)
@@ -273,36 +171,6 @@ deploy-gh-pages: install
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
 
-tag:
-	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
-	$(GIT) push --tags
-
-.git/refs/remotes/bitbkucket-mirror:
-	$(GIT) remote add bitbucket-mirror git@bitbucket.org:sverweij/mscgen_js.git
-
-.git/refs/remotes/gitlab-mirror:
-	$(GIT) remote add gitlab-mirror https://gitlab.com/sverweij/mscgen_js.git
-
-mirrors: .git/refs/remotes/bitbucket-mirror \
-	.git/refs/remotes/gitlab-mirror
-
-push-mirrors: mirrors
-	$(GIT) push bitbucket-mirror
-	$(GIT) push gitlab-mirror
-
-test: dev-build
-	$(NPM) run test
-
-outdated:
-	$(NPM) outdated
-
-check: noconsolestatements lint depcruise test
-
-fullcheck: check outdated
-
-depend:
-	$(MAKEDEPEND) --system amd,cjs src/script
-	$(MAKEDEPEND) --append --system amd --flat-define INTERPRETER_JS_SOURCES src/script/mscgen-interpreter.js
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \
@@ -311,12 +179,12 @@ clean-the-build:
 		$(BUILDDIR)/index.html \
 		$(BUILDDIR)/embed.html \
 		$(BUILDDIR)/tutorial.html \
-		$(BUILDDIR)/mscgen-inpage.js
+		$(BUILDDIR)/mscgen-inpage.js \
+		$(BUILDDIR)/mscgen-interpreter.min.js \
 	rm -rf coverage
 
 clean-generated-sources:
 	rm -rf $(GENERATED_SOURCES)
 
 clean: clean-the-build clean-generated-sources
-	rm -rf $(LIBDIRS)
 	rm -rf $(FAVICONS)

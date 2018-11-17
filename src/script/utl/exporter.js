@@ -1,145 +1,134 @@
-/* eslint-env node */
-/* eslint max-len: 0 */
-/* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
+
+var ast2dot = require('mscgenjs/dist/cjs/render/text/ast2dot')
+var ast2mscgen = require('mscgenjs/dist/cjs/render/text/ast2mscgen')
+var ast2doxygen = require('mscgenjs/dist/cjs/render/text/ast2doxygen')
+const queryString = require('query-string')
+
+/* max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1 */
+var MAX_LOCATION_LENGTH = 4094
+var gTemplate =
+    '<!DOCTYPE html>\n' +
+    '<html>\n' +
+    '  <head>\n' +
+    "    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n" +
+    '{{config}}' +
+    "    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n" +
+    '    </script>\n' +
+    '  </head>\n' +
+    '  <body>\n' +
+    "    <pre class='code {{language}} mscgen_js'{{data-language}}{{namedstyle}}{{mirrorentities}}{{verticalalignment}}>\n" +
+    '{{source}}\n' +
+    '    </pre>\n' +
+    '  </body>\n' +
+    '</html>'
+var gLinkToEditorConfig =
+    '    <script>\n' +
+    '      var mscgen_js_config = {\n' +
+    '        clickable: true\n' +
+    '      }\n' +
+    '    </script>\n'
+
+function extractNamedStyle (pNamedStyle) {
+  return pNamedStyle && pNamedStyle !== 'none'
+    ? " data-named-style='" + pNamedStyle + "'"
+    : ''
 }
 
-define(function(require) {
-    "use strict";
+function extractDataLanguage (pLanguage) {
+  return pLanguage && pLanguage !== 'mscgen'
+    ? " data-language='" + pLanguage + "'"
+    : ''
+}
 
-    var ast2dot      = require("../lib/mscgenjs-core/render/text/ast2dot");
-    var ast2mscgen   = require("../lib/mscgenjs-core/render/text/ast2mscgen");
-    var ast2doxygen  = require("../lib/mscgenjs-core/render/text/ast2doxygen");
-    var paramslikker = require("./paramslikker");
+function extractMirrorEntities (pMirrorEntities) {
+  return pMirrorEntities ? " data-mirror-entities='true'" : ''
+}
 
-    /* max length of an URL on github (4122) - "https://sverweij.github.io/".length (27) - 1 */
-    var MAX_LOCATION_LENGTH = 4094;
-    var gTemplate =
-        "<!DOCTYPE html>\n" +
-        "<html>\n" +
-        "  <head>\n" +
-        "    <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>\n" +
-        "{{config}}" +
-        "    <script src='https://sverweij.github.io/mscgen_js/mscgen-inpage.js' defer>\n" +
-        "    </script>\n" +
-        "  </head>\n" +
-        "  <body>\n" +
-        "    <pre class='code {{language}} mscgen_js'{{data-language}}{{namedstyle}}{{mirrorentities}}{{verticalalignment}}>\n" +
-        "{{source}}\n" +
-        "    </pre>\n" +
-        "  </body>\n"  +
-        "</html>";
-    var gLinkToEditorConfig =
-        "    <script>\n" +
-        "      var mscgen_js_config = {\n" +
-        "        clickable: true\n" +
-        "      }\n" +
-        "    </script>\n";
+function extractVerticalAlignment (pAlignment) {
+  return pAlignment && pAlignment !== 'middle'
+    ? " data-regular-arc-text-vertical-alignment='" + pAlignment + "'"
+    : ''
+}
 
+function extractLinkToEditor (pWithLinkToEditor) {
+  return pWithLinkToEditor ? gLinkToEditorConfig : ''
+}
 
-    function extractNamedStyle(pNamedStyle) {
-        return pNamedStyle && pNamedStyle !== "none"
-            ? " data-named-style='" + pNamedStyle + "'"
-            : "";
+function extractSource (pSource) {
+  return pSource.replace(/</g, '&lt;')
+}
+
+function toHTMLSnippet (pSource, pLanguage, pOptions) {
+  return gTemplate
+    .replace(/{{config}}/g, extractLinkToEditor(pOptions.withLinkToEditor))
+    .replace(/{{language}}/g, pLanguage)
+    .replace(/{{data-language}}/g, extractDataLanguage(pLanguage))
+    .replace(/{{mirrorentities}}/g, extractMirrorEntities(pOptions.mirrorEntities))
+    .replace(/{{verticalalignment}}/g, extractVerticalAlignment(pOptions.verticalLabelAlignment))
+    .replace(/{{namedstyle}}/g, extractNamedStyle(pOptions.namedStyle))
+    .replace(/{{source}}/g, extractSource(pSource))
+}
+
+function getAdditionalParameters (pLocation, pMirrorEntities, pNamedStyle) {
+  var lParams = queryString.parse(pLocation.search)
+  var lAdditionalParameters = ''
+
+  if (lParams.donottrack) {
+    lAdditionalParameters += '&donottrack=' + lParams.donottrack
+  }
+  if (lParams.debug) {
+    lAdditionalParameters += '&debug=' + lParams.debug
+  }
+  if (pMirrorEntities) {
+    lAdditionalParameters += '&mirrorentities=' + pMirrorEntities
+  }
+  if (pNamedStyle) {
+    lAdditionalParameters += '&style=' + pNamedStyle
+  }
+  return lAdditionalParameters
+}
+
+function source2LocationString (pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle) {
+  return pLocation.pathname +
+            '?lang=' + pLanguage +
+            getAdditionalParameters(pLocation, pMirrorEntities, pNamedStyle) +
+            '&msc=' + encodeURIComponent(pSource)
+}
+
+function sourceIsURLable (pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle) {
+  return source2LocationString(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle).length < MAX_LOCATION_LENGTH
+}
+
+module.exports = {
+  toVectorURI: function (pSVGSource) {
+    return 'data:image/svg+xml;charset=utf-8,' +
+        encodeURIComponent(pSVGSource)
+  },
+  toHTMLSnippet: toHTMLSnippet,
+  toHTMLSnippetURI: function (pSource, pLanguage, pOptions) {
+    return 'data:text/plain;charset=utf-8,' +
+                encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pOptions))
+  },
+  todotURI: function (pAST) {
+    return 'data:text/plain;charset=utf-8,' +
+                encodeURIComponent(ast2dot.render(pAST))
+  },
+  toVanillaMscGenURI: function (pAST) {
+    return 'data:text/plain;charset=utf-8,' +
+        encodeURIComponent(ast2mscgen.render(pAST))
+  },
+  toDoxygenURI: function (pAST) {
+    return 'data:text/plain;charset=utf-8,' +
+        encodeURIComponent(ast2doxygen.render(pAST))
+  },
+  toLocationString: function (pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle) {
+    var lSource = '# source too long for an URL'
+    if (sourceIsURLable(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle)) {
+      lSource = pSource
     }
-
-    function extractDataLanguage(pLanguage) {
-        return pLanguage && pLanguage !== "mscgen"
-            ? " data-language='" + pLanguage + "'"
-            : "";
-    }
-
-    function extractMirrorEntities(pMirrorEntities) {
-        return pMirrorEntities ? " data-mirror-entities='true'" : "";
-    }
-
-    function extractVerticalAlignment(pAlignment) {
-        return pAlignment && pAlignment !== "middle"
-            ? " data-regular-arc-text-vertical-alignment='" + pAlignment + "'"
-            : "";
-    }
-
-    function extractLinkToEditor(pWithLinkToEditor) {
-        return pWithLinkToEditor ? gLinkToEditorConfig : "";
-    }
-
-    function extractSource(pSource) {
-        return pSource.replace(/</g, "&lt;");
-    }
-
-    function toHTMLSnippet (pSource, pLanguage, pOptions){
-        return gTemplate
-            .replace(/{{config}}/g, extractLinkToEditor(pOptions.withLinkToEditor))
-            .replace(/{{language}}/g, pLanguage)
-            .replace(/{{data-language}}/g, extractDataLanguage(pLanguage))
-            .replace(/{{mirrorentities}}/g, extractMirrorEntities(pOptions.mirrorEntities))
-            .replace(/{{verticalalignment}}/g, extractVerticalAlignment(pOptions.verticalLabelAlignment))
-            .replace(/{{namedstyle}}/g, extractNamedStyle(pOptions.namedStyle))
-            .replace(/{{source}}/g, extractSource(pSource));
-    }
-
-    function getAdditionalParameters(pLocation, pMirrorEntities, pNamedStyle){
-        var lParams = paramslikker.getParams(pLocation.search);
-        var lAdditionalParameters = "";
-
-        if (lParams.donottrack){
-            lAdditionalParameters += '&donottrack=' + lParams.donottrack;
-        }
-        if (lParams.debug){
-            lAdditionalParameters += '&debug=' + lParams.debug;
-        }
-        if (pMirrorEntities){
-            lAdditionalParameters += '&mirrorentities=' + pMirrorEntities;
-        }
-        if (pNamedStyle){
-            lAdditionalParameters += '&style=' + pNamedStyle;
-        }
-        return lAdditionalParameters;
-    }
-
-    function source2LocationString(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle){
-        return pLocation.pathname +
-                '?lang=' + pLanguage +
-                getAdditionalParameters(pLocation, pMirrorEntities, pNamedStyle) +
-                '&msc=' + encodeURIComponent(pSource);
-    }
-
-    function sourceIsURLable(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle){
-        return source2LocationString(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle).length < MAX_LOCATION_LENGTH;
-    }
-
-    return {
-        toVectorURI: function (pSVGSource) {
-            return "data:image/svg+xml;charset=utf-8," +
-            encodeURIComponent(pSVGSource);
-        },
-        toHTMLSnippet: toHTMLSnippet,
-        toHTMLSnippetURI: function(pSource, pLanguage, pOptions){
-            return 'data:text/plain;charset=utf-8,' +
-                    encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pOptions));
-        },
-        todotURI: function(pAST){
-            return 'data:text/plain;charset=utf-8,' +
-                    encodeURIComponent(ast2dot.render(pAST));
-        },
-        toVanillaMscGenURI: function(pAST){
-            return 'data:text/plain;charset=utf-8,' +
-            encodeURIComponent(ast2mscgen.render(pAST));
-        },
-        toDoxygenURI: function(pAST){
-            return 'data:text/plain;charset=utf-8,' +
-            encodeURIComponent(ast2doxygen.render(pAST));
-        },
-        toLocationString: function (pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle) {
-            var lSource = '# source too long for an URL';
-            if (sourceIsURLable(pLocation, pSource, pLanguage, pMirrorEntities, pNamedStyle)) {
-                lSource = pSource;
-            }
-            return source2LocationString(pLocation, lSource, pLanguage, pMirrorEntities, pNamedStyle);
-        }
-    };
-});
+    return source2LocationString(pLocation, lSource, pLanguage, pMirrorEntities, pNamedStyle)
+  }
+}
 /*
  This file is part of mscgen_js.
 
