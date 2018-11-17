@@ -1,12 +1,8 @@
 @import "./snippets/fonts";
-@import "../../node_modules/codemirror/lib/codemirror";
-@import "../../node_modules/codemirror/addon/dialog/dialog";
-@import "../../node_modules/codemirror/theme/blackboard";
 @import "./snippets/generics";
+@import "./snippets/documentation";
 @import "./snippets/header";
-@import "./snippets/interpreter";
 @import "./snippets/slidingpanel";
-@import "./snippets/anim";
 @import "./snippets/mediagenerics";
 @import "./snippets/toast";
 /*

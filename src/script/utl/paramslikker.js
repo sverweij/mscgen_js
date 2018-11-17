@@ -13,32 +13,24 @@
  * }
  */
 /* eslint-env node */
-/* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
 
-define(function() {
-    "use strict";
+module.exports = {
+    getParams : function (pSearchString) {
+        var lRetval = {};
+        if (pSearchString) {
+            var lKeyValAry = [];
 
-    return {
-        getParams : function (pSearchString) {
-            var lRetval = {};
-            if (pSearchString) {
-                var lKeyValAry = [];
-
-                //  search string always starts with a "?" - skip this
-                pSearchString.slice(1).split("&").forEach(function(pKeyVal){
-                    lKeyValAry = pKeyVal.split("=");
-                    if (2 === lKeyValAry.length) {
-                        lRetval[lKeyValAry[0]] = decodeURIComponent(lKeyValAry[1]);
-                    }
-                });
-            }
-            return lRetval;
+            //  search string always starts with a "?" - skip this
+            pSearchString.slice(1).split("&").forEach(function(pKeyVal){
+                lKeyValAry = pKeyVal.split("=");
+                if (2 === lKeyValAry.length) {
+                    lRetval[lKeyValAry[0]] = decodeURIComponent(lKeyValAry[1]);
+                }
+            });
         }
-    };
-});
+        return lRetval;
+    }
+};
 /*
  This file is part of mscgen_js.
 

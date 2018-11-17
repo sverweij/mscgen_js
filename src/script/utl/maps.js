@@ -1,90 +1,83 @@
 /* eslint-env node */
 /* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
-
-define(function() {
-    "use strict";
-    return {
-        /**
-         * Given a filename in pString, returns what language is probably
-         * contained in that file, judging from the extension (the last dot
-         * in the string to end-of-string)
-         *
-         * When in doubt returns "mscgen"
-         *
-         * @param {string} pString
-         * @return  {string} - language. Possible values: "mscgen", "msgenny", "json".
-         */
-        classifyExtension : function(pString) {
-            var lExtMap = {
-                "msgenny" : "msgenny",
-                "mscgen"  : "mscgen",
-                "msc"     : "mscgen",
-                "mscin"   : "mscgen",
-                "xu"      : "xu",
-                "json"    : "json",
-                "ast"     : "json"
-            };
-            if (!pString) {
-                return "mscgen";
-            }
-
-            var lPos = pString.lastIndexOf(".");
-            if (lPos > -1) {
-                var lExt = pString.slice(lPos + 1);
-                if (lExtMap[lExt]) {
-                    return lExtMap[lExt];
-                }
-            }
-
+module.exports = {
+    /**
+     * Given a filename in pString, returns what language is probably
+     * contained in that file, judging from the extension (the last dot
+     * in the string to end-of-string)
+     *
+     * When in doubt returns "mscgen"
+     *
+     * @param {string} pString
+     * @return  {string} - language. Possible values: "mscgen", "msgenny", "json".
+     */
+    classifyExtension : function(pString) {
+        var lExtMap = {
+            "msgenny" : "msgenny",
+            "mscgen"  : "mscgen",
+            "msc"     : "mscgen",
+            "mscin"   : "mscgen",
+            "xu"      : "xu",
+            "json"    : "json",
+            "ast"     : "json"
+        };
+        if (!pString) {
             return "mscgen";
-        },
-        /**
-         * Given a language in pLanguage, returns the codemirror mode to use
-         *
-         * When not known returns pLanguage
-         *
-         * @param {string} pLangauge
-         * @return  {string} - language. Possible values: "xu", "application/json"
-         *     or the input string
-         */
-        language2Mode: function(pLanguage){
-            var lLang2Mode = {
-                "mscgen"  : "text/x-xu",
-                "xu"      : "text/x-xu",
-                "msgenny" : "text/x-msgenny",
-                "json"    : "application/json"
-            };
-
-            if (lLang2Mode[pLanguage]){
-                return lLang2Mode[pLanguage];
-            }
-
-            return pLanguage;
-        },
-        correctLanguage: function (pExtendedFeatures, pLanguage){
-            if (true === pExtendedFeatures && pLanguage === "mscgen"){
-                return "xu";
-            }
-            if (false === pExtendedFeatures && pLanguage === "xu"){
-                return "mscgen";
-            }
-            return pLanguage;
-        },
-
-        /**
-         * returns true if pString equals "1", "true", "y", "yes" or "on"
-         * ... false in all other cases
-         * @param {string} pString
-         * @return {boolean}
-         */
-        sanitizeBooleanesque: function(pString){
-            return (["1", "true", "y", "yes", "on"].indexOf(pString) > -1);
         }
-    };
-}); // define
+
+        var lPos = pString.lastIndexOf(".");
+        if (lPos > -1) {
+            var lExt = pString.slice(lPos + 1);
+            if (lExtMap[lExt]) {
+                return lExtMap[lExt];
+            }
+        }
+
+        return "mscgen";
+    },
+    /**
+     * Given a language in pLanguage, returns the codemirror mode to use
+     *
+     * When not known returns pLanguage
+     *
+     * @param {string} pLangauge
+     * @return  {string} - language. Possible values: "xu", "application/json"
+     *     or the input string
+     */
+    language2Mode: function(pLanguage){
+        var lLang2Mode = {
+            "mscgen"  : "text/x-xu",
+            "xu"      : "text/x-xu",
+            "msgenny" : "text/x-msgenny",
+            "json"    : "application/json"
+        };
+
+        if (lLang2Mode[pLanguage]){
+            return lLang2Mode[pLanguage];
+        }
+
+        return pLanguage;
+    },
+    correctLanguage: function (pExtendedFeatures, pLanguage){
+        if (true === pExtendedFeatures && pLanguage === "mscgen"){
+            return "xu";
+        }
+        if (false === pExtendedFeatures && pLanguage === "xu"){
+            return "mscgen";
+        }
+        return pLanguage;
+    },
+
+    /**
+     * returns true if pString equals "1", "true", "y", "yes" or "on"
+     * ... false in all other cases
+     * @param {string} pString
+     * @return {boolean}
+     */
+    sanitizeBooleanesque: function(pString){
+        return (["1", "true", "y", "yes", "on"].indexOf(pString) > -1);
+    }
+};
 /*
  This file is part of mscgen_js.
 

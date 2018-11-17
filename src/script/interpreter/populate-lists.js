@@ -1,59 +1,55 @@
-define(function(require) {
-    "use strict";
+var mscgenjs         = require("mscgenjs/dist/cjs/main/index");
+var $               = require("../utl/domutl");
+var sampleListReader = require("./sampleListReader");
 
-    var mscgenjs         = require("../lib/mscgenjs-core/main/index");
-    var $               = require("../utl/domutl");
-    var sampleListReader = require("./sampleListReader");
+function namedStyle2Div(pNamedStyle) {
+    return (
+        (pNamedStyle.experimental || pNamedStyle.deprecated
+            ? '<div class="debug" style="display:none;">'
+            : '<div>'
+        ) +
+        '<input id="__option_style_${pNamedStyle.name}" type="radio" name="stylerg" value="${pNamedStyle.name}">' +
+        ' <label for="__option_style_${pNamedStyle.name}">${pNamedStyle.description}</label>' +
+    '</div>')
+        .replace(/\${pNamedStyle.name}/g, pNamedStyle.name)
+        .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
+}
 
-    function namedStyle2Div(pNamedStyle) {
-        return (
-            (pNamedStyle.experimental || pNamedStyle.deprecated
-                ? '<div class="debug" style="display:none;">'
-                : '<div>'
-            ) +
-            '<input id="__option_style_${pNamedStyle.name}" type="radio" name="stylerg" value="${pNamedStyle.name}">' +
-            ' <label for="__option_style_${pNamedStyle.name}">${pNamedStyle.description}</label>' +
-        '</div>')
-            .replace(/\${pNamedStyle.name}/g, pNamedStyle.name)
-            .replace(/\${pNamedStyle.description}/g, pNamedStyle.description);
-    }
-
-    function initSamples(pDebug) {
-        $.ajax(
-            "samples/interpreter-samples.json",
-            function(pResult){
-                try {
-                    window.__samples.innerHTML =
-                        '<option value="none" selected="">select an example...</option>' +
-                        sampleListReader.toOptionList(
-                            JSON.parse(pResult.target.response),
-                            pDebug
-                        );
-                    $.ss(window.__samples).show();
-                } catch (e) {
-                    // quietly ignore
-                }
-            },
-            function(){
+function initSamples(pDebug) {
+    $.ajax(
+        "samples/interpreter-samples.json",
+        function(pResult){
+            try {
+                window.__samples.innerHTML =
+                    '<option value="none" selected="">select an example...</option>' +
+                    sampleListReader.toOptionList(
+                        JSON.parse(pResult.target.response),
+                        pDebug
+                    );
+                $.ss(window.__samples).show();
+            } catch (e) {
                 // quietly ignore
             }
+        },
+        function(){
+            // quietly ignore
+        }
+    );
+}
+
+function initNamedStyles() {
+    window.__named_styles.innerHTML =
+        mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
+            return pAll + namedStyle2Div(pNamedStyle);
+        }, ""
         );
-    }
 
-    function initNamedStyles() {
-        window.__named_styles.innerHTML =
-            mscgenjs.getAllowedValues().namedStyle.reduce(function(pAll, pNamedStyle){
-                return pAll + namedStyle2Div(pNamedStyle);
-            }, ""
-            );
+}
 
-    }
-
-    return {
-        initSamples: initSamples,
-        initNamedStyles: initNamedStyles
-    };
-}); // define
+module.exports = {
+    initSamples: initSamples,
+    initNamedStyles: initNamedStyles
+};
 /*
  This file is part of mscgen_js.
 

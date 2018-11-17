@@ -1,60 +1,56 @@
-define(function(){
-    "use strict";
-
-    return {
-        ss: function (pId) {
-            return {
-                show: function(pDisplayStyle){
+module.exports = {
+    ss: function (pId) {
+        return {
+            show: function(pDisplayStyle){
+                pId.removeAttribute("style");
+                if (pDisplayStyle){
+                    pId.style.display = pDisplayStyle;
+                }
+            },
+            hide: function(){
+                pId.style.display = "none";
+            },
+            toggle: function(){
+                if (pId.style.display === "none") {
                     pId.removeAttribute("style");
-                    if (pDisplayStyle){
-                        pId.style.display = pDisplayStyle;
-                    }
-                },
-                hide: function(){
+                } else {
                     pId.style.display = "none";
-                },
-                toggle: function(){
-                    if (pId.style.display === "none") {
-                        pId.removeAttribute("style");
-                    } else {
-                        pId.style.display = "none";
-                    }
                 }
-            };
-        },
-        attachEventHandler: function (pQuerySelector, pEvent, pFunction) {
-            var lNodes = document.querySelectorAll(pQuerySelector);
-            for (var i = 0; i < lNodes.length; i++){
-                lNodes[i].addEventListener(pEvent, pFunction, false);
             }
-        },
-        doForAllOfClass: function (pClass, pFunction) {
-            var lNodes = document.getElementsByClassName(pClass);
-            for (var i = 0; i < lNodes.length; i++){
-                pFunction(lNodes[i]);
-            }
-        },
-        ajax : function (pURL, pSuccessFunction, pErrorFunction) {
-            var lHttpRequest = new XMLHttpRequest();
-            lHttpRequest.onreadystatechange = function (pEvent) {
-                if (pEvent.target.readyState === XMLHttpRequest.DONE) {
-                    if (200 === lHttpRequest.status) {
-                        pSuccessFunction(pEvent);
-                    } else {
-                        pErrorFunction(pEvent);
-                    }
-                }
-            };
-            lHttpRequest.open('GET', pURL);
-            lHttpRequest.responseType = "text";
-            try {
-                lHttpRequest.send();
-            } catch (e) {
-                pErrorFunction();
-            }
+        };
+    },
+    attachEventHandler: function (pQuerySelector, pEvent, pFunction) {
+        var lNodes = document.querySelectorAll(pQuerySelector);
+        for (var i = 0; i < lNodes.length; i++){
+            lNodes[i].addEventListener(pEvent, pFunction, false);
         }
-    };
-});
+    },
+    doForAllOfClass: function (pClass, pFunction) {
+        var lNodes = document.getElementsByClassName(pClass);
+        for (var i = 0; i < lNodes.length; i++){
+            pFunction(lNodes[i]);
+        }
+    },
+    ajax : function (pURL, pSuccessFunction, pErrorFunction) {
+        var lHttpRequest = new XMLHttpRequest();
+        lHttpRequest.onreadystatechange = function (pEvent) {
+            if (pEvent.target.readyState === XMLHttpRequest.DONE) {
+                if (200 === lHttpRequest.status) {
+                    pSuccessFunction(pEvent);
+                } else {
+                    pErrorFunction(pEvent);
+                }
+            }
+        };
+        lHttpRequest.open('GET', pURL);
+        lHttpRequest.responseType = "text";
+        try {
+            lHttpRequest.send();
+        } catch (e) {
+            pErrorFunction();
+        }
+    }
+};
 /*
  This file is part of mscgen_js.
 

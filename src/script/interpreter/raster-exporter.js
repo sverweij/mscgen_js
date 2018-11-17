@@ -1,73 +1,68 @@
-/* global define */
+var svgutensils = require("mscgenjs/dist/cjs/render/graphics/svgutensils");
 
-define(function(require) {
-    "use strict";
-    var svgutensils = require("../lib/mscgenjs-core/render/graphics/svgutensils");
-
-    var MAX_SIGNED_SHORT = 32767;
+var MAX_SIGNED_SHORT = 32767;
 
 
-    function geckoRelativeSizeWorkaround(pString, pViewBox) {
-        /* the ugly replace is to be sure gecko
-         * actualy renders a picture when using the
-         * 'autosize' feature. Not necessary in webkit &
-         *  blink.
-         *  Depends on the assumption 'autoscale' is
-         *  implemented with 100%
-         */
-        if (!!pViewBox && !!pViewBox.baseVal) {
-            return pString
-                .replace(
-                    'width="100%"',
-                    'width="' + pViewBox.baseVal.width + '"'
-                )
-                .replace(
-                    'height="100%"',
-                    'height="' + pViewBox.baseVal.height + '"'
-                );
-        }
-        return pString;
-
+function geckoRelativeSizeWorkaround(pString, pViewBox) {
+    /* the ugly replace is to be sure gecko
+        * actualy renders a picture when using the
+        * 'autosize' feature. Not necessary in webkit &
+        *  blink.
+        *  Depends on the assumption 'autoscale' is
+        *  implemented with 100%
+        */
+    if (!!pViewBox && !!pViewBox.baseVal) {
+        return pString
+            .replace(
+                'width="100%"',
+                'width="' + pViewBox.baseVal.width + '"'
+            )
+            .replace(
+                'height="100%"',
+                'height="' + pViewBox.baseVal.height + '"'
+            );
     }
-    return {
-        toRasterURI: function (pDocument, pSVGParent, pType, pCallback){
-            var lImg = pDocument.createElement('img');
+    return pString;
 
-            lImg.src = 'data:image/svg+xml;charset=utf-8,' +
-                        encodeURIComponent(
-                            geckoRelativeSizeWorkaround(
-                                svgutensils.webkitNamespaceBugWorkaround(
-                                    pSVGParent.innerHTML
-                                ),
-                                pSVGParent.firstElementChild.viewBox
-                            )
-                        );
-            lImg.addEventListener('load', function(pEvent){
-                var lCanvas        = pDocument.createElement('canvas');
-                var lCanvasContext = lCanvas.getContext('2d');
-                var lImage         = pEvent.target;
+}
+module.exports = {
+    toRasterURI: function (pDocument, pSVGParent, pType, pCallback){
+        var lImg = pDocument.createElement('img');
 
-                /*
-                 * When the passed image is too big for the browser to handle
-                 * return an error string
-                 *
-                 * See https://github.com/sverweij/mscgen_js/issues/248 for
-                 * an overview of the practical limits in various browsers and
-                 * pointers for further research.
-                 */
-                if (lImage.width > MAX_SIGNED_SHORT || lImage.height > MAX_SIGNED_SHORT) {
-                    pCallback(null, "image-too-big");
-                } else {
-                    lCanvas.width  = lImage.width;
-                    lCanvas.height = lImage.height;
+        lImg.src = 'data:image/svg+xml;charset=utf-8,' +
+                    encodeURIComponent(
+                        geckoRelativeSizeWorkaround(
+                            svgutensils.webkitNamespaceBugWorkaround(
+                                pSVGParent.innerHTML
+                            ),
+                            pSVGParent.firstElementChild.viewBox
+                        )
+                    );
+        lImg.addEventListener('load', function(pEvent){
+            var lCanvas        = pDocument.createElement('canvas');
+            var lCanvasContext = lCanvas.getContext('2d');
+            var lImage         = pEvent.target;
 
-                    lCanvasContext.drawImage(lImage, 0, 0);
-                    pCallback(lCanvas.toDataURL(pType, 0.8));
-                }
-            });
-        }
-    };
-});
+            /*
+                * When the passed image is too big for the browser to handle
+                * return an error string
+                *
+                * See https://github.com/sverweij/mscgen_js/issues/248 for
+                * an overview of the practical limits in various browsers and
+                * pointers for further research.
+                */
+            if (lImage.width > MAX_SIGNED_SHORT || lImage.height > MAX_SIGNED_SHORT) {
+                pCallback(null, "image-too-big");
+            } else {
+                lCanvas.width  = lImage.width;
+                lCanvas.height = lImage.height;
+
+                lCanvasContext.drawImage(lImage, 0, 0);
+                pCallback(lCanvas.toDataURL(pType, 0.8));
+            }
+        });
+    }
+};
 /*
  This file is part of mscgen_js.
 

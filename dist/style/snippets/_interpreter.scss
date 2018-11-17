@@ -1,0 +1,220 @@
+@import "./colors";
+.code {
+  font-family: monospace; /* Monaco, Consolas, 'Andale Mono'; */
+  font-size: .7em;
+  background-color: rgba(15, 25, 43, 1.0);
+  color: #fff;
+  color: rgba(203, 232, 255, 1.0);
+  /*margin-top: 1em;*/
+}
+#__embedsnippet {
+  border: solid 0;
+  white-space: pre;
+  text-overflow:ellipsis;
+  overflow-x: scroll;
+}
+html {
+  overflow-x: hidden;
+}
+article h2 {
+  font-size: 1.16979375em;
+  margin: 0;
+  margin-bottom: 1em;
+  font-weight: lighter;
+  display: inline-block;
+  color: $placeholder-color;
+}
+.error {
+  border: $error-border;
+  border-radius: 2px;
+  margin: 0;
+  font-size: 0.9em;
+  max-width: 32em;
+  cursor: pointer;
+}
+.error .header {
+  padding: 0.5em 0.5em 0.5em 1em;
+  background-color: $error-background-color;
+  color: $error-color;
+  border-bottom: $error-border;
+}
+.error .content {
+  padding: 0.5em 0.5em 0.5em 1em;
+}
+#__error_context:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+fieldset {
+  display: inline;
+  border: $demarcation-line;
+  border-top: none;
+  border-bottom: none;
+  padding: .1em .4em .3em .4em;
+}
+legend {
+  font-size: .7em;
+}
+.xunotify {
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  font-size: 0.7em;
+  position: absolute;
+  margin: -0.6em 0 0 -0.5em;
+}
+.CodeMirror {
+    /* Set height, width, borders, and global font properties here */
+    font-family: monospace;
+    font-size: 0.7em;
+}
+article {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+}
+
+#__input_area {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+#__input_top_area {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+#__input_controls_area {
+    margin: 0.1em 0 1.7em 0;
+}
+#__output_area {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    padding: 0 0.3em 0 0.3em;
+    overflow: hidden;
+    width: 100%;
+}
+#__output_controls_area{
+    margin: 0 0 1.1em 2em;
+}
+#__output_content_area{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    overflow: auto;
+    padding-right: 22px; /* to fit in a scrollbar on msdos platforms */
+}
+#__placeholder {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    padding: 0 3em 0 3em;
+    text-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+    transition: $height-transition;
+}
+@mixin resize-editor($min-height, $max-height){
+    @media (min-height: $min-height) and (max-height: $max-height) {
+        $chrome-height: 176px;
+        $editor-height: max($chrome-height, $min-height - $chrome-height);
+        .CodeMirror {
+            height: $editor-height;
+            // transition: $height-transition;
+        }
+        #__placeholder {
+            height: $editor-height - 32px;
+            // transition: $height-transition;
+        }
+        #__output_content_area {
+            height: $editor-height + 32px;
+        }
+    }
+}
+
+@media screen and (orientation: landscape) and (min-width: 769px) {
+    @media (min-width: 640px) and (max-width: 1024px) {
+      #__input_area{
+        width: 448px;
+        min-width: 448px;
+        transition: $width-transition;
+      }
+    }
+    @media (min-width: 1025px) {
+      #__input_area{
+         width: 512px;
+         min-width: 512px;
+         transition: $width-transition;
+      }
+    }
+
+    @include resize-editor (0px  , 400px);
+    @include resize-editor (401px, 450px);
+    @include resize-editor (451px, 500px);
+    @include resize-editor (501px, 550px);
+    @include resize-editor (551px, 600px);
+    @include resize-editor (601px, 650px);
+    @include resize-editor (651px, 700px);
+    @include resize-editor (701px, 750px);
+    @include resize-editor (751px, 800px);
+    @include resize-editor (801px, 850px);
+    @include resize-editor (851px, 900px);
+    @include resize-editor (901px, 950px);
+    @include resize-editor (951px, 1000px);
+    @include resize-editor (1001px, 1050px);
+    @include resize-editor (1051px, 1100px);
+    @include resize-editor (1101px, 1150px);
+
+    @media (min-height: 1151px){
+        .CodeMirror {
+            height: 1151px - 176px; // 62em * 16px * 0.7em= 694.9
+            transition: $height-transition;
+        }
+        #__placeholder {
+            height: 1151px - 176px - 32px; // 35em * 16px = 650
+            transition: $height-transition;
+        }
+    }
+}
+
+
+@media screen and (orientation: portrait), (max-width: 768px) {
+  article {
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      -webkit-flex-direction: column;
+  }
+  #__input_area{
+      width: 100%;
+      transition: $width-transition;
+  }
+  #__output_area {
+      width: 100%;
+      flex-direction: column;
+      -webkit-flex-direction: column;
+  }
+  #__output_controls_area {
+      margin: 0 0 0.7em 0;
+      order: 1;
+      -webkit-order: 1;
+  }
+  .CodeMirror {
+      min-height: 269px;
+      height: 269px;
+      transition: $height-transition;
+  }
+}
+
+@media screen and (max-width: 479px){
+    #__input_controls_area {
+        font-size: 0.8em;
+    }
+}

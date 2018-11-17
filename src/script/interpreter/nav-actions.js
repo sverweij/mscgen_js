@@ -1,87 +1,83 @@
 /* eslint max-params: 0 */
-define(function(require) {
-    "use strict";
+var uistate        = require("./uistate");
+var exporter       = require("../utl/exporter");
+var generalActions = require("./general-actions");
+var gaga           = require("../utl/gaga");
 
-    var uistate        = require("./uistate");
-    var exporter       = require("../utl/exporter");
-    var generalActions = require("./general-actions");
-    var gaga           = require("../utl/gaga");
-
-    return {
-        closeCheatSheet: function() {
-            generalActions.hideAllPanels();
-            gaga.g('send', 'event', 'close_source_lightbox', 'button');
-        },
-        closeEmbedSheet: function() {
-            generalActions.hideAllPanels();
-            gaga.g('send', 'event', 'close_embedsheet', 'button');
-        },
-        closeAboutSheet: function() {
-            generalActions.hideAllPanels();
-            gaga.g('send', 'event', 'close_aboutsheet', 'button');
-        },
-        helpMeOnClick: function() {
-            generalActions.togglePanel(
-                window.__learn_panel,
-                function(){
-                    gaga.g('send', 'event', 'link', 'helpme');
-                },
-                function(){
-                    gaga.g('send', 'event', 'close_helpme', 'button');
+module.exports = {
+    closeCheatSheet: function() {
+        generalActions.hideAllPanels();
+        gaga.g('send', 'event', 'close_source_lightbox', 'button');
+    },
+    closeEmbedSheet: function() {
+        generalActions.hideAllPanels();
+        gaga.g('send', 'event', 'close_embedsheet', 'button');
+    },
+    closeAboutSheet: function() {
+        generalActions.hideAllPanels();
+        gaga.g('send', 'event', 'close_aboutsheet', 'button');
+    },
+    helpMeOnClick: function() {
+        generalActions.togglePanel(
+            window.__learn_panel,
+            function(){
+                gaga.g('send', 'event', 'link', 'helpme');
+            },
+            function(){
+                gaga.g('send', 'event', 'close_helpme', 'button');
+            }
+        );
+    },
+    embedMeOnClick: function() {
+        window.__embedsnippet.textContent =
+            exporter.toHTMLSnippet(
+                uistate.getSource(),
+                uistate.getLanguage(),
+                {
+                    withLinkToEditor: uistate.getLinkToInterpeter(),
+                    mirrorEntities: uistate.getMirrorEntities(),
+                    verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
+                    namedStyle: uistate.getNamedStyle()
                 }
             );
-        },
-        embedMeOnClick: function() {
-            window.__embedsnippet.textContent =
-                exporter.toHTMLSnippet(
-                    uistate.getSource(),
-                    uistate.getLanguage(),
-                    {
-                        withLinkToEditor: uistate.getLinkToInterpeter(),
-                        mirrorEntities: uistate.getMirrorEntities(),
-                        verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
-                        namedStyle: uistate.getNamedStyle()
-                    }
-                );
-            generalActions.togglePanel(
-                window.__embed_panel,
-                function(){
-                    gaga.g('send', 'event', 'link', 'embedme');
-                },
-                function(){
-                    gaga.g('send', 'event', 'close_embedsheet', 'button');
+        generalActions.togglePanel(
+            window.__embed_panel,
+            function(){
+                gaga.g('send', 'event', 'link', 'embedme');
+            },
+            function(){
+                gaga.g('send', 'event', 'close_embedsheet', 'button');
+            }
+        );
+    },
+    linkToInterpreterOnClick: function() {
+        uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
+        window.__embedsnippet.textContent =
+            exporter.toHTMLSnippet(
+                uistate.getSource(),
+                uistate.getLanguage(),
+                {
+                    withLinkToEditor: uistate.getLinkToInterpeter(),
+                    mirrorEntities: uistate.getMirrorEntities(),
+                    verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
+                    namedStyle: uistate.getNamedStyle()
                 }
             );
-        },
-        linkToInterpreterOnClick: function() {
-            uistate.setLinkToInterpeter(!(uistate.getLinkToInterpeter()));
-            window.__embedsnippet.textContent =
-                exporter.toHTMLSnippet(
-                    uistate.getSource(),
-                    uistate.getLanguage(),
-                    {
-                        withLinkToEditor: uistate.getLinkToInterpeter(),
-                        mirrorEntities: uistate.getMirrorEntities(),
-                        verticalLabelAlignment: uistate.getVerticalLabelAlignment(),
-                        namedStyle: uistate.getNamedStyle()
-                    }
-                );
-            uistate.setAutoRender(uistate.getAutoRender());
-            gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
-        },
-        aboutOnClick: function(){
-            generalActions.togglePanel(
-                window.__aboutsheet,
-                function(){
-                    gaga.g('send', 'event', 'link', 'about');
-                },
-                function(){
-                    gaga.g('send', 'event', 'close_aboutsheet', 'button');
-                }
-            );
-        }
-    };
-});
+        uistate.setAutoRender(uistate.getAutoRender());
+        gaga.g('send', 'event', 'toggle_autorender', 'checkbox');
+    },
+    aboutOnClick: function(){
+        generalActions.togglePanel(
+            window.__aboutsheet,
+            function(){
+                gaga.g('send', 'event', 'link', 'about');
+            },
+            function(){
+                gaga.g('send', 'event', 'close_aboutsheet', 'button');
+            }
+        );
+    }
+};
 /*
  This file is part of mscgen_js.
 

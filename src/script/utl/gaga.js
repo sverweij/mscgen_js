@@ -1,62 +1,53 @@
 /* global ga */
 /* eslint max-params:0, dot-notation:0, no-unused-expressions:0, no-sequences:0 */
-define(
+
+
+var gTrack = true;
+
+function _gaSetup(pTrack) {
+    gTrack = pTrack;
+
+    if (true === pTrack) {
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] ||
+        function() {
+            (i[r].q = i[r].q || []).push(arguments);
+        }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    }
+}
+
+function _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
+    if (true === gTrack) {
+        ga(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
+    }
+}
+
+module.exports = {
 /**
- * Wrapper for google analytics. Makes it more easy to implement "donottrack"
+ * if pTrack === true, calls the google analytics setup code.
+ * Does nothing otherwise
  *
- * @exports gaga
- * @author {@link https://github.com/sverweij | Sander Verweij}
+ * @param {boolean} pTrack
  */
-    function() {
-        "use strict";
-
-        var gTrack = true;
-
-        function _gaSetup(pTrack) {
-            gTrack = pTrack;
-
-            if (true === pTrack) {
-                (function(i, s, o, g, r, a, m) {
-                    i['GoogleAnalyticsObject'] = r;
-                    i[r] = i[r] ||
-                function() {
-                    (i[r].q = i[r].q || []).push(arguments);
-                }, i[r].l = 1 * new Date();
-                    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-                    a.async = 1;
-                    a.src = g;
-                    m.parentNode.insertBefore(a, m);
-                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            }
-        }
-
-        function _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
-            if (true === gTrack) {
-                ga(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
-            }
-        }
-
-        return {
-        /**
-         * if pTrack === true, calls the google analytics setup code.
-         * Does nothing otherwise
-         *
-         * @param {boolean} pTrack
-         */
-            gaSetup : function(pTrack) {
-                return _gaSetup(pTrack);
-            },
-            /**
-         * If analytics was setup using gaSetup, and tracking is on, sends
-         * a ga event. Parameters same as the analytics ga function
-         *
-         *
-         */
-            g : function(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
-                return _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
-            }
-        };
-    });
+    gaSetup : function(pTrack) {
+        return _gaSetup(pTrack);
+    },
+    /**
+ * If analytics was setup using gaSetup, and tracking is on, sends
+ * a ga event. Parameters same as the analytics ga function
+ *
+ *
+ */
+    g : function(pCommand, pEvent, pCategory, pAction, pLabel, pValue) {
+        return _g(pCommand, pEvent, pCategory, pAction, pLabel, pValue);
+    }
+};
 /*
  This file is part of mscgen_js.
 
