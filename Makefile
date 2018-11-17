@@ -58,7 +58,7 @@ help:
 	@echo
 	@echo "Most important build targets:"
 	@echo
-	@echo "install"
+	@echo "build"
 	@echo " -> this is probably the target you want when"
 	@echo "    hosting mscgen_js"
 	@echo
@@ -69,9 +69,6 @@ help:
 	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
 	@echo " smashing etc)"
 	@echo
-	@echo "check"
-	@echo " runs the linter and executes all unit tests"
-	@echo
 	@echo "clean"
 	@echo " removes everything created by either install or dev-build"
 	@echo
@@ -79,11 +76,6 @@ help:
 	@echo " deploys the build to gh-pages"
 	@echo "  - 'master' branch: the root of gh-pages"
 	@echo "  - other branches : in branches/branche-name"
-	@echo
-	@echo "update-dependencies"
-	@echo " updates all (node) module dependencies in package.json"
-	@echo " installs them, rebuilds all generated sources and runs"
-	@echo " all tests."
 	@echo
 	@echo " --------------------------------------------------------"
 	@echo "| More information and other targets: see wikum/build.md |"
@@ -170,7 +162,7 @@ prerequisites:
 
 dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
 
-install: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
+build: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
 deploy-gh-pages: install
 	@echo Deploying build `utl/getver` to $(BUILDDIR)

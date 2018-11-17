@@ -53,9 +53,9 @@
     "webpack-cli": "3.1.2"
   },
   "scripts": {
+    
+    "build": "make clean build",
     "check": "npm-run-all --parallel depcruise lint test:cover",
-    "build": "make install",
-    "build:clean": "make clean install",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "depcruise": "depcruise --validate -- src/script",
     "depcruise:graph": "depcruise --validate --output-type rcdot src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",
