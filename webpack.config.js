@@ -1,6 +1,6 @@
 module.exports = () => {
   return {
-    mode: 'development',
+    mode: 'production',
     entry: './src/script/mscgen-interpreter.js',
     output: {
       filename: 'mscgen-interpreter.min.js',
