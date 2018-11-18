@@ -80,6 +80,7 @@ function setupEvents () {
 }
 
 setupEvents()
+require('./interpreter/register-service-worker.js')
 /*
  This file is part of mscgen_js.
 

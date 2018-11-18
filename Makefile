@@ -1,5 +1,5 @@
 
-.SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
+.SUFFIXES: .js .css .html .msc .mscin .msgenny .svg .png .jpg
 GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_PRODUCTION_DEPLOYMENT_BRANCH=master
@@ -22,7 +22,6 @@ GENERATED_STYLESHEETS=src/style/interp.css \
 	src/style/doc.css
 GENERATED_SOURCES=$(GENERATED_STYLESHEETS)
 REMOVABLEPRODDIRS=$(BUILDDIR)/style \
-	$(BUILDDIR)/script \
 	$(BUILDDIR)/fonts
 PRODDIRS=$(BUILDDIR) \
 	$(REMOVABLEPRODDIRS)
@@ -84,6 +83,9 @@ help:
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
 	$(SEDVERSION) < $< > $@
 
+$(BUILDDIR)/%.json: src/%.json
+	cp $< $@
+
 %.css: %.scss
 	$(SASS) $< $@
 
@@ -113,6 +115,7 @@ $(BUILDDIR)/index.html: $(PRODDIRS) \
 	src/index.html \
 	$(BUILDDIR)/style/interp.css \
 	$(BUILDDIR)/mscgen-interpreter.min.js \
+	$(BUILDDIR)/manifest.json \
 	$(BUILDDIR)/images/ \
 	$(BUILDDIR)/samples/ \
 	$(FAVICONS) \
@@ -144,6 +147,7 @@ $(BUILDDIR)/images/: src/images
 $(BUILDDIR)/samples/: src/samples
 	cp -R $< $@
 
+# $(shell echo production)
 $(BUILDDIR)/mscgen-interpreter.min.js:
 	npx webpack --output-path $(BUILDDIR) --mode $(MODE)
 
@@ -158,6 +162,7 @@ prerequisites:
 	$(NPM) install
 
 build: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
+	BUILDDIR=$(BUILDDIR) npx sw-precache --config .sw-precache-config.js
 
 deploy-gh-pages: build
 	@echo Deploying build `utl/getver` to $(BUILDDIR)
@@ -176,6 +181,9 @@ clean-the-build:
 		$(BUILDDIR)/tutorial.html \
 		$(BUILDDIR)/mscgen-inpage.js \
 		$(BUILDDIR)/mscgen-interpreter.min.js \
+		$(BUILDDIR)/mscgen-interpreter.min.js.map \
+		$(BUILDDIR)/manifest.json \
+		$(BUILDDIR)/service-worker.js \
 	rm -rf coverage
 
 clean-generated-sources:
