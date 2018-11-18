@@ -2,7 +2,7 @@
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
-GIT_DEPLOY_FROM_BRANCH=master
+GIT_PRODUCTION_DEPLOYMENT_BRANCH=master
 PNG2FAVICO=utl/png2favico.sh
 RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
@@ -10,11 +10,12 @@ SEDVERSION=utl/sedversion.sh
 NPM=npm
 SASS=node_modules/.bin/node-sass --output-style compressed
 
-ifeq ($(GIT_DEPLOY_FROM_BRANCH), $(GIT_CURRENT_BRANCH))
-	BUILDDIR=build
+ifeq ($(GIT_PRODUCTION_DEPLOYMENT_BRANCH), $(GIT_CURRENT_BRANCH))
+	BUILDDIR=dist
+	MODE=production
 else
-	BUILDDIR=build
-	# BUILDDIR=build/branches/$(GIT_CURRENT_BRANCH)
+	BUILDDIR=dist/$(GIT_CURRENT_BRANCH)
+	MODE=development
 endif
 
 GENERATED_STYLESHEETS=src/style/interp.css \
@@ -48,7 +49,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-144.png \
 	$(BUILDDIR)/iosfavicon-152.png
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean prerequisites
+.PHONY: help build deploy-gh-pages clean prerequisites
 
 help:
 	@echo " --------------------------------------------------------"
@@ -65,17 +66,13 @@ help:
 	@echo " creates the production version (minified js, images,"
 	@echo " html)"
 	@echo
-	@echo "dev-build"
-	@echo " (re)enerates stuff needed to develop (pegjs -> js, css"
-	@echo " smashing etc)"
-	@echo
 	@echo "clean"
-	@echo " removes everything created by either install or dev-build"
+	@echo " removes everything created by build
 	@echo
 	@echo "deploy-gh-pages"
 	@echo " deploys the build to gh-pages"
 	@echo "  - 'master' branch: the root of gh-pages"
-	@echo "  - other branches : in branches/branche-name"
+	@echo "  - other branches : in ./branche-name"
 	@echo
 	@echo " --------------------------------------------------------"
 	@echo "| More information and other targets: see wikum/build.md |"
@@ -148,7 +145,7 @@ $(BUILDDIR)/samples/: src/samples
 	cp -R $< $@
 
 $(BUILDDIR)/mscgen-interpreter.min.js:
-	npx webpack
+	npx webpack --output-path $(BUILDDIR) --mode $(MODE)
 
 $(BUILDDIR)/mscgen-inpage.js: node_modules/mscgenjs-inpage/dist/mscgen-inpage.js
 	cp $< $@
@@ -160,11 +157,9 @@ $(BUILDDIR)/script/mscgen-inpage.js: $(BUILDDIR)/mscgen-inpage.js
 prerequisites:
 	$(NPM) install
 
-dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
-
 build: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 
-deploy-gh-pages: install
+deploy-gh-pages: build
 	@echo Deploying build `utl/getver` to $(BUILDDIR)
 	$(GIT) -C $(BUILDDIR) add --all .
 	$(GIT) -C $(BUILDDIR) commit -m "build `utl/getver`"

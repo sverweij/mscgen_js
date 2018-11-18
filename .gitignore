@@ -15,5 +15,5 @@ tracking.*
 siteverification.id
 tmp_*.md
 npm-debug.log
-build
+dist
 package-lock.json

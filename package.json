@@ -97,5 +97,6 @@
       "lcov"
     ],
     "all": false
-  }
+  },
+  "private": true
 }
