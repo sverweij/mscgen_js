@@ -1,0 +1,17 @@
+{
+  "short_name": "mscgen.js",
+  "name": "mscgen.js",
+  "theme_color": "black",
+  "background_color": "white",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "lang": "en",
+  "orientation": "portrait"
+}

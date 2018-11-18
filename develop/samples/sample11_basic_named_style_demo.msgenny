@@ -1,0 +1,10 @@
+hscale=0.8,wordwraparcs=on;
+
+Alice =>> Bob : "We're inside an msgenny script";
+Bob alt Alice : "Sunny weather" {
+    Bob >> Alice : "That feels nice";
+    --- : "Cloudy";
+    Bob >> Alice : "That feels ... different",
+    notes abox notes: ... and so can boxes;
+},
+notes note notes : "Notes could get an independent background & font color";
