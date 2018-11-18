@@ -2,6 +2,8 @@ const path = require('path')
 const process = require('process')
 const lBaseFolder = process.env.BUILDDIR || 'dist'
 
+const baseFolderify = (pBaseFolder) => (pPath) => path.join(pBaseFolder, pPath)
+
 module.exports = {
   staticFileGlobs: [
     'favicon.ico',
@@ -14,7 +16,7 @@ module.exports = {
     'manifest.json',
     'mscgen-interpreter.min.js',
     'style/interp.css'
-  ].map(pGlob => path.join(lBaseFolder, pGlob)),
-  stripPrefix: lBaseFolder,
-  swFile: path.join(lBaseFolder, 'service-worker.js')
+  ].map(baseFolderify(lBaseFolder)),
+  stripPrefix: `${lBaseFolder}/`,
+  swFile: baseFolderify(lBaseFolder)('service-worker.js')
 }
