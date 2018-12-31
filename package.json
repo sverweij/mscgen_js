@@ -29,20 +29,20 @@
   },
   "dependencies": {
     "codemirror": "5.42.2",
-    "mscgenjs": "3.0.0",
-    "mscgenjs-inpage": "2.0.5",
+    "mscgenjs": "3.0.1",
+    "mscgenjs-inpage": "2.0.6",
     "query-string": "6.2.0"
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "dependency-cruiser": "4.9.0",
-    "eslint": "5.10.0",
+    "dependency-cruiser": "4.10.0",
+    "eslint": "5.11.1",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-node": "8.0.0",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
-    "js-makedepend": "3.0.6",
+    "js-makedepend": "3.0.7",
     "mocha": "5.2.0",
     "node-localstorage": "1.3.1",
     "node-sass": "4.11.0",
@@ -50,7 +50,7 @@
     "nyc": "13.1.0",
     "sw-precache": "5.2.1",
     "upem": "1.0.2",
-    "webpack": "4.28.1",
+    "webpack": "4.28.3",
     "webpack-cli": "3.1.2"
   },
   "scripts": {
