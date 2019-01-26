@@ -58,7 +58,9 @@
     "check": "npm-run-all --parallel depcruise lint test:cover",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "depcruise": "depcruise --validate -- src/script",
-    "depcruise:graph": "depcruise --validate --output-type rcdot src/script/mscgen-interpreter.js | dot -T svg > tmp_deps.svg",
+    "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
+    "depcruise:graph:png": "depcruise --validate --output-type dot src/script/mscgen-interpreter.js | dot -Gsplines=ortho -Ecolor=#00000077 -T png > docs/dependencygraph.png",
+    "depcruise:graph:html": "depcruise --validate --output-type dot src/script/mscgen-interpreter.js | dot -Gsplines=ortho -Epenwidth=2.0 -Ecolor=#00000077 -T svg | cat docs/assets/depcruise-graph-head.snippet.html - docs/assets/depcruise-graph-foot.snippet.html > docs/dependencygraph.html",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "scm:stage": "git add .",
@@ -67,7 +69,7 @@
     "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
     "upem:update": "npm outdated ---json | upem",
     "upem:install": "npm install",
-    "version": "npm-run-all build scm:stage"
+    "version": "npm-run-all build depcruise:graph scm:stage"
   },
   "eslintConfig": {
     "extends": "standard",
