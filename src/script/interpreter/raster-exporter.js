@@ -3,7 +3,7 @@ var svgutensils = require('mscgenjs/dist/cjs/render/graphics/svgutensils')
 var MAX_SIGNED_SHORT = 32767
 
 function geckoRelativeSizeWorkaround (pString, pViewBox) {
- /* the ugly replace is to be sure gecko
+  /* the ugly replace is to be sure gecko
   * actualy renders a picture when using the
   * 'autosize' feature. Not necessary in webkit &
   *  blink.
@@ -41,7 +41,7 @@ module.exports = {
       var lCanvasContext = lCanvas.getContext('2d')
       var lImage = pEvent.target
 
-    /*
+      /*
      * When the passed image is too big for the browser to handle
      * return an error string
      *
