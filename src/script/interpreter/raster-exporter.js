@@ -3,13 +3,13 @@ var svgutensils = require('mscgenjs/dist/cjs/render/graphics/svgutensils')
 var MAX_SIGNED_SHORT = 32767
 
 function geckoRelativeSizeWorkaround (pString, pViewBox) {
-  /* the ugly replace is to be sure gecko
-        * actualy renders a picture when using the
-        * 'autosize' feature. Not necessary in webkit &
-        *  blink.
-        *  Depends on the assumption 'autoscale' is
-        *  implemented with 100%
-        */
+ /* the ugly replace is to be sure gecko
+  * actualy renders a picture when using the
+  * 'autosize' feature. Not necessary in webkit &
+  *  blink.
+  *  Depends on the assumption 'autoscale' is
+  *  implemented with 100%
+  */
   if (!!pViewBox && !!pViewBox.baseVal) {
     return pString
       .replace(
@@ -41,14 +41,14 @@ module.exports = {
       var lCanvasContext = lCanvas.getContext('2d')
       var lImage = pEvent.target
 
-      /*
-                * When the passed image is too big for the browser to handle
-                * return an error string
-                *
-                * See https://github.com/sverweij/mscgen_js/issues/248 for
-                * an overview of the practical limits in various browsers and
-                * pointers for further research.
-                */
+    /*
+     * When the passed image is too big for the browser to handle
+     * return an error string
+     *
+     * See https://github.com/sverweij/mscgen_js/issues/248 for
+     * an overview of the practical limits in various browsers and
+     * pointers for further research.
+     */
       if (lImage.width > MAX_SIGNED_SHORT || lImage.height > MAX_SIGNED_SHORT) {
         pCallback(null, 'image-too-big')
       } else {
