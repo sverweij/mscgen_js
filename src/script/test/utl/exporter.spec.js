@@ -46,7 +46,7 @@ describe('ui/utl/exporter', function () {
   describe('#toVectorURI', function () {
     it('Should render an URI encoded svg', function () {
       assert.strictEqual(xport.toVectorURI(gSVG),
-        'data:image/svg+xml;charset=utf-8,%3Csvg%3Ejust%20a%20dummy%20thing%3C%2Fsvg%3E')
+        'data:image/svg+xml;charset=utf-8,%3C!DOCTYPE%20svg%20%5B%3C!ENTITY%20nbsp%20%22%26%23160%3B%22%3E%5D%3E%3Csvg%3Ejust%20a%20dummy%20thing%3C%2Fsvg%3E')
     })
   })
   describe('#toHTMLSnippetURI', function () {
