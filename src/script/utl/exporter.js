@@ -102,7 +102,7 @@ function sourceIsURLable (pLocation, pSource, pLanguage, pMirrorEntities, pNamed
 module.exports = {
   toVectorURI: function (pSVGSource) {
     return 'data:image/svg+xml;charset=utf-8,' +
-        encodeURIComponent(pSVGSource)
+        encodeURIComponent('<!DOCTYPE svg [<!ENTITY nbsp "&#160;">]>'.concat(pSVGSource))
   },
   toHTMLSnippet: toHTMLSnippet,
   toHTMLSnippetURI: function (pSource, pLanguage, pOptions) {

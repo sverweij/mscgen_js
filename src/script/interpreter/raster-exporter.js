@@ -29,11 +29,13 @@ module.exports = {
 
     lImg.src = 'data:image/svg+xml;charset=utf-8,' +
                     encodeURIComponent(
-                      geckoRelativeSizeWorkaround(
-                        svgutensils.webkitNamespaceBugWorkaround(
-                          pSVGParent.innerHTML
-                        ),
-                        pSVGParent.firstElementChild.viewBox
+                      '<!DOCTYPE svg [<!ENTITY nbsp "&#160;">]>'.concat(
+                        geckoRelativeSizeWorkaround(
+                          svgutensils.webkitNamespaceBugWorkaround(
+                            pSVGParent.innerHTML
+                          ),
+                          pSVGParent.firstElementChild.viewBox
+                        )
                       )
                     )
     lImg.addEventListener('load', function (pEvent) {
