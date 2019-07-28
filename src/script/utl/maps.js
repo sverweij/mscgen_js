@@ -11,13 +11,13 @@ module.exports = {
      */
   classifyExtension: function (pString) {
     var lExtMap = {
-      'msgenny': 'msgenny',
-      'mscgen': 'mscgen',
-      'msc': 'mscgen',
-      'mscin': 'mscgen',
-      'xu': 'xu',
-      'json': 'json',
-      'ast': 'json'
+      msgenny: 'msgenny',
+      mscgen: 'mscgen',
+      msc: 'mscgen',
+      mscin: 'mscgen',
+      xu: 'xu',
+      json: 'json',
+      ast: 'json'
     }
     if (!pString) {
       return 'mscgen'
@@ -44,10 +44,10 @@ module.exports = {
      */
   language2Mode: function (pLanguage) {
     var lLang2Mode = {
-      'mscgen': 'text/x-xu',
-      'xu': 'text/x-xu',
-      'msgenny': 'text/x-msgenny',
-      'json': 'application/json'
+      mscgen: 'text/x-xu',
+      xu: 'text/x-xu',
+      msgenny: 'text/x-msgenny',
+      json: 'application/json'
     }
 
     if (lLang2Mode[pLanguage]) {

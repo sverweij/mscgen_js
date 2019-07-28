@@ -3,37 +3,37 @@ var assert = require('assert')
 var xport = require('../../utl/exporter')
 
 var gAST = {
-  'meta': {
-    'extendedOptions': false,
-    'extendedArcTypes': false,
-    'extendedFeatures': false
+  meta: {
+    extendedOptions: false,
+    extendedArcTypes: false,
+    extendedFeatures: false
   },
-  'entities': [
+  entities: [
     {
-      'name': 'a',
-      'label': '💩'
+      name: 'a',
+      label: '💩'
     },
     {
-      'name': 'b',
-      'label': '序'
+      name: 'b',
+      label: '序'
     },
     {
-      'name': 'c',
-      'label': '💩'
+      name: 'c',
+      label: '💩'
     }
   ],
-  'arcs': [
+  arcs: [
     [
       {
-        'kind': '=>',
-        'from': 'a',
-        'to': 'b',
-        'label': 'things'
+        kind: '=>',
+        from: 'a',
+        to: 'b',
+        label: 'things'
       },
       {
-        'kind': '=>',
-        'from': 'c',
-        'to': 'b'
+        kind: '=>',
+        from: 'c',
+        to: 'b'
       }
     ]
   ]
@@ -69,7 +69,7 @@ describe('ui/utl/exporter', function () {
     })
     it('should render an URI encoded html file with a link to the interpreter', function () {
       assert.strictEqual(
-        xport.toHTMLSnippetURI(gMsGenny, 'msgenny', { 'withLinkToEditor': true }),
+        xport.toHTMLSnippetURI(gMsGenny, 'msgenny', { withLinkToEditor: true }),
         "data:text/plain;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%3E%0A%20%20%3Chead%3E%0A%20%20%20%20%3Cmeta%20content%3D'text%2Fhtml%3Bcharset%3Dutf-8'%20http-equiv%3D'Content-Type'%3E%0A%20%20%20%20%3Cscript%3E%0A%20%20%20%20%20%20var%20mscgen_js_config%20%3D%20%7B%0A%20%20%20%20%20%20%20%20clickable%3A%20true%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%20%20%3Cscript%20src%3D'https%3A%2F%2Fsverweij.github.io%2Fmscgen_js%2Fmscgen-inpage.js'%20defer%3E%0A%20%20%20%20%3C%2Fscript%3E%0A%20%20%3C%2Fhead%3E%0A%20%20%3Cbody%3E%0A%20%20%20%20%3Cpre%20class%3D'code%20msgenny%20mscgen_js'%20data-language%3D'msgenny'%3E%0Aa%20%3A%20%F0%9F%92%A9%2C%20b%20%3A%20%E5%BA%8F%2C%20c%20%3A%20%F0%9F%92%A9%3B%20a%20%3D%3E%20b%20%3A%20things%2C%20c%20%3D%3E%20b%3B%0A%20%20%20%20%3C%2Fpre%3E%0A%20%20%3C%2Fbody%3E%0A%3C%2Fhtml%3E")
     })
     it('non-default values for mirrorEntities and namedStyle end up in the HTML', function () {
