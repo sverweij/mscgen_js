@@ -7,11 +7,11 @@
 [![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
 [![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
 [![mscgen.js.org](https://img.shields.io/badge/js.org-mscgen-ffb400.svg?style=flat-squared)](https://mscgen.js.org)
-- Implementation of the super easy [MscGen][mscgen] in javascript.
-- [Embeddable][mscgenjs.embed] in your html.
+- Implementation of the super easy [MscGen][mscgen] in JavaScript.
+- [Embeddable][mscgenjs.embed] in your HTML.
 - Try it in the [on line interactive interpreter][mscgenjs.interpreter].
-- Or in [atom][atom] with the [atom mscgen-preview package][mscgen-preview].
-- Also
+- Or in [Atom][atom] with the [atom mscgen-preview package][mscgen-preview].
+- Also:
   - talks a [simplified subset of MscGen][mscgenjs.wikum.msgenny] for lazy bastards.
   - speaks a [superset of MscGen][mscgenjs.wikum.xu] for the feature hungry.
   - runs in all modern browsers (and in _node.js_).
