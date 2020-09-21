@@ -30,9 +30,7 @@
         "pathNot": "test"
       },
       "to": {
-        "dependencyTypes": [
-          "npm-dev"
-        ]
+        "dependencyTypes": ["npm-dev"]
       }
     },
     {
@@ -41,9 +39,7 @@
       "comment": "we're not using optional dependencies in the mscgenjs site",
       "from": {},
       "to": {
-        "dependencyTypes": [
-          "npm-optional"
-        ]
+        "dependencyTypes": ["npm-optional"]
       }
     },
     {
@@ -52,14 +48,17 @@
       "severity": "error",
       "from": {},
       "to": {
-        "dependencyTypes": [
-          "npm-peer"
-        ]
+        "dependencyTypes": ["npm-peer"]
       }
     }
   ],
   "options": {
     "doNotFollow": "node_modules",
-    "prefix": "https://github.com/sverweij/mscgen_js/tree/develop/"
+    "prefix": "https://github.com/sverweij/mscgen_js/tree/develop/",
+    "reporterOptions": {
+      "dot": {
+        "collapsePattern": "node_modules/[^/]+"
+      }
+    }
   }
 }
