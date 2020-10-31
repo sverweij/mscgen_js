@@ -1,19 +1,18 @@
 /* global localStorage, global */
-/* eslint no-new-require:0, new-cap:0 */
 
-var store = require('../../utl/store')
-var assert = require('assert')
+const store = require('../../utl/store')
+const assert = require('assert')
 
 describe('ui/utl/store', function () {
-  var lLanguage = 'initial language'
-  var lSource = 'initial source'
-  var lAutoRender = false
-  var lMirrorEntities = false
-  var lNamedStyle = null
-  var lAlignment = 'middle'
-  var lIncludeSource = true
+  let lLanguage = 'initial language'
+  let lSource = 'initial source'
+  let lAutoRender = false
+  let lMirrorEntities = false
+  let lNamedStyle = null
+  let lAlignment = 'middle'
+  let lIncludeSource = true
 
-  var lState = {
+  const lState = {
     getLanguage: function () { return 'other language' },
     setLanguage: function (pLanguage) { lLanguage = pLanguage },
     getSource: function () { return 'other source' },
@@ -60,7 +59,10 @@ describe('ui/utl/store', function () {
 
   describe('#load and save', function () {
     before(function () {
-      global.localStorage = new require('node-localstorage').LocalStorage('./throwmeaway')
+      /* eslint node/no-new-require:0, new-cap:0 */
+      global.localStorage = new require('node-localstorage').LocalStorage(
+        './throwmeaway'
+      )
       localStorage.clear()
     })
 

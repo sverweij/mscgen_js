@@ -1,5 +1,5 @@
-var assert = require('chai').assert
-var map = require('../../utl/maps')
+const assert = require('chai').assert
+const map = require('../../utl/maps')
 
 describe('ui/utl/maps', function () {
   describe('#classifyExtension() - ', function () {

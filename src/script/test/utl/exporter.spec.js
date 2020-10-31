@@ -1,8 +1,8 @@
 /* eslint max-len:0 */
-var assert = require('assert')
-var xport = require('../../utl/exporter')
+const assert = require('assert')
+const xport = require('../../utl/exporter')
 
-var gAST = {
+const gAST = {
   meta: {
     extendedOptions: false,
     extendedArcTypes: false,
@@ -38,9 +38,9 @@ var gAST = {
     ]
   ]
 }
-var gSVG = '<svg>just a dummy thing</svg>'
-var gMsc = 'msc{a[label="💩"],b[label="序"],c [label="💩"]; a => b[label="things"], c => b;}'
-var gMsGenny = 'a : 💩, b : 序, c : 💩; a => b : things, c => b;'
+const gSVG = '<svg>just a dummy thing</svg>'
+const gMsc = 'msc{a[label="💩"],b[label="序"],c [label="💩"]; a => b[label="things"], c => b;}'
+const gMsGenny = 'a : 💩, b : 序, c : 💩; a => b : things, c => b;'
 
 describe('ui/utl/exporter', function () {
   describe('#toVectorURI', function () {
@@ -107,7 +107,7 @@ describe('ui/utl/exporter', function () {
   })
   describe('#toLocationString', function () {
     it('with extra parameters', function () {
-      var lLocation = {
+      const lLocation = {
         protocol: 'http',
         host: 'localhost',
         pathname: 'mscgen_js/index.html',
@@ -119,7 +119,7 @@ describe('ui/utl/exporter', function () {
       )
     })
     it('without extra parameters', function () {
-      var lLocation = {
+      const lLocation = {
         protocol: 'http',
         host: 'localhost',
         pathname: 'mscgen_js/index.html'
@@ -130,15 +130,15 @@ describe('ui/utl/exporter', function () {
       )
     })
     it('with a source that is too big (> 4k)', function () {
-      var lLocation = {
+      const lLocation = {
         protocol: 'http',
         host: 'localhost',
         pathname: 'mscgen_js/index.html',
         search: '?debug=false&donottrack=true'
       }
-      var l100wString = '# 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890'
-      var lBig = l100wString
-      for (var i = 0; i < 40; i++) {
+      const l100wString = '# 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890'
+      let lBig = l100wString
+      for (let i = 0; i < 40; i++) {
         lBig += l100wString
       }
       assert.strictEqual(xport.toLocationString(lLocation, lBig, 'mscgen'),

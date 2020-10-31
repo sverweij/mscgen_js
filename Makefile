@@ -41,12 +41,14 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/favicon-152.png \
 	$(BUILDDIR)/favicon-195.png \
 	$(BUILDDIR)/favicon-228.png \
+	$(BUILDDIR)/favicon-512.png \
 	$(BUILDDIR)/iosfavicon-57.png \
 	$(BUILDDIR)/iosfavicon-72.png \
 	$(BUILDDIR)/iosfavicon-114.png \
 	$(BUILDDIR)/iosfavicon-120.png \
 	$(BUILDDIR)/iosfavicon-144.png \
-	$(BUILDDIR)/iosfavicon-152.png
+	$(BUILDDIR)/iosfavicon-152.png \
+	$(BUILDDIR)/maskable_icon.png
 
 .PHONY: help build deploy-gh-pages clean prerequisites
 
@@ -109,6 +111,9 @@ $(BUILDDIR)/favicon-%.png: $(FAVICONMASTER)
 
 $(BUILDDIR)/iosfavicon-%.png: $(FAVICONMASTER)
 	$(IOSRESIZE) $< $@
+
+$(BUILDDIR)/maskable_icon.png: src/images/maskable_icon.png
+	cp $< $@
 
 $(PRODDIRS):
 	mkdir -p $@
