@@ -83,6 +83,12 @@ help:
 $(BUILDDIR)/%.html: src/%.html tracking.id tracking.host siteverification.id
 	$(SEDVERSION) < $< > $@
 
+$(BUILDDIR)/%.xml: src/%.xml
+	cp $< $@
+
+$(BUILDDIR)/robots.txt: src/robots.txt
+	cp $< $@
+
 $(BUILDDIR)/%.json: src/%.json
 	cp $< $@
 
@@ -118,6 +124,8 @@ $(BUILDDIR)/index.html: $(PRODDIRS) \
 	$(BUILDDIR)/manifest.json \
 	$(BUILDDIR)/images/ \
 	$(BUILDDIR)/samples/ \
+	$(BUILDDIR)/sitemap.xml \
+	$(BUILDDIR)/robots.txt \
 	$(FAVICONS) \
 	$(FONTS)
 
