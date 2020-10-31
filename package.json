@@ -28,7 +28,7 @@
     "url": "https://github.com/sverweij/mscgen_js"
   },
   "dependencies": {
-    "codemirror": "5.58.0",
+    "codemirror": "5.58.2",
     "mscgenjs": "5.0.0",
     "mscgenjs-inpage": "3.0.0",
     "query-string": "6.13.2"
