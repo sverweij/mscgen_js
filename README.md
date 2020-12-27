@@ -1,7 +1,7 @@
 # mscgen_js
 *Turns text into sequence charts.*
 
-[![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)][travis.mscgenjs]
+[![Build Status](https://github.com/sverweij/mscgen_js/workflows/linting%20&%20test%20coverage%20-%20linux/badge.svg)][github.actions]
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)][codeclimate.mscgenjs]
 [![Test Coverage](https://codeclimate.com/github/sverweij/mscgen_js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgen_js/coverage)
 [![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
@@ -139,7 +139,7 @@ At the time the font was created it was licensed [GPLv3][license.gpl-3.0] or
 It uses [mocha][21], [chai][39],
 [istanbul][28], [eslint][22] and [dependency-cruiser][41] to 
 maintain some modicum of verifiable code quality.
-You can see the build history in [Travis][travis.mscgenjs] and an indication
+You can see the build history in [GitHub actions][github.actions] and an indication
 of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 
 ## Thanks
@@ -166,6 +166,7 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [codemirror.license]: wikum/licenses/license.codemirror.md
 [commander.license]: wikum/licenses/license.commander.md
 [favicon]: https://github.com/audreyr/favicon-cheat-sheet
+[github.actions]: https://github.com/sverweij/mscgen_js/actions?query=workflow%3A%22linting+%26+test+coverage+-+linux%22
 [icomoon]: https://icomoon.io/app/
 [jsdom]: https://github.com/tmpvar/jsdom
 [jsdom.author]: http://tmpvar.com/
@@ -195,7 +196,6 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [pegjs.license]: wikum/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: wikum/licenses/license.requirejs.md
-[travis.mscgenjs]: https://travis-ci.org/sverweij/mscgen_js
 [15]: wikum/licenses/license.icons.md
 [21]: wikum/licenses/license.mocha.md
 [22]: wikum/licenses/license.eslint.md
