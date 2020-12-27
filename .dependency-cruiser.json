@@ -44,7 +44,7 @@
     },
     {
       "name": "peer-deps-used",
-      "comment": "we're not using optional dependencies in the mscgenjs site",
+      "comment": "we're not using peer dependencies in the mscgenjs site",
       "severity": "error",
       "from": {},
       "to": {
@@ -54,6 +54,7 @@
   ],
   "options": {
     "doNotFollow": "node_modules",
+    "progress": {"type": "performance-log"},
     "prefix": "https://github.com/sverweij/mscgen_js/tree/develop/",
     "reporterOptions": {
       "dot": {
