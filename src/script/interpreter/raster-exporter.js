@@ -2,7 +2,7 @@ var svgutensils = require('mscgenjs/dist/cjs/render/graphics/svgutensils')
 
 var MAX_SIGNED_SHORT = 32767
 
-function geckoRelativeSizeWorkaround (pString, pViewBox) {
+function geckoRelativeSizeWorkaround(pString, pViewBox) {
   /* the ugly replace is to be sure gecko
   * actualy renders a picture when using the
   * 'autosize' feature. Not necessary in webkit &
@@ -28,16 +28,16 @@ module.exports = {
     var lImg = pDocument.createElement('img')
 
     lImg.src = 'data:image/svg+xml;charset=utf-8,' +
-                    encodeURIComponent(
-                      '<!DOCTYPE svg [<!ENTITY nbsp "&#160;">]>'.concat(
-                        geckoRelativeSizeWorkaround(
-                          svgutensils.webkitNamespaceBugWorkaround(
-                            pSVGParent.innerHTML
-                          ),
-                          pSVGParent.firstElementChild.viewBox
-                        )
-                      )
-                    )
+      encodeURIComponent(
+        '<!DOCTYPE svg [<!ENTITY nbsp "&#160;">]>'.concat(
+          geckoRelativeSizeWorkaround(
+            svgutensils.webkitNamespaceBugWorkaround(
+              pSVGParent.innerHTML
+            ),
+            pSVGParent.firstElementChild.viewBox
+          )
+        )
+      )
     lImg.addEventListener('load', function (pEvent) {
       var lCanvas = pDocument.createElement('canvas')
       var lCanvasContext = lCanvas.getContext('2d')
@@ -60,7 +60,7 @@ module.exports = {
         lCanvasContext.drawImage(lImage, 0, 0)
         pCallback(lCanvas.toDataURL(pType, 0.8))
       }
-    })
+    }, { capture: false, passive: true })
   }
 }
 /*

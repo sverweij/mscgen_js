@@ -22,7 +22,7 @@ module.exports = {
   attachEventHandler: function (pQuerySelector, pEvent, pFunction) {
     var lNodes = document.querySelectorAll(pQuerySelector)
     for (var i = 0; i < lNodes.length; i++) {
-      lNodes[i].addEventListener(pEvent, pFunction, false)
+      lNodes[i].addEventListener(pEvent, pFunction, { capture: false, passive: true })
     }
   },
   doForAllOfClass: function (pClass, pFunction) {

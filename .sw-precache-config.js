@@ -7,10 +7,9 @@ const baseFolderify = (pBaseFolder) => (pPath) => path.join(pBaseFolder, pPath)
 module.exports = {
   staticFileGlobs: [
     'favicon.ico',
-    'favicon.ico',
     'fonts/*',
     'images/bg.png',
-    'images/mugshot.jpg',
+    'images/mugshot.webp',
     'images/test14_cheat_sheet.svg',
     'index.html',
     'manifest.json',

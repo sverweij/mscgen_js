@@ -1624,7 +1624,7 @@ whiteboard. Under a roof."></span>
         <span class="sliding-panel-content-section">
             <span class="row-picture hideonmobile">
                 <a href="https://sverweij.github.io/">
-                  <img class="aboutpic" style="border-radius: 50%; width: 60px;" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
+                  <img class="aboutpic" style="border-radius: 50%; width: 60px;" src="images/mugshot.webp" alt="photograph of the author" title="Sander. Looking surprised.
 
 The Netherlands forbids smiling
 on photos that go on official
@@ -1701,7 +1701,7 @@ documents."></img></a>
         hideCookieBar();
         }
     }
-    window.__close_cookie_bar.addEventListener("click", hideCookieBar, false);
+    window.__close_cookie_bar.addEventListener("click", hideCookieBar, {capture:false, passive:true});
     main();
 </script>
 </body>
