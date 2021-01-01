@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["favicon.ico","e506e1a72dd8ae3a51879bd833c891f2"],["fonts/controls.eot","b4f8c56df781129de8b2d674d8cc2266"],["fonts/controls.svg","d0ef06d868d3e5c00dfc475aaac8a182"],["fonts/controls.ttf","ac78cd67fd6e829a892b8766618ba6b0"],["fonts/controls.woff","4a7eb48551c22b9a375bfef930376c29"],["images/bg.png","c4b0a5e4481fcf135ab2644dea10433f"],["images/mugshot.webp","4cebef132e859e7f09d0c9cdcf273ed1"],["images/test14_cheat_sheet.svg","7cffdc89e810917ed25a828494b4972c"],["index.html","c8193eb3ff76d1e9a940e1c8c3322961"],["manifest.json","7e714594d5fe602d005ba778201e455f"],["mscgen-interpreter.min.js","b5e67688e948f4850473dd4fb4a3f402"],["style/interp.css","179054754d2b861fc65123f9b5d94497"]];
+var precacheConfig = [["favicon.ico","e506e1a72dd8ae3a51879bd833c891f2"],["fonts/controls.eot","b4f8c56df781129de8b2d674d8cc2266"],["fonts/controls.svg","d0ef06d868d3e5c00dfc475aaac8a182"],["fonts/controls.ttf","ac78cd67fd6e829a892b8766618ba6b0"],["fonts/controls.woff","4a7eb48551c22b9a375bfef930376c29"],["images/bg.png","c4b0a5e4481fcf135ab2644dea10433f"],["images/mugshot.webp","4cebef132e859e7f09d0c9cdcf273ed1"],["images/test14_cheat_sheet.svg","7cffdc89e810917ed25a828494b4972c"],["index.html","b4d1f08fc009155958020903acd77dc1"],["manifest.json","7e714594d5fe602d005ba778201e455f"],["mscgen-interpreter.min.js","d9a17154b2edf088806100103c9ec3c6"],["style/interp.css","179054754d2b861fc65123f9b5d94497"]];
 var cacheName = 'sw-precache-v3-sw-precache-' + (self.registration ? self.registration.scope : '');
 
 
