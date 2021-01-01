@@ -96,8 +96,8 @@ Likely nobody will read them, though.
 
 mscgen_js
     version: 3.1.19
-    build-date: 20201227 10:46
-    commit: 785852cf1b0f64db
+    build-date: 20210101 21:39
+    commit: c31b45e304c0ff16
     mscgenjs-core: 5.0.3">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
@@ -122,8 +122,8 @@ mscgen_js
             </nav>
             <div class="debug hideontablet" style="display: none">
                 <div><em>version:</em> 3.1.19</div>
-                <div><em>build-date:</em> 20201227 10:46</div>
-                <div><em>commit:</em> 785852cf1b0f64db</div>
+                <div><em>build-date:</em> 20210101 21:39</div>
+                <div><em>commit:</em> c31b45e304c0ff16</div>
             </div>
         </header>
         <article>
@@ -376,7 +376,7 @@ Note: !! removes comments and reformats your source!!">color</button>
                     </span>
                 </span>
                 <span class="sliding-panel-content-section" style="display:block;overflow:auto">
-                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg"/>
+                    <img alt="a cheat sheet" src="images/test14_cheat_sheet.svg" width="336" height="538"/>
                 </span>
             </span>
         </div>
@@ -423,7 +423,13 @@ whiteboard. Under a roof."></span>
                 <span class="sliding-panel-content-section">
                     <span class="row-picture hideonmobile">
                         <a href="https://sverweij.github.io/">
-                          <img class="aboutpic" style="border-radius: 50%; width: 60px;" src="images/mugshot.jpg" alt="photograph of the author" title="Sander. Looking surprised.
+                          <img class="aboutpic" 
+                                style="border-radius: 50%; width: 60px;" 
+                                width="60"
+                                height="60"
+                                src="images/mugshot.webp" 
+                                alt="photograph of the author" 
+                                title="Sander. Looking surprised.
 
 The Netherlands forbids smiling
 on photos that go on official
@@ -653,7 +659,7 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
             (<em>it's the only thing we ask for</em>).
             <button id="__close_cookie_bar" class="btn-primary" type="button" title="I'm ok with this">ok</button>
         </span>
-        <script type="text/javascript">
+          <script type="text/javascript">
             var CONSENT_COOKIE_KEY = "mscgen_js_cookieconsent";
             function getCookies() {
               return document.cookie.split(';')
@@ -679,7 +685,7 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                 hideCookieBar();
               }
             }
-            window.__close_cookie_bar.addEventListener("click", hideCookieBar, false);
+            window.__close_cookie_bar.addEventListener("click", hideCookieBar, {capture:false, passive:true});
             main();
         </script>
     </body>
