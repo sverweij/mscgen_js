@@ -5,7 +5,7 @@ var paramActions = require('./interpreter/param-actions')
 var generalActions = require('./interpreter/general-actions')
 var editorEvents = require('./interpreter/editor-events')
 
-function setupInputEvents() {
+function setupInputEvents () {
   window.__autorender.addEventListener('click', inputActions.autorenderOnClick, { capture: false, passive: true })
   window.__language_msgenny.addEventListener('click', inputActions.languageMsGennyOnClick, { capture: false, passive: true })
   window.__language_mscgen.addEventListener('click', inputActions.languageMscGenOnClick, { capture: false, passive: true })
@@ -27,7 +27,7 @@ function setupInputEvents() {
   window.__btn_color_panel_close.addEventListener('click', inputActions.closeColorPanel, { capture: false, passive: true })
 }
 
-function setupOutputEvents() {
+function setupOutputEvents () {
   window.__svg.addEventListener('dblclick', outputActions.svgOnDblClick, { capture: false, passive: true })
   window.__show_save_as.addEventListener('click', outputActions.showSaveAsOnClick, { capture: false, passive: true })
   window.__render_options.addEventListener('click', outputActions.renderOptionsOnClick, { capture: false, passive: true })
@@ -58,7 +58,7 @@ function setupOutputEvents() {
   window.__error.addEventListener('click', outputActions.errorOnClick, { capture: false, passive: true })
 }
 
-function setupInfoNavigationEvents() {
+function setupInfoNavigationEvents () {
   window.__close_lightbox.addEventListener('click', navActions.closeCheatSheet, { capture: false, passive: true })
   window.__btn_embed_panel_close.addEventListener('click', navActions.closeEmbedSheet, { capture: false, passive: true })
   window.__close_aboutsheet.addEventListener('click', navActions.closeAboutSheet, { capture: false, passive: true })
@@ -69,7 +69,7 @@ function setupInfoNavigationEvents() {
   window.document.body.addEventListener('keydown', generalActions.keyDown, { capture: false, passive: true })
 }
 
-function setupEvents() {
+function setupEvents () {
   editorEvents.init(window.__msc_input)
   paramActions.processParams()
 

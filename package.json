@@ -28,14 +28,14 @@
     "url": "https://github.com/sverweij/mscgen_js"
   },
   "dependencies": {
-    "codemirror": "5.59.0",
+    "codemirror": "5.59.1",
     "mscgenjs": "5.0.3",
     "mscgenjs-inpage": "3.0.2",
-    "query-string": "6.13.7"
+    "query-string": "6.13.8"
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "dependency-cruiser": "9.21.1",
+    "dependency-cruiser": "9.21.2",
     "eslint": "7.16.0",
     "eslint-config-standard": "16.0.2",
     "eslint-plugin-import": "2.22.1",
@@ -49,8 +49,8 @@
     "nyc": "15.1.0",
     "sw-precache": "5.2.1",
     "upem": "5.0.0",
-    "webpack": "5.11.0",
-    "webpack-cli": "4.3.0"
+    "webpack": "5.11.1",
+    "webpack-cli": "4.3.1"
   },
   "scripts": {
     "build": "make clean build",

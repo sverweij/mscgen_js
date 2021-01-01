@@ -2,7 +2,7 @@ var svgutensils = require('mscgenjs/dist/cjs/render/graphics/svgutensils')
 
 var MAX_SIGNED_SHORT = 32767
 
-function geckoRelativeSizeWorkaround(pString, pViewBox) {
+function geckoRelativeSizeWorkaround (pString, pViewBox) {
   /* the ugly replace is to be sure gecko
   * actualy renders a picture when using the
   * 'autosize' feature. Not necessary in webkit &

@@ -14,7 +14,7 @@ var gMirrorEntitiesOnBottom = false
 
 _setupEvents()
 
-function showAnimationControls() {
+function showAnimationControls () {
   if (gInitialized) {
     $.ss(window.__btn_anim_close).show()
     $.ss(window.__animsvgwrapper).show()
@@ -22,7 +22,7 @@ function showAnimationControls() {
   }
 }
 
-function initialize(pAST, pMirrorEntitiesOnBottom) {
+function initialize (pAST, pMirrorEntitiesOnBottom) {
   window.__animscreen.style.height = '100%'
   window.__animscreen.style['transition-duration'] = '1.2s'
   if (gInitializationTimer) {
@@ -45,7 +45,7 @@ function initialize(pAST, pMirrorEntitiesOnBottom) {
   gInitialized = true
 }
 
-function animate() {
+function animate () {
   if (gTimer) {
     window.clearTimeout(gTimer)
   }
@@ -59,7 +59,7 @@ function animate() {
   }
 }
 
-function updateState() {
+function updateState () {
   if (gInitialized) {
     renderast.clean('__animsvg', window)
     renderast.render(
@@ -80,33 +80,33 @@ function updateState() {
   }
 }
 
-function home() {
+function home () {
   anim.home()
   gPlaying = false
   updateState()
 }
-function dec() {
+function dec () {
   anim.dec()
   gPlaying = false
   updateState()
 }
-function playpause() {
+function playpause () {
   gPlaying = !gPlaying
   if (gPlaying) {
     animate()
   }
 }
-function inc() {
+function inc () {
   anim.inc()
   gPlaying = false
   updateState()
 }
-function end() {
+function end () {
   anim.end()
   gPlaying = false
   updateState()
 }
-function close() {
+function close () {
   window.__animscreen.style['transition-duration'] = '0.6s'
   window.__animscreen.style.height = '0'
   $.ss(window.__animsvgwrapper).hide()
@@ -119,7 +119,7 @@ function close() {
   gaga.g('send', 'event', 'close_animscreen', 'button')
 }
 
-function percentageClick(pEvent) {
+function percentageClick (pEvent) {
   var lRect = window.__anim_progress_percentage_wrapper.getBoundingClientRect()
   var lClickedPosition = (pEvent.clientX - lRect.left)
   var lMaxPosition = lRect.width
@@ -129,7 +129,7 @@ function percentageClick(pEvent) {
   updateState()
 }
 
-function _setupEvents() {
+function _setupEvents () {
   window.__btn_anim_home.addEventListener('click',
     function () {
       home()
