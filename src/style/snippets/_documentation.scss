@@ -70,7 +70,11 @@ code, pre {
   font-size: 1em;
 }
 .no-number::before {
-    content: none;
+  content: none;
+}
+.no-number {
+  border: none;
+  padding: 0;
 }
 article > h1 {
   counter-increment: article-counter;
