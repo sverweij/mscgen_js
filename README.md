@@ -4,8 +4,6 @@
 [![Build Status](https://github.com/sverweij/mscgen_js/workflows/linting%20&%20test%20coverage%20-%20linux/badge.svg)][github.actions]
 [![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)][codeclimate.mscgenjs]
 [![Test Coverage](https://codeclimate.com/github/sverweij/mscgen_js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgen_js/coverage)
-[![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
-[![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
 [![mscgen.js.org](https://img.shields.io/badge/js.org-mscgen-ffb400.svg?style=flat-squared)](https://mscgen.js.org)
 - Implementation of the super easy [MscGen][mscgen] in JavaScript.
 - [Embeddable][mscgenjs.embed] in your HTML.
