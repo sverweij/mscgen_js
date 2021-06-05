@@ -323,7 +323,7 @@ b abox b : b abox b\n(state/ condition);
 <pre class="code msgenny">
 a -> b;
 </pre>
-<span class="mscgen_js" data-language="msgenny">a -> b;</span>
+<script type="text/x-msgenny">a -> b;</script>
 <p>As you can see this creates two entities (a and b), both with a lifeline,
     and an arrow from the first to the second lifeline.
 </p>
@@ -339,7 +339,7 @@ a -> b;
 a -> b<mark>: "ping"</mark>;
 </pre>
 
-<span class="mscgen_js" data-language="msgenny">a -> b: ping;</span>
+<script type="text/x-msgenny">a -> b: ping;</script>
 <p class="info">Note: when your description doesn't contain a <code>,</code> or a <code>;</code>
 it is possible to leave the quotes out of the label, so in this case
 <code class="msgenny">a -> b: ping;</code> would have achieved exactly the same effect.</p>
@@ -350,8 +350,8 @@ it is possible to leave the quotes out of the label, so in this case
 a -> b: ping;
 <mark>b >> a: heard ya!;</mark>
 </pre>
-<pre class="mscgen_js" data-language="msgenny">a -> b: ping;
-b >> a: heard ya!; </pre>
+<script type="text/x-msgenny">a -> b: ping;
+b >> a: heard ya!; </script>
 
 <h3 id="notes">Notes</h3>
 <p>To add a note to a chart use the special <code>note</code> arc type.
@@ -362,10 +362,10 @@ a -> b: ping;
 b >> a: heard ya!;
 <mark>a note a: we're not done yet ...;</mark>
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=1.1;
+<script type="text/x-msgenny">hscale=1.1;
 a -> b: ping;
 b >> a: heard ya!;
-a note a: we're not done yet...;</pre>
+a note a: we're not done yet...;</script>
 
 
 <h3 id="multiline-text">Multiline text</h3>
@@ -380,8 +380,8 @@ manually by putting the (c-style) escape code
 a note b: This is a note consisting of<mark>\n</mark>two lines of text;
 b => c  : Breaking text in two<mark>\n</mark>also works for arcs;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">a note b: This is a note consisting of\ntwo lines of text;
-b => c  : Breaking text in two\nalso works for arcs;</pre>
+<script type="text/x-msgenny">a note b: This is a note consisting of\ntwo lines of text;
+b => c  : Breaking text in two\nalso works for arcs;</script>
 <p class="info">Everything in boxes wraps automatically. Regular arcs also do that when
 the <a href="#wordwraparcs"><code>wordwraparcs</code></a> option is on. We're thinking
 of having this as the default somewhere in the future, but haven't yet because of
@@ -397,12 +397,12 @@ b >>  a: done;
 a => c : "b is done doing something;\ngo bother him";
 c -> b : bother;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.8;
+<script type="text/x-msgenny">hscale=0.8;
 a =>> b: do something for me;
 b >>  a: done;
 |||;
 a => c : "b is done doing something;\ngo bother him";
-c -> b : bother;</pre>
+c -> b : bother;</script>
 
 <p>To indicate you deliberately left out stuff of your chart, you can use ellipses, like this:</p>
  <pre class="code msgenny">
@@ -412,12 +412,12 @@ c -x b : Whaaat?;
 <mark>...    : magic happens here;</mark>
 b >> a : Magic answer;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.8;
+<script type="text/x-msgenny">hscale=0.8;
 a =>> b: Do the voodoo;
 b => c : Iberian dance task;
 c -x b : Whaaat?;
 ...    : magic happens here;
-b >> a : Magic answer;</pre>
+b >> a : Magic answer;</script>
 
 <p>To demarcate more strongly and/ or to comment on a part, use <em>comment</em> (---), like so:</p>
  <pre class="code msgenny">
@@ -427,12 +427,12 @@ b => "text to\nspeach": getAudio (line);
 "text to\nspeach" >> b: lAudioStream;
 b -> speaker: play(lAudioStream);
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale="0.75";
+<script type="text/x-msgenny">hscale="0.75";
 a =>> b: readOutLoud\n(message);
 ---    : for each line in the message:;
 b => "text to\nspeach": getAudio (line);
 "text to\nspeach" >> b: lAudioStream;
-b -> speaker: play(lAudioStream);</pre>
+b -> speaker: play(lAudioStream);</script>
 
 <h3 id="ignore-this">Ignore this</h3>
 <p>In your program lines starting with <code>#</code> or <code>//</code>
@@ -442,9 +442,9 @@ b -> speaker: play(lAudioStream);</pre>
 a =>> b: what's happening here?; <mark>/* don't know */</mark>
 <mark>// ignored line</mark>
 </pre>
-<pre class="mscgen_js" data-language="msgenny"># This line is ignored
+<script type="text/x-msgenny"># This line is ignored
 a =>> b: what's happening here? ; /* don't know */
-// ignored line</pre>
+// ignored line</script>
 <p class="warning">Caveat: on translating to MscGen most comments
 (except those at the top of the source) get lost.</p>
 </section>
@@ -461,11 +461,11 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">arcgradient="10";
+<script type="text/x-msgenny">arcgradient="10";
 
 client => server : SYN;
 server => client : SYN + ACK;
-client => server : ACK;</pre>
+client => server : ACK;</script>
 
 <p><em>hscale</em> horizontally scales the chart a bit. Numbers bigger than 1 enlarge
 it; smaller than 1 shrink it.</p>
@@ -476,11 +476,11 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">arcgradient="10", hscale="0.6";
+<script type="text/x-msgenny">arcgradient="10", hscale="0.6";
 
 client => server : SYN;
 server => client : SYN + ACK;
-client => server : ACK;</pre>
+client => server : ACK;</script>
 
 <p>... and <em>width</em> scales the whole chart so it fits in exactly the amount of pixels width.</p>
 <pre class="code msgenny">
@@ -490,11 +490,11 @@ client => server : SYN;
 server => client : SYN + ACK;
 client => server : ACK;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">arcgradient="10", width="240";
+<script type="text/x-msgenny">arcgradient="10", width="240";
 
 client => server : SYN;
 server => client : SYN + ACK;
-client => server : ACK;</pre>
+client => server : ACK;</script>
 
 
 <p id="wordwraparcs">The default behaviour for regular (= not note, box, abox or rbox) arcs is that
@@ -578,22 +578,22 @@ fe => be: "getToken\n(id, secret)";
 fe &lt;&lt; be: [OK] token;
 A &lt;&lt; fe: Whoop!;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.8;
+<script type="text/x-msgenny">hscale=0.8;
 A: Actor, fe:Front end, be: Back end;
 
 A =>> fe: "log me in\n(id, secret)";
 fe => be: "getToken\n(id, secret)";
 fe &lt;&lt; be: [OK] token;
-A &lt;&lt; fe: Whoop!;</pre>
+A &lt;&lt; fe: Whoop!;</script>
 
 <p>The msgenny parser puts the entities in the order they occur in your script, e.g. </p>
 <pre class="code msgenny">
 1 =>> 4;
 3 >> 2;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.6;
+<script type="text/x-msgenny">hscale=0.6;
 1 =>> 4;
-3 >> 2;</pre>
+3 >> 2;</script>
 
 <p>If that's not what you want, declare them in the order you want them to appear:</p>
 <pre class="code msgenny">
@@ -602,10 +602,10 @@ A &lt;&lt; fe: Whoop!;</pre>
 1 =>> 4;
 3 >> 2;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.6;
+<script type="text/x-msgenny">hscale=0.6;
 1,2,3,4;
 1 =>> 4;
-3 >> 2;</pre>
+3 >> 2;</script>
 
 <h3 id="broadcasts-parallel-calls">broadcasts, parallel calls</h3>
 <p>When an entity has to send a message to all entities at once (broadcast) use <code>*</code> as entity name.
@@ -615,9 +615,9 @@ arcgradient="14";
 a, b, c, d;
 b =>> <mark>*</mark>;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.6, arcgradient="14";
+<script type="text/x-msgenny">hscale=0.6, arcgradient="14";
 a, b, c, d;
-b =>> *;</pre>
+b =>> *;</script>
 
 <p>In situations where you want to express two calls being executed in parallel (or for some
 other reason want to see two arcs on one row), seperate them with a <code>,</code> in stead
@@ -628,11 +628,11 @@ a => b: parallel\nwith c => b<mark>,</mark>
 c => b: parallel\nwith a => b<mark>,</mark>
 n note n: a note on the same line;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale=0.6;
+<script type="text/x-msgenny">hscale=0.6;
 a, b, c, n;
 a => b: parallel\nwith c => b,
 c => b: parallel\nwith a => b,
-n note n: a note on the same line;</pre>
+n note n: a note on the same line;</script>
 
 <h3 id="both-ways-no-way">Both ways, no way</h3>
 <p>For almost every arc type (<code>-></code>, <code>=></code>, <code>=>></code>,
@@ -644,10 +644,10 @@ a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
 a :: b, b &lt;:> c ;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">a &lt;-> b, b &lt;=> c;
+<script type="text/x-msgenny">a &lt;-> b, b &lt;=> c;
 a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
-a :: b, b &lt;:> c ;</pre>
+a :: b, b &lt;:> c ;</script>
 
 <h3 id="box-rbox-abox">box, rbox, abox</h3>
 <p>Boxes expressing <em>action</em> (box), <em>states</em> or <em>conditions</em> (abox) and
@@ -658,10 +658,10 @@ a  <mark>box</mark> b :  box (action);
 b <mark>abox</mark> c : abox (state/ condition);
 c <mark>rbox</mark> d : rbox (MSC reference);
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale="0.6";
+<script type="text/x-msgenny">hscale="0.6";
 a  box b :  box (action);
 b abox c : abox (state/ condition);
-c rbox d : rbox (MSC reference);</pre>
+c rbox d : rbox (MSC reference);</script>
 
 <h3 id="basics-advanced-summary">summary</h3>
 <ul>
@@ -677,7 +677,7 @@ c rbox d : rbox (MSC reference);</pre>
     from the "learn" menu in the interpreter.
 </p>
 <center>
-<pre class="mscgen_js" data-language="msgenny"># MsGenny: a cheat sheet
+<script type="text/x-msgenny"># MsGenny: a cheat sheet
 hscale=0.9;
 
 a -> b   : a -> b  (signal),
@@ -713,7 +713,7 @@ c abox c : c abox c\n(state/ condition);
 
 |||      : ||| (empty row);
 ...      : ... (omitted row);
----      : --- (comment);</pre>
+---      : --- (comment);</script>
 </center>
 </section>
 
@@ -732,7 +732,7 @@ c abox c : c abox c\n(state/ condition);
     alternatives and loops 'n stuff once in a while, like this:
 </p>
 
-<pre class="mscgen_js" data-language="msgenny">hscale=0.8;
+<script type="text/x-msgenny">hscale=0.8;
 a =>> b;
 b loop d: 3 times {
    b =>> c: knock;
@@ -741,7 +741,7 @@ b loop d: 3 times {
       ---: not true;
       c =>> d: do other stuff;
    };
-};</pre>
+};</script>
 
 <p>
     In sequence chart land these things are called <em>inline expressions</em>
@@ -795,12 +795,12 @@ Bob => pocket : "fetch (nose flute)";
 Bob >> Alice : PHEEE!;
 Alice => Alice: hihihi;
 </pre>
-<pre class="mscgen_js" data-language="msgenny">hscale="0.7", watermark="Watermark";
+<script type="text/x-msgenny">hscale="0.7", watermark="Watermark";
 
 Alice => Bob : do something funny;
 Bob => pocket : "fetch (nose flute)";
 Bob >> Alice : PHEEE!;
-Alice => Alice: hihihi;</pre>
+Alice => Alice: hihihi;</script>
 <p class="info">
     <strong>Mimicing this in MscGen</strong> There are several ways to get a similar
     message accross in MscGen. The simplest one is to put the text in an
@@ -932,7 +932,7 @@ msc {
 }
 </pre>
 
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
     hscale="0.8";
     mike [label="Michael McTernan"],
     kbd [label="keyboard"],
@@ -944,7 +944,7 @@ msc {
     pc => pc [label="do stuff"];
     pc => scr [label="electrical current"];
     scr >> mike [label="photons"];
-}</pre>
+}</script>
 
 </section>
 <section>
@@ -960,12 +960,12 @@ you have two options:
 
     <mark>"</mark>差出人<mark>"</mark> -> <mark>"</mark>受信機<mark>"</mark> [label="信息"];
 }</pre>
-        <pre class="mscgen_js">msc{
+        <script type="text/x-mscgen">msc{
     "差出人",
     "受信機";
 
     "差出人" -> "受信機" [label="信息"];
-}</pre>
+}</script>
         </p>
     </li>
     <li><strong>Use labels</strong>
@@ -976,12 +976,12 @@ you have two options:
 
     sender -> receiver [label="信息"];
 }</pre>
-            <pre class="mscgen_js">msc {
+            <script type="text/x-mscgen">msc {
     sender [label="差出人"],
     receiver[label="受信機"];
 
     sender -> receiver [label="信息"];
-}</pre>
+}</script>
         </p>
     </li>
 </ul>
@@ -1018,7 +1018,7 @@ b note b  [label="color\nbonanza",
           <mark>textcolor="blue"</mark>];
 }
 </pre>
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
 hscale="0.9";
 
 a [label="linecolor=\n\"orange\"",
@@ -1040,7 +1040,7 @@ b note b  [label="color\nbonanza",
           linecolor="#7777FF",
           textbgcolor="cyan",
           textcolor="blue"];
-}</pre>
+}</script>
 </section>
 
 <section>
@@ -1077,7 +1077,7 @@ msc {
   ui =>> ui [label="render"];
 }
 </pre>
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
   hscale="0.6", width="500";
 
   cust [label="customer"],
@@ -1102,7 +1102,7 @@ msc {
 
   ui &lt;&lt; c [label="Account data"];
   ui =>> ui [label="render"];
-}</pre>
+}</script>
 </section>
 <section>
 <h2 id="arcskip"><code>arcskip</code></h2>
@@ -1119,13 +1119,13 @@ msc {
     a =>> b [label="without arcskip"];
 }
 </pre>
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
     a, b;
 
     a =>> b [label="with arcskip", arcskip="1"];
     |||;
     a =>> b [label="without arcskip"];
-}</pre>
+}</script>
 </section>
 <section>
 <h2 id="url-id-idurl">Links'n stuff: url, id, idurl</h2>
@@ -1157,7 +1157,7 @@ msc {
               <mark>idurl="about:blank"</mark>];
 }
 </pre>
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
     hscale=1.2;
     a [id="this is the id of entity a"],
     b [label="link to\ngithub page",
@@ -1169,7 +1169,7 @@ msc {
     a note b [label="works in entities, arcs, notes and boxes",
               id="id links to about:blank",
               idurl="about:blank"];
-}</pre>
+}</script>
 </section>
 </article>
 <article itemscope itemtype="http://schema.org/Article" id="xu">
@@ -1287,7 +1287,7 @@ mscgenjs --input-type xu anothercoolchart.seq
 </section>
 <section>
     <h2>An example</h2>
-    <pre class="mscgen_js" data-language="xu"># facebook authentication
+    <script type="text/x-xu"># facebook authentication
 # adopted from http://www.uml-diagrams.org/sequence-diagrams-examples.html#facebook-authentication
 msc {
   wordwraparcs=on,
@@ -1324,7 +1324,7 @@ msc {
     app >> browser [label="FB resource not available"];
     browser >> act [label="FB resource not available"];
   };
-}</pre>
+}</script>
     <p>
         The source for this:
     </p>
@@ -1435,7 +1435,7 @@ these will get lost in the translation.
     will get you:
 </p>
 <div>
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
   hscale="0.8";
 
   Co, Mo, Dolores;
@@ -1443,9 +1443,9 @@ these will get lost in the translation.
   Co =>> Mo [label="Hello"];
   Dolores =>> Co [label="Is it me you're looking for?"];
   Mo =>> Dolores [label="I see it in your eyes"];
-}</pre>
+}</script>
 =>
-<pre class="mscgen_js">msc {
+<script type="text/x-mscgen">msc {
   hscale="0.8";
 
   Co [linecolor="#008800", textbgcolor="#CCFFCC", arclinecolor="#008800"],
@@ -1455,7 +1455,7 @@ these will get lost in the translation.
   Co =>> Mo [label="Hello"];
   Dolores =>> Co [label="Is it me you're looking for?"];
   Mo =>> Dolores [label="I see it in your eyes"];
-}</pre>
+}</script>
 </div>
 <h4>Not for MsGenny</h4>
 <p>As MsGenny does not support colors, auto color is disabled for that language.

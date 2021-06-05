@@ -328,11 +328,11 @@ msc {
         <h2 id="error-handling">Error handling</h2>
         <p>If your MscGen code contains an error, instead of a sequence chart, you will see
              your MscGen code with the offending line highlighted, thusly:</p>
-        <pre class="code mscgen_js">msc {
+        <script type="text/x-mscgen">msc {
   a, b;
   a -> b[nonexistingattribute="something"];
   b >> a[label="done dee done"];
-}</pre>
+}</script>
         <h2 id="deeplink-to-interpreter">Deep linking charts to the interpreter</h2>
         <p>As you can see in the <a href="tutorial.html">tutorial</a> it is
             possible to open embedded charts in the mscgen_js interpreter
@@ -388,10 +388,10 @@ msc {
 
             <li>
                 <strong>Result</strong> when successfull:
-                <p><div class="mscgen_js"
-                     data-src="./samples/test21a_unicode_serious.msgenny"
+                <p><script type="text/x-msgenny"
+                     src="./samples/test21a_unicode_serious.msgenny"
                      data-language="msgenny">
-                 </div></p>
+                </script></p>
             </li>
             <li>Error handling:
                 <ul>
@@ -628,7 +628,7 @@ mother -> *: "Stop that. Silly Sally.";
         </pre>
         <h3>Xù</h3>
         <pre class="code">
-&lt;pre class="mscgen_js" <mark>data-language="xu"</mark>>
+&lt;script <mark>type="text/x-xu"</mark>>
 msc{
     watermark="xù: 序列圖", wordwraparcs="true";
     a,b,d,e;
@@ -649,8 +649,8 @@ msc{
     };
     ...;
 }
-&lt;/pre></pre>
-        <pre class="mscgen_js" data-language="xu">
+&lt;/script></pre>
+        <script type="text/x-xu">
 msc{
     watermark="xù: 序列圖", wordwraparcs="true", hscale=0.9;
     a,b,d,e;
@@ -671,7 +671,7 @@ msc{
     };
     ...;
 }
-        </pre>
+        </script>
         <h3>JSON</h3>
         <pre class="code">&lt;pre class="mscgen_js" <mark>data-language="json"</mark>>
 {
