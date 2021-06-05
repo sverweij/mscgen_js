@@ -1,17 +1,12 @@
 const path = require('path')
 
-module.exports = (pOne, pArguments) => {
-  let lRetval = {
+module.exports = (_pOne, pArguments) => {
+  return {
     entry: './src/script/mscgen-interpreter.js',
+    devtool: 'source-map',
     output: {
       filename: 'mscgen-interpreter.min.js',
       path: path.join(__dirname, pArguments.outputPath || 'dist')
     }
   }
-
-  if (pArguments.mode === 'development') {
-    lRetval.devtool = 'source-map'
-  }
-
-  return lRetval
 }
