@@ -583,8 +583,8 @@ A: Actor, fe:Front end, be: Back end;
 
 A =>> fe: "log me in\n(id, secret)";
 fe => be: "getToken\n(id, secret)";
-fe &lt;&lt; be: [OK] token;
-A &lt;&lt; fe: Whoop!;</script>
+fe << be: [OK] token;
+A << fe: Whoop!;</script>
 
 <p>The msgenny parser puts the entities in the order they occur in your script, e.g. </p>
 <pre class="code msgenny">
@@ -644,10 +644,10 @@ a &lt;&lt;=>> b, b &lt;&lt;>> c;
 a -- b, b .. c;
 a :: b, b &lt;:> c ;
 </pre>
-<script type="text/x-msgenny">a &lt;-> b, b &lt;=> c;
-a &lt;&lt;=>> b, b &lt;&lt;>> c;
+<script type="text/x-msgenny">a <-> b, b <=> c;
+a <<=>> b, b <<>> c;
 a -- b, b .. c;
-a :: b, b &lt;:> c ;</script>
+a :: b, b <:> c ;</script>
 
 <h3 id="box-rbox-abox">box, rbox, abox</h3>
 <p>Boxes expressing <em>action</em> (box), <em>states</em> or <em>conditions</em> (abox) and
@@ -681,28 +681,28 @@ c rbox d : rbox (MSC reference);</script>
 hscale=0.9;
 
 a -> b   : a -> b  (signal),
-b &lt;-> c  : b &lt;-> c,
+b <-> c  : b <-> c,
 c -- d   : c -- d,
 d -> d   : d -> d;
 
 a => b   : a => b  (method),
-b &lt;=> c  : b &lt;=> c,
+b <=> c  : b <=> c,
 d => d   : d => d;
 
 b >> a   : b >> a (return value),
-b &lt;&lt;>> c : b &lt;&lt;>> c,
+b <<>> c : b <<>> c,
 c .. d   : c .. d (dotted),
 d >> d   : d >> d;
 
 a =>> b   : a =>> b (callback),
-b &lt;&lt;=>> c : b &lt;&lt;=>> c,
+b <<=>> c : b <<=>> c,
 d =>> d   : d =>> d;
 
 a -x b   : a -x b  (lost),
 d -x d   : d -x d;
 
 a :> b   : a :> b  (emphasis),
-b &lt;:> c  : b &lt;:> c,
+b <:> c  : b <:> c,
 d :> d   : d :> d;
 
 b note b : b note b \n(note),
@@ -1100,7 +1100,7 @@ msc {
   c =>> c [label="mangle(Account Data)"];
   c -> e [label="log(id, 'getAccount', 'OK')"];
 
-  ui &lt;&lt; c [label="Account data"];
+  ui << c [label="Account data"];
   ui =>> ui [label="render"];
 }</script>
 </section>
@@ -1302,14 +1302,14 @@ msc {
 
   act => browser [label="get FB resource"];
   browser => app [label="request FB access"];
-  app >> browser [label="&lt;&lt;http redirect>>"];
+  app >> browser [label="<<http redirect>>"];
   browser => fbauth [label="authorize"];
   fbauth >> browser [label="permission form"];
   browser >> act [label="permission form"];
 
   act => browser [label="user permission"];
   browser => fbauth [label="process permission"];
-  fbauth >> browser [label="&lt;&lt;http redirect>>"];
+  fbauth >> browser [label="<<http redirect>>"];
 
   act alt fbcont [label="permission granted", linecolor="grey", textcolor="black"] {
     browser => app [label="FB authorization code"];
@@ -1343,14 +1343,14 @@ msc {
 
   act => browser [label="get FB resource"];
   browser => app [label="request FB access"];
-  app >> browser [label="&lt;&lt;http redirect>>"];
+  app >> browser [label="<<http redirect>>"];
   browser => fbauth [label="authorize"];
   fbauth >> browser [label="permission form"];
   browser >> act [label="permission form"];
 
   act => browser [label="user permission"];
   browser => fbauth [label="process permission"];
-  fbauth >> browser [label="&lt;&lt;http redirect>>"];
+  fbauth >> browser [label="<<http redirect>>"];
 
   act alt fbcont [label="permission granted", linecolor="grey", textcolor="black"] {
     browser => app [label="FB authorization code"];
@@ -1391,6 +1391,7 @@ msc {
 <img itemprop="image" 
      class="shadow"
      src="images/demo - screenshot - autofaded.png"
+     loading="lazy"
      alt="a screenshot of the mscgen_js interpreter">
 <p>
 <h3>Auto render</h3>
@@ -1503,6 +1504,7 @@ these will get lost in the translation.
 <img itemprop="image" 
      class="shadow"
      src="images/animation-sample.gif"
+     loading="lazy"
      width="568"
      height="376"
      alt="a simple sequence chart - animated">
@@ -1642,6 +1644,7 @@ whiteboard. Under a roof."></span>
                             class="aboutpic"
                             width="60"
                             height="60"
+                            loading="lazy"
                             aria-hidden="true"
                             alt="photograph of the author" 
                             title="Sander. Looking surprised.
@@ -1692,6 +1695,7 @@ documents.">
         <img alt="Creative Commons License"
              style="border-width:0"
              src="images/l_by-sa_3_0_88x31.png"
+             loading="lazy"
              width="88"
              height="31"/>
     </a>
