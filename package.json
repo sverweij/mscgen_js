@@ -28,29 +28,29 @@
     "url": "https://github.com/sverweij/mscgen_js"
   },
   "dependencies": {
-    "codemirror": "5.59.4",
-    "mscgenjs": "5.0.4",
-    "mscgenjs-inpage": "3.0.3",
-    "query-string": "6.14.1"
+    "codemirror": "5.61.1",
+    "mscgenjs": "6.0.0",
+    "mscgenjs-inpage": "4.0.1",
+    "query-string": "7.0.0"
   },
   "devDependencies": {
-    "chai": "4.3.0",
-    "dependency-cruiser": "9.23.2",
-    "eslint": "7.20.0",
-    "eslint-config-standard": "16.0.2",
-    "eslint-plugin-import": "2.22.1",
+    "chai": "4.3.4",
+    "dependency-cruiser": "10.0.1",
+    "eslint": "7.28.0",
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.23.4",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.3.1",
+    "eslint-plugin-promise": "5.1.0",
     "eslint-plugin-standard": "5.0.0",
-    "mocha": "8.3.0",
-    "node-localstorage": "2.1.6",
-    "node-sass": "5.0.0",
+    "mocha": "8.4.0",
+    "node-localstorage": "2.2.1",
+    "node-sass": "6.0.0",
     "npm-run-all": "4.1.5",
     "nyc": "15.1.0",
     "sw-precache": "5.2.1",
-    "upem": "5.0.0",
-    "webpack": "5.24.2",
-    "webpack-cli": "4.5.0"
+    "upem": "6.0.0",
+    "webpack": "5.38.1",
+    "webpack-cli": "4.7.0"
   },
   "scripts": {
     "build": "make clean build",
