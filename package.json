@@ -30,7 +30,7 @@
   "dependencies": {
     "codemirror": "5.61.1",
     "mscgenjs": "6.0.0",
-    "mscgenjs-inpage": "4.0.1",
+    "mscgenjs-inpage": "4.0.2",
     "query-string": "7.0.0"
   },
   "devDependencies": {

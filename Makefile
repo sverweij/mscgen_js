@@ -137,6 +137,7 @@ $(BUILDDIR)/index.html: $(PRODDIRS) \
 LIVE_DOC_DEPS=$(PRODDIRS) \
 	$(BUILDDIR)/style/doc.css \
 	$(BUILDDIR)/mscgen-inpage.js \
+	$(BUILDDIR)/mscgen-inpage.js.map \
 	$(BUILDDIR)/images/ \
 	$(FAVICONS) \
 	$(FONTS)
@@ -167,7 +168,13 @@ $(BUILDDIR)/mscgen-interpreter.min.js:
 $(BUILDDIR)/mscgen-inpage.js: node_modules/mscgenjs-inpage/dist/mscgen-inpage.js
 	cp $< $@
 
+$(BUILDDIR)/mscgen-inpage.js.map: node_modules/mscgenjs-inpage/dist/mscgen-inpage.js.map
+	cp $< $@
+
 $(BUILDDIR)/script/mscgen-inpage.js: $(BUILDDIR)/mscgen-inpage.js
+	cp $< $@
+
+$(BUILDDIR)/script/mscgen-inpage.js.map: $(BUILDDIR)/mscgen-inpage.js.map
 	cp $< $@
 
 # "phony" targets
