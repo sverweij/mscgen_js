@@ -12,7 +12,7 @@
     "msgenny"
   ],
   "engines": {
-    "node": ">=10.0"
+    "node": ">=16.0"
   },
   "browserslist": [
     "last 1 Chrome version",
