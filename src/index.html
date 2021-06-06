@@ -130,8 +130,8 @@ mscgen_js
         <section id="__input_area">
             <div id="__input_top_area">
                 <h2 for="__msc_input">
-                    <span class="hideonmobile">your</span> text <span class="hideonmicro">goes</span> here &#x0261f;</h2>
-                <span class="debug hideonmobile" style="display: none">
+                    text <span class="hideonmobile">goes</span> here &#x0261f;</h2>
+                <span class="hideonmobile">
                     <button id="__save" class="button icon-arrow-down" title="save chart
 
 saves the current chart to local storage"></button>
@@ -566,9 +566,9 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                         <input type="checkbox" id="__option_mirror_entities">
                         <label for="__option_mirror_entities">Mirror entities on the chart's bottom</label>
                     </div>
-                    <div class="debug" style="display:none">
+                    <div>
                         <label for="__option_vertical_label_alignment">Vertical label alignment</label>
-                        <select class="debug" style="display:none" id="__option_vertical_label_alignment">
+                        <select id="__option_vertical_label_alignment">
                             <option value="middle">Middle (default)</option>
                             <option value="above">Above</option>
                         </select>
@@ -581,10 +581,6 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
             </div>
             <div class="content">
                 <h3>Pick a style</h3>
-                <p class="debug copy" style="display:none">
-                    Some of these styles don't work in Safari or Internet
-                    Explorer yet.
-                </p>
                 <div id="__named_styles"></div>
             </div>
         </div>

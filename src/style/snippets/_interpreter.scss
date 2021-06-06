@@ -58,9 +58,10 @@ legend {
 }
 .xunotify {
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
-  font-size: 0.7em;
+  font-size: 1em;
   position: absolute;
-  margin: -0.6em 0 0 -0.5em;
+  margin: -0.6em 0 0 -0.8em;
+  color: #555
 }
 .CodeMirror {
     /* Set height, width, borders, and global font properties here */

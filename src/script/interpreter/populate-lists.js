@@ -4,12 +4,9 @@ var sampleListReader = require('./sampleListReader')
 
 function namedStyle2Div (pNamedStyle) {
   return (
-    (pNamedStyle.experimental || pNamedStyle.deprecated
-      ? '<div class="debug" style="display:none;">'
-      : '<div>'
-    ) +
+    '<div>' +
         '<input id="__option_style_#{pNamedStyle.name}" type="radio" name="stylerg" value="#{pNamedStyle.name}">' +
-        ' <label for="__option_style_#{pNamedStyle.name}">#{pNamedStyle.description}</label>' +
+        '<label for="__option_style_#{pNamedStyle.name}">#{pNamedStyle.description}</label>' +
     '</div>')
     .replace(/#{pNamedStyle.name}/g, pNamedStyle.name)
     .replace(/#{pNamedStyle.description}/g, pNamedStyle.description)
