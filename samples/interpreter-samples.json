@@ -3,15 +3,15 @@
     "label": "introductory",
     "values": [
       {
-        "label": "simple (msgenny)",
+        "label": "very simple interaction (msgenny)",
         "value": "samples/intro01_simple_starter.msgenny"
       },
       {
-        "label": "start (mscgen)",
+        "label": "shopping interaction (mscgen)",
         "value": "samples/intro02_starter.mscgen"
       },
       {
-        "label": "cheating (msgenny)",
+        "label": "cheat sheet (msgenny)",
         "value": "samples/intro03_cheat_sheet.msgenny"
       },
       {
@@ -25,23 +25,23 @@
     "label": "samples",
     "values": [
       {
-        "label": "PKI",
+        "label": "PKI authentication/ encryption",
         "value": "samples/sample01_bob_alice.mscin"
       },
       {
-        "label": "Facebook auth",
+        "label": "Facebook authentication",
         "value": "samples/3rdparty/fbauth.xu"
       },
       {
-          "label": "reCaptcha",
+          "label": "Google reCaptcha",
           "value": "samples/recaptcha-integration.xu"
       },
       {
-        "label": "SIP",
+        "label": "SIP protocol sample",
         "value": "samples/sample03_sip_(from_wikipedia).mscin"
       },
       {
-        "label": "SIP proxy",
+        "label": "SIP proxy sample",
         "value": "samples/sample04_intermediate_proxy_(from_wikipedia).mscin"
       },
       {
@@ -71,7 +71,7 @@
     ]
   },
   {
-    "label": "tests",
+    "label": "reference",
     "values": [
       {
         "label": "auto entities",
@@ -88,7 +88,8 @@
       },
       {
         "label": "colors",
-        "value": "samples/test02_some_coloring.mscin"
+        "value": "samples/test02_some_coloring.mscin",
+        "debug": true
       },
       {
         "label": "inline expressions",
@@ -134,41 +135,44 @@
         "value": "samples/test21_unicode_colored.mscin"
       },
       {
-        "label": "serious unicode",
-        "value": "samples/test21a_unicode_serious.msgenny"
+        "label": "translation (using unicode)",
+        "value": "samples/test21a_unicode_serious.msgenny",
+        "debug": true
       },
       {
         "label": "👳=>🏦:💰@🏭;",
-        "value": "samples/test21b_emoji.msgenny"
+        "value": "samples/test21b_emoji.msgenny",
+        "debug": true
       },
       {
         "label": "readme sample",
-        "value": "samples/readme.mscin"
+        "value": "samples/readme.mscin",
+        "debug": true
       },
       {
         "label": "pile of poo test",
-        "value": "samples/test24_pile_of_poo_test.mscin"
-      }
-    ]
-  },
-  {
-    "label": "creative",
-    "values": [
+        "value": "samples/test24_pile_of_poo_test.mscin",
+        "debug": true
+      },
       {
         "label": "skipping arcs",
-        "value": "samples/test09_arcskip_over_there.mscin"
+        "value": "samples/test09_arcskip_over_there.mscin",
+        "debug": true
       },
       {
         "label": "scheduling",
-        "value": "samples/test42_strangeuse.mscin"
+        "value": "samples/test42_strangeuse.mscin",
+        "debug": true
       },
       {
         "label": "flag",
-        "value": "samples/test43_flag.mscin"
+        "value": "samples/test43_flag.mscin",
+        "debug": true
       },
       {
         "label": "pushing it",
-        "value": "samples/test44_anotherabuse.mscgen"
+        "value": "samples/test44_anotherabuse.mscgen",
+        "debug": true
       }
     ]
   }
