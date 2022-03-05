@@ -1,6 +1,6 @@
 {
   "name": "mscgen_js",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Turns text into sequence charts. A faithfull implementation of the mscgen sequence chart language in javascript.",
   "author": "Sander Verweij",
   "license": "GPL-3.0",
