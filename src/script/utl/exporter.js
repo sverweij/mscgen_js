@@ -104,7 +104,7 @@ module.exports = {
     return 'data:image/svg+xml;charset=utf-8,' +
         encodeURIComponent('<!DOCTYPE svg [<!ENTITY nbsp "&#160;">]>'.concat(pSVGSource))
   },
-  toHTMLSnippet: toHTMLSnippet,
+  toHTMLSnippet,
   toHTMLSnippetURI: function (pSource, pLanguage, pOptions) {
     return 'data:text/plain;charset=utf-8,' +
                 encodeURIComponent(toHTMLSnippet(pSource, pLanguage, pOptions))

@@ -48,7 +48,7 @@ function showSaveAsOnClick () {
 
 module.exports = {
   svgOnDblClick: null,
-  showSaveAsOnClick: showSaveAsOnClick,
+  showSaveAsOnClick,
   htmlOnClick: function () {
     window.open(
       exporter.toHTMLSnippetURI(

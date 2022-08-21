@@ -59,8 +59,8 @@ describe('ui/utl/store', function () {
 
   describe('#load and save', function () {
     before(function () {
-      /* eslint node/no-new-require:0, new-cap:0 */
-      global.localStorage = new require('node-localstorage').LocalStorage(
+      const nodeLocalStorage = require('node-localstorage')
+      global.localStorage = new nodeLocalStorage.LocalStorage(
         './throwmeaway'
       )
       localStorage.clear()

@@ -8,7 +8,7 @@ RESIZE=utl/resize.sh
 IOSRESIZE=utl/iosresize.sh
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-SASS=node_modules/.bin/node-sass --output-style compressed
+SASS=node_modules/.bin/sass --style compressed --no-source-map
 
 ifeq ($(GIT_PRODUCTION_DEPLOYMENT_BRANCH), $(GIT_CURRENT_BRANCH))
 	BUILDDIR=dist

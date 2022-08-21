@@ -317,19 +317,19 @@ module.exports = {
      * @type {string} source
      * @type {string} language (one of mscgen, xu, msgenny or json)
      */
-  render: render,
+  render,
 
   /**
      *  parse + renders the current source in the current
      *  language if 'autorender' is on
      */
-  requestRender: requestRender,
+  requestRender,
   getAutoRender: state.getAutoRender,
-  setAutoRender: setAutoRender,
-  getSource: getSource,
-  setSource: setSource,
+  setAutoRender,
+  getSource,
+  setSource,
   getLanguage: state.getLanguage,
-  setLanguage: setLanguage,
+  setLanguage,
   getDebug: state.getDebug,
   setDebug: function (pBoolean) {
     state.setDebug(pBoolean)
@@ -339,7 +339,7 @@ module.exports = {
       })
     }
   },
-  getAST: getAST,
+  getAST,
   getLinkToInterpeter: state.getLinkToInterpreter,
   setLinkToInterpeter: function (pBoolean) {
     state.setLinkToInterpreter(pBoolean)
@@ -381,7 +381,7 @@ module.exports = {
     state.setVerticalLabelAlignment(pVerticalLabelAlignment)
   },
   getVerticalLabelAlignment: state.getVerticalLabelAlignment,
-  preRenderReset: preRenderReset
+  preRenderReset
 }
 /*
  This file is part of mscgen_js.

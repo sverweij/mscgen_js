@@ -180,8 +180,8 @@ function _setupEvents () {
 }
 
 module.exports = {
-  initialize: initialize,
-  close: close
+  initialize,
+  close
 }
 /*
  This file is part of mscgen_js.

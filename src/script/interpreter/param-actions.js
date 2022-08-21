@@ -66,8 +66,8 @@ function tagAllLinks () {
 }
 
 module.exports = {
-  processParams: processParams,
-  tagAllLinks: tagAllLinks
+  processParams,
+  tagAllLinks
 }
 /*
  This file is part of mscgen_js.

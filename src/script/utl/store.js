@@ -84,10 +84,10 @@ function saveSettings (pState) {
 }
 
 module.exports = {
-  save: save,
-  load: load,
-  saveSettings: saveSettings,
-  loadSettings: loadSettings
+  save,
+  load,
+  saveSettings,
+  loadSettings
 }
 /*
  This file is part of mscgen_js.

@@ -28,28 +28,37 @@
     "url": "https://github.com/sverweij/mscgen_js"
   },
   "dependencies": {
-    "codemirror": "5.65.2",
-    "mscgenjs": "6.0.1",
-    "mscgenjs-inpage": "4.0.4",
+    "codemirror": "^5.65.8",
+    "mscgenjs": "6.0.2",
+    "mscgenjs-inpage": "4.0.5",
     "query-string": "7.1.1"
   },
   "devDependencies": {
     "chai": "4.3.6",
-    "dependency-cruiser": "11.3.1",
-    "eslint": "7.32.0",
-    "eslint-config-standard": "16.0.3",
-    "eslint-plugin-import": "2.25.4",
+    "dependency-cruiser": "11.15.0",
+    "eslint": "8.22.0",
+    "eslint-config-standard": "17.0.0",
+    "eslint-plugin-import": "2.26.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "5.2.0",
-    "mocha": "9.2.1",
+    "eslint-plugin-promise": "6.0.0",
+    "mocha": "10.0.0",
     "node-localstorage": "2.2.1",
-    "node-sass": "7.0.1",
     "npm-run-all": "4.1.5",
     "nyc": "15.1.0",
+    "sass": "1.54.5",
     "sw-precache": "5.2.1",
-    "upem": "7.0.0",
-    "webpack": "5.70.0",
-    "webpack-cli": "4.9.2"
+    "upem": "7.2.0",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0"
+  },
+  "upem": {
+    "policies": [
+      {
+        "package": "codemirror",
+        "policy": "wanted",
+        "because": "there's a bit more to migrating to v6 than I want to handle right now: https://codemirror.net/docs/migration/"
+      }
+    ]
   },
   "scripts": {
     "build": "make clean build",
@@ -75,7 +84,7 @@
     "test": "mocha --reporter dot --recursive src/script/test",
     "test:cover": "nyc --check-coverage npm test",
     "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
-    "upem:update": "npm outdated ---json | upem",
+    "upem:update": "npm outdated ---json --long | upem | pbcopy && pbpaste",
     "upem:install": "npm install",
     "version": "npm-run-all build depcruise:graph scm:stage"
   },

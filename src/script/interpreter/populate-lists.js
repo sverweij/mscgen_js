@@ -43,8 +43,8 @@ function initNamedStyles () {
 }
 
 module.exports = {
-  initSamples: initSamples,
-  initNamedStyles: initNamedStyles
+  initSamples,
+  initNamedStyles
 }
 /*
  This file is part of mscgen_js.
