@@ -47,7 +47,7 @@
     "nyc": "15.1.0",
     "sass": "1.54.5",
     "sw-precache": "5.2.1",
-    "upem": "7.2.0",
+    "upem": "7.3.0",
     "webpack": "5.74.0",
     "webpack-cli": "4.10.0"
   },
@@ -84,6 +84,7 @@
     "test": "mocha --reporter dot --recursive src/script/test",
     "test:cover": "nyc --check-coverage npm test",
     "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
+    "upem-outdated": "npm outdated --json --long | upem --dry-run",
     "upem:update": "npm outdated ---json --long | upem | pbcopy && pbpaste",
     "upem:install": "npm install",
     "version": "npm-run-all build depcruise:graph scm:stage"
