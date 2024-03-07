@@ -55,7 +55,7 @@
   "options": {
     "doNotFollow": "node_modules",
     "progress": {"type": "performance-log"},
-    "prefix": "https://github.com/sverweij/mscgen_js/tree/develop/",
+    "prefix": "https://github.com/sverweij/mscgen_js/tree/master/",
     "reporterOptions": {
       "dot": {
         "collapsePattern": "node_modules/[^/]+"
