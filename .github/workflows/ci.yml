@@ -46,6 +46,3 @@ jobs:
           npm run lint
           npm run depcruise
       - run: npm run test:cover
-      - uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_COVERAGE_ID }}
