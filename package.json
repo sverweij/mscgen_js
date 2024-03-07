@@ -73,7 +73,6 @@
   "scripts": {
     "build": "make clean build",
     "check": "npm-run-all --parallel depcruise lint test:cover",
-    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "depcruise": "depcruise --validate -- src/script",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
     "depcruise:graph:png": "depcruise --validate --output-type dot src/script/mscgen-interpreter.js | dot -Gdpi=192 -Gsplines=ortho -T png | pngquant - > docs/dependencygraph.png",

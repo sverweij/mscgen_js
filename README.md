@@ -2,8 +2,6 @@
 *Turns text into sequence charts.*
 
 [![Build Status](https://github.com/sverweij/mscgen_js/workflows/linting%20&%20test%20coverage%20-%20linux/badge.svg)][github.actions]
-[![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)][codeclimate.mscgenjs]
-[![Test Coverage](https://codeclimate.com/github/sverweij/mscgen_js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgen_js/coverage)
 [![mscgen.js.org](https://img.shields.io/badge/js.org-mscgen-ffb400.svg?style=flat-squared)](https://mscgen.js.org)
 - Implementation of the super easy [MscGen][mscgen] in JavaScript.
 - [Embeddable][mscgenjs.embed] in your HTML.
@@ -137,8 +135,7 @@ At the time the font was created it was licensed [GPLv3][license.gpl-3.0] or
 It uses [mocha][21], [chai][39],
 [istanbul][28], [eslint][22] and [dependency-cruiser][41] to 
 maintain some modicum of verifiable code quality.
-You can see the build history in [GitHub actions][github.actions] and an indication
-of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
+You can see the build history in [GitHub actions][github.actions].
 
 ## Thanks
 - [Mike McTernan][mscgen.author] for creating the wonderful MscGen language,
@@ -158,7 +155,6 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [almond]: https://github.com/jrburke/almond
 [amdefine.license]: wikum/licenses/license.amdefine.md
 [atom]: https://atom.io
-[codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgen_js
 [codemirror]: http://codemirror.net
 [codemirror.author]: http://marijnhaverbeke.nl
 [codemirror.license]: wikum/licenses/license.codemirror.md
