@@ -20,7 +20,7 @@ jobs:
       fail-fast: true
       matrix:
         node-version:
-          - 18.x
+          - 20.x
         platform:
           - ubuntu-latest
 
