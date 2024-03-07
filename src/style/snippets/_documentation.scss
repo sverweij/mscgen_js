@@ -1,46 +1,57 @@
 @import "./colors";
+
 body {
-    counter-reset: article-counter;
+  counter-reset: article-counter;
 }
+
 footer {
   border-top: $demarcation-line;
   padding-top: .9em;
+  padding-left: 0.7em;
   font-size: 10pt;
   background-color: $background-color;
 }
+
 nav.sidebar {
-    padding: 8px;
-    position: fixed;
-    overflow-y: auto;
-    height:80%;
-    width: 240px;
-    color: $header-color;
-    line-height: 1.4
+  padding: 8px;
+  position: fixed;
+  overflow-y: auto;
+  height: 80%;
+  width: 240px;
+  color: $header-color;
+  line-height: 1.4
 }
+
 nav.sidebar ul {
-    padding: 0 0 0 16px;
+  padding: 0 0 0 16px;
 }
+
 nav.sidebar li {
-    list-style: none;
+  list-style: none;
 }
-nav.sidebar > ul > li {
-    list-style: none;
-    margin-top: 8px;
-    font-weight: bold;
+
+nav.sidebar>ul>li {
+  list-style: none;
+  margin-top: 8px;
+  font-weight: bold;
 }
-nav.sidebar > ul > li > ul > li {
-    list-style: none;
-    margin-top: 8px;
-    font-weight: normal;
+
+nav.sidebar>ul>li>ul>li {
+  list-style: none;
+  margin-top: 8px;
+  font-weight: normal;
 }
-nav.sidebar > ul > li > ul > li > ul > li {
-    list-style: circle;
-    font-weight: lighter;
+
+nav.sidebar>ul>li>ul>li>ul>li {
+  list-style: circle;
+  font-weight: lighter;
 }
+
 nav.sidebar a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
+
 article {
   // max-width: 48em;
   // margin: .25em 3em 0 3em;
@@ -49,109 +60,147 @@ article {
   background-color: $background-color;
   overflow: hidden;
   counter-reset: chapter-counter;
-  border-collapse: separate; /* apparently needed for IE */
+  border-collapse: separate;
+  /* apparently needed for IE */
   page-break-before: always;
   line-height: 1.5
 }
-article:first-of-type{
+
+article:first-of-type {
   page-break-before: auto;
 }
+
 section {
   counter-reset: paragraph-counter;
 }
-p, pre {
+
+p,
+pre {
   margin-right: 1em;
 }
+
 p {
   margin: 0 1em 1em 0;
 }
-code, pre {
+
+code,
+pre {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 1em;
 }
+
 .no-number::before {
   content: none;
 }
+
 .no-number {
   border: none;
   padding: 0;
 }
-article > h1 {
+
+article>h1 {
   counter-increment: article-counter;
 }
-article > h1:before {
+
+article>h1:before {
   content: counter(article-counter) " ";
 }
+
 article h2:before {
   counter-increment: chapter-counter;
   content: counter(article-counter) "." counter(chapter-counter) " ";
 }
+
 article h3:before {
   counter-increment: paragraph-counter;
   content: counter(article-counter) "." counter(chapter-counter) "." counter(paragraph-counter) " ";
 }
+
 article h1.first-title-on-page {
   border: none;
   margin: 0 0 1em 0;
   padding: 0 0 0 0;
 }
-article h1, article h2 {
+
+article h1,
+article h2 {
   border-top: $demarcation-line;
   padding: 0.5em 0 0 0;
 }
-article h2, article h3 {
+
+article h2,
+article h3 {
   margin: 2em 0 1em 0;
 }
-code, .code {
+
+code,
+.code {
   border: $demarcation-line;
   background-color: $code-background-color;
   border-radius: 3px;
 }
+
 .code {
   overflow: auto;
   padding: 6px 10px;
   display: inline-block;
   vertical-align: top;
 }
-img, .mscgen_js, mscgen {
+
+img,
+.mscgen_js,
+mscgen {
   max-width: 100%;
 }
-.mscgen_js, mscgen {
+
+.mscgen_js,
+mscgen {
   overflow: auto;
   display: inline-block;
 }
+
 .info {
   border-left: 1px solid $info-color;
   padding: 0.5em;
 }
+
 .info:before {
   content: "(i) ";
   color: $info-color;
   font-weight: bold;
 }
+
 .warning {
   border-left: 1px solid $warning-color;
   padding: 0.5em;
 }
+
 .warning:before {
-  content: "/!\\ "; /* warning icon looks like this, but is not available everywhere ...\0026A0\0000A0 */
+  content: "/!\\ ";
+  /* warning icon looks like this, but is not available everywhere ...\0026A0\0000A0 */
   color: $warning-color;
   font-weight: bold;
 }
+
 .shadow {
   box-shadow: 0.0 0.0 1em -0.2em $shadow-color;
-  border-collapse: separate; /* apparently needed for IE */
+  border-collapse: separate;
+  /* apparently needed for IE */
 }
+
 .side-note {
-    font-size: small;
+  font-size: small;
 }
+
 mark {
   background-color: $mark-color;
 }
+
 @media screen and (max-width: 639px) {
   body {
     margin: 0;
   }
+
   article {
     margin: 0;
     border: 0;
@@ -159,25 +208,30 @@ mark {
     padding-right: 1em;
     border-radius: 0;
   }
+
   .code {
     display: block;
     overflow: auto;
   }
+
   .sidebar {
-      display: none;
+    display: none;
   }
 }
+
 @media screen and (min-width: 640px) and (max-width: 767px) {
   body {
     margin: 0;
   }
+
   article {
     margin: 0;
     border: 0;
     padding: 1em;
     border-radius: 0;
   }
+
   .sidebar {
-      display: none;
+    display: none;
   }
 }
