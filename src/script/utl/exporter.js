@@ -1,4 +1,3 @@
-
 var ast2dot = require('mscgenjs/dist/cjs/render/text/ast2dot')
 var ast2mscgen = require('mscgenjs/dist/cjs/render/text/ast2mscgen')
 var ast2doxygen = require('mscgenjs/dist/cjs/render/text/ast2doxygen')
