@@ -1,5 +1,6 @@
-const assert = require('chai').assert
+const assert = require('node:assert/strict')
 const map = require('../../utl/maps')
+const { describe, it } = require('node:test')
 
 describe('ui/utl/maps', function () {
   describe('#classifyExtension() - ', function () {

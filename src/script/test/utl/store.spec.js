@@ -1,7 +1,8 @@
 /* global localStorage, global */
 
 const store = require('../../utl/store')
-const assert = require('assert')
+const assert = require('node:assert/strict')
+const { describe, it, before, after, beforeEach } = require('node:test')
 
 describe('ui/utl/store', function () {
   let lLanguage = 'initial language'
