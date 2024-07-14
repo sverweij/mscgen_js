@@ -6,10 +6,10 @@
       "comment": "Don't allow dependencies from outside the test folder to test",
       "severity": "error",
       "from": {
-        "pathNot": "^test"
+        "pathNot": "^src/script/test"
       },
       "to": {
-        "path": "^test"
+        "path": "^src/script/test"
       }
     },
     {
