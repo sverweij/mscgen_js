@@ -46,7 +46,7 @@
     "sass": "1.77.8",
     "sw-precache": "5.2.1",
     "upem": "9.0.4",
-    "webpack": "5.93.0",
+    "webpack": "5.94.0",
     "webpack-cli": "5.1.4"
   },
   "upem": {
