@@ -18,7 +18,7 @@
       "severity": "error",
       "from": {},
       "to": {
-        "path": "\\.spec\\.js$"
+        "path": "[.]spec[.]js$"
       }
     },
     {
@@ -55,6 +55,14 @@
   "options": {
     "doNotFollow": "node_modules",
     "progress": {"type": "performance-log"},
+    "moduleSystems": ["cjs"],
+    "skipAnalysisNotInRules": true,
+    "enhancedResolveOptions": {
+      "extensions": [
+        ".js",
+        ".cjs"
+      ]
+    },
     "prefix": "https://github.com/sverweij/mscgen_js/tree/master/",
     "reporterOptions": {
       "dot": {
