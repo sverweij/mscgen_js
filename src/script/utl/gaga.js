@@ -1,5 +1,4 @@
 /* global ga */
-/* eslint max-params:0, dot-notation:0, no-unused-expressions:0, no-sequences:0 */
 
 var gTrack = true
 

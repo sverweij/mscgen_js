@@ -1,4 +1,3 @@
-/* eslint max-len:0 */
 const sampleListReader = require('../../interpreter/sampleListReader')
 const fixture = require('./sampleListReaderFixture.json')
 const assert = require('node:assert/strict')

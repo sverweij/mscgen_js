@@ -1,11 +1,11 @@
 #!/bin/sh
 # adapted from http://www.imagemagick.org/Usage/thumbnails/#favicon
-CONVERT=`which convert`
+CONVERT=`which magick`
 OPTIPNG=`which optipng`
 if [ $OPTIPNG ]
 then
     $OPTIPNG -quiet $1
-# convert $1  -bordercolor white -border 0 \
+# magick $1  -bordercolor white -border 0 \
           # \( -clone 0 -resize 16x16 \) \
           # \( -clone 0 -resize 24x24 \) \
           # \( -clone 0 -resize 32x32 \) \

@@ -1,6 +1,6 @@
 #!/bin/sh
 SIZE=`expr "$2" : ".*favicon-\(.*\).png"`
-CONVERT=`which convert`
+CONVERT=`which magick`
 OPTIPNG=`which optipng`
 if [ $CONVERT ]
 then

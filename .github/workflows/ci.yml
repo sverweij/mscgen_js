@@ -19,7 +19,7 @@ jobs:
       fail-fast: true
       matrix:
         node-version:
-          - 22.x
+          - 24.x
         platform:
           - ubuntu-latest
 
@@ -42,6 +42,5 @@ jobs:
           npm run build
       - name: lint & forbidden dependency check
         run: |
-          npm run lint
           npm run depcruise
       - run: npm run test:cover

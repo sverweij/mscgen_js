@@ -1,4 +1,3 @@
-/* eslint max-len:0 */
 const assert = require('node:assert/strict')
 const xport = require('../../utl/exporter')
 const { describe, it } = require('node:test')

@@ -1,0 +1,14 @@
+{
+  "checkCoverage": true,
+  "statements": 99.7,
+  "branches": 99.3,
+  "functions": 100,
+  "lines": 99.7,
+  "exclude": [
+    "dist/",
+    "docs/",
+    "tools/"
+  ],
+  "reporter": ["text-summary", "html", "json-summary"]
+}
+

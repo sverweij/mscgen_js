@@ -1,12 +1,12 @@
 
 .SUFFIXES: .js .css .html .msc .mscin .msgenny .svg .png .jpg
 GIT=git
-GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
+GIT_CURRENT_BRANCH=$(shell tools/get_current_git_branch.sh)
 GIT_PRODUCTION_DEPLOYMENT_BRANCH=master
-PNG2FAVICO=utl/png2favico.sh
-RESIZE=utl/resize.sh
-IOSRESIZE=utl/iosresize.sh
-SEDVERSION=utl/sedversion.sh
+PNG2FAVICO=tools/png2favico.sh
+RESIZE=tools/resize.sh
+IOSRESIZE=tools/iosresize.sh
+SEDVERSION=tools/sedversion.sh
 NPM=npm
 SASS=node_modules/.bin/sass --style compressed --no-source-map
 
@@ -185,9 +185,9 @@ build: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 	BUILDDIR=$(BUILDDIR) npx sw-precache --config .sw-precache-config.js
 
 deploy-gh-pages: build
-	@echo Deploying build `utl/getver` to $(BUILDDIR)
+	@echo Deploying build `tools/getver` to $(BUILDDIR)
 	$(GIT) -C $(BUILDDIR) add --all .
-	$(GIT) -C $(BUILDDIR) commit -m "build `utl/getver`"
+	$(GIT) -C $(BUILDDIR) commit -m "build `tools/getver`"
 	$(GIT) -C $(BUILDDIR) push origin gh-pages
 	$(GIT) -C $(BUILDDIR) status
 

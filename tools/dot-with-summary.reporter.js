@@ -1,7 +1,5 @@
-/* eslint-disable no-use-before-define */
 const { EOL } = require('node:os')
 
-// eslint-disable-next-line no-undefined
 const LOCALE = undefined
 const gTimeFormat = new Intl.NumberFormat(LOCALE, {
   style: 'unit',
@@ -10,7 +8,6 @@ const gTimeFormat = new Intl.NumberFormat(LOCALE, {
   maximumFractionDigits: 0
 }).format
 
-// eslint-disable-next-line max-lines-per-function, complexity
 module.exports = async function * dotWithSummaryReporter (pSource) {
   const lFailStack = []
   const lDiagnosticStack = []
@@ -79,7 +76,6 @@ function summarizeFailsToText (pFailEvent) {
 function diagnosticToObject (pDiagnosticEvent) {
   const lReturnValue = {}
   const [key, value] = pDiagnosticEvent.data.message.split(' ')
-  // eslint-disable-next-line security/detect-object-injection
   lReturnValue[key] = value
   return lReturnValue
 }

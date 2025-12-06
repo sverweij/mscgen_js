@@ -1,4 +1,3 @@
-/* eslint max-params: 0 */
 var uistate = require('./uistate')
 var exporter = require('../utl/exporter')
 var generalActions = require('./general-actions')

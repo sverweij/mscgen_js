@@ -1,4 +1,3 @@
-/* eslint max-params: 0 */
 var uistate = require('./uistate')
 var animator = require('./animator')
 var store = require('../utl/store')

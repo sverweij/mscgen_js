@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 var gDebug = false
 
 function toOptions (pPrev, pSample) {

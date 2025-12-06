@@ -1,8 +1,8 @@
 #!/bin/sh
-VERSION=`utl/getver`
+VERSION=`tools/getver`
 COMMIT=`git rev-parse HEAD | cut -c 1-16`
 DATE=`date "+%Y%m%d %H:%M"`
-COREVERSION=`utl/getcorever`
+COREVERSION=`tools/getcorever`
 HOST=`cat tracking.host`
 TRACKINGID=`cat tracking.id`
 SITEVERIFID=`cat siteverification.id`

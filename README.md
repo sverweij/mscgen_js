@@ -133,7 +133,7 @@ At the time the font was created it was licensed [GPLv3][license.gpl-3.0] or
 [CC BY 4.0][license.ccby4]
 
 It uses [mocha][21], [chai][39],
-[istanbul][28], [eslint][22] and [dependency-cruiser][41] to 
+c8, and [dependency-cruiser][41] to 
 maintain some modicum of verifiable code quality.
 You can see the build history in [GitHub actions][github.actions].
 
@@ -192,8 +192,6 @@ You can see the build history in [GitHub actions][github.actions].
 [requirejs.license]: wikum/licenses/license.requirejs.md
 [15]: wikum/licenses/license.icons.md
 [21]: wikum/licenses/license.mocha.md
-[22]: wikum/licenses/license.eslint.md
-[28]: wikum/licenses/license.istanbul.md
 [36]: wikum/licenses/license.node-localstorage.md
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/sverweij/dependency-cruiser

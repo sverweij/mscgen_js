@@ -1,7 +1,7 @@
 var STORAGE_KEY = 'state'
 
 function localStorageOK () {
-  return (typeof localStorage !== 'undefined')
+  return (typeof localStorage !== 'undefined' && localStorage.getItem && localStorage.setItem)
 }
 
 function getState () {

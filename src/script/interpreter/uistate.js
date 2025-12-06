@@ -34,7 +34,6 @@ msc {
               textbgcolor="#ffe"];
 }
 */
-/* eslint max-statements: 0 */
 var xuparser = require('mscgenjs/dist/cjs/parse/xuparser')
 var msgennyparser = require('mscgenjs/dist/cjs/parse/msgennyparser')
 var renderast = require('mscgenjs/dist/cjs/render/graphics/renderast')
