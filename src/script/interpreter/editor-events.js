@@ -1,7 +1,6 @@
 var uistate = require('./uistate')
 var codemirror = require('codemirror')
 var maps = require('../utl/maps')
-var gaga = require('../utl/gaga')
 require('codemirror/addon/edit/closebrackets')
 require('codemirror/addon/edit/matchbrackets')
 require('codemirror/addon/display/placeholder')
@@ -64,7 +63,6 @@ function setupEditorEvents () {
     onInputChanged(isBigChange(pChange))
     if (gGaKeyCount > 17) {
       gGaKeyCount = 0
-      gaga.g('send', 'event', '17 characters typed', uistate.getLanguage())
     } else {
       gGaKeyCount++
     }
@@ -77,7 +75,6 @@ function setupEditorEvents () {
     if (pEvent.dataTransfer.files.length > 0) {
       uistate.setLanguage(maps.classifyExtension(pEvent.dataTransfer.files[0].name))
       uistate.setSource('')
-      gaga.g('send', 'event', 'drop', uistate.getLanguage())
     }
   })
 }

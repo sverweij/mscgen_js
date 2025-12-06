@@ -12,15 +12,13 @@ function _hideAllPanels () {
   window.__save_as_panel.style.width = '0'
 }
 
-function _togglePanel (pPanelElement, pOpenFn, pCloseFn) {
+function _togglePanel (pPanelElement) {
   var lHeight = pPanelElement.style.width.toString()
   if (lHeight === '0px' || lHeight === '') {
     _hideAllPanels()
     pPanelElement.style.width = '340px'
-    pOpenFn()
   } else {
     _hideAllPanels()
-    pCloseFn()
   }
 }
 

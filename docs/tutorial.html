@@ -51,7 +51,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
 <link rel="shortcut icon" href="./favicon.ico">
 
 <title>mscgen_js - learn</title>
-<link rel="stylesheet" href="style/doc.css?91526dd9da4f7640" type="text/css" media="screen, print">
+<link rel="stylesheet" href="style/doc.css?b2221d5c12dde720" type="text/css" media="screen, print">
 <script>
     /**
      * The mscgen_js_config is optional, as are the options
@@ -64,22 +64,7 @@ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
         loadFromSrcAttribute: false // default: false
     };
 </script>
-<script src="mscgen-inpage.js?91526dd9da4f7640" defer></script>
-<script>
-(function(i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] ||
-    function() {
-        (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-ga ('create', 'UA-42701906-1', 'auto');
-ga ('send', 'pageview');
-</script>
+<script src="mscgen-inpage.js?b2221d5c12dde720" defer></script>
 </head>
 <body>
 <header>
@@ -1693,41 +1678,5 @@ documents.">
 <footer>
     <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://mscgen.js.org/tutorial.html">mscgen_js documentation</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://sverweij.github.io">Sander Verweij</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p> 
 </footer>
-<span id="__cookie_bar" class="span--toaster">
-    To improve mscgen.js.org based on data we <b>save</b> some
-    <b>behavior information</b> (like button clicks) for future
-    analysis. By using this site you imply you're ok with that
-    (<em>it's the only thing we ask for</em>).
-    <button id="__close_cookie_bar" class="btn-primary" type="button" title="I'm ok with this">ok</button>
-</span>
-<script type="text/javascript">
-    var CONSENT_COOKIE_KEY = "mscgen_js_cookieconsent";
-    function getCookies() {
-        return document.cookie.split(';')
-        .map(function(pString){
-            return pString.trim()
-        })
-        .reduce(function(pAll, pKeyValueString){
-            var lKeyValueArray = pKeyValueString.split('=');
-            pAll[lKeyValueArray[0]] = lKeyValueArray[1];
-            return pAll;
-        },
-        {});
-    }
-    function hideCookieBar() {
-        window.__cookie_bar.setAttribute('style','display:none');
-        document.cookie = CONSENT_COOKIE_KEY + "=1";
-    }
-    function hasConsentCookies(pCookies) {
-        return pCookies.hasOwnProperty(CONSENT_COOKIE_KEY);
-    }
-    function main() {
-        if (hasConsentCookies(getCookies())){
-        hideCookieBar();
-        }
-    }
-    window.__close_cookie_bar.addEventListener("click", hideCookieBar, {capture:false, passive:true});
-    main();
-</script>
 </body>
 </html>

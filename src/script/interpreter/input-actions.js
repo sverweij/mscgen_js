@@ -1,6 +1,5 @@
 var uistate = require('./uistate')
 var store = require('../utl/store')
-var gaga = require('../utl/gaga')
 var colorize = require('mscgenjs/dist/cjs/render/astmassage/colorize')
 var generalActions = require('./general-actions')
 
@@ -9,12 +8,10 @@ function _applyColorScheme (pSchemeName, pForce) {
     return colorize.applyScheme(pAST, pSchemeName, pForce)
   })
   generalActions.hideAllPanels()
-  gaga.g('send', 'event', 'color.' + pSchemeName + (pForce ? '_force' : ''), 'button')
 }
 
 function _switchLanguage (pLanguage) {
   uistate.switchLanguage(pLanguage)
-  gaga.g('send', 'event', 'toggle_ms_genny', pLanguage)
 }
 
 module.exports = {
@@ -23,7 +20,6 @@ module.exports = {
     uistate.requestRender()
     uistate.setAutoRender(uistate.getAutoRender())
     store.saveSettings(uistate)
-    gaga.g('send', 'event', 'toggle_autorender', 'checkbox')
   },
   languageMsGennyOnClick: function () { _switchLanguage('msgenny') },
   languageMscGenOnClick: function () { _switchLanguage('mscgen') },
@@ -39,34 +35,26 @@ module.exports = {
   uncolorizeOnClick: function () {
     uistate.manipulateSource(colorize.uncolor)
     generalActions.hideAllPanels()
-    gaga.g('send', 'event', 'color.remove', 'button')
   },
   renderOnClick: function () {
     uistate.render(uistate.getSource(), uistate.getLanguage())
-    gaga.g('send', 'event', 'render', 'button')
   },
   samplesOnChange: function () {
     uistate.setSample(window.__samples.value)
-    gaga.g('send', 'event', 'selectexample', window.__samples.value)
   },
   saveOnClick: function () {
     store.save(uistate)
-    gaga.g('send', 'event', 'save', 'button')
   },
   loadOnClick: function () {
     store.load(uistate)
-    gaga.g('send', 'event', 'load', 'button')
   },
   moreColorSchemesOnClick: function () {
     generalActions.togglePanel(
-      window.__color_panel,
-      function () { gaga.g('send', 'event', 'more_color_schemes.open', 'button') },
-      function () { gaga.g('send', 'event', 'more_color_schemes.close', 'button') }
+      window.__color_panel
     )
   },
   closeColorPanel: function () {
     generalActions.hideAllPanels()
-    gaga.g('send', 'event', 'color.close', 'button')
   }
 }
 /*
