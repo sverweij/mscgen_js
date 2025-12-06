@@ -2,9 +2,6 @@
 
 ## Deployment Principles
 - *master* branch only contains source/ dev version
-- *gh-pages* branch contains production build
-
-Technically, *gh-pages* is an _orphan_ branch
 
 ## Building
 ```shell
@@ -14,32 +11,20 @@ make build # or `npm run build`
 
 ### Development vs Production build
 If you're on the `master` branch the build system will create a production
-build in the `dist` folder.
+build in the `docs` folder.
 
 If you're on a different branch the build system creates a development build
-in a sub folder of `dist`, named after your current branch e.g. `dist/develop`
-or `dist/feature/snazz-the-firp`.
+in a sub folder of `docs`, named after your current branch e.g. `docs/develop`
+or `docs/feature/snazz-the-firp`.
 
 
 On *master* and derivative branches _git_ will ignore the `build` folder. 
 
 ### Deployment to github-pages
-#### Preparation (once only)
-After creating a production build, initialize a git repo in the `dist` folder
-with your repo as remote and gh-pages as an _orphan_ branch. This ensures only
-the files really needed for production get on github-pages.
+Goes automatically - everyting in the `/docs` folder is exposed automatically
+(that is/ given you've set github pages to look at the _master_ branch in 
+the _docs_ folder )
 
-```shell
-git init
-git remote add origin git@github.com:userororganisation/reponame.git
-git checkout --orphan gh-pages
-```
-
-#### Deployment step
-The deployment itself is now a straightforward add/ commit/ push in the `dist` folder. The `deploy-gh-pages` make target takes care of this:
-```shell
-make deploy-gh-pages
-```
 mscgen_js will now be available from `{{repo_gh-pages_root}}`, e.g. `https://sverweij.github.io/mscgen_js`
 
 #### Branches
@@ -70,4 +55,4 @@ E.g  `https://sverweij.github.io/mscgen_js/feature/snazz-the-firp`
 - all javascript necessary to run mscgen_js and/ or the online interpreter in the browser is already included in the `src` tree
 - for the rest: run an ```npm install```
 - git
-- imagemagik and optipng (re-generating favicons that are already in the `src` tree)
+- imagemagick and optipng (re-generating favicons that are already in the `src` tree)

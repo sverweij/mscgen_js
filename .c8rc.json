@@ -5,7 +5,6 @@
   "functions": 100,
   "lines": 99.7,
   "exclude": [
-    "dist/",
     "docs/",
     "tools/"
   ],

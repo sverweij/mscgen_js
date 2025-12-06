@@ -11,10 +11,10 @@ NPM=npm
 SASS=node_modules/.bin/sass --style compressed --no-source-map
 
 ifeq ($(GIT_PRODUCTION_DEPLOYMENT_BRANCH), $(GIT_CURRENT_BRANCH))
-	BUILDDIR=dist
+	BUILDDIR=docs
 	MODE=production
 else
-	BUILDDIR=dist/$(GIT_CURRENT_BRANCH)
+	BUILDDIR=docs/$(GIT_CURRENT_BRANCH)
 	MODE=development
 endif
 
@@ -50,7 +50,7 @@ FAVICONS=$(BUILDDIR)/favicon.ico \
 	$(BUILDDIR)/iosfavicon-152.png \
 	$(BUILDDIR)/maskable_icon.png
 
-.PHONY: help build deploy-gh-pages clean prerequisites
+.PHONY: help build clean prerequisites
 
 help:
 	@echo " --------------------------------------------------------"
@@ -69,11 +69,6 @@ help:
 	@echo
 	@echo "clean"
 	@echo " removes everything created by build
-	@echo
-	@echo "deploy-gh-pages"
-	@echo " deploys the build to gh-pages"
-	@echo "  - 'master' branch: the root of gh-pages"
-	@echo "  - other branches : in ./branche-name"
 	@echo
 	@echo " --------------------------------------------------------"
 	@echo "| More information and other targets: see wikum/build.md |"
@@ -183,14 +178,6 @@ prerequisites:
 
 build: $(BUILDDIR)/index.html $(BUILDDIR)/embed.html $(BUILDDIR)/tutorial.html
 	BUILDDIR=$(BUILDDIR) npx sw-precache --config .sw-precache-config.js
-
-deploy-gh-pages: build
-	@echo Deploying build `tools/getver` to $(BUILDDIR)
-	$(GIT) -C $(BUILDDIR) add --all .
-	$(GIT) -C $(BUILDDIR) commit -m "build `tools/getver`"
-	$(GIT) -C $(BUILDDIR) push origin gh-pages
-	$(GIT) -C $(BUILDDIR) status
-
 
 clean-the-build:
 	rm -rf $(REMOVABLEPRODDIRS) \

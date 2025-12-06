@@ -1,6 +1,6 @@
 const path = require('path')
 const process = require('process')
-const lBaseFolder = process.env.BUILDDIR || 'dist'
+const lBaseFolder = process.env.BUILDDIR || 'docs'
 
 const baseFolderify = (pBaseFolder) => (pPath) => path.join(pBaseFolder, pPath)
 

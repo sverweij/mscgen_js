@@ -1,0 +1,23 @@
+{
+  "short_name": "mscgen.js",
+  "name": "mscgen.js",
+  "theme_color": "black",
+  "background_color": "white",
+  "icons": [
+    {
+      "src": "maskable_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "lang": "en",
+  "orientation": "portrait"
+}

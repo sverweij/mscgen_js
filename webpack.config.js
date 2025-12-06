@@ -6,7 +6,7 @@ module.exports = (_pOne, pArguments) => {
     devtool: 'source-map',
     output: {
       filename: 'mscgen-interpreter.min.js',
-      path: path.join(__dirname, pArguments.outputPath || 'dist')
+      path: path.join(__dirname, pArguments.outputPath || 'docs')
     }
   }
 }
