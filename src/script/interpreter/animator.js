@@ -1,6 +1,5 @@
 var renderast = require('mscgenjs/dist/cjs/render/graphics/renderast')
 var ast2animate = require('mscgenjs/dist/cjs/render/text/ast2animate')
-var gaga = require('../utl/gaga')
 var $ = require('../utl/domutl')
 
 var ICON_PLAY = 'icon-play'
@@ -116,7 +115,6 @@ function close () {
   anim.home()
   updateState()
   gInitialized = false
-  gaga.g('send', 'event', 'close_animscreen', 'button')
 }
 
 function percentageClick (pEvent) {
@@ -133,35 +131,30 @@ function _setupEvents () {
   window.__btn_anim_home.addEventListener('click',
     function () {
       home()
-      gaga.g('send', 'event', 'anim_home', 'button')
     },
     { capture: false, passive: true }
   )
   window.__btn_anim_dec.addEventListener('click',
     function () {
       dec()
-      gaga.g('send', 'event', 'anim_dec', 'button')
     },
     { capture: false, passive: true }
   )
   window.__btn_anim_playpause.addEventListener('click',
     function () {
       playpause()
-      gaga.g('send', 'event', 'anim_playpause', 'button')
     },
     { capture: false, passive: true }
   )
   window.__btn_anim_inc.addEventListener('click',
     function () {
       inc()
-      gaga.g('send', 'event', 'anim_inc', 'button')
     },
     { capture: false, passive: true }
   )
   window.__btn_anim_end.addEventListener('click',
     function () {
       end()
-      gaga.g('send', 'event', 'anim_end', 'button')
     },
     { capture: false, passive: true }
   )

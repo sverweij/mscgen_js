@@ -96,8 +96,8 @@ Likely nobody will read them, though.
 
 mscgen_js
     version: 4.0.5
-    build-date: 20251206 14:46
-    commit: 91526dd9da4f7640
+    build-date: 20251206 18:41
+    commit: b2221d5c12dde720
     mscgenjs-core: 8.0.0">mscgen_js</h1>
                 <span class="hideonmobile">turns text into sequence charts</span>
                 <span class="showonmobile">text =&gt; MSCs</span>
@@ -122,8 +122,8 @@ mscgen_js
             </nav>
             <div class="debug hideontablet" style="display: none">
                 <div><em>version:</em> 4.0.5</div>
-                <div><em>build-date:</em> 20251206 14:46</div>
-                <div><em>commit:</em> 91526dd9da4f7640</div>
+                <div><em>build-date:</em> 20251206 18:41</div>
+                <div><em>commit:</em> b2221d5c12dde720</div>
             </div>
         </header>
         <article>
@@ -657,41 +657,5 @@ Note: !! removes comments and reformats your source!!">remove all color</button>
                 </div>
             </div>
         </div>
-        <span id="__cookie_bar" class="span--toaster">
-            To improve mscgen.js.org based on data we <b>save</b> some
-            <b>behavior information</b> (like button clicks) for future
-            analysis. By using this site you imply you're ok with that
-            (<em>it's the only thing we ask for</em>).
-            <button id="__close_cookie_bar" class="btn-primary" type="button" title="I'm ok with this">ok</button>
-        </span>
-          <script type="text/javascript">
-            var CONSENT_COOKIE_KEY = "mscgen_js_cookieconsent";
-            function getCookies() {
-              return document.cookie.split(';')
-                .map(function(pString){
-                  return pString.trim()
-                })
-                .reduce(function(pAll, pKeyValueString){
-                  var lKeyValueArray = pKeyValueString.split('=');
-                  pAll[lKeyValueArray[0]] = lKeyValueArray[1];
-                  return pAll;
-                },
-                {});
-            }
-            function hideCookieBar() {
-              window.__cookie_bar.setAttribute('style','display:none');
-              document.cookie = CONSENT_COOKIE_KEY + "=1";
-            }
-            function hasConsentCookies(pCookies) {
-              return pCookies.hasOwnProperty(CONSENT_COOKIE_KEY);
-            }
-            function main() {
-              if (hasConsentCookies(getCookies())){
-                hideCookieBar();
-              }
-            }
-            window.__close_cookie_bar.addEventListener("click", hideCookieBar, {capture:false, passive:true});
-            main();
-        </script>
     </body>
 </html>

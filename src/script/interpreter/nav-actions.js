@@ -1,30 +1,20 @@
 var uistate = require('./uistate')
 var exporter = require('../utl/exporter')
 var generalActions = require('./general-actions')
-var gaga = require('../utl/gaga')
 
 module.exports = {
   closeCheatSheet: function () {
     generalActions.hideAllPanels()
-    gaga.g('send', 'event', 'close_source_lightbox', 'button')
   },
   closeEmbedSheet: function () {
     generalActions.hideAllPanels()
-    gaga.g('send', 'event', 'close_embedsheet', 'button')
   },
   closeAboutSheet: function () {
     generalActions.hideAllPanels()
-    gaga.g('send', 'event', 'close_aboutsheet', 'button')
   },
   helpMeOnClick: function () {
     generalActions.togglePanel(
-      window.__learn_panel,
-      function () {
-        gaga.g('send', 'event', 'link', 'helpme')
-      },
-      function () {
-        gaga.g('send', 'event', 'close_helpme', 'button')
-      }
+      window.__learn_panel
     )
   },
   embedMeOnClick: function () {
@@ -40,13 +30,7 @@ module.exports = {
               }
             )
     generalActions.togglePanel(
-      window.__embed_panel,
-      function () {
-        gaga.g('send', 'event', 'link', 'embedme')
-      },
-      function () {
-        gaga.g('send', 'event', 'close_embedsheet', 'button')
-      }
+      window.__embed_panel
     )
   },
   linkToInterpreterOnClick: function () {
@@ -63,17 +47,10 @@ module.exports = {
               }
             )
     uistate.setAutoRender(uistate.getAutoRender())
-    gaga.g('send', 'event', 'toggle_autorender', 'checkbox')
   },
   aboutOnClick: function () {
     generalActions.togglePanel(
-      window.__aboutsheet,
-      function () {
-        gaga.g('send', 'event', 'link', 'about')
-      },
-      function () {
-        gaga.g('send', 'event', 'close_aboutsheet', 'button')
-      }
+      window.__aboutsheet
     )
   }
 }
